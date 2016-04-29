@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+    <style>
+
+
+.marginAlign{
+  margin-top: 2%;
+}    .tagger {
+    border: 2px steelblue;
+    background-color: #fff;
+    cursor: text;
+    font-family: sans-serif;
+    font-size: 10pt;
+    padding: 9px 7px 3px 4px;
+    min-height: 19px;
+    display: table-cell;
+}
+    </style>
+        <script>
+    
+            $(document).ready(function() {
+
+                 $('#cal').tagger({
+                    baseURL: '../img/'
+                  , tabindexOffset: 400
+                  , fieldWidth: null
+                  });
+
+                  $('#location').tagger({
+                    baseURL: '../img/'
+                  , tabindexOffset: 400
+                  , fieldWidth: null
+                  });
+
+                $('.client-img').addClass('active');
+                 $("#cabbname").focusout(function(){
+
+                    if('<%=editflag%>'!='1'){
+                    $('#ccode').val($('#cname').val().slice(0,3)+'_'+$(this).val());               }    
+                 });
+            });
+
+ 
+        </script>
+</head>
+<style>
+sup {  color: red;  }
+
+</style>
+<body>
+    <div>
+        <% include ./partials/adminheader %>
+    </div>
+    <div style="background-color:antiquewhite;padding-bottom:2%;">
+        <form action="/addEditClient" method="post" onsubmit="return validateForm()">
+            <div>
+                <div style="width:100%;padding-top:1%;">
+                    <center>
+                        <%console.log(editflag,"create edit ejs------------------",clientinfo);  if(editflag==0){ %> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Create Client</b></label>
+                            <%}       else    { %> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Edit Client</b></label>
+                                <%}%>
+                    </center>
+                </div> 
+                <input type="text" class="hide" id='hiddenid' name="hiddenid" <%if((editflag==1)){%>value='<%=clientinfo[0].id%>'
+                    <%}%>> 
+                    <input type="text" class="hide" id='hiddeneditflag' name="hiddeneditflag" <%if((editflag==1)){%>value='<%=editflag%>'<%}else {%>value='0' <%}%>>
+                             
+                                <script>
+                                </script>
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"> <label style="padding-top: 10px;">Client Name<sup>*</sup> :</label></div>
+                                    <div class="col-md-7">
+                                     <input type="text" maxlength="40" style="margin-top:10px;" class="form-control " id="cname" name="cname" placeholder="Name" <%if((editflag==1)){%>value='<%=clientinfo[0].clientName%>'
+                                            <%}%> required /> </div>
+                                </div>
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Abbriviate Name <sup>*</sup> :</label></div>
+                                    <div class="col-md-7">
+                                     <input type="text" style="margin-top:10px;" maxlength="45" class="form-control" id="cabbname" name="cabbname" placeholder="Abbrivated Name"  <%if((editflag==1)){%>value='<%=clientinfo[0].clientAbbName%>'
+                                            <%}%> required /> </div>
+                                </div>
+                            
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Category :</label></div>
+                                    <div class="col-md-7"> <select style="background-color:#FFFFFF;margin-top:3%;" class="form-control" name="category" id="category" maxlength="50" onchange="" ;>
+          <option value="Silver" <% if((editflag==1) && "Silver"==clientinfo[0].category){%>selected<%}%>>Silver</option>
+          <option value="Gold" <% if((editflag==1) && "Gold"==clientinfo[0].category){%>selected<%}%>>Gold</option>
+           <option value="Diamond" <% if((editflag==1) && "Diamond"==clientinfo[0].category){%>selected <%}%>>Diamond</option>
+
+    </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Account Lead :</label></div>
+                                    <div class="col-md-7 marginAlign"> <span id="errmsg" style="color:red"></span>
+                                        <select name="cal" id="cal" class="form-control" style="margin-top:3%;width:100%">
+                                            <option value="0">--Select--</option>
+                                            <%for(var i=0;i<users.length;i++){%>
+                                            <option value="<%=users[i].id%>" <%if(editflag==1&&clientinfo[0].clientAccountLead==users[i].id){%>selected<%}%> ><%=users[i].firstName%>
+                                            </option>
+                                            <%}%>
+                                        </select>
+                                    <!--  <input type="text" style="margin-top:10px;" onkeypress="return isNumberKey(event)" maxlength="10" class="form-control" id="caccount" name="caccount" <%if((editflag==1)){%>value='
+                                        <%=clientinfo[0].client_Account_Lead%>'
+                                            <%}%> /> -->
+                                             </div>
+                                </div>
+                                    <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Code:</label></div>
+                                    <div class="col-md-7"> <input type="text" style="margin-top:10px;" maxlength="45" class="form-control" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
+                                            <%}%> readonly /> </div>
+                                </div>
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Contact Person<sup>*</sup> :</label></div>
+                                    <div class="col-md-7"> <input type="text" style="margin-top:10px;" maxlength="25" class="form-control" id="ccontactperson" placeholder="Client Name" name="ccontactperson" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPerson%>'<%}%> required/> </div>
+                                </div>
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Contact Person Email<sup>*</sup> :</label></div>
+                                    <div class="col-md-7"> <input type="email
+            " style="margin-top:10px;" maxlength="100" placeholder="abc@example.com" class="form-control" id="ccperemail" name="ccperemail" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPersonEmail%>'
+                                            <%}%> /> </div>
+                                </div>
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Contact Phone :</label></div>
+                                    <div class="col-md-7"> <input   style="margin-top:10px;" maxlength="11" class="form-control" id="clconphone" placeholder="Contact No." name="clconphone" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPhone%>'
+                                            <%}%> /> </div>
+                                </div>
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Location :</label></div>
+                                    <div class="col-md-7 marginAlign">
+                                        <select name="location" class="form-control" id="location" style="margin-top:3%;width:100%">
+                                            <option value="0">--Select--</option>
+                                            <%for(var i=0;i<location.length;i++){%>
+                                            <option value="<%=location[i].id%>" <%if(editflag==1&&clientinfo[0].location==location[i].id){%>selected<%}%> ><%=location[i].location%>
+                                            </option>
+                                            <%}%>
+                                        </select>
+                                        <!--  <input type="text" style="margin-top:10px;" maxlength="50" class="form-control" id="location" name="location" <%if((editflag==1)){%>value='
+                                            <%=clientinfo[0].location%>'
+                                                <%}%> /> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 a">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Address:</label></div>
+                                    <div class="col-md-7"> <textarea type="" placeholder="Client Address" style="margin-top:10px;" maxlength="300" height="103" class="form-control" id="address" name="address" <%if((editflag==1)){ console.log(clientinfo[0].address);%>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea> </div>
+                                </div>
+                                <div id='dact' class="col-md-6 a hide">
+                                    <div class="col-md-5"><label style="padding-top: 10px;">Active:</label></div>
+                                    <div class="col-md-7"> <select class="form-control " id='active' name="active" style="width:100%;margin-top:10px;" <%if((editflag==1)){%> <%}%> onchange="set1();">
+                <option value="0" >No</option>
+                <option value="1" selected >Yes</option>
+              </select> </div>
+                                </div>
+                                <center>
+                                    <a href="/clients?inactive=false">
+                                  <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
+                                  </a>
+                                  <input type="submit" class="btn btn-primary  " value="Submit" style="background-color: #f05f40 !important;"> 
+                                </center>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <% include ./partials/footer %>
+    </footer>
+</body>
+
+</html>
+
+<script>
+function validateForm(){
+   
+  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                var numreg = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
+                if ($("#ccperemail").val().trim() == '' || !(re.test($("#ccperemail").val()))) {
+                    alert('Valid email id is required.');
+                    return false;
+                }
+                if ($("#clconphone").val().trim().length<10 && $("#clconphone").val().trim().length>1 ) {
+                    alert('Valid contact-number is required');
+                    return false;
+                }
+                if(1){
+                    var temper=1;
+                   
+                       $.ajax({
+                            url: '/addEditClientAjax',
+                            async :false,
+                            type: 'post',
+                            data: {
+                                        name:$("#cname").val(),
+                                        id:$("#hiddeneditflag").val(),
+                                        id1:$('#hiddenid').val()
+                                   },
+                            dataType: 'json',
+
+                            success: function(data) { 
+
+                                temper=data[0][0].flagClient;
+                             
+                                    
+
+                                    }
+                                 
+                             });
+                        
+                   
+                     if(temper==2){
+                                alert("enter different client name ");
+                            return false ;
+                        }
+                        else
+                           {
+                            if($('#hiddeneditflag').val()==0)
+                                alert("Client created successfully.");
+                            else
+                                alert('Client details updated successfully.')
+
+                           }
+             }
+                
+
+}
+</script>

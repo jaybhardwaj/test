@@ -1,0 +1,451 @@
+<html lang="en">
+ <% include ./partials/head %>
+ <% include ./partials/adminheader %>
+<head> 
+ <style type="text/css"> 
+
+  input[type=search] {
+    height: 29px !important;
+    border-radius: 5px !important;
+    border: 1px solid #669ECC !important;
+}
+.glyphicon{
+color:black;
+ width:auto;
+ height:auto;
+}
+.ui-tagger
+{
+  width:100% !important;
+}
+
+.asmnt-btn{
+  margin-top:10px;
+  padding-top: 4px;
+  margin-bottom:10px;
+  margin-top:15px;
+}
+.asmnt-label{
+  style="font-size:14pt;color:#f05f40;"
+}
+  .tagger {
+    border: 2px steelblue;
+    background-color: #fff;
+    cursor: text;
+    font-family: sans-serif;
+    font-size: 10pt;
+    padding: 9px 7px 3px 4px;
+    min-height: 19px;
+    display: table-cell;
+}
+.ui-multiselect-checkboxes {
+    position: relative ;
+    max-height: 121px;
+    overflow-y: scroll;
+}
+
+.ui-multiselect  {
+      width: 341px !important;
+}
+
+
+</style>
+
+
+</head>
+<body class=" "  >
+<div id="aa" >
+ 
+<form id="addassignform"  method="post" onsubmit="" name="client" style="background-color:antiquewhite; margin-bottom: 0px;">
+
+                            <input type="hidden" name="flag" id="hid">
+                            <input type="hidden" name="ascode" id="ascodeid" value=''>
+ <div class="" id="" role="dialog" style=" ">
+    <div style="width:100%;padding-top:1%; ">  
+      <center> 
+       <%if(flag==0){%>
+       <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Create Assignment</b></label>  
+         <%}else{%>
+          <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Edit Assignment</b></label>
+         
+          <%}%>           
+     </center>
+   </div>
+    <input type="hidden" value=""id='pcount'name='pcount'>
+<div class="row">
+       <div class="col-md-6 a">
+         <div class="col-md-5"> <label style="padding-top: 10px;">Project Name:<sup style="color:red;">*</sup></label></div>
+          <div class="col-md-7">
+            <select  <%if(flag==1){%>disabled <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-control" name="pclient" id="procode" maxlength="50" onChange="getwbs();">
+                          <option value=0>Select</option>
+                              <% for(var i=0;i<allinfo[1].length;i++)
+            {   %>    
+
+                     <option <%if(flag==1){ 
+                                  if(allinfo[2][0].ProjectId==allinfo[1][i].id){
+                                    %>  selected <%}}%> value="<%=allinfo[1][i].id%>" ><%=allinfo[1][i].projectTitle%></option>');
+                        
+             <%}%>
+
+    </select>
+          </div>
+        </div>
+
+        <div class="col-md-6 a">
+          <div class="col-md-5"><label style="padding-top: 10px;">WBS Name :<sup style="color:red;">*</sup></label></div>
+          <div class="col-md-7 " id="wbsDiv">
+        <select <%if(flag==1){%>disabled  <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-control" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()";>
+      
+          <option value=0>Select</option>
+          <%if(flag==1){%>
+           <option selected value='<%=allinfo[2][0].WBSId%>'><%=allinfo[2][0].WBSName%></option>   <%}%> 
+    </select>
+          </div>
+        </div>
+</div>
+<div class="row">
+        <div class="col-md-6 a">
+          <div class="col-md-5"><label style="padding-top: 10px;">Users:<sup style="color:red;">*</sup></label></div>
+          <div class="col-md-7 " id="asdDiv" style="margin-top:8px;">
+           <select class="form-control" name="asd" id="asd" multiple="multiple"style="height:300px !important">
+            
+               
+            </select>
+          </div>
+        </div>
+ 
+        <div class="col-md-6 a">
+          <div class="col-md-5"><label style="padding-top: 10px;">Assignment Status: </label></div>
+          <div class="col-md-7">
+            <div class="radio" id="rad">
+              <input type="hidden" id="act" >
+  <label><input type="radio"   name="status" id="active" value='1' checked >Active</label>
+  <label><input type="radio"  name="status" id="inactive" value='0' >InActive</label>
+
+</div>
+          </div>
+        </div>
+        </div>
+        <div class="row">
+
+        <div class="col-md-6 a">
+          <div class="col-md-5"><label style="padding-top: 10px;">Assignment Start Date:<sup style="color:red;">*</sup> </label></div>
+          <div class="col-md-7">  
+            <input type="text"  name="Edate" class="form-control datepicker" id="datepicker" style="margin-top: 10px; cursor: pointer; background-color: rgb(255, 255, 255);" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%> required>
+          </div>
+        </div>
+        
+        
+        <div class="col-md-6 a">
+          <div class="col-md-5"><label style="padding-top: 10px;">Assignment End Date:<sup style="color:red;">*</sup> </label></div>
+          <div class="col-md-7">
+           <input type="text"  name="Edate" class="form-control datepicker" id="datepicker1" style="margin-top: 10px; cursor: pointer; background-color: rgb(255, 255, 255);" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%> required>
+          </div>
+        </div>
+       </div>
+        </div>
+          
+   
+       <center style="margin-top:2%"> 
+
+       <a href="/assignment">
+          <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
+          </a>
+
+          <input type="button" value="Submit" onclick="submitdata(<%=flag%>,<%=assignmentId%>);" name="submit" class="btn btn-primary" style="background-color: #f05f40 !important;">
+        
+
+        </center>
+        
+    </form>
+
+    <div class="bug-background" id="accordions"  style=" background-color:antiquewhite; "> 
+            <table class="table table-hover table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" id="wbstable">  
+                 <thead>
+                    <tr style="font-size:12px">
+                        <th >WBS Name</th>
+                        <th >WBS Code</th>
+                        <th >Planned Start Date</th>
+                        <th >Planned End Date</th
+                    </tr>
+                </thead> 
+                <tbody id="tb">
+                </tbody>
+            </table>
+    </div>
+    
+    </div>
+     
+     </body>
+
+      <% include ./partials/footer %>  
+   
+
+     </html>
+   
+  
+<script>
+
+
+$(document).ready(function(){
+$("#asd").tagger();
+$('#procode').tagger();
+$('#wbs2').tagger();
+  $('.assignment-img').addClass('active');
+   dtable=$("#wbstable").DataTable({
+    'iDisplayLength':10,
+    "bFilter": true
+  });
+
+  
+  console.log("going");
+  $("#datepicker").datetimepicker({
+      timepicker:false,
+          format:"m/d/y"
+  });
+  
+        $("#datepicker1").datetimepicker({
+            timepicker:false,
+          format:"m/d/y"
+        });
+         $("#hid").val(<%=flag%>);
+
+
+
+         if(<%=flag%>==1){
+wbsDetail();
+ }
+ 
+});       
+
+
+if(<%=flag%>==1){
+
+      var pid=$('#procode').val();
+     <% for (var i = 0; i < allinfo[4].length; i++)
+      { %>
+               if(pid=='<%=allinfo[4][i].projectId%>')
+                    { 
+                      $('#asd').append('<option value="<%=allinfo[4][i].id%>"><%=allinfo[4][i].firstName%></option>');}
+     <%}%>
+
+             $("#asd").val([<%if(flag==1){for(var i=0;i<allinfo[3].length;i++){%>"<%=allinfo[3][i].id%>",<%}}%>]).prop("selected", false);
+   $('#asd').tagger();
+
+   
+ }
+   function submitdata(flag,assignmentId){
+var alluser=[];
+    var startDt=document.getElementById("datepicker").value;
+var endDt=document.getElementById("datepicker1").value;
+
+
+    var s = document.getElementById("asd");
+  //  alert("length of s is"+s.options.length);
+    for (var i = 0; i < s.options.length; i++) {
+         if (s.options[i].selected == true) {
+           var user = s.options[i].value;
+           alluser.push(user);
+           
+         }
+        
+    } 
+
+    if($('#procode').val()==0)
+     {
+      alert("Please select a Project Title First"); 
+      return false;}
+    if($('#wbs2').val()==0)
+     { alert("Please select a WBS First"); 
+      return false;  }
+
+
+ for (var i = 0; i < s.options.length; i++) {
+         if (s.options[i].selected == true) {
+          
+           var user = s.options[i].value;
+           var wb=$('#wbs2').val();
+           console.log("selected user-----------",user);
+        //  alert("i am"+user+"going for assignment for wbs -"+wb);
+          <% for(var i=0;i<allinfo[5].length;i++){ %>
+
+            if('<%=allinfo[5][i].userId%>'==user && '<%=allinfo[5][i].WBSId%>'==wb){
+              alert('<%=allinfo[5][i].firstName%>'+" has been already asssigned a assignment on this document");
+              return false;
+            }
+           <% } %>
+           
+         }
+        
+    } 
+
+       if($('#datepicker').val()==null)
+     { alert("Please select a StartDate"); 
+      return false;  }
+     if($('#datepicker1').val()==null)
+     { alert("Please select a EndDate"); 
+      return false;  }
+
+    var r = document.getElementsByName("status")
+    var c = -1;
+    for(var i=0; i < r.length; i++){
+     if(r[i].checked) {
+      c = i; 
+                     }
+        }
+   if (c == -1)
+    { alert("please select status"); 
+     return false;}
+
+
+       if($('#asd').val()==null)
+     { alert("Please select Users"); 
+      return false;  }
+
+      var psdate = $('#datepicker').datepicker("getDate"); var text = $('#datepicker').val();
+            var pedate = $('#datepicker1').datepicker("getDate");var text1 = $('#datepicker1').val();
+          
+            if(text != '')
+            { 
+              if (text1 != '')
+              {
+                    if(text>text1){
+                        alert('Assignment End Date can not be less than Assignment Start Date');
+                        return false;
+                                   }
+              }
+            else
+            {
+              alert('Please Select Assignment End Date');
+               return false;
+            }
+           }
+          else
+          {
+            alert('Please Select Assignment Start Date');
+            return false;
+          }
+          if(text1==''){
+              alert('Please Select Assignment End Date');
+              return false;
+            }
+    console.log("----------------------------------");  
+    
+var retailerid=<%=retailerId%>;
+var td= new Date();
+  var dd=td.getDate();
+  var mm=td.getMonth();
+  mm=mm+1;
+  var yr=td.getFullYear();
+  st_ed_date=mm+"/"+dd+"/"+yr;
+
+
+     $.ajax({        
+                         url:'/submitAssignment',
+                    type:'post',
+                    data:{
+                      "flag":flag,
+                      "assignmentId":assignmentId,
+                      "procode":$('#procode').val(),
+                      "wbs":$('#wbs2').val(),
+                      "user":alluser.toString(),
+                      "status":$("input[type='radio'][name='status']:checked").val(),
+                      "asdate":$('#datepicker').val(),
+                      "aedate":$('#datepicker1').val(),
+                        "curdat":st_ed_date,
+                      "retailerid":retailerid
+                    },
+
+                  success:function(data){
+
+                    if(flag==1){
+                      alert('Assignment Updated Successfully');
+                    }
+                    else{
+                      alert('Assignment Added Successfully');
+                    }
+                    window.location.href="/assignment";    
+                    }
+                  });
+}
+function getwbs(){ 
+  $('#asd').tagger('destroy');
+  var pid=$('#procode').val();
+  $('#wbs2').html(''); 
+   $('#asd').html('');
+  var str='<select style="background-color:#FFFFFF;margin-top:3%;" class="form-control" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()">'+'<option value=0>Select</option>';
+        <%  for(var i=0;i<allinfo[3].length;i++)
+            {  
+        %>                  
+                     if(pid=='<%=allinfo[3][i].projectId%>')
+                    { str=str+'<option value="<%=allinfo[3][i].WBSId%>"><%=allinfo[3][i].WBSName%></option>';
+                
+              }
+
+ <%   }  %>
+str=str+'</select>';
+
+$('#wbsDiv').html(str);
+$('#wbs2').tagger();
+str='<select class="form-control" name="asd" id="asd" multiple="multiple"style="height:300px !important">';
+<%for (var i = 0; i < allinfo[2].length; i++) { %>
+   if(pid=='<%=allinfo[2][i].projectId%>')
+                    { 
+                         str=str+'<option value="<%=allinfo[2][i].id%>"><%=allinfo[2][i].firstName%></option>';
+                    }
+<%}%>
+                str=str+'</select>';
+                $('#asdDiv').html(str);
+                 $('#asd').tagger();
+                  if($('#wbs2').val()>0)
+                       wbsDetail();
+
+
+}
+function wbsDetail()
+   {
+         var wbsid=$('#wbs2').val();
+         $('#tb').html('');                 
+      if(wbsid>0)
+        {
+          if(<%=flag%>==1)
+           {
+             
+           }
+          else
+           {
+             <%for(var i=0;i<allinfo[3].length;i++)
+                  { %> 
+                     
+                     if(wbsid=='<%=allinfo[3][i].WBSId%>')
+                  {
+                      var tr=tr+'<tr><td><%=allinfo[3][i].WBSName%></td><td><%=allinfo[3][i].WBSCode%></td><td><%=allinfo[3][i].wplannedStartDate%></td><td><%=allinfo[3][i].wplannedEndDate%></td></tr>';
+                     
+                        
+                      var date = new Date('<%=allinfo[3][i].wplannedStartDate%>');
+                      var date1 = new Date('<%=allinfo[3][i].wplannedEndDate%>');
+                      $( "#datepicker").datetimepicker({  minDate: date,
+                                                         maxDate: date1 });
+
+                 
+                      $( "#datepicker1").datetimepicker({  minDate: date,
+                                                         maxDate: date1 });
+
+
+                  }
+                    
+                        $('#tb').html(tr);    
+               <%  }  %>
+           }
+                 
+      
+      }   
+    else
+    {
+
+      var tr=tr+'<tr style="text-align:center"><td colspan="4">No data available in table</td></tr>';
+
+      $('#tb').html(tr); 
+    }
+}
+</script>

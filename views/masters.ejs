@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+    <% include ./partials/adminheader %>
+</head>
+<style type="text/css">
+ .background {
+     background-color:antiquewhite; 
+     padding:2%;
+  }
+  section{
+    min-height: 400px;
+  }
+    .sol-selection-container{
+    overflow-y: scroll;
+   left:45% !important; 
+  }
+  </style>
+<body>
+ 
+ <div class="container-fluid user-list"  style="background-color:antiquewhite">
+        <div class="modal-header" style="padding:0px">
+            <h3 class="modal-title">Masters Details</h3> </div>
+            <main> 
+              <%if(myModules.indexOf(1)>=0){%>
+            <input type="hidden" id="hdnId" name="hdnUserId" value="0"> 
+            <input id="tab1" class="tabradio" type="radio" name="tabs" checked>
+            <label for="tab1">BUG</label>
+               <%}%>
+   <%if(myModules.indexOf(6)>=0||myModules.indexOf(2)>=0){%>
+            <input id="tab2" class="tabradio" type="radio" name="tabs">
+            <label for="tab2">Document & TimeSheet</label> 
+       <%}%> 
+    <%if(myModules.indexOf(3)>=0){%>
+            <input id="tab3" class="tabradio" type="radio" name="tabs">
+            <label for="tab3">Expense</label> 
+       <%}%>
+  <%if(myModules.indexOf(5)>=0){%>
+            <input id="tab4" class="tabradio" type="radio" name="tabs">
+            <label for="tab4">Asset</label> 
+       <%}%>
+            <input id="tab6"  class="tabradio" type="radio" name="tabs">
+            <label for="tab6">Others</label>
+
+    <section id="content1" class="background" >
+      <div class=" row"  style="margin:2%" id="bugtable" >
+      <%for(var i=0;i<bugMaster.length;i++){%>       
+          <div  class="col-md-4" style="margin-top:1%;" >
+              <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:2% ">             
+               <a id="anchor_<%=i%>" class="anchor" href="#demo<%=bugMaster[i].code%>" data-toggle="collapse" > <label  style="padding:4px 145px" ><%=bugMaster[i].tablename%></label><i class="glyphicon glyphicon-resize-full"></i></a>
+                    <div id="demo<%=bugMaster[i].code%>" class="collapse">
+                      <table style="width:100%;text-align:center" id="bugTable_<%=bugMaster[i].code%>" class="table stripe hover cell-border" >
+                        <tr><th style="text-align:center">Description</th><th style="text-align:center">Action</th></tr>
+                        
+                        <%for(var j=0;j<bugMasterSubData.length;j++){%>
+                       
+                          <%if(bugMaster[i].code==bugMasterSubData[j].code){%>
+                        <tr id="bugEditTextBoxTr_<%=bugMasterSubData[j].id%>"  class="bugEditTextBoxTr hide"  >
+                          <td>
+                            <input type="text" maxlength="20" id="bugEditData_<%=bugMasterSubData[j].id%>"  value="<%=bugMasterSubData[j].description1%>">
+                          </td>
+                           <td>
+                          <%if(!bugMasterSubData[j].flag){%>                            
+                            <span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)"></span>
+                          <%}else{%>
+                          <span class="glyphicon glyphicon-ban-circle"></span>
+                          <%}%>
+                         </td>
+                         </tr>
+                         <tr class="hide"><td>
+                      <input type="text" maxlength="20" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].isActive%>" >
+                        </td></tr>
+                        <tr id="bugEditLabelTr_<%=bugMasterSubData[j].id%>" class="bugEditLabelTr"> 
+                          <td><%=bugMasterSubData[j].description1%></td>
+                          <td  >
+                            <%if(!bugMasterSubData[j].flag){%> 
+                              <span class="glyphicon glyphicon-pencil" onClick="showEditBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"></span>
+                              <%if(bugMasterSubData[j].isActive==1){%>
+                                <span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"></span>
+                              <%}else{%>
+                              <span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)"></span>
+                              <%}%>
+                            <%}else{%>
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            <%}%>
+                          </td>
+                        </tr>
+                        <%}%>
+                        <%}%>                       
+                      </table> 
+                      <table>
+                         <tr><td style="width:20%"></td> <td><input type="text" maxlength="20" id="bugMasterData_<%=bugMaster[i].code%>" class="form-control" placeholder="@add <%=bugMaster[i].tablename%>"></td>
+                      <td><span class="glyphicon glyphicon-plus-sign" onClick="addBugMaster(<%=bugMaster[i].code%>)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
+                      </table>                     
+                    </div>
+                  </div>
+                </div>
+                <%}%> 
+              </div>             
+    </section>
+     <section id="content2">
+            <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+              <div style="border-radius: 25px;border:2px solid #f05f40;">
+
+               <a id="anchor" class="anchor" href="#cstrolesdiv" data-toggle="collapse"> 
+               <center>
+               <label  style="padding:8px" >Custom Roles</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               </center>
+               </a>
+                    <div id="cstrolesdiv" class="collapse">
+                      <table style="width:100%;text-align:center" id="cstRoleTable" class="table stripe hover cell-border" >
+                        <tr><th style="text-align:center">Role Name</th><th style="text-align:center">Action</th></tr>                        
+                        <% for(var i=1;i<customrole.length;i++){%>                         
+                        <tr id="role_<%=customrole[i].id%>"> 
+                          <td><%=customrole[i].description%></td>
+                          <td>   <%if(customrole[i].Active==0){%> 
+                          <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'></span></a><span class="glyphicon glyphicon-pencil" onclick='getrole(<%=customrole[i].id%>)'  data-toggle="modal" style="margin-left:5%" data-target="#editRole"></span>
+                          <%}
+                          else{%>
+                           <span style='color:green;height:10px' class='glyphicon glyphicon-ok-sign'></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick='getrole(<%=customrole[i].id%>)'  data-toggle="modal" data-target="#editRole"></span>
+                             <%}%>
+                          </td>
+                        </tr>
+                        <%}%> 
+                      </table> 
+                      <center>
+                      <span class="glyphicon glyphicon-plus-sign" onClick="roleMulti()" data-toggle="modal" data-target="#editRole" style="font-size:18px;adding-top:5px"></span>
+                      </center>
+                      </div>
+                </div>
+              </div>
+              <!---------------timesheet---->
+              <div  class="col-md-8" style="margin-top:1%;">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center  ">
+               <a id="anchor" class="anchor" href="#timestdiv" data-toggle="collapse"> <label  style="padding:4px 145px" >TimeSheet Weekend Schedule</label><i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i></a>
+                    <div id="timestdiv" class="collapse">
+                      <table style="width:100%;text-align:center" id="holiTable" class="table stripe hover cell-border" >
+                        <tr>
+                        <th style="text-align:center">Occasion Name</th>
+                        <th style="text-align:center">Date</th>
+                        <th style="text-align:center">Action</th>
+                        </tr>                        
+                        <%for(var i=0;i<allinfo[0].length-1;i++){%>
+                          <tr id="editHoli_<%=allinfo[0][i].id%>" class="hide">
+                          <td><input  type="text" id="ocName_<%=allinfo[0][i].id%>" maxlength="20" value="<%=allinfo[0][i].holidayName%>"></td>
+                          <td><input type="text" id="ocDate_<%=allinfo[0][i].id%>" maxlength="20" class="datepicker" value="<%=allinfo[0][i].holidayDate%>"></td>
+                          <td>                          
+                                <span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli(<%=allinfo[0][i].id%>,1)"></span>
+                            </td>
+                          </tr>                                               
+                          <tr id="holi_<%=allinfo[0][i].id%>" > 
+                            <td><%=allinfo[0][i].holidayName%></td>
+                            <td><%=allinfo[0][i].holidayDate%></td>
+                            <td>                          
+                                <span class="glyphicon glyphicon-pencil" onClick="showEditHoli(<%=allinfo[0][i].id%>,0)"></span>
+                            </td>
+                        </tr>
+                        <%}%> 
+                      </table> 
+                      <table style="margin-left:2%;margin-right:2%">
+                      <tr>
+                        <td><input type="text" id="ocName_0" class="form-control" maxlength="20" placeholder="@ Occasion Name"></td>
+                        <td style="padding-left:2%">
+                            <input type="text" id="ocDate_0" maxlength="20" class="datepicker form-control" placeholder="@ Occasion Date"></td>
+                        <td> <span class="glyphicon glyphicon-plus-sign" onClick="holiValidation(0)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
+                        <td style="width:10%"></td>
+                        <td> <select class="form-control" name="list" id="ddlDay" style="width:200px" form="form" onchange="schedule()" <%console.log("value of select--",allinfo[1]); if(allinfo[2][0].flag!=0){%> disabled 
+                                <%}%>>
+                            <option id="sat" value="1" <%if(allinfo[1][0].schedule==1){%>selected<%}%>>Saturday</option>
+                            <option id="sun" value="2"  <%if(allinfo[1][0].schedule==2){%>selected<%}%>>Sunday</option>
+                            <option id="asat" value="3"  <%if(allinfo[1][0].schedule==3){%>selected<%}%>>Alternate Saturday</option>
+                            <option id="satnsaun" value="4"  <%if(allinfo[1][0].schedule==4){%>selected<%}%>>Saturday and Sunday</option>
+                          </select></td>
+                          <td>
+                          <input placeholder="Enter Date Here"type="text" maxlength="20" class="form-control" id="hdate" name="odate" value="">
+                          </td>  
+                          <td><span  style="font-size:18px;padding-left:50%" 
+                          class="glyphicon glyphicon-floppy-disk <% if(allinfo[2][0].flag!=0){%> hide 
+                                <%}%>" onClick="return hsubmit()">
+                        </span>
+                        </td>
+                      </tr>
+                      </table>                     
+                      </div>
+                </div>
+              </div>
+     </section>
+     <section id="content3">
+      <div class=" row"  style="margin:2%" id="bugtable" >
+      <%for(var i=0;i<expenseType.length;i++){%>       
+          <div  class="<%if(expenseType[i].code==1){%>col-md-6<%}else{%>col-md-3<%}%>" style="margin-top:1%;text-align:center">
+              <div style="border-radius: 25px;border:2px solid #f05f40; ">             
+               <a id="anchor" class="anchor" href="#exp<%=expenseType[i].code%>" data-toggle="collapse"> 
+               <center><label  style="padding:9px;<%if(expenseType[i].code!=1){%>width:1%<%}%>" > <%=expenseType[i].tableName%></label><i style="float:right;padding-right:3%;padding-top:2%" class="glyphicon glyphicon-resize-full"></i>
+              </center>
+               </a>
+                    <div id="exp<%=expenseType[i].code%>" class="collapse">
+                      <table style="width:100%;text-align:center" id="expTable_<%=expenseType[i].code%>" class="table stripe hover cell-border" >
+                        <tr>                        
+                        <%if(expenseType[i].code==1){%>
+                        <th style="text-align:center">Expense Type</th>
+                        <th style="text-align:center">Is Bill Mandatory</th>
+                        <th style="text-align:center">Max. Bill Ammount</th>
+                        <%}%>
+                        <%if(expenseType[i].code==2){%>
+                           <th style="text-align:center">Hotel Name</th>
+                        <%}%>
+                        <%if(expenseType[i].code==3){%>
+                           <th style="text-align:center">Travel Mode</th>
+                        <%}%>
+                        <th style="text-align:center">Action</th>
+                        </tr>                        
+                        <% for(var j=0;j<expenseMaster.length;j++){%>                      
+                          <%if(expenseType[i].code==expenseMaster[j].code){%>
+                           <tr id="expenseEdit_<%=expenseMaster[j].id%>"  class="hide">
+                              <td>
+                              <%if(expenseMaster[j].id<=7){%>
+                           <%=expenseMaster[j].description%>
+                            <%}else{%>
+                             <input type="text"  maxlength="20" id="expMasterData_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>"  value="<%=expenseMaster[j].description%>">                              
+                            <%}%>
+                          </td>
+                          <%if(expenseType[i].code==1){%>
+                          <td>
+                          <select id="isMandatory_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>" onChange="toggeleBillBox(<%=expenseMaster[i].code%>,<%=expenseMaster[j].id%>,1)">
+              <option value="1" <%if(expenseMaster[j].minimumBillableMandetory==1){%>selected<%}%>>Yes</option>
+              <option  value="0" <%if(expenseMaster[j].minimumBillableMandetory!=1){%>selected<%}%>>No</option>
+                          </select>   
+                          </td>                         
+                            <td>
+                            <input type="text" maxlength="20" id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>"placeholder="@max Ammount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
+                            </td>
+                          <%}%>                                                 
+                           <td>                                                  
+                            <span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,1)"></span>                      
+                         </td>
+                         </tr> 
+                        <tr id="expenseShow_<%=expenseMaster[j].id%>"> 
+                          <td><%=expenseMaster[j].description%></td>
+                            <%if(expenseType[i].code==1){%>
+                            <%if(expenseMaster[j].minimumBillableMandetory==1){%>
+                            <td>Yes</td><%}else{%><td>No</td><%}%>
+                            <td><%=expenseMaster[j].maximumBillableMandetory%></td>
+                          <%}%>                          
+                          <td>                          
+                              <span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,0)"></span>                          
+                          </td>
+                        </tr>
+                          <%}%>                  
+                       <%}%>
+                      </table> 
+                      <center>
+                      <table style="margin:5px">
+                         <tr>
+                         <td >
+                         <input type="text" id="expMasterData_<%=expenseType[i].code%>" maxlength="20" class="form-control" placeholder="@expence type"></td>
+                          <%if(expenseType[i].code==1){%>
+                         <td>
+                           <select id="isMandatory_<%=expenseType[i].code%>" class="form-control" onchange="toggeleBillBox(<%=expenseType[i].code%>,-1,0)" >
+                             <option value="0">is Mandatory?</option>
+                             <option value="1">Yes</option>
+                             <option value="2">No</option>
+                           </select>
+                         </td>
+                         <td><input type="number" min="0" maxlength="3" id="maxBillAmnt_<%=expenseType[i].code%>" class="form-control" placeholder="@max Ammount "></td>
+                         <%}%>
+                      <td><span class="glyphicon glyphicon-plus-sign" onClick="addExpenseMaster(<%=expenseType[i].code%>,0,0)"style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
+                      </tr>
+                      </table> 
+                      </center>                    
+                    </div>
+                  </div>
+                </div>
+                <%}%> 
+              </div>             
+     </section>
+     <section id="content6" class="background" >
+      <div class=" row"  style="margin:2%" id="Othertable" >
+      <%for(var i=0;i<otherMaster.length;i++){%>       
+          <div  class="col-md-4" style="margin-top:1%;">
+              <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:2% ">             
+               <a id="anchor" class="anchor" href="#demo<%=otherMaster[i].code%>" data-toggle="collapse"> 
+               <center><label  style="padding:4px" ><%=otherMaster[i].tablename%></label><i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               </center></a>
+                    <div id="demo<%=otherMaster[i].code%>" class="collapse">
+                      <table style="width:100%;text-align:center" id="bugTable_<%=otherMaster[i].code%>" class="table stripe hover cell-border" >
+                        <tr><th style="text-align:center">Description</th>
+                        <%if(otherMaster[i].code==6){%><th style="text-align:center">Rate</th><%}%>
+                        <th style="text-align:center">Action</th></tr>                        
+                        <%for(var j=0;j<bugMasterSubData.length;j++){%>
+                        
+                          <%if(otherMaster[i].code==bugMasterSubData[j].code){%>
+                           <tr id="bugEditTextBoxTr_<%=bugMasterSubData[j].id%>"  class="hide">
+                            <td>
+                            <input type="text" id="bugEditData_<%=bugMasterSubData[j].id%>" maxlength="20" style="width:100px"  value="<%=bugMasterSubData[j].description1%>">
+                          </td>
+                           <%if(otherMaster[i].code==6){%>
+                           <td>
+                           <input type="number" style="width:100px" maxlength="20" id="crate_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].currencyRate%>">
+                           </td>
+                           <%}%>
+                           <td>
+                          <%if(!bugMasterSubData[j].flag){%>                            
+                            <span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)"></span>
+                          <%}else{%>
+                          <span class="glyphicon glyphicon-ban-circle"></span>
+                          <%}%></td>
+
+                         </tr>
+                          <tr class="hide"><td>
+                      <input type="text" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" maxlength="20" value="<%=bugMasterSubData[j].isActive%>" >
+                        </td></tr>
+                        <tr id="bugEditLabelTr_<%=bugMasterSubData[j].id%>"> 
+                          <td><%=bugMasterSubData[j].description1%></td>
+                          <%if(otherMaster[i].code==6){%><td><%=bugMasterSubData[j].currencyRate%></td><%}%>
+                          <td>
+                            <%if(!bugMasterSubData[j].flag){%> 
+                              <span class="glyphicon glyphicon-pencil" onClick="showEditBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"></span>
+                               <%if(bugMasterSubData[j].isActive==1){%>
+                                <span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)" title="click to InActive"></span>
+                              <%}else{%>
+                              <span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)" title="click to Activate"></span>
+                              <%}%>
+                            <%}else{%>
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            <%}%>
+                          </td>
+                        </tr>
+                        <%}%>
+                        <%}%>                       
+                      </table> 
+                      <center>
+                      <table style="margin:5%">
+                         
+                          <td><input type="text" id="bugMasterData_<%=otherMaster[i].code%>" maxlength="20" class="form-control" placeholder="@add <%=otherMaster[i].tablename%>"></td>
+                          <%if(otherMaster[i].code==6){%>
+                          <td><input type="text" id="crate_<%=otherMaster[i].code%>" maxlength="20" class="form-control" placeholder="@add currency Rate"></td>
+                          <%}%>
+                      <td><span class="glyphicon glyphicon-plus-sign" onClick="addBugMaster(<%=otherMaster[i].code%>)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
+                      </table>
+                      </center>                     
+                    </div>
+                  </div>
+                </div>
+                <%}%> 
+              </div>             
+    </section>
+    </main>
+    </div>
+    </body>
+     <footer>
+        <% include ./partials/footer %>
+    </footer>
+<!-- ---------------------------------------------- EDIT ROLE------------------------------------------------------> 
+    <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content" style="padding-bottom:2%" id="express2">
+                <div class="modal-titlebox" >
+                     <span id="head4" >Roles</span> 
+                </div>             
+            <div class="hide">
+               <div class="col-md-5">
+               <label style="line-height:42px !important;">Role ID:<sup>*</sup></label>
+               </div>
+               <div class="col-md-7">
+                <input placeholder="Enter Role Name Here"type="text" maxlength="20" style="width:100%" class="form-control" id="editRoleId" name="editRoleId" />
+               </div>
+            </div> 
+            <div class="col-md-12 a" style="padding-top:2%"> 
+               <div class="col-md-5">
+               <label style="line-height:42px !important;padding:0px">Custom Roles:<sup style="color:red">*</sup></label>
+               </div>
+               <div class="col-md-7">
+                <input placeholder="Enter Role Name Here"type="text" maxlength="20" style="width:100%" class="form-control" id="rl_name" name="rname" />
+               </div>
+            </div>
+                    <div class="col-md-12 a">
+                    <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Industry:<sup style="color:red">*</sup></label></div>
+                    <div class="col-md-7">
+                    <input type="hidden"id="<%=industry[0].id%>" maxlength="20" required name="industryhide" value="<%=industry[0].id%>">
+                    <select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="50">
+                    <%for(var i=0;i<industry[0].length;i++){%>
+                                    <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                       <%}%>
+                    </select> 
+                    </div>
+                   </div>
+                <div class="col-md-12 a">
+                    <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Business:<sup style="color:red">*</sup></label></div>
+                    <div class="col-md-7">
+                      <input type="hidden"id="<%=business[0].id%>" maxlength="20" required name="businesshide"value="<%=business[0].id%>">
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectBB" required name="b_name">
+                            <%for(var i=0;i<business[0].length;i++){%>
+                                        <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                                        <%}%>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12 a">
+                    <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Document Type:<sup style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+                          <input type="hidden"id="<%=document[0].id%>" maxlength="20" required name="doctypehide"value="<%=document[0].id%>">
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectDD" required name="d_name">
+                            <%for(var i=0;i<document[0].length;i++){%>
+                                        <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}%>
+                        </select>
+                 </div>
+              </div>
+              <div class="col-md-12 a">
+                    <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Technology:<sup style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+                          <input type="hidden"id="<%=technology[0].id%>" maxlength="20" required name="newTechide"value="<%=technology[0].id%>">
+
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectTT" required name="t_name">
+                         <%for(var i=0;i<technology[0].length;i++){%>
+                                        <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}%>
+                        </select> 
+                 </div>
+              </div>
+             <div class="col-md-12 a">
+                <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Restriction Level:<sup style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+               <input type="hidden"id="<%=restriction[0].id%>" maxlength="20"  required name="rLevelhide"value="<%=restriction[0].id%>">
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectRR" required name="res_name">
+                             <%for(var i=0;i<restriction[0].length;i++){%>
+                                        <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                            <%}%>
+                        </select>
+                    </div>
+            </div>
+            <div id='roleActive'class="col-md-12 a ">
+                <div class="col-md-4"><label style="line-height:42px !important;">Active:</label></div>
+                <div class="col-md-8">
+                  <select class="form-control " style="margin-top:10px;margin-left:13%;width:87%" id='RoleEdit' name="active" onchange=" " style="width:100%;">
+                    <option value="0">No</option>
+                    <option value="1" selected>Yes</option>
+                  </select>
+                </div>    
+              </div>          
+                <center>
+                            <button id='cancel' type="reset" data-dismiss="modal"  class="btn custom-button">Cancel</button>
+                             <button id='submit'   class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="docValidation()">Submit</button>
+                </center>
+         
+            </div>
+            </div>
+</div>
+    <script type="text/javascript">
+  $( document ).ready(function() {
+    $('.datepicker').datetimepicker({
+  timepicker: false,
+  format: 'm/d/y'
+});
+
+$(".master-img").addClass('active');
+  });
+
+//$(".datepicker").datepicker();
+//$(".datepicker").datepicker();
+ $("#hdate").datepicker();
+$("#hdate").addClass('hide');
+
+    $('.anchor').click(function(){
+    $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
+});
+    //-------------------Bug Master 
+    function activeBugMaster(code,id,flag){
+      if(!flag){
+            if(confirm("Are you sure you want to Deactivate?")){
+              $('#bugMasterActiveVal_'+id).val('0');
+           saveEditBugMaster(code,id);
+          }}
+        else{
+            if(confirm("Are you sure you want to Activate?")){
+             $('#bugMasterActiveVal_'+id).val('1');
+           saveEditBugMaster(code,id);
+        }}
+  }
+function addBugMaster(code){ 
+  if($('#bugMasterData_'+code).val().trim().length<1){
+    alert("Can not update blank field!");
+    return false;
+  } 
+           var crate='',insLabel='',insEdit='';
+  if(code==6){
+    crate=$('#crate_'+code).val(); 
+  }
+   $.ajax({
+            url: 'addStatus',
+            type: 'post',
+            data: {
+                "code":code,
+                "desc":$('#bugMasterData_'+code).val(),
+                "crate":crate
+                 },
+             dataType :'json',              
+          success: function (data) {
+
+ if(code==6){     
+    insEdit ='<td><input type="text" maxlength="20" id="crate_'+data[1][0].id+'" value="'+$('#crate_'+code).val()+'"></td>'
+    insLabel='<td>'+crate+'</td>';
+  }
+
+             if(data[0][0].flag==0)
+              {
+                alert('Created successfully.'); 
+              $('#bugTable_'+code).append('<tr id="bugEditTextBoxTr_'+data[1][0].id+'" class="hide"><td><input type="text"   id="bugEditData_'+data[1][0].id+'" maxlength="20"  value="'+$('#bugMasterData_'+code).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+data[1][0].code+','+data[1][0].id+',1)"></span></td></tr><tr class="hide"><td> <input type="text" id="bugMasterActiveVal_'+data[1][0].id+'" value="1" maxlength="20" class="hide"></td></tr><tr id="bugEditLabelTr_'+data[1][0].id+'"><td>'+$('#bugMasterData_'+code).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" onClick=showEditBugMaster('+data[1][0].code+','+data[1][0].id+',0)></span><span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster('+data[1][0].code+','+data[1][0].id+',0)"></span></td></tr>');
+               $('#bugMasterData_'+code).val('');
+               $('#crate_'+code).val('')
+              }
+              else
+              {
+                alert('Already Exist');
+                 $('#bugMasterData_'+code).val('');
+               $('#crate_'+code).val('')
+              }             
+          }
+        }); 
+  }
+/*  }*/
+  function showEditBugMaster(code,bugMasterId,flag){ 
+    if(flag==2){
+    $('#bugEditTextBoxTr_'+bugMasterId).addClass("hide"); 
+    $('#bugEditLabelTr_'+bugMasterId).removeClass("hide"); 
+    }
+   else if(!flag){
+    $('#bugEditTextBoxTr_'+bugMasterId).toggleClass("hide"); 
+    $('#bugEditLabelTr_'+bugMasterId).toggleClass("hide");    
+    }  
+    else{
+      saveEditBugMaster(code,bugMasterId);      
+    }
+  }
+  function saveEditBugMaster(code,id){
+     if($('#bugEditData_'+id).val().trim().length<1){
+    alert("Can not update blank field!");
+    return false;
+  }
+  var crate='',insLabel='',insEdit='';
+  if(code==6){
+    crate=$('#crate_'+id).val();   
+  }
+
+    $.ajax({
+    url:'/updateStatus',
+        data: {           
+         "code":code,
+         "desc":$('#bugEditData_'+id).val(),
+         "active": $('#bugMasterActiveVal_'+id).val(),
+         "id":id,      
+         "crate":crate
+        },
+    method: 'POST',    
+    success: function(data) { 
+         
+  if(code==6){
+    insEdit ='<td><input type="number" maxlength="20" id="crate_'+id+'" value="'+$('#crate_'+id).val()+'"></td>'
+    insLabel='<td>'+crate+'</td>';
+  }
+      var okIcon;
+          if($('#bugMasterActiveVal_'+id).val()==1){
+            okIcon='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster('+code+','+id+',0)"></span>';
+          } 
+          else{
+            okIcon='<span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster('+code+','+id+',1)"></span>';
+          }  
+          if((data[1][0].flag==0))
+            {
+          alert('Updated successfully.');  
+            $('#bugEditTextBoxTr_'+id).html('<td><input type="text" maxlength="20" id="bugEditData_'+id+'"  value="'+$('#bugEditData_'+id).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+code+','+id+',1)"></span></td>');
+            $('#bugEditTextBoxTr_'+id).addClass("hide");
+            $('#bugEditLabelTr_'+id).html('<td>'+$('#bugEditData_'+id).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" onClick=showEditBugMaster('+code+','+id+',0)></span>'+okIcon+'</td>');
+            //  $('#bugEditTextBoxTr_'+bugMasterId).addClass("hide"); 
+             $('#bugEditLabelTr_'+id).removeClass("hide");
+             }
+          else if((data[1][0].flag==2))
+          {
+          alert('Already Exist');
+          }else 
+          {
+          alert('You cannot edit this master when bug exists for it.');
+          }
+          },
+          dataType: 'JSON',
+    });
+      }
+//-----------------Document--------------------------------------------
+         var activeDocument=1;
+ function docValidation() {
+            var rolename = $('#rl_name').val();
+            var indus = $('#my-selectII').val();
+            var bus = $('#my-selectBB').val();
+            var  doc=$('#my-selectDD').val();
+            var tec=$('#my-selectTT').val();
+            var restrict=$('#my-selectRR').val();
+            if (rolename.trim()==""){
+                alert("Please Enter valid Role Name!");
+                return false;
+            }            
+            if(indus==null) {
+                alert("Please select any Industry name! ");
+                return false;
+            }
+            if (bus ==null) {
+                alert("Please select any Business name!");
+                return false;
+            }
+            if (doc== null) {
+                alert("Please select any Document Type!");
+                return false;
+            }
+             if (tec== null) {
+                alert("Please select any Technology Type!");
+                return false;
+            }   
+             if (restrict== null) {
+                alert("Please select any Restriction Level!");
+                return false;
+            }  
+
+            addrole();
+    }
+var arr1=[];
+var arr2=[];
+var arr3=[];
+var arr4=[];
+var arr5=[];
+function addrole(){
+    var newactiveDocument
+  if(activeDocument==1)
+  {
+   newactiveDocument=1;
+  }
+  else{
+       newactiveDocument=$('#RoleEdit').val();
+  }
+      var cid=$('#editRoleId').val()==""?0:$('#editRoleId').val();
+      var ihide=$("#<%=industry[0].id%>").val()==""?0:$("#<%=industry[0].id%>").val();
+      var bhide=$("#<%=business[0].id%>").val()==""?0:$("#<%=business[0].id%>").val();
+      var dhide=$("#<%=document[0].id%>").val()==""?0:$("#<%=document[0].id%>").val();
+      var thide=$("#<%=technology[0].id%>").val()==""?0:$("#<%=technology[0].id%>").val();
+      var rhide=$("#<%=restriction[0].id%>").val()==""?0:$("#<%=restriction[0].id%>").val();
+           $.ajax({
+            url: '/customRolesUpdate',
+            type: 'post',
+            data: {  
+               'editRoleId' :  cid,    
+              'rname' :  $("#rl_name").val(),
+              'industry': $("#my-selectII").val().toString(),
+              'business':$("#my-selectBB").val().toString(),
+              'doctypes' :$("#my-selectDD").val().toString(),
+              'technology':$("#my-selectTT").val().toString(),
+              'rLevel':$("#my-selectRR").val().toString(),
+              'industryhide':1,
+              'businesshide':2,
+              'doctypehide':3,
+              'newTechide':4,
+              'rLevelhide' :5 ,
+              'isActive':newactiveDocument,
+               },
+           success: function(data) {
+          
+                            if (data[0][0].flag == -1) {
+                                alert('Something went wrong.');
+                            } else if (data[0][0].flag == 1) {
+                                alert('Custom Role added successfully');
+                                $('#cancel').click();
+                               $('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+data[1][0].id+')"  data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td></tr>');
+                            } else if (data[0][0].flag == 3) {
+                                alert('Custom Role is already exist.Please enter with different Custom Role.');
+                            }else if(data[0][0].flag == 4){
+                                  alert('This Custome role cant be inactive , it is bind with Some Others user  ');
+                                }
+                            else if ((data[0][0].flag =='2')||(data[0][0].flag =='5')) {
+                                alert('Custom Roles update successfully.');
+                            $('#editRole').modal('toggle');
+                                $("#RoleEdit").val($('#RoleEdit').val());
+                               
+                                if($('#RoleEdit').val()==0)
+                                 $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:red" class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')" data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td>');
+                               else
+                                 $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok-sign"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')" data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td>');
+                               
+                            } 
+                        },
+                    dataType: 'JSON',                
+        });
+      }
+ var myBackup = $('#editRole').clone();    
+    // Delegated events because we make a copy, and the copied button does not exist onDomReady
+    $('body').on('click','#cancel',function() {
+         setTimeout(function(){ $('#editRole').remove();
+        var myClone = myBackup.clone();
+        $('body').append(myClone); }, 500);
+    });
+  
+
+  
+      function roleMulti(){
+          $("#my-selectII").val('');
+           $("#my-selectDD").val('');
+           $("#my-selectBB").val('');
+             $("#my-selectRR").val('');
+             $("#my-selectTT").val('');
+          $("#my-selectII").searchableOptionList();
+           $("#my-selectDD").searchableOptionList();
+           $("#my-selectBB").searchableOptionList();
+             $("#my-selectRR").searchableOptionList();
+             $("#my-selectTT").searchableOptionList();
+             $('#roleActive').addClass('hide');
+
+        }
+  /*-----------------------EDIT ROLE-------------------------*/
+       function getrole(cid) {        
+                   activeDocument=0;
+                   id=cid;
+                    $('#editRoleId').val(cid);                   
+         $.ajax({
+            url: '/selectidRole',
+            type: 'post',
+            data: {'rid': id},
+            dataType: 'json',
+            success: function(data) {
+            //  console.log("---------data of this role--",data[0][0]);
+                 $('#rl_name').val(data[0][0].description);
+                      var arr1 = [];
+                    for(var i=0;i<data[0].length;i++){
+                       arr1=data[0][i].vvid.split(',');
+                    /*-----------Industry-----------------------------------*/
+                       if(data[0][i].vertical_id==1){                         
+                        $('#my-selectII').val(arr1);
+                        $("#my-selectII").searchableOptionList();                      
+                       }
+                  /*---------------------Business----------------------------------------------*/
+                         else if(data[0][i].vertical_id==2){
+                        $('#my-selectBB').val(arr1);
+                        $("#my-selectBB").searchableOptionList();                      
+                       }
+                  /*-------------------Document----------------------------------------------*/
+                       else if(data[0][i].vertical_id==3){
+                        $('#my-selectDD').val(arr1);
+                        $("#my-selectDD").searchableOptionList();
+                           }
+                  /*----------------Technology----------------------------------------------*/
+                    else  if(data[0][i].vertical_id==4){
+                        $('#my-selectTT').val(arr1);
+                          $("#my-selectTT").searchableOptionList();
+                       }
+                 /*---------------Restriction----------------------------------------------*/
+                      else   if(data[0][i].vertical_id==5){
+                        $('#my-selectRR').val(arr1);
+                           $("#my-selectRR").searchableOptionList();                        
+                      }    
+                   } 
+                     $('#RoleEdit').val(data[1][0].Active);           
+                }
+        });
+         }
+         //-------------------------Timesheet-------------Holiday-------------
+function showEditHoli(id,flag){
+    if(!flag){
+        $('#editHoli_'+id).toggleClass("hide"); 
+        $('#holi_'+id).toggleClass("hide");    
+    }
+  else{
+      holiValidation(id);      
+    }
+  }
+function  holiValidation(id) { 
+      if($('#ocName_'+id).val().trim().length<1)
+      {
+        alert("Enter Occasion Name");
+        return false;
+      }
+      if($('#ocDate_'+id).val().trim().length<1){
+        alert("Enter Occasion Date");
+        return false;
+      }
+      $.ajax({
+           url: '/updateHoliday',
+           type: 'post',
+           data: {'id':id,
+                  'hname': $('#ocName_'+id).val(),
+                  'hdate': $('#ocDate_'+id).val()
+                },
+           dataType: 'json',
+           success: function(data){         
+                     //$('#editHoliday').addClass('hide');
+                     console.log("id: ",data);
+                    /* alert($('#ocDate_'+id).val());*/
+                     if(data[0][0].flag==1){
+                        alert("Holiday Added successfully");
+                         $('#holiTable').append('<tr id="editHoli_'+data[1][0].id+'" class="hide"><td><input type="text" id="ocName_'+data[1][0].id+'" maxlength="20" value="'+$('#ocName_'+id).val()+'"></td><td><input type="text" maxlength="20" id="ocDate_'+data[1][0].id+'" class="datepicker" value="'+$('#ocDate_'+id).val()+'"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli('+id+',1)"></span></td></tr><tr id="holi_'+data[1][0].id+'"><td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+data[1][0].id+',0)"></span></td></tr>'); 
+                          $('#ocName_0').val('');
+                          $('#ocDate_0').val('');
+                     }
+                     if(data[0][0].flag==2){
+                      alert("Holiday Already Exist!! ");
+                       $('#editHoli_'+id).addClass("hide"); 
+                        $('#holi_'+id).removeClass("hide");
+                      return false;
+                     }
+                     if(data[0][0].flag==3)
+                     {
+                    alert("Holiday Updated successfully");  
+                     $('#editHoli_'+id).html('<td><input type="text" id="ocName_'+id+'" maxlength="20" value="'+$('#ocName_'+id).val()+'"></td><td><input type="text" id="ocDate_'+id+'" maxlength="20" class="datepicker" value="'+$('#ocDate_'+id).val()+'"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli('+id+',1)"></span></td>');  
+                      $('#editHoli_'+id).addClass("hide");                         
+                        $('#holi_'+id).html('<td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+id+',0)"></span></td>');
+                        $('#holi_'+id).removeClass("hide");
+                         $('.datepicker').datetimepicker({
+                            timepicker: false,
+                            format: 'm/d/y'
+                          });
+                /*
+                    $('#holi_'+id).html('<td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+data[1][0].id+',0)"></span></td>');*/
+                     //      alert("adding values to show-removing hide class from"+id);
+                 //   $('#holi_'+id).removeClass("hide");  
+                          
+                     }                
+           }
+      });
+}
+function schedule(){
+     if($("#ddlDay").val()==3)
+     {
+       $("#hdate").removeClass('hide');
+     }
+     else
+     {
+          $("#hdate").addClass('hide');
+     }        
+}
+function hsubmit(){   
+var date=$('#hdate').val();
+    if($("#ddlDay").val()){
+        if($("#ddlDay").val()==3){
+            if(date==""){
+                  alert("Date cannot be empty!!! Please Enter valid Date");
+                return false;
+              }
+          }    
+     if(confirm('Are you sure to submit Permanentely?'))
+     addSchedule();
+    }
+    else {
+        alert("Please select any criteria!!!");
+        return false;
+      }
+}
+
+function addSchedule(){
+    var id=$("#ddlDay").val(); 
+        var date=$('#hdate').val()
+        $.ajax({
+            url: '/addSchedule',
+            type: 'post',
+            data: {'schedule': id,
+                    'date':$('#hdate').val()
+                },
+            dataType: 'json',
+            success: function(data) { 
+                 alert("Schedule Added Successfully.");
+                    $('#sub').prop('disabled',true);
+                    $('#sub').text("Submitted");
+                  //  $('#ddlDay').val(data[1][0].schedule);
+                      $('#ddlDay').prop('disabled',true);                   
+                      $('#hdate').prop('disabled',true);
+                      $("#hdate").removeClass('hide');
+                    }  
+        });
+}
+     //-----------------------Expense-------------------------
+     function toggeleBillBox(code,id,flag){  
+     if(!flag){  
+         if($('#isMandatory_'+code).val()!=1){
+            $('#maxBillAmnt_'+code).addClass("hide");
+          }
+          else{
+           $('#maxBillAmnt_'+code).removeClass("hide"); 
+          }
+      }
+      else{
+          if($('#isMandatory_'+code+'_'+id).val()!=1){
+            $('#maxBillAmnt_'+code+'_'+id).addClass("hide");
+            $('#maxBillAmnt_'+code+'_'+id).val('');
+          }
+          else{
+           $('#maxBillAmnt_'+code+'_'+id).removeClass("hide"); 
+          }
+      }
+     }
+
+ function showEditExpMaster(code,id,flag){
+        if(code==1){
+          toggeleBillBox(code,id,flag);
+        } 
+        if($('#isMandatory_'+code+'_'+id).val()==0){
+    $('#maxBillAmnt_'+code+'_'+id).addClass("hide");
+  }      
+    if(!flag){
+    $('#expenseEdit_'+id).toggleClass("hide"); 
+    $('#expenseShow_'+id).toggleClass("hide");    
+    }  
+    else{
+
+      addExpenseMaster(code,id,flag);      
+    }
+  }
+function addExpenseMaster(code,id,flag){
+  if(!flag){
+        if($('#expMasterData_'+code).val().trim().length<=1)
+        {
+          alert("Please fill Expense Type!");
+          return false;
+        }
+          if(code==1){
+        if($('#isMandatory_'+code).val()==0)
+        {
+          alert("Choose wether bill is mandatory or Not!");
+          return false;
+        }  
+        if($('#isMandatory_'+code).val()==1)
+        {
+          if($('#maxBillAmnt_'+code).val().trim().length<1)
+          {
+            alert("Provide Maximum Bill for the ammount!");
+            return false;
+          }
+        }
+      }
+}
+else{
+  if($('#expMasterData_'+code+'_'+id).val().trim().length<=1)
+  {
+    alert("Please fill Expense Type!");
+    return false;
+  }
+}
+
+var desc,billM,billa,ty;
+var c1='',c2='',c3='',c4='',c5='',edValue;
+if(flag){
+  desc=$('#expMasterData_'+code+'_'+id).val();
+  billM=$('#isMandatory_'+code+'_'+id).val();
+  billa=$('#maxBillAmnt_'+code+'_'+id).val();
+  ty=code+'_'+id;
+   if($('#isMandatory_'+code+'_'+id).val()==1){
+        c2='selected';        
+        c4='Yes';
+      }
+      else{
+        c5='selected';
+        c4='No';
+      }
+}
+else{
+  desc=$('#expMasterData_'+code).val();
+  billM=$('#isMandatory_'+code).val();
+  billa=$('#maxBillAmnt_'+code).val();
+  ty=code;
+    if($('#isMandatory_'+code).val()==1){
+        c2='selected';        
+        c4='Yes';
+      }
+      else{
+        c5='selected';
+        c4='No';
+      }
+}
+
+  $.ajax({
+    url:'/insertExpenseMaster',
+        data: {
+         "code1":code,
+         "desc":desc,
+         "billM":billM,
+         "billa":billa,
+         "active":1,
+         "edit":flag,
+         "idmaster":id
+        },
+    method: 'POST',
+    success: function(data) {  
+ 
+      if(code==1){
+         if($('#maxBillAmnt_'+ty).val().length<1){
+          edValue=0;
+         }
+         else{
+          edValue=$('#maxBillAmnt_'+ty).val();
+         }
+        c1=' <td><select id="isMandatory_'+code+'_'+id+'" onChange="toggeleBillBox('+code+','+id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input type="text" id="maxBillAmnt_'+ty+'"placeholder="@max Ammount" maxlength="20" value="'+edValue+'"></td>'; 
+
+        c3='<td>'+c4+'</td><td>'+edValue+'</td>';
+      }      
+      if(data[0].flag==0)
+      {        
+        alert('Expense Created successfully.'); 
+        $('#expTable_'+code).append('<tr id="expenseEdit_'+id+'" class="hide"><td><input type="text" id="expMasterData_'+code+'_'+id+'" maxlength="20" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+id+',1)"></span></td></tr><tr id="expenseShow_'+id+'"><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster('+code+','+id+',0)"></span></td></tr>');  
+        $('#expMasterData_'+ty).val('');
+      }
+
+     else if(data[0].flag==1000)
+      {
+        alert('Expense Updated Successfully');
+        $('#expenseEdit_'+id).html('<td><input type="text" id="expMasterData_'+code+'_'+id+'" maxlength="20" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+id+',1)"></span></td>');        
+        $('#expenseEdit_'+id).toggleClass("hide");
+        $('#expenseShow_'+id).html('><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster('+code+','+id+',0)"></span></td>');
+        $('#expenseShow_'+id).toggleClass("hide");
+      }
+      else
+      {
+        alert('This Expense already exist');  
+        $('#expenseEdit_'+id).toggleClass("hide"); 
+         $('#expenseShow_'+id).toggleClass("hide");    
+      }    
+    },
+    dataType: 'JSON',
+  });
+}
+      </script>

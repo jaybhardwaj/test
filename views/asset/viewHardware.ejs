@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+     <% include ../partials/head %>
+       <% include assetheader %>
+       <% include ../partials/adminheader %>
+</head>
+
+<body >
+ 
+ <div style="background-color:antiquewhite;margin-top:3%">
+ 
+  
+  <a href="/hardware"type="button"style="font-size:12px;margin-top:5%;margin-left:2%;padding:0.5%;" title="Add New Stationary" class="button btn btn-info" value="Addstationary">Add Hardware</a>
+   <label class="pageTitle"style="margin-top:3%;" >List Of All Hardware</label> 
+ 
+<br>
+  <table class="table table-hover table-striped table-bordered rceDataTable"id="hardtable" cellpadding="0" cellspacing="0" border="0"style="width:100%">
+    <thead>
+      <tr>
+        <th style='background-color:grey;color:white'>Hardware Type</th>
+        <th style='background-color:grey;color:white'>Quantity</th>
+        <th style='background-color:grey;color:white'>Vendor</th>
+        <th style='background-color:grey;color:white'>Invoice date</th>
+        <th style='background-color:grey;color:white'>Invoice No.</th>
+        <th style='background-color:grey;color:white'>Invoice Amount</th>
+        <th style='background-color:grey;color:white'>Purchase Order</th>
+        <th style='background-color:grey;color:white'>Delivery Date</th>
+        <th style='background-color:grey;color:white'>Edit/Delete</th>
+      </tr>
+      <tbody>
+        <%for(var i=0;i<htype[0].length;i++){%>
+        <tr>
+          <td><%=htype[0][i].componentName%></td>
+          <td><%=htype[0][i].quantity%></td>
+          <td><%=htype[0][i].vendor%></td>
+          <td><%=htype[0][i].invoiceDate%></td>
+          <td><%=htype[0][i].invoiceNo%></td>
+          <td><%=htype[0][i].invoiceAmt%></td>
+          <td><%=htype[0][i].purchaseOrder%></td>
+          <td><%=htype[0][i].deliveryDate%></td>
+          <td>
+            <a data-toggle='modal' data-target='#editHardware' onclick="edit(<%=htype[0][i].id%>)">
+              <span class='glyphicon glyphicon-pencil' style='color:green;height:10px;'  title ='Edit'></span>
+            </a>
+            <a onclick="return del(<%=htype[0][i].id%>)" type="button"><span class='glyphicon glyphicon-trash' style='color:red;height:10px;'title='Delete'></span>
+            </a>
+          </td>
+        </tr>
+        <%}%>        
+      </tbody>
+    </table>
+</div>
+
+</div>
+</body>
+<footer>
+  <% include ../partials/footer %>
+</footer>
+<div class="modal fade" id="editHardware" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content" id="express2">
+        <div class="modal-header" style="background-color:#f05f40;">
+          <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Furniture</b></label></center>
+        </div>
+        <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+          <div class="modal-body">
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Hardware Type: *</label>
+              </div>
+              <div class="col-md-8">
+                <select id="type" type="dropdown" name="type"  class="form-control" value=""disabled>
+                  <%for(var i=0;i<htype[0].length;i++){%>
+                  <option selected="selected"><%=htype[0][i].componentName%></option>
+              
+                <%}%>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Quantity: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="number" maxlength="2" style="margin-top:10px;" class="form-control" id="qty" name="qty"/>
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Vendor: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="50" style="margin-top:10px;" class="form-control" id="vendor" name="vendor"/>
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Invoice Number: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="10" style="margin-top:10px;" class="form-control" id="invoiceNo" name="invoiceNo" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Invoice Date: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="" style="margin-top:10px;"class="form-control date"id="Invoicedate" name="Invoicedate" />
+              </div>
+            </div>
+            
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Invoice Amount: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="11" style="margin-top:10px;" class="form-control" id="invoiceAmt" name="invoiceAmt" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Purchased Order: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="50" style="margin-top:10px;" class="form-control" id="order" name="order" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Delivery Date: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type=""style="margin-top:10px;"class="form-control date" id="Deliverydate"name="Deliverydate" />
+              </div>
+            </div>
+            <br/>
+            <div class="modal-footer"style="border-top:0px;">
+              <center>
+              <input type="text" class="hide" value="" id="hdnId" name="hdnId">
+                <button id="cancel"type="reset"data-dismiss="modal"class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                <input type="submit" onclick="return validate()"class="btn btn-default"style="margin-top:10px;background-color:#f05f40;color:black;padding-top:4px; width:100px;height:30px;color:white" value="Submit">
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    $(document).ready(function(){
+      <%if(flag==1){%>
+        alert("Hardware successfully added!");
+      <%}%>
+      $("#hardtable").dataTable({
+        "bLengthChange": false,
+        "binfo":false
+      });
+    });
+
+    jQuery('.date').datetimepicker({
+      timepicker:false,
+      format:'Y-m-d'
+    });
+    function validate(){
+      var inamount=$('#invoiceAmt').val();
+      var up=$('#uprice').val();
+      if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
+      {
+      alert("Vendor is Missing!");    
+      return false;
+      }
+    if($('#Invoicedate').val().length<1||$.trim($("#Invoicedate").val()) =="") 
+    {
+      alert("Invoice date is Missing!");    
+      return false;
+    }
+     if($('#invoiceNo').val().length<1||$.trim($("#invoiceNo").val()) =="") 
+    {
+      alert("Invoice number is Missing!");    
+      return false;
+    }
+
+    if(inamount.length<2||isNaN(inamount)||inamount.trim().length<1) 
+    {
+      alert("Enter valid Invoice Amount!");    
+      return false;
+    }
+    if($('#qty').val().length<1||$.trim($("#qty").val()) ==""||$.trim($("#qty").val()) > 20) 
+    {
+      alert("Enter valid Quantity!");    
+      return false;
+    }
+        
+    if($('#Deliverydate').val().length<1||$.trim($("#Deliverydate").val()) =="") 
+    {
+      alert("Delivery date is Missing!");    
+      return false;
+    }
+    
+  $.ajax({
+    url: '/updateHardware',
+    method: 'POST',
+    data: {
+      "type": $('#type').val(),
+      "qty": $('#qty').val(),
+      "vendor": $('#vendor').val(),
+      "Invoicedate": $('#Invoicedate').val(),
+      "invoiceNo": $('#invoiceNo').val(),
+      "invoiceAmt":  $('#invoiceAmt').val(),
+      "Deliverydate":$('#Deliverydate').val(),
+      "id":$("#hdnId").val()
+    },
+    success: function(data){
+      alert("Furniture successfully updated");
+      window.location.reload();      
+    },
+    dataType: 'JSON'    
+  });
+}
+
+function del(id){ 
+  //alert(id);
+  if(confirm("This action once done cannot be undone! Do you want to delete this?")==true)
+  {
+  $.ajax({
+    url:'/deleteHeader',
+    method: 'POST',
+    data:{'id':id},
+    success: function(data) {
+      window.location.reload();
+    },
+    dataType: 'JSON',
+  });
+}
+}
+
+function edit(id){
+  $("#hdnId").val('');
+  //alert(id);
+  $.ajax({ 
+    url: '/getEditHardware',
+    method:'POST',
+    data: {'id':id},
+    success: function(data) { 
+      console.log("edit info----------------",data[0][0].componentName);
+      $("#type").val(data[0][0].componentName);
+      $("#qty").val(data[0][0].quantity);
+      $("#vendor").val(data[0][0].vendor);
+      $("#invoiceAmt").val(data[0][0].invoiceAmt);
+      $("#order").val(data[0][0].purchaseOrder);
+      $("#Invoicedate").val(data[0][0].invoiceDate);
+      $("#invoiceNo").val(data[0][0].invoiceNo);
+      $("#Deliverydate").val(data[0][0].deliveryDate);
+      $("#hdnId").val(data[0][0].id);
+    }
+  });
+}
+</script>

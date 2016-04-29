@@ -1,0 +1,222 @@
+ <% include ./partials/head %>
+
+<style>
+ input[type=search] {
+    height: 29px !important;
+    border-radius: 5px !important;
+    border: 1px solid #669ECC !important;
+
+  }
+
+
+ .glyphicon-ok-circle{
+  color:green!important;
+ }
+
+ 
+</style>
+<script type="text/javascript">
+var otable='';
+$(document).ready(function() {
+  $('.wbs-img').addClass('active');
+  otable=$('#bugtable').dataTable({
+    'iDisplayLength': 10,
+    "order":[]
+  });
+ wbsStatus();
+});
+
+
+
+ function wbsStatus(){
+  var st=$("#selectwbs").val();
+    $.ajax({
+                url: '/wbsStatus',
+                type: 'post',
+                data: { "status": st },
+                success: function(data) {
+                    console.log('sssssssssssssssssssss', data);
+                    var log = '',log1='',log2='';
+                    
+                    for (var i = data[0].length-1; i >=0 ; i--) {
+                      if(data[0][i].firstName==null){data[0][i].firstName='';}
+                      if(data[0][i].location==null){data[0][i].location='';}
+                      if(data[0][i].WBSName==null){data[0][i].WBSName='';}
+                      if(data[0][i].WBSCode==null){data[0][i].WBSCode='';}
+                      if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
+                      if(data[0][i].WBSName==null){data[0][i].WBSName='';}
+                      if(data[0][i].wplannedStartDate==null){data[0][i].wplannedStartDate='';}
+                      if(data[0][i].wplannedEndDate==null){data[0][i].wplannedEndDate='';}
+                      if(data[0][i].wactualStartDate==null){data[0][i].wactualStartDate='';}
+                      if(data[0][i].wactualEndDate==null){data[0][i].wactualEndDate='';}
+                      if(data[0][i].estimateEffort==''){data[0][i].estimateEffort='';}
+                      if(data[0][i].estimateEffort1==0){data[0][i].estimateEffort1='';}
+                      if(data[0][i].estimateEffort1==1){data[0][i].estimateEffort1='Man-Hours';}
+                      if(data[0][i].estimateEffort1==2){data[0][i].estimateEffort1='Man-Days';}
+                      if(data[0][i].estimateEffort1==3){data[0][i].estimateEffort1='Man-Weeks';}
+                      if(data[0][i].estimateEffort1==4){data[0][i].estimateEffort1='Man-Months';}
+                      if(data[0][i].estimateEffort != ''){
+                      data[0][i].estimateEffort = data[0][i].estimateEffort + ' ' + data[0][i].estimateEffort1;
+                    }
+
+                        if(data[0][i].WBSStatus==1){
+                          log=log+ '<tr style=height:20px;color:grey;font-size:12px;  id="abc_'+data[0][i].WBSId+'"><td>'+data[0][i].WBSName+'</td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td>'+data[0][i].wplannedStartDate+'</td><td>'+data[0][i].wplannedEndDate+'</td><td>'+data[0][i].wactualStartDate+'</td><td>'+data[0][i].wactualEndDate+'</td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td><td>   <a href="/addEditWbs?wbsid='+data[0][i].WBSId+'&flag=1"  onclick="return checkedit();"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-left:10px;margin-right:10px;" title="Edit WBS"></span></a>    <a onclick=" actinact('+data[0][i].WBSId+',1)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-right:10px;" title="click to inactive"></span></a></td>  </tr>';
+
+                        }
+                        else{
+                          log=log+ '<tr style=height:20px;color:grey;font-size:12px;  id="abc_'+data[0][i].WBSId+'"><td>'+data[0][i].WBSName+'</td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td>'+data[0][i].wplannedStartDate+'</td><td>'+data[0][i].wplannedEndDate+'</td><td>'+data[0][i].wactualStartDate+'</td><td>'+data[0][i].wactualEndDate+'</td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td><td>   <a  onclick=" actinact('+data[0][i].WBSId+',0)"> <span class="glyphicon glyphicon-remove-sign" style="text-align:center;color:red;height:10px;margin-left:35px;" title="Check to active"></span></a> </td>  </tr>';
+
+                        }
+                        
+                    }otable.fnDestroy();
+                    $('#wbsstatus').html(log);
+                    otable=$('#bugtable').dataTable({
+                      'iDisplayLength': 10,
+                      "order":[]
+                      });
+                }
+
+            });
+
+ }
+ function checkedit(){
+ /* var r = confirm("Do you want to edit this WBS ?");
+    if (r == true) {
+        
+        return true;
+    } else {
+        return false;
+    }*/
+    return true;
+}
+function checkactive(st){
+  if(st){var r = confirm("Do you want to make this WBS inactive ?");}
+  else{var r = confirm("Do you want to make this WBS active ?");}
+    if (r == true) {
+        
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function actinact(wbsid,flag){
+ //if(confirm("are you sure you want to inactive the wbs ?")==true)
+ var r=checkactive(flag);
+ if(r){
+  $.ajax({
+                url: '/changeWbsStatus',
+                type: 'post',
+                data: { "wbsid": wbsid, "flag": flag },
+                success: function(data) {
+                   
+                }
+
+            });
+   }
+   wbsStatus();
+}
+
+</script>  
+<div>
+        <% include ./partials/adminheader %>
+    </div>
+  <div  id="accordions"  style="padding-bottom:2%;padding-left
+  :2%;padding-right:2%;padding-bottom:2%;background-color:antiquewhite">  
+             
+ <div style="padding-top:1%">
+            
+            <a href="/addEditWbs?wbsid=0&flag=0"><img  src="./img/add.png" height="40px"
+            width="40px" title="Create New" style="float:left;position:relative;left:2%;cursor:pointer"> </a>
+                 <span class="modal-title" style="padding-left:40%">WBS Details</span>
+
+                                    <select class="form-control" style="float:right;width:auto; margin-bottom:1%;" id="selectwbs" onchange="wbsStatus()">
+                                     <option value="1">Active</option>
+                                     <option value="0">Inactive</option>
+                                     <option value="2">All</option>
+                                    </select>
+                                    
+            </div>
+
+
+  <div style="margin-top:1%;margin-bottom-1%">     
+            <table class="table stripe cell-border hover" id="bugtable" >
+
+               <thead>
+                
+                 <tr style='font-size:12px'>
+                
+                <th   >WBS Name</th>
+                <th   >WBS Code</th>
+                <th   >Project Name</th>
+                <th   >WBS Owner</th>
+                <th   >Planned Start Date</th>
+                <th   >Planned End Date</th>
+                <th   >Actual Start Date</th>
+                <th   >Actual End Date</th>  
+                <th   >Estimate Effort</th>
+                <th   >WBS Location</th>  
+                <th   >Action</th>            
+                </tr>
+                  </thead>
+                 <%console.log('sssssssssssss');%> 
+               <tbody id="wbsstatus">
+                <% for(var i=allinfo.length-1;i>=0;i--) { %>
+                                <tr  id="abc_<%=allinfo[i].WBSId%>">
+                                    
+                                    <td>
+                                        <%=allinfo[i].WBSName%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].WBSCode%>
+                                    </td>
+                                    <td>
+                                   
+                                        <%=allinfo[i].projectTitle%>
+                                    
+                                    </td>
+
+                                    <td>
+                                        <%=allinfo[i].firstName%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].wplannedStartDate%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].wplannedEndDate%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].wactualStartDate%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].wactualEndDate%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].estimateEffort%>
+                                    </td>
+                                    
+                                    <td>
+                                        <%=allinfo[i].location%>
+                                    </td>
+                                    
+                                    
+                                     <td>
+                                        <a href="/addEditWbs?wbsid=<%=allinfo[i].WBSId%>&flag=1"  onclick="return checkedit();"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-left:10px;margin-right:10px;" title="Edit WBS"></span></a>
+
+                                        <a onclick="actinact(<%=allinfo[i].WBSId%>,1);" ><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:10px;margin-right:10px;" title="click to inactive"></span></a>
+
+
+
+                                    </td>
+
+                                </tr> 
+                                <% } %> 
+              </tbody>
+            </table>
+</div>
+          </div>
+
+  
+ <footer>
+        <% include ./partials/footer %>
+    </footer>

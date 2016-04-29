@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+<style>
+input[type=search] {
+    height: 29px !important;
+    border-radius: 5px !important;
+    border: 1px solid #669ECC !important;
+}
+ 
+</style>
+<script type="text/javascript">
+var otable='';
+$(document).ready(function() {
+
+    var abc=$('#pstatus11').val();
+    console.log('pstatus---',abc);
+    projectStatus(abc);
+ $('.project-img').addClass('active');
+
+  otable=$('#bugtable').dataTable({
+    'iDisplayLength': 10,
+    "order":[],
+    "bDestroy": true
+  });
+
+
+  $('#pstatus11').change(function() {
+            console.log($(this).val());
+            projectStatus($(this).val());
+        });
+
+});
+
+function checkedit(){
+/*  var r = confirm("Do you want to edit this project ?");
+    if (r == true) {
+        
+        return true;
+    } else {
+        return false;
+    }*/
+    return true;
+}
+function checkactive(st){
+    if(st){var r = confirm("Do you want to make this project inactive ?");}
+    else{var r = confirm("Do you want to make this project active ?");}
+  
+    if (r == true) {
+        
+        return true;
+    } else {
+        return false;
+    }
+}
+
+ function projectStatus(st){
+    
+  if(st==1 || st==0){
+    $.ajax({
+                url: '/projectStatus',
+                type: 'post',
+                data: { "status": st },
+                success: function(data) {
+                    
+                    console.log('sssssssssssssssssssss', data);
+                    var log = '',log1='',log2='';
+                    
+                    for (var i = data[0].length-1; i >=0 ; i--) {
+
+                        if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
+                        if(data[0][i].pcode==null){data[0][i].pcode='';}
+                        if(data[0][i].ptype==0){data[0][i].ptype='';}
+                        if(data[0][i].ptype==2){data[0][i].ptype='Fixed Cost';}
+                        if(data[0][i].ptype==1){data[0][i].ptype='Time In Material';}
+                        if(data[0][i].description==null){data[0][i].description='';}
+                        if(data[0][i].plannedStartDate==null){data[0][i].plannedStartDate='';}
+                        if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
+                        if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
+                        if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
+
+                        if(data[0][i].isActive==1){
+                            log=log+ '<tr style=height:20px;color:grey;font-size:12px; ><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a></td>  </tr>';
+
+                        }
+                        else{
+                            log=log+ '<tr  style=height:20px;color:grey;font-size:12px;><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>   <a onclick=" actinact('+data[0][i].id+',0,0)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px;" title="Click to active"></span></a> </td>  </tr>';
+
+                        }
+                    }otable.fnDestroy();
+                    $('#pstatus').html(log);
+                    otable=$('#bugtable').dataTable({
+                        'iDisplayLength': 10,
+                        "order":[]
+                        });
+                }
+
+            });
+
+  }
+  else{
+    $.ajax({
+                url: '/projectStatus',
+                type: 'post',
+                data: { "status": st },
+                success: function(data) {
+                    
+                    console.log(data);
+                    var log = '',log1='',log2='';
+                    
+                    for (var i = data[0].length-1; i >=0 ; i--) {
+
+                        if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
+                        if(data[0][i].pcode==null){data[0][i].pcode='';}
+                        if(data[0][i].ptype==0){data[0][i].ptype='';}
+                        if(data[0][i].ptype==2){data[0][i].ptype='Fixed Cost';}
+                        if(data[0][i].ptype==1){data[0][i].ptype='Time In Material';}
+                        if(data[0][i].description==null){data[0][i].description='';}
+                        if(data[0][i].plannedStartDate==null){data[0][i].plannedStartDate='';}
+                        if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
+                        if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
+                        if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
+                        if(data[0][i].isActive==1){
+                            log=log+ '<tr style=height:20px;color:grey;font-size:12px; ><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>   <a  onclick="projectAddEdit('+data[0][i].id+',1,2)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,2)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a></td>  </tr>';
+
+                        }
+                        else{
+                            log=log+ '<tr  style=height:20px;color:grey;font-size:12px;><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>   <a onclick=" actinact('+data[0][i].id+',0,2)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px" title="Click to active"></span></a> </td>  </tr>';
+
+                        }
+
+                    }otable.fnDestroy();
+                    $('#pstatus').html(log);           
+                    otable=$('#bugtable').dataTable({
+                        'iDisplayLength': 10,
+                        "order":[]
+                        });
+                }
+
+            });
+  }
+ }
+ 
+ function actinact(pid,flag,allpro){//alert('allpro---'+allpro);
+
+ var r=checkactive(flag);
+ if(r){
+  $.ajax({
+                url: '/changeProjectStatus',
+                type: 'post',
+                data: { "pid": pid, "flag": flag },
+                success: function(data) {
+                    if(allpro==2)
+                    projectStatus(allpro);
+                else
+                    projectStatus(flag);
+                }
+
+            });
+   }
+}
+
+function projectAddEdit(projectId,flag) {
+    if(flag){
+    var r=checkedit();
+    }
+
+    if(flag==0) r=1;
+    if(r){
+                var form = document.createElement("form");
+                form.action = '/projectAddEdit';
+                form.method = "POST";
+                form.style = "display: none";
+                var hdnId = document.createElement("input");
+                hdnId.type = "hidden";
+                hdnId.name = "hdnId";
+                hdnId.value = flag;
+                var pid = document.createElement("input");
+                pid.type = "hidden";
+                pid.name = "pid";
+                pid.value = projectId;
+                form.appendChild(hdnId);
+                form.appendChild(pid);
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+         }
+    }
+  
+</script>
+ <% include ./partials/adminheader %>
+</head>
+<body>
+  
+  <div  id="accordions"  style="padding-bottom:2%;padding-left
+  :2%;padding-right:2%;background-color:antiquewhite">  
+   
+      <div style="padding-top:1%">
+            <a onclick="projectAddEdit(0,0)">
+            <img  src="./img/add.png" height="40px"
+            width="40px" title="Create New" style="float:left;position:relative;left:2%;cursor:pointer"> </a>
+
+                     <span class="modal-title" style="padding-left:40%">Projects Details</span>
+
+                     <select style="float:right;width:auto; margin-bottom:1%;" class="form-control" id ="pstatus11" name="pstatus" >
+                      
+                       <option value=1>Active</option>
+                       <option value=0>Inactive</option>
+                       <option value=2>All</option>
+                              
+                    </select>
+                                    
+            </div>
+
+
+         <div   style="margin-top:1%;margin-bottom-1%">
+            <table class="table stripe cell-border hover" id="bugtable"  >
+
+               <thead>
+                
+                 <tr  >
+                
+                <th   >Project title</th>
+                <th   >Project Code</th>
+                <th   >Project Type</th>
+                <!-- <th   >Client</th>
+                <th   >Project Technology</th> -->         
+                <th   >Description</th>  
+                <th   >Planned Start Date</th>
+                        <th   >Planned End Date</th>
+                <th   >Actual Start Date</th>
+                <th   >Actual End Date</th> 
+                <th   >Action</th>            
+                </tr>
+                  </thead>
+                  
+               <tbody id="pstatus">
+                <% for(var i=(allinfo.length)-1;i>=0;i--) { %>
+                                <tr  >
+                                    
+                                    <td>
+                                        <%=allinfo[i].projectTitle%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].pcode%>
+                                    </td>
+                                    <td>
+                                    <%if(allinfo[i].ptype=='timeinmaterial'){%>
+                                        <span>Time in Material</span>
+                                    <%}else { %>
+                                   <span>Fixed Cost</span>
+                                     <%}%>
+                                    </td>
+                                    <!-- <td>
+                                        <%=allinfo[i].clientId%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].ptech%>
+                                    </td> -->
+                                    <td>
+                                        <%=allinfo[i].description%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].plannedStartDate%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].plannedEndDate%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].actualStartDate%>
+                                    </td>
+                                    <td>
+                                        <%=allinfo[i].actualEndDate%>
+                                    </td>
+                                    
+                                     <td>
+                                        <a onclick="projectAddEdit(<%=allinfo[i].id%>,1,2)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>
+
+                                        <a onclick="actinact(<%=allinfo[i].id%>,1,2);" ><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a>
+
+
+
+                                    </td>
+
+                                </tr> 
+                                <% } %> 
+              </tbody>
+            </table>
+            </div>
+          </div>
+ <footer>
+        <% include ./partials/footer %>
+    </footer>
+</body>
+
+</html>

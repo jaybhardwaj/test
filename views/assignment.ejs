@@ -1,0 +1,217 @@
+<html lang="en">
+ <% include ./partials/head %>
+ <% include ./partials/adminheader %>
+
+ <style type="text/css">
+.class1{
+        color:green;
+        height:10px;
+        margin-left:15px;
+}   
+.class2{
+        color:red;
+        height:10px;
+        margin-left:0px; 
+       }
+ 
+  
+
+</style>
+<script>
+
+var tabledel='';
+var rowid='';
+var stdat=[];
+var eddat=[];
+function inactive(a,flag){
+  
+
+if(confirm("Do you want InActive the Assignment?"))
+{
+//alert(a);
+   $.ajax({
+        url: '/buguser/changeAssignmentStatus',
+        type: 'post',
+        data: {"id":a},
+        success:function(data){
+       checkact(flag);
+        }
+
+});
+}
+else
+alert("You have Cancelled");
+}
+
+ $(document).ready(function() {
+ShowAssignments();
+ $('.assignment-img').addClass('active');
+
+         $(".asdate").datetimepicker({
+          timepicker:false,
+          format:"m/d/y"
+         });
+
+          $(".aedate").datetimepicker({
+            timepicker:false,
+            format:"m/d/y"
+          });
+ });
+ function validDate(i,id){
+  //alert(" nbjkbkjbjk");
+               // alert("i is ----"+i);
+                      var date = new Date($('#ws_'+i).val());
+                      var date1 = new Date($('#we_'+i).val());
+                    //  alert("date is ---"+date+"---and date1 is ----"+date1);
+                      $("#i_"+id).datetimepicker({ timepicker:false,
+          format:"m/d/y",
+ minDate: date,
+                                                         maxDate: date1 });
+
+                      $("#j_"+id).datetimepicker({timepicker:false,
+          format:"m/d/y",
+  minDate: date,
+                                                         maxDate: date1 });
+ }
+function updateAssing(ldate,id,a,date,i){
+
+
+      
+   if(a==1)
+    {  
+
+       //  alert("early date is ----"+$('#ae_'+i).val()); 
+        var dt="AssignmentDate";
+        if(new Date($('#j_'+id).val())<new Date(date.value)){
+        alert("Assignment start date sholud not greater than Assignment End Date");
+        $('#i_'+id).val($('#ae_'+i).val()); 
+        return false;
+       }
+}
+     else
+     {   //alert("early date is ----"+$('#as_'+i).val());
+        var dt="AssignmentEndDate";
+        if(new Date($('#i_'+id).val())> new Date(date.value)){
+        alert("Assignment End Date should not lesser than Assignment Start Date");
+        $('#j_'+id).val($('#as_'+i).val());
+        return false;
+     }
+}
+     $.ajax({   
+                    url:'/submitAssignment',
+                    type:'post',
+                    data:{
+                      "flag":a,
+                      "assignmentId":id,
+                      "procode":'1',
+                      "wbs":'1',
+                      "user":'1',
+                      "status":'1',
+                      "asdate":date.value,
+                      "aedate":date.value,
+                        "curdat":'',
+                      "retailerid":''
+                    },
+
+                  success:function(data){
+
+                   console.log(" hi iam in success");
+                 }
+                  });
+     
+}
+function ShowAssignments(){  
+             
+         $(".asdate").datetimepicker({
+          timepicker:false,
+          format:"m/d/y"
+         });
+         
+          $(".aedate").datetimepicker({
+            timepicker:false,
+            format:"m/d/y"
+          });
+ // alert(" i am in show assihnmnet");
+  $('#assigntable').dataTable().fnDestroy(); 
+
+  var a='';
+ <%console.log("-------Length-----------",allinfo1.length); for(var i=allinfo1[0].length-1;i>=0;i--) { %>
+                 var abc=$("#stat").val();
+
+                      
+                    /* if(abc==1 || abc==2)
+                     if('<%=allinfo1[0][i].assgisActive%>'=='1' &&
+                      new Date('<%=allinfo1[0][i].AssignmentEndDate%>')>=new Date() || abc==2 ) 
+                    {
+                     //alert("AssignmentEndDate is----"++"today date is---"+) 
+                     
+                     a=a+'<tr id="row_<%=allinfo1[0][i].AsIdt1%>"><td><%=allinfo1[0][i].projectTitle%></td><td><%=allinfo1[0][i].WBSName%></td><td><%=allinfo1[0][i].WBSCode%></td><td><%=allinfo1[0][i].fn%></td><td><%=allinfo1[0][i].AssignmentDate%></td><td><%=allinfo1[0][i].AssignmentEndDate%></td><td><%if(allinfo1[0][i].assgisActive==1){%><a href = "createAssignment?assignmentId=<%=allinfo1[0][i].AsIdt1%>&flag=1"> <span class="glyphicon glyphicon-pencil " title="Edit Assignment"></span></a><%}%><a href="/changeAssignmentStatus?assignmentId=<%=allinfo1[0][i].AsIdt1%>&flag=<%=allinfo1[0][i].assgisActive%>"><span <%if(allinfo1[0][i].assgisActive==1){%>class="glyphicon  glyphicon-ok-circle class1"<%} else{%>class="glyphicon  glyphicon-remove-sign class2" <%}%> title="Deactivate Assignment" ></span></td></tr>'
+                }
+                    
+                    var b=new Date();
+                    b.setDate(b.getDate()-1);
+                   b= new Date(b);
+                   // alert("AssignmentEndDate is --"+new Date('<%=allinfo1[0][i].AssignmentEndDate%>')+"yesteday date is "+b);
+                    if(abc==0)
+                    {//alert("this is in active");
+                  if('<%=allinfo1[0][i].assgisActive%>'=='0' )
+                    {
+                     //alert("AssignmentEndDate is----"++"today date is---"+) 
+                     
+                     a=a+'<tr id="row_<%=allinfo1[0][i].AsIdt1%>"><td><%=allinfo1[0][i].projectTitle%></td><td><%=allinfo1[0][i].WBSName%></td><td><%=allinfo1[0][i].WBSCode%></td><td><%=allinfo1[0][i].fn%></td><td><%=allinfo1[0][i].AssignmentDate%></td><td><%=allinfo1[0][i].AssignmentEndDate%></td><td><%if(allinfo1[0][i].assgisActive==1){%><a href = "createAssignment?assignmentId=<%=allinfo1[0][i].AsIdt1%>&flag=1"> <span class="glyphicon glyphicon-pencil " title="Edit Assignment"></span></a><%}%><a href="/changeAssignmentStatus?assignmentId=<%=allinfo1[0][i].AsIdt1%>&flag=<%=allinfo1[0][i].assgisActive%>"><span <%if(allinfo1[0][i].assgisActive==1){%>class="glyphicon  glyphicon-ok-circle class1"<%} else{%>class="glyphicon  glyphicon-remove-sign class2" <%}%> title="Deactivate Assignment" ></span></td></tr>'
+                }
+              }
+*/
+        
+
+                      var ae="AssignmentDate";
+                      var as="AssignmentEndDate";
+                 
+                     if('<%=allinfo1[0][i].isActive%>'==abc || abc==2 ) 
+                    {
+               //    alert("assignmnet sstart date is=----- "+'<%=allinfo1[0][i].AssignmentDate%>');
+                     a=a+'<tr id="row_<%=allinfo1[0][i].id%>"><td><%=allinfo1[0][i].projectTitle%></td><td><%=allinfo1[0][i].WBSCode%></td><td><%=allinfo1[0][i].WBSName%><input type="hidden" id=wbs_<%=allinfo1[0][i].WBSId%>></input></td><td><%=allinfo1[0][i].firstName%></td><td><input type="hidden" id=ws_<%=i%> value="<%=allinfo1[0][i].wplannedStartDate%>"></input><input type="hidden" id=ae_<%=i%> value="<%=allinfo1[0][i].AssignmentDate%>"></input><input id="i_<%=allinfo1[0][i].id%>" class="asdate" style="text-align:center; border:0px" value="<%=allinfo1[0][i].AssignmentDate%>" onClick="validDate(<%=i%>,<%=allinfo1[0][i].id%>)" onChange="updateAssing(<%=allinfo1[0][i].AssignmentDate%>,<%=allinfo1[0][i].id%>,1,this,<%=i%>)"></input></td><td><input type="hidden" id=we_<%=i%> value="<%=allinfo1[0][i].wplannedEndDate%>"></input><input type="hidden" id=as_<%=i%> value="<%=allinfo1[0][i].AssignmentEndDate%>"></input><input id="j_<%=allinfo1[0][i].id%>" class="aedate" style="text-align:center; border:0px"value="<%=allinfo1[0][i].AssignmentEndDate%>" onClick="validDate(<%=i%>,<%=allinfo1[0][i].id%>)"  onChange="updateAssing(<%=allinfo1[0][i].AssignmentEndDate%>,<%=allinfo1[0][i].id%>,2,this,<%=i%>)"></input></td><td><a href="/changeAssignmentStatus?assignmentId=<%=allinfo1[0][i].id%>&flag=<%=allinfo1[0][i].assgisActive%>"><span <%if(allinfo1[0][i].isActive==1){%>class="glyphicon  glyphicon-ok-circle class1"<%} else{%>class="glyphicon  glyphicon-remove-sign class2" <%}%> title="Deactivate Assignment" ></span></td></tr>'
+                }
+                <%}%>
+
+                $('#acttab').html(a);
+                $('#assigntable').dataTable();
+
+       }
+</script>
+    <div class="bug-background" id="accordions" > 
+    <div style="padding:0 1%" >
+      <div style="padding-top:1%">
+    <a href="createassignment?flag=0&assignmentId=0"><img  src="./img/add.png" height="40px"
+            width="40px" title="Create New" style="float:left;position:relative;left:2%;cursor:pointer"></a>
+     <span class="modal-title" style="padding-left:40%"> Assignments</span>
+
+ <select  id="stat" style="float:right;width:auto; margin-bottom:1%;" class="form-control" onChange="ShowAssignments()">
+        
+        <option value='1'>    Active         </option>
+        <option value='0'>    InActive    </option>
+        <option value='2'  >   All           </option>
+      </select>
+
+</div>
+<div class=""  style="margin-top:1%;padding-bottom:1%">
+      <table   id="assigntable" class="stripe hover cell-border">  
+                 <thead>
+                    <tr >
+                        <th >Project Name</th>
+                        <th >WBS Code</th>
+                        <th >WBS Name</th>
+                        <th >User Name</th>
+                        <th >Assignment Start Date</th>
+                        <th >Assignment End Date</th>
+                        <th >Action</th>
+                    </tr>
+                </thead>                
+                <tbody id="acttab">
+              </tbody>
+              </table>
+    </div>
+    </div>
+    </div>
+  <div>  
+    <% include ./partials/footer %>     </div>

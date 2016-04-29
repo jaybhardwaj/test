@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+
+</head>
+
+<body>
+	
+ <div>
+        <% include ./partials/adminheader %>
+    </div>
+ 
+   <div class="bug-background" id="accordions"  style="padding-bottom:2%;font-family: Merriweather,'Helvetica Neue',Arial,sans-serif"> 
+		<form action="/updateProfile" method="post" enctype="multipart/form-data"> 
+			<div   style="padding-top:5px" >
+				<!-- <b style="color: #f05f40;font-size:14pt;font-weight:700px"> Edit Profile </b> -->
+				<span class="modal-title" style="padding-left:45%">Edit Profile </span>
+				<!-- <label CLASS="modal-title">	Edit Profile <label>  -->
+			</div>	
+			<div align="left" class="row" style="margin-top:20px;margin-left:4%">
+				<div  class="col-md-12">
+					
+					<div  class="col-md-6">
+					
+						    <div class="col-md-4"> <label style="line-height:25px !important;" >Company Name:<sup style="color:red;">*</sup></label> 
+						    </div>
+				            <div class="col-md-6">
+					             <input type="text" class="form-control" maxlength="50" id="cname" name="cname" value="<%=info[0][0].companyName%>">
+					        </div>
+					</div>
+					<div class="col-md-6">
+							<div align="left" class="col-md-4"> <label>First Name:<sup style="color:red;">*</sup></label> 
+						    </div>
+				            <div class="col-md-6"style=" margin-left: %;">
+					             <input type="text" class="form-control"  maxlength="20"  style="width: 100%;margin-left: ;" name="fname" id="fname" value="<%=info[0][0].firstName%>">
+					        </div>
+					</div>	
+				</div>
+
+				<div  class="col-md-12" style="margin-top: 2%;">
+					
+					<div class="col-md-6">
+					
+						    <div class="col-md-4" style="margin-left:%"> <label style="margin-left: %;" >Last Name:<sup style="color:red;">*</sup></label> 
+						    </div>
+				            <div class="col-md-6">
+					             <input type="text" class="form-control" maxlength="20" style="width:" name="lname" id="lname" value="<%=info[0][0].lastName%>">
+					        </div>
+					</div>
+					<div class="col-md-6" style="margin-top: ;">
+							<div class="col-md-4"> <label>Contact Number:<sup style="color:red;">*</sup></label> 
+						    </div>
+				            <div class="col-md-6">
+					             <input type="number" style="margin-left: ;"class="form-control" name="cno" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="0" maxlength="11" id="cno" value="<%=info[0][0].contactNo%>">
+					        </div>
+					</div>	
+				</div>	
+
+				<div  class="col-md-12" style="margin-top: 2%;" >
+					
+					<div class="col-md-6"STYLE="margin-left: ;">
+					
+						    <div class="col-md-4"> <label >Email Id:<sup style="color:red;">*</sup>	</label> 
+						    </div>
+				            <div class="col-md-6">
+					             <input type="text" style="width: ;"  maxlength="50" class="form-control" name="emailid" id="emailid" value="<%=info[0][0].emailId%>"readonly>
+					        </div>
+					</div>
+					<%if(isRetailer==1){%>
+					<div class="col-md-6"style=" margin-left: ;">
+
+							    <div class="col-md-4 "style="margin-left:%"> <label >Change Logo:</label> 
+						    </div>
+				            <div class="col-md-6">
+					             <input type="file"   name="logo" id="logo" value="<%=info[0][0].logo%>">
+					        </div>
+
+
+					</div>	
+					<%}%>
+				</div>		
+					
+			</div>	
+			<div style="padding-top:1%;margin-left:4%">
+				
+				   <center>  <input type="submit" id="" align="center" class="btn btn-success" onclick="return validation()" style="font-size:10px;width:9%;margin-top:5px;background-color:#f05f40;color:white" value="Save Changes" />  </center>
+			  </div>
+		</form>
+
+
+	</div>
+</body>
+
+ <footer>
+        <% include ./partials/footer %>
+</footer>
+<script>
+
+   $(document).ready(function() {
+           
+            $('.profile-img').addClass('active');
+        });
+
+
+ 
+function other(){  
+if($('#smtp').val()=='other'){
+$('#other').removeClass('hide');
+}
+else
+{
+$('#other').addClass('hide');
+}
+ }
+
+function validation(){
+ var cont=$('#cno').val();
+if($('#cname').val()==''){		
+	alert("Company Name can not be left blank!");
+	return false;
+	}
+if($('#fname').val()==''){		
+	alert("First Name can not be left blank!");
+	return false;
+	}
+if($('#lname').val()==''){		
+	alert("Last Name can not be left blank!");
+	return false;
+	}
+if($('#cno').val()==''){		
+	alert("Field Contact Number can not be left blank!");
+	return false;
+	}
+
+if($('#password').val()==''){		
+	alert("Password can not be left blank!");
+	return false;
+	}
+
+ 
+
+else if(cont.length==''|| cont.length<10||isNaN(cont) ){
+            alert("Enter Valid Contact No.! ");  
+            return false;
+            }
+alert("Profile Updated Succesfully");
+}
+
+function smtpvalidation(){
+if($('#uname').val()==''){		
+	alert("SMTP user name must be filled");
+	return false;
+	}
+
+if($('#smtppass').val()==''){		
+	alert("Password must be Entered For Your SMTP Email");
+	return false;
+	}
+if($('#smtp').val()=='other'){
+	if($('#domain').val()==''){		
+	alert("Enter Service Name For SMTP mail");
+	return false;
+	}
+	if($('#port').val()==''){		
+	alert("Enter Domain Name For SMTP mail");
+	return false;
+	}
+	if($('#port').val()==''){		
+	alert("Enter Domain Name For SMTP mail");
+	return false;
+	}
+	if(isNaN($('#port').val())){
+	alert("Enter Only Integer for Port Number");
+	return false;		
+	}
+}
+}
+</script>
+
+
+</html>		  
+
+		  
+		  
+
+

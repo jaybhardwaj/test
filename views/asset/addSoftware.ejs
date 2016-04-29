@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <% include ../partials/head %>
+       <% include assetheader %>
+       <% include ../partials/adminheader %>
+</head>
+
+<body>
+   
+<div style="padding-top:3%; padding-bottom:1%; background-color:antiquewhite">
+  <div class="row">
+    <center><h3 style="color:#f05f40">Add Software</h3></center>
+  </div>
+  <form class="form-horizontal" style="margin:1%;padding-top:3%;" action="/addSoftware" method="post">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="typel" class="col-md-3 control-label">Software Type: *</label>
+          <div class="col-md-9">
+            <select id="typel" type="dropdown" name="stype"class="form-control" >
+              <option disabled value="0"selected="">Select a value</option>
+                <%console.log(stype,"----------stype--------");for(var i=0;i<stype[0].length;i++){%>
+              <option value="<%=stype[0][i].id%>"><%=stype[0][i].componentName%></option>
+                <%}%>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="vendor" class="col-md-3 control-label">Vendor: *</label>
+          <div class="col-md-9">
+            <input name="vendor"class="form-control" id="vendor">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="test5">Licence Required:</label>
+          <div class="col-md-9" style="padding-top:1%;">
+            <input type="checkbox" name='test5'id="test5"/>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="name" class="col-md-3 control-label">Name: *</label>
+          <div class="col-md-9">
+            <input name="name" type="text" class="form-control" id="name">
+          </div>
+        </div>
+   
+        <div class="form-group">
+          <label for="date" class="col-md-3 control-label">Invoice Date: *</label>
+          <div class="col-md-9">
+            <input name="Invoicedate" class="form-control date" id="Invoicedate">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="no" class="col-md-3 control-label">Description: *</label>
+          <div class="col-md-9">
+            <textarea id='textarea'name="des" class="form-control"></textarea>
+          </div>
+        </div>
+        <!--  <div class="form-group">
+          <label for="qty" class="col-md-3 control-label">Quantity</label>
+          <div class="col-md-9">
+          <input type="number" name="qty" class="form-control" id="qty"placeholder="quantity">
+          </div>
+          -->
+      </div>
+    </div>
+    <div class="row hide"id="lic">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="key" class="col-md-3 control-label">Licence Key: *</label>
+          <div class="col-md-9">
+            <input type="text" name="key" class="form-control" id="key">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pdate" class="col-md-3 control-label">Purchase Date:*</label>
+          <div class="col-md-9">
+            <input name="pdate" class="form-control date" id="pdate">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="users" class="col-md-3 control-label">#users: *</label>
+          <div class="col-md-9">
+            <input type="number" name="users" class="form-control" id="users">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="edate" class="col-md-3 control-label">Expiry Date:</label>
+          <div class="col-md-9">
+            <input name="edate" class="form-control date" id="edate">
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type='text' class='hide'name ='flag'value="1">
+    <div class="form-group">
+      <div class="col-md-6 col-md-offset-5">
+        <a href="/viewSoftware"type="button"class="btn btn-default">Cancel</a>
+        <button type="submit" onclick="return validate()" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>
+<% include ../partials/footer %>
+<script>
+jQuery('.date').datetimepicker({
+  timepicker:false,
+  format:'Y-m-d'
+});
+
+$('#test5').click(function(){
+  if($(this).is(':checked'))
+  { if($('#typel').val()===null)
+    {
+      alert("Please select the software type first!");
+      return false;
+    } else
+    {
+      $('#lic').removeClass('hide');
+    }
+  } else
+  { 
+    $('#lic').addClass('hide');
+  }
+});
+    
+  function validate(){
+    //alert('submit alert');
+    var us=$('#users').val();
+    if($('#typel').val()===null) 
+    {
+      alert("Please select the software type first!");  
+      return false;
+    }
+    if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
+    {
+      alert("Vendor is Missing!");    
+      return false;
+    }
+    if($('#name').val().length<1||$.trim($("#name").val()) =="") 
+    {
+      alert("Name is Missing!");    
+      return false;
+    }
+    if($('#Invoicedate').val().length<1||$.trim($("#Invoicedate").val()) =="") 
+    {
+      alert("Invoice date is Missing!");    
+      return false;
+    }
+    if($('#textarea').val().length<1||$.trim($("#textarea").val()) =="") 
+    {
+      alert("Description is Missing!");    
+      return false;
+    }
+    if ($('#test5').prop('checked')){
+      //alert("You have selected licence rqd."); //checked
+      if($('#key').val().length<1||$.trim($("#key").val()) =="") 
+      {
+        alert("Licence key is Missing!");    
+        return false;
+      }
+      if($('#pdate').val().length<1||$.trim($("#pdate").val()) =="") 
+      {
+        alert("Licence start date is Missing!");    
+        return false;
+      }
+      if(us.length<1||isNaN(us)||us.trim().length<0) 
+      { 
+        alert("Enter valid number of Users!");    
+        return false;
+      }
+    }
+  }
+
+</script>

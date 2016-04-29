@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+       <% include assetheader %>
+       <% include ../partials/adminheader %>
+</head>
+
+<body>
+   
+ <div class="container-fluid" style="background-color:antiquewhite;margin-top:3%">
+  
+  <a href="/addFurniture"type="button"style="font-size:12px;margin-top:5%;margin-left:2%;padding:0.5%; " title="Add New Furniture" class="button btn btn-info" value="Addstationary" >Add Furniture</a>
+  <label class="pageTitle" style="margin-top:3%;" >List Of All Furnitures</label> 
+  
+  
+ 
+  <table class="table table-hover table-striped table-bordered rceDataTable"id="furtable" cellpadding="0" cellspacing="0" border="0"style="width:100%">
+    <thead>
+      <tr>
+        <th style='background-color:grey;color:white'>Name</th>
+        <th style='background-color:grey;color:white'>Quantity</th>
+        <th style='background-color:grey;color:white'>Vendor</th>
+        <th style='background-color:grey;color:white'>Purchase Order</th>
+        <th style='background-color:grey;color:white'>Unit Price</th>
+        <th class="hide"style='background-color:grey;color:white'>Color</th>
+        <th class="hide"style='background-color:grey;color:white'>Brand</th>
+        <th style='background-color:grey;color:white'>Invoice Date</th>
+        <th style='background-color:grey;color:white'>Incoice Number</th>
+        <th style='background-color:grey;color:white'>Incoice Amount</th>
+        <th style='background-color:grey;color:white'>Delivery Date</th>
+
+        <th style='background-color:grey;color:white'>Edit</th>
+      </tr>
+    <tbody>
+        <%for(var i=0;i<stype[0].length;i++){%>
+        <tr>
+          <td><%=stype[0][i].name%></td>
+          <td><%=stype[0][i].quantity%></td>
+          <td><%=stype[0][i].vendor%></td>
+          <td><%=stype[0][i].purchaseOrder%></td>          
+          <td><%=stype[0][i].uprice%></td>
+          <td class="hide"><%=stype[0][i].color%></td>
+          <td class="hide"><%=stype[0][i].brand%></td>
+          <td><%=stype[0][i].invoiceDate%></td>
+          <td><%=stype[0][i].invoiceNo%></td>
+          <td><%=stype[0][i].invoiceAmt%></td>
+          <td><%=stype[0][i].deliveryDate%></td>
+          <td>
+            <a data-toggle='modal' data-target='#editfurniture' onclick="edit(<%=stype[0][i].id%>)">
+              <span class='glyphicon glyphicon-pencil' style='color:green;height:10px;'  title ='Edit Project'></span>
+            </a>
+            <a onclick="return del(<%=stype[0][i].id%>)" type="button"><span class='glyphicon glyphicon-trash' style='color:red;height:10px;'title='Delete'></span>
+            </a>
+          </td>
+        </tr>
+        <%}%>
+      </tbody>
+      <tfoot>
+      </tfoot>
+  </table>
+</div>     
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+                 
+                 <!--edit furniture modal-->
+<div class="modal fade" id="editfurniture" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content" id="express2">
+        <div class="modal-header" style="background-color:#f05f40;">
+          <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Furniture</b></label></center>
+        </div>
+        <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+          <div class="modal-body">
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Name: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="45" class="form-control" id="typel" style="margin-top:10px;" name="typel"/>
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Quantity: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="number" maxlength="2" style="margin-top:10px;" class="form-control" id="qty" name="qty"/>
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Vendor: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="50" style="margin-top:10px;" class="form-control" id="vendor" name="vendor"/>
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Purchased Order: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="50" style="margin-top:10px;" class="form-control" id="order" name="order" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Invoice Date: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="" style="margin-top:10px;"class="form-control date"id="Invoicedate" name="Invoicedate" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Invoice Number: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="10" style="margin-top:10px;" class="form-control" id="invoiceNo" name="invoiceNo" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Invoice Amount: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="11" style="margin-top:10px;" class="form-control" id="invoiceAmt" name="invoiceAmt" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Delivery Date: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type=""style="margin-top:10px;"class="form-control date" id="Deliverydate"name="Deliverydate" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Unit Price: *</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="10" style="margin-top:10px;" class="form-control" id="uprice" name="uprice" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Color:</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="50" style="margin-top:10px;" class="form-control" id="color" name="color" />
+              </div>
+            </div>
+            <div class="col-md-12 a">
+              <div class="col-md-4">
+                <label style="line-height:42px !important;">Brand:</label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" maxlength="50" style="margin-top:10px;" class="form-control" id="brand" name="brand" />
+              </div>
+            </div>
+            <br/>
+            <div class="modal-footer"style="border-top:0px;">
+              <center>
+              <input type="text" class="hide" value="" id="hdnId" name="hdnId">
+                <button id="cancel"type="reset"data-dismiss="modal"class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                <input type="submit" onclick="return validate()"class="btn btn-default"style="margin-top:10px;background-color:#f05f40;color:black;padding-top:4px; width:100px;height:30px;color:white" value="Submit">
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--end of modal-->
+
+<script>
+$(document).ready(function(){
+  <%if(flag==1){%>
+      alert("Furniture successfully added!");
+    <%}%>
+  $("#furtable").dataTable({
+    "bLengthChange": false,
+    "binfo":false
+  });
+});
+jQuery('.date').datetimepicker({
+   timepicker:false,
+  format:'Y-m-d'
+});
+
+ function del(id){ //alert(id);
+  $.ajax({
+    url:'/deleteHeader',
+    method: 'POST',
+    data:{'id':id},
+    success: function(data) {
+      window.location.reload();
+    },
+    dataType: 'JSON',
+  });
+}
+
+function edit(id){
+  $("#hdnId").val('');
+  //
+  //alert(id);
+  $.ajax({ 
+    url: '/getEditStationary',
+    method:'POST',
+    data: {'id':id},
+    success: function(data) { 
+      console.log("edit info*****",data);
+      $("#typel").val(data[0][0].name);
+      $("#qty").val(data[0][0].quantity);
+      $("#vendor").val(data[0][0].vendor);
+      $("#order").val(data[0][0].purchaseOrder);
+      $("#invoiceAmt").val(data[0][0].invoiceAmt);
+      $("#Invoicedate").val(data[0][0].invoiceDate);
+      $("#invoiceNo").val(data[0][0].invoiceNo);
+      $("#Deliverydate").val(data[0][0].deliveryDate);
+      $("#uprice").val(data[0][0].uprice);
+      $("#color").val(data[0][0].color);
+      $("#brand").val(data[0][0].brand);
+      $("#hdnId").val(data[0][0].id);
+    }
+  });
+}
+
+function validate(){
+var inamount=$('#invoiceAmt').val();
+    var up=$('#uprice').val();
+
+  if($('#typel').val().length<1||$.trim($("#typel").val()) =="") 
+    {
+      alert("Name is Missing!");    
+      return false;
+    }
+    if($('#qty').val().length<1||$.trim($("#qty").val()) ==""||$.trim($("#qty").val()) > 20) 
+    {
+      alert("Enter valid Quantity!");    
+      return false;
+    }
+    if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
+    {
+      alert("Vendor is Missing!");    
+      return false;
+    }
+    if($('#order').val().length<1||$.trim($("#order").val()) =="") 
+    {
+      alert("Purchased Order is Missing!");    
+      return false;
+    }
+    if($('#Invoicedate').val().length<1||$.trim($("#Invoicedate").val()) =="") 
+    {
+      alert("Invoice date is Missing!");    
+      return false;
+    }
+    if($('#invoiceNo').val().length<1||$.trim($("#invoiceNo").val()) =="") 
+    {
+      alert("Invoice number is Missing!");    
+      return false;
+    }
+
+    if(inamount.length<2||isNaN(inamount)||inamount.trim().length<1) 
+    {
+      alert("Enter valid Invoice Amount!");    
+      return false;
+    }
+    
+    if($('#Deliverydate').val().length<1||$.trim($("#Deliverydate").val()) =="") 
+    {
+      alert("Delivery date is Missing!");    
+      return false;
+    }
+    if(up.length<2||isNaN(up)||up.trim().length<1) 
+    {
+      alert("Enter valid Unit Price!");    
+      return false;
+    }
+  $.ajax({
+    url: '/updateFurniture',
+    method: 'POST',
+    data: {
+      "typel": $('#typel').val(),
+      "qty": $('#qty').val(),
+      "vendor": $('#vendor').val(),
+      "order": $('#order').val(),
+      "Invoicedate": $('#Invoicedate').val(),
+      "invoiceNo": $('#invoiceNo').val(),
+      "invoiceAmt":  $('#invoiceAmt').val(),
+      "Deliverydate":$('#Deliverydate').val(),
+      "uprice": $('#uprice').val(),
+      "color": $('#color').val(),
+      "brand" : $('#brand').val(),
+      "id":$("#hdnId").val()
+    },
+    success: function(data){
+      alert("Furniture successfully updated");
+      window.location.reload();      
+    },
+    dataType: 'JSON'    
+  });
+}
+</script>

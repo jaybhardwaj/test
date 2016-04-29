@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+    <div>
+        <% include assetheader %>
+    </div>
+<div id="myModal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" onclick="close()" data-dismiss="modal" aria-hidden="true">×</button>
+        <center><h4 class="modal-title"></h4></center>
+      </div>
+      <div class="modal-body">
+        <label for="serial">Serial No.</label>
+        <input id="serial" name>
+        <label for="brand">Brand</label>
+        <input id="brand" name>
+        <input id="hide1" class="hide">
+        <input id="hide2" class="hide">
+        <input id="hide3" class="hide">
+        <input id="hide4" class="hide">
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="closeModal();" class="btn btn-default">Close</button>
+        <button type="button" onclick="save();" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" style="background-color:antiquewhite;margin-top: 10%;">
+  <div class="row">
+    <center style="color:#f05f40;font-weight:700;"><h2>Hardware</h2></center>
+  </div>
+  <div class="row" style="margin-left:5%;">
+  </div>
+  <form class="form-horizontal" style="" action="/addHardware" method="post">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="typel" class="col-md-3 control-label">Type</label>
+          <div class="col-md-9">
+            <select id="typel" type="dropdown" name="htype" class="form-control" value="" >  <option disabled value="0"selected="">Select a value</option>
+              <%for(var i=0;i<htype[0].length;i++){%>
+              <option value="<%=htype[0][i].id%>"><%=htype[0][i].componentName%></option>
+                <%}%>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="no" class="col-md-3 control-label">Quantity</label>
+          <div class="col-md-9">
+            <input name="no" class="form-control" type="number" max="20" min="1" id="qty" placeholder="Quantity">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="vendor" class="col-md-3 control-label">Vendor</label>
+          <div class="col-md-9">
+            <input name="vendor"class="form-control" id="vendor" placeholder="Vendor">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="invoiceNo" class="col-md-5 control-label">Invoice No.</label>
+          <div class="col-md-7">
+            <input name="invoiceNo" class="form-control" id="invoiceNo" placeholder="Invoice No.">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Invoicedate" class="col-md-5 control-label">Invoice Date</label>
+          <div class="col-md-7">
+            <input name="Invoicedate" class="form-control datetimepicker" id="Invoicedate" placeholder="Invoice Date">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="invoiceAmt" class="col-md-5 control-label">Invoice Amt.</label>
+          <div class="col-md-7">
+            <input name="invoiceAmt" class="form-control" id="invoiceAmt" placeholder="Invoice Amount">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="order" class="col-md-5 control-label">Purchased Order</label>
+          <div class="col-md-7">
+            <input name="order" class="form-control" id="order" placeholder="Purchased Order">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Deliverydate" class="col-md-5 control-label">Delivery Date</label>
+          <div class="col-md-7">
+            <input name="Deliverydate" class="form-control datetimepicker" id="Deliverydate" placeholder="Delivery Date">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class=" col-md-12 table-responsive">
+<!-- <h3>Specifications</h3> -->
+<!-- <input type="button" onclick="addRow()" value="ADD"> -->
+        <table class="table table-striped table-bordered table-hover table-condensed hide"style="overflow:scroll;width:100%;">
+        <thead id="headi">
+        </thead>
+        <tbody id="bodyi">
+        </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="form-group row" style="padding-bottom:20px;">
+      <div class="col-md-1 col-md-offset-5">
+        <input type="button" class="btn btn-danger hide" id="cancel" value="Cancel">
+      </div>
+      <div class="col-md-1">
+        <input type="submit" onclick="return saveall()"style="position:relative;left:-22%;" class="btn btn-info hide"value="Submit" id="submit">
+      </div>
+      <div class="col-md-1">
+        <input type="button"class="btn btn-primary" id="next" style="position:relative;right:180%"value="NEXT"onclick="return addcompo()">
+      </div>
+    </div>
+  </div>
+  <input name="lineString" type="text" class="hide" id="inf">
+<input name="compString" type="text" class="hide" id="inf1">
+<input name="comps" type="text" class="hide" id="inf2">
+</form>
+</div>
+<div class="modal " id="addModal"  role="dialog">
+  <div class="modal-dialog" style="display:table;height:95%;">
+    <!-- Modal content-->
+    <div class="modal-content" id="express2" style="height:356px;">
+      <div class="modal-header" style="background-color:#f05f40;">
+        <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Add Component</b></label></center>
+      </div>
+      <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div class=" col-md-12 table-responsive">
+          <!-- <h3>Specifications</h3> -->
+        <!-- <input type="button" onclick="addRow()" value="ADD"> -->
+            <table class="table table-striped table-bordered table-hover table-condensed" style="overflow-y:auto;">
+                <thead id="modalHead">
+                  <tr>
+                  <th>Component</th>
+                    <th>Serial No.</th>
+                    <th>Brand</th>
+                    <th>Warranty</th>
+                    <th>Size</th>
+                  </tr>
+                </thead>
+                <tbody id="addcompobody">
+                </tbody>
+              </table>
+              <input type="button"class="btn btn-info" onclick="saveComp()" value="SAVE">
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <% include ../partials/footer %>
+</footer>
+<style type="text/css">
+  .scrollit {
+    overflow:scroll;
+    height:100px;}
+</style>
+    <script type="text/javascript">
+  /*var subtype;
+  function changeddl(){
+    console.log("changeddl");
+    var value=$('#typel').val();
+    console.log(value);
+    $.ajax({
+      url: "/type",
+      method:'post',
+      data: {qids: value},
+              dataType: 'json',
+      success: function(result){
+        console.log(result);
+        subtype=result[0];
+      }
+    });
+  }*/
+            var i=0;
+        function addRow(){
+        i++;
+        var row='<tr><td><input id name></td><td ><input id name></td><td><input id name></'+
+        'td><td><input id name></td><td> <select id="select222" type="dropdown"'+ 
+        ' class="form-'+
+        'control"><option>1</option><option>2</option><option>3</option><option>4</option>'+
+        '<option>5</option></select></td></tr>';
+            $('#bodyi').append(row);
+        }
+    
+  function check_qty() {
+    alert("qty");
+    var qty=document.getElementById('no').value;
+     /*var rem_qty=document.getElementById('rem_qty').value;*/
+    if(qty<0) {
+      alert("Quantiy cannot be negative!");
+      document.getElementById('qty').value='';
+    } else 
+    { if(qty>20){
+        alert("Quantity cannot exceed 20!");
+        document.getElementById('qty').value='';
+      }
+    } 
+  }
+ 
+function showmodal(el){
+  alert(el);
+  if(el.value=='monitor'){
+    var size='<label for="size">Size</label><input id="size" name>'
+    $('.modal-body').append(size);
+  }
+  $('.modal-title').html(el.value);
+  if(arr[$('#hide1').val()].component.hasOwnProperty(el.value)){
+    $('#serial').val(arr[$('#hide1').val()].component[el.value].serial);
+    $('#brand').val(arr[$('#hide1').val()].component[el.value].brand);
+  }
+    /*arr[$('#hide1').val()].component[el.value].serial*/
+  $('#myModal').show('toggle');
+    /*$('.close').click(function(){
+    })*/
+}
+
+var arr=[];
+$(document).ready(function(){
+  jQuery('.datetimepicker').datetimepicker({
+  timepicker:false,
+  format:'Y-m-d'
+  });
+  
+  $('.sin').selectpicker();
+    
+  });
+var col;
+var comps=[];
+function addcompo(){
+  console.log("in addcompo");
+  var typ = document.getElementById('typel');
+  var selectedValue = typ.options[typ.selectedIndex].value;
+  if (selectedValue == "0")
+    {
+    alert("Please select a type");console.log("intype");
+    return false;
+    }
+    if($('#qty').val().length<1||$.trim($("#qty").val()) <1)
+    {
+    alert("Please enter valid Quantity!");
+    return false;
+  }
+//..............................validation commented for  testing................................
+  /*if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
+  {
+    alert("Vendor is Missing!");    
+    return false;
+  }
+
+  if($('#invoiceNo').val().length<1||$.trim($("#invoiceNo").val()) =="") 
+  {
+    alert("Invoice No Missing!");    
+    return false;
+  }
+
+  if($('#Invoicedate').val().length<1||$.trim($("#Invoicedate").val()) =="") 
+  {
+    alert("Invoice date Missing!");    
+    return false;
+  }
+
+  if($('#invoiceAmt').val().length<1||$.trim($("#invoiceAmt").val()) =="") 
+  {
+    alert("Invoice Amount Missing!");    
+    return false;
+  }
+
+  if($('#order').val().length<1||$.trim($("#order").val()) =="") 
+  {
+    alert("Placed order Missing!");    
+    return false;
+  }
+
+  if($('#Deliverydate').val().length<1||$.trim($("#Deliverydate").val()) =="") 
+  {
+    alert("Delivery date Missing!");    
+    return false;
+  }
+*/
+   //else if($('#invoiceNo').val().length<1||$.trim($("#idpname").val()) =="")){}
+
+    
+  //$("#qty").blur(function() {
+      var qty=document.getElementById('qty').value;
+      /*var rem_qty=document.getElementById('rem_qty').value;*/
+      
+      if(qty>20){
+        alert("Quantity cannot exceed 20!");
+        document.getElementById('qty').value='';
+      } else{
+        console.log(selectedValue);
+      $.ajax({
+        url:'/getAttr',
+        method:'post',
+                data:{acid:selectedValue},
+                dataType:'json',
+                success:function(result){
+                  console.log(result);
+                  $('#headi').empty();
+                  var head='<tr ><th>#</th><th >Serial No.</th>';
+                  for(var i=0;i<result[0].length;i++){
+                    console.log('head'+i)
+                    head=head+'<th>'+result[0][i].attribute+'</th>';
+                  }
+            head=head+'<th >Brand</th><th>Warranty</th><th>Components</th></tr>';
+            $('#headi').append(head);
+                  $('#bodyi').empty();
+        arr.length=qty;
+        col=result[0].length;
+        for(var i=0;i<qty;i++){
+          var k=i
+          var row='<tr><td>'+ ++k +'</td><td><input class="form-control"'+
+          ' id="serial'+i+'"></td>';
+          for(var o=0;o<result[0].length;o++){
+           row=row+'<td><select class="single" id="'+i+o+'">';
+           //for(var j=0;j<result[2].length;j++){
+            //row=row+'<option>as</option>';}
+            row=row+'<option selected value="1">we</option></select></td>';
+          }
+            row=row+'<td ><select class="single" id="brand'+i+
+            '"><option selected value="2">b</option></select></td><td><select'+
+            ' class="single"'+
+            ' id="warranty'+i+'"><option selected value="3">w</option></select></td><td>'+
+            '<input class="btn btn-danger"type="button"data-toggle="modal"'+
+            ' value="Add"data-target="#addModal"'+
+            'style="background-color:#f05f40;color:white;" id="'+i+'"'+
+            ' onclick="saveId(this.id)">'+
+            '</td></tr>';
+          $('#bodyi').append(row);
+          
+          $('table').removeClass('hide');
+          arr[i]={
+                    specification:null,
+                    brand:null,
+                    serial:null,warranty:null,
+                    component:{},
+                    saved:false
+          }
+        }
+        $('#addcompobody').empty();
+
+          for(var i=0;i<result[1].length;i++){
+            comps[i]=result[1][i].attribute;
+         var mrow='<tr><td>'+result[1][i].attribute+'</td>'+
+            '<td><input class="form-control empty" id="mserial'+i+'"></td>'+
+          '<td ><select class="single" id="mbrand'+i+'"><option value="q"selected'+
+          '>b</option></select></td><td><select class="single" id="mwarranty'+i+
+            '"><option value="s" selected>w</option></select></td><td><select '+ 
+            'class="single" id="msize'+i+'"><option value="c" selected>c</option>'+
+            '</select></td></tr>';
+          $('#addcompobody').append(mrow);
+          }
+          $('.single').selectpicker({width:90});
+                }
+      });
+       
+
+        $('.com').selectpicker({
+        
+          onChange: function(option, checked, select) {
+            console.log($(option).val());console.log($(option).attr('id'));
+            if(checked){
+              if($(option).val()=='monitor'){
+                $('.modal-body').html('');
+                console.log('monitors'+$(option).val());
+                var size='<label for="size">Size</label><input id="size" name>'
+                $('.modal-body').append(size);
+              }
+              $('#hide1').val($(option).attr('id'));
+              console.log($(option).attr('id'));
+              console.log($('#hide1').val());
+              $('.modal-title').html($(option).val());
+              if(arr[$('#hide1').val()].component.hasOwnProperty($(option).val())){
+                $('#serial').val(arr[$('#hide1').val()].component[$(option).val()].serial);
+                $('#brand').val(arr[$('#hide1').val()].component[$(option).val()].brand);
+              }
+              /*arr[$('#hide1').val()].component[el.value].serial*/
+              $('#myModal').show('toggle');
+            }
+          }
+        });
+        
+        console.log("else");
+        $('#next').hide();
+
+        $('#cancel').removeClass('hide');
+        $('#cancel').addClass('show');
+        $('#submit').removeClass('hide');
+        $('#submit').addClass('show');
+      }
+
+   // });
+}
+
+  function save(){  
+    var title=$('.modal-title').html();
+    var obj=objs($('#serial').val(),$('#brand').val(),$('.modal-title').html());
+    function objs(serial,brand,warranty,size,title){
+      var o={};
+      console.log(title);
+      return o[title]={
+        serial:serial,
+        brand:brand     /*size:size;*/
+      };
+    }
+    console.log(arr[$('#hide1').val()].component);
+    arr[$('#hide1').val()].component[title]=obj;
+    console.log(arr);
+    $('#serial').val("");
+    $('#brand').val("");
+    $('#myModal').hide('toggle');
+  }
+  function closeModal(){
+    $('#serial').val("");
+    $('#brand').val("");
+    
+  }
+  var compID;
+  function saveId(id){
+    for(var i=0;i<comps.length;i++){
+    if(arr[id].component.hasOwnProperty(comps[i])){
+                $('#mserial'+i).val(arr[$('#hide1').val()].component[$(option).val()].serial);
+                $('#brand').val(arr[$('#hide1').val()].component[$(option).val()].brand);
+              }
+            }
+    alert(id);
+compID=id;
+  }
+  function saveComp(){
+     tempArr=[];
+    alert("savecomp");
+    alert(compID);
+            console.log($('#mserial'+compID).val());
+            console.log($('#mbrand'+compID).val());
+            
+    for(var i=0;i<comps.length;i++){
+  var obj=objs($('#mserial'+i).val(),$('#mbrand'+i).val(),
+      $('#mwarranty'+i).val(),$('#msize'+i).val(),comps[i]);
+  arr[compID].component[comps[i]]=obj;
+   }
+function objs(serial,brand,warranty,size,title){
+      var o={};
+      console.log(title);
+       return o[title]={
+        serial:serial,
+        brand:brand ,
+        warranty:warranty,
+      sizel:size
+            };
+            
+  }
+$('.empty').val('');
+  $('#addModal').hide('toggle');
+}
+  function saveall(){
+    var qty=document.getElementById('qty').value;
+    var info;
+
+    for(var i=0;i<qty;i++){
+      if(i>0){
+        alert("if"+i);
+        console.log(info);
+      info=info+';'+$('#serial'+i).val()+',';
+      for(var o=0;o<col;o++){
+        info=info+$('#'+i+o).val()+',';
+      }
+      info=info+$('#brand'+i).val()+','+$('#warranty'+i).val();
+    }
+    else{
+      alert("else"+i);
+      info=$('#serial'+i).val()+',';
+      console.log(info);
+      for(var o=0;o<col;o++){
+        info=info+$('#'+i+o).val()+',';
+        console.log(info);
+      }
+      info=info+$('#brand'+i).val()+','+$('#warranty'+i).val();
+      console.log(info);
+    }    
+alert("bottom"+i);
+  }
+  var a='';
+  $("#inf").val(info);
+  for(var i=0;i<arr.length;i++){
+    for(var k=0;k<comps.length;k++){
+      if(i>0){
+      if(k>0){
+     a= a+';'+arr[i].component[comps[k]].serial+','+arr[i].component[comps[k]].brand+','+arr[i].component[comps[k]].warranty+','+arr[i].component[comps[k]].sizel;
+  }
+  else{
+    a=a+arr[i].component[comps[k]].serial+','+arr[i].component[comps[k]].brand+
+    ','+arr[i].component[comps[k]].warranty+','+arr[i].component[comps[k]].sizel;
+
+  }
+        }
+else{
+  if(k>0){
+     a= a+';'+arr[i].component[comps[k]].serial+','+arr[i].component[comps[k]].brand+','+arr[i].component[comps[k]].warranty+','+arr[i].component[comps[k]].sizel;
+  }
+  else{
+    a=arr[i].component[comps[k]].serial+','+arr[i].component[comps[k]].brand+
+    ','+arr[i].component[comps[k]].warranty+','+arr[i].component[comps[k]].sizel;
+
+  }
+}
+}
+if(i<arr.length-1){
+    a=a+':';
+  }
+  /*else if(i==arr.length-1){
+   a=a; 
+  }*/
+
+
+}
+$("#inf2").val(comps.toString());
+$("#inf1").val(a);
+ console.log($("#inf").val());
+ console.log(a);
+ console.log(comps);
+ 
+  }
+ </script>

@@ -1,0 +1,213 @@
+<%include sidebar1.ejs %>
+<!--  
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="bower_components/bootstrap-calendar/css/calendar.css"> 
+  -->
+
+ <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<!--
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+</script> 
+-->
+
+<script type="text/javascript" src="/bower_components/underscore/underscore.js"></script>
+ <script type="text/javascript" src="/bower_components/bootstrap-calendar/js/language/es-ES.js"></script>
+ <link rel="stylesheet" href="/bower_components/bootstrap-calendar/css/calendar.css">
+<script type="text/javascript" src="/bower_components/bootstrap-calendar/js/calendar.js"></script>
+<script type="text/javascript" src="/bower_components/bootstrap-calendar/js/app.js"></script>
+ <script type="text/javascript" src="http://bootstrapcalendar.disqus.com/embed.js"></script>
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> 
+    
+
+ 
+<style>
+body{
+  background-color: white:!important;
+}
+.button{
+  background-color:#66caec !important;
+  border-bottom:2px solid #2B6173 !important;
+}
+#main-menu{
+  margin-top:6% !important;
+  
+}
+a:hover{
+  color:white;
+}
+</style>
+<div style="padding-top:5%;margin-left:4%;margin-right:1%;margin-top:1%;margin-bottom:7%">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="tab-content">
+<div class="tab-pane fade active in"  id="hm">
+<!-- <div class="row">
+<div class="col-md-3" style="text-align:right;">
+<h1>Today - 11</h1>
+</div>
+
+<div class="col-md-2"style="padding-top:1.5%;">
+<div class="row" style=" width:37%;border-bottom:1px solid black;">
+Dec 2015
+</div>
+<div class="row">
+Friday
+</div>
+</div> -->
+<div class="col-md-10">
+<div class="pull-right form-inline">
+      <div class="btn-group">
+        <button class="btn btn-primary" data-calendar-nav="prev">&lt;&lt; Prev</button>
+        <button class="btn" data-calendar-nav="today">Today</button>
+        <button class="btn btn-primary" data-calendar-nav="next">Next &gt;&gt;</button>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-warning" data-calendar-view="year">Year</button>
+        <button class="btn btn-warning active" data-calendar-view="month">Month</button>
+        <button class="btn btn-warning" data-calendar-view="week">Week</button>
+        <button class="btn btn-warning" data-calendar-view="day">Day</button>
+      </div>
+    </div>
+</div>
+</div>
+<div class="row">
+  <div id="calendar"></div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<%include menu1.ejs%>
+<%include footer1.ejs%>
+
+ 
+   
+    <script type="text/javascript">
+   $(document).ready(function(){
+
+    $.ajax({
+
+        url: '/interviewerInfo',
+        type: 'post',
+        success: function(data) {
+       //   console.log("Data for this interviewer: ",data[0][1].name);
+var info=[];
+
+    for(var i=0;i<data[0].length;i++){
+var flag;
+if(data[0][i].isDone==0){
+flag=0;
+}
+else{
+  flag=1;
+}
+
+      var mili=new Date(data[0][i].schedule);
+      mili=mili.getTime();
+      mili=JSON.stringify(mili);
+      mili=mili.toString();
+      info.push({"id": "293","url":"/interviewFeedback?id="+data[0][i].id+"&cid="+data[0][i].cid+"&flag="+flag,"title":data[0][i].name+" -- "+data[0][i].title+" -- "+data[0][i].stateName+" -Round-"+data[0][i].rounds,"class": data[0][i].isDone==0?"event-success":"","start":mili,"end":mili});
+    }
+         console.log("calender data",info);
+          var calendar = $("#calendar").calendar(
+            {  
+            language: 'en-GB',
+            tmpl_path: "bower_components/bootstrap-calendar/tmpls/",
+            events_source:  info
+                    
+            });
+           }
+            });  
+
+
+
+            $('.btn-group button[data-calendar-nav]').each(function() {
+              
+    var $this = $(this);
+    $this.click(function() {
+        calendar.navigate($(this).data('calendar-nav'));
+    });
+});
+
+$('.btn-group button[data-calendar-view]').each(function() {
+    var $this = $(this);
+    $this.click(function() {
+        calendar.view($this.data('calendar-view'));
+    });
+});
+
+$('#first_day').change(function(){
+    var value = $(this).val();
+    value = value.length ? parseInt(value) : null;
+    calendar.setOptions({first_day: value});
+    calendar.view();
+});
+
+$('#language').change(function(){
+    calendar.setLanguage($(this).val());
+    calendar.view();
+});           
+   });
+        
+    </script>
+    <script type="text/javascript">
+    var disqus_shortname = 'bootstrapcalendar'; // required: replace example with your forum shortname
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+    <!-- $('.btn-group button[data-calendar-nav]').each(function() {
+    var $this = $(this);
+    $this.click(function() {
+        calendar.navigate($this.data('calendar-nav'));
+    });
+});
+
+$('.btn-group button[data-calendar-view]').each(function() {
+    var $this = $(this);
+    $this.click(function() {
+        calendar.view($this.data('calendar-view'));
+    });
+});
+
+$('#first_day').change(function(){
+    var value = $(this).val();
+    value = value.length ? parseInt(value) : null;
+    calendar.setOptions({first_day: value});
+    calendar.view();
+});
+
+$('#language').change(function(){
+    calendar.setLanguage($(this).val());
+    calendar.view();
+}); -->
+
+<div class="modal fade" id="feedback" style="padding-right:20%">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+          <div class="modal-content" style="width:150%;height:60%">
+                <div class="modal-header" style="background-color:#2CB8E5;height:40px">
+                    <center>
+                        <h4 id="head4" class="modal-title" style="color:#052F71;font-size:14pt;width:auto;margin-top:-5px"><b>Feedback Form</b><a id="closeedit" >
+                     <span  class='glyphicon glyphicon-remove closeedit' data-dismiss="modal" style='color:#06394A;height:20px;float:right'title ='Close'> </span>
+                  </a> </h4>
+                    </center>          
+                </div>
+        <form  method="post">        
+            <div class="modal-body" style = 'height:50%;'>
+            </div>
+            </form>
+            </div>
+            </div>
+            </div>

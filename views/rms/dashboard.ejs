@@ -1,0 +1,427 @@
+<% include ../partials/head %>  
+    <% include ../partials/adminheader %>
+
+<title>Dashboard</title>
+
+
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap2/bootstrap-switch.css"rel='stylesheet' type='text/css'>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.js"></script>
+ 
+<style>
+.dttheme{
+  color: #333333;
+font-family: ‘Times New Roman’, Times, serif;
+font-size: 12px;
+}
+.as{
+   background: #668EEC;
+  background: -webkit-linear-gradient(top left, #668EEC 0%, #66CAEC 100%);
+  background: linear-gradient(to bottom right, #668EEC 0%, #66CAEC 100%);
+  margin-left:15%;margin-right:10%;margin-top:6%;/*border:3px solid black;*/
+}
+.block1{
+   margin-left:4%;margin-right:1%;margin-top:6%;/*border:3px solid black;*/
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b3dced+56,29b8e5+100,bce0ee+100 */
+background: #b3dced; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #b3dced 56%, #29b8e5 100%, #bce0ee 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #b3dced 56%,#29b8e5 100%,#bce0ee 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #b3dced 56%,#29b8e5 100%,#bce0ee 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.textmargintop{
+  margin-top:10px;
+}
+.title{
+  color:black;
+  font-size: 16px;
+  margin-left: 40%;
+  font-family: ‘Arial Black’, Gadget, sans-serif;
+}
+.btn-default{
+  background-color:#41A8B3 !important;
+  color:white;
+  margin-top:10px;
+  margin-bottom:10px;
+  height:40px;
+}
+.btn-default:hover{
+  background-color:#41A8B3 !important;
+  color:white;
+
+}
+.plus{
+  border:2px solid #062F70;
+  height:40%;
+}
+</style>
+
+
+<style>
+body{
+  background-color: white:!important;
+}
+.button{
+  background-color:#66caec !important;
+  border-bottom:2px solid #2B6173 !important;
+}
+#main-menu{
+  margin-top:5.6% !important;
+  height:81.4%!important;
+  
+}
+</style>
+<div class="block1"  >
+   <center>
+   
+    <div class="row ">
+      <div class="col-md-6 plus">
+                 <h3><b>Open Requisition State</b></h3>  
+                 <div class="row">
+                 <div class="col-sm-3"></div>
+                  <div class="col-sm-3"><input onChange="ajaxcall(1,2)" type="radio" name="today" checked="true"  value="today"/>Approved</div>
+                  <div class="col-sm-3"><input type="radio" name="today" onChange="ajaxcall(1,0)" value="today">Rejected</div>
+                  <div class="col-sm-3"></div>
+                  
+              </div>            
+                <table id="openreqstate" class="dttheme cell-border" width="100%"></table>
+      </div>
+      <div class="col-md-6 plus ">
+            <h3><b>Interview Pipeline</b></h3>
+              <div class="row">
+                  <div class="col-sm-4"><input type="radio" checked name="ip" onChange="ajaxcall(2,2)" id="todayi" value="today"/>Today</div>
+                  <div class="col-sm-4"><input type="radio" onChange="ajaxcall(2,0)" name="ip" value="today">Tomorrow</div>
+                  <div class="col-sm-4"><input type="radio" name="ip" onChange="ajaxcall(2,3)" value="today">This Week</div>
+              </div>
+                <table id="intpipe" class="dttheme cell-border" width="100%"></table>
+      </div> 
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 plus">             
+      <h3 ><b>Joining Pipeline</b></h3> 
+               <div class="row">
+                  <div class="col-sm-4"><input onChange="ajaxcall(3,2)" checked name="jp" type="radio">This week</input></div>
+                  <div class="col-sm-4"><input onChange="ajaxcall(3,0)" name="jp" type="radio">This month</input></div>
+                  <div class="col-sm-4"><input onChange="ajaxcall(3,3)" name="jp" type="radio">Next month</input></div>
+              </div>
+                <table id="joinpipe" class="dttheme cell-border" width="100%"></table>
+       </div>
+      <div class="col-md-6 plus " style="">
+      <div class="row">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-6" style="text-align:center;">
+        <h3><b>Overall Pipeline</b></h3> 
+        </div>
+        <div class="col-md-3">
+       <input type="checkbox" onClick="getVal()" name="my-checkbox" checked>
+          </div>
+          </div>
+             <div class="row" id="present"> 
+             <div class="col-sm-4"><input onChange="ajaxcall(4,2,1)" checked="true" name="op" type="radio">This month</input></div>
+                  <div class="col-sm-4"><input onChange="ajaxcall(4,0,1)" name="op" type="radio">Next Month</input></div>
+                  <div class="col-sm-4"><input onChange="ajaxcall(4,3,1)" name="op" type="radio">Next 2 months</input></div>
+              </div>
+              <div class="row hide" id="past"> 
+             <div class="col-sm-4"><input onChange="ajaxcall(4,2,0)" checked="true" name="op" type="radio">This month</input></div>
+                  <div class="col-sm-4"><input onChange="ajaxcall(4,0,0)" name="op" type="radio">Last Month</input></div>
+                  <div class="col-sm-4"><input onChange="ajaxcall(4,3,0)" name="op" type="radio">Last 2 months</input></div>
+              </div>
+                <table id="overpipe" class="dttheme cell-border" width="100%"></table>
+                <table id="overpipe1" class="dttheme hide cell-border" width="100%"></table>
+      </div>
+    </div>
+  </center>
+</div>
+
+
+
+<%include menu1.ejs%>
+<% include ../partials/footer %>  
+
+
+<script type="text/javascript">
+$("[name='my-checkbox']").bootstrapSwitch('offColor','info','default');
+/*$.fn.bootstrapSwitch.defaults.offColor = 'success';*/
+/*.toggle(function(){
+  $.fn.bootstrapSwitch.defaults.offColor = 'success';
+});*/
+/*$("[name='my-checkbox']").toggle(function(){
+  getVal();
+});*/
+
+$(".bootstrap-switch").css('height','10%');
+$(".bootstrap-switch-handle-on").html('Present');
+$(".bootstrap-switch-handle-on").css('font-size','9px');
+$(".bootstrap-switch-handle-off").css('font-size','9px');
+$(".bootstrap-switch-handle-off").css('background-color','blue');
+$(".bootstrap-switch-handle-off").html('Past');
+$(".bootstrap-switch").change(function(){
+  alert("some");
+});
+$(document).ready(function() {
+  $('.dashboard-img').addClass("active");
+  
+$(".bootstrap-switch-container").click(function(){
+  if($(".bootstrap-switch").hasClass('bootstrap-switch-on')){
+  $("#past").addClass('hide');
+  /*$("#overpipe1").addClass('hide');*/
+$("#present").removeClass('hide');
+/*$("#overpipe").removeClass('hide');*/
+ajaxcall(4,4,1);
+}
+else if($(".bootstrap-switch").hasClass('bootstrap-switch-off')){
+$("#present").addClass('hide');
+/*$("#overpipe_wrapper").addClass('hide');*/
+$("#past").removeClass('hide');
+/*$("#overpipe1").removeClass('hide');*/
+ajaxcall(4,4,0);
+}
+});
+function getVal(){
+if($(".bootstrap-switch").hasClass('bootstrap-switch-on')){
+alert("on");
+}
+else if($(".bootstrap-switch").hasClass('bootstrap-switch-off')){
+alert('off');
+}
+  
+}
+   
+ajaxcall(0,1,1);
+
+     } );
+
+var data=[];
+  
+  function ajaxcall(grid,type,time){
+    var type1=type;
+console.log('grid'+ grid);
+console.log('type'+type);
+ console.log(time);
+    if(type==0 || type==2 || type==3 || type==4)
+{
+  if(grid==1)
+  {
+otable.destroy();
+}
+if(grid==2){
+otable1.destroy();
+}
+if(grid==3){
+otable2.destroy();
+}
+ //alert(typeof(otable4));
+if(grid==4){
+   
+  if(time==0){
+    if(type==4){
+
+      if(typeof(otable4)!='undefined'){
+       
+       otable3.destroy();
+
+      $('#overpipe').html('');
+       
+    }
+    
+    else{
+      otable3.destroy();
+      $('#overpipe').html('');
+    }
+  }
+  else{
+  
+   otable4.destroy(); 
+  }
+
+  }
+  if(time==1){ 
+    
+    if(type==4){
+  otable4.destroy();
+      $('#overpipe').html('');
+      
+      
+    }
+    else{
+     /* alert("els");*/
+      otable3.destroy();
+      console.log("sle");
+    }
+
+  }
+}
+
+
+
+}
+if(type==2 || type==4)
+type=1;
+
+  $.ajax({
+      url: '/dashboardData',
+      type: 'post',
+      data:{"data":type,"grid":grid,"time":time},
+      success: function(result) { 
+        console.log(time);
+       console.log(result);
+        if(result.length==5){
+          
+          for(var i=0;i<result.length;i++){
+            data[i]=result[i];
+
+          }
+        }
+        else if(result.length==2){
+          console.log('elseif');
+          data[grid-1]=result[0];
+          console.log(data[grid-1]);
+        }
+        function o2arr(data){
+        var info=[];
+        var j=1; 
+        console.log(data);
+        for(var i=0;i<data.length;i++){
+          console.log("inloop");
+          console.log(data[i]);
+         data[i].jdid=j;
+         j++;
+          info.push($.map(data[i],function(k,v){
+          if(k==null){
+          return '-';
+          }
+          else
+          return k;
+          }));
+        }
+console.log(info);
+return info;
+}
+      if(grid==0 || grid==1){
+          otable=$('#openreqstate').DataTable( {
+          data:o2arr(data[0]), 
+          columns:  [
+            { title: "#" },
+            { title: "JD Title" },
+            { title: "Positions" },
+            { title: "Tags" },
+            { title: "Offered" },
+            { title: "Joined" }
+        ],
+                  "columnDefs": [ { "targets": 0, "orderable": false } ],
+                 "bLengthChange": false,
+                 "searching":false,
+                 "pageLength": 3,
+                 "pagingType": "full",
+                 "order": [[ 2, "desc" ]]
+          } );
+        }
+        if(grid==0 || grid==2){
+        
+         otable1=$('#intpipe').DataTable( {
+        data: o2arr(data[1]),
+        columns: [
+            { title: "#" },
+            { title: "JD Title" },
+            { title: "Candidate Name" },
+            { title: "Phone No." },
+            { title: "Interviewer" },
+            { title: "Time" }
+        ],
+           "bLengthChange": false,
+         "searching": false,
+         "pagingType": "full",
+                 "pageLength": 3,
+                 "order": [[ 2, "desc" ]]
+    } );
+       }
+       if(grid==0 || grid==3){
+
+          otable2=$('#joinpipe').DataTable( {
+        data:o2arr(data[2]),
+        columns: [
+            { title: "#" },
+            { title: "JD Title" },
+            { title: "Candidate Name" },
+            { title: "Phone No." },
+            { title: "Total Rounds" },
+            { title: "Joining Date" }            
+        ],
+           "bLengthChange": false,
+         "searching": false,
+         "pagingType": "full",
+         "order": [[ 2, "desc" ]]
+    } );
+        }
+        if(time==1){
+         /* alert("time");
+if(typeof(otable4) !='undefined')
+{alert("ime");
+ otable4.destroy();
+
+/*$('#overpipe').html('');
+}*/
+/*alert("emit");*/
+console.log('otable33333333');
+ otable3=$('#overpipe').DataTable( {
+        data:o2arr(data[3]),
+        columns: [
+            { title: "#" },
+            { title: "Scheduled" },
+            { title: "Joinings" },
+                   ],
+           "bLengthChange": false,
+         "searching": false,
+         "pagingType": "full",
+         "order": [[ 2, "desc" ]]
+    } );
+ /*alert('mit');*/
+        console.log('nowat');
+        /*otable3.draw(); */
+        }
+        if(time==0){
+          console.log('4');
+     /* if(type1==4){
+          otable3.destroy();
+$('#overpipe').html('');
+}*/
+ otable4=$('#overpipe').DataTable( {
+        data:o2arr(data[3]),
+        columns:[
+            { title: "#" },
+            { title: "Scheduled" },
+            { title: "Interviewed" },
+            { title: "Offered" },
+            { title: "Joined" } ],
+           "bLengthChange": false,
+         "searching": false,
+         "pagingType": "full",
+         "order": [[ 2, "desc" ]]
+    } );
+
+
+        }
+        /*console.log('dfgh');*/
+        } 
+});
+  }
+ 
+  
+</script>
+
+
+</body>
+<style>
+table 
+{
+  text-align:center;
+}
+thead th
+{
+    text-align:center;
+}
+</style>
+
+

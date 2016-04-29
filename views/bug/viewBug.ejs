@@ -1,0 +1,668 @@
+ <head>
+	<title>All Bug</title>
+	  <% include ../partials/head %>
+
+  <% include header %>
+  	   <% include ../partials/adminheader %>
+  
+</head>	
+	<style>
+	#headMenu{
+		float: right
+	}
+		#resizable 
+		{
+			min-width:100%;max-width:100% ;
+  		}
+ 
+  		.slidingpanel span
+  		{
+			font-size: 10px;
+			font-weight: 100;
+  		}
+
+  		#commentd {
+                border-radius: 10px;
+            }
+
+  		.ms-drop ul
+  		{
+  			max-height: 120px !important;
+  		}
+  		.open{
+  			  			width: 166px;
+
+  		}
+  		.ms-drop{
+  			margin-left: 28px;
+  			width: 88%;
+  		}
+  	
+  		.ms-choice{
+  			    margin-left: 28px;
+
+  				width: 88%;
+  				    margin-top: -21px;
+
+  		}
+  		.ms-choice > div{
+  			    margin-top: -23px;
+    right: -13px;
+
+  		}
+  		.ms-choice > span {
+    position: relative;}
+
+
+	</style>
+</head>	
+<body class="">
+   <div class="" style="background-color:antiquewhite;overflow-x:hidden ">		
+		<div class="slidingpanel" style="font-size: 13px;font-size: 12px;">
+			<div class="col-md-12" style="color:">
+				<form action="/filterBug" method="post" onSubmit=''>
+					<div style="padding-top:10px">
+						<label style="height:10px">Status </label>
+						<div id="status" style="margin-left: -13px;">
+
+							<input type="radio" name="statusis" checked="true" value="in">Is</input>
+							<input type="radio" name="statusis" value="not in">Is Not</input>
+						</div>
+					</div>
+					<div style="position:relative; left:20%"id="1">						
+					</div>	
+					<div style="padding-top:10px" >
+						<label style="height:10px" >Priority </label>
+						<div id="priority" style="margin-left: -13px;">
+							<input type="radio" name="priorityis" checked="true" value="in">Is</input> <input type="radio" name="priorityis" value="not in">Is Not</input>
+						</div>
+					</div>
+					<div style="position:relative; left:20%"id="2">
+						
+					</div>	
+					<div style="padding-top:10px">
+						<label style="height:10px">Severity</label>
+						<div id="severity" style="margin-left: -13px;">
+							<input type="radio" name="severityis" checked="true" value="in">Is</input> <input type="radio" name="severityis" value="not in">Is Not</input>
+						</div>
+					</div>
+					<div style="position:relative; left:20%"id="3">
+						
+											</div>
+					<div style="padding-top:10px">
+						<label style="height:10px">Assinged To</label>
+						<div id="assingedto" style="margin-left: -13px;">
+							<input type="radio" name="assingedtois" checked="true" value="in">Is</input> <input type="radio" name="assingedtois" value="not in">Is Not</input>
+						</div>
+					</div>
+					<div style="position:relative; left:20%"id="4">
+						
+					</div>
+					<div style="padding-top:10px">
+						<label style="height:10px">Technology</label>
+						<div id="technology" style="margin-left: -13px;">
+							<input type="radio" name="technologyis" checked="true" value="in">Is</input> <input type="radio" name="technologyis" value="not in">Is Not</input>
+						</div>
+					</div>
+					<div style="position:relative; left:20%"id="5">
+					</div>
+					<center>
+						<input type="submit" style="padding: 4px;padding-left:10px;padding-right:10px;margin-top:5px;margin-bottom:5px;" value="Filter" />
+					</center>
+				</form>
+			</div>
+		</div> 
+
+
+ <label href="javascript:void(0);" class="slider-arrow show" style="float:left">Filter &laquo;</label>
+		
+
+	 
+		 <!-- 
+		<button class="btn btn-info" onclick="exportBug()"style="margin-left:92.5%;margin-top:1%;">Export</button> -->
+
+		<div class="row" style="margin-left:0px;margin-right:0px;padding-top:5px;">
+			<center>
+			  <div  class="row vbug-centerbox" style=" width:98%" >
+					<div class="row vbug-header col-md-12 " style="min-width:100%;max-width:100%;margin-left:0px" align="left" >
+						<div class="col-md-1 " >
+							S.No.
+						</div>
+						<div class="col-md-2">
+							Title
+						</div>
+						<div style="margin-left:-1%" class="col-md-1">
+							Project
+						</div>
+						<div class="col-md-1">
+							Status
+						</div>
+						<div class="col-md-1 ">
+							Priority
+						</div>
+						<div class="col-md-1">
+							Severity
+						</div>
+						<div class="col-md-1">
+							Technology
+						</div>
+						<div class="col-md-2" align="center">
+							Assinged To
+						</div>
+						<div class="col-md-1" style="margin-left:1%" >
+							Start Date
+						</div>
+						<div class="col-md-1">
+							End Date
+						</div>
+						<hr>
+					</div>
+					<div id="resizable" class="auto-scroll" style="width:100%;height:230px;font-size:11px" >
+						<% var c=1;
+						 for(var j=0;j<bug.length;j++){  
+						 						 	
+						 	  %>
+						<div id="vbug-sbox_<%=j%>" title="Edit/Change"class="row vbug-box" align="left" checked="checked" onclick="showdetails(<%=bug[j].id%>,<%=j%>)">
+							<div class="col-md-1 " align="center">
+								<%=c++%>
+							</div>
+							<div class="col-md-2">
+								<input type="hidden" id="hiddentitle<%=j%>" onchange="updatebugdetails(<%=bug[j].id%>,this,'bugTitle')" value="<%=bug[j].bugTitle%>">
+						 		<input type="text" id="bugtitle<%=j%>" style="width:100%;background-color:none;border:none" maxlength="75"onchange=" updatebugdetails(<%=bug[j].id%>,this,'bugTitle',<%=j%>)" value="<%=bug[j].bugTitle%>">
+							</div>
+							<div  class="col-md-1">
+							<span><%=bug[j].projectTitle%></span>
+							</div>
+							<div class="col-md-1" >
+							<select  class="select-vbug"  onchange="updatebugdetails(<%=bug[j].id%>,this,'status')">
+             						<% for(var i=0;i<status.length;i++) { %>
+									<%if(status[i].description1 != 'Close'){ %>             					
+                    				<option value="<%=status[i].id%>" <%if(bug[j].status== status[i].id){%> selected <%}%>>
+										<%=status[i].description1%>    
+                    				</option> 
+                    				<%} else {%>
+
+                    					 <%if(status[i].description1 == 'Close' && (  bug[j].createdBy ==userid || roleid==1)){ %> 
+									<option value="<%=status[i].id%>" <%if(bug[j].status == status[i].id){%> selected <%}%>>
+										<%=status[i].description1%>    
+                    				</option> 
+                    				   	<%}%>       
+                    				   	<%}%>     
+										<%}%>
+               					</select>
+							</div>
+							<div class="col-md-1 ">
+								<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'priority')">
+                					<% for(var i=0;i<priority.length;i++) { %>
+               						<option value="<%=priority[i].id %>" <%if(bug[j].priority == priority[i].id){%> selected <%}%>>
+									<%=priority[i].description1%>    
+                					</option>
+                					<%}%>
+                				</select>
+							</div>
+							<div class="col-md-1">
+								<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'severity')">
+       	        					<% for(var i=0;i<severity.length;i++) { %>
+                					<option value="<%=severity[i].id %>" <%if(bug[j].severity == severity[i].id){%> selected <%}%>>
+										<%=severity[i].description1%>    
+       	        					</option>
+                					<%}%>
+                				</select>
+							</div>
+							<div class="col-md-1">
+								<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'technology')">
+                  					<% for(var i=0;i<technology.length;i++) { %>
+                    				<option value="<%=technology[i].id %>" <%if(bug[j].technology== technology[i].id){%> selected <%}%> >
+										<%=technology[i].description1%>    
+                    				</option>
+									<%}%>
+                				</select>
+							</div>
+							<div class="col-md-2" align="center">
+								<select style="width:70%"class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'assingedToUserId')">
+                  					<%  for(var i=0;i<assingedto.length;i++) { %>
+ 									<% if(assingedto[i].projectId==bug[j].projectId){%>
+                  					<option value="<%=assingedto[i].userId%>" <%if(bug[j].assingedToUserId==assingedto[i].userId){%> selected <%}%>>
+							  		<%=assingedto[i].name%>   
+                  					</option>
+										<%}%>
+											<%}%>
+                				</select>
+							</div>
+							<div class="col-md-1">
+								<%=bug[j].startdate%>
+							</div>
+							<div class="col-md-1" align="left">
+								<input class="datepicker select-vbug"  id='end+<%=j%>' onchange="updatebugdetails(<%=bug[j].id%>,this,'effectiveEndDate',this.id,'<%=bug[j].enddate%>')" style="border:none;" value="<%=bug[j].enddate%>">
+							</div>
+						</div>
+						<%}%>
+					</div>	
+				</div>	
+			</center>
+		</div>
+
+		<div class="row" style="width:100%;padding-left:2.2%;padding-top:5px;padding-bottom:1%;background-color:antiquewhite">
+			<div class="col-md-12" style="background-color:white;height:auto;width:100%;padding-right:0px;padding-left:0px" >
+				<ul class="nav nav-tabs" style="background-color:none;font-size:13px">
+					<li class="active"><a data-toggle="tab" href="#home">Description</a></li>
+					<li><a data-toggle="tab" href="#menu1">Overview</a></li>
+					<li><a data-toggle="tab" href="#menu2">Comment</a></li>
+					<li><a data-toggle="tab" href="#menu3">Attachment</a></li> 
+				</ul>
+				<div class="tab-content" >
+					<input type="hidden" name="bugidhidden" id="bugidhidden" value=""/>
+					<div style="margin-left:-2%;width:104%" id="home" class="tab-pane fade in active">	
+					 	<div class="row">
+				    		<div class="col-md-1"style ="padding-left:2%;padding-top:5px;color:#f05f40;"><b>Title:</b></div>
+							<div class="col-md-9"id="title" style="padding-top:5px;font-size:12px"></div>
+							<div class="col-md-2"style=";margin-left:-1%;padding-top:5px;">
+								<button type="button" class="btn btn-primary btndesc hide" onclick="updatebugdescription('bugDescription')"  style="float:right;height:auto;padding:3px 8px;margin-bottom:1%">Update</button>
+							</div>
+						</div>
+
+				 	<!-- 	<div class="row">
+							<div class="col-md-1"style ="padding-left:2%;padding-bottom:0.5%;font-size:14px;color:#f05f40;"><b>Description:</b></div>
+						</div> -->
+				<textarea style="float:left;width:101%"  maxlength="10000" id='description' class='form-control'></textarea>
+						
+					</div>
+					<div id="menu1" style="margin-left:-2%;width:104%" class="tab-pane fade">
+						<div id="overview" style="margin-bottom:1%;"></div>
+					</div>
+					<div id="menu2" style="margin-left:-2%;width:104%" class="tab-pane fade">
+					<div >
+						<textarea maxlength="200" name='commenttext' style="margin-top:10px" id='commenttext' class='form-control' rows=4 placeholder='Write your comment here ...'></textarea>
+						<input type='button' value='Add Comment' id="commentd" style='background-color:#0066ff;color:white;margin-top:1%;' onclick='addcomment()'>
+						<div id="comment" style="overflow-y:auto;height:145px !important"></div>
+					</div>
+					</div>
+					<div id="menu3" class="tab-pane fade">
+						<div class="" style="margin-top:20px;margin-bottom:50px">
+							<label class="" style="font-size:14px;color:#f05f40;margin-left:1.5%;">Upload File </label>
+					  		<form  id="form123" method="post" style="margin-left:1%;" enctype="multipart/form-data" name="comment">
+					  			<input type="file" id="fupUploadSheet" name="addBugAttachment" class="upload" onchange="UploadSheet()"/>
+							</form> 
+						</div>
+						<div id="attachment" style=''><p></p></div>					  
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>	
+
+</body>
+	<%include ../partials/footer.ejs%>
+</html>
+
+<script>
+
+ 	$(document).ready(function(){ 
+
+$('#download').removeClass("hide");
+$('#downloadL').removeClass("hide");
+
+		var str='<select name="status" id="statuss" multiple="" style="width:100%;margin-top:10px;">';
+					 	<% for(var i=0;i<status.length;i++) { %>
+					 	str=str+'<option value="<%=status[i].id%>"><%=status[i].description1%></option>';
+						<%}%> 
+str=str+'</select>';
+
+ 		$("#1").append(str);	
+ 		
+ 		str='<select name="priority" id="prioritys" multiple="" style="width:100%;margin-top:10px">';
+					<% for(var i=0;i<priority.length;i++) { %>
+						str=str+'<option value="<%=priority[i].id %>"><%=priority[i].description1%></option>';
+						<%}%> 
+						str=str+'</select>';
+
+						$("#2").append(str);
+
+
+						str=' <select name="severity" id="severitys" multiple="" style="width:100%;margin-top:10px">';
+						<% for(var i=0;i<severity.length;i++) { %>
+						str=str+'<option value="<%=severity[i].id %>" ><%=severity[i].description1%></option>';
+							<%}%> 
+			 			str=str+'</select>';
+					
+		$("#3").append(str);
+
+						str=' <select size="5"name="assingedto" class="sel"id="assingedtos" multiple="" style="width:100%;margin-top:10px">';
+						<%for(var i=0;i<allusers.length;i++) {%>
+									str=str+'<option value="<%=allusers[i].userId%>"><%=allusers[i].Name%></option>';
+									<%}%> 
+            					str=str+'</select>';
+            			
+		$("#4").append(str);
+
+
+            			str='<select name="technology" id="technologys" multiple="" style="width:100%;margin-top:10px">';
+							<% for(var i=0;i<technology.length;i++) { %>
+							str=str+'<option value="<%=technology[i].id %>" ><%=technology[i].description1%></option>';
+							<%}%> 
+            			str=str+'</select>';
+
+
+
+		$("#5").append(str);
+
+ 		 $('.viewbug-img').addClass('active');
+ 		$( "#resizable" ).resizable();
+
+ 		$('#bugtitle0').click();
+
+ 		$('.select-vbug').css('cursor', 'pointer');
+		 //$( "#resizable" ).resizable();
+
+		$('#statuss').change(function() {
+        	console.log($(this).val());
+        }).multipleSelect({
+            width: '75%'
+        });
+
+		$('#prioritys').change(function() {
+            console.log($(this).val());
+        }).multipleSelect({
+            width: '75%'
+        });
+
+        $('#severitys').change(function() {
+            console.log($(this).val());
+        }).multipleSelect({
+            width: '75%'
+        });
+
+        $('#assingedtos').change(function() {
+            console.log($(this).val());
+        }).multipleSelect({
+            width: '75%'
+        });
+        $('#technologys').change(function() {
+            console.log($(this).val());
+        }).multipleSelect({
+            width: '75%'
+        });
+
+		//....................Side filter...................
+
+ 		$('.slider-arrow').click(function() {
+			if ($(this).hasClass('show')) {
+        		$(".slider-arrow, .slidingpanel").animate({
+          			left: "+=20%"
+        		},
+        		700, function () {
+          			// Animation complete.
+          		});
+          		$(this).html('Filter &laquo;').removeClass('show').addClass('hide1');
+      		} else 
+      		{
+        		$(".slider-arrow, .slidingpanel").animate({
+        			left: "-=20%"
+        		},700, function () {
+          			// Animation complete.
+          			});
+          		$(this).html('&laquo; Filter').removeClass('hide1').addClass('show');
+        	}
+    	});
+    	var todate=new Date();
+    	/*alert(todate);*/
+    	 $(".datepicker").datetimepicker({
+                 timepicker: false,
+                format: 'm/d/y',
+                minDate:todate
+            });
+		//$('.datepicker').datepicker();
+ 	});
+
+	tinymce.init({ menubar:false,
+        selector: '#description',
+        width: "100%"
+    });	 
+	
+  	//.........................Re Show  comment on comment button click................................
+  	function showcomment(data) {				
+		console.log("show comment data",data);
+		$('#comment').html(''); 
+		var com='';
+		for(var i=(data[0].length)-1;i>=0;i--) {
+			//alert(data[0][i].createdDate);
+			var str=data[0][i].createdDate.toString();
+			com=com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin-top:2%;margin-bottom:1%;'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left1%;'> By : "+data[0][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;background-color:#C7DEFE;max-height:100px; word-wrap: break-word;'>"+data[0][i].comments+"</div><br><div style='width:100%'></div></div>";
+		}
+		$('#comment').html(com);
+	}
+		
+	function showattachment(data) {	
+	  	var att='';
+			// console.log(data[2]);
+		for(var i=(data.length)-1;i>=0;i--){ 
+			att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px'><a href='"+data[i].orignalFilePath+"' download><div style='padding-left:10px;float:center'>"+data[i].orignalFileName+"</div></a><br><div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+data[i].createdDate+"</div></div>"
+		}
+		$('#attachment').html(att);
+	}
+
+//.............save/add comment to database......................			
+  	function addcomment() {
+  		 
+ 		//var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin   + '/buguser' +'/addcomment';
+		if (!$.trim($("#commenttext").val())){
+			alert("please enter valid comment");
+			return false;
+		} else
+		{	var comm={data: {comment:$('#commenttext').val(),bugid:$("#bugidhidden").val()},
+				url: '/addComment',
+				method: 'POST',
+				dataType: 'JSON',
+				success:function(data){
+					if(data.length>0)
+					{
+						console.log("-------comment data-----",data);
+						showcomment(data);
+					}
+				},
+			}
+			$.ajax(comm);
+		}
+		$('#commenttext').val('');
+	}
+
+
+//....................adding values to the respective DIV................
+  
+	function showdetails(bid,divId){
+		//alert(bid);
+		$('.vbug-box').css("border","none");
+		$("#vbug-sbox_"+divId).css("border-style","groove");
+		//alert("show details"+bid)
+		$("#bugidhidden").val(bid);
+		//alert($("#bugidhidden").val());
+		$.ajax({
+			data: {"bugid":bid},
+			url: '/bugDetails',
+			method: 'post',
+			success: function(data) {	
+				console.log("--------bug details----",data[0][0]);
+				//console.log(data[1]);
+				// $('#title').html($("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+				$('#title').html($("<label>"+data[0][0].bugTitle+"</label>"));
+				tinyMCE.activeEditor.setContent(data[0][0].bugDescription);
+
+
+				$('#overview').html($("   <br>  Project Title   : <label>"+data[0][0].projectTitle+"</label>"));
+				$('#overview').append($(" <br>  Assinged To  : <label>"+data[0][0].firstName+"</label>"));
+				$('#overview').append($(" <br>  Technology  : <label>"+data[0][0].technology+"</label>"));
+				$('#overview').append($(" <br>  Bug Status  : <label>"+data[0][0].statusName+"</label>"));
+				$('#overview').append($("<br>  Cycle : <label>"+data[0][0].CycleNo+"</label>"));
+				$('#overview').append($("<br>  Detected By  : <label>"+data[0][0].detectedByName+"</label>"));
+				$('#overview').append($("<br>  Created Date  : <label>"+data[0][0].createdDate+"</label>"));
+				$('#overview').append($("<br>  Start Date  : <label>"+data[0][0].startdate+"</label>"));
+				$('#overview').append($("<br>  End Date  : <label>"+data[0][0].enddate+"</label>"));
+				
+				$('#comment').html('');
+				var com='';
+				for(var i=(data[1].length)-1;i>=0;i--) { 
+					var str=data[1][i].createdDate.toString();
+				   com=   com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin-top:2%;margin-bottom:1%'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left:1%;'>By : "+data[1][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;max-height:100px; word-wrap: break-word;background-color:#C7DEFE;'>"+data[1][i].comments+"</div><br><div style='width:100%'></div></div>";
+				}  
+				$('#comment').html(com);
+					 ////  console.log(com);
+				$('#attachment').html('');
+			  var att='';
+					  console.log(data[2]);
+			  for(var i=(data[2].length)-1;i>=0;i--)
+				{ 
+					console.log(data[2][i])
+				  att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px'><a href='/attach/"+data[2][i].fileName+"' download><div style='padding-left:10px;float:center'>"
+					+data[2][i].orignalFileName+"</div></a><br><div style='color:grey;font-size:10px'>Added by:"
+					+data[2][i].firstName+" On:"
+					+data[2][i].createdDate+"</div></div>";
+
+					
+				}
+				$('#attachment').html(att);
+
+
+			if(data[0][0].createdBy=='<%=userid%>' || '<%=roleid%>'==1)
+			{
+$(".btndesc").removeClass('hide');
+					tinyMCE.get('description').getBody().setAttribute('contenteditable', true);
+
+			}
+			else{
+				$(".btndesc").addClass('hide');
+					tinyMCE.get('description').getBody().setAttribute('contenteditable', false);
+			}
+
+			},
+			dataType: 'JSON',
+		});
+	} 
+
+
+	// ............attechment start........................
+	function UploadSheet(){
+		//var data1=$('#fupUploadSheet').val();
+		var data1 = new FormData($('#form123')[0]);
+		var files = $("#fupUploadSheet").val();
+    	var id1=$("#bugidhidden").val();
+		data1.append('id',id1);
+	
+ 	 	$.ajax({
+  			url:'/bugAttachment',
+  	 		method: 'POST',
+    		data:data1,
+    		contentType: false, 
+   			processData: false,
+			success: function(data) {
+				// window.location.reload();
+				alert("File uploaded successfully!");
+				showattachment(data);
+			},
+			dataType: 'JSON',
+		});
+	}
+	//....................Save bug details......................
+ 
+	function updatebugdetails(bugid,e,type,id,endate){
+ 		//	`var url = '/updatebugdetails';
+
+//alert("updatebugdetails"+bugid+type+id);
+if(type=='effectiveEndDate')
+   {   
+   	var date=new Date(e.value);
+   	var todayDate=new Date();
+/*   	console.log(new Date());
+   	console.log(date);*/
+/*	if(date<=todayDate){
+		alert("The end date cannot be less than Today!");
+			//showdetails(bugid);
+		//window.location.reload();
+		return false;
+		}*/
+
+	var up ={
+		data: {"bugid":bugid,"value":e.value,"colname":type},
+			url: '/updatebugdetails',
+			method: 'POST',
+			success: function(data) {
+				showdetails(bugid);
+			 },
+			dataType: 'JSON',
+			};
+			$.ajax(up);
+
+
+			return;
+}
+
+	  	if ( e.value == null || e.value == ""|| e.value.trim().length < 1 || /^[a-zA-Z0-9- ]*$/.test(e.value) == false) {
+	  		alert("Please enter a valid title for bug!");
+	  		console.log($('#hiddentitle'+id).val());
+	  		$('#bugtitle'+id).val($('#hiddentitle'+id).val());
+	  	} else 
+	  	{	
+	  		var up ={data: {"bugid":bugid,"value":e.value,"colname":type},
+			url: '/updatebugdetails',
+			method: 'POST',
+			success: function(data) {
+				showdetails(bugid);
+			 },
+			dataType: 'JSON',
+			};
+			$.ajax(up);
+		}
+	}
+
+	function updatebugdescription(type) {
+ 		//alert("sddsds");
+ 		/*var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin   + '/buguser' +'/updatebugdetails';*/
+ 		var bugid=$("#bugidhidden").val();
+
+ 		  var ds=tinyMCE.activeEditor.getContent();
+ 				console.log(ds);
+ 			if(ds.trim().length<=0){
+ 				alert("Description can not be left blank");
+ 				return false;
+ 			}
+ 
+ 		$.ajax(
+		{
+			data: {"bugid":bugid,"value":ds,"colname":type},
+			url: '/updateBugDetails',
+			method: 'POST',
+			success: function() {	
+			alert("Bug description updated succesfully!");		
+			},
+			error: function() {	
+			console.log("Error! Please select a bug to update description.");		
+			},
+			dataType: 'JSON',
+		});
+ 	} 
+
+ 	function exportBug()
+{
+	 $(".se-pre-con").fadeIn("slow");
+var header=['S.No.', 'Title', 'Project', 'Status', 'Priority', 'Severity', 'Technology', 'Assinged To', 'Start Date', 'End Date'];
+
+var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/getAllBugtoexport';
+$.ajax({
+url: url,
+method: 'POST',
+data : {},
+success: function(bugData) {
+	console.log('bugdata',bugData)
+bugData.unshift(header);
+alasql("SELECT * INTO CSV('bug_Report.csv') FROM ?",[bugData]);
+/*$(".se-pre-con").fadeOut("slow");
+$("#btnDownloadbug").prop('disabled', false);*/
+},
+dataType: 'JSON',
+});   
+
+$(".se-pre-con").fadeOut("slow");
+}
+	</script>
+
+
+	 <script src="http://alasql.org/console/alasql.min.js"></script>

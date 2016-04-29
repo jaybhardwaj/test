@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  <% include ../partials/head %>
+  <% include ../partials/adminheader %>
+  <% include assetheader %>
+  
+</head>
+<body >
+  <div style="background-color:antiquewhite;margin-top:3%">
+    <a href="/addSoftware"type="button"style="font-size:12px;margin-top:5%;margin-left:2%;padding:0.5%;" title="Add New Stationary" class="button btn btn-info" value="Addstationary">Add Software</a>
+    <label class="pageTitle"style="margin-top:3%;"  >List Of All Softwares</label> 
+    <br>
+    <table class="table table-hover table-striped table-bordered rceDataTable"id="softtable" cellpadding="0" cellspacing="0" border="0"style="width:100%">
+      <thead>
+        <tr>
+          <th style='background-color:grey;color:white'>Name</th>
+          <th style='background-color:grey;color:white'>Software Type</th>
+          <th style='background-color:grey;color:white'>Vendor</th>
+          <th style='background-color:grey;color:white'>Invoice date</th>
+          <th style='background-color:grey;color:white'>Description</th>
+          <th style='background-color:grey;color:white'>Licence Key</th>
+          <th style='background-color:grey;color:white'># of Users</th>
+          <th style='background-color:grey;color:white'>Licence Expiry Date</th>
+          <th style='background-color:grey;color:white'>Licence Purchase Date</th>
+          <th style='background-color:grey;color:white'>Edit/Delete</th>
+        </tr>
+        <tbody>
+          <%for(var i=0;i<stype[0].length;i++){%>
+          <tr>
+            <td><%=stype[0][i].name%></td>
+            <td><%=stype[0][i].softType%></td>
+            <td><%=stype[0][i].vendor%></td>
+            <td><%=stype[0][i].invoiceDate%></td>
+            <td><%=stype[0][i].description%></td>
+            <td><%=stype[0][i].licenceKey%></td>
+            <td><%=stype[0][i].users%></td>
+            <td><%=stype[0][i].licenceExpDate%></td>
+            <td><%=stype[0][i].licencePurchaseDate%></td>
+            <td>
+              <a data-toggle='modal' data-target='#editstation' onclick="edit(<%=stype[0][i].id%>)">
+                <span class='glyphicon glyphicon-pencil' style='color:green;height:10px;'  title ='Edit'></span>
+              </a>
+              <a onclick="return del(<%=stype[0][i].id%>)" type="button"><span class='glyphicon glyphicon-trash' style='color:red;height:10px;'title='Delete'></span></a>
+            </td>
+          </tr>
+          <%}%>        
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+<footer>
+  <% include ../partials/footer %>
+</footer>
+<!--edit      modal-->
+<div class="modal fade" id="editstation" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!--- Modal content-->
+    <div class="modal-content" id="express2">
+      <div class="modal-header" style="background-color:#f05f40;">
+        <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Software</b></label></center>
+      </div>
+      <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;">Software Type: *</label>
+              </div>
+              <div class="col-md-6">
+                <input id="typel"name="htype"class="form-control" value="" disabled>
+                  <%for(var i=0;i<stype[0].length;i++){%>
+                  <option selected="selected"><%=stype[0][i].componentName%></option>
+                  <%}%>
+              </div>
+            </div>
+            <div class="col-md-6 a">
+                <div class="col-md-6">
+                  <label style="line-height:42px !important;">Name: *</label>
+                </div>
+                <div class="col-md-6">
+                  <input type='text'maxlength="50"style="margin-top:10px;" name="name"class="form-control" id="name"/>
+                </div>
+            </div>
+          </div>
+          <div class="row">  
+            <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;">Vendor: *</label>
+              </div>
+              <div class="col-md-6">
+                <input type='text'maxlength="50"style="margin-top:10px;" name="vendor"class="form-control" id="vendor"/>
+              </div>
+            </div>
+            <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;">Invoice Date: *</label>
+              </div>
+              <div class="col-md-6">
+                <input type="" style="margin-top:10px;"class="form-control date"id="Invoicedate" name="Invoicedate" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;">Licence Required:</label>
+              </div>
+              <div class="col-md-6">
+                <input style="margin-top:10%;" name='test5'type="checkbox" id="test5"/>
+              </div>
+            </div>
+            <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;">Description: *</label>
+              </div>
+              <div class="col-md-6">
+                <textarea id='textarea'name="des"style="margin-top:10px;" class="form-control"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row hide"id="lic">
+          
+            <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;">Licence Key: *</label>
+              </div>
+              <div class="col-md-6">
+                <input type="text"  name="key" class="form-control" id="key" maxlength="11" style="margin-top:10px;" class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;"># Users: *</label>
+              </div>
+              <div class="col-md-6">
+                <input type="number" name="users" class="form-control" id="users"style="margin-top:10px;"/>
+              </div>
+            </div>
+            
+              <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;">Purchase Date: *</label>
+              </div>
+              <div class="col-md-6">
+                <input style="margin-top:10px;"class="form-control date"id="pdate" name="pdate" />
+              </div>
+            </div>
+            <div class="col-md-6 a">
+              <div class="col-md-6">
+                <label style="line-height:42px !important;">Expiry Date:</label>
+              </div>
+              <div class="col-md-6">
+                <input style="margin-top:10px;"class="form-control date"id="edate" name="edate" />
+              </div>
+            </div>
+          </div>
+          <br/>
+          <div class="modal-footer"style="border-top:0px;">
+            <center>
+              <input type="text" class="hide" value="" id="hdnId" name="hdnId">
+              <button id="cancel"type="reset"data-dismiss="modal"class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+              <a onclick="return validate()"class="btn btn-default"style="margin-top:10px;background-color:#f05f40;color:black;padding-top:4px; width:100px;height:30px;color:white">Submit</a>
+            </center>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+<script type="text/javascript"> 
+
+  $('#test5').click(function(){
+  if($(this).is(':checked'))
+  { 
+    $('#lic').removeClass('hide');
+  } else
+  { 
+    $('#lic').addClass('hide');
+  }
+});
+
+  function edit(id){
+//alert(id);
+
+  $("#hdnId").val('');
+  $.ajax({ 
+    url: '/getEditStationary',
+    method:'POST',
+    data: {'id':id},
+    success: function(data) { 
+      abcde=data;
+      console.log("edit info--------------",data[0][0].softType);
+      $("#name").val(data[0][0].name);
+      $("#typel").val(data[0][0].softType);
+      $("#vendor").val(data[0][0].vendor);
+      $("#Invoicedate").val(data[0][0].invoiceDate);
+      $("#textarea").val(data[0][0].description);
+      if(data[0][0].licenceKey !=null)
+      {
+        $("#test5").click();
+      }
+      else
+      {
+        $("#lic").addClass('hide');
+      }
+      $("#key").val(data[0][0].licenceKey);
+      $("#users").val(data[0][0].users);
+      $("#edate").val(data[0][0].licenceExpDate);
+      $("#pdate").val(data[0][0].licencePurchaseDate);
+      $("#hdnId").val(data[0][0].id);
+    }
+  });
+}
+
+  $(document).ready(function(){
+    <%if(flag==1){%>
+      alert("Software successfully added!");
+    <%}%>
+    $("#softtable").dataTable({
+      "bLengthChange": false,
+      "binfo":false
+    });
+  });
+
+  jQuery('.date').datetimepicker({
+  
+    timepicker:false,
+    format:'Y-m-d'
+  });
+
+  
+
+  function validate(){    
+    var us=$('#users').val();
+    if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
+    {
+      alert("Vendor is Missing!");    
+      return false;
+    }
+    if($('#typel').val().length<1||$.trim($("#typel").val()) =="") 
+    {
+      alert("Name is Missing!");    
+      return false;
+    }
+    if($('#Invoicedate').val().length<1||$.trim($("#Invoicedate").val()) =="") 
+    {
+      alert("Invoice date is Missing!");    
+      return false;
+    }
+    
+    if($('#textarea').val().length<1||$.trim($("#textarea").val()) =="") 
+    {
+      alert("Invoice number is Missing!");    
+      return false;
+    }
+  
+    if ($('#test5').prop('checked')) {
+      //  alert("You have selected licence rqd."); //checked
+      if($('#key').val().length<1||$.trim($("#key").val()) =="") 
+        {
+          alert("Licence key is Missing!");    
+          return false;
+        }
+        if($('#pdate').val().length<1||$.trim($("#pdate").val()) =="") 
+        {
+          alert("Licence purchase date is Missing!");    
+          return false;
+        }
+        if(us.length<1||isNaN(us)||us.trim().length<0) 
+        { alert(us);
+          alert("Enter valid number of Users!");    
+          return false;
+        }
+        if($('#edate').val().length<1||$.trim($("#edate").val()) =="") 
+        {
+          alert("Licence Expiry date is Missing!");    
+          return false;
+        }
+      }
+    //alert($('#Invoicedate').val());
+      $.ajax({
+        url: '/updateSoftware',
+        method: 'POST',
+        data: {
+          "htype": $('#typel').val(),
+          "vendor": $('#vendor').val(),
+          "Invoicedate": $('#Invoicedate').val(),
+          "name": $('#name').val(),
+          "test5": $('#test5').val(),
+          "des": $('#textarea').val(),
+          "key":  $('#key').val(),
+          "users":$('#users').val(),
+          "pdate":$('#pdate').val(),
+          "edate":$('#edate').val(),
+          "id":$("#hdnId").val()
+        },
+        success: function(data){
+          alert("Software successfully updated");
+          location.reload();
+        },
+        dataType: 'JSON'
+      });
+    }
+    function del(id){
+      if(confirm("This action once done cannot be undone! Do you want to delete this?")==true)
+      { $.ajax({
+          url:'/deleteHeader',
+          method: 'POST',
+          data:{'id':id},
+          success: function(data) {
+            window.location.reload();
+          },
+          dataType: 'JSON',
+        });
+      }
+    }
+</script>

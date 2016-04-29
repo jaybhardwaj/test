@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+
+    <% include ./partials/head %>
+     <% include ./partials/adminheader %>
+</head>
+
+<body>
+    <div class="container-fluid user-list  " style="background-color:antiquewhite">
+        <div style="margin-top:1%">
+              <img  onclick="addEditUser(0)"title="Create New" class="add-image" style="padding-left:1%" class="add-image"> 
+              <span class="modal-title" style="padding-left:38%">User Details</span>
+              <select class="form-control " style="width:auto;float:right" id='active' name="active" onchange="userStatus()" style="50;">
+                             <option value="2" >All</option>
+                          <option value="0" >InActive</option>
+                          <option value="1" selected >Active</option>
+                         
+              </select>
+        </div>
+        <div style=" margin-bottom:1%">
+            <table class="table stripe cell-border hover" id="usertable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email Id</th>
+                        <th>Contact number</th>
+                        <th>Role</th>
+                        <th>Supervisor</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="pstatus">
+                 
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <% include ./partials/footer %>
+    </footer>
+    <script>
+    function set1() {
+          $.ajax({
+    url:'/userActive',
+    method: 'POST',
+    data: {
+              "active":$('#active').val(),
+    },
+
+    
+    success: function(data) {   
+       
+    },
+    dataType: 'JSON',
+  });
+    }
+    var otable='';
+        $(document).ready(function() {
+
+         otable=$('#usertable').dataTable({
+             
+            });
+            $('.user-img').addClass('active');
+           userStatus();
+        });
+
+        function addEditUser(flag) {
+            var form = document.createElement("form");
+            form.action = '/createEditUser';
+            form.method = "POST";
+            form.style = "display: none";
+            var hdnId = document.createElement("input");
+            hdnId.type = "hidden";
+            hdnId.name = "hdnId";
+            hdnId.value = flag;
+            form.appendChild(hdnId);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+       
+                   
+        function actinact(uid,flag){
+           
+            var row_id="#row_"+uid;
+            var rowid="row_"+uid;
+            if(flag==1){
+                if(confirm(" click Ok , to Deactivate User ?")){
+                 $.ajax({
+                    url: '/changeUserStatus',
+                    type: 'post',
+                    data: { "uid": uid, "flag": flag },
+                success: function(data) {
+                    if($('#active').val()!=2)
+                     otable.fnDeleteRow(row_id);
+                 else{
+                   
+                    var arr=[];
+                    for(i=1;i<=5;i++){
+                        arr.push($(row_id+i).text());
+                    }
+                   
+                    console.log('arrrrrrrrrrrrrrrr',arr);
+                     
+                    inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
+                      log='<a  onclick= "actinact('+uid+',0)">'+inact+'</a>';
+                    otable.fnUpdate([arr[0],arr[1],arr[2],arr[3],arr[4],log],row_id);
+                    }
+                }
+           });
+        }
+    }
+        else
+        {
+             if(confirm("click ok , to Activate User ?")){
+             $.ajax({
+                url: '/changeUserStatus',
+                type: 'post',
+                data: { "uid": uid, "flag": flag },
+                success: function(data) {
+                    if($('#active').val()!=2)
+                    otable.fnDeleteRow(row_id);
+                else{
+
+                    var arr=[];
+                    for(i=1;i<=5;i++){
+                        arr.push($(row_id+i).text());
+                    }
+                
+                    console.log('arrrrrrrrrrrrrrrr',arr);
+                     var act='<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span>';
+
+                     log='<a onclick=addEditUser('+uid+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+uid+',1)">'+act+'</a>';
+                    
+                    otable.fnUpdate([arr[0],arr[1],arr[2],arr[3],arr[4],log],row_id);
+                }
+                }
+           });
+        }
+        }
+                }
+
+function userStatus(){
+         $.ajax({
+                url: '/userStatus',
+                type: 'post',
+                data: { "status": $('#active').val() },
+                success: function(data) {
+                    console.log('sssssssssssssssssssss', data);
+                    var log = '',mgrname='';
+                    var act='<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span>';
+
+                var inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
+
+                for (var i=data[0].length-1;i>=0;i--){ 
+                    if(data[0][i].managerName == ""||data[0][i].managerName==null)
+                          mgrname=" No Concerned Manager";
+                    else 
+                          mgrname=data[0][i].managerName;
+                    log=log+ '<tr id=row_'+data[0][i].id+'><td id=row_'+data[0][i].id+'1'+'>'+data[0][i].firstName+'</td><td id=row_'+data[0][i].id+'2'+'>'+data[0][i].userEmail+'</td><td id=row_'+data[0][i].id+'3'+'>'+data[0][i].contactNumber+'</td><td id=row_'+data[0][i].id+'4'+'>'+data[0][i].roleName+'</td><td id=row_'+data[0][i].id+'5'+'>'+ mgrname +'</td><td>';
+                    if(data[0][i].isRetailer != 1) {
+                            if (data[0][i].isActive) {
+                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+data[0][i].id+',1)">'+act+'</a>';}
+                            else if (data[0][i].isActive==0) {
+                                            log+='<a  onclick= "actinact('+data[0][i].id+',0)">'+inact+'</a>';}
+                                    }
+                           else {
+                                log+='<span style="color:green;height:10px" class="glyphicon  glyphicon-ban-circle"></span>';
+                            }
+                }
+                otable.fnDestroy();
+                $('#pstatus').html(log);
+                otable=$('#usertable').dataTable({
+                     "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
+                    'iDisplayLength': 10,
+                    "order":[]
+                });
+                }
+            });
+}
+ 
+    </script>
+</body>
+
+</html>
+<style type="text/css">
+    .user-list label{
+        padding: 0px;
+        padding-bottom: 10px;
+    }
+</style>

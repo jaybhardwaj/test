@@ -1,0 +1,257 @@
+<% include ../partials/head %>  
+    <% include ../partials/adminheader %>
+<title>Raise Requisition</title>
+<script> 
+        tinymce.init({
+            selector: '#Description'
+        });
+ </script>
+ <style type="text/css">
+label{
+    margin-top :5px;
+}
+ </style>
+
+
+    <div style="background-color:antiquewhite;margin-top:3.3%">
+   <center> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Raise Requisition</b></label></center>
+    <div style="margin:0px">
+        <form onsubmit='return validateForm()' id="raise-requisition" name="myform" class="max-width" method="post" action="/raiseRequisition" >
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Job Title<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="JobTitle" id="jobTitle" class="form-control" placeholder="job title"  maxlength="250" required>
+                    </div>        
+                </div>
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Designation<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                     <select id="browsers" name="designation" class="form-control"   required>
+                                <option value=""></option>
+                                <%for(var i = 0 ;i<desig.length;i++){%>
+                                    <option value="<%=desig[i].desigId%>">
+                                        <%=desig[i].desigName%>
+                                    </option>
+                                    <%}%>
+                            </select>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Skills<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <select size="1" multiple class="chosen-select form-control" style="width:100%" id='skillsId'  name="skills">
+                                <option></option>
+                                <%for(var i = 0 ;i<skills.length;i++){%>
+                                    <option value="<%=skills[i].id%>">
+                                        <%=skills[i].skills%>
+                                    </option>
+                                    <%}%>
+                                        <option></option>
+                            </select>
+                    </div>        
+                </div>
+            </div> 
+            <div class="row" style="margin-top:5px" >
+               <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Location<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <select name="Location" id="locationId" class="form-control" style="width:100%;" required>
+                        <option>select</option>
+                        <% for (var i = 0; i <cities.length; i++) {%>
+                            <option value="<%=cities[i].id%>" id = 'location_<%=cities[i].id%>'>
+                                <%=cities[i].location%>
+                            </option>
+                            <%}%>
+                     </select>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label># positions<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                     <input type = 'text'  style = 'display:none;' id = 'locationnameId' name = 'locationName'>
+                      <input name="NoOfPostions" placeholder="no. of positions" class="form-control" id="nop" type="number" style="width:100%" required max="9999999" min="1">
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Experience<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="YearsOfExp"  class="form-control" id="yox" type="decimal" style="width:100%" maxlength="10" required max="999" min="1">
+                    </div>        
+                </div>
+            </div>
+            <div class="row" style="margin-top:5px">
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Expires On:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input style=" width:100%" class="form-control" placeholder="no. of positions" name="ExpiresOn" id="expiresOn" type="text">
+                    </div>        
+                </div>
+                  <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Admin-HR<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                   <select name="adminhr" class="form-control" id="location234234" style="width:100%;" required>
+                                <option>select</option>
+                                <% for (var i = 0; i < adminhr.length; i++) {%>
+                                    <option value="<%=adminhr[i].id%>">
+                                        <%=adminhr[i].firstName%>
+                                    </option>
+                                    <%}%>
+                            </select>
+                    </div>        
+                </div>
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Priority<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <select name="mailPriority" class="form-control" id="priority" style="width:100%;" required>
+                                <option value="0"></option>
+                                <option value="1">Urgent</option>
+                                <option value="2">Normal</option>
+                    </select>
+                    </div>        
+                </div>
+            </div>
+            <div class="row" style="margin-top:5px">
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Minimum Salary:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="MinimumSalary" class="form-control" placeholder="minimum salary" id="minsal" type="number" style="width:100%" min="0" max="1000000000">
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Maximum Salary:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                     <input name="MaximumSalary" class="form-control" placeholder="maximum salary" id="maxsal" type="number" style="width:100%" min="0" max="1000000000">
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Suggested Interviewer:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="RecruiterName" class="form-control" placeholder="interviewer" id="nop" type="text" style="width:100%" maxlength="50">
+                    </div>        
+                </div>
+            </div>
+             <div class="row" style="margin-top:5px">
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label>Type:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <select name="jobType" class="form-control"  id="jobType" style="width:100%;" required>
+                                <option value="0"></option>
+                                <option value="1">Contractual</option>
+                                <option value="2">Permanent</option>
+                    </select>
+                    </div>        
+                </div>          
+            </div>
+            <div class="row" style="margin-top:1%;margin-left:1%">
+                <label>Job Description:<sup class="astrick">*</sup></label>          
+                
+                    <div class="col-md-10 col-md-offset-1">
+                      <textarea name="Description" id="Description" maxlength="4000" placeholder="JobDescription"></textarea>
+                    </div>
+               
+            </div>
+
+            <div class="row" style="margin-top:2%;">
+                <div class="col-md-1 col-md-offset-5">
+                    <button type="submit" class="button bt-small" style="width:127%"><i class="fa fa-save"></i> Submit</button>
+                </div>
+            </div>
+        </form>
+       </div>
+        <!--max div-->
+    </div>
+</body>
+    <!--PAGE CONTENT ENDS-->
+<%include menu1.ejs%>
+<% include ../partials/footer %>  
+            <script>
+                function validateForm() {
+                    var strLocation = '#location_'+$('#locationId').val()
+                    $('#locationnameId').val($(strLocation).html().trim());
+                           console.log($('#minsal').val() + '      ' + $('#maxsal').val());
+                    if ($('#minsal').val()-$('#maxsal').val()>0) {
+                        alert("Minimum Salary must be less than Maximum Salary");
+                        return false;
+                    }
+                    if ($('.chosen-select').val() == null) {
+                        alert('Please select a skill');
+                        return false;
+                    }
+                      if($('#jobType').val()<1){
+                alert("Select Job Type");
+                return false;
+                }
+                    var decode = tinyMCE.activeEditor.getContent();
+                    decode = decode.replace(/&nbsp;/g, '');
+                    decode = decode.replace(/<p>/g, '');
+                    var find = '</p>';
+                    var re = new RegExp(find, 'g');
+                    decode = decode.replace(re, '');
+                    decode = decode.trim();
+                    if (decode == '') {
+                        alert('Please fill in some description');
+                        return false;
+                    }
+                    if (decode.length > 4000) {
+                        alert('Description can not be more than 4000 characters');
+                        return false;
+                    }
+
+                    return true;
+                }
+
+
+
+                jQuery('#expiresOn').datetimepicker({
+                    i18n: {
+                        de: {
+                            months: [
+                                'Januar', 'Februar', 'März', 'April',
+                                'Mai', 'Juni', 'Juli', 'August',
+                                'September', 'Oktober', 'November', 'Dezember',
+                            ],
+                            dayOfWeek: [
+                                "So.", "Mo", "Di", "Mi",
+                                "Do", "Fr", "Sa.",
+                            ]
+                        }
+                    },
+                    timepicker: false,
+                    format: 'd.m.Y'
+                });
+
+
+                $(document).ready(function() {
+                    $('.raiseReq-img').addClass("active");
+                    $("#tinymce").prop('required', true);                   
+                });
+            </script>
+ 
+            </html>

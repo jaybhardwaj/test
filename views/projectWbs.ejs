@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<style>
+sup{color:red;}
+  label{
+    color:black;
+  }
+  .tagger {
+    border: -1px steelblue !important;
+    background-color: #fff !important;
+    cursor: text;
+    font-family: sans-serif;
+    font-size: 10pt !important;
+    padding: 10px 7px 3px 4px !important;
+    min-height: 19px !important;
+    display: table-cell !important;
+}
+
+.wbsowner{
+  margin-top: 10px;
+}
+
+.wbslocation{
+  margin-top: 7px;
+}
+</style>
+
+     <% include ./partials/head %> 
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  $("#wbsowner").tagger();
+  $("#wbslocation").tagger();
+
+   $('#wbsstatus1').prop('checked', true); 
+/*   $("input[name=pstatus][value=" + 1 + "]").prop('checked', true);*/
+   $('.project-img').addClass('active');    
+/*
+   $("#plocation").prop("selectedIndex", -1);
+  $("#pcomplexity").prop("selectedIndex", -1);
+  $('#plocation').val('<%=project[0].plocation%>');
+  $('#pcomplexity').val('<%=project[0].pcomplexity%>');*/
+
+
+ /* $("#datepicker").datepicker();
+  $("#datepicker1").datepicker();
+  */
+   $("#datepicker2").datetimepicker({timepicker:false,format:'m/d/y'});
+   $("#datepicker3").datetimepicker({timepicker:false,format:'m/d/y'});
+
+  $('#idpname').val('<%=project[0].projectTitle%>');
+  $('#datepicker').val('<%=project[0].plannedStartDate%>');
+  $('#datepicker1').val('<%=project[0].plannedEndDate%>');
+  
+                     var text = $('#datepicker').val();
+                     var date = new Date(text);
+                     var text1 = $('#datepicker1').val();
+                     var date1 = new Date(text1);
+                     if(text != '' && text1 != ''){
+                      $( "#datepicker").datetimepicker({ 
+                        timepicker:false,
+                       minDate: date,maxDate: date1 ,format:'m/d/y'});
+                      $( "#datepicker1").datetimepicker({ format:'m/d/y',timepicker:false, minDate: date,maxDate: date1,format:'m/d/y' });
+                    }
+                    else{
+                      $( "#datepicker").datetimepicker({timepicker:false,format:'m/d/y'});
+                      $( "#datepicker1").datetimepicker({timepicker:false,format:'m/d/y'});
+                    }
+
+
+});
+function allWbs() {
+var abc=1;
+             
+                <%if(allWbs.length>0){%>
+               <%  for(var j=0;j< allWbs.length; j++){%>
+                    if($('#wbsname').val()=='<%=allWbs[j].WBSName%>'){
+                    alert('WBS Already Exists.\nChange the name of WBS');
+                    abc=0;
+                    document.getElementById('wbsname').value = "";
+                    document.getElementById('wbscode').value = "";
+                     $('#wbsname').focus();
+                    return false;
+                   }
+                   else{
+                    abc++;
+                   }
+
+               <% } } %>
+                   if(abc !=0){
+                    myFunction();
+                    return true;
+                   }
+                
+            }
+
+var y = Math.floor((Math.random() * 1000) + 1);
+            function myFunction() {
+                var x = document.getElementById("wbsname");
+                var x2 = document.getElementById("wbscode");
+                if(x.value != ''){
+                  var ss=x.value;
+                  ss=ss.charAt(0);
+                  var s1=x.value;
+                  s1=s1.charAt(1);
+                  ss = "".concat(ss,s1);
+                  
+                x2.value = ss + "_" + y;
+              }
+              else{
+                x2.value="";
+              }
+            }
+
+            function checkfield(){
+ 
+              if($('#wbsname').val()=='')
+               {
+                alert("Please select a WBS Title First"); 
+                return false;
+              }
+              
+              if($('#proname').val()==0)
+               {
+                alert("Please select a Project Id First"); 
+                return false;
+              }
+              if($('#wbsowner').val()=='')
+               {
+                alert("Please select a WBS Owner First"); 
+                return false;
+              }
+
+             
+              var text = $('#datepicker').val();
+             var date = new Date(text);
+             if(date == 'Invalid Date'){
+               alert('Invalid  Planned Start Date');
+                return false;
+            }
+            var text = $('#datepicker1').val();
+             var date = new Date(text);
+             if(date == 'Invalid Date'){
+               alert('Invalid  Planned End Date');
+                return false;
+            }
+            var text = $('#datepicker2').val();
+             var date = new Date(text);
+             if(text != ''){
+             if(date == 'Invalid Date'){
+               alert('Invalid  Actual Start Date');
+                return false;
+            } }
+            var text = $('#datepicker3').val();
+             var date = new Date(text);
+             if(text != ''){
+             if(date == 'Invalid Date'){
+               alert('Invalid  Actual End Date');
+                return false;
+            } }
+
+              var sdate = $('#datepicker').datetimepicker("getDate");var text = $('#datepicker').val();
+            var edate = $('#datepicker1').datetimepicker("getDate");var text1 = $('#datepicker1').val();
+             var asdate = $('#datepicker2').datetimepicker("getDate");var text2 = $('#datepicker2').val();
+            var aedate = $('#datepicker3').datetimepicker("getDate");var text3 = $('#datepicker3').val();
+            
+           /*if(text1 != ''){ if (text != ''){
+            if(sdate>edate){
+              alert('Planned End Date can not be less than Planned Start Date');
+               return false;
+            }  }
+            else{
+              alert('Please Select Planned Start Date');
+               return false;
+            }
+          }*/
+
+          if(text == ''){
+              alert('Please Select Planned Start Date');
+              return false;
+            }
+            if(text1 == ''){
+              alert('Please Select Planned End Date');
+              return false;
+            }
+            if(sdate>edate){
+                  alert('Planned End Date can not be less than Planned Start Date');
+                  return false;
+                }
+
+
+              if(text3 != ''){  if (text2 != ''){
+                if(asdate>aedate){
+              alert('Actual End Date can not be less than Actual Start Date');
+               return false;
+            }  }
+            else{
+              alert('Please Select Actual Start Date');
+               return false;
+            }
+          }
+   
+              var radios=document.getElementsByName("wbsstatus");
+              var len=radios.length;
+              var chosen = null;
+
+              for (i = 0; i <len; i++) {
+                  if (radios[i].checked) {
+                     chosen = radios[i].value;
+                  }
+              }
+
+              if (chosen == null) {
+                  alert("Please select a WBS Status");
+                  return false;
+              } 
+
+              var wbseffort=$('#wbseffort').val();
+          var wbseffort1=$('#wbseffort1').val();
+          if(wbseffort != ''){
+            if(wbseffort1 ==0){
+              alert('Please Select WBS Effort Type');
+              return false;
+            }
+          }
+          var wbsType=$('#wbsType').val();
+          var typeValue=$('#typeValue').val();
+          if(wbsType != ''){
+            if(typeValue ==0){
+              alert('Please Select Type');
+              return false;
+            }
+          }
+              submitwbs();
+            }
+
+            function submitwbs(){
+              alert('WBS added successfully');
+              var r = confirm("Do you want to create more WBS ?");
+             
+                if (r == true) {
+
+                } else {
+                 
+                  $('#wbshidden').val(3);
+                    
+                }
+                return true;
+            }
+
+
+</script>
+  
+</head>
+<body>
+
+<div>
+        <% include ./partials/adminheader %>
+    </div>
+<div class="row" style="margin:0px;padding:0px">
+        <div class="bug-background col-md-6" id="accordions"  style="height:558px;padding-bottom:5%;margin-right:-2%;">  
+        
+              <div class="panel-heading" id="panelHead1" role="button" style="background-color: #f05f40;    color:#FFFFFF; height:40px;    margin-top: 15px;">
+               <span style="float:center; color:white;font-size:18px;padding-left:30%"><b>Project Details</b></span>
+              </div>
+              <div style=" ">
+                <div class="col-md-12">
+                                <div class="col-md-3"> <label style="line-height:25px !important;margin-top:10px;">Project Name:</label> </div>
+                                <div class="col-md-7"> <input type="text" class="form-control" style="margin-top:10px;" name="pname" id ="idpname" maxlength="50" value='<%=project[0].projectTitle%>' disabled></div>
+                 </div>
+
+                 <div class="col-md-12 a">
+                                <div class="col-md-3"> <label style="line-height:25px !important;margin-top:10px;">Project Code:</label> </div>
+                                <div class="col-md-7">
+                                <input type="text" class="form-control" style="margin-top:10px;" name="pcode" id ="pcode" maxlength="50"value='<%=project[0].pcode%>' disabled> </div>
+                  </div>
+
+                  <div class="col-md-12 a">
+                                <div class="col-md-3"> <label style="line-height:25px !important;margin-top:10px;">Complexity:</label> </div>
+                                <div class="col-md-7"><input type="text" class="form-control" style="margin-top:10px;" name="pcomplexity" id ="pcomplexity" maxlength="50"value='<%=project[0].pcomplexity%>' disabled></div>
+                  </div>
+
+                  <div class="col-md-12 a" style="margin-top:10px;">
+                                <div class="col-md-3"> <label style="line-height:25px !important;margin-top:10px;">Location:</label> </div>
+                                <div class="col-md-7">  <input type="text" class="form-control" style="margin-top:3px;" name="plocation" id ="plocation" maxlength="50"value='<%=project[0].location%>' disabled></div> 
+                  </div>
+                 </div>   
+
+         <% if(wbs.length >0){ %>
+        <div  style="margin-top:10px;" >
+           <h3>WBS Details</h3>
+        </div>
+
+           <br>
+           <div style="overflow-y:scroll; max-height:200px;">
+              <table class="table stripe cell-border hover" id="bugtable" width="">
+
+                     <thead>
+                      
+                       <tr  >
+                      
+                      <th   >WBS Name</th>
+                      <th   >WBS Code</th>
+                      <th  >WBS Owner</th>
+                      <th   >WBS Location</th>              
+                      </tr>
+                        </thead>
+                       
+                     <tbody id="wbsstatus11" style="background-color: white;">
+                      <% for(var i=wbs.length-1;i>=0;i--) { %>
+                                      <tr   id="">
+                                          
+                                          <td>
+                                              <%=wbs[i].WBSName%>
+                                          </td>
+                                          <td>
+                                              <%=wbs[i].WBSCode%>
+                                          </td>
+                                          <td>
+                                              <%=wbs[i].firstName%>
+                                          </td>
+                                          <td>
+                                              <%=wbs[i].location%>
+                                          </td>
+                                          
+                                      </tr> 
+                                      <% } %> 
+                    </tbody>
+                  </table>
+                  </div>
+          <%}%>
+      
+        </div>
+
+  <div class="col-md-6" id="accordions"  style="">
+     <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm">
+<div class="  fluid-container " style="background-color:antiquewhite">
+
+<input type="text" name="wbshidden" class="hide" id="wbshidden" value=2 />
+<input type="text" name="proname" class="hide" id="proname" value='<%=project[0].id%>' />
+<input type="text" name="flaghide" class="hide" id="flaghide" value=0  />
+<input type="text" name="wbsidhide" class="hide" id="idhide" value=0  />
+  <div class="row">
+  <div class="col-md-10  col-md-offset-1" style="margin-left:66px;margin-top:2%">
+   <div class="panel panel-default">
+<div class="panel-heading" id="panelHead1" role="button" style="background-color: #f05f40;    color:#FFFFFF; height:40px;">
+
+
+<span style="float:center; color:white;font-size:18px;padding-left:30%"><b>Create WBS</b></span>
+</div>
+<div class="panel-body" id="panelBody1" role="tabpanel" aria-labelledby="headingOne" >
+
+
+<div class="col-lg-12" style="overflow-y:scroll; max-height:400px;">
+    <div class="col-lg-12">
+        <div class="col-lg-4" style="padding-left: initial;">
+            <label style="padding-top:20px">WBS Name<sup>*</sup> :   </label>
+        </div>
+        <div class="col-lg-8">
+            <input type="text" onfocusout="return allWbs();" class="form-control" style="margin-top:10px;" placeholder="-- Enter a WBS Name --" name="wbsname" id="wbsname" maxlength="25" onfocusout="myFunction(); checkprofield();" value=''>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="col-lg-4">
+            <label style="padding-top:20px">WBS Code :   </label>
+        </div>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" style="margin-top:10px;" placeholder="-- WBS Code --" name="wbscode" id="wbscode" maxlength="50"  value='' readonly>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12">
+        <div class="col-lg-4" style="padding-left: initial;">
+            <label style="padding-top:20px;margin-top: -2px;">WBS Owner:   </label>
+        </div>
+        <div class="col-lg-8 wbsowner">
+            
+            <select style="background-color:#FFFFFF;margin-top: 10px;" class="form-control" id ="wbsowner" name="wbsowner" >
+             <option disabled selected> -- select a WBS Owner -- </option>
+              <% for(var i=0;i<owner.length;i++) {%>
+              <option value="<%=owner[i].id%>"><%=owner[i].name%></option>
+              <%}%>
+
+         </select>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <label style="padding-top:20px">Planned Start Date: <sup>*</sup> </label>
+            </div>
+           <div class="col-lg-8">
+                <input type="text" class="form-control" id="datepicker"  maxlength="25"  placeholder="-- Select Planned Start Date --" style="margin-top:20px; background-color:#FFFFFF;width: 247px;" name="wbspsdate" value='' >
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <label style="padding-top:20px">Planned End Date: <sup>*</sup> </label>
+            </div>
+            <div class="col-lg-8">
+                <input type="text" name="wbspedate" class="form-control"  maxlength="25" placeholder="-- Select Planned End Date --" id="datepicker1" style="background-color:#FFFFFF;margin-top:20px;width: 247px;" value='' >
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <label style="padding-top:20px">Actual Start Date</label>
+            </div>
+            <div class="col-lg-8">
+                <input type="text" class="form-control" id="datepicker2" maxlength="25"  style="margin-top:20px; background-color:#FFFFFF;width: 247px;" placeholder="-- Select Actual Start Date --" name="wbsasdate" value=''>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <label style="padding-top:20px">Actual End Date </label>
+            </div>
+            <div class="col-lg-8">
+                <input type="text" class="form-control" id="datepicker3"  maxlength="25" style="margin-top:20px; background-color:#FFFFFF;width: 247px;" placeholder="-- Select Actual End Date --" name="wbsaedate" value=''>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+
+
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <label style="padding-top:20px">WBS Status: <sup>*</sup></label>
+            </div>
+            <div class="col-lg-8">
+                <input type="radio" name="wbsstatus" value=1 id="wbsstatus1"  style="margin-top:10px;"> Active
+                <input type="radio" name="wbsstatus" value=0 id="wbsstatus2"  style="margin-top:23px;"> Inactive
+            </div>
+        </div>
+        <script>
+        
+        </script>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-12">
+        <div class="col-lg-4">
+            <label style="padding-top:20px;margin-top:-5px;">Estimate Effort:   </label>
+        </div>
+        <div class="col-lg-8">
+           
+
+            <div style="float:left;width:50%;margin-right:2px;">
+          <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Enter Effort" class="form-control" style="margin-top:15px;" name="wbseffort" id="wbseffort" maxlength="2" min="0">
+              </div>
+              <div style="float:left;width:47%;margin-top:15px">
+              <select style="display:inline-block" id="wbseffort1" class="form-control" name="wbseffort1">
+              <option value=0>Select Type</option>
+              <option value=1>Man-Hours</option>
+              <option value=2>Man-Days</option>
+              <option value=3>Man-Weeks</option>
+              <option value=4>Man-Months</option>
+            </select>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-4">
+            <label style="padding-top:20px">WBS Location:   </label>
+        </div>
+        
+
+<div class="col-lg-8 wbslocation">
+               <select style="background-color:#FFFFFF;width: 247px;margin-top:10px;margin-bottom:10px;" class="form-control" id ="wbslocation" name="wbslocation">
+                   <option disabled selected> -- select a Location -- </option>
+                          <% for(var i=0;i<location.length;i++) {%>
+                          <option value="<%=location[i].id%>"><%=location[i].location%></option>
+                          <%}%>
+
+               </select>  
+          
+</div>
+
+
+                                                            </div>
+
+                                                            <div class="col-lg-12">
+        <div class="col-lg-4">
+            <label style="padding-top:20px;margin-top:-5px;">Type:   </label>
+        </div>
+        <div class="col-lg-8">
+
+                <div style="float:left;width:50%;margin-right:2px;">
+     <input class="form-control" placeholder="Enter Type"  type="text" id="wbsType" name="wbsType"style="margin-top:7px; " min="0" maxlength="">
+     </div>
+
+     <div style="float:left;width:47%;margin-top7px">
+     <select style="display:inline-block;margin-top:7px" id="typeValue" class="form-control" name="typeValue">
+                  <option value=0>Select Type</option>
+                  <option value=1>Fixed</option>
+                  <option value=2>Time & Expence</option>
+                </select>
+                </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="col-lg-4">
+            <label style="padding-top:20px;margin-top:-5px;">Assign to All:   </label>
+        </div>
+        <div class="col-lg-8">
+             <select style="display:inline-block;margin-top:10px;" id="assign" class="form-control" name="assign">
+                                                                        <option value=0>-- Select Option --</option>
+                                                                        <option value=1>Yes</option>
+                                                                        <option value=2>No</option>
+                                                                      </select>
+        </div>
+    </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+ 
+
+                                        <div class="row" style="padding-bottom:20px;">
+                                            <div class="col-md-6 col-md-offset-5">
+                                         
+                                                <a href="/projectDetails">
+                                                    <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important"></a>
+
+                                                <input type="reset" value="Reset" name="reset" class="btn btn-primary" style="background-color: #f05f40 !important;">
+
+                                                <input type="submit" value="Submit" onclick="return checkfield();" name="submit" class="btn btn-primary" style="background-color: #f05f40 !important;">
+
+                                            </div>
+                                        </div>
+
+                                        
+
+            </div>
+           
+        </form>
+
+  </div>
+  </div>
+  <footer>
+        <% include ./partials/footer %>
+    </footer> 
+
+</body>
+  
+ 

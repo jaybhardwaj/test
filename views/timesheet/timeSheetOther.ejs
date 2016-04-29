@@ -1,0 +1,991 @@
+<html>
+
+<head>
+    <% include ../partials/head %>
+        <title>Polestar Timesheet</title>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <style>
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            
+            #hr {
+                margin-top: -0.5%;
+            }
+             .scrollit{
+              overflow:scroll; 
+              height:auto; 
+              width:977px;
+            }
+        </style>
+        <script>
+            var new1;
+            var t = '';
+            var no_of_asgmnt = 0;
+            var curr_wbsnm = [];
+            var curr_asgnmnt_id = [];
+            var curr_wbs_id = [];
+
+            var ftdy =1;
+            var weekdy = 0;
+            var monthly=0;
+
+            var st1, ed1;
+            var initial = 0;
+            var for_status = ["Draft", "Active", " Pending for Approval", "Approved", "Rejected"];
+            var weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+            var temp; //var for no, of days going to submitted
+            var userId;
+            var curntdte_for_UsrUndrSuprvsr;
+            var user_for_approved_id = <%=id%>;
+            var alldays = ["Day1", "Day2", "Day3", "Day4", "Day5", "Day6", "Day7", "Day8", "Day9", "Day10", "Day11", "Day12", "Day13", "Day14", "Day15", "Day16", "Day17", "Day18", "Day19", "Day20", "Day21", "Day22", "Day23", "Day24", "Day25", "Day26", "Day27", "Day28", "Day29", "Day30", "Day31", "total"];
+
+            var flag = 0;
+            var dy = "";
+            var year = "";
+            var mon = "";
+            var a, b, c;
+            var curr = '';
+            var sdate;
+            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+            $(document).ready(function() {
+                $('.modulemenu').removeClass('active');
+                $('.portal-menu').addClass('hide');
+                $('.timesheet-tab').addClass("active");
+
+                $('#submitdate').datepicker({
+                    onSelect: function(dateText, inst) {
+                        adjustdays();
+                    }
+                });
+
+                $('#StartDate').on('click', function() {
+                    $('#submitdate').focus();
+                });
+
+                $(".ui-datepicker-trigger img").css("width", "25px");
+                console.log("this is ready function");
+                curr = new Date();
+                var s = curr.toString();
+                a = curr.getDate();
+                b = curr.getMonth();
+                c = curr.getFullYear();
+                var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                abc(c, b + 1, a);
+
+                function adjustdays() {
+                    var d = $('#submitdate').val().toString();
+                    year = d[6] + d[7] + d[8] + d[9];
+                    dy = d[3] + d[4];
+                    mon = d[0] + d[1];
+                    abc(year, mon, dy);
+                }
+
+            });
+
+
+            userId = <%=timeinfo[7][0].usid%>;
+            var retailerId = <%=retailerId%>;
+
+
+            function checkUserTimesheet(userId, tdate) {
+                console.log("inside check");
+                $.ajax({
+                    url: 'checkUserTimesheet',
+                    type: 'post',
+                    data: {
+                        "userId": userId,
+                        "tdate": tdate
+                    },
+                    success: function(data) {
+
+                        /*if(data[1][0].status==2)
+                                                     {
+                                                     //alert("whole datad "+data[1][0].status); 
+                                                      document.getElementById("savetimesheet").disabled = true;
+                                                      document.getElementById("resettimesheet").disabled = true;
+                                                           
+                                                    }
+                                                    else
+                                                    {
+                                                      document.getElementById("savetimesheet").disabled = false; 
+                                                      document.getElementById("resettimesheet").disabled = false;
+                                                      
+                                                    }*/
+
+                        for (var i = 0; i < curr_wbsnm.length + 1; i++) { //alert("hiiii"+temp);
+                            for (var l = 0; l < data[0].length; l++) {
+
+                                if (data[0][l].timeAssignmentId == $('#id' + i).val()) {
+                                    // alert("assignment id from backend is ---------"+data[0][l].timeAssignmentId+"----assignmnetid from front _end----"+$('#id'+i).val());
+
+                                    // alert("i="+i);
+                                    for (var j = 0; j <= temp + 1; j++) {
+
+                                        var days = alldays[j];
+
+                                        if (data[0][l][days] != 0) {
+                                            $('#id' + j + i).val(data[0][l][days]);
+                                        } else {
+                                            $('#id' + j + i).val();
+                                        }
+                                        if (j == temp + 1)
+                                            $('#id' + j + i).val(data[0][l].total);
+                                    }
+
+                                }
+                            }
+                        }
+                        document.getElementById('UsName').innerHTML = data[2][0].firstName;
+                        //$('#UsName').val(data[1][0].firstName);
+                        document.getElementById('Currsname').innerHTML = data[2][0].firstName;
+                        //$('#Currsname').val(data[1][0].firstName);
+                        // alert("length of data one is "+data[1].length);
+                        if (data[1].length == 0) { //alert("hi this is draft");
+                            document.getElementById('timestatus').innerHTML = "Draft";
+                        } else {
+                            document.getElementById('timestatus').innerHTML = for_status[data[1][0].status];
+                        }
+                        if (data[1].length == 0 || data[1][0].status == 0) {
+                            // alert("this is for undefined");
+                            $('#Rejected').addClass('hide');
+                            $('#Approved').addClass('hide');
+                        }
+                        if ((data[1][0].status == 3) && (<%=roleid%> == 1)) {
+                            $('#Approved').addClass('hide');
+                            $('#Rejected').removeClass('hide');
+                        }
+
+                        if (data[1][0].status == 3 && (<%=roleid%> != 1)) {
+                            $('#Rejected').addClass('hide');
+                            $('#Approved').addClass('hide');
+                        }
+
+
+                        if (data[1][0].status == 4) {
+                            $('#Approved').addClass('hide');
+                            $('#Rejected').addClass('hide');
+
+                        }
+                        if (data[1][0].status == 1) {
+                            $('#Rejected').addClass('hide');
+                            $('#Approved').addClass('hide');
+                        }
+                        if (data[1][0].status == 2) {
+                            $('#Rejected').removeClass('hide');
+                            $('#Approved').removeClass('hide');
+                        }
+
+
+                        console.log("in success end");
+                    }
+
+                });
+                console.log("out of check");
+
+            }
+
+            function abc(year1, mon1, dy1)
+
+            {
+
+               // alert(" in abc");
+                curr_wbsnm = [];
+                curr_asgnmnt_id = [];
+                no_of_asgmnt = 0;
+                mon1 = parseInt(mon1);
+                var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                if (ftdy) {
+                    var no_of_days;
+                    if (dy1 < 15 || dy1 == 15) {
+                        //  alert("this is < 15");                            
+                        no_of_days = 15;
+                        var stdate = monthNames[mon1 - 1] + " 1 " + year1;
+                        var eddate = monthNames[mon1 - 1] + " 15 " + year1;
+                        var mname = monthNames[mon1 - 1];
+                        $('#startingdate').text(stdate);
+                        $('#enddate').text(eddate);
+                        eddate1 = " 15 " + "-" + monthNames[mon1 - 1] + "-" + year1;
+                        eddate2 = year1 + " " + mon1 + " " + 15;
+                        $('#submitdate').val(eddate1);
+                        var datefortimes = new Date(eddate2);
+                        //    alert("datefortimes"+datefortimes); 
+                        checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
+                        /*checkUserTimesheet(userId,checkdate);*/
+
+                        // alert("this is 15 days ");
+
+                        stdate = stdate.toString();
+                        eddate = eddate.toString();
+                        var a = stdate.length;
+                        var b = eddate.length;
+                        st1 = stdate[a - 7] + stdate[a - 6];
+                        ed1 = eddate[b - 7] + eddate[b - 6];
+                        temp = 14;
+
+                        new1 = new Date(year1 + " " + mon1 + " " + 1);
+                        EligibleAssignment(new1, datefortimes);
+
+                        //    alert("Above Drawtime --------------  ");
+                        Drawtimesheet(year1, mon1, dy1);
+                        $('#bdy').html(t);
+                        $('#am').html(t1);
+                        //    alert("going for filling timesheet");
+                        checkUserTimesheet(userId, checkdate);
+                        getUserUnderSupervisor();
+                        disableHoliday();
+                        //  arrayfrodrop[initial]=checkdate;
+                        // initial=initial+1;
+
+                    } else {
+                        //   alert("this is greater then 15");
+                        var stdate = monthNames[mon1 - 1] + " 16 " + year1;
+                        var eddate = monthNames[mon1 - 1] + " " + new Date(year1, mon1, 0).getDate() + " " +
+                            year1;
+                        stdate = stdate.toString();
+                        eddate = eddate.toString();
+                        var a = stdate.length;
+                        var b = eddate.length;
+                        st1 = stdate[a - 7] + stdate[a - 6];
+                        ed1 = eddate[b - 7] + eddate[b - 6];
+                        temp = ed1 - st1;
+                        new1 = new Date(year1 + " " + mon1 + " " + 16);
+                        if (temp == 15) {
+                            eddate1 = "31" + "-" + monthNames[mon1 - 1] + "-" + year1;
+                            eddate2 = year1 + " " + mon1 + " " + 31;
+                            var datefortimes = new Date(eddate2);
+                            checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' +
+                                datefortimes.getDate();
+                            /*checkUserTimesheet(userId,checkdate);*/
+                        } else
+
+                        if (temp == 14) {
+                            eddate1 = "30" + "-" + monthNames[mon1 - 1] + "-" + year1;
+                            eddate2 = year1 + " " + mon1 + " " + 30;
+                            var datefortimes = new Date(eddate2);
+                            checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' +
+                                datefortimes.getDate();
+                            /*checkUserTimesheet(userId,checkdate);*/
+                        } else
+
+                        if (temp == 13) {
+                            eddate1 = "29" + "-" + monthNames[mon1 - 1] + "-" + year1;
+                            eddate2 = year1 + " " + mon1 + " " + 29;
+                            var datefortimes = new Date(eddate2);
+                            checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' +
+                                datefortimes.getDate();
+                            /* checkUserTimesheet(userId,checkdate);*/
+                        } else
+
+                        if (temp == 12) {
+                            eddate1 = "28" + "-" + monthNames[mon1 - 1] + "-" + year1;
+                            eddate2 = year1 + " " + mon1 + " " + 28;
+                            var datefortimes = new Date(eddate2);
+                            checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' +
+                                datefortimes.getDate();
+                            checkUserTimesheet(userId, checkdate);
+                            var datefortimes = new Date(eddate2);
+                            /*checkdate=datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' 
+                            +  datefortimes.getDate();*/
+                            /*checkUserTimesheet(userId,checkdate);*/
+                        }
+
+
+                        EligibleAssignment(new1, datefortimes);
+
+                        $('#submitdate').val(eddate1);
+                        //  arrayfrodrop[initial]=checkdate;
+                        // initial=initial+1;
+                        getUserUnderSupervisor();
+                        Drawtimesheet(year1, mon1, dy1);
+                        $('#bdy').html(t);
+                        $('#am').html(t1);
+                        //   alert("goimg for filling timesheet");
+                        checkUserTimesheet(userId, checkdate);
+                        disableHoliday();
+                    }
+
+                }
+                if (weekdy) {
+                    var wkdate = mon1 + "/" + dy1 + "/" + year1;
+                    var wkdate = new Date(wkdate);
+                    //  alert("week date is "+wkdate);
+
+                    var first = wkdate.getDate() - wkdate.getDay(); // First day is the day of the month - the day of the week
+                    var last = first + 6; // last day is the first day + 6
+
+                    var firstday = new Date(wkdate.setDate(first)).toUTCString();
+
+                    var lastday = new Date(wkdate.setDate(wkdate.getDate() + 6)).toUTCString();
+                    firstday = new Date(firstday);
+                    firstday.setDate(firstday.getDate() + 1);
+                    lastday = new Date(lastday);
+                    lastday.setDate(lastday.getDate() + 1);
+                    // alert("firsdt date  of week is "+firstday+"last daet is week is "+lastday)
+                    EligibleAssignment(firstday, lastday);
+                    // st=firstday.getDate();
+                    ed = lastday.getDate();
+                    st1 = firstday;
+                    ed1 = lastday;
+                    eddate1 = ed + "-" + monthNames[lastday.getMonth()] + "-" + year1;
+                    eddate2 = ed1;
+                    $('#submitdate').val(eddate1);
+                    checkdate = lastday.getFullYear() + '-' + (lastday.getMonth() + 1) + '-' +
+                        lastday.getDate();
+                    //  alert("start date of week id "+st1+"end date of week is "+ed1);
+                    temp = 6;
+                    getUserUnderSupervisor();
+                    Drawtimesheet(year1, mon1, dy1);
+                    $('#bdy').html(t);
+                    $('#am').html(t1);
+                    checkUserTimesheet(userId, checkdate);
+                    disableHoliday();
+
+                }
+
+
+/*----------------------------------------logic for monthly timesheet  date adjust-------------------------*/
+
+
+                if(monthly)
+                {    // alert("hii i am in monthly");
+                      var mndate = mon1 + "/" + dy1 + "/" + year1;
+                      var mndate = new Date(mndate);
+                  
+                      var firstDay = new Date(mndate.getFullYear(), mndate.getMonth(), 1);
+                      var lastDay = new Date(mndate.getFullYear(), mndate.getMonth() + 1, 0);
+                      EligibleAssignment(firstDay,lastDay);
+                      ed = lastDay.getDate();
+                      st1 = firstDay;
+                      ed1 = lastDay;
+                      eddate1 = ed + "-" + monthNames[firstDay.getMonth()] + "-" + year1;
+                      eddate2 = ed1;
+                      $('#submitdate').val(eddate1);
+                      checkdate = lastDay.getFullYear() + '-' + (lastDay.getMonth() + 1) + '-' +
+                        lastDay.getDate();
+                     // alert("start date of week id "+st1+"end date of week is "+ed1);
+                      temp = lastDay.getDate()-1;
+                      getUserUnderSupervisor();
+                      Drawtimesheet(year1, mon1, dy1);
+                       $('#scroll').addClass('scrollit');
+                      $('#bdy').html(t);
+                      $('#am').html(t1);
+
+                      checkUserTimesheet(userId, checkdate);
+                      disableHoliday();
+                }
+
+
+/*---------------------------------------------------------------------------------------------------------*/
+
+
+            }
+
+            function EligibleAssignment(new1, datefortimes) {
+               //  alert(" inside eligable asignment");
+                <% for(var i=0;i<timeinfo[2].length;i++)
+                                    { %>
+
+                var ty = new Date('<%=timeinfo[2][i].AssignmentDate%>');
+                var tn = new Date('<%=timeinfo[2][i].deActivationDate%>');
+                //  alert("Start date is-------"+new1+"AssignmenDAte"+ty+"Assignmnet end date is"+tn+"+End date is--"+datefortimes)
+                if ((new1 <= ty && ty <= datefortimes) || (new1 <= tn && tn <= datefortimes) || (datefortimes <= tn && ty <= new1)) {
+                    // alert("this WBSName is eligable"+'<%=timeinfo[2][i].WBSName%>');
+
+                    curr_wbsnm[no_of_asgmnt] = '<%=timeinfo[2][i].WBSName%>';
+                    curr_asgnmnt_id[no_of_asgmnt] = '<%=timeinfo[2][i].id%>';
+                    curr_wbs_id[no_of_asgmnt] = '<%=timeinfo[2][i].WBSID%>';
+                    no_of_asgmnt++;
+                }
+
+                <%}%>
+                //   alert("length of eligible assignmnet is "+no_of_asgmnt);
+                for (var i = 0; i < no_of_asgmnt; i++) {
+                    //  alert("assignmnet for showing is"+curr_wbsnm[i]+"with asignment id "+curr_asgnmnt_id[i]);
+                }
+            }
+
+            function Drawtimesheet(year1, mon1, dy1) {
+               
+                t = '';
+                t1= '';
+                $('#bdy').html('');
+                $('#am').html('');
+                //   alert("inside Draw timesheet");
+                var a1 = '';
+                var a2 = '';
+                var a3 = '';
+                var a = '';
+                var b = '';
+                for (var j = 0; j <= no_of_asgmnt + 1; j++) {
+
+                    if (j == 0) {
+                        a1 = a1 + '<tr style="color:#10104E;font-size: 13px;font-weight:700;border: 1px solid black;"><td style="max-width:200px"><input type="text"  style="width:200px;height:49px; text-align: center;" value="Assignment" disabled></input></td>';
+                        a3 = a3 + '<td><input type="text" style="width:60px; height:49px" value="Total" disabled></input></td></tr>';
+                        if (ftdy) {
+                            for (var k = st1; k <= ed1; k++) {
+                                startdd = new Date(year1, mon1 - 1, k);
+                                var current_date = startdd;
+                                var weekday_value = current_date.getDay();
+                                console.log("days", startdd);
+
+                                a2 = a2 + '<td><input type="hidden" ';
+                                if (dy1 <= 15) {
+                                    a2 = a2 + 'id=' + (k - 1);
+                                } else {
+                                    a2 = a2 + 'id=' + (k - 16);
+                                }
+
+                                a2 = a2 + ' value="' + startdd + '" ><input id="wkd' + (k - 1) + '" type="text" style="width:60px; height:49px; text-align:center;"; value=' + k + "-" + weekdays[weekday_value] + ' disabled></input></td>';
+                            }
+                        }
+                    if (weekdy || monthly) {
+                         //   alert("i am in draw timesheet for 7 days or montly ");
+
+                            for (var p = 0; st1 <= ed1; p++) {
+
+                                k = st1.getDate();
+
+                                var weekday_value = st1.getDay();
+
+
+                                a2 = a2 + '<td><input type="hidden" ';
+
+                                a2 = a2 + 'id=' + p;
+
+
+                                a2 = a2 + ' value="' + st1 + '" ><input id="wkd' + p + '" type="text" style="width:60px; height:49px; text-align:center "; value=' + k + "-" + weekdays[weekday_value] + ' disabled></input></td>';
+
+                                st1.setDate(st1.getDate() + 1);
+
+                            }
+                        }
+                       // a = a1 + a2 + a3;
+                         a=a2+a3;
+                         b='<tr>'+a1+'<tr>';
+                    }
+
+                    for (var i = 0; i <= temp + 1; i++) {
+                        a = a + '';
+                        /*if(i==0 && j<no_of_asgmnt+2 && j==0)
+                         {
+                          a=a+'<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id'+j+'" value="$" ><input type="text"  style="width:200px;  text-align:left;   background-color: rgba(125, 51, 61, 0);color: rgb(254, 254, 254); " value="vacation"  disabled></input></td>'
+                         }
+                        if(i==0 && j<no_of_asgmnt+2 && j==1)
+                         {
+                           a=a+'<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id'+j+'" value="@" ><input type="text"  style="width:200px;  text-align:left;   background-color: rgba(125, 51, 61, 0);color: rgb(254, 254, 254); " value="holiday"  disabled></input></td>'
+                         }*/
+                        if (i == 0 && j < no_of_asgmnt) {
+                            b = b + '<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px; background-color:rgba(125, 51, 61, 0); color: rgb(254, 254, 254);" value="' + curr_wbsnm[j] + '" disabled></input></td>';
+                        }
+                        if (i == 0 && j == no_of_asgmnt) {
+                            b = b + '<td style="max-width:200px"><input type="hidden" id="id' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></input></td>';
+                        }
+                        if (i == 0 && j == no_of_asgmnt + 1) {
+                            b = b + '<td style="max-width:200px"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Work Schedules" disabled></input></td>'
+                        }
+                        if (i < 31 && j == no_of_asgmnt + 1) {
+                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '' + j + '"  disabled value="9"  type="text" style="width:60px; text-align:center;" </input></td>'
+                        } else
+                        if (i < 31 && j == no_of_asgmnt) {
+                            a = a + ' <td> <input disabled id="id' + i + '' + j + '" value="0"  type="text" style="width:60px; text-align:center;"></input> </td>'
+                        } else
+                        if (i == temp + 1) {
+                            a = a + '<td><input id="id' + i + '' + j + '" disabled type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" ></input> </td> '
+                        } else {
+                            a = a + '<td><input id="id' + i + '' + j + '" type="number" class="abc numeric clearAllfield"  style="width:60px; text-align:center;" value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
+                        }
+
+                    }
+                    t = t + '<tr>' + a + '</tr>';
+                    t1= t1+ '<tr  style="border: 1px solid black;">' + b + '</tr>';
+                    a = '';
+                    b = '';
+
+                }
+
+            }
+
+            <!--------------------------------- WORKING AREA  END----------------------------------- -->
+        </script>
+        <style>
+
+        </style>
+        <% include ../partials/adminheader %>
+</head>
+
+<body>
+    <div style="  background-color: antiquewhite;">
+
+        <div class="row" id="headerTime" style="margin-right:0px; margin-bottom:4%; background-color:rgba(51, 60, 125, 0.62);">
+
+            <div class="col-md-2" style="margin-top:8px;margin-left:4%">
+                <label style="color:white">NAME :</label>
+
+                <label id="Currsname"></label>
+            </div>
+
+            <div class="col-md-3" style="text-align-last: center; height:29px;width:264px; background-color:white; border-radius: 25px;     margin-top: 4px;">
+                <img type="button" src="../img/bug/left.jpg" class="shadow" style=" " height="15px" title="" width="15px" onClick="getdateprev()">
+
+                <input type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
+
+                <img type="button" src="../img/bug/Right.jpg" class="shadow" style=" " height="15px" title="" width="15px" onClick="getdateuser()">
+
+
+
+                <span id="StartDate" name="StartDate" class="glyphicon glyphicon-calendar" style="top:3px" height="28px" width="22px" title=" Select Calender"></span>
+
+            </div>
+            <div class="col-md-1" style="margin-top:.5%;">
+                <!--  <input class="date" id="StartDate" name="StartDate" style="height:25px" value="" type="hidden" /> -->
+
+            </div>
+
+
+            <div class="col-md-3" style="    margin-top: 8px;">
+                <label style="color:white;float:left">STATUS :</label>
+                <label style="float:left" id="timestatus">Draft</label>
+            </div>
+
+            <div class="col-md-3" style="    margin-top: 8px;     float: right;margin-bottom:8px">
+
+                <input id="Approved" type="button" style="font-size:10px;background-color: rgba(15, 26, 68, 0.89);margin-top: -3px;" class="btn btn-primary" value="Approve" onClick="return ApporReject(3)"></input>
+
+                <input id="Rejected" type="button" style="background-color: rgba(15, 26, 68, 0.89);font-size:10px;margin-top: -3px;" class="btn btn-primary" value="Reject" data-toggle='modal' data-target='#tag'></input>
+
+                <a href="/timesheet">
+                    <button type="button" style="float:right;font-size:10px;margin-top: -3px;" class="btn btn-primary">Own TimeSheet</button>
+                </a>
+
+            </div>
+        </div>
+
+
+        <div id="MainTime" class="container-fluid" style="padding-bottom:4%">
+            <div class="tab-content" style="margin-left:3%">
+                  <div class="col-md-12" style=""> 
+                    
+                  <div class="col-md-2" >               
+                     <table>
+                      <tbody id="am"> 
+                      </tbody>
+                      </table>
+                    </div>
+                   <div class="col-md-10 ">
+                            <table id="eday" class="" style="border: 1px solid black; ">
+                                <tbody id="bdy0" >
+                                  <tr>
+                                          <td colspan="2">
+                                           <div  id="scroll" > 
+                                             <table>
+                                              <tbody id="bdy">
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </td>
+                                 </tbody>
+                            </table> 
+                    </div>
+                  </div> 
+                    <div class="hide" style="margin-left: 86%;margin-top: 2%;">
+                        <button type="button" id="resettimesheet" class="btn btn-primary" onClick="ClearAll()"></button>
+                        <button type="button" class="btn btn-primary" id="savetimesheet" onClick="Totalsum()"></button>
+                    </div>
+                    <br>
+                    <br>
+                
+            </div>
+        </div>
+
+        <div class=" col-md-12" id="OtherEmp" style=" margin-bottom:1%; background-color:rgba(51, 60, 125, 0.62);">
+
+            <div class="col-md-2">
+                <select style="" class="form-control" id="dropuserdata" onClick="DropdownUsers()">
+                 
+          </select>
+            </div>
+            <div class="col-md-1"><label id="UsName" class="hide"></label></div>
+            <div class="col-md-9"> </div>
+
+
+        </div>
+<hr style="width:100%;margin-bottom:-3%">
+
+        <div class="modal fade" id="tag" style="height:550px">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" id="express2">
+                    <div class="modal-header" style="background-color:#f05f40;">
+                        <center>
+                            <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px"><b>Please provide a reason for Reject Timesheet!</b> 
+                    <span  class='glyphicon glyphicon-remove ' onclick="fun()" style='color:#06394A;height:20px;float:right'title ='Close' > 
+                    </h4>
+                        </center>
+                    </div>
+                    <h4 style="margin-left:17px" id="tagstatus"></h4>
+                    <div class="modal-body" style="height:30%; text-align:center ;margin-top:-10px;padding-top:0px;padding-right:17px;padding-left:17px">
+                        <textarea id="RejectReason" style="margin-top:3%" value=" " style="height:75%" class="form-control" rows="5"></textarea>
+                        <!-- <input class="form-control" rows="5" type="textarea" id="abcd" name="abcd" value=" " style="height:70%"class="form-control" </input> -->
+                        <input type="hidden" id="hid" name="abcd1" value=" " class="form-control" </input>
+                        <input type="submit" onclick="ApporReject(4)" style="width:15% ;margin-top: 2%;" class="btn btn-primary active"></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function getdateprev() {
+        document.getElementById("savetimesheet").disabled = false;
+        document.getElementById("resettimesheet").disabled = false;
+
+        var tt = eddate2;
+        var date = new Date(tt);
+        var newdate = new Date(date);
+        if (ftdy) {
+
+            if (newdate.getDate() == 15)
+                newdate.setDate(newdate.getDate() - 15);
+            else
+            if (newdate.getDate() == 31)
+                newdate.setDate(newdate.getDate() - 16);
+            else
+            if (newdate.getDate() == 30)
+                newdate.setDate(newdate.getDate() - 15);
+            else
+            if (newdate.getDate() == 29)
+                newdate.setDate(newdate.getDate() - 14);
+            else
+            if (newdate.getDate() == 28)
+                newdate.setDate(newdate.getDate() - 13);
+        }
+        if (weekdy) {
+            newdate.setDate(newdate.getDate() - 8);
+            // alert("new date is "+newdate);
+        }
+ if (monthly) {
+            newdate.setDate(newdate.getDate() - 32);
+           //  alert("new date is "+newdate);
+        }
+        var dd = ("0" + newdate.getDate()).slice(-2);
+        var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+        var y = newdate.getFullYear();
+        eddate2 = y + " " + mm + " " + dd;
+        var someFormattedDate = dd + '-' + monthNames[mm - 1] + '-' + y;
+        document.getElementById('submitdate').value = someFormattedDate.toString();
+        var datefortimes = new Date(eddate2);
+        checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
+        checkUserTimesheet(userId, checkdate);
+        console.log("before abc in back", y, "---", mm, "-----", dd);
+        abc(y, mm, dd);
+        console.log("at end in abc");
+    }
+
+    function getdateuser() {
+        document.getElementById("savetimesheet").disabled = false;
+        document.getElementById("resettimesheet").disabled = false;
+
+        //alert('dashgfdhsd');
+        var tt = eddate2;
+        //alert(eddate2);
+        var date = new Date(tt);
+        var newdate = new Date(date);
+        a = newdate.getMonth();
+        var y = newdate.getFullYear();
+        var b = new Date(y, a + 1, 0).getDate();
+        if (ftdy) {
+            if (newdate.getDate() == 15) {
+                if (a == 0 || a == 2 || a == 4 || a == 6 || a == 7 || a == 9 || a == 11)
+                    newdate.setDate(newdate.getDate() + 16);
+                else
+                if (a == 3 || a == 5 || a == 8 || a == 10)
+                    newdate.setDate(newdate.getDate() + 15);
+                else
+                if (a == 1 && b == 28) { //alert("jjjj");
+                    newdate.setDate(newdate.getDate() + 13);
+                } else
+                if (a == 1 && b == 29)
+                    newdate.setDate(newdate.getDate() + 14);
+            } else { //alert("hiiii");
+                newdate.setDate(newdate.getDate() + 15);
+            }
+        }
+        if (weekdy) {
+            newdate.setDate(newdate.getDate() + 6);
+        }
+      
+         if (monthly) {
+            newdate.setDate(newdate.getDate() + 1);
+            // alert("new date is "+newdate);
+        }
+        var dd = ("0" + newdate.getDate()).slice(-2);
+        var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+        var y = newdate.getFullYear();
+        eddate2 = y + " " + mm + " " + dd;
+        var someFormattedDate = dd + '-' + monthNames[mm - 1] + '-' + y;
+        document.getElementById('submitdate').value = someFormattedDate.toString();
+        var datefortimes = new Date(eddate2);
+        checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
+        // alert("userId id id "+userId+"date for check"+checkdate);       
+        checkUserTimesheet(userId, checkdate);
+        abc(y, mm, dd);
+    }
+
+    function disableHoliday() {
+        //alert(" i main disable holiday ");
+        var k = curr_wbsnm.length + 1;
+        //console.log(k,"hi i am in disableHoliday");
+        for (var i = 0; i < temp + 1; i++) {
+            var ddy = $('#' + i).val();
+            // console.log("date is "+ddy);
+            ddy = new Date(ddy);
+            var weekdy = ddy.getDay();
+            var date_other_format = ddy.getFullYear() + '-' + (ddy.getMonth() + 1) + '-' + ddy.getDate();
+            if ('<%=timeinfo[8][0].schedule%>' == '') {
+                //alert("rthis is null");
+                if (weekdy == 6) {
+                    satsun(i, k);
+                } else disholi(i, k, date_other_format);
+            } else
+            if ('<%=timeinfo[8][0].schedule%>' == 4) {
+
+
+                if (weekdy == 0 || weekdy == 6) {
+
+                    satsun(i, k);
+
+                } else
+                    disholi(i, k, date_other_format);
+            }
+            if ('<%=timeinfo[8][0].schedule%>' == 1) {
+
+
+                if (weekdy == 6) {
+
+                    satsun(i, k);
+
+                } else
+                    disholi(i, k, date_other_format);
+            }
+            if ('<%=timeinfo[8][0].schedule%>' == 2) {
+
+
+                if (weekdy == 0) {
+
+                    satsun(i, k);
+
+                } else
+                    disholi(i, k, date_other_format);
+            }
+            if ('<%=timeinfo[8][0].schedule%>' == 3) {
+
+
+                if (weekdy == 0 || weekdy == 6) {
+
+                    satsun(i, k);
+
+                } else
+                    disholi(i, k, date_other_format);
+            }
+
+
+        }
+        var s = 0;
+        for (var i = 0; i < temp + 1; i++) {
+            s = s + parseInt($('#id' + i + k).val());
+        };
+        $('#id' + i + k).val(s);
+        //  alert(" end of  disable holiday ");
+    }
+
+    function satsun(i, k) {
+        for (var j = 0; j < curr_wbsnm.length; j++) {
+            console.log('hhhhhhhhhhhhhhhhhhhh');
+            var hol = /holiday/;
+            //var str = "my holiday";
+            var abc = curr_wbsnm[j];
+            abc = abc.toLowerCase();
+            console.log('Do we found something?', Boolean(abc.match(hol)));
+            //if(j==0)
+            if (Boolean(abc.match(hol))) { //var q=document.getElementById("#id01").value;
+                console.log("this is sunday or saturday");
+                document.getElementById("id" + i + j).disabled = true;
+                document.getElementById("id" + i + k).value = 0;
+                document.getElementById("id" + i + j).style.backgroundColor = "#7E7E9E";
+            }
+        }
+    }
+
+    function disholi(i, k, date_other_format) {
+        <% for (var k1 = 0; k1 < timeinfo[4].length; k1++) {%>
+        var holidy = '';
+        if ('<%=typeof(timeinfo[4][k1].holidaydate)%>');
+        var holidy = new Date('<%=timeinfo[4][k1].holidaydate%>');
+        var date_other_format_2 = holidy.getFullYear() + '-' + (holidy.getMonth() + 1) + '-' + holidy.getDate();
+        if (date_other_format == date_other_format_2) {
+            console.log("ddy is an holiday", date_other_format_2);
+            for (var j = 0; j < no_of_asgmnt; j++) {
+                var hol = /holiday/;
+                var abc = curr_wbsnm[j];
+                abc = abc.toLowerCase();
+                console.log('Do we found something?', Boolean(abc.match(hol)));
+                if (Boolean(abc.match(hol))) {
+                    var p = k - 1;
+                    document.getElementById("id" + i + j).disabled = true;
+                    document.getElementById("id" + i + j).value = 9;
+                    document.getElementById("id" + i + (k - 1)).value = 9;
+                    document.getElementById("id" + i + k).value = 9;
+                }
+            }
+        }
+        <% }  %>
+    }
+
+    function ClearAll() {
+        $(".clearAllfield").val('');
+    }
+
+    function showDiv() {
+        // alert("hide");
+
+
+    }
+
+    function DropdownUsers() {
+        var dpusdata = $('#dropuserdata').val();
+        //alert("user id is"+dpusdata);
+        if ($('#dropuserdata').val() != 0) {
+            window.location.href = "/otherTimeSheet?id=" + dpusdata;
+        } //alert("hiiiiiiiiiiiii");
+    }
+
+    function ApporReject(ARstatus) {
+        // alert("hi i am in ARstatus");
+        if (ARstatus == 3) {
+            $.ajax({
+                url: 'ApprovedOrReject',
+                type: 'post',
+                data: {
+                    "status": ARstatus,
+                    "id": user_for_approved_id,
+                    "ardate": checkdate,
+                    "appOrRejBy": userId,
+                    "appOrRejReason": '',
+                    "userEmail": '<%=timeinfo[9][0].userEmail%>'
+                },
+                success: function(data) {
+                    alert("Response have been submited Successfuly");
+                    console.log("--------------------werwerwe------------------");
+                    document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
+                    if ((data[0][0].status == 3) && (<%=roleid%> == 1)) {
+                        $('#Approved').addClass('hide');
+                        $('#Rejected').removeClass('hide');
+                    }
+
+                    if (data[0][0].status == 3 && (<%=roleid%> != 1)) {
+                        $('#Rejected').addClass('hide');
+                        $('#Approved').addClass('hide');
+                    }
+                    if (data[0][0].status == 4) {
+                        $('#Rejected').addClass('hide');
+                        $('#Approved').removeClass('hide');
+                    }
+                    console.log("kkkkkk");
+                    getUserUnderSupervisor();
+                }
+
+
+
+            });
+
+        }
+        if (ARstatus == '4') {
+
+            if ($('#RejectReason').val().trim().length <= 0) {
+                alert("Please enter a reason");
+                return false;
+            }
+
+            $('#tag').modal('toggle');
+            $.ajax({
+                url: 'ApprovedOrReject',
+                type: 'post',
+                data: {
+                    "status": ARstatus,
+                    "id": user_for_approved_id,
+                    "ardate": checkdate,
+                    "appOrRejBy": userId,
+                    "appOrRejReason": $('#RejectReason').val(),
+                    "userEmail": '<%=timeinfo[9][0].userEmail%>'
+                },
+                success: function(data) {
+                    alert("Response have been submited Successfuly");
+                    console.log("--------------------werwerwe------------------");
+                    document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
+                    if (data[0][0].status == 3) {
+                        $('#Approved').addClass('hide');
+                        $('#Rejected').removeClass('hide');
+                    }
+                    if (data[0][0].status == 4) {
+                        $('#Rejected').addClass('hide');
+                        $('#Approved').addClass('hide');
+                    }
+                    console.log("kkkkkk");
+                    getUserUnderSupervisor();
+                }
+
+            });
+
+        }
+
+
+    }
+
+    function getUserUnderSupervisor() {
+        //  arrayfrodrop[2]=checkdate;
+        //alert("for checking"+arrayfrodrop[0]);
+        // alert("hiii i amin getuserunder supervisor");
+        $.ajax({
+            url: 'getUserUnderSupervisor',
+            type: 'post',
+            data: {
+                "cdate": checkdate
+            },
+            success: function(data) {
+                console.log(data);
+                $('#dropuserdata').html('');
+                $('#dropuserdata').append('<option  value=0>Select</option>');
+                for (var i = 0; i < data.length; i++) {
+                    if (for_status[data[i].status] != null) {
+                        $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-' + for_status[data[i].status] + '</option>');
+
+                    } else {
+                        $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>');
+                    }
+
+                }
+
+            }
+
+
+        });
+    }
+
+    function fun() {
+        /*$("#hid").val(id);*/
+        $('#tag1').modal('hide');
+        $('#tag').modal('hide');
+    }
+</script>
+</html>
+<% include ../partials/footer %>

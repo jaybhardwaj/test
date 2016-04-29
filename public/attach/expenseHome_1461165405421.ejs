@@ -1,0 +1,3291 @@
+
+<html>
+<head>
+<% include ../partials/head %>
+<% include expHeader.ejs %>
+ <% include ../partials/adminheader %>
+
+
+<!--  <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.css" rel="stylesheet" media="screen">
+                <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js"></script>
+                <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js">
+                </script>
+ --> 
+</header>
+<script type="text/javascript">
+
+/*document id for data table and datepicher*/
+var str1='';
+$(document).ready(function() {
+$('.exphome-img').addClass('active');
+toCheckExpenseSubmitOrNot();
+
+role(); 
+newExpense();
+//showstatus(); 
+// getdate();  
+$("#data_table").dataTable();
+$("#bugtable1").dataTable();
+
+ jQuery('.dateRangePicker').datetimepicker({
+                            i18n: {
+                                de: {
+                                    months: [
+                                        'Januar', 'Februar', 'März', 'April',
+                                        'Mai', 'Juni', 'Juli', 'August',
+                                        'September', 'Oktober', 'November', 'Dezember',
+                                    ],
+                                    dayOfWeek: [
+                                        "So.", "Mo", "Di", "Mi",
+                                        "Do", "Fr", "Sa.",
+                                    ]
+                                }
+                            },
+                            timepicker: false,
+                            format: 'Y.m.d'
+                        });
+        //.datepicker
+        // ({ dateFormat: "yy-mm-dd" }).val();  
+/* code for datepicher*/
+ jQuery('.datepicker').datetimepicker({
+                            i18n: {
+                                de: {
+                                    months: [
+                                        'Januar', 'Februar', 'März', 'April',
+                                        'Mai', 'Juni', 'Juli', 'August',
+                                        'September', 'Oktober', 'November', 'Dezember',
+                                    ],
+                                    dayOfWeek: [
+                                        "So.", "Mo", "Di", "Mi",
+                                        "Do", "Fr", "Sa.",
+                                    ]
+                                }
+                            },
+                            timepicker: false,
+                            format: 'Y-m-d'
+                        });
+
+ /*for DataTable*/
+    $('#cli').addClass('hide');
+            $('.users8').addClass('activetab');
+          /*  if(oTable){
+                oTable.destroy();
+            }*/
+          var  oTable = $("#bugtable").dataTable({
+                "bLengthChange": false,
+                "paging": false,
+                "binfo" : false ,
+                "bDestroy": true ,  
+
+                "aoColumnDefs": [{
+                    "bSortable": false,
+                    "aTargets": [-1]
+                }],
+                "autoWidth": false,
+                "columns": [{
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }]
+            });
+
+});
+/*date function*/
+var ab=$(function(){
+var formatted_date = function(date){
+                var m = ("0"+ (date.getMonth()+1)).slice(-2); // in javascript month start from 0.
+                var d = ("0"+ date.getDate()).slice(-2); // add leading zero 
+                var y = date.getFullYear();
+                return  y +'-'+m+'-'+d; 
+}
+ 
+        var curr_date =new Date();
+                 
+        var day = curr_date.getDay();
+                 
+        var diff = curr_date.getDate() - day + (day == 0 ? -6:1); // 0 for sunday
+         if(diff<16) {      
+        var week_start_tstmp = curr_date.setDate(1);           
+         }
+         else{
+          week_start_tstmp = curr_date.setDate(16); 
+         }         
+        var week_start = new Date(week_start_tstmp);
+                 
+        var week_start_date =formatted_date(week_start);
+                 
+        var week_end  = new Date(week_start_tstmp);  // first day of week 
+                 
+        week_end = new Date (week_end.setDate(week_end.getDate() + 6));
+                 
+        var week_end_date =formatted_date(week_end);
+     
+        date=week_start_date + ' to '+week_end_date;    // date range for current week
+        $('#datebutton').val(week_start_date);
+        $('#datebuttonuser').val(week_start_date);
+     //alert(date);
+       /*
+         var week_end_date =formatted_date(new Date()); // limit current week date range upto current day.
+       */
+ 
+});
+//alert(date);
+/*end*/
+/*end datepicher code*/
+
+ function hideLineDetails(){
+  $("#d11").addClass('hide');
+  $("#hotel").addClass('hide');
+  $("#footer").addClass('hide');
+  $("#travel").addClass('hide');
+  $("#phone").addClass('hide');
+  $("#rfd").addClass('hide');
+  $("#food").addClass('hide');
+    $("#diem").addClass('hide');
+    $("#other").addClass('hide');
+  
+ }
+
+/*function for hide the*/
+
+ function showexpensType(){
+  $("#d11").removeClass('hide');
+  validation();
+ }
+
+ /*end*/
+ /*function for open the form for edit the expense*/
+
+ function showexpensDetailsforedit(id){
+
+  var expenseType=id;
+  if(expenseType==1){
+  
+    $("#myModal1").modal('show');
+  }
+  if(expenseType==2){
+    $("#myModal2").modal('show');
+  }
+  if(expenseType==4){
+   $("#myModal3").modal('show');
+  }
+  if(expenseType==5){
+   $("#myModal4").modal('show');
+  }
+  if(expenseType==3){
+   $("#myModal6").modal('show');
+  }
+  if(expenseType==6){
+   $("#myModal5").modal('show');
+  }
+  if(expenseType>6){
+  $("#myModal7").modal('show');
+  }
+ }
+
+ /*end*/
+ function datepicker1(){
+ document.getElementById("datebutton").focus();
+ datepicher(); 
+}
+
+function datepickerforotherUser(){
+ document.getElementById("datebuttonuser").focus();
+ datepicherforUser(); 
+}
+ /*function for open attachment form*/
+
+function showAttechmentmodel(id){
+ // alert("submit attechment");
+$('#claimeid').val(id);
+ $("#myModal10").modal('show'); 
+}
+/*end*/
+/*date function in javascript*/
+function datepicherforUser(){
+   $(".dateRangePicker").on("change",function(){
+        var selected = $(this).val();
+        var date = new Date(selected);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() + 15);
+    if(newdate.getDate()<16){
+    
+    // var dd =("0"+newdate.getDate()).slice(-2);
+    var dd=("0"+1)
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();}
+    else{
+      var dd=("0"+16)
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+    }
+
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    document.getElementById('datebuttonuser').value = someFormattedDate.toString();
+    showexpensDetailsofuser();
+      });
+      }
+function datepicher(){
+   $(".dateRangePicker").on("change",function(){
+        var selected = $(this).val();
+       var date = new Date(selected);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() + 15);
+    if(newdate.getDate()<16){
+    
+     var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+    else{
+       var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+    }
+
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    document.getElementById('datebutton').value = someFormattedDate.toString();
+    selecthotelExpenseforweek(); 
+    });
+}
+function getdate() {
+  //alert('dashgfdhsd');
+    var tt = document.getElementById('datebutton').value;
+
+    var date = new Date(tt);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() + 15);
+    if((newdate.getDate()<16)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
+    
+     var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+
+   if((newdate.getDate()>15)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
+     
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 2)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+    
+   if((newdate.getDate()>1)&&(("0"+(newdate.getMonth() + 1)).slice(-2)==12)){
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+1).slice(-2);
+    var y = newdate.getFullYear()+1;
+  }
+ 
+    
+
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    document.getElementById('datebutton').value = someFormattedDate.toString();
+    selecthotelExpenseforweek();
+}
+
+function getdateprev() {
+  //alert('dashgfdhsd');
+    var tt = document.getElementById('datebutton').value;
+
+    var date = new Date(tt);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() - 15);
+    if(newdate.getDate()<16){
+      if(("0"+(newdate.getMonth())).slice(-2)!=00){
+    var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth())).slice(-2);
+    var y = newdate.getFullYear();
+  }
+  else{
+     var dd =("0"+16).slice(-2);
+    var mm = ("0"+12).slice(-2);
+    var y = newdate.getFullYear()-1; 
+
+  }
+  }
+  else{
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth()+1)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    document.getElementById('datebutton').value = someFormattedDate.toString();
+     selecthotelExpenseforweek();
+}
+
+function getdateuser() {
+  //alert('dashgfdhsd');
+    var tt = document.getElementById('datebuttonuser').value;
+
+    var date = new Date(tt);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() + 15);
+   if((newdate.getDate()<16)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
+    
+     var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+
+   if((newdate.getDate()>15)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
+     
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 2)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+    
+      if((newdate.getDate()>1)&&(("0"+(newdate.getMonth() + 1)).slice(-2)==12)){
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+1).slice(-2);
+    var y = newdate.getFullYear()+1;
+  }
+ 
+    
+
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    document.getElementById('datebuttonuser').value = someFormattedDate.toString();
+    showexpensDetailsofuser();
+}
+
+function getdateprevuser() {
+  //alert('dashgfdhsd');
+    var tt = document.getElementById('datebuttonuser').value;
+
+    var date = new Date(tt);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() - 15);
+    if(newdate.getDate()<16){
+      
+    var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth())).slice(-2);
+    var y = newdate.getFullYear();
+  }
+ if(("0"+(newdate.getMonth())).slice(-2)==00){
+    var dd =("0"+16).slice(-2);
+    var mm = ("0"+12).slice(-2);
+    var y = newdate.getFullYear()-1;
+     }
+    if(newdate.getDate()>15){
+       var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth()+1)).slice(-2);
+    var y = newdate.getFullYear();
+    }
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    document.getElementById('datebuttonuser').value = someFormattedDate.toString();
+    showexpensDetailsofuser();
+}
+/*end*/
+/*function for show expense form according expense type*/
+
+function showexpensDetails(){
+
+  var expenseType=$('#typeEx').val();
+  
+  //alert(expenseType);
+  if(expenseType==1){
+    $('#hotel').trigger("reset");
+    $("#myModal1").modal('show');
+  }
+  if(expenseType==2){
+    $('#travelf').trigger("reset");
+    $("#myModal2").modal('show');
+  }
+  if(expenseType==4){
+    $('#phonef').trigger("reset");
+   $("#myModal3").modal('show');
+  }
+  if(expenseType==5){
+    $('#rsdf').trigger("reset");
+   $("#myModal4").modal('show');
+  }
+  if(expenseType==3){
+    $('#foodf').trigger("reset");
+   $("#myModal6").modal('show');
+  }
+  if(expenseType==6){
+    $('#deamf').trigger("reset");
+   $("#myModal5").modal('show');
+  }
+  if(expenseType>6){
+    $('#otherf').trigger("reset");
+    $('#otherlavel').html('');
+    
+  $("#myModal7").modal('show');
+  $('#otherlavel').append($( "#typeEx option:selected" ).text());
+  $('#anyotherex').val($('#typeEx').val());
+  }
+ }
+
+/*end*/
+/*fuction to caculate total hotel expense*/
+
+function totalhotalExpence(){
+  var a =$('#hrate').val();
+  var b=$('#htotalday').val();
+   $('#htex').val(a*b);
+ }
+
+/*end*/
+ /*fuction to caculate total travel expense*/
+
+ function totaltravelExpense(){
+  var c=$('#travelrate').val();
+   var d=$('#traveltday').val();
+   $("#travelex").val(c*d);
+ }
+
+/*end*/
+/*fuction to caculate total per diem expense*/
+
+ function totalperDiemExpense(){
+   var e=$('#diemrate1').val();
+     var f=$('#diemday1').val();
+   $("#diemtotal1").val(e*f);
+ }
+
+/*end*/
+/*fuction to caculate total rfd expense*/
+
+  function totalrfdExpense(){
+     var g=$('#rfdper').val();
+    var h=$('#rfdtotalkm').val();
+    $("#rfdext").val(g*h);
+ }
+
+ /*function for show the message to insert the data*/
+
+ function getMessage(){
+ // $("#showMessage").removeClass('hide');
+  //$('#showm').append("Add yor Expense successfully");
+ }
+
+/*end function getmessage*/
+/* function for delete expense */
+function DeleteExpense(typeid,id,expclid){
+  var typeId=typeid;
+  var Id=id;
+  var expclid=expclid;
+  var a= confirm("Are you sure to Delete your Expense?");
+  if(a==true){
+    DeleteExpense1(typeId,Id,expclid);
+  }
+}
+
+ function DeleteExpense1(typeid,id,expclid){
+    
+       var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/deleteExpense';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    id: id,
+                    typeid:typeid,
+                    expclid:expclid
+                },
+                success: function(data) {
+                window.location.reload();
+                },
+                dataType: 'JSON',
+            });
+
+  }
+/**/
+ function selecthotelExpenseforweek() {
+  
+  date=$('#datebutton').val();
+ 
+
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/ShowExpenseWeekBy';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    date: date,
+                    
+               },
+                dataType: 'json',
+                success: function(users1) {
+       //alert(users1);
+
+            var  users =users1[0];
+                      console.log(users1);
+                      showtotalExpense();
+                     // var user=users1[1][0].sum;
+                     var ref = $('#data_table').DataTable();
+                       
+                           var log='';
+                          console.log('bshdhggdvhewdvhgjogi',users1[0].length);
+                             log = "<thead><tr style='font-size:12px' >" + "<th>Expense Type</th>" + "<th>Trip/Assignment</th>" + "<th>From Date</th>" + "<th>To Date</th>" + "<th>Total Amount</th><th >Action</th><th>Status</th></tr></thead><tbody id='tablebody2' >";
+                            for (var i = 0; i < users.length; i++) {
+                            // claimid=claimid+users[i].expenseclaimId+",";
+                              
+                                log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].tripAssignment + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
+                                 if(users[i].anyFile!=undefined){
+                                log = log + "<a href='/attach/"+users[i].anyFile+"'Download style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-download-alt' style='color:red;height:10px'   title ='download Attachmenet' ></span></a>";}
+                                if(users[i].Submitted==1){
+                                 log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-comment' style='color:blue;height:15px' onclick='showCommentandRemark("+users[i].expenseclaimId+")'   title ='comment' ></span></a>";}
+                                 if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
+                                    log=log+"<a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-adjust' style='height:15px;color:red;font-size:10px;' onclick='resubmittheExpense("+users[i].expenseclaimId+")'  title ='ReSubmit'></span></a></td>";}
+                                     log=log+"</td><td>";
+                                 if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
+                              log=log +"Pending..</td>";
+                                 }
+                                   if((users[i].ClaimedStatus==111)&&(users[i].Submitted==1)){
+                               log=log + "Approveed by supervisor</td>";
+                                 }
+                                   if((users[i].ClaimedStatus<10)&&(users[i].ClaimedStatus>0)&&(users[i].Submitted==1)){
+                                log=log +"Approved by manager<span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Level'>"+users[i].ClaimedStatus+"</span></td>";
+                                 }
+                                   if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
+                                log=log +"Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
+                                 }
+                                   if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)&&(users[i].Submitted==1)){
+                                log=log +"Rejected <a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-share' style='height:20px;color:red;font-size:15px;' title='ReSubmit' onclick='resubmittheExpenseforCopy("+users[i].expenseclaimId+")'></span></a></td>";
+                                 }
+                            
+                            log = log + "</tr>";}
+                            log=log+"</tbody>";
+
+
+                            $("#data_table").dataTable().fnDestroy();
+                                     $("#data_table").html('');
+
+                            $("#data_table").html(log);
+                             $("#data_table").dataTable({
+                                "bLengthChange": true,
+                "paging": true,
+                "binfo" : false , 
+                 "bDestroy": true ,  
+
+                "aoColumnDefs": [{
+                    "bSortable": false,
+                    "aTargets": [-1]
+                }],
+                "autoWidth": false,
+                "columns": [{
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                },{
+                    "width": "10%"
+                }]
+                       });  
+                      
+                        }
+                    
+                
+            });
+        
+        }
+/**/
+/*end DeleteExpense function*/
+/*function for select the expense data by id for copy expense */
+
+
+ function selecthotelExpenseforCopy(typeid,id,expensecid) {
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/selectExpense';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    id: id,
+                    typeid:typeid,
+                    expensecid:expensecid
+                },
+                
+                success: function(data) {
+                da=data[1][0];  
+                data=data[0][0];
+                  if(typeid==1){
+             $('#blabelhotel').val(da.minimumBillableMandetory);
+              $('#Maxhotel').val(da.maximumBillableMandetory);
+               $('#trip1').val(data.tripAssignment);
+                  $('#from').val(data.fromdate);
+                    $('#to').val(data.toDate);
+                      $('#hotelname').val(data.hotelName);
+                        $('#hreason').val(data.reason);
+                          $('#hrate').val(data.ratePerDay);
+                            $('#hifno').val(data.ifNotThenOther);
+                              $('#htotalday').val(data.totalDay);
+                                $('#hotelcu').val(data.currencyId);
+                                  $('#htex').val(data.totalExpense);
+                                    $("#flaghotel").val(0);
+                                     showexpensDetailsforedit(typeid); 
+                        }
+                        if(typeid==2){
+            $('#blabelTravel').val(da.minimumBillableMandetory);
+              $('#MaxTravel').val(da.maximumBillableMandetory);
+                 $('#traveltrip').val(data.tripassignment);
+                  $('#fromdatefortravel').val(data.fromdate);
+                    $('#tofortravel').val(data.toDate);
+                      $('#traveltype').val(data.travelType);
+                        $('#travelre').val(data.reason);
+                          $('#travelrate').val(data.ratePerDay);
+                            $('#travelif').val(data.ifNotThenOther);
+                              $('#traveltday').val(data.totalDay);
+                                $('#travelc').val(data.currencyId);
+                                  $('#travelex').val(data.totalExpense);
+                                    $("#flagtravel").val(0);
+                         showexpensDetailsforedit(typeid);          
+                        }
+                        if(typeid==3){
+              $('#blabelfood').val(da.minimumBillableMandetory);
+                $('#Maxfood').val(da.maximumBillableMandetory);
+                 $('#foodtrip').val(data.tripassignment);
+                  $('#fromfood').val(data.fromdate);
+                    $('#tofood').val(data.toDate);
+                      $('#foodre').val(data.reason);
+                        $('#foodcu1').val(data.currencyId);
+                          $('#foodex1').val(data.totalExpense);
+                            $("#flagfood").val(0);
+                         showexpensDetailsforedit(typeid);          
+                        }
+                        if(typeid>6){
+                           $('#otherlavel').html('');
+                           $('#otherlavel').append(da.description);
+                      $('#blabelother').val(da.minimumBillableMandetory);
+                       $('#Maxother').val(da.maximumBillableMandetory);
+                          $('#othertrip').val(data.tripAssignment);
+                            $('#fromother').val(data.fromdate);
+                             $('#otherToDate').val(data.toDate);
+                              $('#otherreason').val(data.reason);
+                                $('#othercu1').val(data.currencyId);
+                                  $('#otherex1').val(data.totalExpense);
+                                  $('#anyotherex').val(typeid);
+                                    $("#flagother").val(0);
+                         showexpensDetailsforedit(typeid);          
+                        }
+                        if(typeid==4){
+              $('#blabelPhone').val(da.minimumBillableMandetory);
+               $('#MaxPhone').val(da.maximumBillableMandetory);          
+                 $('#phonetrip').val(data.tripassignment);
+                  $('#fromdateforphone').val(data.fromdate);
+                    $('#todateforphone').val(data.toDate);
+                      $('#callingreason').val(data.reason);
+                        $('#callingc').val(data.currencyId);
+                          $('#callingex').val(data.totalExpense);
+                            $("#flagphone").val(0);
+                         showexpensDetailsforedit(typeid);          
+                        }
+                        if(typeid==5){
+               $('#blabelrsd').val(da.minimumBillableMandetory);
+                $('#Maxrsd').val(da.maximumBillableMandetory);         
+                 $('#rsdtrip').val(data.tripassignment);
+                  $('#fromdateforrfd').val(data.fromdate);
+                    $('#todateforrfd').val(data.toDate);
+                      $('#rfdtypeof').val(data.typeOfVehicle);
+                        $('#rfdreason').val(data.reason);
+                          $('#rfdper').val(data.perkmRate);
+                            $('#rfdifnot').val(data.ifNotThenOther);
+                              $('#rfdtotalkm').val(data.totalkmTravel);
+                                $('#rfdcu').val(data.currencyId);
+                                  $('#rfdext').val(data.totalExpense);
+                                     $("#flagrsd").val(0);
+                         showexpensDetailsforedit(typeid);          
+                        } 
+
+                        if(typeid==6){
+               $('#blabeldiem').val(da.minimumBillableMandetory);
+                $('#Maxdiem').val(da.maximumBillableMandetory);
+                 $('#pertrip').val(data.tripassignment);
+                  $('#fromdateperdiem').val(data.fromdate);
+                    $('#todateperdiem').val(data.toDate);
+                      $('#diemhotelname').val(data.hotalName);
+                        $('#diemreasonstay').val(data.reason);
+                          $('#diemrate1').val(data.perDiemRate);
+                            $('#diemif1').val(data.ifNotThenOther);
+                              $('#diemday1').val(data.totalDays);
+                                $('#diemcu').val(data.currencyId);
+                                  $('#diemtotal1').val(data.totalExpense);
+                                     $("#flagperdiem").val(0);
+                         showexpensDetailsforedit(typeid);          
+                        }        
+                },
+                dataType: 'JSON',
+            });
+        }
+
+/*end selecthotelExpenseforCopy function*/
+/* function for Select The Expense Data for Edit the Expense Details*/
+
+    function selecthotelExpense(typeid,id,expensecid) {
+      
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/selectExpense';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    id: id,
+                    typeid:typeid,
+                    expensecid:expensecid
+                },
+                success: function(data) {
+                //alert(data[0][0].tripassignment);
+                da=data[1][0];
+                data=data[0][0];
+                  if(typeid==1){
+                   // alert(data.expId);
+             $('#blabelhotel').val(da.minimumBillableMandetory);
+              $('#Maxhotel').val(da.maximumBillableMandetory);
+                $('#trip1').val(data.tripAssignment);
+                  $('#from').val(data.fromdate);
+                    $('#to').val(data.toDate);
+                      $('#hotelname').val(data.hotelName);
+                        $('#hreason').val(data.reason);
+                          $('#hrate').val(data.ratePerDay);
+                            $('#hifno').val(data.ifNotThenOther);
+                              $('#htotalday').val(data.totalDay);
+                                $('#hotelcu').val(data.currencyId);
+                                  $('#htex').val(data.totalExpense);
+                                   $("#exthotel").val(data.expId);
+                                    $('#extclaimhotel').val(data.expenseclaimId);
+                                     $("#flaghotel").val(1);
+                                     showexpensDetailsforedit(typeid); 
+                        }
+                        if(typeid==2){
+                         $('#blabelTravel').val(da.minimumBillableMandetory);
+              $('#MaxTravel').val(da.maximumBillableMandetory);    
+                $('#traveltrip').val(data.tripassignment);
+                  $('#fromdatefortravel').val(data.fromdate);
+                    $('#tofortravel').val(data.toDate);
+                      $('#traveltype').val(data.travelType);
+                        $('#travelre').val(data.reason);
+                          $('#travelrate').val(data.ratePerDay);
+                            $('#travelif').val(data.ifNotThenOther);
+                              $('#traveltday').val(data.totalDay);
+                                $('#travelc').val(data.currencyId);
+                                  $('#travelex').val(data.totalExpense);
+                                   $("#exttravel").val(data.expId);
+                                    $('#extclaimtravel').val(data.expenseclaimId);
+                                     $("#flagtravel").val(1);
+                         showexpensDetailsforedit(typeid);          
+                        }
+                                     if(typeid==3){
+                      $('#blabelfood').val(da.minimumBillableMandetory);
+                       $('#Maxfood').val(da.maximumBillableMandetory);
+                        $('#foodtrip').val(data.tripassignment);
+                          $('#fromfood').val(data.fromdate);
+                           $('#tofood').val(data.toDate);
+                            $('#foodre').val(data.reason);
+                              $('#foodcu1').val(data.currencyId);
+                                $('#foodex1').val(data.totalExpense);
+                                  $("#extfood").val(data.expId);
+                                    $('#extclaimfood').val(data.expenseclaimId);
+                                     $("#flagfood").val(1);
+                         showexpensDetailsforedit(typeid);          
+                        }
+                                     if(typeid>6){
+                     $('#otherlavel').html('');
+                      $('#otherlavel').append(da.description);
+                       $('#blabelother').val(da.minimumBillableMandetory);
+                        $('#Maxother').val(da.maximumBillableMandetory);  
+                          $('#othertrip').val(data.tripAssignment);
+                            $('#fromother').val(data.fromdate);
+                             $('#otherToDate').val(data.toDate);
+                              $('#otherreason').val(data.reason);
+                                $('#othercu1').val(data.currencyId);
+                                  $('#otherex1').val(data.totalExpense);
+                                   $("#extother").val(data.expId);
+                                    $('#extclaimother').val(data.expenseclaimId);
+                                    $('#anyotherex').val(typeid);
+                                     $("#flagother").val(1);
+                         showexpensDetailsforedit(typeid);          
+                        }
+                              if(typeid==4){
+            $('#blabelPhone').val(da.minimumBillableMandetory);
+              $('#MaxPhone').val(da.maximumBillableMandetory);   
+                $('#phonetrip').val(data.tripassignment);
+                  $('#fromdateforphone').val(data.fromdate);
+                    $('#todateforphone').val(data.toDate);
+                        $('#callingreason').val(data.reason);
+                                $('#callingc').val(data.currencyId);
+                                  $('#callingex').val(data.totalExpense);
+                                   $("#extphone").val(data.expId);
+                                    $('#extclaimphone').val(data.expenseclaimId);
+                                     $("#flagphone").val(1);
+                         showexpensDetailsforedit(typeid);          
+                        }
+                              if(typeid==5){
+             $('#blabelrsd').val(da.minimumBillableMandetory);
+              $('#Maxrsd').val(da.maximumBillableMandetory);            
+                $('#rsdtrip').val(data.tripassignment);
+                  $('#fromdateforrfd').val(data.fromdate);
+                    $('#todateforrfd').val(data.toDate);
+                      $('#rfdtypeof').val(data.typeOfVehicle);
+                        $('#rfdreason').val(data.reason);
+                          $('#rfdper').val(data.perkmRate);
+                            $('#rfdifnot').val(data.ifNotThenOther);
+                              $('#rfdtotalkm').val(data.totalkmTravel);
+                                $('#rfdcu').val(data.currencyId);
+                                  $('#rfdext').val(data.totalExpense);
+                                    $("#extrsd").val(data.expId);
+                                     $('#extclaimrsd').val(data.expenseclaimId);
+                                      $("#flagrsd").val(1);
+                         showexpensDetailsforedit(typeid);          
+                        } 
+
+                                       if(typeid==6){
+             $('#blabeldiem').val(da.minimumBillableMandetory);
+              $('#Maxdiem').val(da.maximumBillableMandetory);  
+                $('#pertrip').val(data.tripassignment);
+                  $('#fromdateperdiem').val(data.fromdate);
+                    $('#todateperdiem').val(data.toDate);
+                      $('#diemhotelname').val(data.hotalName);
+                        $('#diemreasonstay').val(data.reason);
+                          $('#diemrate1').val(data.perDiemRate);
+                            $('#diemif1').val(data.ifNotThenOther);
+                              $('#diemday1').val(data.totalDays);
+                                $('#diemcu').val(data.currencyId);
+                                  $('#diemtotal1').val(data.totalExpense);
+                                   $("#extperdiem").val(data.expId);
+                                    $('#extclaimperdiem').val(data.expenseclaimId);
+                                     $("#flagperdiem").val(1);
+                         showexpensDetailsforedit(typeid);          
+                        }        
+                },
+                dataType: 'JSON',
+            });
+        }
+
+function hidetheButton(hidebuttonid){
+ 
+   $('#a'.concat(hidebuttonid)).addClass('hide');
+   $('#b'.concat(hidebuttonid)).addClass('hide');
+
+}
+function newExpense(){
+  
+  if(<%=Ex%>==0){
+    $(".otherexp-img").removeClass("active");
+  $(".exphome-img").removeClass("active");
+  $(".raiseexp-img").addClass("active");
+  $("#rasebutton").addClass('hide');
+  $('#dateTablebutton').addClass('hide');
+ // submitbuttonDisable();
+ $('#submitbutton').removeClass('hide'); 
+   }
+   else{
+    $('#explabel').addClass('hide');
+    $('#typeEx').addClass('hide');
+     $('#submitbutton').addClass('hide');
+   }
+ } 
+
+ 
+
+ function otherExpense(){
+
+  $(".otherexp-img").addClass("active");
+  $(".exphome-img").removeClass("active");
+  $(".raiseexp-img").removeClass("active");
+
+  $('#accordionsdata').addClass('hide');
+     $('#totalandaddEX').addClass('hide');
+     $('#submitbutton').addClass('hide');
+   $('#aprovediv').removeClass('hide');
+   $('#submitdiv').addClass('hide');
+
+ }
+
+ function showtotalExpense(){
+   $('#explabel').addClass('hide');
+    $('#typeEx').addClass('hide');
+     $('#totalandaddEX').removeClass('hide');
+
+ }
+
+  function showstatus(){
+     <%if(!expenseDetails.length){%>
+          
+       $('#statusbutton').html('');  
+     <%}else{
+      
+     if(expenseDetails[0].ClaimedStatus==''){%>
+     $('#statusbutton').html('');
+  <% }%>
+   <%if(expenseDetails[0].ClaimedStatus==1){%>
+     $('#statusbutton').html('');
+     $('#statusbutton').html('Approved by Supervisor');
+  <% }%>
+   <% if(expenseDetails[0].ClaimedStatus==2){%>
+     $('#statusbutton').html('');
+     $('#statusbutton').html('Approved by Manager');
+     <%}%>
+      <% if(expenseDetails[0].ClaimedStatus==3){%>
+     $('#statusbutton').html('');
+     $('#statusbutton').html('Approved by finance');
+   
+<%}}%>
+ }
+function expensedescription(expclaimId){
+ // alert('agshdfga');
+        //date=$('#datebutton').val();
+        $('#myModalexp').modal('show');
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/ShowExpenseByapprover';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                   expclaimId:expclaimId,
+                    
+               },
+                dataType: 'json',
+                success: function(users1) {
+       //alert(users1[0].length);
+
+            var  users =users1[0];
+                      console.log(users1);
+                      showtotalExpense();
+                      var user=users1[1][0].sum;
+                            //alert("hhdasghdfsasa"+user);
+                            $('#totalExpenseforuser').val(user);
+                               if (users.length == 0) {
+                             //$("#orderbody").empty();
+                             $("tbody").empty();
+                             $('tbody').append('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');
+                            // var table = $('#data_table').DataTable();
+ 
+                            //  table.clear().draw();
+                            //$('#data_table').dataTable().fnDestroy();
+                          // window.location.reload();
+                             }
+                        if (users.length > 0) {
+                          // $("#tablebody").html('');
+                            log='';
+                          console.log('bshdhggdvhewdvhgjogi',users1[0].length);
+                            var log = "<thead><tr style='font-size:10px' >" + "<th>Expense Type</th>" + "<th>Trip/Assignment</th>" + "<th>From Date</th>" + "<th>To Date</th>" + "<th>Total Amount</th><th>Action</th></tr></thead><tbody id='tablebody' >";
+                            for (var i = 0; i < users.length; i++) {
+                            // claimid=claimid+users[i].expenseclaimId+",";
+                              
+                                log = log + "<tr style='height:10px;color:grey;font-size:10px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].WBSName + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
+                                if(users[i].anyFile!=undefined){
+                                log = log + "<a href='/attach/"+users[i].anyFile+"'Download style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-download-alt' style='color:red;height:10px'   title ='download Attachmenet' ></span></a></td>";
+                                       }
+                            
+                            log = log + "</tr>";}
+                            log=log+"</tbody>";
+
+
+                            $("#bugtable1").dataTable().fnDestroy();
+                                     $("#bugtable1").html('');
+
+                            $("#bugtable1").html(log);
+                             $("#bugtable1").dataTable({
+                                "bLengthChange": true,
+                "paging": true,
+                "binfo" : false , 
+                 "bDestroy": true ,  
+
+                "aoColumnDefs": [{
+                    "bSortable": false,
+                    "aTargets": [-1]
+                }],
+                "autoWidth": false,
+                "columns": [{
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }]
+                       });  
+                      
+                        }
+                    
+                }
+            });
+        
+        } 
+  
+
+ function showexpensDetailsofuser() {
+     claimid="";
+         $('#datetablediv').removeClass('hide');
+         $('#accordions').removeClass('hide');
+         $('#accordionsdata').addClass('hide');
+            var userId = $('#typeExp').val();
+            var date1=$('#datebuttonuser').val();
+            //alert(userId);
+            var flag=1;
+            if (flag == 1) {
+                return ($.ajax({
+                    url: '/expenseUser',
+                    type: 'post',
+                    data: {
+                   userId:userId,
+                   date1:date1
+                    },
+                    dataType: 'json',
+
+                    success: function(users1) {
+                      var  users =users1[0];
+                      console.log(users1);
+                      showtotalExpense();
+                      
+                           var log='';
+                         
+                             log = "<thead><tr style='font-size:12px' >" + "<th>User Name</th>" + "<th>From Date</th>" + "<th>To Date</th>" + "<th>Total Amount</th><th>Action</th><th>Status</th></tr></thead><tbody id='tablebody' >";
+
+                            for (var i = 0; i < users.length; i++) {
+                             claimid=claimid+users[i].expenseclaimedId+",";
+                              
+                                log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].firstName + "' id='l" + users[i].firstName + "'>" + "<td >" + users[i].firstName +  "</td>"  + "<td >" + users[i].toDate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
+                                
+                                log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-list-alt' style='color:black;height:10px' onclick='expensedescription("+users[i].expenseclaimId+")'   title ='description' ></span></a>";
+                                 log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-comment' style='color:blue;height:15px' onclick='showCommentandRemark("+users[i].expenseclaimId+")'   title ='comment' ></span></a>";
+
+                             if((users[i].Status==0)&&(users[i].ClaimedStatus!=10)){
+                                log+= "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span id='a"+users[i].expenseclaimId+"'  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-ok-circle' style='color:green;height:10px' onclick=\"(approveExpense("+users[i].expenseclaimId+",'"+users[i].userEmail+"','"+users[i].ClaimedStatus+"','"+users[i].totalExpense+"','"+users[i].id+"',1))\"   title ='For Approve Expense' ></span></a>"+
+                                  "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span id='b"+users[i].expenseclaimId+"'  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-remove-circle' style='color:red;height:10px' onclick=\"(rejectReason("+users[i].expenseclaimId+",'"+users[i].userEmail+"','"+users[i].ClaimedStatus+"','"+users[i].totalExpense+"','"+users[i].id+"',0))\"   title ='For Reject Expense' ></span></a>";
+                                  }
+                                  log+="</td><td>";
+                               if((users[i].ClaimedStatus==0)&&(users[i].Status==0)&&(users[i].Submitted==1)){
+                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:8px;'>Pending..</span></td>";
+                                 }
+                                  if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Status==0)&&(users[i].Submitted==1)){
+                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:8px;'>Pending..</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
+                                 }
+
+                                   if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)&&(users[i].Status==1)){
+                                    //hidetheButton(users[i].expenseclaimId);
+                                     //$('#a'.concat(users[i].expenseclaimId)).addClass('hide');
+                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:8px;'>Approved by manager</span></td>";
+                                 }
+                                   if((users[i].ClaimedStatus>1)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:8px;'>Approved by manager</span></td>";
+                                 }
+                                   if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:8px;'>Approved by finance</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
+                                 }
+                                   if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)){
+                                log=log +"Rejected</td>";
+                                 }
+                                     if(users[i].Status==100){
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:8px;'>Rejected</span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
+                                 }
+                            
+                            log = log + "</tr>";}
+                            log=log+"</tbody>";
+
+                            $("#bugtable").dataTable().fnDestroy();
+                                     $("#bugtable").html('');
+
+                            $("#bugtable").html(log);
+                             $("#bugtable").dataTable({
+                                "bLengthChange": true,
+                "paging": true,
+                "binfo" : false , 
+                 "bDestroy": true ,  
+
+                "aoColumnDefs": [{
+                    "bSortable": false,
+                    "aTargets": [-1]
+                }],
+                "autoWidth": false,
+                "columns": [{
+                    "width": "10%"
+                },  {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                },{
+                    "width": "10%"
+                }, {
+                    "width": "15%"
+                }]
+                       });  
+                      
+                        
+                    }
+                
+            }));
+        }
+        } 
+
+ function array(){
+  str1="";
+  for (var i = claimid.length - 1; i >= 0; i--) {
+    str1=str1+claimid[i];
+  };
+ } 
+
+ function role(){
+  if(<%=roleid%>==2){
+    $("#aprovediv").addClass('hide');
+        
+  }
+ } 
+//submitExpense(1,0);
+ /*function submitExpense(id1,id2){
+  alert($('#ipn').val());
+
+ }*/
+
+ function rejectReason(claimarray,useremail,cstatus,totalAmount,transId,status1){
+   
+  //alert('sagscagsfsa');
+  $('#comment').val('');
+  $('#myModalcomment').modal('show');
+   $('#comentexpid').val(claimarray);
+   $('#expemail').val(useremail);
+   $('#expemail1').val(transId);
+ 
+ }
+
+  function approveExpense(claimarray,toemail,cstatus,totalAmount,transId){
+    $('#remark').val('');
+  $('#myModalremark').modal('show');
+   $('#comentexpid1').val(claimarray);
+   $('#expemail2').val(toemail);
+   $('#expemail11').val(transId);
+    $('#statusr').val(cstatus);
+ 
+ }
+
+  function rejecttheExpense(status1) {
+   //alert(claimarray);
+   var claimarray=$('#comentexpid').val();
+  var expemail=$('#expemail').val();
+  remark=$('#comment').val();
+  transId=$('#expemail1').val();
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/expenseApprove';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    claimarray:claimarray,
+                   status1:status1,
+                   expemail:expemail,
+                   remark:remark,
+                   transId:transId
+                },
+                success: function(data) {
+                   // $('#appbuton').append('d');
+                     $('#appbutton').val('Submitted');
+                     //$('#submitedbutton').disabled=true;
+                     document.getElementById("appbutton").disabled = true;
+                     //$('#appbuton').disable();
+                     alert("Expense has been rejected successfully.");
+                      $('#a'.concat(claimarray)).addClass('hide');
+                        $('#b'.concat(claimarray)).addClass('hide');
+                     $('#c'.concat(transId)).html('');
+                      $('#c'.concat(transId)).append('Rejected');
+                      $( "#typeExp option:selected" ).text().replace("pending", "Rejected");
+                     
+                }
+                });
+                }
+
+        function checkExpense(Id) {
+                    //alert('hassfsagsfahj');
+          //var Id=$('#typeEx').val();
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/expenseblableornot';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    Id:Id,
+                  
+                },
+                success: function(data) {
+                  if(data.length!=undefined){
+                 for(var i=0;i<data.length-1;i++){
+              $('#'.concat(data[i][0].flagbill)).css('background-color', 'yellow');
+               }
+             alert("Bill Attachment mandatory for highlighted expense");
+               }
+               else{
+                    $('#usercomment').val('');
+                    $('#myModalsubmit').modal('show');
+               // alert(str);
+               }
+                  
+                }
+                });
+                }
+
+     function toCheckExpenseSubmitOrNot(){
+                var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkExpenseSubmitOrNot';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                 
+                success: function(data) {
+
+              if(data[0].flag==1) { 
+           
+            $('#raiseexp').fadeTo("fast", .5).removeAttr("href"); 
+               }
+               else{
+              
+               }   
+                }
+                });
+          }      
+
+   function toChecktheDate(){
+            var wbsId=$('#trip1').val();
+            var startDate=$('#from').val();
+            var endDate=$('#to').val();
+
+             var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkWbsDate';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    wbsId:wbsId,
+                    startDate:startDate,
+                    endDate:endDate,
+                  
+                },
+                success: function(data) {
+              if(data[0].flag==1) { 
+              att='true';
+               }
+               else{
+                alert('WBS date does not match Please select the currect WBS on Trip/Assignment button');
+              att='false';
+               }   
+                }
+                });
+        return att;
+          } 
+
+    function toChecktheDateTravel(){ 
+       var wbsId=$('#traveltrip').val();
+            var startDate=$('#fromdatefortravel').val();
+            var endDate=$('#tofortravel').val();
+     var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkWbsDate';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    wbsId:wbsId,
+                    startDate:startDate,
+                    endDate:endDate,
+                  
+                },
+                success: function(data) {
+              if(data[0].flag==1) { 
+               
+              return true;
+               }
+               else{
+                alert('WBS date does not match Please select the currect WBS on Trip/Assignment button');
+                document.getElementById("trip1").focus;
+                return false;
+               }   
+                }
+                });
+        
+          } 
+
+     function toChecktheDateFood(){
+        var wbsId=$('#foodtrip').val();
+            var startDate=$('#fromfood').val();
+            var endDate=$('#tofood').val();
+       var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkWbsDate';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    wbsId:wbsId,
+                    startDate:startDate,
+                    endDate:endDate,
+                  
+                },
+                success: function(data) {
+              if(data[0].flag==1) { 
+               
+              return true;
+               }
+               else{
+                alert('WBS date does not match Please select the currect WBS on Trip/Assignment button');
+                document.getElementById("trip1").focus;
+                return false;
+               }   
+                }
+                });
+        
+          } 
+
+     function toChecktheDatePhone(){
+      var wbsId=$('#phonetrip').val();
+            var startDate=$('#fromdateforphone').val();
+            var endDate=$('#todateforphone').val();
+        var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkWbsDate';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    wbsId:wbsId,
+                    startDate:startDate,
+                    endDate:endDate,
+                  
+                },
+                success: function(data) {
+              if(data[0].flag==1) { 
+               
+              return true;
+               }
+               else{
+                alert('WBS date does not match Please select the currect WBS on Trip/Assignment button');
+                document.getElementById("trip1").focus;
+                return false;
+               }   
+                }
+                });
+   
+          } 
+
+    function toChecktheDatersd(){
+
+      var wbsId=$('#rsdtrip').val();
+            var startDate=$('#fromdateforrfd').val();
+            var endDate=$('#todateforrfd').val();
+
+       var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkWbsDate';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    wbsId:wbsId,
+                    startDate:startDate,
+                    endDate:endDate,
+                  
+                },
+                success: function(data) {
+              if(data[0].flag==1) { 
+               
+              return true;
+               }
+               else{
+                alert('WBS date does not match Please select the currect WBS on Trip/Assignment button');
+                document.getElementById("trip1").focus;
+                return false;
+               }   
+                }
+                });
+       
+          } 
+
+       function toChecktheDateBilldiem(){
+      
+      var wbsId=$('#pertrip').val();
+            var startDate=$('#fromdateperdiem').val();
+            var endDate=$('#todateperdiem').val();
+
+      var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkWbsDate';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    wbsId:wbsId,
+                    startDate:startDate,
+                    endDate:endDate,
+                  
+                },
+                success: function(data) {
+              if(data[0].flag==1) { 
+               
+              return true;
+               }
+               else{
+                alert('WBS date does not match Please select the currect WBS on Trip/Assignment button');
+                document.getElementById("trip1").focus;
+                return false;
+               }   
+                }
+                });
+       
+        
+          } 
+
+      function toChecktheDateOther(){
+
+        var wbsId=$('#othertrip').val();
+            var startDate=$('#fromother').val();
+            var endDate=$('#otherToDate').val();
+      
+       var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkWbsDate';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    wbsId:wbsId,
+                    startDate:startDate,
+                    endDate:endDate,
+                  
+                },
+                success: function(data) {
+              if(data[0].flag==1) { 
+               
+              return true;
+               }
+               else{
+                alert('WBS date does not match Please select the currect WBS on Trip/Assignment button');
+                document.getElementById("trip1").focus;
+                return false;
+               }   
+                }
+                });
+          } 
+
+           function toCheckthelength(){
+        
+           if($('#usercomment').val().length<500)
+           {
+            submittheExpense();
+             return  true;
+           }
+            else{
+                alert('Please write only 500 letters in the comment box');
+                $('#usercomment').val('');
+                return false;
+                }
+          }  
+
+           function toCheckthelengthforRemark(){
+        
+           if($('#remark').val().length<500)
+           {
+            approvetheExpense(1);
+             return  true;
+           }
+            else{
+                alert('Please write only 500 letters in the comment box');
+                $('#remark').val('');
+                return false;
+                }
+          }  
+
+            function toCheckthelengthforReason(){
+        
+           if($('#comment').val().length<500)
+           {
+            rejecttheExpense(0);
+             return  true;
+           }
+            else{
+                alert('Please write only 500 letters in the reason box');
+                $('#comment').val('');
+                return false;
+                }
+          }       
+
+ function approvetheExpense(status1) {
+    var claimarray=$('#comentexpid1').val();
+  var toemail=$('#expemail2').val();
+  remark=$('#remark').val();
+  transId=$('#expemail11').val();
+   
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/expenseApprove';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    claimarray:claimarray,
+                   status1:status1,
+                   toemail:toemail,
+                   transId:transId,
+                   remark:remark
+                },
+                success: function(data) {
+                   // $('#appbuton').append('d');
+                     $('#appbutton').val('Submitted');
+                     //$('#submitedbutton').disabled=true;
+                     document.getElementById("appbutton").disabled = true;
+                     //$('#appbuton').disable();
+                     alert("Expense approved successfully.");
+                     $('#a'.concat(claimarray)).addClass('hide');
+                      $('#b'.concat(claimarray)).addClass('hide');
+                     $('#c'.concat(transId)).html('');
+                      $('#c'.concat(transId)).append('Approved');
+                      $( "#typeExp option:selected" ).text().replace("pending", "Approved");
+                     // $('#bugtable').fnReloadAjax('expenseHome.ejs');
+                }
+                });
+                  
+}
+
+function submitExpense() {
+   if($('#ipn').val()==undefined){
+    alert('please add the expense');
+   } else{
+    checkExpense($('#ipn').val());
+
+}
+}
+
+     function showCommentandRemark(ids) {
+  
+   
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/showremarkandcomment';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    ids:ids,
+                   
+                },
+                success: function(data) {
+                 $('#showcomment').html('');
+                  $('#myModalshowcomment').modal('show');
+                  if(data[0][0].anyFile==''){
+                  $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No any comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                  }else{
+                    $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[0][0].anyFile+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");}
+                    if(data[1].length>0){
+                    for (var i = 0; i < data[1].length; i++) {
+                       if(data[1][i].remark==''){
+                   $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No any comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                  }else{
+                    $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[1][i].remark+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                  }
+                    }
+                  }
+                }
+                });
+                
+                }
+
+   function submittheExpense() {
+   var expClaim=$('#ipn').val();
+ var comments=$('#usercomment').val();
+     if($('#ipn').val()==undefined){
+    alert('please add the expense');
+   } else{
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/expenseSubmit';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    expClaim:expClaim,
+                    comments:comments
+                },
+                success: function(data) {
+                    $('#submitedbutton').val('Submitted');
+                     //$('#submitedbutton').disabled=true;
+                     document.getElementById("submitedbutton").disabled = true;
+
+                     alert("Expense submitted successfully.");
+                      window.location.href ='/expense';
+                }
+                });
+                }
+                }
+
+function resubmittheExpenseforCopy(expclaimId) {
+   
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/reSubmitforcopy';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    expclaimId:expclaimId
+                },
+                success: function(data) {
+                      window.location.href ='/expensenew';
+                }
+                });
+
+                }
+  
+   function resubmittheExpense(expclaimId) {
+   
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/reSubmit';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    expclaimId:expclaimId
+                },
+                success: function(data) {
+                      window.location.href ='/expensenew';
+                }
+                });
+
+                }
+
+  function submitbuttonDisable(){
+     $('#submitedbutton').val('Submitted');
+                     document.getElementById("submitedbutton").disabled = true;
+                      $('#submitedbutton').removeClass('hide');
+
+  } 
+                                    
+ /*end function*/
+function getdate1(){
+  var d = new Date();
+  //var date=d.toDateString();
+//document.getElementById("datebutton").innerHTML = d.toDateString();
+//$('#datebutton').val(date);
+}
+/*function to varify the date*/
+function dateVarifyofHotel(){
+  if(new Date($('#from').val())<=new Date($('#to').val())){
+    var diffDays = Math.round(Math.abs(new Date($('#from').val()).getTime() -new Date($('#to').val()).getTime()));
+    var days = diffDays/86400000;
+    //alert(days);
+    //toChecktheDate();
+      $('#htotalday').val(days+1);
+return true;;
+  }else{
+   alert('Start date is greater than end date');
+document.getElementById("to").focus();
+return false;
+  }
+}
+
+function dateVarifyofTravel(){
+  if(new Date($('#fromdatefortravel').val())<=new Date($('#tofortravel').val())){
+    var diffDays = Math.round(Math.abs(new Date($('#fromdatefortravel').val()).getTime() - new Date($('#tofortravel').val()).getTime()));
+    var days = diffDays/86400000;
+      $('#traveltday').val(days+1);
+return true;;
+  }else{
+alert('Start date is greater than end date');
+document.getElementById("tofortravel").focus();
+return false;
+  }
+}
+
+function dateVarifyofFood(){
+  if(new Date($('#fromfood').val())<=new Date($('#tofood').val())){
+return true;;
+  }else{
+alert('Start date is greater than end date');
+document.getElementById("tofood").focus();
+return false;
+  }
+}
+function dateVarifyofPhone(){
+  if(new Date($('#fromdateforphone').val())<=new Date($('#todateforphone').val())){
+return true;;
+  }else{
+alert('Start date is greater than end date');
+document.getElementById("todateforphone").focus();
+return false;
+  }
+}
+
+function dateVarifyofRsd(){
+  if(new Date($('#fromdateforrfd').val())<=new Date($('#todateforrfd').val())){
+    
+return true;;
+  }else{
+alert('Start date is greater than end date');
+document.getElementById("todateforrfd").focus();
+return false;
+  }
+}
+
+function dateVarifyofPerdiem(){
+  if(new Date($('#fromdateperdiem').val())<=new Date($('#todateperdiem').val())){
+    var diffDays = Math.round(Math.abs(new Date($('#fromdateperdiem').val()).getTime() - new Date($('#todateperdiem').val()).getTime()));
+    var days = diffDays/86400000;
+    //alert(days);
+      $('#diemday1').val(days+1);
+return true;;
+  }else{
+alert('Start date is greater than end date');
+document.getElementById("todateperdiem").focus();
+return false;
+  }
+}
+
+function dateVarifyofOther(){
+  if(new Date($('#fromother').val())<=new Date($('#otherToDate').val())){
+return true;;
+  }else{
+alert('Start date is greater than end date');
+document.getElementById("otherToDate").focus();
+return false;
+  }
+}
+
+function changeCurrency(){
+  if($( "#hotelcu option:selected" ).attr('acualvalue')!=0){
+  var a =$('#hrate').val();
+  var b=$('#htotalday').val();
+ var totalbill= $( "#hotelcu option:selected" ).attr('acualvalue')*a*b;
+ $('#htex').val(totalbill);
+}
+else{
+ var a =$('#hrate').val();
+  var b=$('#htotalday').val();
+var totalbill=1*a*b;
+ $('#htex').val(totalbill); 
+}
+}
+function changeCurrencyforTravel(){
+  if($( "#travelc option:selected" ).attr('acualvalue')!=0){
+  var c=$('#travelrate').val();
+   var d=$('#traveltday').val();
+ var totalbill= $( "#travelc option:selected" ).attr('acualvalue')*c*d;
+ $('#travelex').val(totalbill);
+}
+else{
+  var c=$('#travelrate').val();
+   var d=$('#traveltday').val();
+var totalbill=1*c*d;
+$('#travelex').val(totalbill);
+}
+}
+function changeCurrencyforDiem(){
+  if($( "#diemcu option:selected" ).attr('acualvalue')!=0){
+  var e=$('#diemrate1').val();
+     var f=$('#diemday1').val();
+ var totalbill= $( "#diemcu option:selected" ).attr('acualvalue')*e*f;
+ $('#diemtotal1').val(totalbill);
+}
+else{
+   var e=$('#diemrate1').val();
+     var f=$('#diemday1').val();
+ var totalbill= 1*e*f;
+ $('#diemtotal1').val(totalbill);
+}
+}
+function changeCurrencyforrsd(){
+  if($( "#rfdcu option:selected" ).attr('acualvalue')!=0){
+   var g=$('#rfdper').val();
+    var h=$('#rfdtotalkm').val();
+ var totalbill= $( "#rfdcu option:selected" ).attr('acualvalue')*g*h;
+ $('#rfdext').val(totalbill);
+}
+else{
+  var g=$('#rfdper').val();
+    var h=$('#rfdtotalkm').val();
+ var totalbill= 1*g*h;
+ $('#rfdext').val(totalbill); 
+}
+}
+
+function changeCurrencyforphone(){
+    var h=$('#callingex').val();
+ var totalbill= $( "#callingc option:selected" ).attr('acualvalue')*h;
+ $('#callingex').val(totalbill);
+}
+
+function changeCurrencyforfood(){
+    var h=$('#foodex1').val();
+ var totalbill= $( "#foodcu1 option:selected" ).attr('acualvalue')*h;
+ $('#foodex1').val(totalbill);
+}
+
+function changeCurrencyforOther(){
+    var h=$('#otherex1').val();
+ var totalbill= $( "#othercu1 option:selected" ).attr('acualvalue')*h;
+ $('#otherex1').val(totalbill);
+}
+/*end function dateVarify*/
+ 
+</script>
+      <style>
+  
+      </style>
+</head>
+<body>
+
+<div id="submitdiv" class="col-md-12 a" style="background-color:rgba(51, 60, 125, 0.62); ">
+       
+        <div class="col-md-2"> <label id="statuslabel" style="margin-top:10px;color:white;padding-left50px;" class="">User : <%=user%></label>
+       </div>
+       <div class="col-md-1"> <label id="statusbutton" style="margin-top:10px;color:white" class=""  value='panding'>
+        
+       </label>
+       </div>
+       <div class='col-md-1'></div>
+      <div class="col-md-4" id='dateTablebutton' style="height:29px;width:270px;background-color:white;margin-top:4px;border-radius: 25px;">
+       <!-- <div class="" style="height:40px;width:50px">-->
+            <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprev()'>
+              <input type='text' id="datebutton" style="margin-top:3px;text-align: center;font-size:12px" class="shadow dateRangePicker"  value='' onchange="selecthotelExpenseforweek()" />
+            <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdate()'>
+            <span class="glyphicon glyphicon-calendar" style="" height="28px" width="22px" title=" Expense" onclick='datepicker1()'></span>
+       </div>
+       <div class='col-md-3'></div>
+       <div class="col-md-1" id='rasebutton' style="float:right;"><table><tr><td><a id='raiseexp' href="/expensenew?expin=0"><img src="../img/bug/addbug.png" class="shadow" style=" margin-left: 23px;" height="25px" title="Raise Expense" width="25px"></td></tr><tr><td><span style='font-size:10px;color:white;'>Raise Expense</span></td></tr></table></a>
+       </div>                
+</div>
+
+<!--DataTable Code for display the expense Details-->
+<div id="aprovediv" class="col-md-12 a hide" style="background-color:rgba(51, 60, 125, 0.62);margin-top:0%;">
+        <div class="col-md-2">
+              <label style="line-height:20px !important;color:white;margin-left:20px;margin-top: 10px">Other user :</label>
+        </div>
+        <div class="col-md-2">
+              <select class="form-control" id='typeExp' name="client" style="margin-top:5px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:12px;float:right" onchange="showexpensDetailsofuser()">
+                      <option value=0>--Select--</option>                              
+                       <%for(var i=bilableusers.length-1;i>=0;i--)
+                        {   var y;
+                          if(bilableusers[i].Status==0){
+                          for(var k=0;k<bilableusers.length;k++){
+                           y= bilableusers[i].id;} %> 
+                      <option value="<%=bilableusers[i].id%>">
+                        <%=bilableusers[i].firstName%> (pending)
+                      </option>
+                        <%} else  { 
+                        if(y != bilableusers[i].id) { %> 
+                        <option value="<%=bilableusers[i].id%>">
+                        <%=bilableusers[i].firstName%> (approved)
+                      </option>
+                      <%}}}%>                                
+               </select>
+       </div> 
+       <div class='col-md-1'></div>
+        <div class="col-md-4 hide" id="datetablediv" style="height:29px;width:270px;background-color:white;margin-top:5px;border-radius: 25px;">
+       <!-- <div class="" style="height:40px;width:50px">-->
+            <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuser()'>
+              <input type='text' id="datebuttonuser" style="margin-top:3px;text-align: center;font-size:12px" class="shadow dateRangePicker"  value=''/ onchange=" showexpensDetailsofuser()">
+            
+            <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateuser()'>
+             <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUser()'></span>
+       </div> 
+       </div>
+       <div class="col-md-2"> <button id="appbutton" style="margin-top:5px;" class="form-control hide" onclick="approvetheExpense(claimid,1)">Approve</button>
+       </div>
+       <div class="col-md-2"><button class="form-control hide" style="margin-top:5px;" onclick="approvetheExpense(claimid,0)">Reject</button>
+       </div>
+
+</div>
+
+<div id="showMessage" class="hide" style="height:px;width:200px;"><label id="showm" style="color:green;font-size:15px"></label></div>
+
+<div class="bug-background" id="accordionsdata"  >
+
+    <table id="data_table" class="table table-hover table-striped table-bordered rceDataTable" cellspacing="0" width="100%" >
+                <thead>
+                         <th>Expense Type</th>
+                         <th>Trip/Assignment</th>
+                         <th>From</th>
+                         <th>To</th>
+                         <th>Amount(INR)</th>
+                         <th>Action</th>
+                         <th>Status</th>
+              </thead>
+                        <tbody id="orderbody">
+                        <%strforclaimid="";%>
+                        <%if(expenseDetails!=undefined){%>          
+                          <% for(var i=0;i<expenseDetails.length;i++) { %>
+                             <% strforclaimid=strforclaimid+ expenseDetails[i].expenseclaimedId+",";
+
+                             %>
+                                <tr class="" id="<%=expenseDetails[i].id%>" style='height:20px;color:grey;font-size:12px;'>                                    
+                                    <td>
+                                        <%=expenseDetails[i].description%>
+                                    </td>
+                                     <td>
+                                        <%=expenseDetails[i].tripAssignment%>
+                                    </td>
+                                     <td>
+                                       <%=(expenseDetails[i].fromdate)%>
+                                    </td>
+                                     <td>
+                                       <%=(expenseDetails[i].toDate)%>
+                                    </td>
+                                     <td>
+                                       <%=expenseDetails[i].totalExpense%>
+                                    </td> 
+                                      <td>
+                                      <%if((expenseDetails[i].ClaimedStatus==0)&&(expenseDetails[i].Submitted==1)){%>
+                                      <a> <span  class='glyphicon glyphicon-adjust' style='height:10px;color:red;font-size:10px;' title='ReSubmit' onclick='resubmittheExpense(<%=expenseDetails[i].expenseclaimId%>)'></span></a>
+                                      <%}%>
+                                      <%if(expenseDetails[i].Submitted!=1){%>
+                                      <a  style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a1'  class='glyphicon glyphicon-trash' style='color:red;height:10px' onclick='DeleteExpense(<%=expenseDetails[i].expenseType%>,<%=expenseDetails[i].expId%>,<%=expenseDetails[i].expenseclaimId%>);' data-target='#myModal1' title ='Delete Expense' ></span>
+                                     <a style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px' onclick='selecthotelExpense(<%=expenseDetails[i].expenseType%>,<%=expenseDetails[i].expId%>,<%=expenseDetails[i].expenseclaimId%>);' title ='Edit Expense' ></span>
+                                      <a style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a3'  class='glyphicon glyphicon-file' style='color:red;height:10px'  onclick='showAttechmentmodel(<%=expenseDetails[i].id%>);' title ='Attach Document' ></span>
+                                      
+                                       <a style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a5' class='glyphicon glyphicon-copy' style='color:red;height:10px' onclick='selecthotelExpenseforCopy(<%=expenseDetails[i].expenseType%>,<%=expenseDetails[i].expId%>,<%=expenseDetails[i].expenseclaimId%>);' title ='Copy Expense' ></span>
+                                       <input type="hidden" value="<%=expenseDetails[i].expenseclaimId%>" name="claimidforuser" id="ipn">
+                                     <% }%>
+                                     <%if(expenseDetails[i].anyFile!=undefined){%>
+                                        <a style='padding-left:6px'  href='/attach/<%=expenseDetails[i].anyFile%>' Download ><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a4' class='glyphicon glyphicon-download-alt' style='color:red;height:10px' title ='Download Document' ></span></a>
+                                        <%}if(expenseDetails[i].Submitted==1){%>
+                                        <a style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a5' class='glyphicon glyphicon-comment' style='color:blue;height:10px' onclick='showCommentandRemark(<%=expenseDetails[i].expenseclaimId%>);' title ='Comment' ></span>
+                                         <% }%>
+                                        </td><td>
+                                        <!---->
+                                           <% if((expenseDetails[i].ClaimedStatus==0)&&(expenseDetails[i].Submitted==1)){%>
+                            Pending..</td>
+                                  <% }%>
+                                   <% if((expenseDetails[i].ClaimedStatus==0)&&(expenseDetails[i].Submitted==0)){%>
+                              Draft</td>
+                                  <% }%>
+                                   <%if((expenseDetails[i].ClaimedStatus<10)&&(expenseDetails[i].ClaimedStatus>0)&&(expenseDetails[i].Submitted==1)){%>
+                              Approveed by Manager<span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on  <%=expenseDetails[i].ClaimedStatus%> Label'><%=expenseDetails[i].ClaimedStatus%></span></td>
+                                  <% }%>
+                                  <% if((expenseDetails[i].ClaimedStatus==11)&&(expenseDetails[i].Submitted==1)){%>
+                                    Approved by manager</td>
+                                  <% }%>
+                                 <%  if((expenseDetails[i].ClaimedStatus==100)&&(expenseDetails[i].Submitted==1)){%>
+                               Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>
+                                  <% }%>
+                                   <%if((expenseDetails[i].ClaimedStatus==10)||(expenseDetails[i].ClaimedStatus==101)&&(expenseDetails[i].Submitted==1)){%>
+                              Rejected
+                                <a> <span  class='glyphicon glyphicon-share' style='height:20px;color:red;font-size:15px;' title='ReSubmit' onclick='resubmittheExpenseforCopy(<%=expenseDetails[i].expenseclaimId%>)'></span></a>
+                               </td>
+                                <% }%>
+                                       </td>
+
+                                </tr> 
+                                <% }} %> 
+               
+                        </tbody>
+                    </table>
+</div>
+
+<div class="bug-background hide" id="accordions">
+
+        <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable">
+            
+         </table>
+    </div>
+
+<div id="totalandaddEX" class="col-md-12 a" style="background-color:rgba(51, 60, 125, 0.62);height:36px; 
+    border-bottom:solid #f05f40;">
+        <div class="col-md-2">
+              <label id='explabel' style="line-height:20px !important;color:white;margin-left: 65px;margin-top: 8px">Expense Type:<span Style="font-size:15px; color:red">*</span></label>
+        </div>
+        <div class="col-md-3">
+              <select class="form-control" style="margin-top:3px;margin-bottom:3px;height:29px; background-color:#23527c;color:white; font-size:12px;float:left;width:280px;" id='typeEx' name="client" style="width:200px !important;" onchange="showexpensDetails()">
+                      <option value=0>------Select------</option>                              
+                        <%for(var i=0;i<expenseType.length;i++)
+                        {%>
+                      <option  value="<%=expenseType[i].id%>">
+                        <%=expenseType[i].description%>
+                        </option>
+                        <%}%>                               
+               </select>
+       </div> 
+       <div class="col-md-4">   
+       </div>
+       <div class="col-md-2"> <label class='hide' style="line-height:42px !important;">Total Expense:<span Style="font-size:15px; color:red"></span></label>
+       </div>
+       <!--div class="col-md-2">
+       <input type="text" id='totalExpenseforuser' class="form-control hide" style="margin-top:5px;" value=""> 
+       </div--> 
+       <div id='submitbutton' class="col-md-1 hide" style="float:right;"><input type='button' id="submitedbutton" class="form-control" style="margin-top:3px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="submitExpense()" value='Submit'>
+       </div>  
+       <!--hr style="max-width:100%;margin-top:2.9%;border-color:##f05f40"-->              
+</div>
+
+<!-- Form for Hotel Expense Jogendra Singh-->
+
+<form action="/insertExpense?expid=1" method="post" id='hotel' >
+    <div class="modal fade" id="myModal1" role="dialog" style="margin-left:;">
+        <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                 <center>
+                 <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                 <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                 </center>
+                 <input Type="hidden" id="flaghotel" name="edit" value="0">
+                 <input type="hidden" id="exthotel" name="exthotel" value="0">
+                 <input type="hidden" id="extclaimhotel" name="extclaimhotel" value="0">
+                 <input type="hidden" id="Maxhotel" value="0">
+                 <input type="hidden" id="blabelhotel" value="0">
+            </div>
+                
+                <div class="col-md-12 a">
+                     <div class="col-md-3">
+                        <label style="line-height:42px !important;">Expense Type:-</label>
+                     </div>
+                     <div class="col-md-3">
+                          <label style="line-height:42px !important;">Hotel</label>
+                     </div>
+                     <div class="col-md-3 fieldgroup">
+                          <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                     </div>
+                     <div class="col-md-3">
+                          <select class="form-control" for="hoteltrip" style="margin-top:10px;" id='trip1' name="hoteltrip" style="width:200px !important;" required/>
+                                  <option value="">
+                                   --Select--
+                                  </option>                               
+                                     <%for(var i=0;i<trip.length;i++)
+                        {%>
+                      <option value="<%=trip[i].WBSId%>">
+                        <%=trip[i].WBSName%>
+                      </option>
+                        <%}%>                                                               
+                          </select>
+                     </div>
+                </div> 
+                <div class="col-md-12 a">
+                     <div class="col-md-3">
+                         <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                     </div>
+                     <div class="col-md-3">
+                         <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="from" for="formDate" name="fromDate"   required/>
+                     </div>
+                     <div class="col-md-3">
+                         <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                     </div>
+                     <div class="col-md-3">
+                         <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" for="toDate" id="to" name="toDate" onblur="dateVarifyofHotel();"  required/>
+                     </div>
+                </div>
+          <div id="hotel" class="">
+                <div class="col-md-12 a"  style="margin-top:20px;margin-bottam:20px;"><b style="color:#f05f40;">Expense Details for Hotel :-</b>
+                </div>
+                <div class="col-md-12 a">
+                     <div class="col-md-3">
+                          <label style="line-height:42px !important;">Hotel Name:<span Style="font-size:15px; color:red">*</span></label>
+                     </div>
+                     <div class="col-md-3">
+                          <select class="form-control" style="margin-top:10px;" for="hotelName" id='hotelname' name="hotelName" style="width:200px !important;" required/>
+                                  <option value="">
+                                          --Select--
+                                  </option>                               
+                                                <%for(var i=0;i<hotelType.length;i++)
+                        {%>
+                      <option value="<%=hotelType[i].id%>">
+                        <%=hotelType[i].description%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                           </select>
+                      </div>      
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">Reason for Stay:<span Style="font-size:15px; color:red">*</span></label>
+                      </div>
+                      <div class="col-md-3">
+                            <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control" id="hreason" for="hotelReason" name="hotelReason"  required />
+                      </div>
+                </div>
+                <div class="col-md-12 a">
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">Rate Per Day:<span Style="font-size:15px; color:red">*</span></label>
+                      </div>
+                      <div class="col-md-3">
+                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="hrate" for="hotelperDayRate" name="hotelperDayRate"  onblur="changeCurrency()" required />
+                      </div>
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">If Not Then Other:</label>
+                      </div>
+                      <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%;padding-left:-10px" class="form-control" id="hifno" for="hotelifOther" name="hotelifOther" />
+                      </div>
+                </div>
+                <div class="col-md-12 a">
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Days:<span Style="font-size:15px; color:red">*</span></label>
+                      </div>
+                      <div class="col-md-3">
+                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="htotalday" for="hotelTotalDay" name="hotelTotalDay" onblur="changeCurrency()"  required/>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12 a"  style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Total Expense :-</b>
+                </div>
+                <div id="d1" class="col-md-12 a ">
+                     <div class="col-md-3">
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                     </div>
+                     <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='hotelcu' name="hotelCurrency" for="hotelCurrency1" style="width:200px !important;" onchange="changeCurrency()" required/>
+                            
+                               
+                                   <%for(var i=0;i<currency.length;i++){%>
+                                    <option value="<%=currency[i].id%>" acualvalue="<%=currency[i].currencyRate%>">
+                                        <%=currency[i].description1%>
+                                    </option>
+                                <%}%>
+                                
+                                
+                            </select>
+                        </div>
+                        
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                            <input type="hidden" name="hotelexpensetypeid" value="1">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="htex" name="htex"  required/>
+                        </div>
+                        </div>
+                     
+                    
+                 <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                        </center>
+                 </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--end Hotel Expense Form-->
+<!--form for Travel Expense-->
+
+ <form action="/insertExpense?expid=2" method="post" id='travelf'>
+        <div class="modal fade" id="myModal2" role="dialog" style="margin-left:;">
+   
+            <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+                <input type="hidden" name="travelexpensetypeid" value="2">
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                    <input Type="hidden" id="flagtravel" name="edit" value="0">
+                    <input type="hidden" id="exttravel" name="exthotel" value="0">
+                    <input type="hidden" id="extclaimtravel" name="extclaimhotel" value="0">
+                    <input type="hidden" id="MaxTravel" value="0">
+                    <input type="hidden" id="blabelTravel" value="0">
+                </div>
+                
+                <div class="col-md-12 a">
+                    <div class="col-md-3">
+                         <label style="line-height:42px !important;">Expense Type:-</label>
+                    </div>
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">Travel</label>
+                    </div>
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <select required class="form-control" style="margin-top:10px;" id='traveltrip' name="traveltrip" style="width:200px !important;" />
+                                 <option value="">
+                                        --Select--
+                                 </option>
+                               
+                                           <%for(var i=0;i<trip.length;i++)
+                        {%>
+                      <option value="<%=trip[i].WBSId%>">
+                        <%=trip[i].WBSName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12 a">
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdatefortravel" name="travelFromDate"  required />
+                    </div>
+                   
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="tofortravel" name="travelToDate" onblur="dateVarifyofTravel()" required/>
+                    </div>
+                </div>
+
+            <div id="travel" class="">
+                <div class="col-md-12 a"><b style="color:#f05f40;">Expense Details for Travel:-</b>
+                </div>
+                <div class="col-md-12 a">
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">Travel Type:<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <select class="form-control" style="margin-top:10px;" id='traveltype' name="travelType" style="width:200px !important;" required/>
+                                 <option value="">
+                                         --Select--
+                                 </option>
+                               
+                                               <%for(var i=0;i<travelType.length;i++)
+                        {%>
+                      <option value="<%=travelType[i].id%>">
+                        <%=travelType[i].description%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                          </select>
+                    </div>
+                    
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">Reason for Travel:<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="travelre" name="travelReason"  required />
+                    </div>
+               </div>
+               <div class="col-md-12 a">
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">Rate Per Day:<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="travelrate" name="TravelRatePerDay" onblur="changeCurrencyforTravel()" required/>
+                    </div>
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">If Not Then Other:</label>
+                    </div>
+                    <div class="col-md-3">
+                          <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="travelif" name="travelIfNot" />
+                    </div>
+               </div>
+          </div>
+
+               <div class="col-md-12 a">                      
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">Total Days:<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="traveltday" name="travelTotalDay" onblur="changeCurrencyforTravel()"  required/>
+                    </div>
+               </div>
+
+               <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
+               </div>
+
+               <div id="d1" class="col-md-12 a ">
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <select class="form-control" style="margin-top:10px;" id='travelc' name="travelCurrency" style="width:200px !important;" onchange="changeCurrencyforTravel()" required/>
+                                  <option value="" acualvalue='0'>
+                                         --Select--
+                                  </option>
+                               
+                                       <%for(var i=0;i<currency.length;i++){%>
+                                  <option value="<%=currency[i].id%>" acualvalue="<%=currency[i].currencyRate%>">
+                                        <%=currency[i].description1%>
+                                  </option>
+                                <%}%>
+                                
+                                
+                          </select>
+                    </div>                       
+                    <div class="col-md-3">
+                          <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                          <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="travelex" name="travelex" onchange="changeCurrencyforTravel()"   required/>
+                    </div>                       
+                </div>
+
+                <div id="footer" class="modal-footer" style="border-top:0px;">
+                    <center>
+                          <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default " style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+      </div>
+</form>
+
+<!--end Travel Expense Form-->
+<!--form for Phone Expense-->
+
+<form action="/insertExpense?expid=4" method="post" id='phonef'>
+      <div class="modal fade" id="myModal3" role="dialog" style="margin-left:;">
+            <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                    <input Type="hidden" id="flagphone" name="edit" value="0">
+                    <input type="hidden" id="extphone" name="exthotel" value="0">
+                    <input type="hidden" id="extclaimphone" name="extclaimhotel" value="0">
+                    <input type="hidden" id="MaxPhone" value="0">
+                 <input type="hidden" id="blabelPhone" value="0">
+                </div>
+                
+                    <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Expense Type:-</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Phone</label>
+                        </div>
+                        <input type="hidden" name="travelexpensetypeid" value="4">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='phonetrip' name="phonetrip" style="width:200px !important;" required/>
+                                    <option value="">--Select--</option>
+                               
+                                             <%for(var i=0;i<trip.length;i++)
+                        {%>
+                      <option value="<%=trip[i].WBSId%>">
+                        <%=trip[i].WBSName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateforphone" name="phoneFromDate"  required />
+                        </div>
+                   
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="todateforphone" name="phoneToDate" onblur="dateVarifyofPhone()" required/>
+                        </div>
+                    </div>
+                   
+            <div id="phone" class="">
+                   <div class="col-md-12 a"><b style="color:#f05f40;">Expense Details for Phone :-</b>
+                   </div>
+
+                   <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Reason for Calling:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="callingreason" name="phoneReason"  required />
+                        </div>
+
+                       
+                   </div>
+            </div>
+                 
+                   <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
+                   </div>
+
+                   <div id="d1" class="col-md-12 a ">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='callingc' name="phoneCurrency" style="width:200px !important;" onchange=""  required/>
+                                    <option value="" acualvalue='0'>--Select--</option>
+                               
+                                    <%for(var i=0;i<currency.length;i++){%>
+                                    <option value="<%=currency[i].id%>" acualvalue="<%=currency[i].currencyRate%>">
+                                        <%=currency[i].description1%>
+                                    </option>
+                                <%}%>
+                                
+                                
+                            </select>
+                        </div>                        
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="callingex" name="phoneExp"  onblur="changeCurrencyforphone()" required/>
+                        </div>
+                    </div>
+
+                    <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+
+
+<!--end Phone Expense Form-->
+<!--form for Reimbursement for Self-driven Vehicle  Expense-->
+
+<form action="/insertExpense?expid=5" method="post" id='rsdf'>
+     <div class="modal fade" id="myModal4" role="dialog" style="margin-left:;">
+           <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                     <input Type="hidden" id="flagrsd" name="edit" value="0">
+                     <input type="hidden" id="extrsd" name="exthotel" value="0">
+                      <input type="hidden" id="extclaimrsd" name="extclaimrsd" value="0">
+                     <input type="hidden" name="travelexpensetypeid" value="5">
+                     <input type="hidden" id="Maxrsd" value="0">
+                 <input type="hidden" id="blabelrsd" value="0">
+                </div>
+                
+                    <div class="col-md-12 a">
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Expense Type:-</label>
+                         </div>
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Reimbursement for Self-driven Vehicle</label>
+                         </div>
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                         </div>
+                         <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='rsdtrip' name="rsdtrip" style="width:200px !important;" required>
+                                    <option value="">--Select--</option>
+                               
+                                              <%for(var i=0;i<trip.length;i++)
+                        {%>
+                      <option value="<%=trip[i].WBSId%>">
+                        <%=trip[i].WBSName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateforrfd" name="rsdFromDate"  required/>
+                        </div>
+                   
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="todateforrfd" name="rsdToDate" onblur="dateVarifyofRsd()" required/>
+                        </div>
+                    </div>
+
+               <div id="rfd" class="">
+                   <div class="col-md-12 a">
+                        <b style="color:#f05f40;">Expense Details for Reimbursement for Self-driven Vehicle :-</b>
+                   </div>
+
+                   <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Type of vehicle:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='rfdtypeof' name="rsdvehicle" style="width:200px !important;" required/>
+                                    <option value="">--Select--</option>
+                               
+                                                            <%for(var i=0;i<travelType.length;i++)
+                        {%>
+                      <option value="<%=travelType[i].id%>">
+                        <%=travelType[i].description%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                        </div>                    
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Reason for Travel:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdreason" name="rsdReason"  required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Per Km Rate :<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdper" name="rsdKmRate"  onblur="changeCurrencyforrsd()" required/>
+                        </div>                   
+                    
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">If Not Then Other:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                          <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdifnot" name="rsdifnot" />
+                        </div>
+                        </div>
+
+                    <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total km Travel:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdtotalkm" name="rsdtotal" onblur="changeCurrencyforrsd()" required/>
+                        </div>                    
+                    </div>
+
+                    <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
+                    </div>
+
+                    <div id="d1" class="col-md-12 a ">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='rfdcu' name="rsdCurrency" style="width:200px !important;" onchange="changeCurrencyforrsd()" required>
+                            <option value="" acualvalue='0'>--Select--</option>
+                               
+                                   <%for(var i=0;i<currency.length;i++){%>
+                                    <option value="<%=currency[i].id%>" acualvalue="<%=currency[i].currencyRate%>">
+                                        <%=currency[i].description1%>
+                                    </option>
+                                <%}%>
+                                
+                                
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdext" name="rsdtex"  required/>
+                        </div>
+                    </div>
+                </div>
+
+                    <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                        </center>
+                    </div>
+               </div>
+           </div>
+        </div>
+</form>
+
+ <!--end Reimbursement for Self-driven Vehicle Expense Form-->
+<!--form for Per Diem  Expense--> 
+
+<form action="/insertExpense?expid=6" method="post" id='deamf'>
+        <div class="modal fade" id="myModal5" role="dialog" style="margin-left:;">
+
+            <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                    <input Type="hidden" id="flagperdiem" name="edit" value="0">
+                    <input type="hidden" id="extperdiem" name="exthotel" value="0">
+                     <input type="hidden" id="extclaimperdiem" name="extclaimhotel" value="0">
+                    <input type="hidden" name="travelexpensetypeid" value="6">
+                    <input type="hidden" id="Maxdiem" value="0">
+                 <input type="hidden" id="blabeldiem" value="0">
+                </div>
+                
+                    <div class="col-md-12 a">
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Expense Type:-</label>
+                         </div>
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Per Diem</label>
+                         </div>
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                         </div>
+                         <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='pertrip' name="perdiemtrip" style="width:200px !important;" required>
+                                    <option value="">--Select--</option>
+                               
+                                              <%for(var i=0;i<trip.length;i++)
+                        {%>
+                      <option value="<%=trip[i].WBSId%>">
+                        <%=trip[i].WBSName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateperdiem" name="perdiemFromDate"  required/>
+                        </div>
+                   
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="todateperdiem" name="perdiemToDate"
+                            onblur="dateVarifyofPerdiem()" required/>
+                        </div>
+                    </div>
+                        
+            <div id="diem" class="">
+                    <div class="col-md-12 a"><b style="color:#f05f40;">Expense Details for Per Diem :-</b></div>
+
+                    <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Hotel Name:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='diemhotelname' name="perdiemHotelName" style="width:200px !important;" required>
+                                    <option value="">--Select--</option>
+                               
+                                                            <%for(var i=0;i<hotelType.length;i++)
+                        {%>
+                      <option value="<%=hotelType[i].id%>">
+                        <%=hotelType[i].description%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                        </div>
+                  
+                    
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Reason for Stay:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="190" style="margin-top:10px;width:100%" class="form-control" id="diemreasonstay" name="perdiemReason"  required />
+                        </div>
+                        </div>
+                           
+
+                    <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Per Diem Rate:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="diemrate1" name="perdiemRate"  onblur="changeCurrencyforDiem()" required/>
+                        </div>
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">If Not Then Other:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control" id="diemif1" name="perdiemIfNot" />
+                        </div>
+                   </div>
+
+                   <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Days:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="diemday1" name="perdiemtotal" onblur="changeCurrencyforDiem()"  required/>
+                        </div>                    
+                   </div>
+                   
+                   <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
+                   </div>
+
+                   <div id="d1" class="col-md-12 a ">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='diemcu' name="perdiemCurrency" style="width:200px !important;" onchange="changeCurrencyforDiem()" required/>
+                                    <option value="" acualvalue='0'>--Select--</option>
+                               
+                                    <%for(var i=0;i<currency.length;i++){%>
+                                    <option value="<%=currency[i].id%>" acualvalue="<%=currency[i].currencyRate%>">
+                                        <%=currency[i].description1%>
+                                    </option>
+                                <%}%>
+                                
+                                
+                            </select>
+                        </div>                        
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="diemtotal1" name="perdiemtex" required/>
+                        </div>
+                   </div>
+                   <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                        </center>
+                    </div>
+               </div>
+            </div>
+       </div>
+</form>
+
+<!--end Per Diem Expense Form-->
+<!--form for Food/Entertainment  Expense-->
+
+<form action="/insertExpense?expid=3" method="post" id='foodf'>
+
+      <div class="modal fade" id="myModal6" role="dialog" style="margin-left:;">
+
+            <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                    <input Type="hidden" id="flagfood" name="edit" value="0">
+                    <input type="hidden" id="extfood" name="exthotel" value="0">
+                    <input type="hidden" id="extclaimfood" name="extclaimhotel" value="0">
+                    <input type="hidden" name="travelexpensetypeid" value="3">
+                    <input type="hidden" id="Maxfood" value="0">
+                 <input type="hidden" id="blabelfood" value="0">
+                </div>
+                
+                <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Expense Type:-</label>
+                        </div>
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Food/Entertainment</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='foodtrip' name="foodtrip" style="width:200px !important;" required/>
+                                    <option value="">--Select--</option>
+                               
+                                              <%for(var i=0;i<trip.length;i++)
+                        {%>
+                      <option value="<%=trip[i].WBSId%>">
+                        <%=trip[i].WBSName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                        </div>
+                </div>
+               
+                <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromfood" name="foodFromDate"  required/>
+                        </div>
+                   
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="tofood" name="foodToDate" onblur="dateVarifyofFood()" required/>
+                        </div>
+                </div>
+                     
+            <div id="food" class="">
+
+                <div class="col-md-12 a"><b style="color:#f05f40;">Expense Details for Food & Entertainment:-</b>
+                </div>
+
+                <div class="col-md-12 a">                    
+                        <div class="col-md-5">
+                            <label style="line-height:42px !important;">Reason for Fooding/entertainment:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="foodre" name="foodReason"  required />
+                        </div>
+                        </div>
+
+               <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
+               </div>
+
+               <div id="d1" class="col-md-12 a ">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='foodcu1' name="foodCurrency" style="width:200px !important;"  required>
+                                   <option value="" acualvalue='0'>--Select--</option>
+                               
+                                   <%for(var i=0;i<currency.length;i++){%>
+                                    <option value="<%=currency[i].id%>" acualvalue="<%=currency[i].currencyRate%>">
+                                        <%=currency[i].description1%>
+                                    </option>
+                                <%}%>
+                                
+                                
+                            </select>
+                        </div>
+                        
+                         <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                         </div>
+                         <div class="col-md-3">
+                            <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="foodex1" name="foodtex"  required  onblur='changeCurrencyforfood()'/>
+                        </div>
+               </div>
+                    <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                        </center>
+                    </div>
+               </div>
+           </div>
+       </div>
+</form>
+
+
+<!--end Food/Entertainment Expense Form-->
+<!--form for other Expense-->
+
+<form action="/insertExpense?expid=7" method="post" id='otherf'>
+
+      <div class="modal fade" id="myModal7" role="dialog" style="margin-left:;">
+
+           <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt; padding-bottom:15px;"><b>Expense Details</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                    <input Type="hidden" id="flagother" name="edit" value="0">
+                    <input type="hidden" id="extother" name="exthotel" value="0">
+                     <input type="hidden" id="extclaimother" name="extclaimhotel" value="0">
+                    <input type="hidden" name="travelexpensetypeid" value="7" id='anyotherex'>
+                    <input type="hidden" id="Maxother" value="0">
+                 <input type="hidden" id="blabelother" value="0">
+                </div>
+                
+                <div class="col-md-12 a">
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">Expense Type:-</label>
+                      </div>
+                      <div class="col-md-3">
+                            <label id='otherlavel' style="line-height:42px !important;">Other</label>
+                      </div>
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                      </div>
+                      <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='othertrip' name="othertrip" style="width:200px !important;" required/>
+                            <option value="">--Select--</option>
+                               
+                                               <%for(var i=0;i<trip.length;i++)
+                        {%>
+                      <option value="<%=trip[i].WBSId%>">
+                        <%=trip[i].WBSName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                      </div>
+                </div>
+
+                <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromother" name="otherFromDate"  required/>
+                        </div>
+                   
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="otherToDate" name="otherToDate" onblur="dateVarifyofOther()" required/>
+                        </div>
+                </div>               
+
+            <div id="other" class="">
+                <div class="col-md-12 a"><b style="color:#f05f40;">Expense Details for Others :-</b>
+                </div>
+
+                <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Reason for Expense:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="otherreason" name="otherReason"  required />
+                        </div>
+                </div>
+                  
+                <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
+                </div>
+
+                <div id="d1" class="col-md-12 a ">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                          <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='othercu1' name="otherCurrency" style="width:200px !important;" onchange="" required/>
+                                    <option value="" acualvalue='0'>--Select--</option>
+                               
+                                    <%for(var i=0;i<currency.length;i++){%>
+                                    <option value="<%=currency[i].id%>" acualvalue="<%=currency[i].currencyRate%>">
+                                        <%=currency[i].description1%>
+                                    </option>
+                                <%}%>
+                                
+                                
+                            </select>
+                        </div>                        
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="otherex1" name="othertex"  required onblur='changeCurrencyforOther()'/>
+                        </div>                       
+                </div>
+                     
+            </div>
+
+                     <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                        </center>
+                    </div>
+               </div>
+           </div>
+       </div>
+</form>
+
+<!--end Food/Entertainment Expense Form-->
+<!--form for Document Attachment Expense-->
+
+<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+       <div class="modal fade" id="myModal10" role="dialog" style="margin-left:;">
+
+            <div style="height:auto;width:500px;margin-left:400px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Attachment</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                       <input Type="hidden" id="claimeid" name="claimedid" value="0">
+                 
+            </div>
+
+            <div class="row " style="padding-top:10px;color:grey;padding-left:30px" align="left">
+                        <div class="col-md-1 glyphicon glyphicon-folder-open" style="color:grey;">
+                        </div>
+              <div class="col-md-4"><label style="font-size:10px;">Attach Files</label>   
+              </div>
+            <div class="col-md-4"><input type="file" name="comment-upload" class="upload" />
+            </div>
+        </div>
+
+            <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="">Submit</button>
+                        </center>
+            </div>
+         </div>
+     </div>
+                   
+</form>
+                 
+<!--end Attachment Expense Form-->
+
+<!--description form-->
+<form action="/expenseIndex/isertExpense?expid=7" method="post">
+
+      <div class="modal fade" id="myModal7" role="dialog" style="margin-left:;">
+
+           <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b style="padding-bottom: 10px">Expense Details</b></label>
+                    </center>
+                    <input Type="hidden" id="flagother" name="edit" value="0">
+                    <input type="hidden" id="extother" name="exthotel" value="0">
+                    <input type="hidden" name="travelexpensetypeid" value="7">
+                </div>
+                
+                <div class="col-md-12 a">
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">Expense Type:-</label>
+                      </div>
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">Other</label>
+                      </div>
+                      <div class="col-md-3">
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                      </div>
+                      <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='othertrip' name="othertrip" style="width:200px !important;" required/>
+                            <option value="">--Select--</option>
+                               
+                                             <%for(var i=0;i<trip.length;i++)
+                        {%>
+                      <option value="<%=trip[i].WBSId%>">
+                        <%=trip[i].WBSName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                      </div>
+                </div>
+
+                <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromother" name="otherFromDate"  required/>
+                        </div>
+                   
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="otherToDate" name="otherToDate" required/>
+                        </div>
+                </div>               
+
+            <div id="other" class="">
+                <div class="col-md-12 a"><b style="color:#f05f40;">Expense Details for Others :-</b>
+                </div>
+
+                <div class="col-md-12 a">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Reason for Expense:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="otherreason" name="otherReason"  required/>
+                        </div>
+                </div>
+                  
+                <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
+                </div>
+
+                <div id="d1" class="col-md-12 a ">
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                          <div class="col-md-3">
+                            <select class="form-control" style="margin-top:10px;" id='othercu1' name="otherCurrency" style="width:200px !important;" onchange="showexpensDetails()" required/>
+                                    <option value="" acualvalue='0'>--Select--</option>
+                               
+                                    <%for(var i=0;i<currency.length;i++){%>
+                                    <option value="<%=currency[i].id%>" acualvalue="<%=currency[i].currencyRate%>">
+                                        <%=currency[i].description1%>
+                                    </option>
+                                <%}%>
+                                
+                                
+                            </select>
+                        </div>                        
+                        <div class="col-md-3">
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="otherex1" name="othertex"  onblur='changeCurrencyforOther()' required />
+                        </div>                       
+                </div>
+                     
+            </div>
+
+                     <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="">Submit</button>
+                        </center>
+                    </div>
+               </div>
+           </div>
+       </div>
+</form>
+
+<!--end Food/Entertainment Expense Form-->
+<!--form for Document Attachment Expense-->
+
+<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+       <div class="modal fade" id="myModalexp" role="dialog" style="margin-left:;">
+
+            <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                         <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+
+                </div>
+            
+       <div class="bug-background" id="accordions1">
+
+        <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable1">
+            <thead>
+                         <th style='font-size:12px;background-color:grey;color:white'>Expense Type</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>Trip/Assignment</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>From</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>To</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>Amount(INR)</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>Action</th>
+               </thead> 
+         </table>
+    </div>
+
+         </div>
+     </div>
+                   
+</form>
+
+<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+       <div class="modal fade" id="myModalcomment" role="dialog" style="margin-left:;">
+
+            <div style="height:auto;width:500px;margin-left:400px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>Expense Details</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                </div>
+          <input type="hidden" id="comentexpid" name="expcomment">
+          <input type="hidden" id="expemail" name="expemail"> 
+          <input type="hidden" id="expemail1" name="transId"> 
+          <div id="d1" class="col-md-12 a " style="margin-top:20px;">
+         
+          <div class="col-md-12">
+          <textarea class="form-control" id="comment" name="comment" placeholder='Reason for reject the expense'></textarea>
+          </div>
+          </div>
+
+            <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                             <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="toCheckthelengthforReason();">Submit</button>
+                        </center>
+            </div>
+         </div>
+     </div>
+                   
+</form>
+
+<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+       <div class="modal fade" id="myModalremark" role="dialog" style="margin-left:;">
+
+            <div style="height:auto;width:500px;margin-left:400px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>Expense Remark</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                </div>
+          <input type="hidden" id="comentexpid1" name="expcomment">
+          <input type="hidden" id="expemail2" name="expemail"> 
+          <input type="hidden" id="expemail11" name="transId"> 
+          <input type="hidden" id="statusr" name="statusr"> 
+          <div id="d1" class="col-md-12 a " style="margin-top:20px;">
+         
+          <div class="col-md-12">
+          <textarea class="form-control" id="remark" name="remark" placeholder='Remark'></textarea>
+          </div>
+          </div>
+
+            <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                             <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="toCheckthelengthforRemark();">ok</button>
+                        </center>
+            </div>
+         </div>
+     </div>
+                   
+</form>
+
+<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+       <div class="modal fade" id="myModalsubmit" role="dialog" style="margin-left:;">
+
+            <div style="height:auto;width:500px;margin-left:400px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>Comment</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                </div>
+          <input type="hidden" id="comentexpid1" name="expcomment">
+          <input type="hidden" id="expemail2" name="expemail"> 
+          <input type="hidden" id="expemail11" name="transId"> 
+          <input type="hidden" id="statusr" name="statusr"> 
+          <div id="d1" class="col-md-12 a " style="margin-top:20px;">
+         
+          <div class="col-md-12">
+          <textarea class="form-control" id="usercomment" name="usercomment" placeholder='comment'></textarea>
+          </div>
+          </div>
+
+            <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                             <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="toCheckthelength();">ok</button>
+                        </center>
+            </div>
+         </div>
+     </div>
+                   
+</form>
+
+<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+       <div class="modal fade" id="myModalshowcomment" role="dialog" style="border-style: solid;
+    border-color:black;">
+
+            <div style="height:auto;width:300px;margin-left:500px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>Comments</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                </div>
+         
+          <div class="col-md-12" id='showcomment' style="margin-bottom: 10px">
+         
+          </div>
+          <div style='width:10px'><span style="width:10px"></span></div>
+         </div>
+     </div>
+                   
+</form>
+ 
+<!--end Description Form-->
+
+</body>
+</html>
+<% include ../partials/footer.ejs %>

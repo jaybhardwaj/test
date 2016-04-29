@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+    <style>
+    .dataTableScrollable{
+ /* overflow-x: scroll;
+    overflow-y: hidden;*/
+    }
+        .fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 19px;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+    }
+    .bodyClass{
+        background-color:antiquewhite;margin-top:2% 
+    }
+    .addClass{
+            margin-right: 2%;
+             float: right;: 
+    }
+    .rowClass{
+        background-color:;
+    }
+
+</style>
+</head>
+ <% include ./partials/adminheader %>
+<body>
+
+    <div class="container-fluid  " style="background-color:antiquewhite">
+   <div class="col-md-12 rowClass" style="padding-top:1%">
+    <img  src="./img/add.png" onclick="addEditClient(0)"class="add-image" style="padding-left:1%"> 
+  <select id="clientStatus" style="float:right;width:auto"  class="form-control" onChange="getClientsByStatus()">
+          <option value="1">Active</option>
+          <option value="2">Inactive</option>
+          <option value="3">All</option>
+          
+
+  </select> 
+  <!-- <i class="fa fa-plus addClass" onclick="addEditClient(0)" style=""></i> -->
+<span class="modal-title" style="padding-left:38%">Client Details</span>
+  </div>
+  
+         
+ <div  class="col-md-12 rowClass"  style="margin-top:1%;margin-bottom-1%">
+  <table id="client-table" class="table stripe cell-border hover">  
+                 <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th> Abb Name</th>
+                        <th>Category</th>
+                        <th>Client_Account_Lead</th>
+                        <th>Location</th>
+                        <th>Address</th>
+                        <th>Contact Person</th>
+                        <th>Contact Person Email</th>
+                        <th>Contact Phone</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead> 
+                <tbody id="clientBody">
+               <%for(var i=0;i<clients.length;i++){ %>
+                 <tr id="row_<%=clients[i].id%>">       
+                 <td id="row_<%=clients[i].id%>1"+><%=clients[i].clientCode%></td>
+                 <td id="row_<%=clients[i].id%>2"+ ><%=clients[i].clientName%></td>
+                 <td  id="row_<%=clients[i].id%>3"+  ><%=clients[i].clientAbbName%></td>
+                 <td  id="row_<%=clients[i].id%>4"+  ><%=clients[i].category%></td>
+                 <td id="row_<%=clients[i].id%>5"+  ><%=clients[i].leadName%></td>
+                 <td  id="row_<%=clients[i].id%>6"+  ><%=clients[i].locName%></td>
+                 <td  id="row_<%=clients[i].id%>7"+  ><%=clients[i].address%></td>
+                 <td  id="row_<%=clients[i].id%>8"+  ><%=clients[i].clientContactPerson%></td>
+                 <td  id="row_<%=clients[i].id%>9"+  ><%=clients[i].clientContactPersonEmail%></td>
+                 <td  id="row_<%=clients[i].id%>10"+  ><%=clients[i].clientContactPhone%></td>
+                 <td>
+                 <span <%if(clients[i].isActive==1){%> onclick="addEditClient(1,<%=clients[i].id%>)" class="glyphicon glyphicon-pencil" style="color:red;height:10px"  title="Edit Assignment" <%}%>></span>               
+                    <a <%if(clients[i].isActive==1){%>
+                     onclick="actinact(<%=clients[i].id%>,1)"
+                      <%}
+                       else{%>
+                        onclick="actinact(<%=clients[i].id%>,0)"
+                        <%}%> >
+                        <span <%if(clients[i].isActive==1){
+                            %>class="glyphicon  glyphicon-ok-sign" style="color:green;height:10px; width:10px;margin-left: 10px;" title="InActive Client" <%}
+                             else{%>class="glyphicon  glyphicon-remove-sign" style="color:red;height:10px; width:10px; " title="Active Client"
+                            <%}%>>
+                        </span>
+                    </a>
+                 </td>
+
+                 </tr>
+              <%}%>
+                </tbody>
+            </table>
+        </div> 
+    </div>
+    <footer>
+        <% include ./partials/footer %>
+    </footer>
+        <script>
+        function getClientsByStatus(){
+            if($("#clientStatus").val()==1){
+               
+                window.location.href="/clients?inactive=false";
+            }
+            else if($("#clientStatus").val()==2){
+               
+                window.location.href="/clients?inactive=true";
+            }
+           else  if($("#clientStatus").val()==3){
+                window.location.href="/clients?inactive=all";
+            }
+        }
+        var oTable ;
+        $(document).ready(function() {
+            
+           
+           <%if(flagActive=="false"){%>
+            $('#clientStatus').val('1');
+            <%}%>
+
+             <%if(flagActive=="true"){%>
+            $('#clientStatus').val('2');
+            <%}%>
+
+             <%if(flagActive=="all"){%>
+            $('#clientStatus').val('3');
+            <%}%>
+
+             oTable = $('#client-table').dataTable({
+                "order": []
+            });
+            $(window).bind('resize', function () {
+                oTable.fnAdjustColumnSizing();
+              } );
+            $('.client-img').addClass('active');
+        });
+
+        function addEditClient(flag,cid) {
+            var form = document.createElement("form");
+            form.action = '/createEditClient';
+            form.method = "POST";
+            form.style = "display: none";
+            var hdnId = document.createElement("input");
+            var clientId=document.createElement("input");
+            hdnId.type = "hidden";
+            hdnId.name = "flag";
+            hdnId.value = flag;
+            clientId.type = "hidden";
+            clientId.name = "cid";
+            clientId.value = cid;
+            form.appendChild(hdnId);
+            form.appendChild(clientId);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+
+        function actinact(cid,flag){
+            var str=flag==0?"are you sure ?This client will be Activated ?":"are you sure ?This client will be DeActivated ?" ;
+            if(confirm(str)==true)
+              $.ajax({
+                    url: '/changeClientStatus',
+                    type: 'post',
+                    data: { "cid": cid, "flag": flag },
+                    success: function(data) {
+                   var array1=[];
+                        var temp="#row_"+cid;
+                        var str1='';
+                        if($('#clientStatus').val()==3)
+                        {
+                               
+                                for(i=1;i<=10;i++){
+                                   var tempnew=temp+i;
+                                    console.log('tttttttttttttttttt',tempnew,$(tempnew).text());
+                                    array1.push($(tempnew).text());
+                                }
+                                if(flag==0)
+                                 {
+                          
+                                    str1= '<span onclick="addEditClient(1,'+cid+') " class="glyphicon glyphicon-pencil" style="color:red;height:10px"  title="Edit Assignment" ></span><span onclick="actinact('+cid+',1)" class="glyphicon  glyphicon-ok-sign" style="color:green;height:10px; width:10px;margin-left: 10px;" title="InActive Client"></span>';
+                                      array1.push(str1);
+                                      oTable.fnUpdate(array1,temp);
+
+                                 } 
+                                 else{
+                                    str1= '<span onclick="actinact('+cid+',0)" class="glyphicon  glyphicon-remove-sign" style="color:red;height:10px; width:10px;margin-left: 10px;" title="InActive Client"></span>';
+                                     array1.push(str1);
+                                      oTable.fnUpdate(array1,temp);
+                                 }
+                                console.log('111111111111111111111111111',array1);
+                        }
+                        else
+                        oTable.fnDeleteRow(temp); 
+                    }    
+            });
+        }
+
+
+
+
+        </script>
+</body>
+
+</html>

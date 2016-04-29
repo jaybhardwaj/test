@@ -1,0 +1,578 @@
+<%include sidebar1.ejs %>
+<title>All Requisition</title>
+    <body>
+        <div style="width:100%;margin-top:8%;overflow-x:hidden;">
+          
+            <div style="float:right;margin-right:4%">
+            <span style="font-size:116%;">Select Manager Hr :</span>
+            <select class="" style="color:black;margin-right:300px" id="selectAdminHr">
+                <option value="-2" id = "noid">select</option>
+                <%for(var i = 0 ;i<adminhr.length;i++){%>
+                    <option value="<%=adminhr[i].id%>" id="adminhr_<%=adminhr[i].id%>">
+                        <%=adminhr[i].firstName%>
+                    </option>
+                    <%}%>
+                        <option value="-1" id = 'allid'>All</option>
+            </select>
+
+              Search Box : <input type="text" id="searchbox">
+        </div>
+        </div>
+        <div class="col-md-11 " style="margin-top:0%;height:auto;margin-left:6%;margin-bottom:4%">
+
+            <table id="openreqstate1" class="table cell-border" style="font-size:13px;width:100%;margin-top:1%">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Skills</th>
+                        <th># Positions</th>
+                        <th>Experience</th>
+                        <th class="hide">Status</th>
+                        <th>Recruiter</th>
+                        <th>Manager HR</th>
+                        <th>Action</th>
+                        <th class='hide'></th>
+                    </tr>
+                </thead>
+                <tbody style="margin-top:7%;padding-top:7%" id="tbodyReq">
+                    <%for(var i=0;i<pdetails.length;i++){%>
+                        <tr id="row_<%=pdetails[i].id%>">
+                            <td style="">
+                                <a onclick='reqData(<%=pdetails[i].id%>,"show",7)'  data-toggle='modal' data-target='#jdDetailModal' style="color:black;cursor:pointer">
+                                <%=pdetails[i].title%>
+                                </a>
+                            </td>
+                            <td>
+                                <%=pdetails[i].skills%>
+                            </td>
+                            <td style="width:10%">
+                                <%=pdetails[i].positions%>
+                            </td>
+                            <td style="width:10%">
+                                <%=pdetails[i].Experience%>
+                            </td>
+                            <td class="hide" id="con_<%=i%>">
+                                <%=pdetails[i].assignedTo%>
+                            </td>
+                            <td id="assign_<%=pdetails[i].id%>">
+                                <%if(pdetails[i].assignedToName!=null){ console.log(i,pdetails[i].assignedToName)%>
+                                    <%=pdetails[i].assignedToName%>
+                                        <%}else{%>--
+                                            <%}%>
+                            </td>
+                            <td>
+                                <%=pdetails[i].adminHrname%>
+                            </td>
+                            <td><i class="fa fa-pencil" style="font-size:130%;color:#555555" title="Edit" id="edit_<%=pdetails[i].id%>_<%=i%>" onclick="showmodal(this.id)"></i></td>
+                            <td class='hide' id="user_<%=pdetails[i].id%>">
+                                <%=pdetails[i].assignedTo%>
+                            </td>
+                        </tr>
+                        <%}%>
+                </tbody>
+            </table>
+        </div> 
+
+
+
+        <%include ./menu1.ejs%>
+            <%include ./footer1.ejs%>
+
+
+         <script type="text/javascript">
+
+       $(".close").click(function(){
+        $('#jddetail').modal("hide");
+});
+
+        /* function jdpopup(jdid){
+             $.ajax({
+                    url: 'selectjd',
+                    data: {
+                        'jdid': jdid
+                    },
+                    method: 'post',
+                    success: function(detail) {
+                        console.log("jd pop-up",detail);
+                        $('#jdcontent').html("");
+                        $('#jdcontent').append("<center>Title :",detail[0][0].title,"</center>");
+                        $('#jdcontent').append("</br><b>Description :</b>",detail[0][0].description);
+                        $('#jdcontent').append("<br><b>No. Of Positions :</b>",detail[0][0].positions);
+                        $('#jdcontent').append("<br><b>Experience :</b>",detail[0][0].Experience);
+                        $('#jdcontent').append("<br><b>Location:</b>",detail[0][0].Location);
+                        $('#jdcontent').append("<br><b>Minimum-Salary :</b>",detail[0][0].minimumSalary);
+                        $('#jdcontent').append("<br><b>Maximum-Salary :</b>",detail[0][0].maximumSalary);
+                     }
+                 });
+         }*/
+                    function reqData(id, flag, con) {
+                        $.ajax({
+                        url: '/hm/reqData',
+                        data: {
+                            'id': id
+                        },
+                        method: 'post',
+                        success: function(data) {
+                                var flage = flag;
+                                var ide = id;
+                                var cities = JSON.parse(JSON.stringify(data.result[0]));
+                                var skill = JSON.parse(JSON.stringify(data.result[1]));
+                                var admin = JSON.parse(JSON.stringify(data.result[2]));
+                                var desig = JSON.parse(JSON.stringify(data.result[3]));
+                                var info = JSON.parse(JSON.stringify(data.result[5]));
+                                var dviewinfo = JSON.parse(JSON.stringify(data.result[9]));
+                                var prio = JSON.parse(JSON.stringify(data.result[4]));
+                                var arstr = [];
+
+                                 if (con == 7) {
+                                    $('#ModalHeading').html("Requisition Details");
+                                  
+                                    $('#djobTitle').html(dviewinfo[0].title);
+                                    $('#dnoOfPositions').html(dviewinfo[0].positions);
+                                    $('#dminsal').html(dviewinfo[0].minimumSalary);
+                                    $('#dmaxsal').html(dviewinfo[0].maximumSalary);
+                                    $('#drec').html(dviewinfo[0].recruiter);
+                                    $('#dexpiresOn').html(dviewinfo[0].expireDate);
+                                    $('#dyox').html(dviewinfo[0].Experience)
+                                    $("#dbrowsers").html(dviewinfo[0].designation);
+                                    $('#dpriority').html(dviewinfo[0].priority);
+                                    $("#dlocation").html(dviewinfo[0].location);
+                                    $("#djobType").html(dviewinfo[0].type);
+                                    $("#dadminhr").html(dviewinfo[0].adminHr);
+
+                                    var arr = [];
+                                    for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
+                                        arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skillName;
+                                    }
+                                    $('#dskillsId').html(arr.toString());
+                                    $("#ddiscription").html(dviewinfo[0].description);
+                                    //-----History Div---------
+                                    $('#dhistoryTable').html('');
+                                    var counter = 1;
+                                    var cname;
+                                    var desc;
+                                    
+                                    for (var i = 0; i < data.result[8].length; i++) {
+                                        desc = data.result[8][i].description;
+                                        $('#dhistoryTable').append("<tr style=padding-top:2%;width:100%;float:left;font-size:14px;color:grey><td style=color:black>" + counter++ + ".</td><td>\t" + data.result[8][i].name + " has edited <b style=color:black>" + data.result[8][i].columnName + "</b> to " + desc + " on <b>" + data.result[8][i].date.slice(0, 10) + "</b> </td></tr></br>");
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+
+
+
+
+                    var uid = <%=uid%>;
+                    var reqId, rownumber;
+                    var newDataTable;
+                    $('#openreqstate1').on('click', 'img.icon-delete', function() {
+                        table
+                            .row($(this).parents('tr'))
+                            .remove()
+                            .draw();
+                    });
+                    var descriptionarray = [];
+                    var plength = <%=pdetails.length%>;
+                    $(document).ready(function() {
+                 
+                        var adminstr = '#adminhr_' + uid;
+                           $('#noid').attr("selected", "selected");
+                          $('#allid').attr("selected", "selected"); 
+                              setTimeout(function(){   $('#selectAdminHr').change(); }, 500);  
+
+                        for (var k = 0; k < plength; k++) {
+                            var str = '#desc_' + k;
+                            var decode = $(str).text();
+                            console.log(decode);
+                            $(str).html(decode);
+                        }
+                        for (var k = 0; k < plength; k++) {
+                            var str = '#con_' + k;
+                            console.log($(str).html());
+                            if ($(str).html() == null || $(str).html() == '') {
+                                $(str).html('<i class="fa fa-times" style = "color:red"  title = "Unassigned"></i>');
+                            } else {
+                                $(str).html('<i class="fa fa-check" style = "color:green" title = "Assigned"></i>');
+                            }
+
+                        }
+                        newDataTable = $("#openreqstate1").dataTable({ 
+                            "bFilter": true,
+                            "pageLength": 10,
+                            "bLengthChange": false
+                        });
+                           $("#searchbox").keyup(function() {
+                        newDataTable.fnFilter(this.value);
+                    }); 
+                        // console.log(newDataTable)
+
+
+                        $('#selectAdminHr').change(function() {
+                           
+                            var ch = '';
+                            var selected = $('#selectAdminHr').val();
+                            selected = parseInt(selected);
+                            if (isNaN(selected) || selected == -2) return false;
+                            //alert(selected);
+                            $.ajax({
+                                url: 'selectAdminHr',
+                                data: {
+                                    'selected': selected
+                                },
+                                method: 'post',
+                                success: function(pdetails) {
+                                    $('#tbodyReq').html(ch);
+                                    console.log(pdetails);
+                                    for (var i = 0; i < pdetails.length; i++) {
+                                        var hide = 'hide';
+                                        console.log(pdetails[i].adminHR, uid);
+                                        if (pdetails[i].adminHr == uid) {
+                                            hide = '';
+                                        }
+
+                                        ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%"><a onclick=reqData('+ pdetails[i].id +',"show",7) data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">' + pdetails[i].title + '</a></td><td>' + pdetails[i].skills + '</td><td style = "width:10%">' + pdetails[i].positions + '</td><td style = "width:10%">' + pdetails[i].Experience + '</td><td class="hide" id = "con_' + i + '">' + pdetails[i].assignedTo + '</td><td id = "assign_' + pdetails[i].id + '">' + pdetails[i].assignedToName + '</td><td>' + pdetails[i].adminHrname + '</td><td ><i class="fa fa-pencil ' + hide + '" style = "font-size:130%;color:#555555"  title = "Edit" id = "edit_' + pdetails[i].id + '_' + i + '" onclick = "showmodal(this.id)"></i></td><td class = "hide" id = "user_' + pdetails[i].id + '">' + pdetails[i].assignedTo + '</td></tr>';
+                                    }
+
+
+                                    $('#tbodyReq').html(ch);
+                                    for (var k = 0; k < pdetails.length; k++) {
+                                        var str = '#con_' + k;
+                                        var str2 = '#assign_' + k;
+                                        console.log($(str).html());
+
+                                        if ($(str).html() == null || $(str).html() == '' || $(str).html() == 'null') {
+
+                                            $(str).html('<i class="fa fa-times" style = "color:red"  title = "Unassigned"></i>');
+                                        } else {
+                                            $(str).html('<i class="fa fa-check" style = "color:green" title = "Assigned"></i>');
+                                        }
+                                    }
+                                }
+                            });
+
+                        });
+                    });
+
+                    function showmodal(id) {
+                        
+                        $('#reqDetailsId').modal('toggle');
+                        var value = id.split('_');
+                        reqId = parseInt(value[1]);
+                        rownumber = parseInt(value[2]);
+                        var str = '#user_' + reqId;
+                        var selected = parseInt($(str).html());
+                        var str2 = '#option_' + selected;
+                        $(str2).attr("selected", "selected");
+
+                    }
+
+                    function clearall() {
+                        $('#reqDetailsId').modal('toggle');
+
+                    }
+
+
+                    function savehrm() {
+                        var selected = parseInt($('#selecttag').val());
+
+                        if (selected == -1) return;
+                        clearall()
+                        $.ajax({
+
+                            url: 'savehrm',
+                            data: {
+                                'selected': selected,
+                                'reqId': reqId
+                            },
+                            method: 'post',
+                            success: function() {
+                                var str = '#assign_' + reqId;
+                                if ($(str).html() == null || $(str).html() == '') {
+                                    alert('Requisition assigned');
+                                } else {
+                                    alert('Requisition Changed');
+
+                                }
+                                var str2 = '#option_' + selected;
+                                $(str).html($(str2).html());
+                                var str3 = '#con_' + rownumber;
+                                $(str3).html('<i class="fa fa-check" style = "color:green" title = "Assigned"></i>');
+
+                                var str4 = '#user_' + reqId;
+                                $(str4).html(selected);
+                            }
+                        });
+
+
+
+
+                    }
+                </script>
+                <style type="text/css">
+                    /*input[type=search] {
+              height: 29px !important;
+              border-radius: 5px !important;
+              border: 1px solid #669ECC !important;
+                float: right !important;
+    text-align: right;
+    margin-top:1%;
+    margin-bottom:1%;
+    margin-left: 1%;
+    margin-right:1%; 
+             
+          }*/
+                    
+                    #main-menu {
+                        margin-top: 5.6% !important;
+                        height: 81.2% !important;
+                    }
+                    
+                    table {
+                        text-align: center;
+                    }
+                    
+                    thead th {
+                        text-align: center;
+                    }
+                </style>
+        
+    </body>
+
+
+    <style>
+
+    .dataTables_filter {
+     display: none;
+    }
+
+        thead th {
+            text-align: center;
+            background-color: #7FCEE6;
+            color: #4D4E50;
+        }
+        
+        td {
+            text-align: center;
+        }
+
+          .detailLabelTitle {
+            background-color: none;
+            color: #2CB8E5;
+            font-size: 14px;
+            font-weight: 2px;
+        }
+        
+        .detailLabelContent {
+            background-color: none;
+            color: black;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+
+
+     <!---------------------------------View Detail modal box -------------------------------------->
+        <div class="modal fade" id="jdDetailModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="margin:0px">
+                    <div class="modal-header" style="background-color:#2CB8E5;height:40px">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <center>
+                            <h4 id="dModalHeading" class="modal-title" style="color:#052F71;font-size:14pt;margin-top:-5px">Requisition Details</h4></center>
+                    </div>
+                    <div class="modal-body" style="">
+
+                        <div class="row">
+                            <div class="col-md-5 col-md-offset-1">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Job Title :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="djobTitle"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-5 " style="">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Designation :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dbrowsers"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" style="margin-top:2%">
+                            <div class="col-md-5 col-md-offset-1">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Location :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dlocation"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-5 " style="">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Skills :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dskillsId"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" style="margin-top:2%">
+                            <div class="col-md-5 col-md-offset-1">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Minimum Salary :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dminsal"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-5 " style="">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Maximum Salary :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dmaxsal"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" style="margin-top:2%">
+                            <div class="col-md-5 col-md-offset-1">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle"># positions :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dnoOfPositions"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-5 " style="">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Years Of Experience  :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dyox"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" style="margin-top:2%">
+                            <div class="col-md-5 col-md-offset-1">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Suggested Interviewer :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="drec"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-5 " style="">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Assigned HR  :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dadminhr"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                         <div class="row" style="margin-top:2%">
+                            <div class="col-md-5 col-md-offset-1">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Expiry Date :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dexpiresOn"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-5 " style="">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Priority  :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="dpriority"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" style="margin-top:2%">
+                            <div class="col-md-5 col-md-offset-1">
+                                <div class="col-md-6">
+                                    <label class="detailLabelTitle">Job Type :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="detailLabelContent" style=" " id="djobType"></label>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <br>
+
+                        <div id="" class="row" style="margin-top:2%">
+                            <div class="col-md-10" style="background-color:white;margin-left:8%">
+                                <ul class="nav nav-tabs" style="background-color:none;font-size:13px">
+                                    <li class="active"><a data-toggle="tab" style="color:grey" href="#ddiscription">Job Description</a></li>
+                                    <li><a data-toggle="tab" style="color:grey" href="#dhistory">History</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="ddiscription" class="tab-pane fade in active" style="margin-top:2%;">
+                                    </div>
+                                    <div id="dhistory" class="tab-pane fade" style="height:100px;overflow-y:scroll">
+
+                                            <table id="dhistoryTable" style="font-size:12px;margin-top:2%;">
+                                            </table>
+
+                                            <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+     <!----------------------Assign HR modal Box-------------------------->
+
+      <div class="modal fade" id="reqDetailsId">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="bodymodal">
+                            <div class="modal-header" style="background-color:#2CB8E5;">
+                                <center>
+                                    <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;">Select HR manager <a id="close" onclick="clearall()">
+                    <span  class='glyphicon glyphicon-remove' style='color:#06394A;height:20px;float:right'title ='Close' > 
+                  </a> </h4>
+                                </center>
+                            </div>
+                            <center>
+                                <h2 id="cdtname" style="text-transform:capitalize;color:#2CB8E5"></h2></center>
+                            <center>
+                                <h3>Select Recruiter:</h3></center>
+
+
+
+                            <div style="width:100%;">
+                                <select id="selecttag" class="form-control" style="color:black;width:96%;margin-bottom:2%;margin-left:2%" name="selecttag">
+                                    <option id="noneselectedId" value="-1">---Select</option>
+                                    <%for(var i = 0 ;i<user.length;i++){%>
+                                        <option value="<%=user[i].id%>" id="option_<%=user[i].id%>">
+                                            <%=user[i].name%>
+                                        </option>
+                                        <%}%>
+                                </select>
+
+                                <center>
+                                    <button class="button" type="" style="background-color:#2CB8E5;margin-bottom:2%" onclick="savehrm()" value="Save">Save</button>
+                                    <center>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>

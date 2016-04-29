@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <% include ./partials/head %>
+    <% include ./partials/adminheader %>
+</head>
+ <script>
+ 
+$(document).ready(function() {
+
+    <%if(roleid!=1) {%>
+            // selectDefaultModule();
+  <%}%>
+  
+        $('.portal-menu').removeClass('hide');
+        otable = $("#data_tableModule").dataTable({
+            "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
+            "bDestroy": true,
+            "iDisplayLength": 6,            "showNEntries": true, 
+            "bFilter": true,        
+            "bLengthChange": false,"aoColumnDefs": [{  }],
+            "order": []  
+         });
+        otableNew = $("#data_tableUser").dataTable({
+            "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
+            "bDestroy": true,
+            "iDisplayLength": 6,            "showNEntries": true, 
+            "bFilter": true,        
+            "bLengthChange": false,"aoColumnDefs": [{  }],
+            "order": []         
+            
+         });
+
+        
+     });
+
+function selectDefaultModule(){
+       
+    
+         <%if(defaultModule==1){ defaultModule=defaultModule+10;%>
+           
+    
+            window.location.href="/bugHome";
+
+           // $('bug-tab').hasClass('active');
+           // $('li a[href='/bugHome']').trigger('click');
+       
+        <%}%>
+        <%if(defaultModule==2){defaultModule=defaultModule+10;%>
+           window.location.href="/document";
+        <%}%>
+        <%if(defaultModule==3){defaultModule=defaultModule+10;%>
+           window.location.href="/expense";
+        <%}%>
+        <%if(defaultModule==4){defaultModule=defaultModule+10;%>
+          window.location.href="/asset";
+        <%}%>
+        <%if(defaultModule==5){defaultModule=defaultModule+10;%>
+            window.location.href="/timesheet";
+        <%}%>
+        <%if(defaultModule==6){defaultModule=defaultModule+10;%>
+           window.location.href="/bugHome";
+         <%}%>
+          <%if(defaultModule==7){defaultModule=defaultModule+10;%>
+           window.location.href="/rms";
+         <%}%>
+        
+    }
+     </script>
+<body>
+   
+   <%if(roleid==1){%>
+<div class="container-fluid"  style="background-color:antiquewhite">
+        <div class="row" style="margin-bottom:4%">
+                <div class="col-md-6" >
+                <div class="col-sm-12 table-responsive" style="margin-top:4%;">
+                    <table id="data_tableModule" class="table stripe cell-border hover" width="100%" style="text-align:center " >
+                        <thead   >
+                                <th style="text-align:center">Module</th>
+                                <th style="text-align:center">No Of Users</th>
+                                <th style="text-align:center">Users LOGIN First Time</th>
+                                
+                         </thead>
+                        <tbody id="orderbody">
+                      
+                             <% if(module[1].length>0){
+                              for(var i=0;i<module[1].length;i++){ 
+                              if(module[1][i].totalUser==null)                              
+                                var totalUserLen=0;
+                                else
+                                var totalUserLen=module[1][i].totalUser.split(',').length;
+                                if(module[1][i].activeUser==null)                              
+                                    var activeUserLen=0;
+                                else    
+                                var activeUserLen=module[1][i].activeUser.split(',').length;
+                                console.log("length is ",totalUserLen,activeUserLen);
+                                %>
+                      
+                          <tr><td><%=module[1][i].name%></td><td><%=totalUserLen%></td><td><%=activeUserLen%></td></tr>
+                            <%}}%>
+                        </tbody>
+                    </table>
+               </div>
+
+                </div>
+
+                <div class="col-md-6"  >
+                <div class="col-sm-12 table-responsive" style="margin-top:4%;">
+                <table id="data_tableUser" class="table stripe cell-border hover" style="text-align:center"  width="100%">
+                        <thead>
+                                <th style="text-align:center">UserName</th>
+                                <th style="text-align:center">Module Access</th>
+                                <th style="text-align:center">IsValidated?</th>
+                                
+                         </thead>
+                        <tbody id="orderbody">
+                           <%if(module[0].length>0){
+                            for(var i=0;i<module[0].length;i++){
+                                  var isActive='';
+                             if(module[0][i].isValidate==0)
+                                    isActive="not validated"
+                              else
+                                     isActive="validated"      %>
+                            <tr><td><%=module[0][i].name%></td><td><%=module[0][i].module%></td><td><%=isActive%></td></tr>
+                            <%}}%>
+                        </tbody>
+                    </table>
+               </div>
+
+                </div>
+
+        </div>
+</div>
+
+
+<%}%>
+<%if(roleid!=1) {%>
+             <img src="/img/welcome.jpg" height="400px" width="100%" class=""  alt="">
+  <%}%>
+
+
+    <footer style="height:100px" >
+        <% include ./partials/footer %>
+    </footer>
+
+</body>
+</html>
