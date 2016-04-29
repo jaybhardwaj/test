@@ -146,7 +146,7 @@
                         <%for(var i=0;i<allinfo[0].length-1;i++){%>
                           <tr id="editHoli_<%=allinfo[0][i].id%>" class="hide">
                           <td><input  type="text" id="ocName_<%=allinfo[0][i].id%>" maxlength="20" value="<%=allinfo[0][i].holidayName%>"></td>
-                          <td><input type="text" id="ocDate_<%=allinfo[0][i].id%>" maxlength="20" class="datepicker" value="<%=allinfo[0][i].holidayDate%>"></td>
+                          <td><input type="text" id="ocDate_<%=allinfo[0][i].id%>" maxlength="20" class="datepicker" value="<%=allinfo[0][i].holidayDate%>" readonly = "true"></td>
                           <td>                          
                                 <span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli(<%=allinfo[0][i].id%>,1)"></span>
                             </td>
@@ -456,8 +456,6 @@
   timepicker: false,
   format: 'm/d/y'
 });
-
-$(".master-img").addClass('active');
   });
 
 //$(".datepicker").datepicker();
@@ -771,6 +769,7 @@ function showEditHoli(id,flag){
       holiValidation(id);      
     }
   }
+
 function  holiValidation(id) { 
       if($('#ocName_'+id).val().trim().length<1)
       {
@@ -781,6 +780,15 @@ function  holiValidation(id) {
         alert("Enter Occasion Date");
         return false;
       }
+
+/*******Coded by Mayur starts***************/
+  if(($('#holiTable').html().indexOf($('#ocDate_'+id).val().trim())!=-1)&&($('#holi_'+id).html().indexOf($('#ocDate_'+id).val().trim())==-1)){
+        alert('Date already exists');
+                return false;
+
+      }
+/*******Coded by Mayur ends***************/
+
       $.ajax({
            url: '/updateHoliday',
            type: 'post',
@@ -795,16 +803,16 @@ function  holiValidation(id) {
                     /* alert($('#ocDate_'+id).val());*/
                      if(data[0][0].flag==1){
                         alert("Holiday Added successfully");
-                         $('#holiTable').append('<tr id="editHoli_'+data[1][0].id+'" class="hide"><td><input type="text" id="ocName_'+data[1][0].id+'" maxlength="20" value="'+$('#ocName_'+id).val()+'"></td><td><input type="text" maxlength="20" id="ocDate_'+data[1][0].id+'" class="datepicker" value="'+$('#ocDate_'+id).val()+'"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli('+id+',1)"></span></td></tr><tr id="holi_'+data[1][0].id+'"><td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+data[1][0].id+',0)"></span></td></tr>'); 
+                         $('#holiTable').append('<tr id="editHoli_'+data[1][0].id+'" class="hide"><td><input type="text" id="ocName_'+data[1][0].id+'" maxlength="20" value="'+$('#ocName_'+id).val()+'" readonly = "true"></td><td><input type="text" maxlength="20" id="ocDate_'+data[1][0].id+'" class="datepicker" value="'+$('#ocDate_'+id).val()+'"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli('+id+',1)"></span></td></tr><tr id="holi_'+data[1][0].id+'"><td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+data[1][0].id+',0)"></span></td></tr>'); 
                           $('#ocName_0').val('');
                           $('#ocDate_0').val('');
                      }
-                     if(data[0][0].flag==2){
+                    /* if(data[0][0].flag==2){
                       alert("Holiday Already Exist!! ");
                        $('#editHoli_'+id).addClass("hide"); 
                         $('#holi_'+id).removeClass("hide");
                       return false;
-                     }
+                     }*/
                      if(data[0][0].flag==3)
                      {
                     alert("Holiday Updated successfully");  
@@ -935,11 +943,11 @@ function addExpenseMaster(code,id,flag){
       }
 }
 else{
-  if($('#expMasterData_'+code+'_'+id).val().trim().length<=1)
+  /*if($('#expMasterData_'+code+'_'+id).val().trim().length<=1)
   {
     alert("Please fill Expense Type!");
     return false;
-  }
+  }*/
 }
 
 var desc,billM,billa,ty;
