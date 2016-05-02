@@ -142,6 +142,8 @@ app.post('/viewCandidate',portal.viewCandidate1);
 app.post('/getCandidate',portal.getCandidate);
 app.post('/editCandidate',portal.editCandidate);
 app.post("/getAllTag",portal.getAllTag);
+app.post("/addTag",portal.addTag);
+app.post('/reqData',portal.reqData);
 app.get("/upload",url.upload,portal.upload,render.redirect);
 app.post('/parserTable',portal.parserTable);
 app.post('/submitparsedData',portal.parserTable);
@@ -158,6 +160,7 @@ app.post("/getreleventState",portal.getreleventState);
 app.post("/addQuickTag",portal.addQuickTag);
 app.post('/getallmanager',portal.getallmanager);
 app.post('/getscheduleInfo',portal.getscheduleInfo);
+//app.post('/scheduleInterview',url.scheduleInterview,portal.scheduleInterview,render.redirect);
 app.post('/selectAdminHr',portal.selectAdminHr);
 app.post('/updateCandidate',portal.updateCandidate);
 app.post('/interviewData', upload.single('feedback'),portal.interviewData);
@@ -165,7 +168,6 @@ app.get('/interviewFeedback',url.interviewFeedback,portal.interviewFeedback,rend
 app.get('/reqApprover',url.reqApprover,portal.reqApprover,render.redirect);
 
 app.post('/error',url.error,render.redirect);
-
 
 //-------------------------Admin Routes----------------------------------------------------
  app.use(function(req, res,next) {

@@ -16,9 +16,7 @@
  <link rel="stylesheet" href="/bower_components/bootstrap-calendar/css/calendar.css">
 <script type="text/javascript" src="/bower_components/bootstrap-calendar/js/calendar.js"></script>
 <script type="text/javascript" src="/bower_components/bootstrap-calendar/js/app.js"></script>
- <script type="text/javascript" src="http://bootstrapcalendar.disqus.com/embed.js"></script>
-<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> 
-    
+ 
 
  
 <style>
@@ -99,7 +97,7 @@ Friday
         url: '/interviewerInfo',
         type: 'post',
         success: function(data) {
-       //   console.log("Data for this interviewer: ",data[0][1].name);
+        console.log("Data for this interviewer: ",data);
 var info=[];
 
     for(var i=0;i<data[0].length;i++){
@@ -117,11 +115,11 @@ else{
       mili=mili.toString();
       info.push({"id": "293","url":"/interviewFeedback?id="+data[0][i].id+"&cid="+data[0][i].cid+"&flag="+flag,"title":data[0][i].name+" -- "+data[0][i].title+" -- "+data[0][i].stateName+" -Round-"+data[0][i].rounds,"class": data[0][i].isDone==0?"event-success":"","start":mili,"end":mili});
     }
-         console.log("calender data",info);
+         
           var calendar = $("#calendar").calendar(
             {  
             language: 'en-GB',
-            tmpl_path: "bower_components/bootstrap-calendar/tmpls/",
+            tmpl_path: "/bower_components/bootstrap-calendar/tmpls/",
             events_source:  info
                     
             });

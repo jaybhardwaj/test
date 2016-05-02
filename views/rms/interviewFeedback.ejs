@@ -1,11 +1,9 @@
 <title> 
     Resume Upload</title> 
  
-<%include ./sidebar1.ejs %>
-    <script src='javascripts1/chosen.jquery.js'></script>
+ <% include ../partials/head %>
+    <% include ../partials/adminheader %>
 
-    <!--  <link href="/Bootstrap/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">  
-  -->
     <style>
     .title{
       color:#04A1D6;
@@ -115,7 +113,7 @@
     <input type="text" class="hide" name="rounds" id="rounds">
     <input type="text" class="hide" name="jdid" id="jdid">
 
- <span data-toggle="modal" data-target="#historyModal" class="glyphicon glyphicon-plus" style="margin-top:7%;color:#04A1D6;cursor:pointer" id="history" onclick="scheduleInfo()"> History </span>
+ <span data-toggle="modal" data-target="#historyModal" class="glyphicon glyphicon-plus" style="margin-top:7%;color:#f05f40;cursor:pointer" id="history" onclick="scheduleInfo()"> History </span>
 
         <table style="margin-top:10%;margin-left:11%;width:82%;float:left;" align="left" >
             
@@ -135,7 +133,7 @@
                 <td><span class="title">Candidate's Skills: </span>
                     <%=cdt[0].skills%>
                 </td>
-               <td><span class="title">Rating : </span> <input class="addDissable" type="text" name="rating" id="rating" style="width:30%;margin-left:5%">/10</td>
+               <td><span class="title">Rating : </span> <input class="addDissable form-control" type="text" name="rating" id="rating" style="width:30%;margin-left:5%">/10</td>
                 <td><span class="title">Current Round : </span>
                     <%=cdt[0].rounds%>
                 </td>
@@ -145,7 +143,7 @@
                 <td><span class="title">Contact No. : </span> <%=cdt[0].phone%></td>
                 <td>
                     <span class="title">Status :</span>
-                    <select id="status" name="status" class="addDissable" style="margin-left:6%;width:40%">
+                    <select id="status" name="status" class="addDissable form-control" style="margin-left:6%;width:40%">
                         <option value="0">--select--</option>
                         <option value="1">Approve</option>
                         <option value="2">Rejected</option>
@@ -157,24 +155,24 @@
             <tr style="height:10px"></tr>
             <tr>
                 <td><span class="title">Email Id : </span> <%=cdt[0].emailID%></td>
-                <td><span class="title">Time Take :</span> <input class="addDissable" type="text" placeholder="mmm" name="time" id="time" style="margin-left:6%;width:31%">Min.</td>
+                <td><span class="title">Time Take :</span> <input class="addDissable form-control" type="text" placeholder="mmm" name="time" id="time" style="margin-left:6%;width:31%">Min.</td>
                 <td><span class="title">Mode :</span><%=cdt[0].mode%> </td>
             </tr>
            <tr style="height:10px"></tr>
             <tr>
-                <td><span class="title"> Download Resume : </span><a href="<%=cdt[0].resumeTitle%>" download><span  class='glyphicon glyphicon-save' style='color:#2CB8E5;height:10px;cursor:pointer'title ='Download Resume'></span></a></td>
+                <td><span class="title"> Download Resume : </span><a href="<%=cdt[0].resumeTitle%>" download><span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download Resume'></span></a></td>
                 <td>
                     <span class="title">Remarks:</span>
-                    <textarea placeholder="add your comment" class="addDissable" row="10" style="width:100%;max-height:63px" name="remarks" id="remarks"></textarea>
+                    <textarea placeholder="add your comment" class="addDissable form-control" row="10" style="width:100%;max-height:63px" name="remarks" id="remarks"></textarea>
                 </td>
                 <td id="feed" style="padding-left:5%"> 
-                    Upload Feedback :<input type="file" name="feedback" id="feedback" >              
+                    Upload Feedback :<input type="file" class="form-control" name="feedback" id="feedback" >              
 
                 </td>
             </tr>
                 <tr>
                     <td>
-                        <button class="btn-default button " type="submit" id="submit" value="Submit" onClick="return validateSubmit()" style="width:100px">Submit</button>
+                        <button class="btn-default button btn"  type="submit" id="submit" value="Submit" onClick="return validateSubmit()" style="width:100px;background-color:#f05f40">Submit</button>
                     </td>
                     <td></td>
                     <td>
@@ -186,9 +184,10 @@
 </form>
     </body>
 
+    <!--PAGE CONTENT ENDS-->
+<%include menu1.ejs%>
+<% include ../partials/footer %> 
 
-    <%include ./menu1.ejs%>
-        <%include ./footer1.ejs%>
 
 
 <!---------------History Modal------------>
@@ -196,16 +195,15 @@
         <div class="modal-dialog">
             <!-- Modal content-->
           <div class="modal-content"  id="express2" style="">
-                <div class="modal-header" style="background-color:#2CB8E5;height:40px">
+                <div class="modal-header" style="background-color:#f05f40;height:40px">
                     <center>
-                        <h4 id="head4" class="modal-title" style="color:#052F71;font-size:14pt;width:auto;margin-top:-5px"><b>Interview History </b><a id="closeedit" >
-                     <span  class='glyphicon glyphicon-remove closeedit' data-dismiss="modal" style='color:#06394A;height:20px;float:right'title ='Close' ></span>
-                  </a> </h4>
-                    </center>         
+                             <h4 id="dModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px">Schedule Interview</h4>
+                              <button type="button" class="close" data-dismiss="modal" style="margin-top:-28px;float:right">&times;</button>
+                             </center>
                 </div>
 
 
-                <div id="showhistorydiv" style="border:solid 2px #2CB8E5;margin:20px 10px 0px 10px;overflow-x:scroll;overflow-y:scroll;max-width:100%;max-height:300px">
+                <div id="showhistorydiv" style="border:solid 2px #f05f40;margin:20px 10px 0px 10px;overflow-x:scroll;overflow-y:scroll;max-width:100%;max-height:300px">
               <table style="margin:10px;float:left">
                 <tbody id="historytable" >
             
@@ -225,7 +223,7 @@
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" id="express2">
-            <div class="modal-header" style="background-color:#2CB8E5;height:40px">
+            <div class="modal-header" style="background-color:#f05f40;height:40px">
                 <center>
                     <h4 id="head4" class="modal-title" style="color:#052F71;font-size:14pt;margin-top:-5px"><b>Interviewer's Remark</b> 
                     <span  class='glyphicon glyphicon-remove  closeirem' data-dismiss="modal" style='color:#06394A;height:20px;float:right'title ='Close' > 
@@ -341,7 +339,7 @@ $('#iremarkdiv').html("<label>"+msg+"</label>");
             $('#remarks').html("<%=cdt[0].remarks%>"); 
 
 if(isFile){
-     $('#feed').html("<span class='title'>Download Your Feedback Form:</span><a href='/attach/feedback/<%=cdt[0].feedbackForm%>'  download><span  class='glyphicon glyphicon-save' style='color:#2CB8E5;height:10px;cursor:pointer'title ='Download feedback form'></span>");
+     $('#feed').html("<span class='title'>Download Your Feedback Form:</span><a href='/attach/feedback/<%=cdt[0].feedbackForm%>'  download><span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download feedback form'></span>");
     $('button[type="submit"]').attr('disabled','disabled')
     }
 else{

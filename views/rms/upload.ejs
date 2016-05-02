@@ -1,14 +1,19 @@
 
 <title>Resume Upload</title>
 
-<%include ./sidebar1.ejs %>
+<% include ../partials/head %>  
+    <% include ../partials/adminheader %>
+
 <!-- <script src = 'javascripts1/chosen.jquery.js'></script>
  -->
   <!--  <link href="/Bootstrap/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">  
   -->
 <style>
+label{
+  font-size: 14px;
+}
 
-.textmargintop{
+/*.textmargintop{
   margin-top:10px;
 }
 
@@ -45,14 +50,14 @@
                 }
                 .chosen-container{
                   width:100%!important;
-                }
+                }*/
                 /*-------------------------------------
 </style>
 
 
 <style>
   /* form starting stylings ------------------------------- */
-  select option{
+  /*select option{
     color:gray;
     font-size: 13px
   }
@@ -64,7 +69,7 @@
     input, select         {
       padding:3px 0 6px 0px;
       /*display:block;
-      width:100%;*/
+      width:100%;------------
       border:none;
       border-bottom:1px solid #ddd;
       background: none;
@@ -74,7 +79,7 @@
       
     }
     select[multiple]{
-      /*background-color: red;*/
+      /*background-color: red;----------
       color: white;
       margin-top: 0;
     }
@@ -113,8 +118,8 @@ thead th{
  word-wrap: break-word;   
   text-align: center;
 }
-
-/* history tab */
+------------
+ 
  .tip {
   width: 0px;
   height: 0px;
@@ -131,17 +136,17 @@ thead th{
 }
 .dialogbox .body {
   position: relative;
-  /*max-width: 300px;*/
+  
   height: auto;
   margin: 20px 10px;
-  /*padding: 5px;*/
+  
   background-color: #00B9F5;
   border-radius: 3px;
   border: 5px solid #00B9F5;
 }
 
 .body .message {
-  /*min-height: 30px;*/
+ 
   border-radius: 3px;
   font-family: Arial;
   font-size: 10px;
@@ -232,7 +237,7 @@ html {
   cursor: pointer;
   opacity: 0;
   filter: alpha(opacity=0);
-}*/
+}-------------------
 
 .fileUpload {
     position: relative;
@@ -251,9 +256,9 @@ html {
     filter: alpha(opacity=0);
 }
 body .modal {
-    /* new custom width */
+    
     width: 1256px!important;
-    /* must be half of the width, minus scrollbar on the left (30px) */
+    
     margin-left: -11%;
 }
 #express2{
@@ -263,56 +268,45 @@ body .modal {
 .glyphicon-pencil{
    padding-left:7%;
    padding-right:7%;
-}
+} */
 </style>
 
 
-<center>
-  <div>
-<table style="margin-top:5%;width:100%" >
+ 
+  <div style="background-color:antiquewhite;padding:5% 1%;">
+  <div   style="border:2px solid #f05f40;padding:1%">
+  <table style="width:100%;">
     <tr>
-    <td style = 'width: 35%;'>
-    <form action = '/submitparsedData' method = 'post'>
-      <button type="submit" onclick = 'return confirmmessage()'  value="Cancel" data-dismiss="modal"  class="closeedit btn waves-effect waves-light" style = "background-color:#00B9F5;color:white;"><i class="fa fa-save"></i> <b>Submit</b></button>
-     </form>
-    <td>
-
-   <td style = 'width:20%'>
-  
-     <section id="details-filter"  style = 'position:relative;right:161%'>
-        <div class="md-input-container " style="">
-        <select id="selectsource" name="selectsource" style = 'margin-right:68%;'>
-          <option value='0'></option>
+       <td style = 'width:15% '>
+        <label>Select Source of Resume<sup>*</sup> :</label>
+        </td>
+        <td>
+        <select id="selectsource" class="form-control" name="selectsource" style = ' '>
+          <option value='0'>-select-</option>
           <%for(var i=0;i<source.length;i++){ console.log("source------------------------",source[i].sourcename)%>
           <option value="<%=source[i].id%>"> <%=source[i].sourcename%> </option>  
           <%}%>    
         </select>
-        <label>Select Source of Resume<sup>*</sup></label>
-      </div>
-    </section>
-   </td>
-   <td style="width:10%;">
-    <form id="form" action="/upload_resume" method="post" style = 'width: 506%;' enctype="multipart/form-data">
-     <input  type="file" id="file" onclick = 'select1source()' style = 'position:relative;right: 73%;width: 49%;' name="attach" class="form-control" value="Upload Resume"  >
-     <b style="style:font-size:12px">Upload Resume</b>
-     
-    </form>
-   </td>
+        </td>
+        <td style=" ">
+         <label style="style:font-size:12px;float:right">Upload Resume : </label>
+        </td>
+        <td style="width:28%">
+            <form id="form" action="/upload_resume" method="post"  enctype="multipart/form-data">            
+             <input  type="file" id="file" onclick = 'select1source()' style = ' ' name="attach" class="form-control" value="Upload Resume"  >
+            </form>
+         </td>
+        <td style = ' '>
+          <form action = '/submitparsedData' method = 'post'>
+            <button type="submit" onclick = 'return confirmmessage()'  value="Cancel" data-dismiss="modal"  class="closeedit btn  " style = "background-color:#00B9F5;color:white;margin-left:10px"> Submit </button>
+           </form>
+        </td> 
+    <td><button type="button" onclick = 'deleteAllIds()' value="Cancel"  class="closeedit btn " style = "background-color:#00B9F5;color:white; "> Delete </button></td> 
    </tr>
    </table> 
+   </div>
+   <div style="padding-top:2%">
 
-</center>
-</div>
-
-<div>
-
-
-
-<button type="button" onclick = 'deleteAllIds()' value="Cancel"  class="closeedit btn waves-effect waves-light" style = "background-color:#00B9F5;color:white;float: right;margin-right: 5.5%;"><i class="fa fa-trash"></i> <b>Delete</b></button>
-
-
-
-  <div class="col-md-11 " style="margin-top:0%;margin-left:4%;margin-bottom:3%"> 
          Search : <input type="text" id="searchbox">          
             <table id="openreqstate1" class="table  cell-border" style="font-size:13px;width:100%;margin-top:1%">
                  <col width="80">
@@ -343,15 +337,13 @@ body .modal {
                 <tbody></tbody>
                 </table>
 </div>
+</div>
 
+    <!--PAGE CONTENT ENDS-->
+<%include menu1.ejs%>
+<% include ../partials/footer %> 
+ 
 
-
-
-
-
-
-<%include ./menu1.ejs%>
-<%include ./footer1.ejs%>
 <script type="text/javascript">
 var deleteArray = [];
 var skillIdsGroup = [];
@@ -394,7 +386,8 @@ $.ajax({
 }
 
 $(document).ready(function() {
-            
+
+            $('.upload-img').addClass("active");
 
    $("#edit").draggable({
       handle: ".modal-header"

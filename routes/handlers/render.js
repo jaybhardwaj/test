@@ -433,7 +433,9 @@ module.exports = {
 
 //-----------------------------RMS---------------------------------------
 				case 'dashboard':
-				res.render('rms/dashboard',{role:req.session.hrRole,Name: '',myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule});
+				res.render('rms/dashboard',{role:req.session.hrRole,Name: '',myModules:req.session.modules,
+					hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,
+					logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule});
 				break ;
 				case 'interview':
 				res.render('rms/interview',{role:req.session.hrRole,Name: '',myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule});
@@ -453,21 +455,31 @@ module.exports = {
                 priority: req.hodResult[6],
                 role: req.session.hrRole,
                 Name: req.session.Name,
-                flag: flag
+                flag: flag,
+                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule
             });
 			break ;
 			case 'allrequisitions':
 			res.render('rms/allrequisitions',{pdetails:req.allrequisitions[0],role:req.session.hrRole,
    		   		Name:req.session.Name,flag:req.fl1,skills:req.allrequisitions[1],
       			cities:req.allrequisitions[2],adminhr:req.allrequisitions[3],
-      			designation:req.allrequisitions[4],priority:req.allrequisitions[5]});
+      			designation:req.allrequisitions[4],priority:req.allrequisitions[5],
+      			myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule
+      		});
 			break ;
 			case 'viewCandidate':
 				res.render('rms/viewCandidate',{
 	                skills: req.viewCandidate[1],
 	                location: req.viewCandidate[2],
 	                role: req.session.hrRole,
-	                Name: ''
+	                Name: '',
+	                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule
             });
             break ;
             case 'upload':
@@ -476,7 +488,10 @@ module.exports = {
 	                role: req.session.hrRole,
 	                Name: ' ',
 	                skills: req.uploadData[1],
-	                location: req.uploadData[2]
+	                location: req.uploadData[2],
+	                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule
 	            });
             break ;
             case 'viewReq':
@@ -485,9 +500,12 @@ module.exports = {
 	                 role: req.session.hrRole,
                 Name: '',
                 pdetails:req.viewReq[0],
-                user: req.viewReq[1],
+                userInfo: req.viewReq[1],
                 adminhr: req.viewReq[2],
-                uid: req.session.userId
+                uid: req.session.userId,
+                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule
 	            });
             break ;
             case 'error':
@@ -500,14 +518,20 @@ module.exports = {
 	                 flag:  rq.feedbackflag,
                 cdt: req.interviewFeedback[0],
                 role: req.session.hrRole,
-                Name: ''
+                Name: '',
+                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule
 	            });
             break;
             case 'reqApprover':
             res.render('rms/reqApprover', {
 	                 pdetails: req.reqApprover[0],
                 role: req.session.hrRole,
-                Name: ' '
+                Name: ' ',
+                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule
 	            });
             break;
 
