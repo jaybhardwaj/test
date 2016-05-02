@@ -1,6 +1,5 @@
 'use strict';
  var config = require('../../config/config').modules;
- console.log("Config----------------",config);
 module.exports = { 
 	home:function(req,res,next){
 		req.page='home';
@@ -24,7 +23,6 @@ module.exports = {
  
 	setpagecreateEditUser: function(req, res, next) {
 	req.userid=req.body.hdnId;
-	console.log('----------------------',req.body);
 		req.page = 'createEditUser';
 		req.depId=0;
 		req.levelId=0;
@@ -39,7 +37,6 @@ module.exports = {
 		req.statusflag=req.query.inactive;
 		req.session.statusflag=req.query.inactive;
 
-		console.log("----------------------------------req.query.inactive----------------",req.statusflag);
 		req.page = 'clients';
 		next();
 	},
@@ -47,18 +44,15 @@ module.exports = {
 		
 		if(req.query.id==''||req.query.id=='undefined'){			
 		req.clientid=0;	
-		console.log("in If of URL set page create edit---",req.query.id);
 		}
 		else if(req.body.cid){
 			req.clientid=req.body.cid;
 		}
 		else{
 		req.clientid=req.query.id;	
-		console.log("in If of URL set page create edit---",req.clientid);
 		}		
 		req.editflag=req.body.flag;
 		req.statusflag=req.query.inactive || 1;
-		console.log('--------create/Show/EditClient---------createEditClient-----')	;	
 		req.page = 'createEditClient';
 		next();
 	},
@@ -111,7 +105,6 @@ module.exports = {
 //---------------------------Project-WBS-------------------------------------
 	
 	setProject: function(req, res, next) {
-		console.log('set project ddddddddddd');
 		req.page = 'projectDetails';
 		next();
 	},
@@ -146,25 +139,20 @@ module.exports = {
 	req.pid=req.body.pid;
 	req.flag=req.body.hdnId;
 
-	console.log('qqqqqqqqqqqqqqqqqqqqq');
 		req.page = 'projectAddEdit';
 		next();
 	},
 
 	setProjectAddEditDetails: function(req, res, next) {
-	console.log('wwwwwwwwwwwwwwwwwww');
 		req.page = 'projectDetails12';
 		next();
 	},
 	setProjectWbs: function(req, res, next) {
-	console.log('setProjectWbs');
-	//console.log('project wbs------------------',req.body.lid);
 		req.page = 'projectWbs';
 		next();
 	},
 
 	setProjectAddEditDetailsWithFlag: function(req, res, next) {
-	console.log('projectDetailsWithFlag');
 		req.page = 'projectDetailsWithFlag';
 		next();
 	},
@@ -173,12 +161,10 @@ module.exports = {
 
 	//-------------Profile-------------------
 	setProfile: function(req, res, next) {
-	console.log('set profile------------------');
 		req.page = 'profile';
 		next();
 	},
 	updateProfile:function(req,res,next){
-		console.log("update profile");
 		req.page='updateProfile';
 		next();
 	},
@@ -186,11 +172,8 @@ module.exports = {
 	//----------------------------------ASSIGNMENT-----------------------------------
 
 	setpageAssignment: function(req, res, next) {
-		//console.log("req.query.inactive---",req.query.inactive);
 		var flag=req.query.inactive || 1;
-		//console.log("req.query.inactive after setting---",flag);
 		req.statusFlag=flag=='0'?0:1;
-		//console.log("while inactive",req.statusFlag);
 		req.page = 'assignment';
 		next();
 	},
@@ -248,7 +231,6 @@ module.exports = {
 	addBug:function(req,res,next){
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
-		console.log("in Add bug URL",req.body);
 	    req.page='addBug';
 		next();	
 	}
@@ -260,7 +242,6 @@ module.exports = {
 	bugDetails:function(req,res,next){
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
-		//console("in Bug Details URL"+req.body);
 	    req.page='bugDetails';
 		next();	
 	}
@@ -283,7 +264,6 @@ module.exports = {
 	addComment:function(req,res,next){
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
-		//console("in Bug Details URL"+req.body);
 	    req.page='addComment';
 		next();	
 	}
@@ -362,7 +342,6 @@ module.exports = {
 	}
 	else
 	{
-		console.log("set page doc else");
 			res.redirect('/portal')
 	}
 	},
@@ -382,23 +361,19 @@ if(req.session.modules.indexOf(config.Document)>=0)
 
 
 	setpageConfirmedFile: function(req,res,next){
-		console.log('setpageConfirmedFile');
 		req.page='confirmedFilePermission';
 		next();
 	},
     setpageDeletePermanentely: function(req,res,next){
-		console.log('setpageDelete Permanentely');
 		req.page='setpageDeletePermanentely';
 		next();
 	},
 	setpageReject: function(req,res,next){
-		console.log('setpageDelete');
 		req.page='rejectFileById';
 		next();
 	},
 	setpageRejectedFiles: function(req,res,next){
 		if(req.session.modules.indexOf(config.Document)>=0){
-		console.log('Rejected files');
 		req.page='rejectedFiles';
 		next();
 	}
@@ -408,7 +383,6 @@ if(req.session.modules.indexOf(config.Document)>=0)
 	}
 	},
 	setpageInsertDocument: function(req,res,next){
-		console.log('setpageInsertDocument---URL');
 		req.page='attachDocFile';
 		next();
 	},
@@ -426,7 +400,6 @@ if(req.session.modules.indexOf(config.Document)>=0)
 	setExpense: function(req, res, next) {
 		if(req.session.modules.indexOf(config.Expense)>=0)
 		 	{
-		console.log('expenseHome');
 		req.page = 'expenseHome';
 		next();
 	}
@@ -439,7 +412,6 @@ if(req.session.modules.indexOf(config.Document)>=0)
 		setExpenseMaster: function(req, res, next) {
 			if(req.session.modules.indexOf(config.Expense)>=0)
 		 	{
-		console.log('expensemaster');
 		req.page = 'masters';
 		next();
 	}
@@ -451,7 +423,6 @@ if(req.session.modules.indexOf(config.Document)>=0)
     setNewExpense: function(req, res, next) {
     	if(req.session.modules.indexOf(config.Expense)>=0)
 		 	{
-		console.log('expenseHome');
 		req.page = 'expenseHomenew';
 		next();
 	}
@@ -463,7 +434,6 @@ if(req.session.modules.indexOf(config.Document)>=0)
 	 insertExpenses: function(req, res, next) {
 	 	if(req.session.modules.indexOf(config.Expense)>=0)
 		 	{
-		console.log('expenseHome');
 		req.page = 'expenseHomenew';
 		next();
 	}
@@ -514,13 +484,11 @@ if(req.session.modules.indexOf(config.Document)>=0)
 	//-------------------Masters--------------------------------
 	setpagemasters: function(req,res,next){
 		req.flag=req.query.flag; 
-		console.log("set page master----url--flag",req.flag);
         req.page='masters';
         next();
 	},
 	seteditpagemasters: function(req,res,next){
 		req.flag=req.query.flag; 
-		console.log("set page master----url--flag",req.flag);
         req.page='editmasters';
         next();
 	},
@@ -530,12 +498,10 @@ if(req.session.modules.indexOf(config.Document)>=0)
 		next();
 	},
 	setpageholiday: function(req,res,next){
-		console.log("URL -------------- setpageholidaay");
 		req.page='uploadHoliday';
 		next();
 	},
 	setcalSettingpage: function(req,res,next){
-		console.log("URL page for Calender Setting");
 		req.page='calSetting';
 		next();
 	},
@@ -555,7 +521,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 	otherTimeSheet: function(req,res,next){
 		if(req.session.modules.indexOf(config.Time)>=0)
 		 	{
-		console.log("i am in url");
       req.page='otherTimeSheet';
       next();
   }
@@ -564,9 +529,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 			res.redirect('/portal')
 	}
 	},
-
-
-
 
 
 //------------------------------------------Asset-------------------------------
@@ -645,7 +607,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 		if(req.session.modules.indexOf(config.Asset)>=0)
 		 	{
      	
-		console.log("setpageviewStationary----url",req.body.flag);
 		req.page='viewStationary';
 		next();
   }
@@ -720,7 +681,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 	},
 
 	setUpdateSoft:function(req,res,next){
-		console.log('in updatesoft -------------url')
 		req.page='updateSoft';
 		next();
 	},
@@ -730,7 +690,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 		next();
 	},
  setpageTransUnassigned:function(req,res,next){
-        console.log('TRansUnassigned');
         req.page='ajaxTrans';
         next();
     },
@@ -739,7 +698,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
         next();
     },
 setpageTrans: function(req,res,next){
-        console.log('serpagetrans');
         req.page='trans';
         req.userid=req.body.qids;
         next();
@@ -749,9 +707,7 @@ setpageTransactions:     function(req,res,next){
 
 if(req.session.modules.indexOf(config.Asset)>=0)
 		 	{
-     	
-        console.log('setpageTransactions');
-        req.page='transactions';
+     	        req.page='transactions';
         req.userid='0';
         next();
   }
@@ -760,15 +716,12 @@ if(req.session.modules.indexOf(config.Asset)>=0)
 			res.redirect('/portal')
 	}
     },
-//new for assign software
 setpageAssignSoftware:     function(req,res,next){
 
 
 	if(req.session.modules.indexOf(config.Asset)>=0)
 		 	{
-	
-        console.log('---------setpageAssign---Software');
-        req.page='assignSoftware';
+	        req.page='assignSoftware';
         next();
   }
   else
@@ -784,10 +737,7 @@ setpageAssignSoftware:     function(req,res,next){
 
 	if(req.session.modules.indexOf(config.Asset)>=0)
 		 	{
-	
-
-		console.log('setpageHardware');
-		req.page='hardware';
+			req.page='hardware';
 		req.body.atid='1';
 		next();
   }
@@ -815,7 +765,6 @@ setpageAssignSoftware:     function(req,res,next){
 
 
 	hr:function(req,res,next){
-         console.log("it is url");
          if(req.session.modules.indexOf(config.RMS)>=0){
 		if(req.session.hrRole){
 			if (req.session.hrRole != 4) {
@@ -862,7 +811,6 @@ setpageAssignSoftware:     function(req,res,next){
 
 	},
 	viewCandidate:function(req,res,next){
-		console.log("url viewCandidate");
 		 if(req.session.modules.indexOf(config.RMS)>=0){
 		req.page="viewCandidate";
 		next();

@@ -10,7 +10,6 @@ module.exports = {
 				res.render('index'); 
 				break;
 				case 'home' :
-				console.log('sfsfsffffsffbb');
 				res.render('home',{myModules:req.session.modules,hideFlag:1,module:req.result1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 					case 'users' :
@@ -18,7 +17,6 @@ module.exports = {
 				break;
 
 			case 'createEditUser' :
-				console.log("user modules--------------",req.resultUsers[2]);
 				res.render('createEditUser',{retailerInfo:req.resultUsers[3],
 					client:req.resultClient[2],myModules:req.session.modules,hideFlag:1,userModule:req.resultUsers[2],
 					report:req.resultUsers[1],editflag:req.body.hdnId,users:req.resultUsers[0],
@@ -34,12 +32,10 @@ module.exports = {
 				
 				
 				case 'clients' :
-				console.log("Add client data :",req.session.statusflag);
 				res.render('clients',{myModules:req.session.modules,hideFlag:1,clients:req.resultClient[2],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,flagActive:req.session.statusflag,isApp:req.session.isApprover});
 				break;
 
 				case 'createEditClient' :
-				console.log(req.editflag,"Edit client data :",req.resultClient);
 				res.render('createEditClient',{myModules:req.session.modules,hideFlag:1,clientinfo:req.resultClient[2],location:req.resultClient[0],users:req.resultClient[1],id:0,editflag:req.editflag,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 				case 'addEditClient':
@@ -48,7 +44,6 @@ module.exports = {
 
 
 				case 'mailServerConfig'	:
-			    console.log('mail server result in render',req.mailServerresult);
 			    res.render('mailServerConfig',{myModules:req.session.modules,hideFlag:1,mailserver:req.mailServerresult[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 			    break;
 			    
@@ -65,7 +60,6 @@ module.exports = {
 
                 
                case 'updateProfile' :
-             console.log("bangla");
                res.redirect('/profile');
                 break;
 				//-----------------------------Bug--------------------------------------------
@@ -73,8 +67,6 @@ module.exports = {
 				res.render('bug/home',{myModules:req.session.modules,hideFlag:0,bug:req.resultActivity[0],activity:req.resultActivity[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 				case 'viewBug':
-				 console.log("Details Bug------all Users------req.resultViewBug[8]",req.resultViewBug[8]);
-				//console.log("Details of assinged to ------------",req.resultViewBug[3]);
 				res.render('bug/viewBug',{
 					myModules:req.session.modules,
 					hideFlag:0,
@@ -96,7 +88,6 @@ module.exports = {
 				break;
 
 				case 'raiseBug':
-				//console.log("Raise Bug-----------render time result------------",req.resultRaiseBug[0],req.resultRaiseBug[2]);
 				res.render('bug/raiseBug',{myModules:req.session.modules,hideFlag:0,
 					project:req.resultRaiseBug[0],
 					status:req.resultRaiseBug[1],
@@ -117,25 +108,21 @@ module.exports = {
 				break;
 				
 				case 'updateBugDetails':
-				console.log("--Case updateBugDetails successfuly render--");
 				res.json('1');	
 				break;
 				case 'addComment':
 				res.json(req.resultAddComment);	
 				break;
 				case 'addBug':
-				console.log("add bug render---------view bug---------");
 				res.redirect('/viewBug');	
 				break;
 				case 'bugAttachment':
 				res.json(req.resultAddAttachment);	
 				break;
 				case 'getAlltech':
-				console.log("get all tech render",req.resultAllTech);
 				res.json(req.resultAllTech);	
 				break;
 				case 'filterBug':
-				console.log("filterBug render",req.resultFilterBug);
 				res.render('bug/viewBug',{ 
 				 myModules:req.session.modules,hideFlag:0,
 				 
@@ -152,16 +139,7 @@ module.exports = {
 				roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,userid:req.session.userid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover
 			});	
 				break;
-				//-----------------------------------Document--------------------------------------
-				/*case 'createEditUser' :
-				console.log("saurav----------------------",req.body.hdnId);
-				res.render('createEditUser',{editflag:req.body.hdnId,users:req.resultUsers[0],role:req.resultRoles[0],customRole:req.resultCustomRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName});
-				break;*/
-
-			/*case 'clients' :
-				res.render('clients',{clients:req.resultClient[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName});
-				break;*/
-
+			
 			case 'createEditClient' :
 				res.render('createEditClient',{myModules:req.session.modules,hideFlag:1,clients:req.resultClient[0],id:0,editflag:req.body.hdnId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
@@ -178,7 +156,6 @@ module.exports = {
 			  
 			 var query = require('url').parse(req.url, true).query;
             var flag = query.flag;
-            console.log('******************************here is',flag);
              if(flag==undefined){
              	flag = -1;
              }
@@ -187,7 +164,6 @@ module.exports = {
 			    break;
 
 			case 'permission' :
-			   console.log('in render');
 			   res.render('document/permission',{myModules:req.session.modules,hideFlag:0,user:req.session.firstName,roleid:req.session.roleId,files:req.permissionResult,logo:req.session.logo,defaultModule:req.session.defaultModule});
 			   break; 
 
@@ -200,12 +176,10 @@ module.exports = {
                break;
 
             case 'rejectFileById' :                     	
-                console.log('render.js permission');
                		res.redirect('/permission');
                break; 
 
             case 'rejectedFiles':
-            console.log("rejected files");
             	res.render('document/rejectedFiles',{myModules:req.session.modules,hideFlag:0,user:req.session.firstName,roleid:req.session.roleId,files:req.resultRejectedFile,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover}); 
 			    break;
 
@@ -219,7 +193,6 @@ module.exports = {
                break;
 //---------------------------------Project WBS-----------------------------------------------------
 			case 'projectDetails' :
-				console.log('11111111111111111111');
 				res.render('projectDetails',{myModules:req.session.modules,hideFlag:1,allinfo:req.projectResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 				case 'addEditProject' :
@@ -255,7 +228,6 @@ module.exports = {
 				res.redirect('/projectWbs?pid='+req.proname);
 			}
 			else if(req.wbshidden==3){
-				console.log('we are here@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 				res.redirect('/projectDetails');
 			}
 			else{
@@ -265,7 +237,6 @@ module.exports = {
 				break;
 
 				case 'projectAddEdit' :
-				//console.log('allprojects---',req.projectResults[7]);
 				res.render('projectAddEdit',{myModules:req.session.modules,hideFlag:1,allProjects:req.projectResults[7],flag:req.flag,location:req.projectResults[1],
 					resource:req.projectResults[5],flagForTab:req.projectResults[6],
 					tech:req.projectResults[2],manager:req.projectResults[4],teamlead:req.projectResults[5],
@@ -273,16 +244,11 @@ module.exports = {
 				break;
 
 				case 'projectDetails12' :
-				console.log('render setProjectAddEditDetails');
 				res.redirect('/projectDetails');
 				break;
 
 				case 'projectWbs' :
-				console.log('we are in projectWbs page======================');
-				console.log('project data is---',req.projectWbs[0]);
-				console.log('WBS data is---',req.projectWbs[1]);
-				console.log('location is---',req.projectWbs[2]);
-				console.log('all projects are---',req.projectWbs[3]);
+			
 				res.render('projectWbs',{allWbs:req.projectWbs[4],myModules:req.session.modules,hideFlag:1,project:req.projectWbs[0],wbs:req.projectWbs[1],
 					location:req.projectWbs[2],owner:req.projectWbs[3],
 					roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
@@ -294,7 +260,6 @@ module.exports = {
 				//----------------------------ASSIGNMENT---------------------------------------
 
 				case 'assignment' :
-                  console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 				res.render('assignment',{myModules:req.session.modules,hideFlag:1,allinfo1:req.allinfo1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 			case 'createAssignment' :
@@ -303,10 +268,9 @@ module.exports = {
 		    case 'changeAssignmentStatus' :
 		       if(req.flag==1)
 		       {
-		       	console.log("-------------------going for active");
 				res.redirect('/assignment');}
 			else
-				{console.log("----------------------going for inactive");
+					{
 				res.redirect('/assignment?inactive=true');}
 				break;
 			case 'createSubmitAssignment' :
@@ -325,7 +289,6 @@ module.exports = {
 				break;
 
 			case 'viewStationary' :
-			//  console.log("viewStationary----render",req.body.flag);
 				res.render('asset/viewStationary',{myModules:req.session.modules,hideFlag:0,flag:req.body.flag,stype:req.resultStationary,logo:req.session.logo,user:req.session.firstname,roleid:req.session.roleid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 			case 'viewSoftware':
@@ -337,7 +300,6 @@ module.exports = {
 				break;
 
 			case 'trans' :
-				console.log("Trans",req.resultUsers[0]);
 				res.json(req.resultUsers[0]);
 				break;
 			case 'transactions' :
@@ -352,7 +314,6 @@ module.exports = {
 				break;
 				//new 4 dynamic software
 			case 'addSoftware':
-			console.log('addSoftware',JSON.stringify(req.resultType));
 				res.render('asset/addSoftware',{myModules:req.session.modules,hideFlag:0,stype:req.resultType,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 			 //new 4 assign soft
@@ -364,7 +325,6 @@ module.exports = {
 				break;
 
 			case 'Update':
-				console.log('hello Update');
 				res.json(req.resultupdatedata);
 				break;
 				//new 4 hardware
@@ -373,16 +333,13 @@ module.exports = {
 			 break;
 //new for hardware
 			case 'updateHardware':
-				console.log('harware update');
 				res.json(req.resultupdatehardware);
 				break;
 			case 'Updatestat':
-				console.log('updating stationary');
 				res.json(req.resultupdatest);
 				break;
 				
 			case 'updateSoft':
-				console.log('updated software at URL-------');
 				res.json(req.resultupdatesoft);
 				break;
 				case 'ajaxData' :
@@ -419,20 +376,16 @@ module.exports = {
 				break;
 
 				case 'expenseHomenew' :
-				console.log('dsydtysya');
 				res.render('expense/expenseHome',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpensenew[0],expenseDetails:req.resultExpensenew[1],currency:req.resultExpensenew[2],totalExpense:req.resultExpensenew[3],bilableusers:req.resultExpensenew[4],trip:req.resultExpensenew[5],travelType:req.resultExpensenew[7],hotelType:req.resultExpensenew[6],Ex:0,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit ,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 				case 'fileAttechment' :
-				console.log('dsydtysya');
 				res.redirect('expensenew')
 				break;
 				case 'insertExpense' :
-				console.log('dsydtysya');
 				res.redirect('expensenew')
 				break;
 
 				case 'isertExpensemaster' :
-				console.log('dsydtysya');
 				res.redirect('expensemaster')
 				break;
 
@@ -441,7 +394,6 @@ module.exports = {
 				break;
 				/*end expense Jogendra singh*/
 				case 'masters':
-				console.log("master render-----------");
 			     var flag=req.flag==null?0:req.flag;
 			   res.render('masters',
 			   	{myModules:req.session.modules,
@@ -465,29 +417,22 @@ module.exports = {
                  break;
 
                  case 'calSetting':
-                 console.log("in cal setting render page");
                  res.render('calSetting',{myModules:req.session.modules,hideFlag:1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
                  break;
 
 //-----------------------------TimeSheethh---------------------------------------
                  case 'timeSheet':
-                 console.log(" i am in render");
-                 console.log("timeinfo----",req.timeinfo);
+               
 			     res.render('timesheet/timeSheet',{myModules:req.session.modules,hideFlag:0,timeinfo:req.timeinfo,userid:req.session.userId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 			     break;
 			     case 'otherTimeSheet':
-                 console.log(" i am in render",req.userid);
-                 console.log("timeinfo----");
+                
 			     res.render('timesheet/timeSheetOther',{myModules:req.session.modules,hideFlag:0,timeinfo:req.timeinfo,data:req.data,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 			     break;
 
 
-//-----------------------------------------------hr management---------------------------------------
-
-
 //-----------------------------RMS---------------------------------------
 				case 'dashboard':
-				console.log("dashboars in rmss");
 				res.render('rms/dashboard',{role:req.session.hrRole,Name: '',myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule});
 				break ;
 				case 'interview':
@@ -512,14 +457,12 @@ module.exports = {
             });
 			break ;
 			case 'allrequisitions':
-			console.log("1------  ",req.session.hrRole, req.session.Name,req.fl1);
 			res.render('rms/allrequisitions',{pdetails:req.allrequisitions[0],role:req.session.hrRole,
    		   		Name:req.session.Name,flag:req.fl1,skills:req.allrequisitions[1],
       			cities:req.allrequisitions[2],adminhr:req.allrequisitions[3],
       			designation:req.allrequisitions[4],priority:req.allrequisitions[5]});
 			break ;
 			case 'viewCandidate':
-			   console.log("render view Candid");
 				res.render('rms/viewCandidate',{
 	                skills: req.viewCandidate[1],
 	                location: req.viewCandidate[2],
@@ -528,7 +471,6 @@ module.exports = {
             });
             break ;
             case 'upload':
-	            console.log("hello",req.uploadData[0]);
 	            res.render('rms/upload', {
 	                source: req.uploadData[0],
 	                role: req.session.hrRole,

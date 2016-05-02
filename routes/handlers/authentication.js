@@ -3,7 +3,6 @@
  var userauth = require('../../model/userauthentication');
  module.exports = {
      checkauterization: function(req, res, next) {
-     	console.log('checkauterization')
          if (req.session.userId) {
              next();
          } else {
@@ -19,7 +18,6 @@
                  res.json('0');
              } else {
                  if (result[0].length > 0) {
-                    console.log("```````````````looooogo------",result[0][0].logo);
                      req.session.firstName = result[0][0].firstName;
                      req.session.userName = result[0][0].userEmail;
                      req.session.password = result[0][0].userPassword;
@@ -36,7 +34,6 @@
                      req.session.modules=result[1].map(function(v){
                         return v.id;
                      });
-                     console.log(req.session);
                      res.json('1');
                  } else {
                      res.json('0');

@@ -252,7 +252,6 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
 
 	/*------------------------------------------------------------------Holiday------------------------------------------------------------*/
 
-   // app.get('/holiday',url.setholidaypage,portal.holidayhome,render.redirect);
     app.post('/selectidHoliday',portal.selectHolidaybyId);
     app.post('/updateHoliday',portal.updateHoliday);
 
@@ -269,7 +268,6 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
     app.post('/customRolesEntry',url.setpageaddcustomRoles,portal.addCustomRole,render.redirect);
     app.post('/customRolesUpdate',url.setpagemasters,portal.getCustomRole,portal.getIndustry,portal.getBusiness,portal.getDocument,portal.getTechnology,portal.getRestriction,portal.updateCustomRole,render.redirect);
     app.post('/getRolesInfo',portal.getRolesInfo);
-    //app.post('/customRolesExist',portal.customRolesExist);
 app.post('/addEditClientAjax',portal.addEditClientAjax);
 
 
