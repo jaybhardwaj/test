@@ -32,8 +32,8 @@ module.exports = {
 		Bug:1,
 		Time:2,
 		Expense:3,
-		Asset:4,
-		Project:5,
+		Project:4,
+		Asset:5,
 		Document:6,
 		RMS:7
 	}

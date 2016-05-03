@@ -510,7 +510,9 @@ module.exports = {
                 Name: ' '
 	            });
             break;
-
+              case 'projectmngmt':
+              res.render('project/projectmngmt',{logo:req.session.logo,roleid:req.session.roleId,myModules:req.session.modules,user:req.session.firstName,defaultModule:req.session.defaultModule,hideFlag:0});
+               break;
 
 			default:
 				next();

@@ -105,7 +105,7 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
     app.post('/ShowExpenseByapprover',url.setExpense, portal.ShowExpenseapprover,portal.getRole);
     app.post('/ShowExpenseWeekBy',url.setNewExpense, portal.getExpenseWeekBy,portal.getRole);
     app.get('/expensemaster',url.setExpenseMaster, portal.select_ExpenseMaster,portal.getRole,render.redirect);
-    app.post('/insertExpenseMaster',url.setexpenseMaster, portal.insert_Expense,portal.getRole);
+    app.post('/insertExpenseMaster', portal.insert_Expense);
    // app.post('/expensemaster',url.setNewExpense, portal.update_Expense,portal.getRole,render.redirect);
     app.post('/expenseUser',url.setNewExpense, portal.selectByExpenseUser,portal.getRole);
     app.post('/getexpensemaster',url.setExpenseMaster, portal.selectExpensebyId,portal.getRole);
@@ -272,7 +272,8 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
     app.post('/getRolesInfo',portal.getRolesInfo);
 app.post('/addEditClientAjax',portal.addEditClientAjax);
 
-
+/*----------------------------------------------------------Project Management-----------------------------------------------------------*/
+	app.get('/projectmngmt',url.projectmngmt,portal.projectmngmt,render.redirect);
 
 
 }

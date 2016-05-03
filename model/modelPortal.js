@@ -1148,6 +1148,7 @@ mysql(q,function(err,result){
             values: [code, description1, description2,description3,modifyBy,active,ids,retailer]
         };
         mysql(query, function(err, result) {
+            console.log(query);
             callback(err, result);
         });
     },

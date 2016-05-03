@@ -1494,6 +1494,7 @@ getViewHardware:function(req,res,next){
 
      addSoftware: function(req, res, next) {
         modelPortal.addSoftware('null',req.body.stype,
+
             req.body.vendor,req.body.Invoicedate,
             req.body.name,
             req.body.des,
@@ -2112,7 +2113,6 @@ insertExpense: function(req, res, next) {
              }
             result=result[0];
               res.json(result);
-             next();
          });
     }
     else{
@@ -2122,8 +2122,9 @@ insertExpense: function(req, res, next) {
                  return;
              }
              result=result[0];
+             console.log('in callback');
               res.json(result);
-             next();
+        
          });
      }
      },
@@ -3573,7 +3574,8 @@ addUser: function(req, res, next) {
 
 
         });
-    }
+    },
+     projectmngmt:function(req,res,next){ next();}
 
      
 
@@ -3583,7 +3585,45 @@ addUser: function(req, res, next) {
 
 
 
- //-------------------------------------SEPERATE FUNCTION-------------------------------------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ //-------------------------------------SEPERATE FUNCTIONS-------------------------------------->
 
  function  parseAll(textLowerCase,req,strname,next){
 var parsedData ;
