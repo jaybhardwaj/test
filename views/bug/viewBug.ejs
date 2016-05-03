@@ -61,6 +61,18 @@
 		<div class="slidingpanel" style="font-size: 13px;font-size: 12px;">
 			<div class="col-md-12" style="color:">
 				<form action="/filterBug" method="post" onSubmit=''>
+
+				<div style="padding-top:10px" >
+						<label style="height:10px" >Project </label>
+						<div id="project" style="margin-left: -13px;">
+							<input type="radio" name="projectis" checked="true" value="in">Is</input> <input type="radio" name="projectis" value="not in">Is Not</input>
+						</div>
+					</div>
+					<div style="position:relative; left:20%"id="6">
+						
+					</div>
+
+
 					<div style="padding-top:10px">
 						<label style="height:10px">Status </label>
 						<div id="status" style="margin-left: -13px;">
@@ -299,8 +311,20 @@
 
  	$(document).ready(function(){ 
 
+ 		console.log('projects------<%=project[1].projectTitle%>');
+
 $('#download').removeClass("hide");
 $('#downloadL').removeClass("hide");
+
+var str='<select name="project" id="projects" multiple="" style="width:100%;margin-top:10px;">';
+					 	<% for(var i=0;i<project.length;i++) { %>
+					 	str=str+'<option value="<%=project[i].id%>"><%=project[i].projectTitle%></option>';
+						<%}%> 
+str=str+'</select>';
+
+ 		$("#6").append(str);
+
+
 
 		var str='<select name="status" id="statuss" multiple="" style="width:100%;margin-top:10px;">';
 					 	<% for(var i=0;i<status.length;i++) { %>
@@ -353,6 +377,13 @@ str=str+'</select>';
 
  		$('.select-vbug').css('cursor', 'pointer');
 		 //$( "#resizable" ).resizable();
+
+		 $('#projects').change(function() {
+        	console.log($(this).val());
+        }).multipleSelect({
+            width: '75%'
+        });
+
 
 		$('#statuss').change(function() {
         	console.log($(this).val());

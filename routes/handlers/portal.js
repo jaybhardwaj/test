@@ -483,16 +483,21 @@ filename=req.session.logo;
                   });
     },
        filterBug: function(req, res, next) { 
+
+       
+
 var tempstatus='';
     var tempseverity='';
     var temppriority='';
     var tempassingedto='';
     var temptechnology='';
+     var tempproject='';
     var status=req.body.status;
     var priority=req.body.priority;
     var severity=req.body.severity;
     var assingedto=req.body.assingedto;
     var technology=req.body.technology;
+    var project=req.body.project;
     if( status==null)
     status='';
     if( priority==null)
@@ -503,8 +508,26 @@ var tempstatus='';
     assingedto='';
     if( technology==null)
     technology='';
+
+project=project?project:'';
+
+ var query = require('url').parse(req.url, true).query;
+        
+        if(query.status){
+            req.body.statusis="in";
+            req.body.priorityis="in";
+            req.body.severityis="in";
+            req.body.assingedtois="in";
+            req.body.technologyis="in";
+            req.body.projectis="in";
+            status=query.status;
+            project=query.pid;
+        }
+
     if(status.constructor === Array){
         status.forEach(function(v,i) {
+
+            console.log('all status---',v);
             if(i!=status.length-1)
                 tempstatus=tempstatus+v+',';
             else
@@ -512,6 +535,7 @@ var tempstatus='';
         });
         status=tempstatus;
     }
+
 
     if(priority.constructor === Array)
     {
@@ -556,7 +580,21 @@ var tempstatus='';
         });
         technology=temptechnology;
     }
-        modelPortal.filterBug(req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.session.userId,req.session.retailerId,req.session.roleId, function(errorActivity,resultFilterBug) {
+
+
+        if(project.constructor === Array)
+    {
+        project.forEach(function(v,i) {
+        if(i!=status.length-1)
+            tempproject=tempproject+v+',';
+        else
+            tempproject=tempproject+v;
+        });
+        project=tempproject;
+    }
+
+
+        modelPortal.filterBug(req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,req.session.userId,req.session.retailerId,req.session.roleId, function(errorActivity,resultFilterBug) {
               if (errorActivity) {
                
                  next(errorActivity);

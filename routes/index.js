@@ -43,6 +43,7 @@ app.use(bodyParser({
 	app.post('/bugAttachment',upload.single('addBugAttachment'),url.bugAttachment,portal.bugAttachment,render.redirect);
 	app.post('/getAlltech',url.getAlltech,portal.getAlltech,render.redirect);
 	app.post('/filterBug',url.filterBug,portal.filterBug,render.redirect);
+	app.get('/filterBug',url.filterBug,portal.filterBug,render.redirect);
 
 
 	//----------------------Document-------------------------------------------
@@ -273,7 +274,7 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
 app.post('/addEditClientAjax',portal.addEditClientAjax);
 
 /*----------------------------------------------------------Project Management-----------------------------------------------------------*/
-	app.get('/projectmngmt',url.projectmngmt,portal.projectmngmt,render.redirect);
+	//app.get('/projectmngmt',url.projectmngmt,portal.projectmngmt,render.redirect);
 
 
 }
