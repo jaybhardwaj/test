@@ -1835,20 +1835,22 @@ getHrROle:function(userId,roleId,retailerId,callback){
      } ,
      raiseRequisition1:function(uid,JobTitle,NoOfPostions,skills,MinimumSalary,
         MaximumSalary,ExpiresOn,location,Description,designation,RecruiterName,
-        YearsOfExp,adminhr,flag,id,mailPriority,jobType,hrRole,callback){
+        YearsOfExp,adminhr,flag,id,mailPriority,jobType,hrRole,retailerId,callback){
 
             var q = {
-                  sql: 'call usp_addrequisition(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                  sql: 'call usp_addrequisition(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
                  values: [uid,JobTitle,NoOfPostions,skills,
                           MinimumSalary,MaximumSalary,
                           ExpiresOn,location,Description,
                           designation,RecruiterName,
                           YearsOfExp,adminhr,flag,id,
-                          mailPriority,jobType,hrRole]
+                          mailPriority,jobType,hrRole,retailerId]
             }  
             console.log('aaaaaaaaaaaalooooooooooooooooo',q);
             mysql(q,function(err, result) {
+                console.log('yes',err,result);
                          callback(err, result);
+                         console.log('no');
             });
 
      
@@ -1993,6 +1995,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
     var q = {
         sql: 'call usp_parseTableData(?,?)',
         values: [count,countfiles]
+        
     }
     mysql(q, function(err, result) {
             if (err) {
@@ -2002,6 +2005,24 @@ getHrROle:function(userId,roleId,retailerId,callback){
             }
         });
     },
+
+/***jogendra singh**/
+  toSubmitParseData:function(callback){
+    var q = {
+        sql: 'call usp_submitParsedData()',
+        values: []
+        
+    }
+    mysql(q, function(err, result) {
+            if (err) {
+                console.log(q, err);
+            } else {
+            callback(err,result);
+            }
+        });
+    },
+/*****end*****/
+
     upload_resume:function (userId,roleId,retailerId,callback){
        var q ={
         sql: 'call usp_truncateTempTable',
@@ -2017,12 +2038,51 @@ getHrROle:function(userId,roleId,retailerId,callback){
         });         
 
     },
+
+    //**add by Jogendra singh****//
+
+     toAddTag:function (tId,selectedtag,uId,callback){
+       var q ={
+        sql: "call usp_addTag(?,?,?)",
+            values: [tId,selectedtag,uId]
+        }
+        mysql(q, function(err, result) {
+            if (err) {
+               
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+
+    },
+
+     scheduleInterview:function (cdtidint,schtaggedJd,intdatetime,schstate,interviewer,intremark,mode,uid,rid,callback){
+        console.log('dsdshv hrm hrm hrm');
+       var q ={
+        sql: "call usp_scheduleInterview(?,?,?,?,?,?,?,?,?)",
+        values:[cdtidint,schtaggedJd,intdatetime,schstate,interviewer,intremark,mode,uid,rid]
+        }
+        mysql(q, function(err, result) {
+
+            if (err) {
+             console.log('djdgjfdhf jhdgfj jhfdhfj jfgdhfj',err);   
+            }
+            else {
+                console.log('djdgjfdhf jhdgfj jhfdhfj jfgdhfj');
+            callback(err,result);
+            }
+        });         
+
+    },
+    //*****end******//
     upload_resumeaddcandidate : function(userId,roleId,retailerId,name,email,phone,skillarrId,permanentAddress,Qualification,currentlocation,years,                months,instititutes,targetPath,callback){
        var q ={
                sql: 'call usp_addCandidate(?,?,?,?,?,?,?,?,?,?,?)',
                     values: [name,email,phone,skillarrId,permanentAddress,Qualification,currentlocation,years,months,
                         instititutes,targetPath]
         }
+        console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                 console.log("-----------saurav upload_rsume------",err);

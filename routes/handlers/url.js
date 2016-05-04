@@ -819,6 +819,17 @@ setpageAssignSoftware:     function(req,res,next){
 			res.redirect('/portal');
 		}
 	},
+
+ scheduleInterview:function(req,res,next){
+		 if(req.session.modules.indexOf(config.RMS)>=0){
+		req.page="scheduleInterview";
+		next();
+	}
+	else{
+			res.redirect('/portal');
+		}
+	},
+
 	upload :function(req,res,next){
 		 if(req.session.modules.indexOf(config.RMS)>=0){
 		req.page="upload";
@@ -828,6 +839,18 @@ setpageAssignSoftware:     function(req,res,next){
 			res.redirect('/portal');
 		}
 	},
+   
+   submitparsedData :function(req,res,next){
+		 if(req.session.modules.indexOf(config.RMS)>=0){
+		req.page="submitparsedData";
+		next();
+	}
+	else{
+			res.redirect('/portal');
+		}
+	},
+
+
 	viewReq:function(req,res,next){
 		 if(req.session.modules.indexOf(config.RMS)>=0){
 		req.page="viewReq";

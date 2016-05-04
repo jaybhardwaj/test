@@ -470,6 +470,14 @@ module.exports = {
 	                Name: ''
             });
             break ;
+
+            case 'scheduleInterview':
+             res.redirect('/viewCandidate')
+                 break;
+                 case 'submitparsedData':
+             res.redirect('rms/upload')
+                 break;
+           
             case 'upload':
 	            res.render('rms/upload', {
 	                source: req.uploadData[0],
