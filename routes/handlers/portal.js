@@ -526,8 +526,6 @@ project=project?project:'';
 
     if(status.constructor === Array){
         status.forEach(function(v,i) {
-
-            console.log('all status---',v);
             if(i!=status.length-1)
                 tempstatus=tempstatus+v+',';
             else
