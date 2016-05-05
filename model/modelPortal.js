@@ -721,9 +721,11 @@ getAllAssignment: function(userId,roleId,retailerId,callback) {
 
 
  createEditAssignment: function(assignmentId,flag,retailerId,callback) {  
-     if(flag==0){}
+  if(flag==0)
+       console.log("going for creating");
      else
-
+       console.log("going for editing");
+   
         var query = {
             sql: 'call usp_createAssignmentData(?,?,?)',
             values:[assignmentId,flag,retailerId]
