@@ -31,6 +31,8 @@
             var curr_asgnmnt_id = [];
             var curr_wbs_id = [];
 
+            var workschedule=9;
+
             var ftdy =1;
             var weekdy = 0;
             var monthly=0;
@@ -60,6 +62,7 @@
                 $('.portal-menu').addClass('hide');
                 $('.timesheet-tab').addClass("active");
 
+               $(".ui-datepicker-trigger img").css("width", "25px");
                 $('#submitdate').datepicker({
                     onSelect: function(dateText, inst) {
                         adjustdays();
@@ -67,10 +70,11 @@
                 });
 
                 $('#StartDate').on('click', function() {
+                    document.getElementById("submitdate").disabled=false;
                     $('#submitdate').focus();
+                    document.getElementById("submitdate").disabled=true;
                 });
-
-                $(".ui-datepicker-trigger img").css("width", "25px");
+              
                 console.log("this is ready function");
                 curr = new Date();
                 var s = curr.toString();
@@ -398,6 +402,7 @@
                 var ty = new Date('<%=timeinfo[2][i].AssignmentDate%>');
                 var tn = new Date('<%=timeinfo[2][i].deActivationDate%>');
                 //  alert("Start date is-------"+new1+"AssignmenDAte"+ty+"Assignmnet end date is"+tn+"+End date is--"+datefortimes)
+                 if(ty<=tn){
                 if ((new1 <= ty && ty <= datefortimes) || (new1 <= tn && tn <= datefortimes) || (datefortimes <= tn && ty <= new1)) {
                     // alert("this WBSName is eligable"+'<%=timeinfo[2][i].WBSName%>');
 
@@ -406,7 +411,7 @@
                     curr_wbs_id[no_of_asgmnt] = '<%=timeinfo[2][i].WBSID%>';
                     no_of_asgmnt++;
                 }
-
+                 }
                 <%}%>
                 //   alert("length of eligible assignmnet is "+no_of_asgmnt);
                 for (var i = 0; i < no_of_asgmnt; i++) {
@@ -429,7 +434,7 @@
                 for (var j = 0; j <= no_of_asgmnt + 1; j++) {
 
                     if (j == 0) {
-                        a1 = a1 + '<tr style="color:#10104E;font-size: 13px;font-weight:700;border: 1px solid black;"><td style="max-width:200px"><input type="text"  style="width:200px;height:49px; text-align: center;" value="Assignment" disabled></input></td>';
+                        a1 = a1 + '<tr style="color:#10104E;font-size: 13px;font-weight:700;"><td style="max-width:200px"><input type="text"  style="width:200px;height:49px; text-align: center;" value="Assignment" disabled></input></td>';
                         a3 = a3 + '<td><input type="text" style="width:60px; height:49px" value="Total" disabled></input></td></tr>';
                         if (ftdy) {
                             for (var k = st1; k <= ed1; k++) {
@@ -494,7 +499,7 @@
                             b = b + '<td style="max-width:200px"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Work Schedules" disabled></input></td>'
                         }
                         if (i < 31 && j == no_of_asgmnt + 1) {
-                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '' + j + '"  disabled value="9"  type="text" style="width:60px; text-align:center;" </input></td>'
+                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
                         } else
                         if (i < 31 && j == no_of_asgmnt) {
                             a = a + ' <td> <input disabled id="id' + i + '' + j + '" value="0"  type="text" style="width:60px; text-align:center;"></input> </td>'
@@ -507,7 +512,7 @@
 
                     }
                     t = t + '<tr>' + a + '</tr>';
-                    t1= t1+ '<tr  style="border: 1px solid black;">' + b + '</tr>';
+                    t1= t1+ '<tr  style="">' + b + '</tr>';
                     a = '';
                     b = '';
 
@@ -537,7 +542,7 @@
             <div class="col-md-3" style="text-align-last: center; height:29px;width:264px; background-color:white; border-radius: 25px;     margin-top: 4px;">
                 <img type="button" src="../img/bug/left.jpg" class="shadow" style=" " height="15px" title="" width="15px" onClick="getdateprev()">
 
-                <input type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
+                <input disabled type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
 
                 <img type="button" src="../img/bug/Right.jpg" class="shadow" style=" " height="15px" title="" width="15px" onClick="getdateuser()">
 
@@ -572,8 +577,8 @@
 
 
         <div id="MainTime" class="container-fluid" style="padding-bottom:4%">
-            <div class="tab-content" style="margin-left:3%">
-                  <div class="col-md-12" style=""> 
+            <div class="row tab-content" style="margin-left:3%; width:94%">
+                  <div class="row" style=""> 
                     
                   <div class="col-md-2" >               
                      <table>
@@ -582,7 +587,7 @@
                       </table>
                     </div>
                    <div class="col-md-10 ">
-                            <table id="eday" class="" style="border: 1px solid black; ">
+                            <table id="eday" class="" style=" margin-left: -6px;">
                                 <tbody id="bdy0" >
                                   <tr>
                                           <td colspan="2">
@@ -607,7 +612,7 @@
             </div>
         </div>
 
-        <div class=" col-md-12" id="OtherEmp" style=" margin-bottom:1%; background-color:rgba(51, 60, 125, 0.62);">
+        <div class="row" id="OtherEmp" style=" margin-bottom:1%; width:1317px ; background-color:rgba(51, 60, 125, 0.62);">
 
             <div class="col-md-2">
                 <select style="" class="form-control" id="dropuserdata" onClick="DropdownUsers()">
@@ -619,7 +624,7 @@
 
 
         </div>
-<hr style="width:100%;margin-bottom:-3%">
+ 
 
         <div class="modal fade" id="tag" style="height:550px">
             <div class="modal-dialog">
@@ -811,13 +816,13 @@
     function satsun(i, k) {
         for (var j = 0; j < curr_wbsnm.length; j++) {
             console.log('hhhhhhhhhhhhhhhhhhhh');
-            var hol = /holiday/;
+          //  var hol = 'Holiday';
             //var str = "my holiday";
             var abc = curr_wbsnm[j];
-            abc = abc.toLowerCase();
-            console.log('Do we found something?', Boolean(abc.match(hol)));
+           // abc = abc.toLowerCase();
+           // console.log('Do we found something?', Boolean(abc.match(hol)));
             //if(j==0)
-            if (Boolean(abc.match(hol))) { //var q=document.getElementById("#id01").value;
+            if (abc=='Holiday') { //var q=document.getElementById("#id01").value;
                 console.log("this is sunday or saturday");
                 document.getElementById("id" + i + j).disabled = true;
                 document.getElementById("id" + i + k).value = 0;
@@ -835,16 +840,16 @@
         if (date_other_format == date_other_format_2) {
             console.log("ddy is an holiday", date_other_format_2);
             for (var j = 0; j < no_of_asgmnt; j++) {
-                var hol = /holiday/;
+              //  var hol = 'Holiday';
                 var abc = curr_wbsnm[j];
-                abc = abc.toLowerCase();
-                console.log('Do we found something?', Boolean(abc.match(hol)));
-                if (Boolean(abc.match(hol))) {
+              //  abc = abc.toLowerCase();
+              //  console.log('Do we found something?', Boolean(abc.match(hol)));
+                if (abc=='Holiday') {
                     var p = k - 1;
                     document.getElementById("id" + i + j).disabled = true;
-                    document.getElementById("id" + i + j).value = 9;
-                    document.getElementById("id" + i + (k - 1)).value = 9;
-                    document.getElementById("id" + i + k).value = 9;
+                    document.getElementById("id" + i + j).value = workschedule;
+                    document.getElementById("id" + i + (k - 1)).value = workschedule;
+                    document.getElementById("id" + i + k).value = workschedule;
                 }
             }
         }
