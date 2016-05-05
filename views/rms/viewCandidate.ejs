@@ -248,27 +248,29 @@ thead th{
                 </div>
             </div>
             <div>
-                <table style="height:40px;width:70%;float:left">
+                <table style="height:80px;width:50%;float:left">
                     <tr>
                         <td><a id="quick" style="cursor:pointer;color:grey;float:left">Quick Tagging</a></td>
-                        <td class="hide" id="qmgrdiv" style="padding-left:10px">
-                            <section id="details-filter">
+                        <td class="hide" id="qmgrdiv" style="">
+                           
                                 <div class="md-input-container ">
-                                    <select style="color:black;width:200px;float:left" onchange="qreleventTag()" id="qmgrdropdown" name="mgrdropdown">
+                                <label>Manager's<sup>*</sup></label>
+                                    <select style="color:black;width:200px;" class="form-control" onchange="qreleventTag()" id="qmgrdropdown" name="mgrdropdown">
                       </select>
-                                    <label>Manager's<sup>*</sup></label>
+                                    
                                 </div>
-                            </section>
+                            
                         </td>
                         <td id="qjddiv" style="" class="hide">
-                            <section id="details-filter">
+                            
                                 <div class="md-input-container ">
-                                    <select id="qselecttag" style="color:black;width:200px" name="selecttag">
+                                <label>JD's<sup>*</sup></label>
+                                    <select id="qselecttag" style="color:black;width:200px" class="form-control" name="selecttag">
                
                       </select>
-                                    <label>JD's<sup>*</sup></label>
+                                    
                                 </div>
-                            </section>
+                           
                         </td>
 
                         <td style="padding-left:5px" id="qsdiv" class="hide">
@@ -722,8 +724,8 @@ thead th{
                                     }],
 
                                     "bLengthChange": false,
-                                    "searching": false,
-                                    "fnCreatedRow": function(nRow, aData, iDataIndex) {
+                                    "searching": false
+                                   /* "fnCreatedRow": function(nRow, aData, iDataIndex) {
                                         if (parseInt($('td:eq(9)', nRow).html()) > 1) {
                                             $(nRow).css({
                                                 "background-color": "#ffffb3"
@@ -731,13 +733,14 @@ thead th{
                                         }
 
 
-                                    }
+                                    }*/
 
                                 });
 
                                 table.column(8).visible(false);
                                 table.column(9).visible(false);
                                 table.column(11).visible(false);
+                                table.column(10).visible(true);
                             }
                         });
                     });
@@ -752,11 +755,17 @@ thead th{
                         $('#qjddiv').toggleClass("hide");
                         $('#qsdiv').toggleClass("hide");
                         if (tog % 2) {
-                            table.column(10).visible(false);
+                            table.column(10).visible(true);
+                             table.column(8).visible(false);
+                                table.column(9).visible(false);
+                                table.column(11).visible(false);
                             tog++;
                         } else {
 
                             table.column(10).visible(true);
+                             table.column(8).visible(true);
+                                table.column(9).visible(true);
+                                table.column(11).visible(true);
                             tog++;
                         }
 
@@ -801,7 +810,7 @@ thead th{
                     }
 
                     function getallmanager() {
-
+               
                         $.ajax({
                             url: '/getallmanager',
                             type: 'post',
@@ -809,7 +818,8 @@ thead th{
                                 $('#qmgrdropdown').html('');
                                 $('#qmgrdropdown').append('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data.length; i++) {
-                                    $('#qmgrdropdown').append("<option value='" + data[i].id + "''>" + data[i].name + "</option>");
+
+                                    $('#qmgrdropdown').append("<option value='" + data[i].id + "''>" + data[i].firstName + "</option>");
                                 }
                             }
                         });

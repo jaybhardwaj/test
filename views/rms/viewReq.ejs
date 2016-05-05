@@ -9,7 +9,7 @@
               <tr>
                 <td><label style=" ">Select Manager Hr :</label></td> 
                 <td><select class="form-control" style="color:black;margin-right:300px" id="selectAdminHr">
-                <option value="-2" id = "noid">select</option>
+             
                 <%for(var i = 0 ;i<adminhr.length;i++){%>
                     <option value="<%=adminhr[i].id%>" id="adminhr_<%=adminhr[i].id%>">
                         <%=adminhr[i].firstName%>
@@ -203,7 +203,7 @@
                             var selected = $('#selectAdminHr').val();
                             selected = parseInt(selected);
                             if (isNaN(selected) || selected == -2) return false;
-                            //alert(selected);
+                           // alert(selected);
                             $.ajax({
                                 url: 'selectAdminHr',
                                 data: {
@@ -220,7 +220,13 @@
                                             hide = '';
                                         }
 
-                                        ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%"><a onclick=reqData('+ pdetails[i].id +',"show",7) data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">' + pdetails[i].title + '</a></td><td>' + pdetails[i].skills + '</td><td style = "width:10%">' + pdetails[i].positions + '</td><td style = "width:10%">' + pdetails[i].Experience + '</td><td class="hide" id = "con_' + i + '">' + pdetails[i].assignedTo + '</td><td id = "assign_' + pdetails[i].id + '">' + pdetails[i].assignedToName + '</td><td>' + pdetails[i].adminHrname + '</td><td ><i class="glyphicon glyphicon-pencil ' + hide + '" style = "font-size:130%;color:#555555"  title = "Edit" id = "edit_' + pdetails[i].id + '_' + i + '" onclick = "showmodal(this.id)"></i></td><td class = "hide" id = "user_' + pdetails[i].id + '">' + pdetails[i].assignedTo + '</td></tr>';
+                                        ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%"><a onclick=reqData('+ pdetails[i].id +',"show",7) data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">' + pdetails[i].title + '</a></td><td>' + pdetails[i].skills + '</td><td style = "width:10%">' + pdetails[i].positions + '</td><td style = "width:10%">' + pdetails[i].Experience + '</td><td class="hide" id = "con_' + i + '">' + pdetails[i].assignedTo + '</td>';
+                                        if(pdetails[i].assignedTofirstName!=null){
+                                       ch=ch+ '<td id = "assign_' + pdetails[i].id + '">' + pdetails[i].assignedTofirstName + '</td>';}
+                                       else{
+                                        ch=ch+'<td id = "assign1_' + pdetails[i].id + '"><span class="glyphicon glyphicon-option-horizontal"></span></td>';
+                                       }
+                                       ch=ch+'<td>' + pdetails[i].adminHrfirstName + '</td><td ><i class="glyphicon glyphicon-pencil ' + hide + '" style = "font-size:130%;color:#555555"  title = "Edit" id = "edit_' + pdetails[i].id + '_' + i + '" onclick = "showmodal(this.id)"></i></td><td class = "hide" id = "user_' + pdetails[i].id + '">' + pdetails[i].assignedTo + '</td></tr>';
                                     }
 
 
@@ -276,7 +282,8 @@
                             },
                             method: 'post',
                             success: function() {
-                                var str = '#assign_' + reqId;
+                                var str = '#assign1_' + reqId;
+                                alert(str);
                                 if ($(str).html() == null || $(str).html() == '') {
                                     alert('Requisition assigned');
                                 } else {
