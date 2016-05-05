@@ -197,7 +197,8 @@ app.post('/error',url.error,render.redirect);
 	//**change
     /*app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
     	portal.holidayhome,portal.select_ExpenseMaster,
-    	portal.getDataAsset,portal.getCustomRole,portal.getIndustry,portal.getBusiness,
+    	//portal.getDataAsset,
+    	portal.getCustomRole,portal.getIndustry,portal.getBusiness,
     	portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
     	render.redirect);*/
 	app.post('/selectStatus',portal.selectStatus);
