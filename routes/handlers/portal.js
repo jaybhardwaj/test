@@ -652,82 +652,139 @@ project=project?project:'';
      //---------------------------------------Document--------------------------------------------------
 
 
-    getCustomRoleById:function(req,res,next){
-     
+     getCustomRoleById:function(req,res,next){
+      //  console.log('getCustomRoleById');
         modelPortal.getCustomRoleById(req.body.rid,function(errorCustomRoles, resultCustomRoles){
             if(errorCustomRoles){
                 next(errorCustomRoles);
                     return;
             }
-           
+            console.log(resultCustomRoles)
             res.json(resultCustomRoles);
         });
     },
 
     getIndustry:function(req, res, next) {
-     
+      //  console.log('getIndustry')
          modelPortal.getIndustry(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultIndustry){
                     if (error) {
                  next(error);
                  return;
              }
-          
+           //  console.log(resultIndustry)
             req.resultIndustry=resultIndustry;
              next();
              });
     },
 
     getBusiness:function(req, res, next) {
-   
+           //     console.log('getBusiness')
+
          modelPortal.getBusiness(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultBusiness) {
                     if (error) {
                  next(error);
                  return;
              }
-        
+          //   console.log(resultBusiness)
             req.resultBusiness=resultBusiness;
              next();
              });
     },
 
     getDocument:function(req, res, next) {
-        
+            //    console.log('getDocument')
          modelPortal.getDocument(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultDocument) {
                     if (error) {
                  next(error);
                  return;
              }
-         
+          //   console.log(resultDocument)
             req.resultDocument=resultDocument;
              next();
              });
     },
 
     getTechnology:function(req, res, next) {
-         
+           // console.log('getTechnology')
          modelPortal.getTechnology(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultTechnology) {
                     if (error) {
                  next(error);
                  return;
              }
-           
+           //  console.log(resultTechnology)
             req.resultTechnology=resultTechnology;
              next();
              });
     },
 
+    getind:function(req, res, next) {
+      //  console.log('getIndustry')
+         modelPortal.getIndustry(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultIndustry){
+                    if (error) {
+                 next(error);
+                 return;
+             }
+           //  console.log(resultIndustry)
+            /*req.resultIndustry=resultIndustry;*/
+            res.json(resultIndustry);
+             });
+    },
+
+    getbus:function(req, res, next) {
+           //     console.log('getBusiness')
+
+         modelPortal.getBusiness(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultBusiness) {
+                    if (error) {
+                 next(error);
+                 return;
+             }
+          //   console.log(resultBusiness)
+             res.json(resultBusiness);
+           /*  next();*/
+             });
+    },
+
+    getdoc:function(req, res, next) {
+            //    console.log('getDocument')
+         modelPortal.getDocument(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultDocument) {
+                    if (error) {
+                 next(error);
+                 return;
+             }
+          //   console.log(resultDocument)
+           res.json(resultDocument);
+           /* req.resultDocument=resultDocument;
+             next();*/
+             });
+    },
+
+    gettec:function(req, res, next) {
+           // console.log('getTechnology')
+         modelPortal.getTechnology(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultTechnology) {
+                    if (error) {
+                 next(error);
+                 return;
+             }
+           //  console.log(resultTechnology)
+            res.json(resultTechnology);
+           /* req.resultTechnology=resultTechnology;
+             next();*/
+             });
+    },
+
     getRestriction:function(req, res, next) {
-         
+          //  console.log('getRestriction')
          modelPortal.getRestriction(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultRestriction) {
                     if (error) {
                  next(error);
                  return;
              }
-          
+            // console.log(resultRestriction)
             req.resultRestriction=resultRestriction;
              next();
              });
     },
+
 
     addCustomRole: function(req, res, next){
         modelPortal.addCustomRole(req.session.retailerId,req.body.rname,req.body.industry,req.body.business,
@@ -1059,6 +1116,25 @@ getRolesInfo : function(req,res,next){
        res.json(allRoleresult);
     });
 },
+<!---added by saurav ------- -->
+
+Docmaster:function(req,res,next){
+       console.log("------   ----    ----  ",req.body);
+        modelPortal.Docmaster(req.session.userId,req.session.roleId,req.session.retailerId,req.body.type,req.body.oldname,req.body.name,req.body.flag,req.session.croleId,function(err,result){
+            if(err){
+                
+            }   
+            else{
+                        
+                        res.json(result);
+                }     
+
+
+
+        });
+    },
+
+
  /*-------------------End Doc-----------------------------------------------------------*/
 //--------------------------Project-WBS-------------------
  projectDetails: function(req, res, next) {

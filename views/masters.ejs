@@ -110,7 +110,217 @@
                <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
                </center>
                </a>
-                    <div id="cstrolesdiv" class="collapse">
+               <div id="cstrolesdiv" class="collapse">
+                      <table style="width:100%;text-align:center" id="cstRoleTable" class="table stripe hover cell-border" >
+                        <tr><th style="text-align:center">Role Name</th><th style="text-align:center">Action</th></tr>                        
+                        <% for(var i=1;i<customrole.length;i++){%>                         
+                        <tr id="role_<%=customrole[i].id%>"> 
+                          <td><%=customrole[i].description%></td>
+                          <td>   <%if(customrole[i].Active==0){%>
+                           <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'></span></a><span class="glyphicon glyphicon-pencil" onclick="getrole(<%=customrole[i].id%>)"  style="margin-left:5%"></span> 
+                         <!--  <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'></span></a><span class="glyphicon glyphicon-pencil" onclick="getrole(<%=customrole[i].id%>)"  data-toggle="modal" style="margin-left:5%" data-target="#editRole"></span> -->
+                          <%}
+                          else{%>
+                           <span style='color:green;height:10px' class='glyphicon glyphicon-ok-sign'></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick='getrole(<%=customrole[i].id%>)'></span>
+                          <!--  <span style='color:green;height:10px' class='glyphicon glyphicon-ok-sign'></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick='getrole(<%=customrole[i].id%>)'  data-toggle="modal" data-target="#editRole"></span> -->
+                             <%}%>
+                          </td>
+                        </tr>
+                        <%}%> 
+                      </table> 
+                      <center>
+                        <span class="glyphicon glyphicon-plus-sign" onClick="roleMulti()"  style="font-size:18px;adding-top:5px"></span>
+                      <!-- <span class="glyphicon glyphicon-plus-sign" onClick="roleMulti()" data-toggle="modal" data-target="#editRole" style="font-size:18px;adding-top:5px"></span> -->
+                      </center>
+                      </div>
+                </div>
+              </div>
+
+               <!-- ---Industry          -->
+               <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+              <div style="border-radius: 25px;border:2px solid #f05f40;">
+
+               <a id="anchor" class="anchor" href="#inddiv" data-toggle="collapse"> 
+               <center>
+               <label  style="padding:8px" >Industry</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               </center>
+               </a>
+                    <div id="inddiv" class="collapse">
+                     <table style="width:100%;text-align:center" id="indTable" class="table stripe hover cell-border" >
+                        <tr><th style="text-align:center">Industry Name</th><th style="text-align:center">Action</th></tr>                        
+                        <%for(var i=0;i<industry[0].length;i++){%>                         
+                          <tr id="ind_<%=i%>"> 
+                             <td id="indlabel_<%=i%>"><%=industry[0][i].values%></td>
+                             <td>   <%if(industry[0][i].Active==0){%> 
+                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick="docsave('ind_'+<%=i%>,1)"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('ind_'+<%=i%>,4)"></span>
+                              <%}
+                              else{%>
+                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok-sign' onclick="docsave('ind_'+<%=i%>,0)" ></span><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('ind_'+<%=i%>,4)"></span>
+                                 <%}%>
+                              </td>
+                          </tr>
+                          <tr id="indh_<%=i%>"class="hide"> 
+                             <td> <input type="text" maxlength="20" id="indtext_<%=i%>"  value="<%=industry[0][i].values%>"></td>
+                             <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('ind_'+<%=i%>,2)"></span>
+                              </td>
+                          </tr>
+                        <%}%> 
+
+                      </table>
+                      <center>
+                      <table style="margin:5%">
+                          <td><input type="text" id="indTableAdd" maxlength="20" class="form-control" placeholder="@add "></td>
+                         
+                          <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('ind',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
+                      </table>
+                      </center>           
+                    </div>
+                </div>
+              </div>  
+
+
+               <!-- ---Business           -->
+              <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+              <div style="border-radius: 25px;border:2px solid #f05f40;">
+
+               <a id="anchor" class="anchor" href="#busdiv" data-toggle="collapse"> 
+               <center>
+               <label  style="padding:8px" >Business</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               </center>
+               </a>
+                    <div id="busdiv" class="collapse">
+                      <table style="width:100%;text-align:center" id="busTable" class="table stripe hover cell-border" >
+                        <tr><th style="text-align:center">Business Name</th><th style="text-align:center">Action</th></tr>                        
+                        <% for(var i=0;i<business[0].length;i++){%>                         
+                          <tr id="bus_<%=i%>"> 
+                             <td id="buslabel_<%=i%>"><%=business[0][i].values%></td>
+                             <td>   <%if(business[0][i].Active==0){%> 
+                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick="docsave('bus_'+<%=i%>,1)"></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('bus_'+<%=i%>,4)"></span>
+                              <%}
+                              else{%>
+                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok-sign' onclick="docsave('bus_'+<%=i%>,0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('bus_'+<%=i%>,4)" ></span>
+                                 <%}%>
+                              </td>
+                          </tr>
+                          <tr id="bush_<%=i%>"class="hide"> 
+                             <td> <input type="text" maxlength="20"  id="bustext_<%=i%>"  value="<%=business[0][i].values%>"></td>
+                             <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('bus_'+<%=i%>,2)"></span>
+                              </td>
+                          </tr>
+                        <%}%> 
+
+                      </table>
+                      <center>
+                      <table style="margin:5%">
+                          <td><input type="text" id="busTableAdd" maxlength="20" class="form-control" placeholder="@add Business "></td>
+                         
+                          <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('bus',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
+                      </table>
+                      </center>           
+                    </div>
+                </div>
+              </div>
+
+
+
+              <!-- ---Document Type            -->
+              <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+              <div style="border-radius: 25px;border:2px solid #f05f40;">
+
+               <a id="anchor" class="anchor" href="#docdiv" data-toggle="collapse"> 
+               <center>
+               <label  style="padding:8px" >Document Type</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               </center>
+               </a>
+                    <div id="docdiv" class="collapse">
+                    <table style="width:100%;text-align:center" id="docTable" class="table stripe hover cell-border" >
+                        <tr><th style="text-align:center">Business Name</th><th style="text-align:center">Action</th></tr>                        
+                        <% for(var i=0;i<document[0].length;i++){%>                         
+                          <tr id="doc_<%=i%>"> 
+                             <td id="doclabel_<%=i%>" ><%=document[0][i].values%></td>
+                             <td>   <%if(document[0][i].Active==0){%> 
+                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' 
+                              onclick="docsave('doc_'+<%=i%>,1)"></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('doc_'+<%=i%>,4)"></span>
+                              <%}
+                              else{%>
+                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok-sign' onclick="docsave('doc_'+<%=i%>,0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('doc_'+<%=i%>,4)" ></span>
+                                 <%}%>
+                              </td>
+                          </tr>
+                          <tr id="doch_<%=i%>"class="hide"> 
+                             <td> <input type="text" maxlength="20"id="doctext_<%=i%>"  value="<%=document[0][i].values%>"></td>
+                             <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('doc_'+<%=i%>,2)"></span>
+                              </td>
+                          </tr>
+                        <%}%> 
+
+                      </table>
+
+
+                      
+                      <center>
+                      <table style="margin:5%">
+                          <td><input type="text" id="docTableAdd" maxlength="20" class="form-control" placeholder="@add Document "></td>
+                         
+                          <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('doc',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
+                      </table>
+                      </center>
+                      </div>
+                </div>
+              </div>
+
+
+
+              <!-- ---Technology Type            -->
+               <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+              <div style="border-radius: 25px;border:2px solid #f05f40;">
+
+               <a id="anchor" class="anchor" href="#tecdiv" data-toggle="collapse"> 
+               <center>
+               <label  style="padding:8px" >Technology Type</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               </center>
+               </a>
+                    <div id="tecdiv" class="collapse">
+                    <table style="width:100%;text-align:center" id="tecTable" class="table stripe hover cell-border" >
+                        <tr><th style="text-align:center">Technology Name</th><th style="text-align:center">Action</th></tr>                        
+                        <% for(var i=0;i<technology[0].length;i++){%>                         
+                          <tr id="tec_<%=i%>"> 
+                             <td id="teclabel_<%=i%>"><%=technology[0][i].values%></td>
+                             <td>   <%if(technology[0][i].Active==0){%> 
+                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' 
+                              onclick="docsave('tec_'+<%=i%>,1)"></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('tec_'+<%=i%>,4)"></span>
+                              <%}
+                              else{%>
+                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok-sign' onclick="docsave('tec_'+<%=i%>,0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('tec_'+<%=i%>,4)" ></span>
+                                 <%}%>
+                              </td>
+                          </tr>
+                          <tr id="tech_<%=i%>"class="hide"> 
+                             <td> <input type="text" maxlength="20"id="tectext_<%=i%>"  value="<%=technology[0][i].values%>"></td>
+                             <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('tec_'+<%=i%>,2)"></span>
+                              </td>
+                          </tr>
+                        <%}%> 
+
+                      </table>
+
+
+                      
+                      <center>
+                      <table style="margin:5%">
+                          <td><input type="text" id="tecTableAdd" maxlength="20" class="form-control" placeholder="@add Technology "></td>
+                         
+                          <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('tec',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
+                      </table>
+                      </center>
+                      </div>
+                </div>
+              </div>
+                  <!--   <div id="cstrolesdiv" class="collapse">
                       <table style="width:100%;text-align:center" id="cstRoleTable" class="table stripe hover cell-border" >
                         <tr><th style="text-align:center">Role Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=1;i<customrole.length;i++){%>                         
@@ -131,7 +341,7 @@
                       </center>
                       </div>
                 </div>
-              </div>
+              </div> -->
               <!---------------timesheet---->
               <div  class="col-md-8" style="margin-top:1%;">
                  <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center  ">
@@ -357,7 +567,113 @@
         <% include ./partials/footer %>
     </footer>
 <!-- ---------------------------------------------- EDIT ROLE------------------------------------------------------> 
-    <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
+   
+  <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content" style="padding-bottom:2%" id="express2">
+                <div class="modal-titlebox" >
+                     <span id="head4" >Roles</span> 
+                </div>             
+            <div class="hide">
+               <div class="col-md-5">
+               <label style="line-height:42px !important;">Role ID:<sup>*</sup></label>
+               </div>
+               <div class="col-md-7">
+                <input placeholder="Enter Role Name Here"type="text" maxlength="20" style="width:100%" class="form-control" id="editRoleId" name="editRoleId" />
+               </div>
+            </div> 
+            <div class="col-md-12 a" style="padding-top:2%"> 
+               <div class="col-md-5">
+               <label style="line-height:42px !important;padding:0px">Custom Roles:<sup style="color:red">*</sup></label>
+               </div>
+               <div class="col-md-7">
+                <input placeholder="Enter Role Name Here"type="text" maxlength="20" style="width:100%" class="form-control" id="rl_name" name="rname" />
+               </div>
+            </div>
+                    <div class="col-md-12 a">
+                    <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Industry:<sup style="color:red">*</sup></label></div>
+                    <div class="col-md-7">
+                    <input type="hidden"id="<%=industry[0].id%>" maxlength="20" required name="industryhide" value="<%=industry[0].id%>">
+                    <div id="ii">
+                    <select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="50">
+                      <%console.log("--- - -  - -    ",industry);
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                            <%}}}%>
+                    </select> 
+                    </div>
+                    </div>
+                   </div>
+                <div class="col-md-12 a">
+                    <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Business:<sup style="color:red">*</sup></label></div>
+                    <div class="col-md-7">
+                      <input type="hidden"id="<%=business[0].id%>" maxlength="20" required name="businesshide"value="<%=business[0].id%>">
+                       <div id="bb">
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectBB" required name="b_name">
+                            <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                      </div>  
+                    </div>
+                </div>
+                <div class="col-md-12 a">
+                    <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Document Type:<sup style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+                          <input type="hidden"id="<%=document[0].id%>" maxlength="20" required name="doctypehide"value="<%=document[0].id%>">
+                          <div id="dd">
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectDD" required name="d_name">
+                             <%console.log("--- - -  - -    ",industry);
+                             if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                      </div>
+                 </div>
+              </div>
+              <div class="col-md-12 a">
+                    <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Technology:<sup style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+                          <input type="hidden"id="<%=technology[0].id%>" maxlength="20" required name="newTechide"value="<%=technology[0].id%>">
+                        <div id="tt">  
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectTT" required name="t_name">
+                         <%console.log("--- - ddd-  - -    ",technology);
+                         if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
+                        </select> 
+                      </div>
+                 </div>
+              </div>
+             <div class="col-md-12 a">
+                <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Restriction Level:<sup style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+               <input type="hidden"id="<%=restriction[0].id%>" maxlength="20"  required name="rLevelhide"value="<%=restriction[0].id%>">
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectRR" required name="res_name">
+                             <%for(var i=0;i<restriction[0].length;i++){%>
+                                        <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                            <%}%>
+                        </select>
+                    </div>
+            </div>
+            <div id='roleActive'class="col-md-12 a ">
+                <div class="col-md-4"><label style="line-height:42px !important;">Active:</label></div>
+                <div class="col-md-8">
+                  <select class="form-control " style="margin-top:10px;margin-left:13%;width:87%" id='RoleEdit' name="active" onchange=" " style="width:100%;">
+                    <option value="0">No</option>
+                    <option value="1" selected>Yes</option>
+                  </select>
+                </div>    
+              </div>          
+                <center>
+                            <button id='cancel' type="reset" data-dismiss="modal"  class="btn custom-button">Cancel</button>
+                             <button id='submit'   class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="docValidation()">Submit</button>
+                </center>
+         
+            </div>
+            </div>
+</div>
+   <!--  <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content" style="padding-bottom:2%" id="express2">
                 <div class="modal-titlebox" >
@@ -451,7 +767,7 @@
          
             </div>
             </div>
-</div>
+</div> -->
     <script type="text/javascript">
   $( document ).ready(function() {
     $('.datepicker').datetimepicker({
@@ -483,6 +799,242 @@ $("#hdate").addClass('hide');
            saveEditBugMaster(code,id);
         }}
   }
+  var oldname ;
+  function docsave(docid,flag){
+  var ii=0;
+    console.log("docid------ ",docid);
+    console.log("flag------",flag);
+    arr1=["ind","doc","bus","tec"];
+    arr2=['indh','doch','bush','tech'];
+   
+    var lol='#'+docid;
+     console.log("industry    ",arr3);
+    doc=docid.split('_');
+   
+    console.log(docid[0]);
+
+
+
+    if(flag==0||flag==1){
+   for(i=0;i<4;i++)
+      {
+        if(doc[0]==arr1[i])
+        {
+         
+            var divtext='#'+arr2[i]+'_'+doc[1];
+            var aa='#'+arr1[i]+'text_'+doc[1]
+            oldname=$(aa).val();
+           
+
+        }
+      }
+}
+
+    if(flag==4){                    // click to edit description
+      for(i=0;i<4;i++)
+      {
+        if(doc[0]==arr1[i])
+        {
+         
+            var divtext='#'+arr2[i]+'_'+doc[1];
+            var aa='#'+arr1[i]+'text_'+doc[1];
+            oldname=$(aa).val();
+            $(divtext).removeClass('hide');
+            var divlabel='#'+arr1[i]+'_'+doc[1];
+            $(divlabel).addClass('hide');
+
+        }
+      }
+    }
+    else if(flag==2){  
+                                            //click to save changes
+      for(i=0;i<4;i++)
+      {
+        if(doc[0]==arr1[i])
+        {
+                
+                var labelid='#'+arr1[i]+'label_'+arr3[i];
+              // var rowid= arr1[i]+'_'+arr3[i];
+               //var textid=arr1[i]+'text'+arr3[i];
+              // var rowhid= arr2[i]+'_'+arr3[i];
+              /*var tableid='#'+arr1[i]+'Table';
+             var add=tableid+'Add';
+            
+               var func="'"+arr1[i]+"_'+"+ arr3[i];*/
+              var divtext='#'+arr2[i]+'_'+doc[1];
+              var textid='#'+arr1[i]+'text_'+doc[1];
+              var divlabel='#'+arr1[i]+'_'+doc[1];
+              if(doc[0]=="ind")
+                type=1;
+              else if(doc[0]=="bus")
+                   type=2;
+                else if(doc[0]=="doc")
+                   type=3;
+                else  if(doc[0]=="tec")
+                   type=4;
+            
+              if($(textid).val().trim().length>0){
+                  $.ajax({
+                  url: 'Docmaster',
+                  type: 'post',
+                  data: {
+                      "type":type,
+                      "oldname":oldname,
+                      "name":$(textid).val(),
+                      "flag":flag
+                       },
+                  dataType :'json',              
+                  success: function (data) {
+                    console.log(data);
+                   if(data[0][0].active1==2){
+                      alert("already exist");
+                   }
+                   else{
+                  var d=docid.split('_');
+                  var tempid=d[0]+'label_'+d[1];
+                  var tempvalid='#'+tempid ;
+                 
+                    $(tempvalid).text(data[0][0].inname);
+                  
+                  $(divtext).addClass('hide');
+                  $(divlabel).removeClass('hide');
+                  alert("updated successfully");
+                }
+              }
+                });
+             }
+               else{
+                alert("please provide valid input");
+               }
+             }
+              
+              
+        }
+      }
+    
+    else if(flag==3){         
+                                   //click to add
+      for(i=0;i<4;i++)
+      {
+        if(doc==arr1[i])
+        {
+                
+                arr3[i]=arr3[i]+1;
+                 var tableid='#'+arr1[i]+'Table';
+                 var add=tableid+'Add';
+                 var rowid= arr1[i]+'_'+arr3[i];
+                 var textid=arr1[i]+'text_'+arr3[i];
+                 var rowhid= arr2[i]+'_'+arr3[i];
+                 var func="'"+arr1[i]+"_'+"+ arr3[i];
+                if(doc[0]=="ind")
+                    type=1;
+                else if(doc[0]=="bus")
+                   type=2;
+                else if(doc[0]=="doc")
+                   type=3;
+                else  if(doc[0]=="tec")
+                   type=4;
+                 if($(add).val().trim().length>0){
+                $.ajax({
+                url: 'Docmaster',
+                type: 'post',
+                data: {
+                   "type":type,
+                    "odlname":'',
+                    "name":$(add).val(),
+                    "flag":flag
+                     },
+                dataType :'json',              
+                success: function (data) {
+                  console.log("data   ",data);
+                  if(data[0][0].active1==3)
+                  {
+                    alert("already exist");
+                  }
+                  else
+                  forAll(tableid,add,rowid,textid,rowhid,func,flag);
+              }
+              });
+                  
+                }
+              else
+                alert("please provide valid input");
+                
+
+         
+        }
+      }
+    }
+    else if((flag==0)||(flag==1)){      // click to inactive 
+            if(doc[0]=="ind")
+                    type=1;
+            else if(doc[0]=="bus")
+                   type=2;
+            else if(doc[0]=="doc")
+                   type=3;
+            else  if(doc[0]=="tec")
+                   type=4;                
+          var str ;
+          if(flag==0)
+            str="Are you sure you want to inactive ?" ;
+          else
+             str="Are you sure you want to active ?" ;
+          if(confirm(str)){
+              $.ajax({
+                url: 'Docmaster',
+                type: 'post',
+                data: {
+                    "type":type,
+                    "oldname":oldname,
+                     "name":" ",
+                    "flag":flag
+                     },
+                dataType :'json',              
+                success: function (data) {
+                  console.log("daaaaaa  ",data);
+                  var d=docid.split('_');
+                  var tempid=d[0]+'label_'+d[1];
+                  var tempvalid='#'+tempid ;
+                  var tempval=$(tempvalid).text();
+              
+                   var func="'"+d[0]+"_'+"+ d[1];
+                  if(flag==0){
+                  if(data[0][0].active1==1)
+                  {
+                    alert("you cannot inactive this type as it is bind with custome role");
+                  }
+                  else
+                  {
+                   var str1='<td id ="'+tempid+'">'+tempval+'</td><td><span style="color:red;height:10px" class="glyphicon glyphicon-remove-sign" onclick="docsave('+func+',1)" ></span></a><span style="margin-left:5%"class="glyphicon glyphicon-pencil" onclick="docsave('+func+',4)" ></span></td>';
+                    $('#'+docid).html(str1);
+                 }
+                   
+                }
+                else{
+                        var str1='<td id ="'+tempid+'">'+tempval+'</td><td><span style="color:green;height:10px" class="glyphicon glyphicon-ok-sign" onclick="docsave('+func+',0)" ></span></a><span style="margin-left:5%"class="glyphicon glyphicon-pencil" onclick="docsave('+func+',4)" ></span></td>';
+                    $('#'+docid).html(str1);
+                  }
+              }
+              });
+        }
+     
+    }
+ 
+
+
+    
+  }
+   function forAll(tableid,add,rowid,textid,rowhid,func,flag){
+    if(flag==3){
+      var row=rowid.split('_');
+      var labelid=row[0]+'label_'+row[1];
+           var str='<tr id="'+rowid+'"><td id ='+labelid+'>'+$(add).val()+'</td><td><span style="color:green;height:10px" class="glyphicon glyphicon-ok-sign" onclick="docsave('+func+',0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('+func+',4)" ></span></td></tr>'+'<tr class="hide" id="'+rowhid+'"><td><input type="text" maxlength="20"id="'+textid+'"value="'+$(add).val()+'"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="docsave('+func+',2)"</span></td></tr>';
+           $(tableid).append(str);
+           alert("added successfully");
+     }
+   
+          
+  }              
 function addBugMaster(code){ 
   if($('#bugMasterData_'+code).val().trim().length<1){
     alert("Can not update blank field!");
@@ -592,7 +1144,12 @@ function addBugMaster(code){
     });
       }
 //-----------------Document--------------------------------------------
-         var activeDocument=1;
+  
+
+
+
+
+           var activeDocument=1;
  function docValidation() {
             var rolename = $('#rl_name').val();
             var indus = $('#my-selectII').val();
@@ -602,10 +1159,6 @@ function addBugMaster(code){
             var restrict=$('#my-selectRR').val();
             if (rolename.trim()==""){
                 alert("Please Enter valid Role Name!");
-                return false;
-            }
-            if (rolename.trim().toLowerCase()=='admin'){
-                alert("Error:A default admin already exists");
                 return false;
             }            
             if(indus==null) {
@@ -676,7 +1229,8 @@ function addrole(){
                             } else if (data[0][0].flag == 1) {
                                 alert('Custom Role added successfully');
                                 $('#cancel').click();
-                               $('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+data[1][0].id+')"  data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td></tr>');
+                                $('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+data[1][0].id+')"   style="margin-left:5%"></span></td></tr>');
+                               /*$('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+data[1][0].id+')"  data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td></tr>');*/
                             } else if (data[0][0].flag == 3) {
                                 alert('Custom Role is already exist.Please enter with different Custom Role.');
                             }else if(data[0][0].flag == 4){
@@ -687,14 +1241,15 @@ function addrole(){
                             $('#editRole').modal('toggle');
                                 $("#RoleEdit").val($('#RoleEdit').val());
                                
-                                if($('#RoleEdit').val()==0)
-                                 $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:red" class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')" data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td>');
-                               else
-                                 $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok-sign"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')" data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td>');
-                               
-                            }
-                            $('#cancel').click();
-
+                                if($('#RoleEdit').val()==0){
+                                  $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:red" class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')"  style="margin-left:5%"></span></td>');
+                                 /*$('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:red" class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')" data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td>');*/
+                               }
+                               else{
+                                $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok-sign"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')"  style="margin-left:5%"></span></td>');
+                                 /*$('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok-sign"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')" data-toggle="modal" data-target="#editRole" style="margin-left:5%"></span></td>');*/
+                              } 
+                            } 
                         },
                     dataType: 'JSON',                
         });
@@ -707,9 +1262,79 @@ function addrole(){
         $('body').append(myClone); }, 500);
     });
   
-
-  
       function roleMulti(){
+         $.ajax({
+            url: '/getind',
+           type: 'post',
+           dataType: 'json',
+            success: function(industry) {
+             // <div id="ii">
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="50">';
+                   
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                           str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    console.log("str----  - - - ",str);
+                    $('#ii').html(str);
+                    $('#my-selectII').searchableOptionList();
+               //     </div>
+            }
+        });
+     
+         $.ajax({
+            url: '/getdoc',
+            type: 'post',
+            dataType: 'json',
+            success: function(document) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectDD" required name="i_name" maxlength="50">';
+                   
+                      if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                           str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    console.log("str----  - - - ",str);
+                    $('#dd').html(str);
+                    $('#my-selectDD').searchableOptionList();
+            }
+        });
+  
+         $.ajax({
+            url: '/getbus',
+             type: 'post',
+            dataType: 'json',
+             success: function(business) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectBB" required name="i_name" maxlength="50">';
+                   
+                      if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                           str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    console.log("str----  - - - ",str);
+                    $('#bb').html(str);
+                    $('#my-selectBB').searchableOptionList();
+            }
+        });
+
+         $.ajax({
+            url: '/gettec',
+          
+            type: 'post',
+             dataType: 'json',
+             success: function(technology) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectTT" required name="i_name" maxlength="50">';
+                   
+                      if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                           str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    console.log("str----  - - - ",str);
+                    $('#tt').html(str);
+                    $('#my-selectTT').searchableOptionList();
+            }
+        });
+  
+        $('#editRole').modal('show');
           $("#my-selectII").val('');
            $("#my-selectDD").val('');
            $("#my-selectBB").val('');
@@ -724,7 +1349,77 @@ function addrole(){
 
         }
   /*-----------------------EDIT ROLE-------------------------*/
-       function getrole(cid) {        
+       function getrole(cid) {   
+
+         $.ajax({
+            url: '/getind',
+           type: 'post',
+           dataType: 'json',
+            success: function(industry) {
+             // <div id="ii">
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="50">';
+                   
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                           str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    console.log("str----  - - - ",str);
+                    $('#ii').html(str);
+                 //   $('#my-selectII').searchableOptionList();
+               //     </div>
+            }
+        });
+     
+         $.ajax({
+            url: '/getdoc',
+            type: 'post',
+            dataType: 'json',
+            success: function(document) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectDD" required name="i_name" maxlength="50">';
+                   
+                      if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                           str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#dd').html(str);
+                //    $('#my-selectDD').searchableOptionList();
+            }
+        });
+  
+         $.ajax({
+            url: '/getbus',
+             type: 'post',
+            dataType: 'json',
+             success: function(business) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectBB" required name="i_name" maxlength="50">';
+                   
+                      if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                           str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#bb').html(str);
+                   // $('#my-selectBB').searchableOptionList();
+            }
+        });
+
+         $.ajax({
+            url: '/gettec',
+          
+            type: 'post',
+             dataType: 'json',
+             success: function(technology) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectTT" required name="i_name" maxlength="50">';
+                   
+                      if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                           str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#tt').html(str);
+                   // $('#my-selectTT').searchableOptionList();
+            }
+        });
+         setTimeout(function() {
+           $('#editRole').modal('show');
                    activeDocument=0;
                    id=cid;
                     $('#editRoleId').val(cid);                   
@@ -734,32 +1429,26 @@ function addrole(){
             data: {'rid': id},
             dataType: 'json',
             success: function(data) {
-            //  console.log("---------data of this role--",data[0][0]);
-                 $('#rl_name').val(data[0][0].description);
+                 $('#rl_name').val(data[1][0].description);
                       var arr1 = [];
                     for(var i=0;i<data[0].length;i++){
                        arr1=data[0][i].vvid.split(',');
-                    /*-----------Industry-----------------------------------*/
                        if(data[0][i].vertical_id==1){                         
                         $('#my-selectII').val(arr1);
-                        $("#my-selectII").searchableOptionList();                      
+                        $("#my-selectII").searchableOptionList(); 
                        }
-                  /*---------------------Business----------------------------------------------*/
                          else if(data[0][i].vertical_id==2){
                         $('#my-selectBB').val(arr1);
                         $("#my-selectBB").searchableOptionList();                      
                        }
-                  /*-------------------Document----------------------------------------------*/
                        else if(data[0][i].vertical_id==3){
                         $('#my-selectDD').val(arr1);
                         $("#my-selectDD").searchableOptionList();
                            }
-                  /*----------------Technology----------------------------------------------*/
                     else  if(data[0][i].vertical_id==4){
                         $('#my-selectTT').val(arr1);
-                          $("#my-selectTT").searchableOptionList();
+                         $("#my-selectTT").searchableOptionList();
                        }
-                 /*---------------Restriction----------------------------------------------*/
                       else   if(data[0][i].vertical_id==5){
                         $('#my-selectRR').val(arr1);
                            $("#my-selectRR").searchableOptionList();                        
@@ -768,6 +1457,9 @@ function addrole(){
                      $('#RoleEdit').val(data[1][0].Active);           
                 }
         });
+               
+            },500);
+        
          }
          //-------------------------Timesheet-------------Holiday-------------
 function showEditHoli(id,flag){

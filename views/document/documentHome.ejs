@@ -1,9 +1,10 @@
+<html lang="en">
+
 <head>
     <% include ../partials/head %>
 
 
 <style type="text/css">
-
     #my-select5 {
         width: 100%;
         height: 29px;
@@ -19,10 +20,10 @@
         margin-left: 0;
     }
     
-  /*  .col-lg-8 {
+    .col-lg-8 {
         color: black;
-        margin-top: 600px;
-    }*/
+        margin-top: 900px;
+    }
     
     .glyphicon-folder-open {
         color: black;
@@ -94,22 +95,24 @@
 <div class="se-pre-con"></div>
 
 
-    <div style=" ">
+    <div style="background-color:antiquewhite;">
         <div id="wrapper">
+
+
             <div id="sidebar-wrapper2" class="one">
                 <div class="one1 row" style="padding-left: 7%;margin-top:-1%"><b> Search By :</b></div>
-              <!--   <ul class="sidebar-nav" id="treeid" style='margin-top:2%'></ul> -->
+                <ul class="sidebar-nav" id="treeid" style='margin-top:2%'></ul>
                 <div id="new111">
                     <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                         <div class="col-md-12" style="position:relative;top:10%;margin-top:-10px;margin-left:-8%"><b>Industry:</b>
                         </div>
                         <div class="">
                             <select id="select1" multiple="multiple" required name="industry1">
-                                         <%for(var i=0;i<industry[0].length;i++){%>
-                                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
-                                            <%}%>
+                              <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                            <%}}}%>
                                        
-                                    </select>
+                            </select>
                         </div>
                     </div>
 
@@ -118,9 +121,9 @@
                         <div class="col-md-12" style="position:relative;top:10%;margin-top:-10px;margin-left:-8%"><b>Business:</b></div>
                         <div class="">
                             <select id="select2" multiple="multiple" required name="business1">
-                                 <%for(var i=0;i<business[0].length;i++){%>
+                                 <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][0].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
-                            <%}%>
+                            <%}}}%>
                             
                             </select>
                         </div>
@@ -130,9 +133,9 @@
 
                         <div class="">
                             <select id="select3" multiple="multiple" required name="doctype">
-                                            <%for(var i=0;i<document[0].length;i++){%>
-                                        <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
-                                        <%}%>
+                                            <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
                                           
  
                                         </select>
@@ -143,9 +146,9 @@
                         <div class="col-md-12" style="position:relative;top:10%;margin-top:-10px;margin-left:-8%"><b>Technology :</b></div>
                         <div class="">
                             <select id="select4" multiple="multiple" required name="newTec1">
-                                             <%for(var i=0;i<technology[0].length;i++){%>
-                                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
-                                            <%}%>
+                                             <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][0].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
                                                 
                                         </select>
                         </div>
@@ -172,7 +175,10 @@
                 </div>
             </div>
         </div>
-</div>
+
+
+
+
 
         <div class="container-fluid col-md-12 color3" style="margin-left:19%;width:62%;margin-top:4%">
             <table id="data_table" class="table table-striped table-bordered" cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
@@ -212,7 +218,19 @@
         </div>
 
 
-       <div id="sidebar-wrapper3" class="one ">
+        <div style="position:relative;" class="col-md-11 col-md-offset-1" id='divtable'>
+            <table id="tableData" class="CSSTableGenerator" border="1" style="position:relative;width:91%;margin-top:1%;">
+
+
+
+            </table>
+        </div>
+
+
+
+
+
+        <div id="sidebar-wrapper3" class="one ">
             <div class="one1 row" style="padding-left: 7%;margin-top:-1%;margin-left: -5px;width: 103%;"><b>File Upload</b></div>
             <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" style="margin-left:-12%">
                 <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:7%;">
@@ -233,11 +251,11 @@
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="col-md-12" style="position:relative;top:10%;margin-top:-10px;margin-left:-8%"><b>Industry:<sup style="color:red;">*</sup></b></div>
                     <div class="">
-                        <input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"></input>
+                     <%if(industry[0].length>0){%>  <input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"></input><%}%>
                         <select id="my-select1" multiple="multiple" required name="industry">
-                            <%for(var i=0;i<industry[0].length;i++){%>
-                                <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
-                            <%}%>
+                           <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                            <%}}}%>
                         </select>
                     </div>
                 </div>
@@ -245,37 +263,36 @@
 
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="col-md-12" style="position:relative;top:10%;margin-top:-10px;margin-left:-8%"><b>Business:<sup style="color:red;">*</sup></b></div>
-                    <div>
-                        <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>"></input>
+                    <div class="">
+                        <%if(business[0].length>0){%> <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>"></input>  <%}%>
                         <select id="my-select2" multiple="multiple" required name="business">
-                              <%for(var i=0;i<business[0].length;i++){%>
+                            <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
-                            <%}%>
+                            <%}}}%>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="col-md-12" style="position:relative;top:10%;margin-top:-10px;margin-left:-8%"><b>Document type:<sup style="color:red;">*</sup></b></div>
 
-                    <div class="">
-                        <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>"></input>
+                    <div class="">  <%if(document[0].length>0){%>
+                        <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>"></input>   <%}%>
                         <select id="my-select3" multiple="multiple" required name="doctype">
-                                          <%for(var i=0;i<document[0].length;i++){%>
-                                        <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
-                                        <%}%>
+                                         <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
 
                                         </select>
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="col-md-12" style="position:relative;top:10%;margin-top:-10px;margin-left:-8%"><b>Technology :<sup style="color:red;">*</sup></b></div>
-                    <div class="">
-                        <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"></input>
+                    <div class=""><%if(technology[0].length>0){%>
+                        <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"></input><%}%>
                         <select id="my-select4" multiple="multiple" required name="newTec">
-                                             <%for(var i=0;i<technology[0].length;i++){%>
-                                       <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
-                                            <%}%>
-                                        </select>
+                                             <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%" id="hide11">
@@ -300,13 +317,14 @@
 
                
 
+            </div>
 
            </form>
 
 
 
         </div>
-
+    </div>
 
     
 
@@ -407,15 +425,8 @@
             </div>
         </div>
     </div>
-      </body>
-<div style="margin-top:72%">
-    <% include ../partials/footer %>
-</div>
-  
 
-        
-    
-
+    </body>
     <script>
         function validation() {
             var file = $('#fileAttach').val();
@@ -1163,3 +1174,8 @@
             });
         }
     </script>
+    <footer style="margin-top:-50px;">
+        <% include ../partials/footer %>
+    </footer>
+
+</html>

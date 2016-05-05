@@ -186,12 +186,20 @@ app.post('/error',url.error,render.redirect);
     //app.post('/addStatuss',portal.setaddStatuss);
 	app.post('/settingdata',portal.settingdata);
 	app.post('/getothermaster',portal.getothermaster);
+	
+<!------ srv-------->
+	 app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
+    	portal.holidayhome,portal.select_ExpenseMaster,
+    	//portal.getDataAsset,
+    	portal.getCustomRole,portal.getIndustry,portal.getBusiness,
+    	portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
+    	render.redirect);
 	//**change
-    app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
+    /*app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
     	portal.holidayhome,portal.select_ExpenseMaster,
     	portal.getDataAsset,portal.getCustomRole,portal.getIndustry,portal.getBusiness,
     	portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
-    	render.redirect);
+    	render.redirect);*/
 	app.post('/selectStatus',portal.selectStatus);
 	app.post('/updateStatus',portal.updateStatus);
 	app.post('/addStatus',portal.addStatus);
@@ -272,7 +280,14 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
     app.post('/customRolesEntry',url.setpageaddcustomRoles,portal.addCustomRole,render.redirect);
     app.post('/customRolesUpdate',url.setpagemasters,portal.getCustomRole,portal.getIndustry,portal.getBusiness,portal.getDocument,portal.getTechnology,portal.getRestriction,portal.updateCustomRole,render.redirect);
     app.post('/getRolesInfo',portal.getRolesInfo);
-app.post('/addEditClientAjax',portal.addEditClientAjax);
+	app.post('/addEditClientAjax',portal.addEditClientAjax);
+
+	<!----- srvvvvvvvvvvvvvvvvvvvvv      -->
+	app.post('/getind',portal.getind);
+	app.post('/getdoc',portal.getdoc);
+	app.post('/getbus',portal.getbus);
+	app.post('/gettec',portal.gettec);
+	app.post('/Docmaster',portal.Docmaster);
 
 /*----------------------------------------------------------Project Management-----------------------------------------------------------*/
 	//app.get('/projectmngmt',url.projectmngmt,portal.projectmngmt,render.redirect);

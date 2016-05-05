@@ -2358,5 +2358,22 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             callback(err,result);
             }
         });         
-    }               
+    },
+<!------ added by saurav    -- -->
+    Docmaster : function (userId,roleId,retailerId,type,oldname,name,flag,crole_id,callback){
+       var q ={
+          sql: 'call usp_docmaster(?,?,?,?,?,?,?,?)',
+          values: [userId,roleId,retailerId,type,oldname,name,flag,crole_id]
+       
+        };
+        console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }                               
 }
