@@ -178,8 +178,8 @@
         </div>
         
         <div class="modal-footer" style="border-top:0px;">
-          <center> <button class="btn btn-default custom-button" onclick="validFinance()">Save Changes</button>
-          <input type="button"  value="Next"  onclick="changeTab(3)" class="btn btn-primary" style="margin-top:10px;background-color: #f05f40 !important;"> </center>
+          <center> <button class="btn btn-primary" onclick="validFinance()">Save Changes</button>
+          <input type="button"  value="Next"  onclick="changeTab(3)" class="btn btn-primary" style="background-color: #f05f40 !important;"> </center>
         </div>
       </section>
         <section id="content3">
@@ -203,7 +203,7 @@
            </div>
            </div>
           <center>
-             <button class="btn btn-default custom-button" style="margin-bottom:1%" onclick="validHr()">Save Changes</button> </center>
+             <button class="btn btn-primary" style="margin-bottom:1%" onclick="validHr()">Save Changes</button> </center>
              
           </center>
         </section>
@@ -295,8 +295,8 @@
                 </div>
             
             <div class="modal-footer" style="border-top:0px;">
-              <center> <button type="button" id="btnuser" class="btn btn-default custom-button"  onclick="validRole();">Save changes</button>
-              <input type="button"  value="Next"  onclick="changeTab(2)" class="btn btn-primary" style="margin-top:10px;background-color: #f05f40 !important;"> 
+              <center> <button type="button" id="btnuser" class="btn btn-primary"  onclick="validRole();">Save changes</button>
+              <input type="button"  value="Next"  onclick="changeTab(2)" class="btn btn-primary" style="background-color: #f05f40 !important;"> 
               </center>
             </div>
           </section>
@@ -383,8 +383,9 @@ function getDefaultModule(){
                  $('#default-module').html(stringType);
 }
 
-  $(document).ready(function() {
-               $('#level').tagger({
+  $(document).ready(function(){
+
+      $('#level').tagger({
         baseURL: '../img/'
       , tabindexOffset: 400
       , fieldWidth: null
@@ -428,9 +429,9 @@ function getDefaultModule(){
         $("#crole").val('<%=customRole[1][0].id%>');
         <%}%>
     <%}%>
-    $("#doj").datepicker({dateFormat: 'dd/mm/yy'});
-    $("#dob").datepicker({dateFormat: 'dd/mm/yy'});
-    $("#doc").datepicker({dateFormat: 'dd/mm/yy'}); 
+    $("#doj").datetimepicker({format: "d/m/y",timepicker:false});
+    $("#dob").datetimepicker({format: "d/m/y",timepicker:false});
+    $("#doc").datetimepicker({format: "d/m/y",timepicker:false}); 
     $('#isbill').on('change',function(){
                     if($('#isbill').val()==1){ 
                     $('#billRate').removeClass("hide");
@@ -459,7 +460,7 @@ function getDefaultModule(){
         if (<%=editflag%>) {
             users = <%-JSON.stringify(users)%>;
             var i = 0;
-            console.log("users[i] data---------",users);
+         
             $("#first-name").val(users[i].firstName);
             $("#last-name").val(users[i].lastName);
             $("#emailId").val(users[i].userEmail);
@@ -481,22 +482,17 @@ function getDefaultModule(){
             $("#user-role").val(users[i].roleId);
             $("#create-user").text('Save Changes');
             $('#hrRole').val(users[i].hrRole);
-        }
-        $("#hdnId").val(<%=editflag%>);
-        if($('#isClient').val()=='0'){
-            $('#clientId').addClass("hide");
-        }
-        if(users[i].isApproval)
+              if(users[i].isApproval)
        {
   
              $("#inNum").removeClass("hide");
              $("#inNum").addClass("show");
        } 
-        else{
+       else{
                         $("#inNum").removeClass("show");
                         $("#inNum").addClass("hide");
-          }
-         if(users[i].isBillable)
+       }
+       if(users[i].isBillable)
        {
                     $('#billRate').removeClass("hide");
                     $('#billRate').addClass("show");
@@ -507,7 +503,22 @@ function getDefaultModule(){
                     $('#billRate').removeClass("show");
                     $('#billRate').addClass("hide");
                   
-          }         
+          }
+        }
+        $("#hdnId").val(<%=editflag%>);
+     
+        
+      if($('#clientId').val()==0){
+        $('#isClient').val(0);
+         $('#clientId').hide();
+      }  
+    if($('#billrate').val()==""){
+      $('#billRate').removeClass('show');
+        $('#billRate').hide();
+        $('#isbill').val(0);
+       
+      }  
+
     });
     function specialCharacter(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
@@ -524,11 +535,12 @@ function getDefaultModule(){
 
 
     function showClient(){
-      if($('#isClient').val()==1){   
-        $('#clientId').removeClass("hide");                
+      if($('#isClient').val()==1){
+       
+        $('#clientId').show();                
         }
         else{                  
-           $('#clientId').addClass("hide");   
+           $('#clientId').hide();   
         }
     }
     function resetUserForm() {
@@ -667,27 +679,27 @@ function getDefaultModule(){
       var y = parseInt(comp[2], 10);
       var date = new Date(y,m-1,d);
       if(abc){
-      if (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d) {
+      /*if (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d) {
          
       } else {
         subFlag=2;
         alert('Invalid  Date of Joining');
         return false;
-      }
+      }*/
       var text = $('#doc').val();
       var comp = text.split('/');
       var d = parseInt(comp[0], 10);
       var m = parseInt(comp[1], 10);
       var y = parseInt(comp[2], 10);
       var date = new Date(y,m-1,d);
-      if(text != ''){
+     /* if(text != ''){
       if (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d) {
       } else {
          subFlag=2;
         alert('Invalid  Date of Confirmation');
         return false;
       }
-     }
+     }*//*
         var doj = $('#doj').datepicker("getDate");var text = $('#doj').val();
         var doc = $('#doc').datepicker("getDate");var text1 = $('#doc').val();
         if(text1 != ''){
@@ -698,8 +710,14 @@ function getDefaultModule(){
           return false;
         }
         } 
+      }*/
+      
+      if(new Date($('#doj').val())>new Date($('#doc').val())){
+         subFlag=2;
+         alert("Date of joining should note be greater then Date of configuration");
+         return false;
       }
-      addUser(0);
+        addUser(0);
     }
        
       }
@@ -707,8 +725,7 @@ function getDefaultModule(){
     
 
       var modules=$('#modules').val().toString();
-   
-        $.ajax({
+         $.ajax({
             url: '/addUser',
             method: 'POST',
             data: {
@@ -717,7 +734,7 @@ function getDefaultModule(){
                 "emailId": $("#emailId").val(),  
                 "contactNumber": $("#contact-number").val(),
                 "isbill": $('#isbill').val(),
-                "billing-rateRate": $('#billrate').val(),
+                "billingRate": $('#billrate').val(),
                 "expense": $('#expense').val(),
                 "inNum": $('#inNum').val(),
                 "userRole": $("#user-role").val(),
