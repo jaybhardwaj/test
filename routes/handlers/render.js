@@ -159,7 +159,7 @@ module.exports = {
              if(flag==undefined){
              	flag = -1;
              }
-
+             	console.log("vgvvvvvvvvvvvvvvvvvv");
 			   res.render('document/documentHome',{flag:flag,myModules:req.session.modules,hideFlag:0,users:req.resultUsers[0],files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 			    break;
 

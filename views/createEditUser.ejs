@@ -118,7 +118,7 @@
             <div class="col-md-5"> <label style="line-height:25px !important;">Default Module: </label> </div>
             <div class="col-md-7" style="margin-top:10px;"> 
            <select class="form-control"   id='default-module' name="defmod" >
-             
+             <option>No Module Solelected</option>
             </select> 
             </div>
           </div> 
@@ -186,17 +186,17 @@
         <div class="row">
           <div class="col-md-6">
             <div class="col-md-5"> <label style="line-height:25px !important;">Date of Joining:<sup style="color:red;">*</sup></label> </div>
-            <div class="col-md-7"> <input name="doj" placeholder="DD/MM/YYYY" style="margin-top:10px;cursor: pointer;background-color: rgb(255, 255, 255);"class="form-control date" id="doj" readonly="true"> </div>
+            <div class="col-md-7"> <input name="doj" placeholder="MM/DD/YYYY" style="margin-top:10px;cursor: pointer;background-color: rgb(255, 255, 255);"class="form-control date" id="doj" readonly="true" > </div>
           </div>
           <div class="col-md-6 a">
             <div class="col-md-5"> <label style="line-height:25px !important;">Date of Confirmation:</label> </div>
-            <div class="col-md-7"> <input style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="DD/MM/YYYY" class="form-control date" id="doc" name="doc" readonly="true"> </div>
+            <div class="col-md-7"> <input style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="MM/DD/YYYY" class="form-control date" id="doc" name="doc" readonly="true" > </div>
           </div>
           </div>
           <div class="row">
           <div class="col-md-6 a">
             <div class="col-md-5"> <label style="line-height:25px !important;">Date of Birth:</label> </div>
-            <div class="col-md-7"> <input  style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="DD/MM/YYYY" class="form-control date" id="dob" name="dob"  readonly="true" /> </div>
+            <div class="col-md-7"> <input  style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="MM/DD/YYYY" class="form-control date" id="dob" name="dob"  readonly="true"> </div>
             
           </div>
            <div class="col-md-6 a" style="height:">
@@ -419,19 +419,39 @@ function getDefaultModule(){
     <%if(editflag==0){%>
       $('#billRate').addClass("hide");
       $('#inNum').addClass("hide");
+
+
+       $("#doj").datetimepicker({format: "m/d/y",timepicker:false});
+    $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date()});
+    $("#doc").datetimepicker({format: "m/d/y",timepicker:false}); 
     <%}%>
     $( "#modules" ).change(function(  ) {
             getDefaultModule();
+
     }); 
     <%if(editflag!=0){%>  
        getDefaultModule();
        <% if(typeof(customRole[1][0]) !='undefined'){%>
         $("#crole").val('<%=customRole[1][0].id%>');
         <%}%>
+         setTimeout(function(){
+      var a=new Date($("#doj").val());
+      var mm=a.getMonth();
+     var mm=mm+1;
+     var dd=a.getDate();
+      var yy=a.getFullYear();
+      var p=mm+'/'+dd+'/'+yy;
+   var j=new Date(p);
+    $("#doj").datetimepicker({format: "m/d/y",timepicker:false});
+    $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date()});
+    $("#doc").datetimepicker({format: "m/d/y",timepicker:false,minDate:j}); 
+    },100);
+
+
     <%}%>
-    $("#doj").datetimepicker({format: "d/m/y",timepicker:false});
-    $("#dob").datetimepicker({format: "d/m/y",timepicker:false});
-    $("#doc").datetimepicker({format: "d/m/y",timepicker:false}); 
+
+
+    
     $('#isbill').on('change',function(){
                     if($('#isbill').val()==1){ 
                     $('#billRate').removeClass("hide");
@@ -504,6 +524,10 @@ function getDefaultModule(){
                     $('#billRate').addClass("hide");
                   
           }
+     if($('#isbill').val()==0){ 
+
+              $('#billrate').val('');
+                  }
         }
         $("#hdnId").val(<%=editflag%>);
      
@@ -711,7 +735,15 @@ function getDefaultModule(){
         }
         } 
       }*/
-      
+      if($('#doj').val()==''){
+        alert("please enter Date of joining ");
+        return false;
+      }
+      if($('#doc').val()==''){
+       alert("please enter Date of confirmation ");
+        return false;
+      }
+             
       if(new Date($('#doj').val())>new Date($('#doc').val())){
          subFlag=2;
          alert("Date of joining should note be greater then Date of configuration");
@@ -793,7 +825,6 @@ function getDefaultModule(){
     }
             if(<%=editflag%>){
             var newUser=<%-JSON.stringify(users)%>;
-            console.log("newuser",newUser[0]);
             $("#modules").val([<%for(var i=0;i<userModule.length;i++){%>"<%=userModule[i].moduleId%>",<%}%>]).prop("selected", false); 
             $("#level").val(newUser[0].level).prop("selected", false);
             $("#manager").val(newUser[0].managerId).prop("selected", false);

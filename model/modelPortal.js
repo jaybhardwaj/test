@@ -1628,6 +1628,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             ecode,designation,level,modules,doj,dob,doc,rtype,
              userId, roleId, retailerId,crole,hrRole]
         };
+        console.log("query---  ",query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2391,5 +2392,6 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             else {
             callback(err,result);
             }
-        });                        
+        });   
+        }                     
 }

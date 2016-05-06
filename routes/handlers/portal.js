@@ -2603,9 +2603,10 @@ updateHoliday: function(req,res,next){
 
 
 addUser: function(req, res, next) {
+    console.log("---- bbb ---bb     ",req.body);
         var modules=req.body.modules==null?'':req.body.modules;
       var inNum=req.body.inNum==''?'0':req.body.inNum;
-      var billingRate=req.body.billingRate==''?'0':req.body.billingRate;
+      var billingRate=req.body.billingRate;
       var rtype=req.body.rtype==''?'':req.body.rtype;
          var randomPassword = randomString(10);
 
