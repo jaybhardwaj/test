@@ -805,8 +805,7 @@ getAllAssignment: function(userId,roleId,retailerId,callback) {
             curdat,
             retailerid,callback) {
   
-     if(flag==0){}
-     else
+     
 
         var query = {
             sql: 'call usp_submitAssignment(?,?,?,?,?,?,?,?,?,?)',
