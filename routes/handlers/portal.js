@@ -407,7 +407,7 @@ filename=req.session.logo;
              else{ 
                
           }
-           mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,function(error, resultMail) {
+           mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,req.body.titlebox,function(error, resultMail) {
              if (error) {
                
              }

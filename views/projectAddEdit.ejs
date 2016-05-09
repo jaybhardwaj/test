@@ -154,14 +154,25 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
     }
 
     function completed(){
-      if($('#completed').val()<0  || $('#completed').val()>100){
-        alert('completed value should be in between 0 - 100');
-        document.getElementById('completed').value = 0;
-        return false;
+
+      if ( $.isNumeric( $("#completed").val() ) ) {
+          // It is a number
+          if($('#completed').val()<0  || $('#completed').val()>100){
+              alert('completed value should be in between 0 - 100');
+              document.getElementById('completed').value = 0;
+              return false;
+            }
+            else{
+              return true;
+            }
+      } else {
+          // It isnt a number
+            alert('value in completed field is not a number.');
+          return false;
       }
-      else{
-        return true;
-      }
+      
+
+
     }
     
     function resetUserForm() {
@@ -372,6 +383,18 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
             function validFinanceInfo(){
               var abc=validBugInfo();
               if(abc){
+
+                if ( $.isNumeric( $("#poNumber").val() ) ) {
+                    // It is a number
+                    return true;
+                } else {
+                    // It isnt a number
+                      alert('value in poNumber field is not a number.');
+                    return false;
+                }
+
+
+
              //$('#tabDetail').val(3);
                 //addedit=1;
                 //alert('hidden id in validFinanceInfo---'+$('#hdnId').val());
@@ -695,7 +718,7 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
           </div>
           <div class="col-md-6">
             <div class="col-md-5"> <label >PO Number :</label> </div>
-              <div class="col-md-7"><input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "3" min = "1" max = "999" placeholder=" -- Enter PO Number -- "class= "form-control" id="poNumber" style="margin-top:3%;" name="poNumber" <%if(flag==1){%>value='<%=name[0].poNumber%>'<%}%> ></div>
+              <div class="col-md-7"><input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "10" min = "1" max = "99999" placeholder=" -- Enter PO Number -- "class= "form-control" id="poNumber" style="margin-top:3%;" name="poNumber" <%if(flag==1){%>value='<%=name[0].poNumber%>'<%}%> ></div>
             </div>
           </div>
           <div class="modal-footer" style="border-top:0px;">
