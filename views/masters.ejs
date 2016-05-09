@@ -33,12 +33,13 @@
             <label for="tab1">BUG</label>
                <%}%>
    <%if(myModules.indexOf(6)>=0){%>
-            <input id="tab7" class="tabradio" type="radio" name="tabs">
-            <label for="tab7">TimeSheet</label> 
-       <%}%> 
-         <%if(myModules.indexOf(2)>=0){%>
             <input id="tab2" class="tabradio" type="radio" name="tabs">
             <label for="tab2">Document </label> 
+            
+       <%}%> 
+         <%if(myModules.indexOf(2)>=0){%>
+            <input id="tab7" class="tabradio" type="radio" name="tabs">
+            <label for="tab7">TimeSheet</label> 
        <%}%> 
     <%if(myModules.indexOf(3)>=0){%>
             <input id="tab3" class="tabradio" type="radio" name="tabs">
@@ -451,7 +452,7 @@
                           </select>   
                           </td>                         
                             <td>
-                            <input type="text" maxlength="50" id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>"placeholder="@max Ammount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
+                            <input type="number" maxlength="50" min='0' id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>"placeholder="@max Ammount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
                             </td>
                           <%}%>                                                 
                            <td>                                                  
@@ -558,7 +559,7 @@
                          
                           <td><input type="text" id="bugMasterData_<%=otherMaster[i].code%>" maxlength="50" class="form-control" placeholder="@add <%=otherMaster[i].tablename%>"></td>
                           <%if(otherMaster[i].code==6){%>
-                          <td><input type="text" id="crate_<%=otherMaster[i].code%>" maxlength="50" class="form-control" placeholder="@add currency Rate"></td>
+                          <td><input type="number" id="crate_<%=otherMaster[i].code%>" maxlength="50" class="form-control" placeholder="@add currency Rate"></td>
                           <%}%>
                       <td><span class="glyphicon glyphicon-plus-sign" onClick="addBugMaster(<%=otherMaster[i].code%>)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -1083,7 +1084,7 @@ function addBugMaster(code){
           success: function (data) {
 
  if(code==6){     
-    insEdit ='<td><input type="text" maxlength="50" id="crate_'+data[1][0].id+'" value="'+$('#crate_'+code).val()+'"></td>'
+    insEdit ='<td><input type="number" maxlength="10" id="crate_'+data[1][0].id+'" value="'+$('#crate_'+code).val()+'"></td>'
     insLabel='<td>'+crate+'</td>';
   }
 
@@ -1712,33 +1713,33 @@ function addSchedule(){
   }
 function addExpenseMaster(code,id,flag){
   if(!flag){
-        if($('#expMasterData_'+code).val().trim().length<=1)
+        if($('#expMasterData_'+code).val().trim().length<1)
         {
-          alert("Please fill Expense Type!");
+          alert("This field cannot be blank");
           return false;
         }
           if(code==1){
         if($('#isMandatory_'+code).val()==0)
         {
-          alert("Choose wether bill is mandatory or Not!");
+          alert("Choose whether bill is mandatory or Not!");
           return false;
         }  
         if($('#isMandatory_'+code).val()==1)
         {
           if($('#maxBillAmnt_'+code).val().trim().length<1)
           {
-            alert("Provide Maximum Bill for the ammount!");
+            alert("Provide Maximum Bill for the amount!");
             return false;
           }
         }
       }
 }
 else{
-  /*if($('#expMasterData_'+code+'_'+id).val().trim().length<=1)
+  if($('#expMasterData_'+code+'_'+id).val().trim().length<1)
   {
-    alert("Please fill Expense Type!");
+    alert("This field cannot be blank");
     return false;
-  }*/
+  }
 }
 
 var desc,billM,billa,ty;
@@ -1758,21 +1759,20 @@ if(flag){
       }
 }
 else{
-  desc=$('#expMasterData_'+code).val().trim();  //Mayur
-  billM=$('#isMandatory_'+code).val();
-  billa=$('#maxBillAmnt_'+code).val();
-  ty=code;
-    if($('#isMandatory_'+code).val()==1){
-        c2='selected';        
-        c4='Yes';
-      }
-      else{
-        c5='selected';
-        c4='No';
-      }
+      desc=$('#expMasterData_'+code).val().trim();  //Mayur
+      billM=$('#isMandatory_'+code).val();
+      billa=$('#maxBillAmnt_'+code).val();
+      ty=code;
+        if($('#isMandatory_'+code).val()==1){
+            c2='selected';        
+            c4='Yes';
+          }
+          else{
+            c5='selected';
+            c4='No';
+          }
 }
-
-  $.ajax({
+$.ajax({
     url:'/insertExpenseMaster',
         data: {
          "code1":code,
@@ -1793,7 +1793,7 @@ else{
          else{
           edValue=$('#maxBillAmnt_'+ty).val();
          }
-        c1=' <td><select id="isMandatory_'+code+'_'+id+'" onChange="toggeleBillBox('+code+','+id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input type="text" id="maxBillAmnt_'+ty+'"placeholder="@max Ammount" maxlength="50" value="'+edValue+'"></td>'; 
+        c1=' <td><select id="isMandatory_'+code+'_'+id+'" onChange="toggeleBillBox('+code+','+id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input type="number" min="0" id="maxBillAmnt_'+ty+'"placeholder="@max Ammount" maxlength="50" value="'+edValue+'"></td>'; 
 
         c3='<td>'+c4+'</td><td>'+edValue+'</td>';
       }      
@@ -1814,7 +1814,7 @@ else{
       }
       else
       {
-        console.log('data flag',data[0].flag);
+       
         alert('This Expense already exist');  
       /*  $('#expenseEdit_'+id).toggleClass("hide"); 
          $('#expenseShow_'+id).toggleClass("hide");   */ 
