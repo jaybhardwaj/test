@@ -2,12 +2,8 @@
 
 module.exports = {
 	mysqlconfig: {
-<<<<<<< Updated upstream
 		host: '192.168.1.56',
 
-=======
-		host: '127.0.0.1',
->>>>>>> Stashed changes
 		user: 'polestarportal',
 		password : 'root',
 		port : 3306,
