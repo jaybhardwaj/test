@@ -254,7 +254,7 @@ thead th{
                         <td class="hide" id="qmgrdiv" style="">
                            
                                 <div class="md-input-container ">
-                                <label>Manager's<sup>*</sup></label>
+                                <label>Manager's<sup class='astrick'>*</sup></label>
                                     <select style="color:black;width:200px;" class="form-control" onchange="qreleventTag()" id="qmgrdropdown" name="mgrdropdown">
                       </select>
                                     
@@ -264,7 +264,7 @@ thead th{
                         <td id="qjddiv" style="" class="hide">
                             
                                 <div class="md-input-container ">
-                                <label>JD's<sup>*</sup></label>
+                                <label>JD's<sup class='astrick'>*</sup></label>
                                     <select id="qselecttag" style="color:black;width:200px" class="form-control" name="selecttag">
                
                       </select>
@@ -283,7 +283,7 @@ thead th{
 
 
             <div style="width:100%;margin-bottom:5%;">
-                <table id="openreqstate" class="cell-border" style="font-size:13px" width="100%;margin-top:-15px"></table>
+                <table id="openreqstate" class="cell-border" style="font-size:10px; width:100%;margin-top:-15px"></table>
             </div>
         </div>
 
@@ -303,9 +303,9 @@ thead th{
                         <div class="modal-body " style=''>
                             <input type="hidden" name="hcid" id="hcid">
                             <div class="row" style="margin-top: 10px">
-                              <div class="col-md-2"><label>Name </label><sup>*</sup></div>
+                              <div class="col-md-2"><label>Name </label ><sup class='astrick'>*</sup></div>
                               <div class="col-md-2"><input name="name" placeholder="@name" class="form-control" id="name" maxlength="100" style="width:100%;"></div>
-                              <div class="col-md-2"><label>Phone No. *</label></div>
+                              <div class="col-md-2"><label>Phone No.</label><sup class='astrick'>*</sup></div>
                               <div class="col-md-2"><input name="phone" placeholder="@phone" id="phone" class="form-control" maxlength="10" minlength="10" style="width:100%"></div>
                               <div class="col-md-2"><label>Experience :</label> </div>
                               <div class="col-md-2"> 
@@ -314,9 +314,9 @@ thead th{
                              </div>
                             </div>
                             <div class="row" style="margin-top: 20px">
-                              <div class="col-md-2"><label>Email id *</label></div>
+                              <div class="col-md-2"><label>Email id </label><sup class='astrick'>*</sup></div>
                               <div class="col-md-2"> <input name="email" placeholder="@email" class="form-control" id="email" maxlength="100" style="width:100%"></div>
-                              <div class="col-md-2"><label>Location *</label> </div>
+                              <div class="col-md-2"><label>Location </label><sup class='astrick'>*</sup> </div>
                               <div class="col-md-2">
                                <select id='locationId' class="form-control" name="locationId" >
                               <option value = 'null'>-select-</option>
@@ -332,7 +332,7 @@ thead th{
                              </div>
                             </div>
                               <div class="row" style="margin-top: 20px">
-                                <div class="col-md-2"><label>Skills *</label> </div>
+                                <div class="col-md-2"><label>Skills </label> <sup class='astrick'>*</sup></div>
                                 <div class="col-md-2"><select size="1" multiple class="form-control chosen-select"  id='skillsId' name="skills">
                               <option value = 'null'>-select-</option>
                               <%for(var i = 0 ;i<skills.length;i++){%>
@@ -341,7 +341,7 @@ thead th{
                                   </option>
                                   <%}%>
                           </select></div>
-                                <div class="col-md-2"><label>Qualification *</label> </div>
+                                <div class="col-md-2"><label>Qualification </label><sup class='astrick'>*</sup> </div>
                                 <div class="col-md-2"><input name="qualification" placeholder="@qualification" id="qualification" class="form-control" maxlength="100" style="width:95%"></div>
                                 <div class="col-md-2"><label>Institute</label> </div>
                                 <div class="col-md-2"> 
@@ -379,7 +379,7 @@ thead th{
                     
                     <div class="modal-body" style="margin-top:-5px;padding-top:0px;padding-right:17px;padding-left:17px">
                       <p style="margin:0px;background-color:#f05f40;color:white" id="tagstatus"></p>
-                        <table class="cell-border" style="border:2px solid #f05f40;font-size:13px;width:100%;text-align:center;padding-top:5px" class="cell-border" id="currentjd">
+                        <table class="cell-border" style="border:2px solid #f05f40;font-size:10px;width:100%;text-align:center;padding-top:5px" class="cell-border" id="currentjd">
                         </table>
 
                         <div style="border:2px solid #f05f40;">
@@ -722,8 +722,8 @@ thead th{
                                         className: "dt-body-left",
                                         "targets": [10]
                                     }],
-
-                                    "bLengthChange": false,
+                                     destroy: true, 
+                                    "bLengthChange": true,
                                     "searching": false
                                    /* "fnCreatedRow": function(nRow, aData, iDataIndex) {
                                         if (parseInt($('td:eq(9)', nRow).html()) > 1) {
@@ -1095,7 +1095,7 @@ thead th{
                                     }, {
                                         title: "Status"
                                     }],
-                                    "bLengthChange": false,
+                                    "bLengthChange": true,
                                     "searching": false
                                 });
                                 $('#currentjd').append('</tbody>');
@@ -1359,9 +1359,12 @@ var id = e.options[e.selectedIndex].value;*/
                                         return k;
                                     }));
                                 }
-                                table.destroy();
-
+                              $("#openreqstate").dataTable().fnDestroy();
+                                 $("#openreqstate").html('');
+                                
                                 console.log(info);
+                                //alert("a");
+                          
                                 table = $('#openreqstate').DataTable({
                                     data: info,
                                     columns: [
@@ -1394,12 +1397,14 @@ var id = e.options[e.selectedIndex].value;*/
                                         className: "dt-body-left",
                                         "targets": [10]
                                     }],
-
-                                    "bLengthChange": false,
+                                     destroy: true,
+                                    "bLengthChange": true,
                                     "searching": false
                                 });
-                                table.column(8).visible(false);
-                                table.column(10).visible(false);
+                                 table.column(8).visible(false);
+                                //table.column(9).visible(false);
+                                //table.column(11).visible(false);
+                                table.column(10).visible(true);
                             }
                         };
                         $.ajax(up);
@@ -1462,7 +1467,8 @@ var id = e.options[e.selectedIndex].value;*/
 
 
                                 }
-                                table.destroy();
+                                 $("#openreqstate").dataTable().fnDestroy();
+                                 $("#openreqstate").html('');
                                 console.log(info);
                                 table = $('#openreqstate').DataTable({
                                     data: info,
@@ -1494,7 +1500,7 @@ var id = e.options[e.selectedIndex].value;*/
                                         "targets": [10]
                                     }],
 
-                                    "bLengthChange": false,
+                                    "bLengthChange": true,
                                     "searching": false
                                 });
                                 table.column(8).visible(false);
@@ -1518,8 +1524,8 @@ var id = e.options[e.selectedIndex].value;*/
                         display: inline;
                     }
                 </style>
-                <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.css" rel="stylesheet" media="screen">
-                <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js"></script>
+                <!-- <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.css" rel="stylesheet" media="screen">
+                <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js"></script> -->
                 <!-- <script type="text/javascript" src="/javascripts/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/javascripts/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
  -->

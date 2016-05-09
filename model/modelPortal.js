@@ -2080,9 +2080,9 @@ getHrROle:function(userId,roleId,retailerId,callback){
     //*****end******//
     upload_resumeaddcandidate : function(userId,roleId,retailerId,name,email,phone,skillarrId,permanentAddress,Qualification,currentlocation,years,                months,instititutes,targetPath,callback){
        var q ={
-               sql: 'call usp_addCandidate(?,?,?,?,?,?,?,?,?,?,?)',
+               sql: 'call usp_addCandidate(?,?,?,?,?,?,?,?,?,?,?,?)',
                     values: [name,email,phone,skillarrId,permanentAddress,Qualification,currentlocation,years,months,
-                        instititutes,targetPath]
+                        instititutes,targetPath,retailerId]
         }
         console.log(q);
         mysql(q, function(err, result) {
@@ -2130,11 +2130,13 @@ getHrROle:function(userId,roleId,retailerId,callback){
         sql: "call bsearch(?)",
         values: [str]
         }
+        console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                 console.log(err);
             }
             else {
+                console.log("adv search",result);
             callback(err,result);
             }
         });         
@@ -2145,6 +2147,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
          sql: "call usp_AdvancedSearch(?,?,?,?)",
         values: [name1,jdtitle,email1,location1]
         }
+        console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                 console.log(err);
@@ -2346,7 +2349,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             }
         });         
     },
-    interviewFeedback : function (userId,roleId,retailerId,id,rating,status,time,remarks,stateId,cdtid,modeid,rounds,filename,jdid,callback){
+    interviewFeedback : function (userId,roleId,retailerId,id,cid,callback){
        var q ={
          sql: "call usp_interviewerFeedbackInfo(?,?,?)",
         values: [id,cid,userId]

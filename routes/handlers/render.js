@@ -546,7 +546,7 @@ module.exports = {
             break;
             case 'interviewFeedback':
             res.render('rms/interviewFeedback', {
-	                 flag:  rq.feedbackflag,
+	                 flag:  req.feedbackflag,
                 cdt: req.interviewFeedback[0],
                 role: req.session.hrRole,
                 Name: '',
@@ -554,6 +554,7 @@ module.exports = {
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
 	            });
+            console.log('cdtiddbs',req.interviewFeedback[0]);
             break;
             case 'reqApprover':
             res.render('rms/reqApprover', {

@@ -845,7 +845,8 @@ hr:function(req,res,next){
 		next();
 	}
 	else{
-			res.redirect('/portal');
+		
+			res.redirect('rms/upload');
 		}
 	},
 

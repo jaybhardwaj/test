@@ -3528,7 +3528,9 @@ addUser: function(req, res, next) {
                 console.log("there is an error",err);
             }   
             else{
-                    
+                console.log("asearch result on suceess",result[0]);
+
+                     res.json(result[0]); 
                 }    
 
 
@@ -3744,6 +3746,9 @@ addUser: function(req, res, next) {
 
     interviewFeedback:function(req,res,next){
         var query = require('url').parse(req.url, true).query;
+        console.log("------------    ",query,query.cid,query.id,query.flag);
+      // console.log(req.query);
+     // var query=req.query;
         var cid = query.cid;
         var id = query.id;
         var flag = query.flag;

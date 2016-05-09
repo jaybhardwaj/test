@@ -129,7 +129,7 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
           app.post('/SubmitRejectReason',portal.SubmitRejectReason);
 
 
-<!--------------------------------------------HR -------------------------------------------------------------->
+//--------------------------------------------HR -------------------------------------------------------------->
 app.get('/rms',url.hr,render.redirect);
 app.post('/dashboardData',portal.dashboardData);
 app.get('/raiseRequisition',url.raiseRequisition,portal.raiseRequisition,render.redirect) ;
