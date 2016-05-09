@@ -645,6 +645,8 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         mysql(query, function(err, result) {
             console.log('projectAddEdit-----------',result);
            
+        /*   result[0][0]={id:1 ,
+      projectTitle: 'DummyProject'};*/
 
             if(flag==1 && result[0][0].projectTitle=='DummyProject'){
 
