@@ -4,20 +4,19 @@
 <head>
     <% include ./partials/head %>
     <style>
-    .tagger {
-    border: 2px steelblue;
-    background-color: #fff;
-    cursor: text;
-    font-family: sans-serif;
-    font-size: 10pt;
-    padding: 9px 7px 3px 4px;
-    min-height: 19px;
-    display: table-cell;
-}
-
-.marginAlign{
-  margin-top: 2%;
-}
+        .tagger {
+              border: 2px steelblue;
+              background-color: #fff;
+              cursor: text;
+              font-family: sans-serif;
+              font-size: 10pt;
+              padding: 9px 7px 3px 4px;
+              min-height: 19px;
+              display: table-cell;
+        }
+        .marginAlign{
+            margin-top: 2%;
+        }
     </style>
 </head>
 <body>
@@ -41,11 +40,11 @@
         <section id="content1">
           <div class="col-md-6">
             <div class="col-md-5"> <label style="line-height:25px !important;">First Name:<sup style="color:red;">*</sup></label> </div>
-            <div class="col-md-7"> <input type="text" maxlength="45" class="form-control" id="first-name" style="margin-top:10px;width:100%;" name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> </div>
+            <div class="col-md-7"> <input type="text" maxlength="20" class="form-control" id="first-name" style="margin-top:10px;width:100%;" name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> </div>
           </div>
           <div class="col-md-6 a">
             <div class="col-md-5"> <label style="line-height:25px !important;">Last Name:<sup style="color:red;">*</sup></label> </div>
-            <div class="col-md-7"> <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" /> </div>
+            <div class="col-md-7"> <input type="text" maxlength="20" style="margin-top:10px;width:100%" class="form-control" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" /> </div>
           </div>
           <div class="col-md-6 a">
             <div class="col-md-5"> <label style="line-height:25px !important;">Email:<sup style="color:red;">*</sup></label> </div>
@@ -57,7 +56,7 @@
           </div>
           <div class="col-md-6 a">
             <div class="col-md-5"> <label style="line-height:25px !important;">Employee code:<sup style="color:red;">*</sup></label> </div>
-            <div class="col-md-7"> <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control" id="ecode" name="ecode" placeholder="Employee Code" /> </div>
+            <div class="col-md-7"> <input type="text" maxlength="10" style="margin-top:10px;width:100%" class="form-control" id="ecode" name="ecode" placeholder="Employee Code" /> </div>
           </div>
           <div class="col-md-6 a ">
             <div class="col-md-5"> <label style="line-height:25px !important;">Designation : </label> </div>
@@ -368,7 +367,7 @@ var subFlag=0;
 var aaa,temp1=0; 
 var pressButton=0;
 var users; 
-  var imparray = ["Bug","Time","Expense","Asset",'',"Document","RMS"];
+  var imparray = ["Bug","Time","Expense","Asset",'Project',"Document","RMS"];
 function getDefaultModule(){
                   var newArr=$('#modules').val();  
                  var stringType ;
@@ -385,6 +384,17 @@ function getDefaultModule(){
 
   $(document).ready(function(){
 
+        setTimeout(function(){  var aaa=$('#inNum').val();
+        
+          if(aaa==0){
+            $('#expense').val(0);
+            $('#inNum').removeClass('show');
+            $('#inNum').addClass('hide');
+          }
+        console.log("hiiii   ",aaa);},100)
+      
+
+     
       $('#level').tagger({
         baseURL: '../img/'
       , tabindexOffset: 400
@@ -417,37 +427,41 @@ function getDefaultModule(){
                }
     });
     <%if(editflag==0){%>
-      $('#billRate').addClass("hide");
-      $('#inNum').addClass("hide");
-
-
-       $("#doj").datetimepicker({format: "m/d/y",timepicker:false});
-    $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date()});
-    $("#doc").datetimepicker({format: "m/d/y",timepicker:false}); 
+      
+            $('#billRate').addClass("hide");
+            $('#inNum').addClass("hide");
+            $("#doj").datetimepicker({format: "m/d/y",timepicker:false});
+            $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date()});
+            $("#doc").datetimepicker({format: "m/d/y",timepicker:false}); 
+   
     <%}%>
-    $( "#modules" ).change(function(  ) {
+    $("#modules" ).change(function(){
+      
             getDefaultModule();
 
     }); 
     <%if(editflag!=0){%>  
-       getDefaultModule();
-       <% if(typeof(customRole[1][0]) !='undefined'){%>
-        $("#crole").val('<%=customRole[1][0].id%>');
+        getDefaultModule();
+        <% if(typeof(customRole[1][0]) !='undefined'){%>
+            $("#crole").val('<%=customRole[1][0].id%>');
         <%}%>
-         setTimeout(function(){
-      var a=new Date($("#doj").val());
-      var mm=a.getMonth();
-     var mm=mm+1;
-     var dd=a.getDate();
-      var yy=a.getFullYear();
-      var p=mm+'/'+dd+'/'+yy;
-   var j=new Date(p);
-    $("#doj").datetimepicker({format: "m/d/y",timepicker:false});
-    $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date()});
-    $("#doc").datetimepicker({format: "m/d/y",timepicker:false,minDate:j}); 
-    },100);
-
-
+        setTimeout(function(){
+             
+              var a=new Date($("#doj").val());
+              var mm=a.getMonth();
+              var mm=mm+1;
+              var dd=a.getDate();
+              var yy=a.getFullYear();
+              if($("#doj").val()==''){
+                  var p ='01/01/1900';
+              }
+              else
+                  var p=mm+'/'+dd+'/'+yy;
+              var j=new Date(p);
+              $("#doj").datetimepicker({format: "m/d/y",timepicker:false});
+              $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date()});
+              $("#doc").datetimepicker({format: "m/d/y",timepicker:false,minDate:j}); 
+        },100);
     <%}%>
 
 
@@ -656,9 +670,14 @@ function getDefaultModule(){
         pressButton=4;  
          var abc=validBasicInfo();
          if(abc){
-            if($("#expense").val()=='1' && $("#inNum").val()<=0)
+            if($("#expense").val()=='1' && $("#inNum").val()=='')
             {
               alert('Expense limit is required');
+              return false;
+            }
+            if($("#expense").val()=='1' && $("#inNum").val()==0)
+            {
+              alert('Expense limit should be greated than 0');
               return false;
             }
               if($("#isClient").val()=='1' && $("#clientId").val()=='0')
@@ -789,7 +808,6 @@ function getDefaultModule(){
                 "hrRole":$('#hrRole').val()
             },
             success: function(data) {
-              console.log("dataaaaaaaaaaaaaaaaaa daurav",data[0][0]);
               if(data[0][0].uid >0 )
               {
                  $("#hdnId").val(data[0][0].uid); 
