@@ -3782,6 +3782,31 @@ addUser: function(req, res, next) {
 
 
         });
+    },
+     //----------------------------------Project Management System----------------------------
+     getAllResources:function(req,res,next){
+       
+        modelPortal.getAllResources(req.session.userId,req.session.roleId,req.session.retailerId,
+           function(err,result){
+            if(err){
+                console.log("there is an error",err);
+            }   
+            else{
+                        req.reqResources=result;
+                        next();
+                } 
+        });
+    },
+    projectByResource:function(req,res,next){       
+        modelPortal.projectByResource(req.body.resId,
+           function(err,result){
+            if(err){
+                console.log("there is an error",err);
+            }   
+            else{
+                        res.json(result);
+                } 
+        });
     }
 
      

@@ -172,6 +172,14 @@ app.get('/reqApprover',url.reqApprover,portal.reqApprover,render.redirect);
 
 app.post('/error',url.error,render.redirect);
 
+
+
+//-----------------------------------------Project------------------------------------------
+app.get('/task',url.task,render.redirect);
+app.get('/resourceView',url.resource,portal.getAllResources,render.redirect);
+app.post('/projectByResource',portal.projectByResource);
+
+
 //-------------------------Admin Routes----------------------------------------------------
  app.use(function(req, res,next) {
     if(req.session.roleId!=1){

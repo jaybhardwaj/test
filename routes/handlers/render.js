@@ -568,6 +568,26 @@ module.exports = {
             break;
 
 
+            //----------------------------------Project-------------------------------------------
+             case 'task':
+             res.render('project/task', {	               
+                role: req.session.roleId,
+                Name: ' ',
+                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule
+	            });
+            break;
+                case 'resource':
+             res.render('project/resourceView', {	               
+                role: req.session.roleId,
+                Name: ' ',
+                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule,allResources:req.reqResources
+	            });
+            break;
+
 			default:
 				next();
 		}

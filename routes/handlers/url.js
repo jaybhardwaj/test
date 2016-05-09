@@ -879,6 +879,28 @@ hr:function(req,res,next){
 		}
 	},
 
+	//---------------------------------------Project----------------------------------------------
+	task:function(req,res,next){
+		 if(req.session.modules.indexOf(config.Project)>=0){
+		 	console.log("url task");
+		req.page="task";
+		next();
+	}
+	else{
+			res.redirect('/portal');
+		}	
+	},
+		resource:function(req,res,next){
+		 if(req.session.modules.indexOf(config.Project)>=0){
+		 	console.log("url task");
+		req.page="resource";
+		next();
+	}
+	else{
+			res.redirect('/portal');
+		}	
+	},
+
 error:function(req,res,next){
 		req.page="error";
 		next();

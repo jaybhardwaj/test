@@ -2452,5 +2452,39 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             callback(err,result);
             }
         });   
-        }                     
+        },
+
+        //----------------------------------------Project Management System------------------------------
+    getAllResources : function (userId,roleId,retailerId,callback){
+       var q ={
+          sql: 'call usp_pro_getAllResources(?)',
+        values: [retailerId]
+       
+        };
+        console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }    ,  
+        projectByResource : function (resId,callback){
+       var q ={
+          sql: 'call usp_pro_projectByResource(?)',
+        values: [resId]
+       
+        };
+        console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }                                     
 }

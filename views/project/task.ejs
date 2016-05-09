@@ -1,0 +1,217 @@
+<head> 
+    <% include ../partials/head %>
+  
+    <% include ../partials/adminheader %>
+
+    <% include header %>
+
+</head>
+<title>task manaagement</title>
+<style>
+	.row{
+		margin-right:0px;
+		margin-left:0px;
+	}
+	.newTask{
+		cursor: pointer;
+		border-bottom:1px solid #e4e4e4;
+		background-color:#f5f5f5;
+		height: 30px;
+
+	}
+	.newTask:hover{
+		background-color: #F0FFFF;
+	}
+	.addTask{
+		padding: 2%;
+		
+		background-color: white;
+	}
+	.title{
+		font-size: 13px;
+	}
+</style>
+<script type="text/javascript">
+var i=1;
+var arri=[];
+var arrj=[];
+$(document).ready(function(){
+
+	 $('.task-img').addClass('active');
+	 $(".date").datetimepicker({
+                 timepicker: false,
+                format: 'm/d/y'
+            });
+	   tinymce.init({ menubar:false,
+            selector: '.description',
+        });
+
+$("#newTask").click(function(){
+	j=1;
+   $('.addTask').toggleClass("hide");
+});
+$("#asave").click(function(){
+	$('.addTask').toggleClass("hide");
+	arri.push(i);
+	arrj.push(1);
+	$('.listTask').append('<tr id="row_'+i+'" class="newTask" style="border-bottom:1px solid #e4e4e4;background-color:#f5f5f5" onclick="showSubTab('+i+')"> <td class="title" ><span class="glyphicon glyphicon-triangle-right"></span>  	Title: </td><td id="title_'+i+'"></td> <td class="title">Start Date:</td><td id="startDate_'+i+'"></td> <td class="title">End Date:</td><td id="endDate_'+i+'"></td> <td class="title">Phase:</td><td id="phase_'+i+'"></td> <td class="title">Resource:</td><td id="resource_'+i+'"></td> <td class="title">Effort:</td><td id="effort_'+i+'"></td><td><span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#taskModal" title="edit task" onclick="addEditTask(1,'+i+')"></span></td><td><span class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#taskModal" title="add subtask" onclick="addEditTask(2,'+i+')"></span></td></tr><tr><td colspan="14"><table id="subTable_'+i+'" style="width:100%"></table></td></tr>');
+	$('#title_'+i).append($('#aTitle').val());
+	$('#startDate_'+i).append($('#aStartDate').val());
+	$('#endDate_'+i).append($('#aEndDate').val());
+	$('#phase_'+i).append($('#aPhase').val());
+	$('#resource_'+i).append($('#aResource').val());
+	$('#effort_'+i).append($('#aEffort').val());
+	$('.listTask').removeClass("hide");
+	i++;
+});
+
+
+$("#esave").click(function(){
+	var frontTab='',endTab='';
+	var flag=$('#flag').val();
+	var pid=$('#parentRowId').val();
+	var jj=$('#jValue').val();
+	if(arrj[pid]==1){
+		frontTab="<table>";
+		endTab="</table>"
+	}
+	$("#subTable_"+pid).toggle();
+	if(flag==2){
+		$('#subTable_'+pid).append('<tr id="row_'+pid+'_'+arrj[pid]++ +'"  style="border-bottom:1px solid #e4e4e4"><td class="title" colspan="2" style="padding-left:60px"><span class="glyphicon glyphicon-triangle-right"></span>  Title: </td><td id="title_'+i+'"></td> <td class="title">Start Date:</td><td id="startDate_'+i+'"></td> <td class="title">End Date:</td><td id="endDate_'+i+'"></td> <td class="title">Phase:</td><td id="phase_'+i+'"></td> <td class="title">Resource:</td><td id="resource_'+i+'"></td> <td class="title">Effort:</td><td id="effort_'+i+'"></td><td><span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#taskModal" title="edit task" onclick="addEditTask(1,'+i+')"></span></td></tr>');		
+	}
+});
+});
+function showSubTab(id){
+	$("#subTable_"+id).toggle();
+}
+function addEditTask(flag,id){	
+	$('#flag').val(flag);
+	$("#parentRowId").val(id);
+	if(flag==1){
+		$('#taskModalHeading').html("Edit Task");
+		$('#eTitle').val();
+		$('#eStartDate').val();
+		$('#eEndDate').val();
+		$('#ePhase').val();
+		$('#eResource').val();
+		$('#eEffort').val();
+	}
+	if(flag==2){
+		$('#jValue').val(arrj[id]);
+		$('#taskModalHeading').html("Add Subtask");
+	}
+}
+ 
+</script>
+<html>
+<body style="overflow-x:none ">
+<div class="row" style="background-color: antiquewhite;margin-left: 0px;padding-left: 2%;margin-right: 0px;padding-bottom: 2%;overflow:none ">
+	<div  style="margin-right: 0px;padding-top: 5px;float: center;">
+	<!-- 	<label>Select Project</label> -->
+	<center>
+		<select class="form-control" style="width: 200px;">
+			<option>select project</option>
+		</select>
+		</center>
+	</div>
+	<div class="row" id="taskBox" style="height: 440px;max-height:440px;margin-top: 5px;margin-right: 1%;border: #f05f40 solid;background-color: white">
+			<div >
+				 <table class="listTask" style="width: 100%">
+				  </table>
+			</div> 
+			<div class="newTask" id="newTask">
+				<label style="padding-top: 5px;"> <span class="glyphicon glyphicon-plus" style="padding-left: 5px"></span> New Task </label>
+			</div>
+			<div class="addTask hide">
+			 	<input type="text" id="aTitle" class="form-control" placeholder="+ add title for your task">
+			 	<textarea style="float:left;width:101%"  maxlength="10000"   class='form-control description'></textarea>
+			 	<table style="width: 100%">
+			 		<tr>
+			 			<td>
+			 				<input type="text" id="aStartDate" class="form-control date" placeholder="start date"  >
+			 			</td>
+			 			<td>
+			 				<input type="text" id="aEndDate" class="form-control date" placeholder="end date" >
+			 			</td>
+			 			<td>
+			 				<!-- <label>Phases</label> -->
+							 	<select class="form-control">
+							 		<option value="Phase">Phase</option>
+							 		<option value="Designing">Designing</option>
+							 		<option value="Development">Development</option>
+							 	</select>
+			 			</td>
+			 			<td>
+			 				<!-- <label>Resources</label> -->
+						 	<select class="form-control">
+						 		<option value="Resources">Resources</option>
+						 		<option value="Deepak">Deepak</option>
+						 		<option value="Saurav">Saurav</option>
+						 	</select>
+			 			</td>
+			 			<td>
+			 				<input type="number" id="aEffort" class="form-control" max="400" placeholder="+ effort">
+			 			</td>
+			 		</tr>
+			 	</table>
+			 	<span class="glyphicon glyphicon-floppy-disk" id="asave" title="save" style="color: black;float: right;font-size: 14px;margin: 4px"></span>
+			</div>
+		<div>
+		</div>	 
+	</div>
+</div>
+</body>
+</html>
+		
+ <% include ../partials/footer %>	
+ 
+
+   <!------------------------------editTask/addSubTask---------------------------->
+        <div class="modal fade" id="taskModal" style="height:auto">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" id="express2">
+                    <div class="modal-header" style="background-color:#f05f40;height:40px">
+                       <center>
+                             <h4 id="taskModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top: -8px"></h4>
+                              <button type="button" class="close" data-dismiss="modal" style="float:right;margin-top: -28px">&times;</button>
+                             </center>
+                    </div>
+                    <div class="modal-body" id="iremarkdiv" style="margin:10px;height: 300px">
+                    	<input type="text" style="margin-bottom: 5px" id="eTitle" class="form-control" placeholder="+ add title for your task">
+			 	<textarea style="float:left;width:100%;" id="eDiscription"  maxlength="10000" class='form-control description'></textarea>
+			 	<table style="width: 100%;margin-top: 5px">
+			 		<tr>
+			 			<td>
+			 				<input type="text" id="eStartDate" class="form-control date" placeholder="start date"  >
+			 			</td>
+			 			<td>
+			 				<input type="text" id="eEndDate" class="form-control date" placeholder="end date" >
+			 			</td>
+			 			<td>
+			 				<!-- <label>Phases</label> -->
+							 	<select id="ePhase" class="form-control">
+							 		<option>Phase</option>
+							 		<option>Designing</option>
+							 		<option>Development</option>
+							 	</select>
+			 			</td>
+			 			<td>
+			 				<!-- <label>Resources</label> -->
+						 	<select id="eResources" class="form-control">
+						 		<option>Resources</option>
+						 	</select>
+			 			</td>
+			 			<td>
+			 				<input type="number" id="eEffort" class="form-control" max="400" placeholder="+ effort">
+			 			</td>
+			 		</tr>
+			 	</table>
+			 	<input type="text" class="hide" id="flag" value="">
+			 	<input type="text" class="hide" id="parentRowId" value="">
+			 	<input type="text" class="hide" id="jValue" value="">
+			 	<span class="glyphicon glyphicon-floppy-disk" id="esave" title="save" data-dismiss="modal"   style="color: black;float: right;font-size: 18px;margin: 18px"></span>
+                    </div>
+                </div>
+            </div>
+        </div>

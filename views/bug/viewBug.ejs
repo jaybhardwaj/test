@@ -52,7 +52,17 @@
   		}
   		.ms-choice > span {
     position: relative;}
-
+    sup{
+    	color: white;
+    	 width: 40px;
+   height: 40px;
+   background: #2A9228; 
+   -moz-border-radius: 20px; 
+   -webkit-border-radius: 20px; 
+   border-radius: 20px;
+   margin-left: 5px;
+    padding: 3px;
+    }
 
 	</style>
 </head>	
@@ -259,8 +269,8 @@
 				<ul class="nav nav-tabs" style="background-color:none;font-size:13px">
 					<li class="active"><a data-toggle="tab" href="#home">Description</a></li>
 					<li><a data-toggle="tab" href="#menu1">Overview</a></li>
-					<li><a data-toggle="tab" href="#menu2">Comment</a></li>
-					<li><a data-toggle="tab" href="#menu3">Attachment</a></li> 
+					<li><a data-toggle="tab" href="#menu2">Comment<sup id="commCount"></sup></a></li>
+					<li><a data-toggle="tab" href="#menu3">Attachment<sup id="attCount"></sup></a></li> 
 				</ul>
 				<div class="tab-content" >
 					<input type="hidden" name="bugidhidden" id="bugidhidden" value=""/>
@@ -528,7 +538,9 @@ str=str+'</select>';
 				$('#overview').append($("<br>  End Date  : <label>"+data[0][0].enddate+"</label>"));
 				
 				$('#comment').html('');
+				$('#commCount').html(data[1].length);
 				var com='';
+
 				for(var i=(data[1].length)-1;i>=0;i--) { 
 					var str=data[1][i].createdDate.toString();
 				   com=   com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin-top:2%;margin-bottom:1%'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left:1%;'>By : "+data[1][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;max-height:100px; word-wrap: break-word;background-color:#C7DEFE;'>"+data[1][i].comments+"</div><br><div style='width:100%'></div></div>";
@@ -536,8 +548,9 @@ str=str+'</select>';
 				$('#comment').html(com);
 					 ////  console.log(com);
 				$('#attachment').html('');
+				$('#attCount').html(data[2].length);
 			  var att='';
-					  console.log(data[2]);
+					  
 			  for(var i=(data[2].length)-1;i>=0;i--)
 				{ 
 					console.log(data[2][i])
