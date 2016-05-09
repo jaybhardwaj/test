@@ -624,11 +624,65 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
     },
 
     projectAddEdit: function(pid,flag,userId,roleId,retailerId, callback) {
+        var abc;
         var query = {
             sql: 'call usp_addEditProject(?,?,?,?,?)',
             values: [pid,flag,userId,roleId,retailerId]
         };
+         var q='select companyName from t_retailer where id='+retailerId;
+
+            mysql(q, function(e,r) {
+                if(e){
+                    console.log('gedsgedgregesr');
+                }
+                else{
+                    console.log('gesrgtrjhntujnykmiyk,uihktujktujtfyr',r);
+                    abc=r[0].companyName;
+                }
+                });
+
+
         mysql(query, function(err, result) {
+            console.log('projectAddEdit-----------',result);
+           
+
+            if(flag==1 && result[0][0].projectTitle=='DummyProject'){
+
+                console.log('i am in dummy project');
+                result[0][0]={id:result[7][0].id ,
+      projectTitle: result[7][0].projectTitle,
+      pcode: result[7][0].pcode,
+      ptype: result[7][0].ptype,
+      description: result[7][0].pdescription,
+      plannedStartDate: result[7][0].plannedStartDate,
+      plannedEndDate: result[7][0].plannedEndDate,
+      actualStartDate: result[7][0].actualStartDate,
+      actualEndDate: result[7][0].actualEndDate,
+      pstatus: result[7][0].pstatus,
+      pcomplexity: result[7][0].pcomplexity,
+      plocation: result[7][0].plocation,
+      commercialHead: result[7][0].commercialHead,
+      accountHead: result[7][0].accountHead,
+      manager: result[7][0].manager,
+      teamLead: result[7][0].teamLead,
+      completed: result[7][0].completed,
+      isBillable: result[7][0].isBillable,
+      taxCode: result[7][0].taxCode,
+      poNumber: result[7][0].poNumber,
+      cname: result[7][0].cname,
+      locid: result[7][0].locid,
+      location: result[7][0].location,
+      clientName: abc,
+      description1: 'None',
+      technologyId: 405,
+      name: null,
+      userId: 0 };
+
+      result[3]=[{ id: 11, clientName: abc}];
+    result[2]=[ { id: 383, description1: 'None' } ];
+                
+            }
+            
             callback(err, result);
         });
     },
