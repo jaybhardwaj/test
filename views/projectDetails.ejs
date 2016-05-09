@@ -80,9 +80,14 @@ function checkactive(st){
                         if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
                         if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
                         if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
+                        if(data[0][i].lastupdatedby==null){data[0][i].lastupdatedby='';}
 
                         if(data[0][i].isActive==1){
-                            log=log+ '<tr style=height:20px;color:grey;font-size:12px; ><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td><td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
+                            log=log+ '<tr style=height:20px;color:grey;font-size:12px; ><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td><td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)">';
+
+                            if(data[0][i].projectTitle != 'DummyProject'){
+                            log=log+ '<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
+                        }
 
                         }
                         else{
@@ -123,8 +128,14 @@ function checkactive(st){
                         if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
                         if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
                         if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
-                        if(data[0][i].isActive==1){
-                            log=log+ '<tr style=height:20px;color:grey;font-size:12px; ><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td><td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
+                        if(data[0][i].lastupdatedby==null){data[0][i].lastupdatedby='';}
+                        
+                         if(data[0][i].isActive==1){
+                            log=log+ '<tr style=height:20px;color:grey;font-size:12px; ><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td><td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)">';
+
+                            if(data[0][i].projectTitle != 'DummyProject'){
+                            log=log+ '<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
+                        }
 
                         }
                         else{
