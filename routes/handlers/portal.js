@@ -779,12 +779,22 @@ project=project?project:'';
                  next(error);
                  return;
              }
-            // console.log(resultRestriction)
             req.resultRestriction=resultRestriction;
              next();
              });
     },
 
+
+     getres:function(req, res, next) {
+          //  console.log('getRestriction')
+         modelPortal.getRestriction(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultRestriction) {
+                    if (error) {
+                 next(error);
+                 return;
+             }
+           res.json(resultRestriction);
+             });
+    },
 
     addCustomRole: function(req, res, next){
         modelPortal.addCustomRole(req.session.retailerId,req.body.rname,req.body.industry,req.body.business,
@@ -2603,9 +2613,8 @@ updateHoliday: function(req,res,next){
 
 
 addUser: function(req, res, next) {
-    console.log("---- bbb ---bb     ",req.body);
         var modules=req.body.modules==null?'':req.body.modules;
-      var inNum=req.body.inNum==''?'0':req.body.inNum;
+      var inNum=req.body.inNum;
       var billingRate=req.body.billingRate;
       var rtype=req.body.rtype==''?'':req.body.rtype;
          var randomPassword = randomString(10);

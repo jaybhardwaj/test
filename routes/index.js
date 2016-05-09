@@ -288,7 +288,7 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
     app.post('/customRoles',url.setpagecustomRoles,portal.getCustomRole,portal.getIndustry,portal.getBusiness,portal.getDocument,portal.getTechnology,portal.getRestriction,render.redirect);
      app.post('/selectidRole',portal.getCustomRoleById);
     app.post('/customRolesEntry',url.setpageaddcustomRoles,portal.addCustomRole,render.redirect);
-    app.post('/customRolesUpdate',url.setpagemasters,portal.getCustomRole,portal.getIndustry,portal.getBusiness,portal.getDocument,portal.getTechnology,portal.getRestriction,portal.updateCustomRole,render.redirect);
+    app.post('/customRolesUpdate',portal.updateCustomRole);
     app.post('/getRolesInfo',portal.getRolesInfo);
 	app.post('/addEditClientAjax',portal.addEditClientAjax);
 
@@ -297,6 +297,7 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
 	app.post('/getdoc',portal.getdoc);
 	app.post('/getbus',portal.getbus);
 	app.post('/gettec',portal.gettec);
+	app.post('/getres',portal.getres);
 	app.post('/Docmaster',portal.Docmaster);
 
 /*----------------------------------------------------------Project Management-----------------------------------------------------------*/
