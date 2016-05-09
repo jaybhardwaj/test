@@ -25,7 +25,7 @@ module.exports = {
 	,
 	url:
 	{
-		url:'http://139.162.47.185'
+		url:'http://192.168.1.56'
 	},
 	modules:
 	{
