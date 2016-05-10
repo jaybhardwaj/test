@@ -172,7 +172,7 @@
           </div>
           <div class="col-md-6 a" id="billRate">
             <div class="col-md-5"> <label style="line-height:25px !important;">Billable Rate:<sup style="color:red;">*</sup></label> </div>
-            <div class="col-md-7"> <input type="number" min="0" maxlength="45" style="margin-top:10px;width:100%" class="form-control " id="billrate" name="billrate" onkeypress="return specialCharacter(event)" /> </div>
+            <div class="col-md-7"> <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control " id="billrate" name="billrate" onkeypress=" return checkBillrate(event)" /> </div>
           </div>
         </div>
         
@@ -566,7 +566,13 @@ function getDefaultModule(){
         }
         return true;
     }
-
+    function checkBillrate(evt){
+       var charCode = (evt.which) ? evt.which : event.keyCode;
+        if(charCode==48){
+          alert("Billable Rate cannot be zero ");
+            return false;
+        }
+    }
     function changeTab(prevOrNext) {
               $("#tab" + prevOrNext).click();
              }

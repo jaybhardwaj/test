@@ -941,7 +941,15 @@ function addBugMaster(code){
     return false;
   } 
            var crate='',insLabel='',insEdit='';
-  if(code==6){
+  if(code==6 ){
+    if($('#crate_'+code).val()<=0){
+        alert("currency rate should be greater than zero ");
+        return false;
+       } 
+        if($('#crate_'+code).val()>200){
+        alert("currency rate cannot be greater than 200 ");
+        return false;
+       } 
     crate=$('#crate_'+code).val(); 
   }
    $.ajax({
@@ -987,6 +995,17 @@ function addBugMaster(code){
     $('#bugEditLabelTr_'+bugMasterId).toggleClass("hide");    
     }  
     else{
+      if(code==6){
+         if($('#crate_'+bugMasterId).val()<=0){
+            alert("currency rate should be greater than zero ");
+            return false;
+          } 
+        if($('#crate_'+bugMasterId).val()>200){
+        alert("currency rate cannot be greater than 200 ");
+        return false;
+       } 
+    
+     }
       saveEditBugMaster(code,bugMasterId);      
     }
   }
@@ -997,6 +1016,7 @@ function addBugMaster(code){
   }
   var crate='',insLabel='',insEdit='';
   if(code==6){
+   
     crate=$('#crate_'+id).val();   
   }
 
