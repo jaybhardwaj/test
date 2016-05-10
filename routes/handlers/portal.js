@@ -3066,9 +3066,9 @@ addUser: function(req, res, next) {
 
     editCandidate:function(req,res,next){
         console.log("Form Submit Edit Candidate", req.body);
-        if (req.body.skills.length == 0) req.body.skills = '';
-         else if (req.body.skills.length == 1) req.body.skills = req.body.skills;
-        else req.body.skills = req.body.skills.join(',');
+        if (req.body.skills.length == 0){ req.body.skills = '';}
+         else if (req.body.skills.length == 1){req.body.skills = req.body.skills;}
+        else {req.body.skills = req.body.skills.join(',');}
         modelPortal.editCandidate(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.hcid, req.body.name,req.body.phone,req.body.email,req.body.locationId,req.body.skills,
             req.body.clocation,req.body.months,req.body.years,req.body.qualification,req.body.institute,function(err,result){

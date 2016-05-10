@@ -482,6 +482,7 @@ module.exports = {
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
             });
+				console.log('jjojojojo',req.hodResult[0]);
 			break ;
 			case 'allrequisitions':
 			res.render('rms/allrequisitions',{pdetails:req.allrequisitions[0],role:req.session.hrRole,
@@ -492,6 +493,7 @@ module.exports = {
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
       		});
+
 			break ;
 			case 'viewCandidate':
 				res.render('rms/viewCandidate',{
