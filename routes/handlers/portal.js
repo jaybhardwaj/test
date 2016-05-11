@@ -1606,7 +1606,8 @@ getViewHardware:function(req,res,next){
             next(error);
             return;
         }
-        req.resultHardware=resultHardware;
+        req.resultHardware = resultHardware[0];
+        console.log(resultHardware[0]);
         next();
     });
 },
@@ -1637,16 +1638,17 @@ getViewHardware:function(req,res,next){
                 }
          });
      },
-     addHardware:function(req,res,next){
-        modelPortal.addHardware(req.body.htype,req.body.order,req.body.no,
-            req.body.Deliverydate,req.body.vendor,req.body.invoiceAmt,
-            req.body.Invoicedate,req.body.invoiceNo,
-        req.body.lineString,req.body.compString,req.body.comps,'0',function(error){
+       addHardware:function(req,res,next){
+        
+        modelPortal.addHardware(req.body.attIds,req.body.attributeValues,req.body.warranties,
+            req.body.serialIds,req.body.type,req.body.invoiceNo,req.body.purchasedOrder,req.body.Quantity,req.body.invoiceDate,req.body.deliveryDate,req.body.vendor,req.body.invoiceAmt,function(q,error){
              if(error){
-
-              next(error);
+               console.log('error is',error,q);
+              
             return;}
-            next();
+            else{
+              res.json('success');  
+            }
         });
     },
 

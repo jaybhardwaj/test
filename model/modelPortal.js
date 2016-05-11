@@ -913,14 +913,13 @@ addSoftware: function(acid,stype,vendor,Invoicedate,name,des,test5,key,users,eda
         callback(err, result);
     });
 },
-addHardware:function(htype,order,no,Deliverydate,vendor,invoiceAmt,Invoicedate,invoiceNo,lineString,compString,comps,flag,callback){
+addHardware:function(attIds,attributeValues,warranties,serialIds,type,invoiceNo,purchasedOrder,Quantity,invoiceDate,deliveryDate,vendor,invoiceAmt,callback){
     var q={
         sql:'call usp_ast_addHardware(?,?,?,?,?,?,?,?,?,?,?,?)',
-        values:[htype,order,no,Deliverydate,vendor,invoiceAmt,
-            Invoicedate,invoiceNo,lineString,compString,comps,flag]
+        values:[attIds,attributeValues,warranties,serialIds,type,invoiceNo,purchasedOrder,Quantity,invoiceDate,deliveryDate,vendor,invoiceAmt]
     };
     mysql(q,function(err){
-        callback(err);
+        callback(q,err);
     }); 
 },
 editData:function(id, callback){
