@@ -153,16 +153,18 @@ module.exports = {
 			    break;
 
 			case 'documentHome' :
-			  
-			 var query = require('url').parse(req.url, true).query;
+			var query = require('url').parse(req.url, true).query;
             var flag = query.flag;
              if(flag==undefined){
              	flag = -1;
              }
-             	console.log("vgvvvvvvvvvvvvvvvvvv");
-			   res.render('document/documentHome',{flag:flag,myModules:req.session.modules,hideFlag:0,users:req.resultUsers[0],files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+            	res.render('document/documentHome',{flag:flag,myModules:req.session.modules,hideFlag:0,users:req.resultUsers[0],files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 			    break;
 
+			case 'Documenterror' :
+			    res.render('document/Documenterror',{flag:flag,myModules:req.session.modules,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+			    break;    
+			
 			case 'permission' :
 			   res.render('document/permission',{myModules:req.session.modules,hideFlag:0,user:req.session.firstName,roleid:req.session.roleId,files:req.permissionResult,logo:req.session.logo,defaultModule:req.session.defaultModule});
 			   break; 

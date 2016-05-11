@@ -57,7 +57,7 @@ app.use(bodyParser({
     app.post('/tableSearchBox',portal.tableSearchBox);
   	app.post('/filterFiledata',portal.tableSearchBox);
     app.post('/viewFileDetails',portal.viewFileDetails);
-
+    //app.get('/Documenterror',url.Documenterror,render.redirect);
   
 //------------------------------------------Asset-------------------------------		
 app.get('/asset',url.setpageTransactions,portal.getUser,render.redirect);

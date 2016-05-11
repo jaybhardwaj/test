@@ -566,12 +566,13 @@ function getDefaultModule(){
         }
         return true;
     }
-    function checkBillrate(evt){
-       var charCode = (evt.which) ? evt.which : event.keyCode;
-        if(charCode==48){
-          alert("Billable Rate cannot be zero ");
+      function checkBillrate(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("Error:This special character is not allowed \n");
             return false;
         }
+        return true;
     }
     function changeTab(prevOrNext) {
               $("#tab" + prevOrNext).click();
@@ -697,6 +698,10 @@ function getDefaultModule(){
               } 
             else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)){
                     alert('Error:In Finance Details ,please specify Billable Rate');
+                    return false;
+            }
+            else  if(($('#isbill').val()==1)&&($('#billrate').val()==0)){
+                    alert('Error:In Finance Details ,Billable Rate should be greater than zero');
                     return false;
             }
             else if(($('#doj').val()=='')&&($('#doc').val()!='')){

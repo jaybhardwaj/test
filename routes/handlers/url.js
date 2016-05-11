@@ -333,30 +333,46 @@ module.exports = {
 	}
 	},
 
-	setpageDocument:	function(req,res,next){
-		 	if(req.session.modules.indexOf(config.Document)>=0)
-		 	{
-		req.page='documentHome';
-		req.flag=req.query.flag|| 1;
-		next();
-	}
-	else
-	{
-			res.redirect('/portal')
-	}
+	setpageDocument:function(req,res,next){
+	 	if(req.session.modules.indexOf(config.Document)>=0){
+	 		/*	if(req.session.croleId==0){
+		 				res.redirect('/Documenterror');
+	 			}
+	 			else{*/
+						req.page='documentHome';
+						req.flag=req.query.flag|| 1;
+						next();
+			   /* }*/
+		}
+		else{
+				res.redirect('/portal')
+		}
+	},
+	Documenterror:function(req,res,next){
+		console.log("hhh----hh");
+		if(req.session.modules.indexOf(config.Document)>=0)
+				 	{
+		        
+				req.page= 'Documenterror';
+			    next();
+			}
+			else
+			{
+					res.redirect('/portal')
+			}
 	},
 
 	setpagePermission: function(req,res,next){
-if(req.session.modules.indexOf(config.Document)>=0)
-		 	{
-        
-		req.page= 'permission';
-	    next();
-	}
-	else
-	{
-			res.redirect('/portal')
-	}
+		if(req.session.modules.indexOf(config.Document)>=0)
+				 	{
+		        
+				req.page= 'permission';
+			    next();
+			}
+			else
+			{
+					res.redirect('/portal')
+			}
 	},
 
 
