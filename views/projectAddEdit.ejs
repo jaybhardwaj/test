@@ -212,10 +212,17 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
     }
     
     function validBasicInfo() {
-      if($('#idpname').val()==''){
+
+      var re="[a-zA-Z ]*$";
+      
+      if($('#idpname').val().trim().length<=0  || $('#idpname').val()==''){
         alert("Please select a project name First"); 
         return false;
       }
+      /*if(!(re.test($("#idpname").val()))){
+        alert('Only alphabets are allowed in project name');
+        return false;
+      }*/
       if($('#pclient').val()==null || $('#pclient').val()=='0')  
       {
         alert("Please select a project client First"); 
@@ -512,7 +519,14 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
             function validDocInfo(prevOrNext) {
               $("#tab" + prevOrNext).click();
              }
-
+function specialCharacter(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("This special character or number is not allowed\n ");
+            return false;
+        }
+        return true;
+    }
     </script>
 </head>
 <body>
@@ -535,7 +549,7 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
         <div class="row">
           <div class="col-md-6">
             <div class="col-md-5"><label>Project Name: <sup>*</sup></label> </div>
-            <div class="col-md-7" style="margin-top:10px;"><input type="text" placeholder=" -- Enter Project Name -- " class="form-control" style="" name="pname" id ="idpname" maxlength="20" onfocusout=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>' <%}%> required></div>
+            <div class="col-md-7" style="margin-top:10px;"><input type="text" onkeypress="return specialCharacter(event)" placeholder=" -- Enter Project Name -- " class="form-control" style="" name="pname" id ="idpname" maxlength="20" onfocusout=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>' <%}%> required></div>
           </div>
           <div class="col-md-6">
             <div class="col-md-5"> <label >Project Code:</label> </div>

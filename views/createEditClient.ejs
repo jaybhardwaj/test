@@ -73,13 +73,13 @@ sup {  color: red;  }
                                 <div class="col-md-6 a">
                                     <div class="col-md-5"> <label style="padding-top: 10px;">Client Name<sup>*</sup> :</label></div>
                                     <div class="col-md-7">
-                                     <input type="text" maxlength="40" style="margin-top:10px;" class="form-control " id="cname" name="cname" placeholder="Name" <%if((editflag==1)){%>value='<%=clientinfo[0].clientName%>'
+                                     <input type="text" maxlength="40"  onkeypress="return specialCharacter(event)"  style="margin-top:10px;" class="form-control " id="cname" name="cname" placeholder="Name" <%if((editflag==1)){%>value='<%=clientinfo[0].clientName%>'
                                             <%}%> required /> </div>
                                 </div>
                                 <div class="col-md-6 a">
                                     <div class="col-md-5"><label style="padding-top: 10px;">Client Abbriviate Name <sup>*</sup> :</label></div>
                                     <div class="col-md-7">
-                                     <input type="text" style="margin-top:10px;" maxlength="45" class="form-control" id="cabbname" name="cabbname" placeholder="Abbrivated Name"  <%if((editflag==1)){%>value='<%=clientinfo[0].clientAbbName%>'
+                                     <input type="text" style="margin-top:10px;"  onkeypress="return specialCharacter(event)"  maxlength="45" class="form-control" id="cabbname" name="cabbname" placeholder="Abbrivated Name"  <%if((editflag==1)){%>value='<%=clientinfo[0].clientAbbName%>'
                                             <%}%> required /> </div>
                                 </div>
                             
@@ -115,7 +115,7 @@ sup {  color: red;  }
                                 </div>
                                 <div class="col-md-6 a">
                                     <div class="col-md-5"><label style="padding-top: 10px;">Client Contact Person<sup>*</sup> :</label></div>
-                                    <div class="col-md-7"> <input type="text" style="margin-top:10px;" maxlength="25" class="form-control" id="ccontactperson" placeholder="Client Name" name="ccontactperson" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPerson%>'<%}%> required/> </div>
+                                    <div class="col-md-7"> <input type="text" style="margin-top:10px;" maxlength="25" class="form-control"  onkeypress="return specialCharacter(event)"  id="ccontactperson" placeholder="Client Name" name="ccontactperson" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPerson%>'<%}%> required/> </div>
                                 </div>
                                 <div class="col-md-6 a">
                                     <div class="col-md-5"><label style="padding-top: 10px;">Client Contact Person Email<sup>*</sup> :</label></div>
@@ -171,7 +171,29 @@ sup {  color: red;  }
 </html>
 
 <script>
+function specialCharacter(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("This special character or number is not allowed\n ");
+            return false;
+        }
+        return true;
+    }
 function validateForm(){
+
+    if($('#cname').val().trim().length<=0){
+        alert('Please enter client name.');
+        return false;
+    }
+
+    if($('#cabbname').val().trim().length<=0){
+        alert('Please enter client abbreviate name.');
+        return false;
+    }
+    if($('#ccontactperson').val().trim().length<=0){
+        alert('Please enter client contact person.');
+        return false;
+    }
    
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

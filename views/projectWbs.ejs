@@ -133,9 +133,9 @@ var y = Math.floor((Math.random() * 1000) + 1);
 
             function checkfield(){
  
-              if($('#wbsname').val()=='')
+              if( $('#wbsname').val().trim().length<=0  ||  $('#wbsname').val()=='')
                {
-                alert("Please select a WBS Title First"); 
+                alert("Please Enter WBS Name First"); 
                 return false;
               }
               
@@ -277,6 +277,16 @@ var y = Math.floor((Math.random() * 1000) + 1);
                 return true;
             }
 
+function specialCharacter(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+          /*if ( !(charCode > 47 && charCode < 58) || !(charCode > 64 && charCode < 91) || !(charCode == 96 || charCode == 123) ) {*/
+            if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("This special character or number is not allowed\n ");
+            return false;
+        }
+        return true;
+    }
+
 
 </script>
   
@@ -386,7 +396,7 @@ var y = Math.floor((Math.random() * 1000) + 1);
             <label style="padding-top:20px">WBS Name<sup>*</sup> :   </label>
         </div>
         <div class="col-lg-8"  style="padding-right: 0px;padding-left:10px">
-            <input type="text" onfocusout="return allWbs();" class="form-control" style="margin-top:10px;" placeholder="-- Enter a WBS Name --" name="wbsname" id="wbsname" maxlength="25" onfocusout="myFunction(); checkprofield();" value=''>
+            <input type="text" onfocusout="return allWbs();"  onkeypress="return specialCharacter(event)" class="form-control" style="margin-top:10px;" placeholder="-- Enter a WBS Name --" name="wbsname" id="wbsname" maxlength="25" onfocusout="myFunction(); checkprofield();" value=''>
         </div>
     </div>
 

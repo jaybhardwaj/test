@@ -166,9 +166,9 @@ var y = Math.floor((Math.random() * 1000) + 1);
             }
             function checkfield(){
  
-              if($('#wbsname').val()=='')
+              if( $('#wbsname').val().trim().length<=0  || $('#wbsname').val()=='')
                {
-                alert("Please select a WBS Title First"); 
+                alert("Please Enter WBS Name First"); 
                 return false;
               }
               
@@ -232,7 +232,6 @@ var y = Math.floor((Math.random() * 1000) + 1);
                return false;
             }
           }*/
- alert('bdxghbdsgdg');
           
             if(sdate>edate){
                   alert('Planned End Date can not be less than Planned Start Date');
@@ -393,6 +392,14 @@ var abc=1;
 
             }
 
+function specialCharacter(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("This special character or number is not allowed\n ");
+            return false;
+        }
+        return true;
+    }
         </script>
     </head>
 
@@ -423,7 +430,7 @@ var abc=1;
           <label class="marginLeftLebel">WBS Name<sup>*</sup> :   </label>
       </div>
       <div class="col-lg-8" style="padding-left: 5px;">
-          <input onfocusout="return allWbs();" type="text" placeholder=" -- Enter a WBS Name -- " class="form-control" style="" name="wbsname" id="wbsname" maxlength="50" onfocusout="myFunction(); checkprofield();"  <%if(flag==1  && typeof (name[0][0]) != 'undefined'){%>value='<%=name[0][0].WBSName%>'<%}%>  >
+          <input onfocusout="return allWbs();"  onkeypress="return specialCharacter(event)" type="text" placeholder=" -- Enter a WBS Name -- " class="form-control" style="" name="wbsname" id="wbsname" maxlength="50" onfocusout="myFunction(); checkprofield();"  <%if(flag==1  && typeof (name[0][0]) != 'undefined'){%>value='<%=name[0][0].WBSName%>'<%}%>  >
       </div>
   </div>
 
