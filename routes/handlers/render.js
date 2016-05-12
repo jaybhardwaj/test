@@ -374,6 +374,7 @@ module.exports = {
 //---------------------------------Expense------------------------------------------
 			case 'expenseHome' :
 				res.render('expense/expenseHome',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				console.log(req.session.isApprover);
 				break;
 
 				case 'expenseHomenew' :
@@ -568,6 +569,7 @@ module.exports = {
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
 	            });
+            console.log(req.reqApprover[0]);
             break;
 
 

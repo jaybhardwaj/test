@@ -11,6 +11,9 @@
                 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js">
                 </script>
  --> 
+ <style>
+
+ </style>
 </header>
 <script type="text/javascript">
 
@@ -165,7 +168,7 @@ var formatted_date = function(date){
  /*function for open the form for edit the expense*/
 
  function showexpensDetailsforedit(id){
-
+$('.inrs').removeClass('hide');
   var expenseType=id;
   if(expenseType==1){
   
@@ -394,7 +397,7 @@ function getdateprevuser() {
 /*function for show expense form according expense type*/
 
 function showexpensDetails(){
-
+$('.inrs').addClass('hide');
   var expenseType=$('#typeEx').val();
   
   //alert(expenseType);
@@ -1565,6 +1568,9 @@ function expensedescription(expclaimId){
             rejecttheExpense(0);
              return  true;
            }
+           else if($('#comment').val()==''){
+            alert('Please fill the reason for reject the Expense');
+           }
             else{
                 alert('Please write only 500 letters in the reason box');
                 $('#comment').val('');
@@ -1803,18 +1809,48 @@ return false;
   }
 }
 
+function changefirstdatehotel(){
+ document.getElementById("to").focus(); 
+}
+
+function changefirstdatetravel(){
+document.getElementById("tofortravel").focus();
+}
+
+function changefirstdatefood(){
+ document.getElementById("tofood").focus(); 
+}
+
+function changefirstdatephone(){
+ document.getElementById("todateforphone").focus();
+}
+
+function changefirstdatersd(){
+ document.getElementById("todateforrfd").focus(); 
+}
+
+function changefirstdatedeam(){
+ document.getElementById("todateperdiem").focus(); 
+}
+
+function changefirstdateother(){
+ document.getElementById("otherToDate").focus(); 
+}
+
 function changeCurrency(){
   if($( "#hotelcu option:selected" ).attr('acualvalue')!=0){
   var a =$('#hrate').val();
   var b=$('#htotalday').val();
  var totalbill= $( "#hotelcu option:selected" ).attr('acualvalue')*a*b;
  $('#htex').val(totalbill);
+ $('.inrs').removeClass('hide');
 }
 else{
  var a =$('#hrate').val();
   var b=$('#htotalday').val();
 var totalbill=1*a*b;
  $('#htex').val(totalbill); 
+ $('.inrs').removeClass('hide');
 }
 }
 function changeCurrencyforTravel(){
@@ -1823,12 +1859,14 @@ function changeCurrencyforTravel(){
    var d=$('#traveltday').val();
  var totalbill= $( "#travelc option:selected" ).attr('acualvalue')*c*d;
  $('#travelex').val(totalbill);
+ $('.inrs').removeClass('hide');
 }
 else{
   var c=$('#travelrate').val();
    var d=$('#traveltday').val();
 var totalbill=1*c*d;
 $('#travelex').val(totalbill);
+$('.inrs').removeClass('hide');
 }
 }
 function changeCurrencyforDiem(){
@@ -1837,12 +1875,14 @@ function changeCurrencyforDiem(){
      var f=$('#diemday1').val();
  var totalbill= $( "#diemcu option:selected" ).attr('acualvalue')*e*f;
  $('#diemtotal1').val(totalbill);
+ $('.inrs').removeClass('hide');
 }
 else{
    var e=$('#diemrate1').val();
      var f=$('#diemday1').val();
  var totalbill= 1*e*f;
  $('#diemtotal1').val(totalbill);
+ $('.inrs').removeClass('hide');
 }
 }
 function changeCurrencyforrsd(){
@@ -1851,12 +1891,14 @@ function changeCurrencyforrsd(){
     var h=$('#rfdtotalkm').val();
  var totalbill= $( "#rfdcu option:selected" ).attr('acualvalue')*g*h;
  $('#rfdext').val(totalbill);
+ $('.inrs').removeClass('hide');
 }
 else{
   var g=$('#rfdper').val();
     var h=$('#rfdtotalkm').val();
  var totalbill= 1*g*h;
  $('#rfdext').val(totalbill); 
+ $('.inrs').removeClass('hide');
 }
 }
 
@@ -1864,18 +1906,36 @@ function changeCurrencyforphone(){
     var h=$('#callingex').val();
  var totalbill= $( "#callingc option:selected" ).attr('acualvalue')*h;
  $('#callingex').val(totalbill);
+ $('.inrs').removeClass('hide');
 }
 
 function changeCurrencyforfood(){
     var h=$('#foodex1').val();
  var totalbill= $( "#foodcu1 option:selected" ).attr('acualvalue')*h;
  $('#foodex1').val(totalbill);
+ $('.inrs').removeClass('hide');
 }
 
 function changeCurrencyforOther(){
     var h=$('#otherex1').val();
  var totalbill= $( "#othercu1 option:selected" ).attr('acualvalue')*h;
  $('#otherex1').val(totalbill);
+ $('.inrs').removeClass('hide');
+}
+
+function changephonecurrency(){
+$('#callingex').val('0');
+$('.inrs').addClass('hide');
+}
+
+function changefoodcurrency(){
+ $('#foodex1').val('0');
+ $('.inrs').addClass('hide'); 
+}
+
+function changeothercurrency(){
+  $('#otherex1').val('0');
+  $('.inrs').addClass('hide');
 }
 /*end function dateVarify*/
  
@@ -2059,7 +2119,7 @@ function changeCurrencyforOther(){
 <div id="totalandaddEX" class="col-md-12 a" style="background-color:rgba(51, 60, 125, 0.62);height:36px; 
     border-bottom:solid #f05f40;">
         <div class="col-md-2">
-              <label id='explabel' style="line-height:20px !important;color:white;margin-left: 65px;margin-top: 8px">Expense Type:<span Style="font-size:15px; color:red">*</span></label>
+              <label id='explabel' style="line-height:20px !important;color:white;margin-left: 65px;margin-top: 8px">Expense Type:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
         </div>
         <div class="col-md-3">
               <select class="form-control" style="margin-top:3px;margin-bottom:3px;height:29px; background-color:#23527c;color:white; font-size:12px;float:left;width:280px;" id='typeEx' name="client" style="width:200px !important;" onchange="showexpensDetails()">
@@ -2074,7 +2134,7 @@ function changeCurrencyforOther(){
        </div> 
        <div class="col-md-4">   
        </div>
-       <div class="col-md-2"> <label class='hide' style="line-height:42px !important;">Total Expense:<span Style="font-size:15px; color:red"></span></label>
+       <div class="col-md-2"> <label class='hide' style="line-height:42px !important;">Total Expense:<span Style="font-size:10px;margin-bottom:10px; color:red"></span></label>
        </div>
        <!--div class="col-md-2">
        <input type="text" id='totalExpenseforuser' class="form-control hide" style="margin-top:5px;" value=""> 
@@ -2109,7 +2169,7 @@ function changeCurrencyforOther(){
                           <label style="line-height:42px !important;">Hotel</label>
                      </div>
                      <div class="col-md-3 fieldgroup">
-                          <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                      </div>
                      <div class="col-md-3">
                           <select class="form-control" for="hoteltrip" style="margin-top:10px;" id='trip1' name="hoteltrip" style="width:200px !important;" required/>
@@ -2127,13 +2187,13 @@ function changeCurrencyforOther(){
                 </div> 
                 <div class="col-md-12 a">
                      <div class="col-md-3">
-                         <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                         <label style="line-height:42px !important;">From Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                      </div>
                      <div class="col-md-3">
-                         <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="from" for="formDate" name="fromDate"   required/>
+                         <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="from" for="formDate" name="fromDate" onchange='changefirstdatehotel()'  required/>
                      </div>
                      <div class="col-md-3">
-                         <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                         <label style="line-height:42px !important;">To Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                      </div>
                      <div class="col-md-3">
                          <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" for="toDate" id="to" name="toDate" onblur="dateVarifyofHotel();"  required/>
@@ -2144,7 +2204,7 @@ function changeCurrencyforOther(){
                 </div>
                 <div class="col-md-12 a">
                      <div class="col-md-3">
-                          <label style="line-height:42px !important;">Hotel Name:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Hotel Name:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                      </div>
                      <div class="col-md-3">
                           <select class="form-control" style="margin-top:10px;" for="hotelName" id='hotelname' name="hotelName" style="width:200px !important;" required/>
@@ -2162,7 +2222,7 @@ function changeCurrencyforOther(){
                            </select>
                       </div>      
                       <div class="col-md-3">
-                            <label style="line-height:42px !important;">Reason for Stay:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Reason for Stay:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                       </div>
                       <div class="col-md-3">
                             <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control" id="hreason" for="hotelReason" name="hotelReason"  required />
@@ -2170,7 +2230,7 @@ function changeCurrencyforOther(){
                 </div>
                 <div class="col-md-12 a">
                       <div class="col-md-3">
-                            <label style="line-height:42px !important;">Rate Per Day:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Rate Per Day:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                       </div>
                       <div class="col-md-3">
                             <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="hrate" for="hotelperDayRate" name="hotelperDayRate"  onblur="changeCurrency()" required />
@@ -2184,7 +2244,7 @@ function changeCurrencyforOther(){
                 <!--/div>
                 <div class="col-md-12 a"-->
                       <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Days:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Days:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                       </div>
                       <div class="col-md-3">
                             <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="htotalday" for="hotelTotalDay" name="hotelTotalDay" onblur="changeCurrency()"  required/>
@@ -2195,7 +2255,7 @@ function changeCurrencyforOther(){
                 </div>
                 <div id="d1" class="col-md-12 a ">
                      <div class="col-md-3">
-                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                      </div>
                      <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='hotelcu' name="hotelCurrency" for="hotelCurrency1" style="width:200px !important;" onchange="changeCurrency()" required/>
@@ -2212,11 +2272,12 @@ function changeCurrencyforOther(){
                         </div>
                         
                          <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                             <input type="hidden" name="hotelexpensetypeid" value="1">
                         </div>
                         <div class="col-md-3">
                             <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="htex" name="htex"  required/>
+                            <span  class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                         </div>
                         </div>
                      
@@ -2260,7 +2321,7 @@ function changeCurrencyforOther(){
                           <label style="line-height:42px !important;">Travel</label>
                     </div>
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
                           <select required class="form-control" style="margin-top:10px;" id='traveltrip' name="traveltrip" style="width:200px !important;" />
@@ -2282,14 +2343,14 @@ function changeCurrencyforOther(){
 
                 <div class="col-md-12 a">
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">From Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
-                          <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdatefortravel" name="travelFromDate"  required />
+                          <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdatefortravel" name="travelFromDate" onchange='changefirstdatetravel()' required />
                     </div>
                    
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">To Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
                           <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="tofortravel" name="travelToDate" onblur="dateVarifyofTravel()" required/>
@@ -2301,7 +2362,7 @@ function changeCurrencyforOther(){
                 </div>
                 <div class="col-md-12 a">
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">Travel Type:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Travel Type:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
                           <select class="form-control" style="margin-top:10px;" id='traveltype' name="travelType" style="width:200px !important;" required/>
@@ -2321,7 +2382,7 @@ function changeCurrencyforOther(){
                     </div>
                     
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">Reason for Travel:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Reason for Travel:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
                           <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="travelre" name="travelReason"  required />
@@ -2329,7 +2390,7 @@ function changeCurrencyforOther(){
                </div>
                <div class="col-md-12 a">
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">Rate Per Day:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Rate Per Day:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
                           <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="travelrate" name="TravelRatePerDay" onblur="changeCurrencyforTravel()" required/>
@@ -2345,7 +2406,7 @@ function changeCurrencyforOther(){
 
                <div class="col-md-12 a"-->                      
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">Total Days:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Total Days:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
                           <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="traveltday" name="travelTotalDay" onblur="changeCurrencyforTravel()"  required/>
@@ -2357,7 +2418,7 @@ function changeCurrencyforOther(){
 
                <div id="d1" class="col-md-12 a ">
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
                           <select class="form-control" style="margin-top:10px;" id='travelc' name="travelCurrency" style="width:200px !important;" onchange="changeCurrencyforTravel()" required/>
@@ -2375,10 +2436,11 @@ function changeCurrencyforOther(){
                           </select>
                     </div>                       
                     <div class="col-md-3">
-                          <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                          <label style="line-height:42px !important;">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-3">
                           <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="travelex" name="travelex" onchange="changeCurrencyforTravel()"   required/>
+                          <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                     </div>                       
                 </div>
 
@@ -2421,7 +2483,7 @@ function changeCurrencyforOther(){
                         </div>
                         <input type="hidden" name="travelexpensetypeid" value="4">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='phonetrip' name="phonetrip" style="width:200px !important;" required/>
@@ -2441,14 +2503,14 @@ function changeCurrencyforOther(){
 
                     <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateforphone" name="phoneFromDate"  required />
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateforphone" name="phoneFromDate" onchange='changefirstdatephone()'  required />
                         </div>
                    
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="todateforphone" name="phoneToDate" onblur="dateVarifyofPhone()" required/>
@@ -2461,7 +2523,7 @@ function changeCurrencyforOther(){
 
                    <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Reason for Calling:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Reason for Calling:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="callingreason" name="phoneReason"  required />
@@ -2476,10 +2538,10 @@ function changeCurrencyforOther(){
 
                    <div id="d1" class="col-md-12 a ">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control" style="margin-top:10px;" id='callingc' name="phoneCurrency" style="width:200px !important;" onchange=""  required/>
+                            <select class="form-control" style="margin-top:10px;" id='callingc' name="phoneCurrency" style="width:200px !important;" onchange="changephonecurrency()"  required/>
                                     <option value="" acualvalue='0'>--Select--</option>
                                
                                     <%for(var i=0;i<currency.length;i++){%>
@@ -2492,10 +2554,13 @@ function changeCurrencyforOther(){
                             </select>
                         </div>                        
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
-                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="callingex" name="phoneExp"  onblur="changeCurrencyforphone()" required/>
+                            <!--<div class="col-md-2" style="width:150px"-->
+                            <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%px" class="form-control" id="callingex" name="phoneExp"  onblur="changeCurrencyforphone()" required/>
+                            <!--div class="col-md-1" style="float:left;margin-top:10px; width:30px"-->
+                            <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                         </div>
                     </div>
 
@@ -2539,7 +2604,7 @@ function changeCurrencyforOther(){
                             <label style="line-height:42px !important;">Reimbursement for Self-driven Vehicle</label>
                          </div>
                          <div class="col-md-3">
-                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                          </div>
                          <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='rsdtrip' name="rsdtrip" style="width:200px !important;" required>
@@ -2559,14 +2624,14 @@ function changeCurrencyforOther(){
 
                     <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateforrfd" name="rsdFromDate"  required/>
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateforrfd" name="rsdFromDate" onchange='changefirstdatersd()'  required/>
                         </div>
                    
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="todateforrfd" name="rsdToDate" onblur="dateVarifyofRsd()" required/>
@@ -2580,7 +2645,7 @@ function changeCurrencyforOther(){
 
                    <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Type of vehicle:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Type of vehicle:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='rfdtypeof' name="rsdvehicle" style="width:200px !important;" required/>
@@ -2597,7 +2662,7 @@ function changeCurrencyforOther(){
                             </select>
                         </div>                    
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Reason for Travel:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Reason for Travel:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdreason" name="rsdReason"  required />
@@ -2606,14 +2671,14 @@ function changeCurrencyforOther(){
 
                     <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Per Km Rate :<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Per Km Rate :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdper" name="rsdKmRate"  onblur="changeCurrencyforrsd()" required/>
                         </div>                   
                     
                         <div class="col-md-3 hide">
-                            <label style="line-height:42px !important;">If Not Then Other:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">If Not Then Other:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                           <div class="col-md-3 hide">
                             <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdifnot" name="rsdifnot" />
@@ -2622,7 +2687,7 @@ function changeCurrencyforOther(){
 
                     <div class="col-md-12 a"-->
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total km Travel:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total km Travel:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdtotalkm" name="rsdtotal" onblur="changeCurrencyforrsd()" required/>
@@ -2634,7 +2699,7 @@ function changeCurrencyforOther(){
 
                     <div id="d1" class="col-md-12 a ">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='rfdcu' name="rsdCurrency" style="width:200px !important;" onchange="changeCurrencyforrsd()" required>
@@ -2651,10 +2716,11 @@ function changeCurrencyforOther(){
                         </div>
                         
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="rfdext" name="rsdtex"  required/>
+                            <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                         </div>
                     </div>
                 </div>
@@ -2699,7 +2765,7 @@ function changeCurrencyforOther(){
                             <label style="line-height:42px !important;">Per Diem</label>
                          </div>
                          <div class="col-md-3">
-                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                          </div>
                          <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='pertrip' name="perdiemtrip" style="width:200px !important;" required>
@@ -2719,14 +2785,14 @@ function changeCurrencyforOther(){
 
                     <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateperdiem" name="perdiemFromDate"  required/>
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromdateperdiem" name="perdiemFromDate" onchange='changefirstdatedeam()' required/>
                         </div>
                    
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="todateperdiem" name="perdiemToDate"
@@ -2739,7 +2805,7 @@ function changeCurrencyforOther(){
 
                     <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Hotel Name:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Hotel Name:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='diemhotelname' name="perdiemHotelName" style="width:200px !important;" required>
@@ -2758,7 +2824,7 @@ function changeCurrencyforOther(){
                   
                     
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Reason for Stay:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Reason for Stay:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="190" style="margin-top:10px;width:100%" class="form-control" id="diemreasonstay" name="perdiemReason"  required />
@@ -2768,13 +2834,13 @@ function changeCurrencyforOther(){
 
                     <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Per Diem Rate:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Per Diem Rate:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="diemrate1" name="perdiemRate"  onblur="changeCurrencyforDiem()" required/>
                         </div>
                         <div class="col-md-3 hide">
-                            <label style="line-height:42px !important;">If Not Then Other:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">If Not Then Other:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3 hide">
                             <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control" id="diemif1" name="perdiemIfNot" />
@@ -2783,7 +2849,7 @@ function changeCurrencyforOther(){
 
                    <div class="col-md-12 a"-->
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Days:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Days:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="diemday1" name="perdiemtotal" onblur="changeCurrencyforDiem()"  required/>
@@ -2795,7 +2861,7 @@ function changeCurrencyforOther(){
 
                    <div id="d1" class="col-md-12 a ">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='diemcu' name="perdiemCurrency" style="width:200px !important;" onchange="changeCurrencyforDiem()" required/>
@@ -2811,10 +2877,11 @@ function changeCurrencyforOther(){
                             </select>
                         </div>                        
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="diemtotal1" name="perdiemtex" required/>
+                            <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                         </div>
                    </div>
                    <div id="footer" class="modal-footer" style="border-top:0px;">
@@ -2858,7 +2925,7 @@ function changeCurrencyforOther(){
                             <label style="line-height:42px !important;">Food/Entertainment</label>
                         </div>
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='foodtrip' name="foodtrip" style="width:200px !important;" required/>
@@ -2878,14 +2945,14 @@ function changeCurrencyforOther(){
                
                 <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromfood" name="foodFromDate"  required/>
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromfood" name="foodFromDate" onchange='changefirstdatefood()' required/>
                         </div>
                    
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="tofood" name="foodToDate" onblur="dateVarifyofFood()" required/>
@@ -2899,7 +2966,7 @@ function changeCurrencyforOther(){
 
                 <div class="col-md-12 a">                    
                         <div class="col-md-5">
-                            <label style="line-height:42px !important;">Reason for Fooding/entertainment:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Reason for Fooding/entertainment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="foodre" name="foodReason"  required />
@@ -2911,10 +2978,10 @@ function changeCurrencyforOther(){
 
                <div id="d1" class="col-md-12 a ">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control" style="margin-top:10px;" id='foodcu1' name="foodCurrency" style="width:200px !important;"  required>
+                            <select class="form-control" style="margin-top:10px;" id='foodcu1' name="foodCurrency" style="width:200px !important;" onchange="changefoodcurrency()" required>
                                    <option value="" acualvalue='0'>--Select--</option>
                                
                                    <%for(var i=0;i<currency.length;i++){%>
@@ -2928,10 +2995,11 @@ function changeCurrencyforOther(){
                         </div>
                         
                          <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                          </div>
                          <div class="col-md-3">
                             <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="foodex1" name="foodtex"  required  onblur='changeCurrencyforfood()'/>
+                            <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                         </div>
                </div>
                     <div id="footer" class="modal-footer" style="border-top:0px;">
@@ -2976,7 +3044,7 @@ function changeCurrencyforOther(){
                             <label id='otherlavel' style="line-height:42px !important;">Other</label>
                       </div>
                       <div class="col-md-3">
-                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                       </div>
                       <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='othertrip' name="othertrip" style="width:200px !important;" required/>
@@ -2996,14 +3064,14 @@ function changeCurrencyforOther(){
 
                 <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromother" name="otherFromDate"  required/>
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromother" name="otherFromDate" onchange='changefirstdateother()' required/>
                         </div>
                    
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:10px;margin-bottom:10px;padding-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="otherToDate" name="otherToDate" onblur="dateVarifyofOther()" required/>
@@ -3016,7 +3084,7 @@ function changeCurrencyforOther(){
 
                 <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Reason for Expense:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Reason for Expense:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="otherreason" name="otherReason"  required />
@@ -3028,10 +3096,10 @@ function changeCurrencyforOther(){
 
                 <div id="d1" class="col-md-12 a ">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                           <div class="col-md-3">
-                            <select class="form-control" style="margin-top:10px;" id='othercu1' name="otherCurrency" style="width:200px !important;" onchange="" required/>
+                            <select class="form-control" style="margin-top:10px;" id='othercu1' name="otherCurrency" style="width:200px !important;" onchange="changeothercurrency()" required/>
                                     <option value="" acualvalue='0'>--Select--</option>
                                
                                     <%for(var i=0;i<currency.length;i++){%>
@@ -3044,10 +3112,11 @@ function changeCurrencyforOther(){
                             </select>
                         </div>                        
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" min="1" step="any" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="otherex1" name="othertex"  required onblur='changeCurrencyforOther()'/>
+                            <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                         </div>                       
                 </div>
                      
@@ -3127,7 +3196,7 @@ function changeCurrencyforOther(){
                             <label style="line-height:42px !important;">Other</label>
                       </div>
                       <div class="col-md-3">
-                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                       </div>
                       <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='othertrip' name="othertrip" style="width:200px !important;" required/>
@@ -3147,14 +3216,14 @@ function changeCurrencyforOther(){
 
                 <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">From Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">From Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="fromother" name="otherFromDate"  required/>
                         </div>
                    
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">To Date:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">To Date:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="150" style="margin-top:10px;width:100%" class="form-control datepicker" id="otherToDate" name="otherToDate" required/>
@@ -3167,7 +3236,7 @@ function changeCurrencyforOther(){
 
                 <div class="col-md-12 a">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Reason for Expense:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Reason for Expense:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="otherreason" name="otherReason"  required/>
@@ -3179,7 +3248,7 @@ function changeCurrencyforOther(){
 
                 <div id="d1" class="col-md-12 a ">
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Currency:<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                           <div class="col-md-3">
                             <select class="form-control" style="margin-top:10px;" id='othercu1' name="otherCurrency" style="width:200px !important;" onchange="showexpensDetails()" required/>
@@ -3195,7 +3264,7 @@ function changeCurrencyforOther(){
                             </select>
                         </div>                        
                         <div class="col-md-3">
-                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:15px; color:red">*</span></label>
+                            <label style="line-height:42px !important;">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="otherex1" name="othertex"  onblur='changeCurrencyforOther()' required />
@@ -3267,7 +3336,7 @@ function changeCurrencyforOther(){
           <div id="d1" class="col-md-12 a " style="margin-top:20px;">
          
           <div class="col-md-12">
-          <textarea class="form-control" id="comment" name="comment" placeholder='Reason for reject the expense'></textarea>
+          <textarea class="form-control" id="comment" name="comment" placeholder='Reason for rejecting the expense'></textarea>
           </div>
           </div>
 
