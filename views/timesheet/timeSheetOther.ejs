@@ -58,6 +58,9 @@
 
 
             $(document).ready(function() {
+
+                
+
                 $('.modulemenu').removeClass('active');
                 $('.portal-menu').addClass('hide');
                 $('.timesheet-tab').addClass("active");
@@ -507,7 +510,7 @@
                         if (i == temp + 1) {
                             a = a + '<td><input id="id' + i + '' + j + '" disabled type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" ></input> </td> '
                         } else {
-                            a = a + '<td><input id="id' + i + '' + j + '" type="number" class="abc numeric clearAllfield"  style="width:60px; text-align:center;" value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
+                            a = a + '<td><input id="id' + i + '' + j + '" type="number" readonly="true" class="abc numeric clearAllfield"  style="width:60px; text-align:center;" value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
                         }
 
                     }
@@ -639,7 +642,7 @@
                     </div>
                     <h4 style="margin-left:17px" id="tagstatus"></h4>
                     <div class="modal-body" style="height:30%; text-align:center ;margin-top:-10px;padding-top:0px;padding-right:17px;padding-left:17px">
-                        <textarea id="RejectReason" style="margin-top:3%" value=" " style="height:75%" class="form-control" rows="5"></textarea>
+                        <textarea placeholder="Limit:500 words" id="RejectReason" maxlength=500; style="margin-top:3%" value=" " style="height:75%" class="form-control" rows="5"></textarea>
                         <!-- <input class="form-control" rows="5" type="textarea" id="abcd" name="abcd" value=" " style="height:70%"class="form-control" </input> -->
                         <input type="hidden" id="hid" name="abcd1" value=" " class="form-control" </input>
                         <input type="submit" onclick="ApporReject(4)" style="width:15% ;margin-top: 2%;" class="btn btn-primary active"></input>
@@ -916,7 +919,7 @@
         }
         if (ARstatus == '4') {
 
-            if ($('#RejectReason').val().trim().length <= 0) {
+            if ($('#RejectReason').val().trim().length <= 0 ) {
                 alert("Please enter a reason");
                 return false;
             }
@@ -987,7 +990,7 @@
     }
 
     function fun() {
-        /*$("#hid").val(id);*/
+        $('#RejectReason').val('');
         $('#tag1').modal('hide');
         $('#tag').modal('hide');
     }

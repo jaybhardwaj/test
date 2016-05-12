@@ -469,12 +469,12 @@
                         } else
                         if (i < 31 && j == no_of_asgmnt) {
                          // alert("value =0")
-                            a = a + ' <td><input disabled id="id' + i + '' + j + '" value="0"  type="text" style="width:60px; text-align:center;"></input> </td>'
+                            a = a + ' <td><input disabled id="id' + i + '' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center;"></input> </td>'
                         } else
                         if (i == temp + 1) {
-                            a = a + '<td><input id="id' + i + '' + j + '" disabled type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" ></input> </td> '
+                            a = a + '<td><input id="id' + i + '' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" ></input> </td> '
                         } else {
-                            a = a + '<td><input id="id' + i + '' + j + '" type="number" class="abc numeric clearAllfield"  style="width:60px; text-align:center; " value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
+                            a = a + '<td><input  id="id' + i + '' + j + '" type="number"  class="abc numeric clearAllfield"  style="width:60px; text-align:center; " value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
                         }
 
                     }
@@ -664,39 +664,65 @@
                 var weekd = dayy.getDay();
                 var dnd = dayy.getDate();
                 // alert("this uis date"+dnd);
-                if (tdayhour < workschedule) { // alert("hiiii")
+                if (tdayhour < workschedule) { 
+                    if('<%=timeinfo[8][0].schedule%>'==1 || '<%=timeinfo[8][0].schedule%>'==''){
+                    if (!(weekd == 6) ){
+                     if(allowholiday(i,dnd))
+                     {
+                        status=1;
+                        break;
+                     }
+                    }}
+                    if('<%=timeinfo[8][0].schedule%>'==2){
+                    if (!( weekd == 0)) {
+                      if(allowholiday(i,dnd))
+                      {
+                        status=1;
+                        break;
+                      }
+                    }}
+                    if('<%=timeinfo[8][0].schedule%>'==3){
                     if (!(weekd == 0 || weekd == 6)) {
-                        if (parseInt(dnd) < 16) {
-                            alert("Total Hours on " + $('#wkd' + i).val() + " is less then "+workschedule+" hours");
-                            document.getElementById('timestatus').innerHTML = "Active";
-                        } else {
-                            alert("Total Hours on " + $('#wkd' + (i + 15)).val() + " is less then "+workschedule+" hours");
-                            document.getElementById('timestatus').innerHTML = "Draft";
-                        }
-                        return false;
-                    }
+                      if(allowholiday(i,dnd))
+                      { 
+                        status=1;
+                        break;
+                      }
+                    }}
+                    if('<%=timeinfo[8][0].schedule%>'==4){
+                    if (!(weekd == 0 || weekd == 6)) {
+                      if(allowholiday(i,dnd))
+                      {  status=1;
+                        break;   
+                      }
+                    }}
                 }
             }
-            if (flag == 2 && !confirm("Your Timesheet will be submitted to  -" + '<%=timeinfo[5][0].mngname%>'))
+
+
+
+
+            if (status == 2 && !confirm("Your Timesheet will be submitted to  -" + '<%=timeinfo[5][0].mngname%>'))
                 return false;
-            if ((flag == 2) && (parseInt(r) < parseInt(r2))) {
+            if ((status == 2) && (parseInt(r) < parseInt(r2))) {
                 alert("your timesheet is incomlpete");
                 return false;
             }
-            document.getElementById("submitTimes").value = "Submitted";
+
+          
 
         }
 
 
 
 
-        if (flag == 2) {
+        if (status == 2) {
 
             $('#savetimesheet').addClass('hide');
             $('#resettimesheet').addClass('hide');
             document.getElementById("submitTimes").value = "Submitted";
             document.getElementById("submitTimes").disabled = true;
-            document.getElementById('timestatus').innerHTML = for_status[flag];
+            document.getElementById('timestatus').innerHTML = for_status[status];
 
         } else {
             $('#savetimesheet').removeClass('hide');
@@ -704,7 +730,7 @@
 
             document.getElementById("submitTimes").value = "Submit";
             document.getElementById("submitTimes").disabled = false;
-            document.getElementById('timestatus').innerHTML = for_status[flag];
+            document.getElementById('timestatus').innerHTML = for_status[status];
         }
         $.ajax({
             url: 'submitTimesheet',
@@ -931,7 +957,7 @@
             var date_other_format = ddy.getFullYear() + '-' + (ddy.getMonth() + 1) + '-' + ddy.getDate();
             if ('<%=timeinfo[8][0].schedule%>' == '') {
                 //alert("rthis is null");
-                if (weekdy == 6) {
+                if (weekdy == 0) {
                     satsun(i, k);
                 } else disholi(i, k, date_other_format);
             } else
@@ -1034,9 +1060,23 @@
 
     function ClearAll() {
         $(".clearAllfield").val('');
-        disableHoliday();
-    }
+        //disableHoliday();
+        for (var j = 0; j <= no_of_asgmnt + 1; j++) {
+         for(var i = 0; i <= temp + 1; i++){
+              if (i < 31 && j == no_of_asgmnt)
+                        {
+                        document.getElementById("id" + i + j).value = 0;
+                        }
+                         else
+                        if (i == temp + 1) 
+                        {
+                         document.getElementById("id" + i + j).value = 0;   
+                        }
 
+    }
+}
+    disableHoliday();
+}
     function showDiv() {
         // alert("hide");
         $('#OtherEmp').removeClass('hide');
@@ -1079,6 +1119,21 @@
             window.location.href = "/otherTimeSheet?id=" + dpusdata;
         //alert("hiiiiiiiiiiiii");
     }
+
+      function allowholiday(i,dnd){
+
+                    if (parseInt(dnd) < 16) {
+                            alert("Total Hours on " + $('#wkd' + i).val() + " is less then "+workschedule+" hours");
+                            document.getElementById('timestatus').innerHTML = "Active";
+                            return 1;
+                        } else {
+                            alert("Total Hours on " + $('#wkd' + (i + 15)).val() + " is less then "+workschedule+" hours");
+                            document.getElementById('timestatus').innerHTML = "Active";
+                            return 1;
+                        }
+                       
+            }
+
 </script>
 <% include ../partials/footer %>
 
