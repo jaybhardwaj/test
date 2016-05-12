@@ -153,12 +153,9 @@ module.exports = {
 			    break;
 
 			case 'documentHome' :
-			var query = require('url').parse(req.url, true).query;
-            var flag = query.flag;
-             if(flag==undefined){
-             	flag = -1;
-             }
-            	res.render('document/documentHome',{flag:flag,myModules:req.session.modules,hideFlag:0,users:req.resultUsers[0],files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+			
+          		console.log("llll;;;;;;;");	
+            	res.render('document/documentHome',{flag:flag,myModules:req.session.modules,hideFlag:0,users:req.resultUsers[0],files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,alert:req.session.documentalert});
 			    break;
 
 			case 'Documenterror' :
@@ -186,7 +183,9 @@ module.exports = {
 			    break;
 
 			case 'attachDocFile' :
-			    res.redirect('/document?flag=1');
+				req.session.documentalert=1;
+				console.log("in upload done")
+			    res.redirect('/document');
 			    break;
 			
 		    case 'filterFiledata' :

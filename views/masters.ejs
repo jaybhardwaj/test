@@ -332,9 +332,11 @@
      </section>
      <section id="content7">
          <!---------------timesheet---->
-              <div  class="col-md-10" style="margin-top:1%;">
-                 <div style="margin-left: 8%;border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 108%; ">
-               <a id="anchor" class="anchor" href="#timestdiv" data-toggle="collapse"> <label  style="padding:4px 145px" >TimeSheet Weekend Schedule</label><i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i></a>
+         <div class="row">
+
+              <div  class="col-md-5" style="margin-top:1%;">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 108%; ">
+               <a id="anchor" class="anchor" href="#timestdiv" data-toggle="collapse"> <label  style="padding:4px 145px" >Holidays</label><i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i></a>
                     <div id="timestdiv" class="collapse">
                       <table style="width:100%;text-align:center" id="holiTable" class="table stripe hover cell-border" >
                         <tr>
@@ -359,34 +361,74 @@
                         </tr>
                         <%}%> 
                       </table> 
-                      <table style="margin-left: 18%;margin-right:2%;">
+                      <table style="margin-left:4%;margin-right:2%;">
                       <tr>
                         <td><input type="text" id="ocName_0" class="form-control" maxlength="50" placeholder="@ Occasion Name"></td>
                         <td style="padding-left:2%">
-                            <input type="text" id="ocDate_0" maxlength="50" class="datepicker form-control" placeholder="@ Occasion Date" readonly = "true"></td>
-                        <td> <span class="glyphicon glyphicon-plus-sign" onClick="holiValidation(0)" style="margin-left: 41%;font-size:18px;padding-left: 21px;padding-top:5px;"></span></td>
-                        <td style="width:10%"></td>
-                        <td> <select class="form-control" name="list" id="ddlDay" style="width:200px" form="form" onchange="schedule()" <%console.log("value of select--",allinfo[1]); if(allinfo[2][0].flag!=0){%> disabled 
-                                <%}%>>
-                            <option id="sat" value="1" <%if(allinfo[1][0].schedule==1){%>selected<%}%>>Saturday</option>
-                            <option id="sun" value="2"  <%if(allinfo[1][0].schedule==2){%>selected<%}%>>Sunday</option>
-                            <option id="asat" value="3"  <%if(allinfo[1][0].schedule==3){%>selected<%}%>>Alternate Saturday</option>
-                            <option id="satnsaun" value="4"  <%if(allinfo[1][0].schedule==4){%>selected<%}%>>Saturday and Sunday</option>
-                          </select></td>
-                          <td>
-                          <input placeholder="Enter Date Here"type="text" maxlength="50" class="form-control" id="hdate" name="odate" value="">
-                          </td>  
-                          <td><span  style="margin-left:%;font-size:18px;padding-left:69%;" 
-                          class="glyphicon glyphicon-floppy-disk <% if(allinfo[2][0].flag!=0){%> hide 
-                                <%}%>" onClick="return hsubmit()">
-                        </span>
-                        </td>
+                            <input type="text" id="ocDate_0" maxlength="50" style=" margin-left:;"class="datepicker form-control" placeholder="@ Occasion Date" readonly = "true"></td>
+                        <td> <span class="glyphicon glyphicon-plus-sign" onClick="holiValidation(0)" style="margin-left: 41%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
+                                          
+                          
+                         
                       </tr>
-                      </table>                     
+                      </table>
                       </div>
                 </div>
               </div>
+              <div  class="col-md-5" style="margin-top:1%;margin-left:7%">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 108%; ">
+               <a id="anchor" class="anchor" href="#tanother" data-toggle="collapse">
+                <div class="row">
+                 <div class="col-md-9"> <label  style="padding:4px 145px" >TimeSheet</label></div>
+                 <div class="col-md-3"> <i style="margin-right: 18%;float:right;margin-top: 11%;" class="glyphicon glyphicon-resize-full"></i></div>
+              </div>
+              </a>
+                    <div id="tanother" class="collapse">
+                      
+                       <table style="margin-left:12%">
+                        <tr>
+                             <th>Select Weekend Holiday :</th> 
+                             <td> <select class="form-control" name="list" id="ddlDay" style="margin-left: 29%;width:200px" form="form" onchange="schedule()" <%console.log("value of select--",allinfo[1]); if(allinfo[2][0].flag!=0){%> disabled 
+                                <%}%>>
+                            <option id="sat" value="1" <%if(allinfo[2][0].schedule==1){%>selected<%}%>>Saturday</option>
+                            <option id="sun" value="2"  <%if(allinfo[2][0].schedule==2){%>selected<%}%>>Sunday</option>
+                            <option id="asat" value="3"  <%if(allinfo[2][0].schedule==3){console.log("kkk")%>selected<%}%>>Alternate Saturday</option>
+                            <option id="satnsaun" value="4"  <%if(allinfo[2][0].schedule==4){%>selected<%}%>>Saturday and Sunday</option>
+                          </select></td>
+                        </tr>
+                        
+                        <tr>
+                             <th style="margin-top: 13%;"id="hlabel">Date :</th> 
+                            <td><input placeholder="Enter Date Here"type="text" maxlength="50" readonly="true" class="form-control" id="hdate"style="margin-top: 6%;margin-left: 29%;width:200px" name="odate"value="<%=allinfo[2][0].startDate%>"></td>  
+
+                        </tr>
+
+                         <tr style="margin-top:2%">
+                             <th>Timesheet Span :</th> 
+                             <td> <select class="form-control" name="list" id="timespan" style="margin-top: 6%;margin-left: 29%;width:200px">
+                            <option value="0" <%if(allinfo[2][0].timesheetSpan==0){%>selected<%}%> >Weekly</option>
+                            <option value="1" <%if(allinfo[2][0].timesheetSpan==1){%>selected<%}else{%> selected<%}%>>Fortnight</option>
+                            <option value="2" <%if(allinfo[2][0].timesheetSpan==2){%>selected<%}%> >monthly</option> 
+                          </select></td>
+                        </tr> 
+                         <tr style="margin-top:2%">
+                             <th>Working Hours :</th> 
+                             <td> <input placeholder="Working Hours"type="number" maxlength="2" class="form-control" id="whours" name="odate"style="margin-top:4%;margin-left:28%;width:93%"value="<%=allinfo[2][0].workinghours%>">
+                              </td>
+                        </tr>   
+                        <tr>   <td><center><span  style="FONT-SIZE: 18PX;margin-top: 15%;margin-left: 118%;"class="floppysave glyphicon glyphicon-floppy-disk" onClick="return hsubmit()">
+                                    </span>
+                                    </center>
+                              </td>
+                        </tr>
+                      </table>                      
+                                   
+                    </div>
+                </div>
+              </div>
+            </div>
      </section>
+
      <section id="content3">
       <div class=" row"  style="margin:2%" id="bugtable" >
       <%for(var i=0;i<expenseType.length;i++){%>       
@@ -671,10 +713,31 @@
         });
         $(".master-img").addClass('active');
         
-       });
+            $("#hdate").datepicker();
+           if($("#ddlDay").val()==3){
+                  $('#hdate').addClass('show');
+                  $('#hlabel').addClass('show');
+                   $('#hdate').removeClass('hide');
+                  $('#hlabel').removeClass('hide');
+           }else{
+                   $('#hdate').addClass('hide');
+                  $('#hlabel').addClass('hide');
+                   $('#hdate').removeClass('show');
+                  $('#hlabel').removeClass('show');
+           }
+           <%if(allinfo[2][0].schedule!=null){%>
 
-    $("#hdate").datepicker();
-    $("#hdate").addClass('hide');
+                    $('#ddlDay').prop('disabled',true);                   
+                    $('#hdate').prop('disabled',true);
+                    $('#ddlDay').prop('disabled',true);
+                    $('#timespan').prop('disabled',true);
+                     $('#whours').prop('disabled',true);
+                    $("#whours").removeClass('hide');
+                    $(".floppysave").removeClass('show');
+                    $(".floppysave").addClass('hide');
+            <%}%>        
+       
+       });
 
     $('.anchor').click(function(){
     $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
@@ -1522,10 +1585,12 @@ function schedule(){
      if($("#ddlDay").val()==3)
      {
        $("#hdate").removeClass('hide');
+       $("#hlabel").removeClass('hide');
      }
      else
      {
           $("#hdate").addClass('hide');
+          $("#hlabel").addClass('hide');
      }        
 }
 function hsubmit(){   
@@ -1536,7 +1601,19 @@ var date=$('#hdate').val();
                   alert("Date cannot be empty!!! Please Enter valid Date");
                 return false;
               }
-          }    
+          }  
+        
+         if($("#whours").val()==''){
+                      alert("Please enter the working hours");
+                      return false;
+          } var wh=parseInt($("#whours").val());
+          
+           if((wh<0)||(wh>24)){
+                      alert("Working hours should be between 0-24 ");
+                      return false;
+          } 
+         
+
      if(confirm('Are you sure to submit Permanentely?'))
      addSchedule();
     }
@@ -1553,17 +1630,23 @@ function addSchedule(){
             url: '/addSchedule',
             type: 'post',
             data: {'schedule': id,
-                    'date':$('#hdate').val()
+                    'date':$('#hdate').val(),
+                    'timespan':$("#timespan").val(),
+                    'whours':$("#whours").val()
                 },
             dataType: 'json',
             success: function(data) { 
                  alert("Schedule Added Successfully.");
                     $('#sub').prop('disabled',true);
                     $('#sub').text("Submitted");
-                  //  $('#ddlDay').val(data[1][0].schedule);
-                      $('#ddlDay').prop('disabled',true);                   
-                      $('#hdate').prop('disabled',true);
-                      $("#hdate").removeClass('hide');
+                    $('#ddlDay').prop('disabled',true);                   
+                    $('#hdate').prop('disabled',true);
+                    $('#ddlDay').prop('disabled',true)
+                    $('#timespan').prop('disabled',true)
+                     $('#whours').prop('disabled',true)
+                    $("#whours").removeClass('hide');
+                    $(".floppysave").removeClass('show');
+                    $(".floppysave").addClass('hide');
                     }  
         });
 }

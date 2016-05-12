@@ -335,14 +335,10 @@ module.exports = {
 
 	setpageDocument:function(req,res,next){
 	 	if(req.session.modules.indexOf(config.Document)>=0){
-	 		/*	if(req.session.croleId==0){
-		 				res.redirect('/Documenterror');
-	 			}
-	 			else{*/
+	 		
 						req.page='documentHome';
 						req.flag=req.query.flag|| 1;
 						next();
-			   /* }*/
 		}
 		else{
 				res.redirect('/portal')
@@ -356,8 +352,7 @@ module.exports = {
 				req.page= 'Documenterror';
 			    next();
 			}
-			else
-			{
+			else{
 					res.redirect('/portal')
 			}
 	},
@@ -369,8 +364,7 @@ module.exports = {
 				req.page= 'permission';
 			    next();
 			}
-			else
-			{
+			else{
 					res.redirect('/portal')
 			}
 	},
@@ -399,6 +393,7 @@ module.exports = {
 	}
 	},
 	setpageInsertDocument: function(req,res,next){
+		req.session.documentalert++;
 		req.page='attachDocFile';
 		next();
 	},

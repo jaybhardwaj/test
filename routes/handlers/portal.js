@@ -133,7 +133,8 @@ var locationId = [],
                      req.session.isVerified = true;
                      req.session.croleId=result[0][0].crole_id;  
                      req.session.isRetailer=result[0][0].isRetailer; 
-                     req.session.hrRole=result[0][0].hrRole;  
+                     req.session.hrRole=result[0][0].hrRole; 
+                     req.session.documentalert=0; 
                      req.session.modules=result[1].map(function(v){
                         return v.id;
                      });        
@@ -651,7 +652,13 @@ project=project?project:'';
 
      //---------------------------------------Document--------------------------------------------------
 
-
+     setdocalert:function(req,res,next){
+        console.log("in");
+            req.session.documentalert=0;
+            console.log("loaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            res.json('hi');
+       
+    },
      getCustomRoleById:function(req,res,next){
       //  console.log('getCustomRoleById');
         modelPortal.getCustomRoleById(req.body.rid,function(errorCustomRoles, resultCustomRoles){
@@ -745,13 +752,13 @@ project=project?project:'';
     },
 
     getdoc:function(req, res, next) {
-            //    console.log('getDocument')
+           
          modelPortal.getDocument(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultDocument) {
                     if (error) {
                  next(error);
                  return;
              }
-          //   console.log(resultDocument)
+          
            res.json(resultDocument);
            /* req.resultDocument=resultDocument;
              next();*/
@@ -2424,6 +2431,7 @@ holidayhome: function(req,res,next){
                  next(err);
 
              } else {
+                console.log("-- - -- - - -- ",resultHoliday);
                  req.resultHoliday = resultHoliday;
                  next();
              }
@@ -2643,7 +2651,7 @@ addUser: function(req, res, next) {
          });
      },
      calSetting: function(req,res,next){
-      modelPortal.calSetting(req.session.userId,req.session.roleId,req.session.retailerId,req.body.schedule,req.body.date,function(err,result){
+      modelPortal.calSetting(req.session.userId,req.session.roleId,req.session.retailerId,req.body.schedule,req.body.date,req.body.timespan,req.body.whours,function(err,result){
           if(err){
             next(err);
           }
@@ -3867,7 +3875,7 @@ else{
                             industry,business,req.body.title,doctype,tec,req.session.roleId,restriction,
                             req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
                             req.body.rLevelhide,parsedData,function(err,result){
-                                     //   console.log('set Page Insert Document---- model in Portal')
+                                    
 
                           if(err){
                         next(err);

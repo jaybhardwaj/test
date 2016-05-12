@@ -31,6 +31,7 @@
                      req.session.croleId=result[0][0].crole_id;
                      req.session.isRetailer=result[0][0].isRetailer;
                      req.session.hrRole=result[0][0].hrRole;
+                     req.session.documentalert=0;
                      req.session.modules=result[1].map(function(v){
                         return v.id;
                      });

@@ -1738,11 +1738,12 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             callback(err, result);
         });
     },
-    calSetting: function(userId,roleId,retailerId,schedule,sDate,callback){
+    calSetting: function(userId,roleId,retailerId,schedule,sDate,timespan,whours,callback){
     var query={
-            sql: 'call usp_timesheet_schedule(?,?,?,?,?)',
-            values:[userId,roleId,retailerId,schedule,sDate]
+            sql: 'call usp_timesheet_schedule(?,?,?,?,?,?,?)',
+            values:[userId,roleId,retailerId,schedule,sDate,timespan,whours]
     };
+    console.log("query g : ",query);
     mysql(query,function(err,result){
         callback(err,result);
     });

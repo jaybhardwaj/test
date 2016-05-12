@@ -5,6 +5,14 @@
 
 
 <style type="text/css">
+.color3{
+    padding-left: 1%;
+    padding-top: 2%;
+    margin-left: 19.7%;
+    width: 61%;
+    padding-bottom: 61%;
+    padding-right: 1%;
+}
 #sidebar-wrapper2 {
         overflow-x: hidden;
     }
@@ -171,7 +179,7 @@
                 </div>
         </div>
        <div id="sidebar-wrapper3" class="one ">
-            <div class="one1 row" style="padding-left: 7%;margin-top: -1.75%;margin-left: -5px;width: 102%;"><b>File Upload</b></div>
+            <div class="one1 row" style="padding-left: 7%;margin-top: -1.75%;margin-left: -5px;width: 102%;"><b>File Upload (size limit :2mb)</b></div>
             <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" style="margin-left:-12%">
                 <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:7%;">
                     <input type="file" id="fileAttach" class="fileStyle form-control" name='attach' style="font-size:11px;height:30px" required>
@@ -179,13 +187,13 @@
                 </div>
 
                 <div class="col-md-10 col-md-offset-1" id="lastfiveuploads6" style="margin-top:7%;">
-                    <input type="text" id="ftitle" required name="title" placeholder=" File Title(Required)" style="width:100%">
+                    <input type="text" id="ftitle" maxlength="50" required name="title" placeholder=" File Title(Required)" style="width:100%">
                 </div>
                 <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads6" style="margin-top:7%;">
-                    <input type="text" id="fauthor" equired name="authname" placeholder=" Author Name(Required)" style="width:100%">
+                    <input type="text" id="fauthor" maxlength="30" equired name="authname" placeholder=" Author Name(Required)" style="width:100%">
                 </div>
                 <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads6" style="margin-top:5%;">
-                    <textarea rows="6" cols="12" id="des" name="descbox" placeholder=" Description(Required)" style="width:193px;"></textarea>
+                    <textarea rows="6" cols="12" maxlength="500" id="des" name="descbox" placeholder=" Description(Required) Limit:100 words" style="width:193px;resize: none;"></textarea>
                 </div>
 
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
@@ -258,7 +266,7 @@
                 </div>
       </form>
   </div>
-        <div class=" row color3" style="padding-top: 2%;margin-left: 19.9%;width: 60.7%;padding-bottom: 61%;">
+        <div class=" row color3">
             <table id="data_table" class="table table-striped table-bordered" cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
                 <thead>
                     <th>File Name</th>
@@ -404,8 +412,11 @@
 
  
     <script>
+   var  validType=['exe','html','ejs'];
         function validation() {
-            var file = $('#fileAttach').val();
+            var input, file;
+            input = document.getElementById('fileAttach');
+            file = input.files[0];
             var fname = $('#ftitle').val();
             var fauthor = $('#fauthor').val();
             var des = $('#des').val();
@@ -414,11 +425,21 @@
             var doc = $('#my-select3').val();
             var tec = $('#my-select4').val();
             var res = $('#my-select5').val();
-
-            if (file == "") {
+            var filename=$("#fileAttach").val();
+            var fileType=filename.split('.');
+            var fileType1=fileType[fileType.length-1];
+            if (filename.trim() == "") {
                 alert("Please Select a File First!");
                 return false;
             }
+            if(fileType1=='exe'||fileType1=='html'||fileType1=='ejs'){
+                alert("Error:exe , html , ejs file cannot be uploaded!");
+                return false;
+            }
+            if(file.size>2097152){
+                 alert("Error:File " + file.name + " is " + file.size + " bytes in size exceeding max limit of 2 mb");
+                 return false ;
+            }    
             if (fname == "") {
                 alert("Please Enter valid File Name!");
                 return false;
@@ -455,42 +476,7 @@
             } else return true;
         }
 
-       /* function deleteFile(id) {
-
-            $.ajax({
-                url: '/deleteFile',
-                type: 'post',
-                data: {
-                    "id": id,
-                },
-                success: function(data) {
-                    console.log("sucessssss");
-                    $('#tag').modal('hide');
-                    otable.fnDeleteRow(rowid);
-                    $("#abcd").val('');
-                    $('#row_' + id).addClass('hide');
-                    $('#row__' + id).addClass('hide');
-
-                    
-                }
-            });
-        }*/
-
-       /* function hideAdvSearch() {
-            $('#advpanel').toggleClass('hide');
-
-
-
-        }
-
-        function meow() {
-            alert('meow called');
-            return false;
-        }
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });*/
+      
         var otable;
         $(document).ready(function() {
 
@@ -541,10 +527,22 @@
                 "aoColumnDefs": [{}],
                 "order": []
             });
-            if (<%=flag%> == 1) {
-                setTimeout(function() {
-                   // href='/document';
+          
+            if (<%=alert%> == 1) {
+                setTimeout(function(){
                     alert("File has been uploaded");
+                    $.ajax({
+                            url: '/setdocalert',
+                            type: 'get',
+                            dataType: 'json',
+                            success: function(tabledata) {
+                               // alert('sdds')
+                               window.location.href="/document";
+                            },
+                            error: function() {
+                                alert("error");
+                            }
+                    });
                 }, 500);
 
             }
@@ -559,347 +557,7 @@
             $('#tag1').modal('hide');
         }
 
-        /*function deleteFolder() {
-            console.log('tS is', treeStructure);
-            var value = currentId.split('_');
-            var individualId = value[0];
-            var parentId = value[2];
-            if (individualId == 1) {
-
-                alert('You cannot delete root folder');
-                return;
-            }
-            if (treeStructure[individualId].length != 0) {
-                alert('First Delete all children Folders');
-                return;
-            }
-            if (fileStructure[individualId].length != 0) {
-                alert('First delete all containing files');
-                return;
-            }
-            if (confirm('Are you sure you want to delete this item?')) {
-                $.ajax({
-                    url: 'deleteFolder',
-                    method: 'post',
-                    data: {
-                        'id': individualId
-                    },
-                    dataType: 'json',
-                    success: function() {
-
-                        window.location.href = '/document';
-
-                    },
-                    error: function() {
-
-                        alert('SQL error !!\n Please reload page');
-                    }
-
-
-
-                });
-            }
-
-
-
-        }
-*/
-
-/*
-        function collapseExpand(id, flag) {
-
-            //console.log('ts here',treeStructure[4]);
-            //alert('clickeed yo!');
-            var value = id.split('_');
-            var individualId = parseInt(value[0]);
-            var parentId = parseInt(value[2]);
-            var idStr = '#' + id;
-
-
-            //alert(idStr);
-            if ($(idStr).hasClass("glyphicon-minus")) {
-                console.log('ts is here', treeStructure[individualId]);
-
-                for (var i = 0; i < treeStructure[individualId].length; i++) {
-
-                    var str = '#' + treeStructure[individualId][i] + '_liid_' + individualId;
-                    var str2 = treeStructure[individualId][i] + '_sign_' + individualId;
-
-                    $(str).addClass('hide');
-                    console.log(str2);
-                    collapseExpand(str2, 0);
-                    //$(str).css('display','none');
-
-                }
-
-                for (var k = 0; k < fileStructure[individualId].length; k++) {
-
-                    var str = '#' + fileStructure[individualId][k] + '_fileid_' + individualId;
-
-                    $(str).addClass('hide');
-
-                }
-
-                $(idStr).removeClass('glyphicon-minus');
-                $(idStr).addClass('glyphicon-plus');
-
-            } else if ($(idStr).hasClass("glyphicon-plus") && flag == 1) {
-
-                for (var i = 0; i < treeStructure[individualId].length; i++) {
-                    var str = '#' + treeStructure[individualId][i] + '_liid_' + individualId;
-                    $(str).removeClass('hide');
-                    //$(str).css('display','');              
-                }
-
-                for (var k = 0; k < fileStructure[individualId].length; k++) {
-
-                    var str = '#' + fileStructure[individualId][k] + '_fileid_' + individualId;
-
-
-                    $(str).removeClass('hide');
-                    //console.log(str2);
-                    //collapseExpand(str2,0);
-                    //$(str).css('display','none');
-                }
-
-
-
-                $(idStr).removeClass('glyphicon-plus');
-                $(idStr).addClass('glyphicon-minus');
-
-            } else return;
-
-
-
-        }
-
-        function updownkeystoggle() {
-            $('#up1').toggleClass('hide');
-            $('#down1').toggleClass('hide');
-            $('#recentuploadsid').toggleClass('hide');
-
-        }
-
-        var newarr = [];
-
-        function getallChildren(parent) {
-            console.log("get all children : ", parent);
-            for (var i = 0; i < treeStructure[parent].length; i++) {
-
-                /*var str = '#' + treeStructure[parent][i] + '_liid_' + individualId;
-                    var str2 = treeStructure[parent][i] + '_sign_' + individualId;*/
-              //  newarr.push(treeStructure[parent][i]);
-                // $(str).addClass('hide');
-                //console.log(str2);
-              //  getallChildren(treeStructure[parent][i]);
-                //$(str).css('display','none');
-
-          /*  }
-
-
-
-        }*/
-        /*console.log("-----------------------", newarr);
-
-        function bringFileDataDb(id) {
-            console.log("bring data folder : ", id);
-            $('#data_table').html('');
-            var value = id.split('_');
-            var individualId = value[0];
-            var parentId = value[2];
-            $('#currfolderId').val(individualId);
-            newarr = [];
-            getallChildren(individualId);
-            var allId = individualId + ',' + newarr.toString();
-            console.log("allid is : ", allId);
-            for (var i = 0; i < idArr.length; i++) {
-                var str = '#' + idArr[i];
-                //console.log(str);
-                $(str).removeClass('greycolor');
-
-            }
-            $('#' + individualId + '_liid_' + parentId).addClass('greycolor');
-            var charstr = '';
-            $.ajax({
-                url: 'alldatatable',
-                method: 'post',
-                data: {
-                    'id': allId
-                },
-                dataType: 'json',
-                success: function(tabledata) {
-                    console.log('bcmc bc mc1234');
-                    console.log('qqqqq', tabledata);
-                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th> <th>Upload Date</th><th>Action</th></thead><tbody>';
-                    for (var i = tabledata.length - 1; i >= 0; i--) {
-                        var bgstr = '';
-                        if (tabledata[i].color == 'yellow') {
-
-                            bgstr = 'style = "background-color:#ffffb3"';
-
-                        }
-                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px" class="fa fa-search"></i></a><a title="delete file" ><img src="./img/DeleteRed.png" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
-                    }
-                    charstr += '</tbody>';
-                    otable.dataTable().fnDestroy();
-
-                    $('#data_table').html(charstr);
-                    otable = $("#data_table").dataTable({
-                        "aLengthMenu": [
-                            [10, 20, 50, 100, -1],
-                            ["10", "20", "50", "100", "all"]
-                        ],
-                        destroy: true,
-                        "iDisplayLength": 10,
-                        /*used to display no of element  on page load or relaod*/
-                        //"showNEntries": true,
-                        /* for displaying showing 10 out of 50 entries at left bottom corner*/
-                       // "bFilter": true,
-                        /*dispalying search box at top right corner*/
-                      //  "bLengthChange": true,
-                        /*dispalying  show 10 out of 50 entries at top left corner*/
-                    //    "aoColumnDefs": [{ //   "bSortable": false,
-                            //  "aTargets": [0]
-                      //  }],
-                     //   "order": [] /*we can provide order to every column "order": [[0,'asc'],[1,'des']] */
-
-                  /*  });
-                },
-                error: function() {
-                    alert('ajax failure');
-                }
-
-
-
-            });
-
-
-
-        }
-*/
-
-
-
-        /*function addFolder() {
-            //console.log('tS is', treeStructure);
-            var value = currentId.split('_');
-            var individualId = value[0];
-            var parentId = value[2];
-            var margin = 0;
-            var len = treeStructure[individualId].length;
-            var lastChildId = individualId;
-            var lastParentId = parentId;
-            var depth = 0;
-            if (len) {
-                lastChildId = treeStructure[individualId][treeStructure[individualId].length - 1];
-                lastParentId = individualId;
-                len = treeStructure[lastChildId].length;
-                depth++;
-                while (len) {
-                    margin = margin - 6;
-                    lastParentId = lastChildId;
-                    lastChildId = treeStructure[lastChildId][treeStructure[lastChildId].length - 1];
-                    console.log(lastChildId);
-                    len = treeStructure[lastChildId].length;
-                    depth++;
-                }
-
-            } else margin = 6;
-            var newcurrentId = '#' + lastChildId + '_liid_' + lastParentId;;
-
-
-
-            /*if(fileStructure[lastChildId].length){
-                 margin = -9 - (depth*6) ;
-              var newcurrentId = '#'+fileStructure[lastChildId][fileStructure[lastChildId].length-1]+'_fileid_'+ lastChildId ;
-            }*/
-
-
-
-/*
-            var str = '<div  class = "hoverandclick" style = "position:relative;padding-top:-14%;padding-bottom:2%;left:' + margin + '%;margin-top:-13%;height:350px!important;margin-bottom:6%!important;top: 14%;" id ="liidnew" ><span id = "folderidbew"   onclick ="bringFileDataDb(this.id)" class = "glyphicon glyphicon-folder-open" style = "position:relative;left:-9%"></span><span id = "nameidnew" onclick ="bringFileDataDb(this.id)" style = "position:relative;left:-18%"><input type = "text" class = "" id ="inpval2" value = "New Folder" style = "width:37%"> </span></div>';*/
-
-            /*lastChildId = treeStructure[individualId][treeStructure[individualId].length-1];
-             */
-
-/*
-            $(newcurrentId).append(str);
-
-            $('#inpval2').select();
-
-            $('#inpval2').focusout(function() {
-                var textBoxValue = $('#inpval2').val();
-                $.ajax({
-                    url: 'addFolder',
-                    method: 'post',
-                    data: {
-                        'value': textBoxValue,
-                        'parentId': individualId
-                    },
-                    dataType: 'json',
-                    success: function() {
-
-                        window.location.href = '/document';
-
-                    },
-                    error: function() {
-
-                        alert('SQL error !!\n Please reload page');
-                    }
-
-
-
-                });
-
-
-            });
-
-
-
-        }*/
-
-
-       /* function rename() {
-            var value = currentId.split('_');
-            var individualId = value[0];
-            var parentId = value[2];
-            var strId = '#' + individualId + '_name_' + parentId;
-            var nameValue = $(strId).html();
-            $('#select1').val()
-            var charStr = '<input type = "text" class = "" id ="inpval1" value =' + nameValue + ' style = "width:37%">';
-            $(strId).html(charStr);
-            $('#inpval1').select();
-
-            $('#inpval1').focusout(function() {
-                var textBoxValue = $('#inpval1').val();
-                $.ajax({
-                    url: 'changeName',
-                    method: 'post',
-                    data: {
-                        'value': $('#inpval1').val(),
-                        'id': individualId
-                    },
-                    dataType: 'json',
-                    success: function() {
-
-                        $(strId).html(textBoxValue);
-
-                    },
-                    error: function() {
-
-                        alert('dataBase not found\n Please reload page');
-                    }
-
-
-
-                });
-
-
-            });
-
-        }
-*/
-
+       
         //delete file
         function deleteFile(temp) {
           //  console.log(temp);
