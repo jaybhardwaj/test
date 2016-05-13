@@ -58,6 +58,7 @@ app.use(bodyParser({
   	app.post('/filterFiledata',portal.tableSearchBox);
     app.post('/viewFileDetails',portal.viewFileDetails);
     app.get('/setdocalert',portal.setdocalert);
+     app.get('/verifyCustomRole',portal.verifyCustomRole);
     //app.get('/Documenterror',url.Documenterror,render.redirect);
   
 //------------------------------------------Asset-------------------------------		

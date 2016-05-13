@@ -23,7 +23,7 @@
                            <%}%>
                         <%if(myModules.indexOf(6)>=0){%>
                      <li class="modulemenu document-tab">
-                        <a class="page-scroll " href="/document"><label class="header-title" style="color:">DOCUMENT  </label></a>
+                        <a class="page-scroll " href="/document"><label class="header-title" onclick="return verifyCustomRole()" style="color:">DOCUMENT  </label></a>
                     </li>
                            <%}%>
                          <%if(myModules.indexOf(3)>=0){%>
@@ -256,10 +256,43 @@
         }
         $('#changepassimg').css('cursor', 'pointer');
      });
-     function changePassword(){
-    var oldbox=$('#oldpass').val();
-    var newpass=$('#newpass').val();
-   
+
+    function verifyCustomRole(){
+        var check=1;
+        $.ajax({
+            url:'/verifyCustomRole',
+            async: false,
+            type: 'get',
+            success: function(data) {
+                
+               if(data!=0){
+                
+                      return true ;
+                }
+                else{
+                       check=0;
+                }
+            },
+            error: function(){
+                alert("error");
+            },
+            dataType: 'JSON',
+        });
+        if(check==0){
+            alert("Error : yor are not assigned any CustomRole , please contact admin ");
+            window.location.href="\portal";
+            return false ;
+            
+        }
+        else{
+           
+           return true ;
+        }
+    }
+     
+    function changePassword(){
+        var oldbox=$('#oldpass').val();
+        var newpass=$('#newpass').val();
         if (oldbox.trim()==''){
         alert("Please enter valid Old Password!");
         return false;

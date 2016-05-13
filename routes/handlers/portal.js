@@ -651,11 +651,14 @@ project=project?project:'';
 
 
      //---------------------------------------Document--------------------------------------------------
-
-     setdocalert:function(req,res,next){
+    verifyCustomRole: function(req,res,next){
+        console.log("in");
+           res.json(req.session.croleId);
+       
+    },
+    setdocalert:function(req,res,next){
         console.log("in");
             req.session.documentalert=0;
-            console.log("loaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             res.json('hi');
        
     },
