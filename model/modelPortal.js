@@ -249,10 +249,12 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
         });
     }, 
     updateBugDetails: function(bugid,colname,value,userId,callback){
+       
         var query = {
             sql: 'call usp_bug_updatebugdetails(?,?,?,?)',
             values: [bugid,colname,value,userId]
         };
+
         mysql(query, function(err, result) {
             if(err){
             }
