@@ -244,7 +244,7 @@
                    </div>
                         <div class="col-md-2 ">
                  <div id ="customeRoleDiv">
-                <select class="form-control" style="margin-top:10px;" id='crole' name="crole">
+                <select class="form-control"  style="margin-top:10px;" id='crole' name="crole">
                   <option selected="true" value="0">---  Select ---</option>
                  <%for(var k=0;k<customRole[0].length;k++){%> 
                   <option id="<%=customRole[0][k].id%>"value="<%=customRole[0][k].id%>"> <%=customRole[0][k].description%></option>
@@ -261,14 +261,22 @@
                    </div>
                  <div class="col-md-2 ">
                  <div id ="customeRoleDiv">
-                <select class="form-control" style="margin-top:10px;" id='hrRole' name="crole">
+                <select class="form-control" onChange="showHod()" style="margin-top:10px;" id='hrRole' name="crole">
                   <option selected="true" value="0">---  Select ---</option>
-                 <%for(var k=0;k<hrRole[0].length;k++){%> 
-                  <option id="<%=hrRole[0][k].id%>"value="<%=hrRole[0][k].id%>"> <%=hrRole[0][k].roleName%></option>
+                 <%console.log("hr rollleeeeeeee",hrRole);for(var k=0;k<hrRole.length;k++){%> 
+                  <option id="<%=hrRole[k].id%>"value="<%=hrRole[k].id%>"> <%=hrRole[k].roleName%></option>
                  <%}%> 
                 </select>
               </div>
               </div>
+                <div class="col-md-6 a">
+                      <select class="form-control"  style="margin-top:10px;width:33%" id='hodList' name="hodList" style="">
+                          <option selected="true" value="0">--Select Hod--</option>
+                        <%console.log("hod rollleeeeeeee",allHod);for(var i=0;i<allHod.length;i++){%>
+                          <option value="<%=allHod[i].id%>"><%=allHod[i].hodName%></option>  
+                          <%}%>              
+                      </select>
+                      </div>
                 <%}%>
             </div>
                 <%}%>
@@ -494,13 +502,15 @@ function getDefaultModule(){
         if (<%=editflag%>) {
             users = <%-JSON.stringify(users)%>;
             var i = 0;
-         
+          //  console.log(users);
+        // alert(users[i].hodId)
             $("#first-name").val(users[i].firstName);
             $("#last-name").val(users[i].lastName);
             $("#emailId").val(users[i].userEmail);
             $("#contact-number").val(users[i].contactNumber);
             $('#billing-rate').val(users[i].billingAmount);
             $('#isClient').val(users[i].isClient);
+            $('#hodList').val(users[i].hodId);
             $('#clientId').val(users[i].clientId);
             $('#custom-role').val(users[i].managerId);
             $('#isbill').val(users[i].isBillable);
@@ -549,6 +559,11 @@ function getDefaultModule(){
       if($('#clientId').val()==0){
         $('#isClient').val(0);
          $('#clientId').hide();
+      } 
+
+      if($('#hrRole').val()!=3){
+        $('#hodList').val(0);
+         $('#hodList').hide();
       }  
     if($('#billrate').val()==""){
       $('#billRate').removeClass('show');
@@ -588,6 +603,17 @@ function getDefaultModule(){
            $('#clientId').hide();   
         }
     }
+
+    function showHod(){
+      
+      if($('#hrRole').val()==3){        
+         $('#hodList').show();                
+        }
+        else{                  
+           $('#hodList').hide();   
+        }
+    }
+
     function resetUserForm() {
         $("#tab1").click();
         $(".modal input, textarea").val("");
@@ -688,6 +714,10 @@ function getDefaultModule(){
                 alert('Error:In Role Details ,Client is required');
                 return false;
             }
+            else if($("#hrRole").val()=='3' && $("#hodList").val()=='0'){
+                alert('Error:In Role Details ,HOD is required');
+                return false;
+            }
             else if($("#expense").val()=='1' && $("#inNum").val()==''){
                  alert('Error:In Role Details , Expense limit is required');
                 return false;
@@ -734,6 +764,11 @@ function getDefaultModule(){
               }
                 if($("#isClient").val()=='1' && $("#clientId").val()=='0'){
                 alert('Error:Client is required');
+                return false;
+              }
+               
+                if($("#hrRole").val()=='3' && $("#hodList").val()=='0'){
+                alert('Error:HOD is required');
                 return false;
               }
               return addUser(0);
@@ -796,7 +831,7 @@ function getDefaultModule(){
       }
     function addUser(temp) {
     
-
+//alert($('#hodList').val());
       var modules=$('#modules').val().toString();
          $.ajax({
             url: '/addUser',
@@ -821,6 +856,7 @@ function getDefaultModule(){
                 'modules':modules,
                 'isClient':$('#isClient').val(),
                 'clientId':$('#clientId').val(),
+                'hodId':$('#hodList').val(),
                 "doj":$('#doj').val(),
                 "dob":$('#dob').val(),
                 "doc":$('#doc').val(),

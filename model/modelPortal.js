@@ -308,7 +308,7 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project, userId, retailerId, roleId]
         };
-        console.log('filter bug---',query);
+        //console.log('filter bug---',query);
         mysql(query, function(err, result) {
            
             callback(err, result);
@@ -458,9 +458,9 @@ deleteFileByIdPermanentely:function(userId,roleId,retailerId,status,status1,call
             sql: 'call usp_doc_rejectedFiles(?,?,?)',
             values: [userId,roleId,retailerId]
         };
-        //console.log('rejected files  query',query)
+        ////console.log('rejected files  query',query)
        mysql(query,function(err,result){
-           // console.log(result)
+           // //console.log(result)
             callback(err, result);
       }); 
 
@@ -474,7 +474,7 @@ deleteFileByIdPermanentely:function(userId,roleId,retailerId,status,status1,call
                           roleId,restriction,industryhide,businesshide,doctypehide,newTechide,rLevelhide,parsedData]
         };
         mysql(query,function(err,result){
-           // console.log(result)
+           // //console.log(result)
             callback(err, result);
      });
 },
@@ -505,7 +505,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
                 values :[ status]
           };
         mysql(query, function(err, result){
-            console.log(result);
+            //console.log(result);
             callback(err, result);
         });
 
@@ -633,24 +633,24 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
 
             mysql(q, function(e,r) {
                 if(e){
-                    console.log('gedsgedgregesr');
+                    //console.log('gedsgedgregesr');
                 }
                 else{
-                    console.log('gesrgtrjhntujnykmiyk,uihktujktujtfyr',r);
+                    //console.log('gesrgtrjhntujnykmiyk,uihktujktujtfyr',r);
                     abc=r[0].companyName;
                 }
                 });
 
 
         mysql(query, function(err, result) {
-            console.log('projectAddEdit-----------',result);
+            //console.log('projectAddEdit-----------',result);
            
         /*   result[0][0]={id:1 ,
       projectTitle: 'DummyProject'};*/
 
             if(flag==1 && result[0][0].projectTitle=='DummyProject'){
 
-                console.log('i am in dummy project');
+                //console.log('i am in dummy project');
                 result[0][0]={id:result[7][0].id ,
       projectTitle: result[7][0].projectTitle,
       pcode: result[7][0].pcode,
@@ -718,7 +718,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         };
         mysql(query, function(err, result) {
 
-            if(err){console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
             else{
             callback(err, result);
               }
@@ -740,7 +740,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         };
         mysql(query, function(err, result) {
 
-            if(err){console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
             else{
             callback(err, result);
               }
@@ -755,7 +755,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         };
         mysql(query, function(err, result) {
 
-            if(err){console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
             else{
             callback(err, result);
               }
@@ -777,10 +777,10 @@ getAllAssignment: function(userId,roleId,retailerId,callback) {
 
 
  createEditAssignment: function(assignmentId,flag,retailerId,callback) {  
-  if(flag==0)
-       console.log("going for creating");
+  if(flag==0){}
+       //console.log("going for creating");
      else
-       console.log("going for editing");
+       //console.log("going for editing");
    
         var query = {
             sql: 'call usp_createAssignmentData(?,?,?)',
@@ -1205,7 +1205,7 @@ mysql(q,function(err,result){
             values: [code, description1, description2,description3,modifyBy,active,ids,retailer]
         };
         mysql(query, function(err, result) {
-            console.log(query);
+            //console.log(query);
             callback(err, result);
         });
     },
@@ -1552,7 +1552,7 @@ mysql(q,function(err,result){
         });
     },
     updateStatus : function( code,desc,userid,active,id,retailerId,crate,callback) {
- //console.log("cccccccccccccc");
+ ////console.log("cccccccccccccc");
         var query = {
             sql: 'call usp_updtMaster(?,?,?,?,?,?,?)',
             values: [code,desc,userid,active,id,retailerId,crate]
@@ -1573,7 +1573,7 @@ mysql(q,function(err,result){
 
 
  getAllVerticalValuesCustomRoles: function(userId,roleId,retailerId, callback) {
-        console.log('user id--',userId,'--role id-- ',roleId,'--retailer id-- ',retailerId);
+        //console.log('user id--',userId,'--role id-- ',roleId,'--retailer id-- ',retailerId);
         var query = {
             sql: 'call usp_getAllCustomRoleVerticalValues(?,?,?)',
             values: [userId,roleId,retailerId]
@@ -1675,14 +1675,17 @@ getAllClientStatus: function(clientId, roleId, retailerId,status, callback) {
         });
     },
 
-addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, lastName, emailId,contactNumber, billingRate,userRole, manager, defaultModule, customRole, randomPassword,ecode,designation,level,modules,doj,dob,doc,rtype,userId, roleId, retailerId,crole,hrRole ,callback) {
+addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, lastName, emailId,contactNumber, 
+    billingRate,userRole, manager, defaultModule, customRole, randomPassword,ecode,designation,level,modules,doj,dob,doc,rtype,userId,
+     roleId, retailerId,crole,hrRole ,hodId,callback) {
         
-        console.log("inNum-----    ",inNum);
+        //console.log("inNum-----    ",inNum);
         var query = {
-            sql: 'call atemp_usp_createRetailerUser(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, lastName, emailId, contactNumber, billingRate, userRole, manager, defaultModule, customRole, randomPassword,
+            sql: 'call atemp_usp_createRetailerUser(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, lastName, emailId, contactNumber,
+             billingRate, userRole, manager, defaultModule, customRole, randomPassword,
             ecode,designation,level,modules,doj,dob,doc,rtype,
-             userId, roleId, retailerId,crole,hrRole]
+             userId, roleId, retailerId,crole,hrRole,hodId]
         };
         console.log("query---  ",query);
         mysql(query, function(err, result) {
@@ -1858,7 +1861,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
     },
 
      
-    <!--- ---------------------Hr management system ------------------------------------------------------- -->
+   //- ---------------------Hr management system ------------------------------------------------------- -->
 
 getHrROle:function(userId,roleId,retailerId,callback){
         var q={
@@ -1875,9 +1878,9 @@ getHrROle:function(userId,roleId,retailerId,callback){
         sql: 'call dataForOpenRequistion(?,?,?,?,?,?)',
         values: [data,grid,time,hrRole,userId,retailerId]
         }
-        console.log("hey query 1 ",q);
+        //console.log("hey query 1 ",q);
         mysql(q, function(err, result) {
-            console.log("-----------",err);
+            //console.log("-----------",err);
               callback(err, result);
         });
     },
@@ -1886,9 +1889,9 @@ getHrROle:function(userId,roleId,retailerId,callback){
                 sql: 'call usp_requisitionData(?,?)',
                 values: ['0',retailerId]
         }
-        console.log("hey query  2",q);
+        //console.log("hey query  2",q);
         mysql(q, function(err, result) {
-            console.log("-----------",err);
+            //console.log("-----------",err);
               callback(err, result);
             });
      } ,
@@ -1907,9 +1910,9 @@ getHrROle:function(userId,roleId,retailerId,callback){
             }  
             console.log('aaaaaaaaaaaalooooooooooooooooo',q);
             mysql(q,function(err, result) {
-                console.log('yes',err,result);
+            //    console.log('--------------yes-------',result);
                          callback(err, result);
-                         console.log('no');
+                         //console.log('aaaaaaaaaaaalooooooooooooooooo');
             });
 
      
@@ -1931,7 +1934,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
                 sql: 'call usp_allrequisitions(?)',
                 values: [retailerId]
          }
-         console.log("lollllll",q);
+         //console.log("lollllll",q);
          mysql(q, function(err, result) {
                     callback(err, result);
          });
@@ -1944,7 +1947,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
                 sql: 'call usp_requisitionData(?,?)',
                 values: [id,retailerId]
          }
-         console.log("lollllll",q);
+         //console.log("lollllll",q);
          mysql(q, function(err, result) {
                     callback(err, result);
          });
@@ -1956,7 +1959,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
                sql: 'call usp_deleteReq(?)',
                 values: [id]
          }
-         console.log("lollllll",q);
+         //console.log("lollllll",q);
          mysql(q, function(err, result) {
                     callback(err, result);
          });
@@ -1971,7 +1974,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
     }
     mysql(q, function(err, result) {
         if (err) {
-            console.log(err);
+            //console.log(err);
         } else {
             callback(err,result);
             }
@@ -1984,7 +1987,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
         }
     mysql(q, function(err, result) {
         if (err) {
-            console.log(err);
+            //console.log(err);
         } else {
             callback(err,result);
         }
@@ -1998,7 +2001,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
         }
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2012,9 +2015,9 @@ getHrROle:function(userId,roleId,retailerId,callback){
             values: [hcid, name, phone,email,locationId,skills,clocation, months, years,qualification,institute ]
         }
         mysql(q, function(err, result) {
-            console.log("---In Modal Portal of VIew Candidate----w1111111111",result);
+            //console.log("---In Modal Portal of VIew Candidate----w1111111111",result);
             if (err) {
-                console.log(err);
+                //console.log(err);
             } else {
                 callback(err,result);
             }
@@ -2028,9 +2031,9 @@ getHrROle:function(userId,roleId,retailerId,callback){
         }
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             } else {
-                console.log("query---  ",q,"---rsult----",result);
+                //console.log("query---  ",q,"---rsult----",result);
                 callback(err,result);
             }
         });         
@@ -2042,9 +2045,9 @@ getHrROle:function(userId,roleId,retailerId,callback){
         }
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             } else {
-                console.log("query---  ",q);
+                //console.log("query---  ",q);
                 callback(err,result);
             }
         });         
@@ -2058,7 +2061,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
     }
     mysql(q, function(err, result) {
             if (err) {
-                console.log(q, err);
+                //console.log(q, err);
             } else {
             callback(err,result);
             }
@@ -2074,7 +2077,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
     }
     mysql(q, function(err, result) {
             if (err) {
-                console.log(q, err);
+                //console.log(q, err);
             } else {
             callback(err,result);
             }
@@ -2089,7 +2092,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
         }
         mysql(q, function(err, result) {
             if (err) {
-                console.log("-----------saurav upload_rsume------",err);
+                //console.log("-----------saurav upload_rsume------",err);
             }
             else {
             callback(err,result);
@@ -2117,7 +2120,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
     },
 
      scheduleInterview:function (cdtidint,schtaggedJd,intdatetime,schstate,interviewer,intremark,mode,uid,rid,callback){
-        console.log('dsdshv hrm hrm hrm');
+        //console.log('dsdshv hrm hrm hrm');
        var q ={
         sql: "call usp_scheduleInterview(?,?,?,?,?,?,?,?,?)",
         values:[cdtidint,schtaggedJd,intdatetime,schstate,interviewer,intremark,mode,uid,rid]
@@ -2125,10 +2128,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
         mysql(q, function(err, result) {
 
             if (err) {
-             console.log('djdgjfdhf jhdgfj jhfdhfj jfgdhfj',err);   
+             //console.log('djdgjfdhf jhdgfj jhfdhfj jfgdhfj',err);   
             }
             else {
-                console.log('djdgjfdhf jhdgfj jhfdhfj jfgdhfj');
+                //console.log('djdgjfdhf jhdgfj jhfdhfj jfgdhfj');
             callback(err,result);
             }
         });         
@@ -2141,10 +2144,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
                     values: [name,email,phone,skillarrId,permanentAddress,Qualification,currentlocation,years,months,
                         instititutes,targetPath,retailerId]
         }
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log("-----------saurav upload_rsume------",err);
+                //console.log("-----------saurav upload_rsume------",err);
             }
             else {
             callback(err,result);
@@ -2159,7 +2162,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
         }
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2174,7 +2177,7 @@ getHrROle:function(userId,roleId,retailerId,callback){
         }
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2187,13 +2190,13 @@ getHrROle:function(userId,roleId,retailerId,callback){
         sql: "call bsearch(?)",
         values: [str]
         }
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
-                console.log("adv search",result);
+                //console.log("adv search",result);
             callback(err,result);
             }
         });         
@@ -2204,10 +2207,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
          sql: "call usp_AdvancedSearch(?,?,?,?)",
         values: [name1,jdtitle,email1,location1]
         }
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2220,10 +2223,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
          sql: "call usp_interviewerInfo(?,?)",
         values: [userId,retailerId]
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2236,10 +2239,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
          sql: "call usp_updateStatusReq(?,?,?,?)",
         values: [ flag,jdid,approve,userId]
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2251,10 +2254,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
           sql: "call usp_getReleventTag(?)",
         values: [id]
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2266,10 +2269,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
           sql: "call usp_removeTag(?,?)",
         values: [tagid,cid]
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2281,10 +2284,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
           sql: "call getreleventState(?,?)",
         values: [jdid,cid]
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2296,10 +2299,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
           sql: "call usp_addQuickTag(?,?,?)",
         values: [jdid, cid,userId]
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2311,10 +2314,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
         sql: "call usp_getAllManager(?)",
         values: [retailerId]
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2328,10 +2331,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [cid,retailerId]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2345,10 +2348,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [selected,retailerId]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2362,10 +2365,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values:[selected,reqId]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2378,10 +2381,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [id,name,email,phone,years,months,location,address,skills,qualification,ins]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2396,10 +2399,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             cdtid,modeid,rounds,filename,jdid]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2412,10 +2415,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [id,cid,userId]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2428,10 +2431,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [retailerId]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2444,10 +2447,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
           values: [userId,roleId,retailerId,type,oldname,name,flag,crole_id]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2462,10 +2465,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [retailerId]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2478,10 +2481,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [resId]
        
         };
-        console.log(q);
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
