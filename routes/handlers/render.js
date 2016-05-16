@@ -576,6 +576,9 @@ module.exports = {
 	            });
             console.log(req.reqApprover[0]);
             break;
+            case 'updateStatusReqViaMail':
+            res.render('index'); 
+            break;
 
 
             //----------------------------------Project-------------------------------------------

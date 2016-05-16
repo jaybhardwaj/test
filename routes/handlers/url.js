@@ -839,7 +839,20 @@ hr:function(req,res,next){
 			res.redirect('/portal');
 		}
 	},
-
+updateStatusReqViaMail:function(req,res,next){
+		 if(req.session.modules.indexOf(config.RMS)>=0){	
+			req.body.flag=req.query.flag;		
+			req.body.jdid=req.query.jdid;	
+			req.hrRole=req.query.role;	
+			req.body.approve=req.query.approve;	
+			console.log("Approver :---",req.query.hrRole,req.body.jdid,req.body.flag);	
+		req.page="updateStatusReqViaMail";
+		next();
+	}
+	else{
+			res.redirect('/portal');
+		}
+},
 	upload :function(req,res,next){
 		 if(req.session.modules.indexOf(config.RMS)>=0){
 		req.page="upload";

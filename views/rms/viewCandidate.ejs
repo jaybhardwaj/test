@@ -189,7 +189,7 @@ thead th{
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
-}*/
+} 
         </style>
         <div id="page-content" style="padding:5% 1% 1% 1%;background-color:antiquewhite">
             <div style="width:100%;font-size:12px">
@@ -248,14 +248,14 @@ thead th{
                 </div>
             </div>
             <div>
-                <table style="height:80px;width:50%;float:left">
+                <table style="height:50px;width:50%;float:left">
                     <tr>
                         <td><a id="quick" style="cursor:pointer;color:grey;float:left">Quick Tagging</a></td>
                         <td class="hide" id="qmgrdiv" style="">
                            
                                 <div class="md-input-container ">
                                 <label>Manager's<sup class='astrick'>*</sup></label>
-                                    <select style="color:black;width:200px;" class="form-control" onchange="qreleventTag()" id="qmgrdropdown" name="mgrdropdown">
+                                    <select style="color:black;width:200px;"  onchange="qreleventTag()" id="qmgrdropdown" name="mgrdropdown">
                       </select>
                                     
                                 </div>
@@ -265,7 +265,7 @@ thead th{
                             
                                 <div class="md-input-container ">
                                 <label>JD's<sup class='astrick'>*</sup></label>
-                                    <select id="qselecttag" style="color:black;width:200px" class="form-control" name="selecttag">
+                                    <select id="qselecttag" style="color:black;width:200px"   name="selecttag">
                
                       </select>
                                     
@@ -427,9 +427,10 @@ thead th{
                         </div>
                         <center>
                             <h2 id="cdtnameint" style="text-transform:capitalize;color:#f05f40;margin:0px"></h2>
+                            <a style="color:#f05f40;float:right;padding-right:30px;width: 100px" id="history">History<span  class='glyphicon glyphicon-plus' style="padding-left:4%" ></span></a>
                             <div id='taggedInMulJd'></div>
                         </center>
-                        <a style="color:#f05f40;float:right;padding-right:30px" id="history">History<span  class='glyphicon glyphicon-plus' style="padding-left:4%" ></span></a>
+                        
                         <div id="showhistorydiv" style="border:solid 2px #f05f40;margin:20px 10px 0px 10px;overflow-x:scroll;overflow-y:scroll;max-width:100%;max-height:300px">
                             <table style="margin:10px;float:left">
                                 <tbody id="historytable">
@@ -443,28 +444,32 @@ thead th{
                                     <table style="width:100%">
                                         <tr>
                                             <td>
-                                            <label>Tagged Jd's</label>
+                                            <label>Tagged Jd's<sup class="astrick">*</sup></label>
                                                <select id="schtaggedJd"  class="form-control" style="width:97%" name="schtaggedJd" onchange="getreleventState()">
                                 </select>
                                           </td>
                                             <td>
-                                                 <label>State</label>
-                                                    <select id="schstate" class="form-control" style="width:200px" name="schstate"></select>
-                                                      </td>
+                                                 <label>State<sup class="astrick">*</sup></label>
+                                                    <select id="schstate" class="form-control" style="width:95%" name="schstate"></select>
+                                            </td>
+                                            <td id="statusTd" class="hide">
+                                              <label>Status<sup class="astrick">*</sup></label>
+                                              <select id="allStatus" name="allStatus" class="form-control" style="width:95%"></select>
+                                            </td>
                                             <td>
-                                              <label>Date & Time<sup>*</sup></label>
+                                              <label id="dateLable">Date & Time<sup class="astrick">*</sup></label>
                                                  <input size="16" type="text" class="form-control" value="2012-06-15 14:45" style="width:95%" readonly name="intdatetime" id="intdatetime">
                                                     
                                             </td>
 
-                                            <td>
-                                               <label>Interviewer<sup>*</sup></label>
+                                            <td id="intTD">
+                                               <label>Interviewer<sup class="astrick">*</sup></label>
                                                <select name="interviewer" class="form-control" id="interviewer" style="width:97%">
                                     </select>
                                                      
                                             </td>
-                                            <td>
-                                                <label>Mode<sup>*</sup></label>
+                                            <td id="modeTD">
+                                                <label>Mode<sup class="astrick">*</sup></label>
                                                         <select name="mode" id="mode" class="form-control" style="width:97%">
                                     </select>
                                                       
@@ -474,7 +479,7 @@ thead th{
                                         <input class="hide" type="text"  id="cdtidint" name="cdtidint">
                                     </table>
                                     
-                                        <div class=" ">
+                                        <div class=" " style="padding-top: 10px">
                                            <label style="margin-left:5px">Remarks</label>
                                             <textarea name="intremark" class="form-control" id="intremark" style="width:100%;max-width:100%"></textarea>
                                          
@@ -567,6 +572,10 @@ thead th{
                                 for (var i = 0; i < data[0].length; i++) {
                                     $('#schstate').append("<option value='" + data[0][i].id + "'>" + data[0][i].stateName + "</option>");
                                 }
+                                $('#allStatus').html('<option  value="0">-select-</option>');
+                                for (var i = 0; i < data[1].length; i++) {
+                                    $('#allStatus').append("<option value='" + data[1][i].id + "'>" + data[1][i].statusName + "</option>");
+                                }
                             }
                         });
                     }
@@ -581,14 +590,30 @@ thead th{
                             $('#form').submit();
                         });
 
+                        $('#schstate').change(function(){
+                          if($('#schstate').val()>4){
+                            $('#dateLable').html("Date<sup class='astrick'>*</sup>");
+                            $('#intTD').addClass("hide");
+                            $('#modeTD').addClass("hide");
+                            $('#statusTd').removeClass("hide");
+
+                        }
+                        else{
+                           $('#intTD').removeClass("hide");
+                            $('#modeTD').removeClass("hide");
+                            $('#statusTd').addClass("hide");
+                            $('#statusTd').addClass("hide");
+                        }
+
+                        });
 
                         $('#history').click(function() {
                             $(this).find('span').toggleClass('glyphicon-plus').toggleClass('glyphicon-minus');
                         });
 
-                        $('#schedule').draggable();
-                        $('#tag').draggable();
-                        $('#edit').draggable();
+                      //  $('#schedule').draggable();
+                       // $('#tag').draggable();
+                       // $('#edit').draggable();
 
 
                         $('#history').click(function() {
@@ -836,15 +861,21 @@ thead th{
                             alert("Select a State");
                             return false;
                         }
+                        if ($('#schstate').val() >4) {
+                          if($('#allStatus').val()==0){
+                            alert("Select a Satus");
+                            return false;
+                          }
+                        }
                         if ($('#intdatetime').val() == '') {
                             alert("Choose a Date and time for interview");
                             return false;
                         }
-                        if ($('#interviewer').val() == 0) {
+                        if ($('#interviewer').val() == 0&&$('#schstate').val()<=4) {
                             alert("Select a Interviewer");
                             return false;
                         }
-                        if ($('#mode').val() == 0) {
+                        if ($('#mode').val() == 0&&$('#schstate').val()<=4) {
                             alert("Choose a mode of Interview");
                             return false;
                         }
@@ -909,11 +940,9 @@ thead th{
                                 for (var i = 0; i < jdtemp.length; i++) {
                                     temparr[jdtemp[i]] = (temparr[jdtemp[i]] || 0) + 1; //increments count if element already exists            
                                 }
-
                                 for (var i in temparr) {
                                     jdcount.push(temparr[i]);
                                 }
-
                                 console.log("JDTEMP", jdtemp);
                                 console.log("JDCOUNT", jdcount);
                                 for (var i = 0; i < jdcount.length; i++) {
@@ -925,6 +954,9 @@ thead th{
                                             temp++;
                                         }
                                         var irem = '';
+                                        if(data[5][t].firstName===null){
+                                          data[5][t].firstName="HR";
+                                        }
                                         var date = data[5][t].date;
                                         date = date.slice(0, 10);
                                         if (data[5][t].interviewerRemarks != null) {
@@ -934,9 +966,9 @@ thead th{
                                         }
                                         var deleteString = '';
                                         if (data[5][t].statusName == 'Pending') {
-                                            deleteString = '<i class="fa fa-trash-o" id = "trash_' + i + '_' + j + '" title = "delete schedule" onclick = "deleteHistory(' + data[5][t].id + ',this.id)" ></i>';
+                                            deleteString = '<i class="glyphicon glyphicon-trash" id = "trash_' + i + '_' + j + '" title = "delete schedule" style="color:#06394A;float:right" onclick = "deleteHistory(' + data[5][t].id + ',this.id)" ></i>';
                                         }
-                                        $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + deleteString + '</div><div style="font-size:10px">By- ' + data[5][t].name + '</div><div style="font-size:10px">On -' + date + '</div></div></td>');
+                                        $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + deleteString + '</div><div style="font-size:10px">By- ' + data[5][t].firstName + '</div><div style="font-size:10px">On -' + date + '</div></div></td>');
                                         t++;
                                         clr++;
                                         if (clr == 5)

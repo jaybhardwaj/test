@@ -157,6 +157,7 @@ app.post("/search",portal.searchHr);
 app.post("/asearch",portal.advancesearchHr);
 app.post("/interviewerInfo",portal.interviewerInfo);
 app.post("/updateStatusReq",portal.updateStatusReq);
+app.get("/updateStatusReqViaMail",url.updateStatusReqViaMail,portal.updateStatusReq,render.redirect);
 app.post("/getReleventTag",portal.getReleventTag);
 app.post("/removeTag",portal.removeTag);
 app.post("/getreleventState",portal.getreleventState);

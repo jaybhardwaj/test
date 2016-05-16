@@ -2920,19 +2920,19 @@ addUser: function(req, res, next) {
                             }
                      recEmail = recEmail.join(','); 
                      req.body.Location =req.body.locationName; 
-                    console.log('saurau ----------- ');
+                   // console.log('saurau ----------- ');
                      if(req.session.hrRole==3){
                             // var email = result[3][0].userEmail; 
                              console.log("flag : ",flag,'^^^^^',recEmail,result[0][0].id,'0',skills,req.session.role,req.session.userId);
                              if(flag==0){ 
                             //console.log("flag--0 : ",email,req,result[0][0].id,'0',skills,req.session.role,req.session.userId);
-                             mailTemplates.hrMailer(0,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.role,req.session.userId,function(err,result){});
+                             mailTemplates.hrMailer(0,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
                             res.redirect('/allrequisitions?flag=1');
                               }
                               else if(flag==1){
-                                var mailCounter = result[2][0].mailCounter;
+                                var mailCounter = result[3][0].mailCounter;
                                  //console.log("flag--1 : ",email,result[0][0].id,'0',skills,req.session.role,req.session.userId);
-                               mailTemplates.hrMailer(1,recEmail,result[6][0],result[0][0].id,mailCounter,skills,req.session.role,req.session.userId,function(err,result){});
+                               mailTemplates.hrMailer(1,recEmail,result[6][0],result[0][0].id,mailCounter,skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
                                 res.redirect('/allrequisitions?flag=0'); 
                             } 
                      }
@@ -2940,14 +2940,14 @@ addUser: function(req, res, next) {
                        
                         if(flag==0){            
                                 //console.log("flag--0--hr role 5 : ",email,result[0][0].id,'0',skills,req.session.role,req.session.userId);
-                      mailTemplates.hrMailer(flag,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.role,req.session.userId,function(err,result){});
+                      mailTemplates.hrMailer(flag,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
                             res.redirect('/reqHod?flag=1');
                         }
                         else if(flag==1){
                           //  //console.log('************here',req.body);
-                            var mailCounter = result[2][0].mailCounter;
+                            var mailCounter = result[3][0].mailCounter;
                                       //console.log("flag--1--hr role 5 : ",email,result[0][0].id,'0',skills,req.session.role,req.session.userId);
-                             mailTemplates.hrMailer(1,recEmail,result[6][0],result[0][0].id,mailCounter,skills,req.session.role,req.session.userId,function(err,result){});
+                             mailTemplates.hrMailer(1,recEmail,result[6][0],result[0][0].id,mailCounter,skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
                             res.redirect('/reqHod?flag=0'); 
                         }
                     }   
@@ -3563,19 +3563,27 @@ addUser: function(req, res, next) {
         });
     },
     updateStatusReq:function(req,res,next){
+        
         modelPortal.updateStatusReq(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.flag,req.body.jdid,req.body.approve,function(err,result){
             if(err){
                console.log("there is an error",err);
             }   
             else{
-                if(flag==1){
+                console.log("modal portal update status req",result);
+                 var recEmail = [];
+                        for(var i =0;i<result[2].length;i++){
+                                recEmail.push(result[2][i].userEmail);
+                            }
+                     recEmail = recEmail.join(',');
+                     var skills;
+                if(req.body.flag==1){
                     //Approved
-                       mailTemplates.hrMailer(2,email,req,result[0][0].id,'0',skills,req.session.role,req.session.userId,function(err,result){});
+                       mailTemplates.hrMailer(2,recEmail,result[0][0],result[0][0].id,'0',skills,req.hrRole,req.session.userId,req.approve,function(err,result){});
                 }
                 else{
                     //Rejected
-                   mailTemplates.hrMailer(3,email,req,result[0][0].id,'0',skills,req.session.role,req.session.userId,function(err,result){});
+                   mailTemplates.hrMailer(3,recEmail,result[0][0],result[0][0].id,'0',skills,req.hrRole,req.session.userId,req.approve,function(err,result){});
                 }                 
                      res.json('');
                 } 
@@ -3656,11 +3664,12 @@ addUser: function(req, res, next) {
         });
     },
       scheduleInterview:function(req,res,next){
-        
+        console.log(req.body);
         modelPortal.scheduleInterview(req.body.cdtidint,
                 req.body.schtaggedJd,
                 req.body.intdatetime,
                 req.body.schstate,
+                req.body.allStatus,
                 req.body.interviewer,
                 req.body.intremark,
                 req.body.mode,req.session.userId,req.session.retailerId,function(err,result){

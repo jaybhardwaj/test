@@ -2123,12 +2123,13 @@ getHrROle:function(userId,roleId,retailerId,callback){
 
     },
 
-     scheduleInterview:function (cdtidint,schtaggedJd,intdatetime,schstate,interviewer,intremark,mode,uid,rid,callback){
+     scheduleInterview:function (cdtidint,schtaggedJd,intdatetime,schstate,schstatus,interviewer,intremark,mode,uid,rid,callback){
         //console.log('dsdshv hrm hrm hrm');
        var q ={
-        sql: "call usp_scheduleInterview(?,?,?,?,?,?,?,?,?)",
-        values:[cdtidint,schtaggedJd,intdatetime,schstate,interviewer,intremark,mode,uid,rid]
+        sql: "call usp_scheduleInterview(?,?,?,?,?,?,?,?,?,?)",
+        values:[cdtidint,schtaggedJd,intdatetime,schstate,schstatus,interviewer,intremark,mode,uid,rid]
         }
+        console.log(q);
         mysql(q, function(err, result) {
 
             if (err) {
@@ -2243,10 +2244,10 @@ getHrROle:function(userId,roleId,retailerId,callback){
          sql: "call usp_updateStatusReq(?,?,?,?)",
         values: [ flag,jdid,approve,userId]
         };
-        //console.log(q);
+        console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                //console.log(err);
+                console.log(err);
             }
             else {
             callback(err,result);
