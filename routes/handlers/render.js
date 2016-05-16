@@ -29,6 +29,9 @@ module.exports = {
 				
 				break;
 				case 'success' :
+				if(req.session.isVerified)
+					res.redirect('/portal')
+				else
 				res.render('index');
 				break;
 				

@@ -469,12 +469,12 @@
                         } else
                         if (i < 31 && j == no_of_asgmnt) {
                          // alert("value =0")
-                            a = a + ' <td><input disabled id="id' + i + '' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center;"></input> </td>'
+                            a = a + ' <td><input disabled id="id' + i + '' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center;" onkeypress="return isNumber(event)"></input> </td>'
                         } else
                         if (i == temp + 1) {
-                            a = a + '<td><input id="id' + i + '' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" ></input> </td> '
+                            a = a + '<td><input id="id' + i + '' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" onkeypress="return isNumber(event)"></input> </td> '
                         } else {
-                            a = a + '<td><input  id="id' + i + '' + j + '" type="number"  class="abc numeric clearAllfield"  style="width:60px; text-align:center; " value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
+                            a = a + '<td><input  id="id' + i + '' + j + '" type="number"  class="abc numeric clearAllfield"  style="width:60px; text-align:center; " value="" onKeyUp="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
                         }
 
                     }
@@ -486,6 +486,20 @@
                 }
 
             }
+
+
+            function isNumber(evt) {
+
+    evt = (evt) ? evt : window.event;
+    console.log(evt)
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !=46  ) {
+        return false;
+    }
+    return true;
+}
+
+
         </script>
         <style>
 
@@ -587,12 +601,12 @@
             var value = 0;
             var val = $('#id' + a + i).val();
             if (val != "") {
-                value = parseInt($('#id' + a + i).val());
+                value = parseFloat($('#id' + a + i).val());
             } else {
                 var abc = 0;
             }
             k = k + value;
-            if (k > 24) {
+            if (k > 24.0) {
                 alert("time should not exceed than 24 hours ");
                 $('#id' + a + b).val(0);
                 sum(a, b);

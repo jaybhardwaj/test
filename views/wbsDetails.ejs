@@ -66,14 +66,29 @@ $(document).ready(function() {
                       data[0][i].estimateEffort = data[0][i].estimateEffort + ' ' + data[0][i].estimateEffort1;
                     }
 
-                        if(data[0][i].WBSStatus==1){
-                          log=log+ '<tr style=height:20px;color:grey;font-size:12px;  id="abc_'+data[0][i].WBSId+'"><td>'+data[0][i].WBSName+'</td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td>'+data[0][i].wplannedStartDate+'</td><td>'+data[0][i].wplannedEndDate+'</td><td>'+data[0][i].wactualStartDate+'</td><td>'+data[0][i].wactualEndDate+'</td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td><td>   <a href="/addEditWbs?wbsid='+data[0][i].WBSId+'&flag=1"  onclick="return checkedit();"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-left:10px;margin-right:10px;" title="Edit WBS"></span></a>    <a onclick=" actinact('+data[0][i].WBSId+',1)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-right:10px;" title="click to inactive"></span></a></td>  </tr>';
+                      
+                          log=log+ '<tr style=height:20px;color:grey;font-size:12px;  id="abc_'+data[0][i].WBSId+'"><td>'+data[0][i].WBSName+'</td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td>'+data[0][i].wplannedStartDate+'</td><td>'+data[0][i].wplannedEndDate+'</td><td>'+data[0][i].wactualStartDate+'</td><td>'+data[0][i].wactualEndDate+'</td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td>';
+
+
+if(data[0][i].projectTitle!='DummyProject'){
+  if(data[0][i].WBSStatus==1){
+                        log=log+' <td>   <a href="/addEditWbs?wbsid='+data[0][i].WBSId+'&flag=1"  onclick="return checkedit();"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-left:10px;margin-right:10px;" title="Edit WBS"></span></a>    <a onclick=" actinact('+data[0][i].WBSId+',1)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-right:10px;" title="click to inactive"></span></a></td> ';
+
+
+                           
 
                         }
                         else{
-                          log=log+ '<tr style=height:20px;color:grey;font-size:12px;  id="abc_'+data[0][i].WBSId+'"><td>'+data[0][i].WBSName+'</td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td>'+data[0][i].wplannedStartDate+'</td><td>'+data[0][i].wplannedEndDate+'</td><td>'+data[0][i].wactualStartDate+'</td><td>'+data[0][i].wactualEndDate+'</td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td><td>   <a  onclick=" actinact('+data[0][i].WBSId+',0)"> <span class="glyphicon glyphicon-remove-sign" style="text-align:center;color:red;height:10px;margin-left:35px;" title="Check to active"></span></a> </td>  </tr>';
+                          log=log+ '<td>   <a  onclick=" actinact('+data[0][i].WBSId+',0)"> <span class="glyphicon glyphicon-remove-sign" style="text-align:center;color:red;height:10px;margin-left:35px;" title="Check to active"></span></a> </td>';
 
                         }
+                      }
+                      else
+                      {
+                        log=log+'<td></td>';
+                      }
+
+                        log=log+'</tr>';
                         
                     }otable.fnDestroy();
                     $('#wbsstatus').html(log);
@@ -208,11 +223,12 @@ function actinact(wbsid,flag){
                                     
                                     
                                      <td>
+                                     <%if(allinfo[i].projectTitle !=='DummyProject'){%>
                                         <a href="/addEditWbs?wbsid=<%=allinfo[i].WBSId%>&flag=1"  onclick="return checkedit();"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-left:10px;margin-right:10px;" title="Edit WBS"></span></a>
 
                                         <a onclick="actinact(<%=allinfo[i].WBSId%>,1);" ><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:10px;margin-right:10px;" title="click to inactive"></span></a>
 
-
+<%}%>
 
                                     </td>
 

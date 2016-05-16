@@ -620,6 +620,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
             values: [assign,flaghide,wbsidhide,wbsname,wbscode,proname,wbsowner,wbspsdate,
         wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,wbslocation,type,typeVal,userId,roleId,retailerId]
         };
+        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -1559,6 +1560,7 @@ mysql(q,function(err,result){
             sql: 'call usp_updtMaster(?,?,?,?,?,?,?)',
             values: [code,desc,userid,active,id,retailerId,crate]
         };
+        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
