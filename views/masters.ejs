@@ -1672,7 +1672,7 @@ function addSchedule(){
       }
      }
 
- function showEditExpMaster(code,id,flag){
+ function showEditExpMaster(code,id,flag){ alert('code---'+code+'--id---- '+id+'---flag--- '+flag)
         if(code==1){
           toggeleBillBox(code,id,flag);
         } 
@@ -1681,7 +1681,12 @@ function addSchedule(){
   }      
     if(!flag){
     $('#expenseEdit_'+id).toggleClass("hide"); 
-    $('#expenseShow_'+id).toggleClass("hide");    
+    $('#expenseShow_'+id).toggleClass("hide");  
+    if(id <=7 ){
+      //$('#abc .abc').toggleClass("hide"); 
+      $('#expenseEdit_'+id).toggleClass("hide"); 
+      $('#expenseShow_'+id).toggleClass("hide"); 
+    }  
     }  
     else{
 
@@ -1781,7 +1786,7 @@ else{
         if(code==1){
         c1=' <td><select id="isMandatory_'+code+'_'+data[0].id+'" onChange="toggeleBillBox('+code+','+data[0].id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input type="number" id="maxBillAmnt_'+code+'_'+data[0].id+'" placeholder="@max Ammount" maxlength="10" value="'+edValue+'"></td>'; 
 }
-        $('#expTable_'+code).append('<tr id="expenseEdit_'+data[0].id+'" class="hide"><td><input type="text" id="expMasterData_'+code+'_'+data[0].id+'" maxlength="50" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+data[0].id+',1)"></span></td></tr><tr id="expenseShow_'+data[0].id+'"><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster('+code+','+data[0].id+',0)"></span></td></tr>');  
+        $('#expTable_'+code).append('<tr id="expenseEdit_'+data[0].id+'" class="hide"><td id="abc"><input type="text" class="abc" id="expMasterData_'+code+'_'+data[0].id+'" maxlength="50" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+data[0].id+',1)"></span></td></tr><tr id="expenseShow_'+data[0].id+'"><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster('+code+','+data[0].id+',0)"></span></td></tr>');  
         $('#maxBillAmnt_'+ty).val('');
         $('#expMasterData_'+ty).val('');
       }
@@ -1789,7 +1794,7 @@ else{
      else if(data[0].flag==1000)
       {
         alert('Expense Updated Successfully');
-        $('#expenseEdit_'+id).html('<td><input type="text" id="expMasterData_'+code+'_'+id+'" maxlength="50" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+id+',1)"></span></td>');        
+        $('#expenseEdit_'+id).html('<td id="abc"><input type="text" class="abc" id="expMasterData_'+code+'_'+id+'" maxlength="50" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+id+',1)"></span></td>');        
         $('#expenseEdit_'+id).toggleClass("hide");
         $('#expenseShow_'+id).html('><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster('+code+','+id+',0)"></span></td>');
         $('#expenseShow_'+id).toggleClass("hide");

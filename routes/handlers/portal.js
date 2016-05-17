@@ -415,13 +415,16 @@ filename=req.session.logo;
                                              next(errorActivity);
                                              return;
                                          }
-mailTemplates.addBug(resultBugDetails[2][0].emailId,resultBugDetails[2][0].pass,resultBugDetails[3][0].bugTitle,function(error, resultMail) {
+
+
+if(req.body.colname == 'assingedToUserId'){
+   mailTemplates.addBug(resultBugDetails[2][0].emailId,resultBugDetails[2][0].pass,resultBugDetails[3][0].bugTitle,function(error, resultMail) {
              if (error) {
                
-             }
+             }   
+        }); 
+}
 
-                
-        });
             req.resultBugDetails=resultBugDetails;
             req.body.titlebox=resultBugDetails[0][0].bugTitle;
             req.body.description=resultBugDetails[0][0].bugDescription;

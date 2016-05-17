@@ -254,6 +254,7 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             sql: 'call usp_bug_updatebugdetails(?,?,?,?)',
             values: [bugid,colname,value,userId]
         };
+        console.log(query);
 
         mysql(query, function(err, result) {
             if(err){
