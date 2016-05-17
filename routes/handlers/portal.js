@@ -1135,8 +1135,22 @@ Docmaster:function(req,res,next){
 
         });
     },
+    addeditComponent :function(req,res,next){
+        var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
+        parameter.push(req.body.name);
+        parameter.push(req.body.type);
+        parameter.push(req.body.flag);
+        modelPortal.addeditComponent(parameter,function(err,result){
+            if(err){
+                console.log("oops");
+            }   
+            else{
+                   res.json(result);
+            }   
 
+        });   
 
+    },
  /*-------------------End Doc-----------------------------------------------------------*/
 //--------------------------Project-WBS-------------------
  projectDetails: function(req, res, next) {
@@ -1788,15 +1802,17 @@ getViewHardware:function(req,res,next){
     },
     
     getDataAsset:function(req,res,next){
-      modelPortal.getTypeAndSubtype(function(error,resultTypeSubtype){
+      modelPortal.getTypeAndSubtype(req.session.userId,req.session.roleId,req.session.retailerId,function(error,resultTypeSubtype){
         if(error){
-
+           console.log("c"); 
           next(error);
-          return;
+         
         }
+        console.log("d");
           req.resultTypeSubtype=resultTypeSubtype;
-          next();
+         
       });
+       next();
     },
     getMap:function(req,res,next){
       modelPortal.getMap(req.body.acid,function(error,resultMap){

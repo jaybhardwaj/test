@@ -202,7 +202,7 @@ app.post('/projectByResource',portal.projectByResource);
 <!------ srv-------->
 	 app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
     	portal.holidayhome,portal.select_ExpenseMaster,
-    	//portal.getDataAsset,
+    	portal.getDataAsset,
     	portal.getCustomRole,portal.getIndustry,portal.getBusiness,
     	portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
     	render.redirect);
@@ -302,7 +302,7 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
 	app.post('/gettec',portal.gettec);
 	app.post('/getres',portal.getres);
 	app.post('/Docmaster',portal.Docmaster);
-
+	app.post('/addeditComponent',portal.addeditComponent);
 /*----------------------------------------------------------Project Management-----------------------------------------------------------*/
 	//app.get('/projectmngmt',url.projectmngmt,portal.projectmngmt,render.redirect);
 
