@@ -1804,11 +1804,10 @@ getViewHardware:function(req,res,next){
     getDataAsset:function(req,res,next){
       modelPortal.getTypeAndSubtype(req.session.userId,req.session.roleId,req.session.retailerId,function(error,resultTypeSubtype){
         if(error){
-           console.log("c"); 
+         
           next(error);
          
         }
-        console.log("d");
           req.resultTypeSubtype=resultTypeSubtype;
          
       });
