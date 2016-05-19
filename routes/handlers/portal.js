@@ -3540,6 +3540,18 @@ addUser: function(req, res, next) {
                 }
         });
     },
+    userHrViewReq:function(req,res,next){
+        modelPortal.userHrViewReq(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
+            if(err){
+                //console.log("there is an error",err);
+            }   
+            else{
+                console.log(result)
+                    req.userHrViewReq=result;
+                    next() ;
+                }
+        });
+    },
      searchHr:function(req,res,next){
         var str = req.body.search;
         modelPortal.searchHr(req.session.userId,req.session.roleId,req.session.retailerId,str,function(err,result){
@@ -3751,7 +3763,7 @@ addUser: function(req, res, next) {
         });
     },
     interviewData:function(req,res,next){
-        //console.log("interview date-------------", req.body);
+        console.log("interview date-------------", req.body);
         var filename;
         var targetPath;
         var fname;
@@ -3779,7 +3791,7 @@ addUser: function(req, res, next) {
             filename = '';
         }
 
-        //console.log("File-------------", req.file);
+        console.log("File-------------", req.file);
         modelPortal.interviewData(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,
                 req.body.rating,req.body.status,req.body.time,req.body.remarks,req.body.stateId,
                 req.body.cdtid, req.body.modeid,req.body.rounds,filename,req.body.jdid,function(err,result){

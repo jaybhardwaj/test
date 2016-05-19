@@ -30,27 +30,9 @@
 
     <body>
 
-        <div style="width:100%;padding:3%;padding-top:4%;overflow-x:hidden;background-color:antiquewhite"> 
-        <center> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Requisitions</b></label></center>         
-          <div style="padding-top:1%">
-          <table style="width:100%">
-              <tr>
-                <td><label style=" ">Select Manager Hr :</label></td> 
-                <td><select class="form-control" style="color:black;margin-right:300px" id="selectAdminHr">
-             
-                <%for(var i = 0 ;i<adminhr.length;i++){%>
-                    <option value="<%=adminhr[i].id%>" id="adminhr_<%=adminhr[i].id%>">
-                        <%=adminhr[i].firstName%>
-                    </option>
-                    <%}%>
-                        <option value="-1" id = 'allid'>All</option>
-            </select></td> 
-            <td><label>Search Box : </label></td><td><input type="text" class="form-control" id="searchbox"></td>  
-              </tr>  
-              
-          </table>
-          </div>
-        
+        <div style="width:100%;padding:3%;overflow-x:hidden;background-color:antiquewhite">          
+         
+        <center > <label id="" class=" " style="padding-top:1%;font-size:14pt;color:#f05f40;"><b>Requisitions</b></label></center>
         <div class="row " style="padding-top:1%; ">
 
             <table id="openreqstate1" class="table cell-border" style="font-size:13px;width:100%;margin-top:1%">
@@ -63,7 +45,7 @@
                         <th class="hide">Status</th>
                         <th>Recruiter</th>
                         <th>Manager HR</th>
-                        <th>Action</th>
+                       
                         <th class='hide'></th>
                     </tr>
                 </thead>
@@ -97,7 +79,7 @@
                             <td>
                                 <%=pdetails[i].adminHrname%>
                             </td>
-                            <td><i class="glyphicon glyphicon-pencil" style="font-size:130%;color:#555555" title="Edit" id="edit_<%=pdetails[i].id%>_<%=i%>" onclick="showmodal(this.id)"></i></td>
+                            
                             <td class='hide' id="user_<%=pdetails[i].id%>">
                                 <%=pdetails[i].assignedTo%>
                             </td>
@@ -278,7 +260,7 @@
                     });
 
                     function showmodal(id) {
-                        $('#selecttag').val(-1);
+                        
                         $('#reqDetailsId').modal('toggle');
                         var value = id.split('_');
                         reqId = parseInt(value[1]);
@@ -311,10 +293,13 @@
                             method: 'post',
                             success: function() {
                                 var str = '#assign1_' + reqId;
-                              
-                                
+                                alert(str);
+                                if ($(str).html() == null || $(str).html() == '') {
                                     alert('Requisition assigned');
-                                
+                                } else {
+                                    alert('Requisition Changed');
+
+                                }
                                 var str2 = '#option_' + selected;
                                 $(str).html($(str2).html());
                                 var str3 = '#con_' + rownumber;
@@ -546,35 +531,4 @@
  
 
 
-     <!----------------------Assign HR modal Box-------------------------->
-
-      <div class="modal fade" id="reqDetailsId">
-                    <div class="modal-dialog">
-                        <div class="modal-content" id="bodymodal">
-                            <div class="modal-header" style="background-color:#f05f40;">
-                                <center>
-                                    <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;">Select Recruiter
-                                    </h4>
-                                </center>
-                                <button type="button" class="close" data-dismiss="modal" onclick="clearall()" style="margin-top:-32px">&times;</button>
-                            </div> 
-                            <div style="width:100%;padding-top: 2%;padding-bottom: 2%">
-                                <select id="selecttag" class="form-control" style="color:black;width:96%;margin-bottom:2%;margin-left:2%" name="selecttag">
-                                    <option id="noneselectedId" value="-1">--Select--</option>
-                                    <%for(var i = 0 ;i<userInfo.length;i++){%>
-                                        <option value="<%=userInfo[i].id%>" id="option_<%=userInfo[i].id%>">
-                                            <%=userInfo[i].firstName%>
-                                        </option>
-                                        <%}%>
-                                </select>
-
-                                <center>
-                                    <button class="button bt-small" type=""   onclick="savehrm()" value="Save">Save</button>
-                                    <center>
-                            </div>
-
-
-
-                        </div>
-                    </div>
-                </div>
+      

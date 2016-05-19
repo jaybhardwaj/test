@@ -533,21 +533,31 @@ module.exports = {
 	                defaultModule:req.session.defaultModule
 	            });
             break ;
-            case 'viewReq':
-	           
+            case 'viewReq':	           
 	            res.render('rms/viewReq', {
 	                 role: req.session.hrRole,
-                Name: '',
-                pdetails:req.viewReq[0],
-                userInfo: req.viewReq[1],
-                adminhr: req.viewReq[2],
-                uid: req.session.userId,
-                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
-	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule
+		                Name: '',
+		                pdetails:req.viewReq[0],
+		                userInfo: req.viewReq[1],
+		                adminhr: req.viewReq[2],
+		                uid: req.session.userId,
+		                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+			                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+			                defaultModule:req.session.defaultModule
 	            });
 	            //console.log(req.viewReq[0]);
             break ;
+            case 'userHrViewReq':	           
+            res.render('rms/userHrViewReq', {
+                 role: req.session.hrRole,
+	                Name: '',
+	                pdetails:req.userHrViewReq[0],	               
+	                uid: req.session.userId,
+	                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+		                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+		                defaultModule:req.session.defaultModule
+            });
+            break;
             case 'error':
             res.render('rms/error', {
 	                 role: req.session.hrRole,Name: '',uid: req.session.userId

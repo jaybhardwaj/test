@@ -645,13 +645,13 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
                 }
                 });
 
-
+            console.log(query);
         mysql(query, function(err, result) {
             //console.log('projectAddEdit-----------',result);
            
         /*   result[0][0]={id:1 ,
       projectTitle: 'DummyProject'};*/
-
+console.log(result);
             if(flag==1 && result[0][0].projectTitle=='DummyProject'){
 
                 //console.log('i am in dummy project');
@@ -2186,6 +2186,22 @@ getHrROle:function(userId,roleId,retailerId,callback){
         });         
 
     },
+       userHrViewReq : function (userId,roleId,retailerId,callback){
+       var q ={
+        sql: "call usp_hrm_userHrViewReq(?,?)",
+        values: [userId,retailerId]
+        }
+        console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+                 console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+
+    },
      searchHr : function (userId,roleId,retailerId,str,callback){
        var q ={
         sql: "call bsearch(?)",
@@ -2400,10 +2416,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             cdtid,modeid,rounds,filename,jdid]
        
         };
-        //console.log(q);
+         console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                //console.log(err);
+                console.log(err);
             }
             else {
             callback(err,result);

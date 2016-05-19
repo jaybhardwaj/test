@@ -1,377 +1,412 @@
-<title> 
-    Resume Upload</title> 
- 
- <% include ../partials/head %>
-    <% include ../partials/adminheader %>
+<title>
+    Feedback</title>
 
-    <style>
-    .title{
-      color:#f05f40;
-      font-size: 12px;
-      font-weight: 2px;
-      margin-left: 0%;
-      float: left
-    }
-        #main-menu {
-            margin-top: 5%;
-        }
-        
-        .textmargintop {
-            margin-top: 10px;
-        }
-        
-     
-        .btn-default {
-            background-color: #41A8B3 !important;
-            color: white;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            height: 40px;
-        }
-        
-        .btn-default:hover {
-            background-color: #41A8B3 !important;
-            color: white;
-        }
-        
-        .button {
-            background-color: #66caec !important;
-            border-bottom: 2px solid #2B6173 !important;
-        }
-        /* history tab */
- .tip {
-  width: 0px;
-  height: 0px;
-  position: absolute;
-  background: transparent;
-  border: 10px solid #00B9F5;
-}
-.tip-right {
-  top: -3px;
-  right: -25px;
-  border-top-color: transparent;
-  border-right-color: transparent;
-  border-bottom-color: transparent;  
-}
-.dialogbox .body {
-  position: relative;
-  /*max-width: 300px;*/
-  height: auto;
-  margin: 20px 10px;
-  /*padding: 5px;*/
-  background-color: #00B9F5;
-  border-radius: 3px;
-  border: 5px solid #00B9F5;
-}
+    <% include ../partials/head %>
+    <%include menu1.ejs%>
+        <% include ../partials/adminheader %>
 
-.body .message {
-  /*min-height: 30px;*/
-  border-radius: 3px;
-  font-family: Arial;
-  font-size: 12px;
-  line-height: 1.5;
-  color: #fff;
-}
-.verticalLine0 {
-    border-left: thick solid #F3B293;
-}
-.verticalLine1 {
-    border-left: thick solid #95CCF1;
-}
-.verticalLine2 {
-    border-left: thick solid #B1F3BC;
-}
-.verticalLine3 {
-    border-left: thick solid #EAA4AE;
-}
-.verticalLine4 {
-    border-left: thick solid #F3EC96;
-}
-.verticalLine5 {
-    border-left: thick solid #F3B293;
-}
+            <style>
+                .title {
+                    color: #f05f40;
+                    font-size: 12px;
+                    font-weight: 2px;
+                    margin-left: 0%;
+                    float: left
+                }
+                
+                #main-menu {
+                    margin-top: 5%;
+                }
+                
+                .textmargintop {
+                    margin-top: 10px;
+                }
+                
+           
+                /* history tab */
+                
+                .tip {
+                    width: 0px;
+                    height: 0px;
+                    position: absolute;
+                    background: transparent;
+                    border: 10px solid #00B9F5;
+                }
+                
+                .tip-right {
+                    top: -3px;
+                    right: -25px;
+                    border-top-color: transparent;
+                    border-right-color: transparent;
+                    border-bottom-color: transparent;
+                }
+                
+                .dialogbox .body {
+                    position: relative;
+                    /*max-width: 300px;*/
+                    height: auto;
+                    margin: 20px 10px;
+                    /*padding: 5px;*/
+                    background-color: #00B9F5;
+                    border-radius: 3px;
+                    border: 5px solid #00B9F5;
+                }
+                
+                .body .message {
+                    /*min-height: 30px;*/
+                    border-radius: 3px;
+                    font-family: Arial;
+                    font-size: 12px;
+                    line-height: 1.5;
+                    color: #fff;
+                }
+                
+                .verticalLine0 {
+                    border-left: thick solid #F3B293;
+                }
+                
+                .verticalLine1 {
+                    border-left: thick solid #95CCF1;
+                }
+                
+                .verticalLine2 {
+                    border-left: thick solid #B1F3BC;
+                }
+                
+                .verticalLine3 {
+                    border-left: thick solid #EAA4AE;
+                }
+                
+                .verticalLine4 {
+                    border-left: thick solid #F3EC96;
+                }
+                
+                .verticalLine5 {
+                    border-left: thick solid #F3B293;
+                }
+                .form-control{
+                  width: 90%;
+                }
+            </style>
 
-    </style>
-    
-    <body style="background-color: antiquewhite" >
-    <div class="" style="margin-top:4%;" >
-       
-      
-       <center> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Interview Feedback</b></label></center>
-      
-       
-<form action="interviewData"  enctype="multipart/form-data" method="post" >
-    <input type="text" class="hide" name="id" id="id">
-    <input type="text" class="hide" name="stateId"  id="stateId">
-    <input type="text"  class="hide" name="cdtid" id="cdtid">
-    <input type="text"  class="hide" name="modeid" id="modeid">
-    <input type="text" class="hide" name="rounds" id="rounds">
-    <input type="text" class="hide" name="jdid" id="jdid">
+            <body>
+                <div class="" style="padding-top:4%;background-color: antiquewhite">
 
-    <span data-toggle="modal" data-target="#historyModal" class="glyphicon glyphicon-plus" style="margin-top:1%;color:#f05f40;cursor:pointer" id="history" onclick="scheduleInfo()"> History </span>
 
-        <table style="margin-top:1%;margin-left:11%;width:82%;float:left;" align="left" >
-            
-            <tbody style="">
-            <tr>
-                <td><span class="title">Candidate Name : </span>
-                    <%=cdt[0].name%>
-                </td>
-                <td><span class="title">Interview Category : </span>
-                    <%=cdt[0].stateName%></td>
-                <td><span class="title">JD Title : </span>
-                    <%=cdt[0].title%>
-                </td>
-            </tr>
-            <tr style="height:10px"></tr>
-            <tr>
-                <td><span class="title">Candidate's Skills: </span>
-                    <%=cdt[0].skills%>
-                </td>
-               <td><span class="title">Rating : </span> <input class="addDissable form-control" type="text" name="rating" id="rating" style="width:30%;margin-left:5%">/10</td>
-                <td><span class="title">Current Round : </span>
-                    <%=cdt[0].rounds%>
-                </td>
-            </tr>
-            <tr style="height:10px"></tr>
-            <tr>
-                <td><span class="title">Contact No. : </span> <%=cdt[0].phone%></td>
-                <td>
-                    <span class="title">Status :</span>
-                    <select id="status" name="status" class="addDissable form-control" style="margin-left:6%;width:40%">
+                    <center> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Interview Feedback</b></label></center>
+
+                    <div  style="color:#f05f40;cursor:pointer;float: right;padding-right: 20px" >
+                        
+                        <span data-toggle="modal" data-target="#historyModal" class="glyphicon glyphicon-plus" id="history" ><label> History</label></span>
+                    </div>
+
+                    <div class="row" style="padding: 5%;padding-top: 0%;padding-bottom: 2%">
+                        <form action="interviewData" enctype="multipart/form-data" method="post">
+                            <input type="text" class="hide" name="id" id="id">
+                            <input type="text" class="hide" name="stateId" id="stateId">
+                            <input type="text" class="hide" name="cdtid" id="cdtid">
+                            <input type="text" class="hide" name="modeid" id="modeid">
+                            <input type="text" class="hide" name="rounds" id="rounds">
+                            <input type="text" class="hide" name="jdid" id="jdid">
+
+
+
+                            <table style="padding:1%;width:100%;" align="left">
+
+                                <tbody style="">
+                                    <tr>
+                                        <td><span class="title">Candidate Name : </span> </td>
+                                        <td>
+                                            <%=cdt[0].name%>
+                                        </td>
+
+                                        <td><span class="title">Interview Category : </span></td>
+                                        <td>
+                                            <%=cdt[0].stateName%>
+                                        </td>
+                                        <td><span class="title">JD Title : </span></td>
+                                        <td>
+                                            <%=cdt[0].title%>
+                                        </td>
+                                    </tr>
+                                    <tr style="height:10px"></tr>
+                                    <tr>
+                                        <td><span class="title">Candidate's Skills: </span></td>
+                                        <td>
+                                            <%=cdt[0].skills%>
+                                        </td>
+                                        <td><span class="title">Rating : </span></td>
+                                        <td> <input class="addDissable form-control" type="text" name="rating" id="rating" placeholder="/10"  ></td>
+                                        <td><span class="title">Current Round : </span></td>
+                                        <td>
+                                            <%=cdt[0].rounds%>
+                                        </td>
+                                    </tr>
+                                    <tr style="height:10px"></tr>
+                                    <tr>
+                                        <td><span class="title">Contact No. : </span> </td>
+                                        <td>
+                                            <%=cdt[0].phone%>
+                                        </td>
+                                        <td>
+                                            <span class="title">Status :</span></td>
+                                        <td>
+                                            <select id="status" name="status" class="addDissable form-control"  >
                         <option value="0">--select--</option>
                         <option value="1">Approve</option>
                         <option value="2">Rejected</option>
                     </select>
-                
-                </td>
-                <td><span class="title">Type :</span><%=cdt[0].stateName%></td>
-            </tr>
-            <tr style="height:10px"></tr>
-            <tr>
-                <td><span class="title">Email Id : </span> <%=cdt[0].emailID%></td>
-                <td><span class="title">Time Take :</span> <input class="addDissable form-control" type="text" placeholder="mmm" name="time" id="time" style="margin-left:6%;width:31%">Min.</td>
-                <td><span class="title">Mode :</span><%=cdt[0].mode%> </td>
-            </tr>
-           <tr style="height:10px"></tr>
-            <tr>
-                <td><span class="title"> Download Resume : </span><a href="<%=cdt[0].resumeTitle%>" download><span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download Resume'></span></a></td>
-                <td>
-                    <span class="title">Remarks:</span>
-                    <textarea placeholder="add your comment" class="addDissable form-control" row="10" style="width:100%;max-height:63px;"  name="remarks" id="remarks"></textarea>
-                </td>
-                <td id="feed" style="padding-left:5%"> 
-                    Upload Feedback :<input type="file" class="form-control" name="feedback" id="feedback" >              
 
-                </td>
-            </tr>
-                <tr>
-                    <td>
-                        <button class="btn-default button btn"  type="submit" id="submit" value="Submit" onClick="return validateSubmit()" style="width:100px;background-color:#f05f40">Submit</button>
-                    </td>
-                    <td></td>
-                    <td>
-                    <a class="title" href="/rms" style="float:left;margin-left:6%">View all Interviews</a>
-                    </td>
-                </tr>
-                </tbody>
-        </table>
-</form>
-</div>
-    </body>
+                                        </td>
+                                        <td><span class="title">Type :</span></td>
+                                        <td>
+                                            <%=cdt[0].stateName%>
+                                        </td>
+                                    </tr>
+                                    <tr style="height:10px"></tr>
+                                    <tr>
+                                        <td><span class="title">Email Id : </span></td>
+                                        <td>
+                                            <%=cdt[0].emailID%>
+                                        </td>
+                                        <td><span class="title">Time Take :</span></td>
+                                        <td> <input class="addDissable form-control" type="text" name="time" id="time" placeholder="min."  ></td>
+                                        <td><span class="title">Mode :</span></td>
+                                        <td>
+                                            <%=cdt[0].mode%>
+                                        </td>
+                                    </tr>
+                                    <tr style="height:10px"></tr>
+                                    <tr>
+                                        <td><span class="title"> Download Resume : </span></td>
+                                        <td><a href="<%=cdt[0].resumeTitle%>" download><span  class='glyphicon glyphicon-save' style='color:#f05f40;font-size: 15px;cursor:pointer'title ='Download Resume'></span></a></td>
+                                        <td>
+                                            <span class="title">Remarks:</span></td>
+                                        <td>
+                                            <textarea placeholder="add your comment" class="addDissable form-control" row="10"  name="remarks" id="remarks"></textarea>
+                                        </td>
+                                        <td id="feed" style=" ">
+                                            <span class="title">Upload Feedback:</span>
+                                        </td>
+                                        <td><input type="file"   name="feedback" id="feedback">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                        <td>
+                                           <!--  <button  type="submit" id="submit" value="Submit" "  >Submit</button> -->
+                                           <button type="submit" class="button bt-small" onClick="return validateSubmit()" style="width:90px;margin-top: 20px"><i class="fa fa-save"></i> Submit</button>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <a class="title" href="/rms" style="float:left;margin-left:6%">View all Interviews</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                 <!--PAGE CONTENT ENDS-->
+
+            <% include ../partials/footer %>
+            </body>
+
+           
 
 
 
+                <!---------------History Modal------------>
+                <div class="modal fade" id="historyModal" style="padding-right:20%;height:auto;width:auto">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content" id="express2" style="">
+                            <div class="modal-header" style="background-color:#f05f40;height:40px">
+                                <center>
+                                    <h4 id="dModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px">Schedule Interview</h4>
+                                    <button type="button" class="close" data-dismiss="modal" style="margin-top:-28px;float:right">&times;</button>
+                                </center>
+                            </div>
 
 
-<!---------------History Modal------------>
-<div class="modal fade" id="historyModal"  style="padding-right:20%;height:auto;width:auto">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-          <div class="modal-content"  id="express2" style="">
-                <div class="modal-header" style="background-color:#f05f40;height:40px">
-                    <center>
-                             <h4 id="dModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px">Schedule Interview</h4>
-                              <button type="button" class="close" data-dismiss="modal" style="margin-top:-28px;float:right">&times;</button>
-                             </center>
+                            <div id="showhistorydiv" style="border:solid 2px #f05f40;margin:20px 10px 0px 10px;overflow-x:scroll;overflow-y:scroll;max-width:100%;max-height:300px">
+                                <table style="margin:10px;float:left">
+                                    <tbody id="historytable">
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!---------------------------------------------------------->
+                <div class="modal fade" id="iremarkmodal" style="height:auto">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content" id="express2">
+                            <div class="modal-header" style="background-color:#f05f40;height:40px">
+                                <center>
+                                    <h4 id="head4" class="modal-title" style="color:#052F71;font-size:14pt;margin-top:-5px"><b>Interviewer's Remark</b> 
+                    <span  class='glyphicon glyphicon-remove  closeirem' data-dismiss="modal" style='color:#06394A;height:20px;float:right'title ='Close' > 
+                    </h4>
+                                </center>
+                            </div>
+
+
+                            <div class="modal-body" id="iremarkdiv" style="margin:20px">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
-                <div id="showhistorydiv" style="border:solid 2px #f05f40;margin:20px 10px 0px 10px;overflow-x:scroll;overflow-y:scroll;max-width:100%;max-height:300px">
-              <table style="margin:10px;float:left">
-                <tbody id="historytable" >
-            
-                
-              </tbody>
-              </table>   
-           </div>
-        
-                    
-              </div>
-        </div>
-        
-</div>
-
-<!---------------------------------------------------------->
-<div class="modal fade" id="iremarkmodal" style="height:auto">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content" id="express2">
-            <div class="modal-header" style="background-color:#f05f40;height:40px">
-                <center>
-                    <h4 id="head4" class="modal-title" style="color:#052F71;font-size:14pt;margin-top:-5px"><b>Interviewer's Remark</b> 
-                    <span  class='glyphicon glyphicon-remove  closeirem' data-dismiss="modal" style='color:#06394A;height:20px;float:right'title ='Close' > 
-                    </h4>
-                </center>
-            </div>
-          
-        
-            <div class="modal-body" id="iremarkdiv" style="margin:20px">
-                  
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
-        
+                <script type="text/javascript">
 
-            <script type="text/javascript">
 
-            $('#history').click(function(){
-  $('#showhistorydiv').toggle();
-})
-function scheduleInfo(){
-  
-  $("#showhistorydiv").hide(); 
-    $.ajax({
-        url: '/getscheduleInfo',
-        type: 'post',   
-        data:{"cid":<%=cdt[0].cdtid%>}, 
-        success: function(data) {  
-           
-         
-//--------------------History Table...............................................
-         $('#historytable').html('');
-          var t=0;
-          var clr=0;
-          var jdtemp=[];
-          var jdcount=[];
-          var temparr=[];
-          // .............storing all jd title.........
-          for(var i=0;i<data[5].length;i++){
-           // alert(data[5][i].title);
-            jdtemp.push(data[5][i].title); 
-          }
+                   $(document).ready(function() {
+                        $("#id").val(<%=cdt[0].id%>);
+                        $("#cdtid").val(<%=cdt[0].cdtid%>);
+                        $("#modeid").val(<%=cdt[0].modeId%>);
+                        $("#stateId").val(<%=cdt[0].stateId%>);
+                        $("#rounds").val(<%=cdt[0].rounds%>);
+                        $('#jdid').val(<%=cdt[0].requisitionId%>);
 
-          for(var i=0;i<jdtemp.length;i++){
-           temparr[jdtemp[i]]=(temparr[jdtemp[i]]||0)+1; //increments count if element already exists            
-          }        
+                        var flag = <%=flag%>;
+                        console.log(flag);
+                        if (flag) {
+                            var isFile = '<%=cdt[0].feedbackForm%>';
+                            $('#rating').val(<%=cdt[0].rating%>);
+                            $('#status').val(<%=cdt[0].statusId%>);
+                            $('#time').val('<%=cdt[0].timeTaken%>');
+                            $('#remarks').html("<%=cdt[0].remarks%>");
 
-          for(var i in temparr)
-          {
-            jdcount.push(temparr[i]);
-          }
+                            if (isFile) {
+                                $('#feed').html("<span class='title'>Download Your Feedback Form:</span><a href='/attach/feedback/<%=cdt[0].feedbackForm%>'  download><span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download feedback form'></span>");
+                                $('button[type="submit"]').attr('disabled', 'disabled')
+                            } else {
+                                $('button[type="submit"]').attr("disabled", false);
+                            }
+                            $('.addDissable').attr('disabled', true);;
+                            $('.addDissable').css("color", "grey");
+                            $('.addDissable').css("cursor", "auto-scroll");
 
-console.log("JDTEMP",jdtemp);
-console.log("JDCOUNT",jdcount);
-          for(var i=0;i<jdcount.length;i++){
-            $('#historytable').append("<tr>");
-            var temp=0;
-            for(var j=0;j<jdcount[i];j++){
-            if(temp==0){
-              $('#historytable').append('<td><span class=""></span><div class="dialogbox"><div class="body"><div class="message"><span>'+data[5][t].title+'</span></div></div></div></td>');
-                temp++;
-              } 
-              var irem=''; 
-              var date=data[5][t].date;
-              date=date.slice(0,10);  
-              if(data[5][t].interviewerRemarks!=null){
-                data[5][t].interviewerRemarks = JSON.stringify(data[5][t].interviewerRemarks);
-                data[5][t].interviewerRemarks = data[5][t].interviewerRemarks.replace(/"/g,'"');
-                console.log(data[5][t].interviewerRemarks);
-            irem="<span class='glyphicon glyphicon-info-sign' onclick='interviewerRemarks("+data[5][t].interviewerRemarks+")' data-toggle='modal' data-target='#iremarkmodal' style='color:#06394A;height:20px;float:right' title ="+data[5][t].interviewerRemarks+" ></span>";
-              }
-            $('#historytable').append('<td class="verticalLine'+clr+'"><div style="margin:2px"><div style="font-size:11px"><u>'+data[5][t].stateName+"-"+data[5][t].rounds+'</u>'+irem+'</div><div style="font-size:10px">'+data[5][t].statusName+'</div><div style="font-size:10px">By- '+data[5][t].name+'</div><div style="font-size:10px">On -'+date+'</div></div></td>'); 
-              t++;
-              clr++;
-              if(clr==5)
-                clr=0;
-            }
-            $('#historytable').append("</tr><tr style='height:3px'><td></td><td></td><td></td>)<td></td>;<td></td><td></td> <td></td> <td></td> <td></td><td></td> <td></td> </tr>" );
-   }    
+                            // $('.addDissable').css("background-color","white");
+                        }
+                    });
 
-}
-});
-}
+                    $('#history').click(function() {
+                        $('#showhistorydiv').toggle();
+                    })
 
-function interviewerRemarks(msg){
- // alert("rem function  "+msg);
-$('#iremarkdiv').html("<label>"+msg+"</label>");
-} 
+                    function scheduleInfo() {
 
-         $(document).ready(function(){
+                        $("#showhistorydiv").hide();
+                        $.ajax({
+                            url: '/getscheduleInfo',
+                            type: 'post',
+                            data: {
+                                "cid": <%=cdt[0].cdtid%>
+                            },
+                            success: function(data) {
 
- 
 
-              $("#id").val(<%=cdt[0].id%>);
-                $("#cdtid").val(<%=cdt[0].cdtid%>);
-                $("#modeid").val(<%=cdt[0].modeId%>);
-                $("#stateId").val(<%=cdt[0].stateId%>);
-                $("#rounds").val(<%=cdt[0].rounds%>);
-                $('#jdid').val(<%=cdt[0].requisitionId%>);
+                                //--------------------History Table...............................................
+                                $('#historytable').html('');
+                                var t = 0;
+                                var clr = 0;
+                                var jdtemp = [];
+                                var jdcount = [];
+                                var temparr = [];
+                                // .............storing all jd title.........
+                                for (var i = 0; i < data[5].length; i++) {
+                                    // alert(data[5][i].title);
+                                    jdtemp.push(data[5][i].title);
+                                }
 
-           var flag=<%=flag%>;
-           console.log(flag);
-           if(flag){            
-            var isFile='<%=cdt[0].feedbackForm%>';
-            $('#rating').val(<%=cdt[0].rating%>);
-            $('#status').val(<%=cdt[0].statusId%>);
-            $('#time').val('<%=cdt[0].timeTaken%>');
-            $('#remarks').html("<%=cdt[0].remarks%>"); 
+                                for (var i = 0; i < jdtemp.length; i++) {
+                                    temparr[jdtemp[i]] = (temparr[jdtemp[i]] || 0) + 1; //increments count if element already exists            
+                                }
 
-if(isFile){
-     $('#feed').html("<span class='title'>Download Your Feedback Form:</span><a href='/attach/feedback/<%=cdt[0].feedbackForm%>'  download><span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download feedback form'></span>");
-    $('button[type="submit"]').attr('disabled','disabled')
-    }
-else{
-    $('button[type="submit"]').attr("disabled",false); 
-}
-            $('.addDissable').attr('disabled', true); 
-           ;
-            $('.addDissable').css("color","grey");
-            $('.addDissable').css("cursor","auto-scroll");
+                                for (var i in temparr) {
+                                    jdcount.push(temparr[i]);
+                                }
 
-           // $('.addDissable').css("background-color","white");
-           }
-         })
+                                console.log("JDTEMP", jdtemp);
+                                console.log("JDCOUNT", jdcount);
+                                for (var i = 0; i < jdcount.length; i++) {
+                                    $('#historytable').append("<tr>");
+                                    var temp = 0;
+                                    for (var j = 0; j < jdcount[i]; j++) {
+                                        if (temp == 0) {
+                                            $('#historytable').append('<td><span class=""></span><div class="dialogbox"><div class="body"><div class="message"><span>' + data[5][t].title + '</span></div></div></div></td>');
+                                            temp++;
+                                        }
+                                        var irem = '';
+                                        var date = data[5][t].date;
+                                        date = date.slice(0, 10);
+                                        if (data[5][t].interviewerRemarks != null) {
+                                            data[5][t].interviewerRemarks = JSON.stringify(data[5][t].interviewerRemarks);
+                                            data[5][t].interviewerRemarks = data[5][t].interviewerRemarks.replace(/"/g, '"');
+                                            console.log(data[5][t].interviewerRemarks);
+                                            irem = "<span class='glyphicon glyphicon-info-sign' onclick='interviewerRemarks(" + data[5][t].interviewerRemarks + ")' data-toggle='modal' data-target='#iremarkmodal' style='color:#06394A;height:20px;float:right' title =" + data[5][t].interviewerRemarks + " ></span>";
+                                        }
+                                        $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + '</div><div style="font-size:10px">By- ' + data[5][t].name + '</div><div style="font-size:10px">On -' + date + '</div></div></td>');
+                                        t++;
+                                        clr++;
+                                        if (clr == 5)
+                                            clr = 0;
+                                    }
+                                    $('#historytable').append("</tr><tr style='height:3px'><td></td><td></td><td></td>)<td></td>;<td></td><td></td> <td></td> <td></td> <td></td><td></td> <td></td> </tr>");
+                                }
 
-            function validateSubmit(){  
-              if($('#rating').val().trim()>10||$('#rating').val().trim()<0||$('#rating').val().trim().length<=0){
-                alert("Rating must be between 0-10");
-                return false;
-              }
-              if($('#status').val()==0){
-                alert("Select a STATUS");
-                return false;
-              }
-              if($('#time').val().trim().length<=0){
-                alert("Enter Time Taken");
-                return false;
-              }
-              if(isNaN($('#time').val())){
-                alert("Enter Valid Time Taken");
-                return false;
-              }
-              if($('#remarks').val().trim().length<=0){
-                alert("Remarks field can not be empty");
-                return false;
-              }
+                            }
+                        });
+                    }
 
-                alert("Responce Submited Successfully!!");
-             }
-           /*    
+                    function interviewerRemarks(msg) {
+                        // alert("rem function  "+msg);
+                        $('#iremarkdiv').html("<label>" + msg + "</label>");
+                    }
+
+                 
+
+                    function validateSubmit() {
+                        if ($('#rating').val().trim() > 10 || $('#rating').val().trim() < 0 || $('#rating').val().trim().length <= 0) {
+                            alert("Rating must be between 0-10");
+                            return false;
+                        }
+                        if ($('#status').val() == 0) {
+                            alert("Select a STATUS");
+                            return false;
+                        }
+                        if ($('#time').val().trim().length <= 0) {
+                            alert("Enter Time Taken");
+                            return false;
+                        }
+                        if (isNaN($('#time').val())) {
+                            alert("Enter Valid Time Taken");
+                            return false;
+                        }
+                        if ($('#remarks').val().trim().length <= 0) {
+                            alert("Remarks field can not be empty");
+                            return false;
+                        }
+
+                        alert("Response Submited Successfully!!");
+                    }
+                    /*    
             var data1 = new FormData($('#form123')[0]);
            //    var files = $("#feedback").val();
                $.ajax({
@@ -395,8 +430,4 @@ else{
                             }
                           });    
 */
-          
-            </script>
-    <!--PAGE CONTENT ENDS-->
-<%include menu1.ejs%>
-<% include ../partials/footer %> 
+                </script>
