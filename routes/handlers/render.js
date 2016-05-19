@@ -405,7 +405,7 @@ module.exports = {
 				//console.log("master render-----------");
 			     var flag=req.flag==null?0:req.flag;
 			   res.render('masters',
-			   	{myModules:req.session.modules,
+			   	{	myModules:req.session.modules,
 			   		bugMaster:req.bugMaster,otherMaster:req.otherMaster,
 			   		bugMasterSubData:req.bugMasterSubData,
 			   		hideFlag:1,expenseMaster:req.resultExpensemaster[0],
@@ -413,13 +413,11 @@ module.exports = {
 			   		roleid:req.session.roleId,
 			   		logo:req.session.logo,user:req.session.firstName,
 			   		limit: req.session.limit,
-			   		//assetType:req.resultTypeSubtype[0],
-			   		//assetComponent:req.resultTypeSubtype[1],attr:req.resultTypeSubtype[2],
 			   		flag:flag,customrole:req.resultCustomRoles[0],files:req.resultFiles,
 			   		industry:req.resultIndustry,business:req.resultBusiness,
 			   		document:req.resultDocument,technology:req.resultTechnology,
 			   		restriction:req.resultRestriction,allinfo :req.resultHoliday,
-			   		defaultModule:req.session.defaultModule});
+			   		defaultModule:req.session.defaultModule,assetType:req.resultTypeSubtype});
 			   break;
 				/*case 'masters':
 			     var flag=req.flag==null?0:req.flag;

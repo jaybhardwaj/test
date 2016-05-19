@@ -248,7 +248,7 @@ thead th{
                 </div>
             </div>
             <div>
-                <table style="height:50px;width:50%;float:left">
+                <table style="height:50px;width:67%;float:left">
                     <tr>
                         <td><a id="quick" style="cursor:pointer;color:grey;float:left">Quick Tagging</a></td>
                         <td class="hide" id="qmgrdiv" style="">
@@ -606,7 +606,22 @@ thead th{
                         }
 
                         });
-
+                        $('#quick').click(function() {
+                        $('qmgrdropdown').html('');
+                        $('qselecttag').html('');
+                        getallmanager();
+                        $('#qmgrdiv').toggleClass("hide");
+                        $('#qjddiv').toggleClass("hide");
+                        $('#qsdiv').toggleClass("hide");
+                        if ($('#qmgrdiv').hasClass("hide")){
+                         
+                                 table.column(11).visible(false);      
+                        } else {
+                         
+                                table.column(11).visible(true);
+                             
+                        }
+                    });
                         $('#history').click(function() {
                             $(this).find('span').toggleClass('glyphicon-plus').toggleClass('glyphicon-minus');
                         });
@@ -708,7 +723,7 @@ thead th{
                                     }));
                                 }
 
-                                console.log(info);
+                                console.log("data while loading",info);
                                 table = $('#openreqstate').DataTable({
                                     data: info,
                                     columns: [
@@ -746,52 +761,20 @@ thead th{
                                      destroy: true, 
                                     "bLengthChange": true,
                                     "searching": false
-                                   /* "fnCreatedRow": function(nRow, aData, iDataIndex) {
-                                        if (parseInt($('td:eq(9)', nRow).html()) > 1) {
-                                            $(nRow).css({
-                                                "background-color": "#ffffb3"
-                                            });
-                                        }
-
-
-                                    }*/
-
                                 });
-
-                                 table.column(8).visible(false);
-                                 table.column(9).visible(false);
-                             //   table.column(11).visible(false);
-                             //   table.column(10).visible(true);
+                                 if ($('#qmgrdiv').hasClass("hide")){
+                                       table.column(8).visible(false);
+                                       table.column(9).visible(false);
+                                       table.column(11).visible(false);   
+                                  } else {
+                                          table.column(11).visible(true);
+                                  }                   
                             }
                         });
                     });
 
-                    var tog = 0;
-                    $('#quick').click(function() {
-//alert(tog);
-                        $('qmgrdropdown').html('');
-                        $('qselecttag').html('');
-                        getallmanager();
-                        $('#qmgrdiv').toggleClass("hide");
-                        $('#qjddiv').toggleClass("hide");
-                        $('#qsdiv').toggleClass("hide");
-                        if (tog % 2) {
-                            table.column(10).visible(true);
-                             table.column(8).visible(false);
-                                table.column(9).visible(false);
-                                table.column(11).visible(false);
-                            tog++;
-                        } else {
-
-                            table.column(10).visible(true);
-                             table.column(8).visible(true);
-                                table.column(9).visible(false);
-                                table.column(11).visible(true);
-                            tog++;
-                        }
-
-
-                    });
+                     
+             
                     var abc;
 
                     //-------------------------------------------End Ready
@@ -1060,8 +1043,7 @@ thead th{
                         $('#toglesearch').html("<a onclick='a2qsearch()' style='color:grey'>Advanced Search</a>");
                         $('#searchdiv').removeClass("hide");
                         $('#aSearchdiv').addClass("hide");
-                        /*$('#searchdiv').html("<input placeholder='Search candidate based on there Name,Location,Email ' type='text' name='gsearch' id='gsearch' style='margin-top:25px;width:90%'>  <img src='../images/candidate_search.png' id='gsearchimg' onclick='GetData();' height='33px' style='margin-top:-30px;margin-right:20px;float:right;'>");
-                         */
+                  
                     }
                     table1 = '';
 
@@ -1390,7 +1372,7 @@ var id = e.options[e.selectedIndex].value;*/
                               $("#openreqstate").dataTable().fnDestroy();
                                  $("#openreqstate").html('');
                                 
-                                console.log(info);
+                                console.log("data after search",info);
                                 //alert("a");
                           
                                 table = $('#openreqstate').DataTable({
@@ -1416,6 +1398,8 @@ var id = e.options[e.selectedIndex].value;*/
                                         }, {
                                             title: "Resume"
                                         }, {
+                                            title: "countTag"
+                                        }, {
                                             title: "Action"
                                         }, {
                                             title: "Select"
@@ -1429,10 +1413,13 @@ var id = e.options[e.selectedIndex].value;*/
                                     "bLengthChange": true,
                                     "searching": false
                                 });
-                                 table.column(8).visible(false);
-                                //table.column(9).visible(false);
-                                //table.column(11).visible(false);
-                                table.column(10).visible(false);
+                                   table.column(8).visible(false);
+                                   table.column(9).visible(false);
+                                 if ($('#qmgrdiv').hasClass("hide")){
+                                       table.column(11).visible(false);   
+                                  } else {
+                                          table.column(11).visible(true);
+                                  }  
                             }
                         };
                         $.ajax(up);
