@@ -2833,6 +2833,7 @@ addUser: function(req, res, next) {
 
      dashboardData:function(req,res,next){
            countFiles[req.session.userId] = 10000;
+           console.log('kaisan ho');
    totalFiles[req.session.userId] = 0;
   parsing[req.session.userId] = false; 
         modelPortal.dashboardData(req.body.data,req.body.grid,req.body.time,req.session.hrRole,req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
@@ -3226,6 +3227,7 @@ addUser: function(req, res, next) {
             else{
                  parseResult[0] = result[0];
                 parseResult[1] = flagCompleted;
+                console.log(parseResult[0]);
                 res.json(parseResult);
             }
 
