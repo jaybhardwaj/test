@@ -179,9 +179,11 @@ app.post('/error',url.error,render.redirect);
 
 
 //-----------------------------------------Project------------------------------------------
-app.get('/task',url.task,render.redirect);
+app.get('/task',url.task,portal.task,render.redirect);
 app.get('/resourceView',url.resource,portal.getAllResources,render.redirect);
 app.post('/projectByResource',portal.projectByResource);
+app.post('/emptyProj',portal.emptyProj);
+app.post('/saveTask',portal.saveTask);
 
 
 //-------------------------Admin Routes----------------------------------------------------

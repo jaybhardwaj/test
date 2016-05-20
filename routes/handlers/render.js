@@ -580,7 +580,7 @@ module.exports = {
                 Name: ' ',
                 myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule
+	                defaultModule:req.session.defaultModule,projectDetails:req.projectDetails
 	            });
             console.log(req.reqApprover[0]);
             break;
@@ -596,8 +596,11 @@ module.exports = {
                 Name: ' ',
                 myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule
+	                defaultModule:req.session.defaultModule,treeComponent:req.treeComponent,maxid:req.maxid,
+	                startid :req.minid,flag :req.flag,ultimateEndId:req.ultimateEndId,projectDetails:req.projectDetails,
+	                prId:req.prId 
 	            });
+
             break;
                 case 'resource':
              res.render('project/resourceView', {	               

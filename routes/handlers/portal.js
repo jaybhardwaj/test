@@ -3845,7 +3845,7 @@ addUser: function(req, res, next) {
         });
     },
      //----------------------------------Project Management System----------------------------
-     getAllResources:function(req,res,next){
+      getAllResources:function(req,res,next){
        
         modelPortal.getAllResources(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
@@ -3868,7 +3868,58 @@ addUser: function(req, res, next) {
                         res.json(result);
                 } 
         });
-    }
+    },
+    task :function(req,res,next){
+        var query = require('url').parse(req.url, true).query;
+        var flag = query.flag;
+        if(flag==undefined){
+            flag = -1;
+        }
+        console.log('flag is',flag);
+     modelPortal.task(flag,req.session.retailerId,function(err,result){
+            if(err){
+                console.log("there is an error",err);
+            }   
+            else{
+            req.treeComponent = result[0];
+            req.maxid         = result[1][0].endId;
+            req.minid         = result[1][0].startId;
+            req.flag          = flag;
+            req.ultimateEndId = result[2][0].ultimateendid;
+            req.projectDetails= result[3];
+            req.prId          = result[1][0].prId; 
+            console.log('alldata here',req.treeComponent,req.maxid,req.minid);
+                        next();
+                } 
+        });
+   },
+
+   emptyProj :function(req,res,next){
+      
+modelPortal.emptyProj(req.body.projectid,function(err,result){
+            if(err){
+                console.log("there is an error",err);
+            }   
+            else{
+        
+                 res.json('smile');
+                } 
+        });
+   },
+  saveTask :function(req,res,next){
+      modelPortal.saveTask(req.body.updateQ,req.body.submitFlag,req.body.projectId,function(err,result){
+            if(err){
+                console.log("there is an error",err);
+            }   
+            else{
+        
+                 res.json('smile');
+                } 
+        });
+
+
+},
+
 
      
 

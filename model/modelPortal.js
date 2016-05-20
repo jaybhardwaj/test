@@ -2180,7 +2180,8 @@ getHrRole:function(userId,roleId,retailerId,callback){
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
-            }
+/*<<<<<<< HEAD
+*/            }
             else {
             callback(err,result);
             }
@@ -2196,6 +2197,8 @@ getHrRole:function(userId,roleId,retailerId,callback){
         mysql(q, function(err, result) {
             if (err) {
                  console.log(err);
+/*=======
+>>>>>>> Changes by Mayur*/
             }
             else {
             callback(err,result);
@@ -2417,10 +2420,14 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             cdtid,modeid,rounds,filename,jdid]
        
         };
-         console.log(q);
+/*<<<<<<< HEAD
+*/         console.log(q);
+/*=======
+        //console.log(q);
+>>>>>>> Changes by Mayur*/
         mysql(q, function(err, result) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             else {
             callback(err,result);
@@ -2476,6 +2483,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         });   
         },
         addeditComponent:function (info,callback){
+<<<<<<< HEAD
        var q ={
           sql: 'call usp_asset_addeditComponent(?,?,?,?,?,?)',
           values: [info[0],info[1],info[2],info[3],info[4],info[5]]
@@ -2494,7 +2502,27 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         },
         //----------------------------------------Project Management System------------------------------
     getAllResources : function (userId,roleId,retailerId,callback){
+/*=======
+>>>>>>> Changes by Mayur*/
        var q ={
+          sql: 'call usp_asset_addeditComponent(?,?,?,?,?,?)',
+          values: [info[0],info[1],info[2],info[3],info[4],info[5]]
+       
+        };
+        console.log(q);
+        mysql(q, function(err, result){
+            if (err) {
+                console.log("oop",err);
+            }
+            else {
+                console.log("result is ",result);
+            callback(err,result);
+            }
+        });   
+        },
+        //----------------------------------------Project Management System------------------------------
+    getAllResources : function (userId,roleId,retailerId,callback){       
+     var q ={
           sql: 'call usp_pro_getAllResources(?)',
         values: [retailerId]
        
@@ -2508,7 +2536,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             callback(err,result);
             }
         });         
-    }    ,  
+    },  
         projectByResource : function (resId,callback){
        var q ={
           sql: 'call usp_pro_projectByResource(?)',
@@ -2516,6 +2544,8 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
        
         };
         //console.log(q);
+<<<<<<< HEAD
+=======
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
@@ -2524,5 +2554,60 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             callback(err,result);
             }
         });         
-    }                                     
+    }
+     ,task : function (flag,retailerId,callback){
+
+       var q ={
+          sql: 'call usp_proj_getAllTree(?,?)',
+        values: [flag,retailerId]
+       
+        };
+/*>>>>>>> Changes by Mayur*/
+        mysql(q, function(err, result) {
+            if (err) {
+                //console.log(err);
+            }
+            else {
+                console.log(q,result);
+          
+            callback(err,result);
+            }
+        });         
+    }, 
+    emptyProj : function (projectId,callback){
+
+       var q ={
+          sql: 'call usp_proj_makeEmptyTree(?)',
+        values: [projectId]
+       
+        };
+        mysql(q, function(err, result) {
+            if (err) {
+                console.log(err,q);
+            }
+            else {
+                console.log(q,result);
+          
+            callback(err,result);
+            }
+        });         
+    },
+    saveTask : function (updateQ,submitFlag,prId,callback){
+
+       var q ={
+          sql: 'call usp_proj_updateInsert(?,?,?)',
+        values: [prId,updateQ,submitFlag]
+       
+        };
+        mysql(q, function(err, result) {
+            if (err) {
+                console.log(err,q);
+            }
+            else {
+            console.log(q,result);
+          
+               callback(err,result);
+            }
+        });         
+    }                                    
 }
