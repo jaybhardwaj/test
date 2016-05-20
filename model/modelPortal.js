@@ -2483,8 +2483,8 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         });   
         },
         addeditComponent:function (info,callback){
-<<<<<<< HEAD
-       var q ={
+/*<<<<<<< HEAD
+*/       var q ={
           sql: 'call usp_asset_addeditComponent(?,?,?,?,?,?)',
           values: [info[0],info[1],info[2],info[3],info[4],info[5]]
        
@@ -2544,8 +2544,8 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
        
         };
         //console.log(q);
-<<<<<<< HEAD
-=======
+/*<<<<<<< HEAD
+=======*/
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
