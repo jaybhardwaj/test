@@ -2063,7 +2063,9 @@ getHrRole:function(userId,roleId,retailerId,callback){
     mysql(q, function(err, result) {
             if (err) {
                 //console.log(q, err);
+                console.log(q,err);
             } else {
+                console.log(q);
             callback(err,result);
             }
         });

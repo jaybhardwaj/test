@@ -775,6 +775,7 @@ setpageAssignSoftware:     function(req,res,next){
 	//-----------------------------------------------------hr management--------------------------------------------------
 
 hr:function(req,res,next){
+	   console.log('session id is ',req.session.retailerId)
          if(req.session.modules.indexOf(config.RMS)>=0){
 		if(req.session.hrRole){
 			if (req.session.hrRole != 4) {
