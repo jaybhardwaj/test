@@ -1863,13 +1863,14 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
      
    //- ---------------------Hr management system ------------------------------------------------------- -->
 
-getHrROle:function(userId,roleId,retailerId,callback){
+getHrRole:function(userId,roleId,retailerId,callback){
         var q={
             sql:'call usp_getHrRole(?,?,?)',
             values:[userId,roleId,retailerId]
         };
+
         mysql(q, function(err, result) {
-            
+            console.log(q,err);
             callback(err, result);
         });
     },
