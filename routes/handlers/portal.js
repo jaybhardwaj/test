@@ -2814,7 +2814,7 @@ addUser: function(req, res, next) {
  
  getHrRole:function(req,res,next){
         //console.log("----------------");
-        modelPortal.getHrROle(req.session.userId,req.session.roleId, req.session.retailerId,function(err,result){
+        modelPortal.getHrRole(req.session.userId,req.session.roleId, req.session.retailerId,function(err,result){
             if(err){
                 
                 next(err);
@@ -3089,7 +3089,7 @@ addUser: function(req, res, next) {
     },
 
     editCandidate:function(req,res,next){
-        //console.log("Form Submit Edit Candidate", req.body);
+         console.log("Form Submit Edit Candidate", req.body);
         if (req.body.skills.length == 0){ req.body.skills = '';}
          else if (req.body.skills.length == 1){req.body.skills = req.body.skills;}
         else {req.body.skills = req.body.skills.join(',');}

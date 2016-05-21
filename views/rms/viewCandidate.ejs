@@ -6,102 +6,7 @@
         <!--  <link href="/Bootstrap/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">  
   -->
         <style>
-  /*      label{
-      margin-top :5px;
-      color: grey;
-      font-size: 12px;
-  }
-             .fa-trash-o{
-      position: relative;
-    padding-top: 3%;
-    right: -9%;
-  }
-
-.textmargintop{
-  margin-top:10px;
-}
-
-.title{
-  color:black;
-  font-size: 16px;
-  margin-left: 40%;
-  font-family: ‘Arial Black’, Gadget, sans-serif;
-}
-.btn-default{
-  background-color:#41A8B3 !important;
-  color:white;
-  margin-top:10px;
-  margin-bottom:10px;
-  height:40px;
-}
-.btn-default:hover{
-  background-color:#41A8B3 !important;
-  color:white;
-}
- 
-  /* form starting stylings ------------------------------- 
-  select option{
-    color:gray;
-    font-size: 13px
-  }
-  
-    .md-input-container        { 
-      position:relative; 
-      margin: 30px 0 10px;
-    }
-    input, select         {
-      padding:3px 0 6px 0px;
-      /*display:block;
-      width:100%;--------------------------- 
-      border:none;
-      border-bottom:1px solid #ddd;
-      background: none;
-    }
-    select{
-      margin-top: 7px;
-      
-    }
-    select[multiple]{
-      /*background-color: red;----------------- 
-      color: white;
-      margin-top: 0;
-    }
-
-    input:focus, select:focus {
-      border-bottom: 1px solid #068bc2;
-      outline: medium none;
-    }
-label{
-  font-size: 13px;  
-  }
-
-    input[type=date] {
-      background-image:url(../images/calendar.png);
-      background-position:right center;
-      background-repeat:no-repeat;
-    }
-body{
-  background-color: white:!important;
-}
-.button{
-  background-color:#66caec !important;
-  border-bottom:2px solid #2B6173 !important;
-}
-#main-menu{
-  margin-top:5.56% !important;    
-  height:81.4% !important;
-}
-thead th{
-  text-align: center;
-  background-color:#7FCEE6;
-  color:#4D4E50;
-}
- td{
-   max-width: 110px;
- word-wrap: break-word;   
-  text-align: center;
-}
-
+   
 /* history tab ----------------------*/
  .tip {
   width: 0px;
@@ -156,7 +61,7 @@ thead th{
 }
 
  
- .chosen-choices {
+/* .chosen-choices {
                     background: none !important;
                     background: white;
                     border: none !important;
@@ -172,7 +77,7 @@ thead th{
                 .chosen-container{
                   width:100%!important;
                 }
- 
+ */
 
 .fileUpload {
     position: relative;
@@ -297,9 +202,9 @@ thead th{
                         <center>
                             <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;width:auto;margin-top:-5px"><b>Edit Information </b>
                         </center>
-                     <span id="closeedit"  class='close closeedit' data-dismiss="modal" style='float:right;margin-top:-26px'title ='Close' > &times;  </span>
+                     <span id="closeedit"  class='close closeedit' onClick="window.location.reload()" style='float:right;margin-top:-26px'title ='Close' > &times;  </span>
                     </div>
-                    <form action="/editCandidate" method="post">
+                    <form action="/editCandidate" method="post" onsubmit='return validateedit()'>
                         <div class="modal-body " style=''>
                             <input type="hidden" name="hcid" id="hcid">
                             <div class="row" style="margin-top: 10px">
@@ -307,7 +212,7 @@ thead th{
                               <div class="col-md-2"><input name="name" placeholder="@name" class="form-control" id="name" maxlength="100" style="width:100%;"></div>
                               <div class="col-md-2"><label>Phone No.</label><sup class='astrick'>*</sup></div>
                               <div class="col-md-2"><input name="phone" placeholder="@phone" id="phone" class="form-control" maxlength="10" minlength="10" style="width:100%"></div>
-                              <div class="col-md-2"><label>Experience :</label> </div>
+                              <div class="col-md-2"><label>Experience </label> </div>
                               <div class="col-md-2"> 
                                     <input name="years" class="used form-control" type="number" id="years" maxlength="100" style="width:50%;float:right" placeholder="Yrs">
                                     <input name="months" type="number" class="form-control" id="months" maxlength="100" style="width:50%;float:right" placeholder="Months">
@@ -319,7 +224,7 @@ thead th{
                               <div class="col-md-2"><label>Location </label><sup class='astrick'>*</sup> </div>
                               <div class="col-md-2">
                                <select id='locationId' class="form-control" name="locationId" >
-                              <option value = 'null'>-select-</option>
+                              <option value = '-1'>-select-</option>
                                     <%for(var i = 0 ;i<location.length;i++){%>
                                         <option id="location_<%=location[i].id%>" value="<%=location[i].id%>">
                                             <%=location[i].location%>
@@ -333,7 +238,7 @@ thead th{
                             </div>
                               <div class="row" style="margin-top: 20px">
                                 <div class="col-md-2"><label>Skills </label> <sup class='astrick'>*</sup></div>
-                                <div class="col-md-2"><select size="1" multiple class="form-control chosen-select"  id='skillsId' name="skills">
+                                <div class="col-md-2"><select size="1" multiple class="form-control  "  id='skillsId' name="skills">
                               <option value = 'null'>-select-</option>
                               <%for(var i = 0 ;i<skills.length;i++){%>
                                   <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>">
@@ -342,7 +247,7 @@ thead th{
                                   <%}%>
                           </select></div>
                                 <div class="col-md-2"><label>Qualification </label><sup class='astrick'>*</sup> </div>
-                                <div class="col-md-2"><input name="qualification" placeholder="@qualification" id="qualification" class="form-control" maxlength="100" style="width:95%"></div>
+                                <div class="col-md-2"><input name="qualification" placeholder="@qualification" id="qualification" class="form-control" maxlength="100" style="width:100%"></div>
                                 <div class="col-md-2"><label>Institute</label> </div>
                                 <div class="col-md-2"> 
                                       <input name="institute" placeholder="@institute" id="institute" class="form-control" maxlength="100" style="width:100%">
@@ -351,9 +256,9 @@ thead th{
                            
                             </div>
                              <center style=''>
-                                            <button type="button" value="Cancel" data-dismiss="modal" class="closeedit btn  "style="background-color: #f05f40 ;color:white"> Cancel </button>
+                                            <button type="button" value="Cancel" onClick="window.location.reload()"  class="closeedit btn  "style="background-color: #f05f40 ;color:white"> Cancel </button>
                                             
-                                            <button type="submit" class="btn " onclick="return validateedit()" style="background-color: #f05f40;color:white;width:80px" value="Save"> Save </button>
+                                            <button type="submit" class="btn "   style="background-color: #f05f40;color:white;width:80px" value="Save"> Save </button>
                             </center>
                     </form>
                 </div>
@@ -583,6 +488,9 @@ thead th{
                     //.......................................Document.Ready......................................
 
                     $(document).ready(function() {
+                     /*  $('#skillsId').tagger({ 
+                                        fieldWidth:'9em'
+                                        }); */
 
                         $('.viewCand-img').addClass("active");
 
@@ -958,7 +866,7 @@ thead th{
 
 
                                 $('#schtaggedJd').val(data[0][0].jdID);
-                                $("#schtaggedJd").trigger("chosen:updated");
+                               // $("#schtaggedJd").trigger("chosen:updated");
                                 $('#schtaggedJd').addClass('used');
                                 getreleventState();
 
@@ -1007,7 +915,7 @@ thead th{
 
 
                     function validateedit() {
-
+ 
                         if ($("#name").val().length < 1) {
                             alert("Name Field can not be left blank!");
                             return false;
@@ -1020,8 +928,8 @@ thead th{
                             alert("Enter Valid Email ID!");
                             return false;
                         }
-                        if ($("#locationId").val() == null) {
-                            alert("Location Field can not be left blank!");
+                        if ($("#locationId").val() == -1) {
+                            alert("Select a Location!");
                             return false;
                         }
                         if ($("#skillsId").val() == null || $("#skills").val() == 0) {
@@ -1206,10 +1114,8 @@ var id = e.options[e.selectedIndex].value;*/
                                 "id": id
                             },
                             success: function(data) {
-                                console.log("Candy info", data[0]);
-                                console.log("location", data[1]);
-                                console.log("skills", data[3]);
-
+                                
+ 
                                 $('#hcid').val(data[0][0].id);
                                 $('#name').val(data[0][0].name);
                                 $('#name').addClass('used');
@@ -1228,15 +1134,29 @@ var id = e.options[e.selectedIndex].value;*/
                                 $('#qualification').val(data[0][0].qualification);
                                 $('#qualification').addClass("used");
                                 var arr = [];
+                                var arrt=[];
+                                //console.log(data[3][0].skillid);
                                 arr = JSON.parse(JSON.stringify(data[3][0].skillid)).split(',')
-                                console.log(arr);
-                                for (var i = 0; i < arr.length; i++) {
-                                    $('#skills_' + arr[i].skillid).prop('selected', true);
+                                for (var i = 0; i <arr.length; i++) {
+                                 arrt.push(arr[i]);                                    
                                 }
-                                $('#skillsId').val(arr.toString().split(',')).trigger('change');
+                               // console.log(arrt);
+                               if(arrt.length){
+                                 $('#skillsId').tagger({
+                                        preselectedTags: arrt,
+                                        fieldWidth:'9em'
+                                        }); 
+                               }
+                               else{ 
+                                 $('#skillsId').tagger({ 
+                                        fieldWidth:'9em'
+                                        }); 
+                               }
+                               
+                              //  $('#skillsId').val(arr.toString().split(',')).trigger('change');
 
-                                $('#skillsId').trigger('chosen:updated');
-                                $('#skillsId').prop('disabled', false).trigger("chosen:updated");
+                               // $('#skillsId').trigger('chosen:updated');
+                              //  $('#skillsId').prop('disabled', false).trigger("chosen:updated");
 
                                 $('#status').val(data[0][0].status);
                                 $('#status').addClass('used');

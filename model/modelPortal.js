@@ -2016,7 +2016,7 @@ getHrRole:function(userId,roleId,retailerId,callback){
             values: [hcid, name, phone,email,locationId,skills,clocation, months, years,qualification,institute ]
         }
         mysql(q, function(err, result) {
-            //console.log("---In Modal Portal of VIew Candidate----w1111111111",result);
+             console.log("---In Modal Portal of VIew Candidate----w1111111111",result);
             if (err) {
                 //console.log(err);
             } else {
@@ -2213,7 +2213,7 @@ getHrRole:function(userId,roleId,retailerId,callback){
         sql: "call bsearch(?)",
         values: [str]
         }
-        //console.log(q);
+         console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
@@ -2230,10 +2230,10 @@ getHrRole:function(userId,roleId,retailerId,callback){
          sql: "call usp_AdvancedSearch(?,?,?,?)",
         values: [name1,jdtitle,email1,location1]
         }
-        //console.log(q);
+        console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                //console.log(err);
+                console.log(err);
             }
             else {
             callback(err,result);

@@ -24,7 +24,7 @@
     display: table-cell;
 }	
  </style>
-    <div style="background-color:antiquewhite;margin-top:3%">
+ <div style="background-color:antiquewhite;margin-top:3%">
    <center> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Raise Requisition</b></label></center>
     <div style="margin:0px">
         <form onsubmit='return validateForm()' id="raise-requisition" name="myform" class="max-width" method="post" action="/raiseRequisition" >
@@ -34,7 +34,7 @@
                     <label>Job Title<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
-                    <input name="JobTitle" id="jobTitle" class="form-control" placeholder="job title"  maxlength="250" required>
+                    <input type="text" name="JobTitle" id="jobTitle" class="form-control" placeholder="job title"  maxlength="250" required>
                     </div>        
                 </div>
                  <div class="col-md-4">
@@ -58,7 +58,6 @@
                     </div>
                     <div class="col-md-8">
                     <select size="1" multiple class="form-control" placehoder="select skills" style="width:150px" id='skillsId'  name="skills" value=' '; >
-                                
                                 <%for(var i = 0 ;i<skills.length;i++){%>
                                     <option value="<%=skills[i].id%>">
                                         <%=skills[i].skills%>
@@ -99,7 +98,7 @@
                     <label>Experience<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
-                    <input name="YearsOfExp"  class="form-control" id="yox" placeholder="Experience" type="decimal" style="width:100%" maxlength="10" required max="999" min="1" required/>
+                    <input name="YearsOfExp"  class="form-control" id="yox" placeholder="Experience" type="number" step="0.1" style="width:100%" maxlength="10" required max="999" min="0" required/>
                     </div>        
                 </div>
             </div>
@@ -146,7 +145,7 @@
                     <label>Minimum Salary:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
-                    <input name="MinimumSalary" class="form-control" placeholder="minimum salary" id="minsal" type="number" style="width:100%" min="0" max="1000000000"  required/>
+                    <input name="MinimumSalary" class="form-control" placeholder="minimum salary" id="minsal" type="number" style="width:100%" min="1" max="1000000000"  required/>
                     </div>        
                 </div>
                 <div class="col-md-4">
@@ -154,7 +153,7 @@
                     <label>Maximum Salary:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
-                     <input name="MaximumSalary" class="form-control" placeholder="maximum salary" id="maxsal" type="number" style="width:100%" min="0" max="1000000000"  required/>
+                     <input name="MaximumSalary" class="form-control" placeholder="maximum salary" id="maxsal" type="number" style="width:100%" min="1" max="1000000000"  required/>
                     </div>        
                 </div>
                 <div class="col-md-4">
@@ -185,6 +184,7 @@
                 
                     <div class="col-md-10 col-md-offset-1">
                       <textarea name="Description" id="Description" maxlength="4000" placeholder="JobDescription" ></textarea>
+                      (max. 4000 characters.)
                     </div>               
             </div>
             <div class="row" style="margin-top:2%;margin-bottom:-1%">
@@ -203,9 +203,18 @@
  
             <script>
                 function validateForm() {
+                    if(!$('#jobTitle').val().trim().length){
+                        alert("Please fill Job Title");
+                        return false;
+                    }
                     var strLocation = '#location_'+$('#locationId').val()
                     $('#locationnameId').val($(strLocation).html().trim());
                            console.log($('#minsal').val() + '      ' + $('#maxsal').val());
+
+                    if(!$('#yox').val().trim().length){
+                        alert("Please fill Experience");
+                        return false;
+                    }
                     if ($('#minsal').val()-$('#maxsal').val()>0) {
                         alert("Minimum Salary must be less than Maximum Salary");
                         return false;
