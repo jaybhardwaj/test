@@ -4026,7 +4026,7 @@ modelPortal.emptyProj(req.body.projectid,function(err,result){
  function  parseAll(textLowerCase,req,strname,next){
 var parsedData ;
 var largeArr = [];
-var conjunctionArr = ['if','and','the','is','because','on','in','above','be','would','for','each','at','under','by','been','no','my','upon','been','will','there','that','this'];
+var conjunctionArr = ['if','and','the','is','because','on','to','in','from','of','above','be','would','for','each','at','under','by','been','no','my','upon','been','it0','will','there','that','this'];
 for(var i =0;i<textLowerCase.length;i++){
 
 if(largeArr.indexOf(textLowerCase[i])==-1&&conjunctionArr.indexOf(textLowerCase[i])==-1&&textLowerCase[i].length>1){
@@ -4075,7 +4075,7 @@ else{
 
 
 function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
-    var longnumber ;
+    var longnumber = '' ;
    // //console.log(textLowerCase);
     var dateForYear = new Date();
     var yearForYear = dateForYear.getFullYear();
@@ -4315,22 +4315,36 @@ for(var i = 0;i<institituefromdb.length;i++){
                 email = textarr[k];
         }
         if (/^\d{10,}$/.test(textarr[k])) {
-            if (phone == '') {
+               if(phone!=''){ 
+                phone = phone +','+ textarr[k];
+             }
+             else {
+
                 phone = textarr[k];
+                
+               }
+
             }
 
-        }
+    
 
+if (/^\d{2,9}$/.test(textarr[k])) {
+    if(longNumber==''&&textarr[k].slice(0,2)!='20'||longNumber!=''){
+        console.log(textarr[k].slice(0,2));
+    longNumber = longNumber.concat(textarr[k]);
+ }
+}
+if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(longNumber)==-1) {
+    if (phone != '') {
+        phone = phone + ',' + longNumber;
+    } else {
 
-        if (/^\d{2,}$/.test(textarr[k]) && phone == '' && phoneLongnumber == '') {
-            longNumber = longNumber.concat(textarr[k]);
-        }
-        if (longNumber.length >= 10 && !(/^\d{2,}$/.test(textarr[k]))) {
-            phoneLongnumber = longnumber;
-        } else if (!(/^\d{2,}$/.test(textarr[k]))) {
-            longnumber = '';
-        }
-
+        phone = longNumber;
+         }
+    longNumber = '';
+} else if (!(/^\d{2,9}$/.test(textarr[k]))) {
+    longNumber = '';
+}
 
 
         // if()
@@ -4689,12 +4703,12 @@ function blankentry(targetPath, req) {
             countFiles[req.session.userId]++;
             //console.log('parser failure', countFiles[req.session.userId], req.session.userId);
             // res.redirect('/error');
-        } else {
+          } else {
             req.session.empty = -1;
             countFiles[req.session.userId]++;
             //console.log('parser Success', countFiles[req.session.userId], req.session.userId);
 
-        }
+           }
 
     });
 
