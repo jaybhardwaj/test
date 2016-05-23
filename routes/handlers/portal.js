@@ -1653,13 +1653,10 @@ getViewHardware:function(req,res,next){
             next(error);
             return;
         }
-<<<<<<< Updated upstream
+
         req.resultHardware = resultHardware[0];
         //console.log(resultHardware[0]);
-=======
-        req.resultHardware = resultHardware;
-        console.log(resultHardware[1]);
->>>>>>> Stashed changes
+
         next();
     });
 },
@@ -1696,12 +1693,10 @@ getViewHardware:function(req,res,next){
         var line=req.body.Quantity;
         modelPortal.addHardware(req.body.type,req.body.invoiceNo,req.body.purchasedOrder,req.body.Quantity,req.body.invoiceDate,req.body.deliveryDate,req.body.vendor,req.body.invoiceAmt,req.session.userId,req.body.ides,function(error,result){
              if(error){
-<<<<<<< Updated upstream
-               //console.log('error is',error,q);
-=======
+
                 console.log("hgdtfe rehryte eyer eyeyeyevteyttye ",error);
               next(error);
->>>>>>> Stashed changes
+
               
             }
             else{
@@ -3178,10 +3173,16 @@ addUser: function(req, res, next) {
     },
 
     editCandidate:function(req,res,next){
-         console.log("Form Submit Edit Candidate", req.body);
-        if (req.body.skills.length == 0){ req.body.skills = '';}
-         else if (req.body.skills.length == 1){req.body.skills = req.body.skills;}
-        else {req.body.skills = req.body.skills.join(',');}
+         console.log("Form Submit Edit Candidate", req.body.skills.length);
+            if (req.body.skills.length == 0){
+                 req.body.skills = '';
+             }
+             else if (req.body.skills.length == 1){
+                req.body.skills = req.body.skills;
+            }
+            else {
+                req.body.skills = req.body.skills.join(',');
+            }
         modelPortal.editCandidate(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.hcid, req.body.name,req.body.phone,req.body.email,req.body.locationId,req.body.skills,
             req.body.clocation,req.body.months,req.body.years,req.body.qualification,req.body.institute,function(err,result){

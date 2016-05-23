@@ -90,14 +90,14 @@
             </style>
 
             <body>
-                <div class="" style="padding-top:4%;background-color: antiquewhite">
+                <div class="" style="padding-top:4%;background-color: antiquewhite;overflow: hidden;">
 
 
                     <center> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Interview Feedback</b></label></center>
 
                     <div  style="color:#f05f40;cursor:pointer;float: right;padding-right: 20px" >
                         
-                        <span data-toggle="modal" data-target="#historyModal" class="glyphicon glyphicon-plus" id="history" ><label> History</label></span>
+                        <span data-toggle="modal" onclick="scheduleInfo()" data-target="#historyModal" class="glyphicon glyphicon-plus" id="history" ><label> History</label></span>
                     </div>
 
                     <div class="row" style="padding: 5%;padding-top: 0%;padding-bottom: 2%">
@@ -136,7 +136,7 @@
                                             <%=cdt[0].skills%>
                                         </td>
                                         <td><span class="title">Rating : </span></td>
-                                        <td> <input class="addDissable form-control" type="text" name="rating" id="rating" placeholder="/10"  ></td>
+                                        <td> <input class="addDissable form-control" min="0" max="10"  type="number" name="rating" id="rating" placeholder="/10"  ></td>
                                         <td><span class="title">Current Round : </span></td>
                                         <td>
                                             <%=cdt[0].rounds%>
@@ -152,11 +152,10 @@
                                             <span class="title">Status :</span></td>
                                         <td>
                                             <select id="status" name="status" class="addDissable form-control"  >
-                        <option value="0">--select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Rejected</option>
-                    </select>
-
+                                                <option value="0">--select--</option>
+                                                <option value="1">Approve</option>
+                                                <option value="2">Rejected</option>
+                                            </select> 
                                         </td>
                                         <td><span class="title">Type :</span></td>
                                         <td>
@@ -170,7 +169,7 @@
                                             <%=cdt[0].emailID%>
                                         </td>
                                         <td><span class="title">Time Take :</span></td>
-                                        <td> <input class="addDissable form-control" type="text" name="time" id="time" placeholder="min."  ></td>
+                                        <td> <input class="addDissable form-control" type="number" min="0" max="999" name="time" id="time" placeholder="min."  ></td>
                                         <td><span class="title">Mode :</span></td>
                                         <td>
                                             <%=cdt[0].mode%>
@@ -184,6 +183,7 @@
                                             <span class="title">Remarks:</span></td>
                                         <td>
                                             <textarea placeholder="add your comment" class="addDissable form-control" row="10"  name="remarks" id="remarks"></textarea>
+                                            (max. 500 characters)
                                         </td>
                                         <td id="feed" style=" ">
                                             <span class="title">Upload Feedback:</span>
@@ -345,6 +345,9 @@
 
                                 console.log("JDTEMP", jdtemp);
                                 console.log("JDCOUNT", jdcount);
+                                if(data[5][t].firstName===null){
+                                    data[5][t].firstName="HR";
+                                }
                                 for (var i = 0; i < jdcount.length; i++) {
                                     $('#historytable').append("<tr>");
                                     var temp = 0;
@@ -362,7 +365,7 @@
                                             console.log(data[5][t].interviewerRemarks);
                                             irem = "<span class='glyphicon glyphicon-info-sign' onclick='interviewerRemarks(" + data[5][t].interviewerRemarks + ")' data-toggle='modal' data-target='#iremarkmodal' style='color:#06394A;height:20px;float:right' title =" + data[5][t].interviewerRemarks + " ></span>";
                                         }
-                                        $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + '</div><div style="font-size:10px">By- ' + data[5][t].name + '</div><div style="font-size:10px">On -' + date + '</div></div></td>');
+                                        $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + '</div><div style="font-size:10px">By- ' + data[5][t].firstName + '</div><div style="font-size:10px">On -' + date + '</div></div></td>');
                                         t++;
                                         clr++;
                                         if (clr == 5)
@@ -401,6 +404,10 @@
                         }
                         if ($('#remarks').val().trim().length <= 0) {
                             alert("Remarks field can not be empty");
+                            return false;
+                        }
+                        if ($('#remarks').val().trim().length >500) {
+                            alert("Remarks can not be more than 500  characters");
                             return false;
                         }
 

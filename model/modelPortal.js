@@ -2250,9 +2250,8 @@ getHrRole:function(userId,roleId,retailerId,callback){
         }
         mysql(q, function(err, result) {
             if (err) {
-                //console.log(err);
-/*<<<<<<< HEAD
-*/            }
+ 
+            }
             else {
             callback(err,result);
             }
@@ -2268,8 +2267,7 @@ getHrRole:function(userId,roleId,retailerId,callback){
         mysql(q, function(err, result) {
             if (err) {
                  console.log(err);
-/*=======
->>>>>>> Changes by Mayur*/
+ 
             }
             else {
             callback(err,result);
@@ -2279,8 +2277,8 @@ getHrRole:function(userId,roleId,retailerId,callback){
     },
      searchHr : function (userId,roleId,retailerId,str,callback){
        var q ={
-        sql: "call bsearch(?)",
-        values: [str]
+        sql: "call bsearch(?,?)",
+        values: [str,retailerId]
         }
          console.log(q);
         mysql(q, function(err, result) {
@@ -2296,8 +2294,8 @@ getHrRole:function(userId,roleId,retailerId,callback){
     },
      advancesearchHr : function (userId,roleId,retailerId,name1,jdtitle,email1,location1,callback){
        var q ={
-         sql: "call usp_AdvancedSearch(?,?,?,?)",
-        values: [name1,jdtitle,email1,location1]
+         sql: "call usp_AdvancedSearch(?,?,?,?,?)",
+        values: [name1,jdtitle,email1,location1,retailerId]
         }
         console.log(q);
         mysql(q, function(err, result) {
@@ -2491,11 +2489,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             cdtid,modeid,rounds,filename,jdid]
        
         };
-/*<<<<<<< HEAD
-*/         console.log(q);
-/*=======
-        //console.log(q);
->>>>>>> Changes by Mayur*/
+ 
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
@@ -2572,10 +2566,10 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         });   
         },
         //----------------------------------------Project Management System------------------------------
-    getAllResources : function (userId,roleId,retailerId,callback){
+/*    getAllResources : function (userId,roleId,retailerId,callback){*/
 /*=======
 >>>>>>> Changes by Mayur*/
-       var q ={
+     /*  var q ={
           sql: 'call usp_asset_addeditComponent(?,?,?,?,?,?)',
           values: [info[0],info[1],info[2],info[3],info[4],info[5]]
        
@@ -2590,7 +2584,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             callback(err,result);
             }
         });   
-        },
+        },*/
         //----------------------------------------Project Management System------------------------------
     getAllResources : function (userId,roleId,retailerId,callback){       
      var q ={

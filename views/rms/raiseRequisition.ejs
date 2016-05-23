@@ -24,7 +24,7 @@
     display: table-cell;
 }	
  </style>
- <div style="background-color:antiquewhite;margin-top:3%">
+ <div style="background-color:antiquewhite;margin-top:3%;overflow: hidden;">
    <center> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Raise Requisition</b></label></center>
     <div style="margin:0px">
         <form onsubmit='return validateForm()' id="raise-requisition" name="myform" class="max-width" method="post" action="/raiseRequisition" >
@@ -34,7 +34,7 @@
                     <label>Job Title<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
-                    <input type="text" name="JobTitle" id="jobTitle" class="form-control" placeholder="job title"  maxlength="250" required>
+                    <input type="text" name="JobTitle" id="jobTitle" class="form-control" placeholder="job title"  maxlength="100" required>
                     </div>        
                 </div>
                  <div class="col-md-4">
@@ -128,10 +128,10 @@
                 </div>
                  <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Priority<sup class="astrick">*</sup></label>
+                    <label>Priority </label>
                     </div>
                     <div class="col-md-8">
-                    <select name="mailPriority" class="form-control" id="priority" style="width:100%;" required>
+                    <select name="mailPriority" class="form-control" id="priority" style="width:100%;"  >
                                 <option value=''>select</option>
                                 <option value="1">Urgent</option>
                                 <option value="2">Normal</option>
@@ -142,36 +142,36 @@
             <div class="row" style="margin-top:5px">
                  <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Minimum Salary:<sup class="astrick">*</sup></label>
+                    <label>Minimum Salary: </label>
                     </div>
                     <div class="col-md-8">
-                    <input name="MinimumSalary" class="form-control" placeholder="minimum salary" id="minsal" type="number" style="width:100%" min="1" max="1000000000"  required/>
+                    <input name="MinimumSalary" class="form-control" placeholder="minimum salary" id="minsal" type="number" style="width:100%" min="1" max="1000000000"   />
                     </div>        
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Maximum Salary:<sup class="astrick">*</sup></label>
+                    <label>Maximum Salary: </label>
                     </div>
                     <div class="col-md-8">
-                     <input name="MaximumSalary" class="form-control" placeholder="maximum salary" id="maxsal" type="number" style="width:100%" min="1" max="1000000000"  required/>
+                     <input name="MaximumSalary" class="form-control" placeholder="maximum salary" id="maxsal" type="number" style="width:100%" min="1" max="1000000000"   />
                     </div>        
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Suggested Interviewer:<sup class="astrick">*</sup></label>
+                    <label>Suggested Interviewer:</label>
                     </div>
                     <div class="col-md-8">
-                    <input name="RecruiterName" class="form-control" placeholder="interviewer" id="nop" type="text" style="width:100%" maxlength="50" required/>
+                    <input name="RecruiterName" class="form-control" placeholder="interviewer" id="RecruiterName" type="text" style="width:100%" maxlength="50"  />
                     </div>        
                 </div>
             </div>
-             <div class="row" style="margin-top:5px">
+             <div class="row" style=" ">
                 <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Type:<sup class="astrick">*</sup></label>
+                    <label>Type: </label>
                     </div>
                     <div class="col-md-8">
-                    <select name="jobType" class="form-control"  id="jobType" style="width:100%;" required>
+                    <select name="jobType" class="form-control"  id="jobType" style="width:100%;"  >
                                 <option value=" ">select</option>
                                 <option value="1">Contractual</option>
                                 <option value="2">Permanent</option>
@@ -180,15 +180,16 @@
                 </div>          
             </div>
             <div class="row" style="margin-top:1%;margin-left:1%">
-                <label>Job Description:<sup class="astrick">*</sup></label>          
-                
-                    <div class="col-md-10 col-md-offset-1">
-                      <textarea name="Description" id="Description" maxlength="4000" placeholder="JobDescription" ></textarea>
+                <div class="col-md-1" style="padding-left: 0px">
+                <label style="float: left">Job Description:<sup class="astrick">*</sup></label>          
+                </div>
+                    <div class="col-md-10  " style="padding-left: 0px">
+                      <textarea name="Description" id="Description" maxlength="4000" placeholder="JobDescription" style="width:90%" ></textarea>
                       (max. 4000 characters.)
                     </div>               
             </div>
-            <div class="row" style="margin-top:2%;margin-bottom:-1%">
-                <div class="col-md-1 col-md-offset-5" style="margin-bottom:2%">
+            <div class="row" style="margin-top:1%; ">
+                <div class="col-md-1 col-md-offset-5"  >
                     <button type="submit" class="button bt-small" style="width:127%"><i class="fa fa-save"></i> Submit</button>
                 </div>
             </div>
@@ -223,10 +224,10 @@
                         alert('Please select a skill');
                         return false;
                     }
-                      if($('#jobType').val()<1){
-                alert("Select Job Type");
-                return false;
-                }
+                    /*  if($('#jobType').val()<1){
+                        alert("Select Job Type");
+                        return false;
+                        }*/
                     var decode = tinyMCE.activeEditor.getContent();
                     decode = decode.replace(/&nbsp;/g, '');
                     decode = decode.replace(/<p>/g, '');
