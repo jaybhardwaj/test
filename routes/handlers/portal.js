@@ -1587,6 +1587,47 @@ changeAssignmentStatus: function(req, res, next) {
             next();
         });
     },
+
+     getlineid:function(req,res,next){
+
+        modelPortal.getlineid(req.body.id,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result);
+        });
+    },
+
+      getlinevalue:function(req,res,next){
+
+        modelPortal.getlinevalue(req.body.id,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result);
+        });
+    },
+
+  updateTag:function(req,res,next){
+
+        modelPortal.updateTag(req.body.tagNo,req.body.ides,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result);
+        });
+    },
+
+
+      getsublinevalue:function(req,res,next){
+
+        modelPortal.getsublinevalue(req.body.id,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result);
+        });
+    },
 //new 4 hardware
     updateHardware:function(req,res,next){
 
@@ -1612,8 +1653,13 @@ getViewHardware:function(req,res,next){
             next(error);
             return;
         }
+<<<<<<< Updated upstream
         req.resultHardware = resultHardware[0];
         //console.log(resultHardware[0]);
+=======
+        req.resultHardware = resultHardware;
+        console.log(resultHardware[1]);
+>>>>>>> Stashed changes
         next();
     });
 },
@@ -1645,21 +1691,64 @@ getViewHardware:function(req,res,next){
          });
      },
        addHardware:function(req,res,next){
-        
-        modelPortal.addHardware(req.body.attIds,req.body.attributeValues,req.body.warranties,
-            req.body.serialIds,req.body.type,req.body.invoiceNo,req.body.purchasedOrder,req.body.Quantity,req.body.invoiceDate,req.body.deliveryDate,req.body.vendor,req.body.invoiceAmt,function(q,error){
+        var datastring=req.body.attr;
+        //console.log("eytffdety erefye rerfey",req.body.attr[ ]);
+        var line=req.body.Quantity;
+        modelPortal.addHardware(req.body.type,req.body.invoiceNo,req.body.purchasedOrder,req.body.Quantity,req.body.invoiceDate,req.body.deliveryDate,req.body.vendor,req.body.invoiceAmt,req.session.userId,req.body.ides,function(error,result){
              if(error){
+<<<<<<< Updated upstream
                //console.log('error is',error,q);
+=======
+                console.log("hgdtfe rehryte eyer eyeyeyevteyttye ",error);
+              next(error);
+>>>>>>> Stashed changes
+              
+            }
+            else{
+                console.log('jdsdsdvvdgddgsdcfsdsgfdgsdysvdjogendra',result[0][0].headerId);
+              res.json(result[0][0].headerId);
+              
+               next();
+          }
+      });
+    },
+   
+    addline:function(req,res,next){
+             // for(var i=0;i<line;i++)
+             console.log(req.body);
+             modelPortal.addlineItem(req.body.ctype,req.body.t1,req.body.t2,req.body.t3,req.body.hdId,req.body.t6,req.body.t7,req.body.ides,function(error,result){
+                 if(error){
+               
+              
+           }
+            else{
+                  console.log('jdsdsdvvdgddgsdcfsdsgfdgsdysvdjogendra',result[0][0].lineId);
+              res.json(result[0][0].lineId);
+              
+             
+
+            }
+        });
+        },
+         
+            subaddline:function(req,res,next){  
+            console.log('jai mata di',req.body) ; 
+             modelPortal.addsublineItem(req.body.st1,req.body.st2,req.body.lineid,req.body.st3,req.body.hdId,req.body.st4,req.body.st5,req.body.ides,function(error,result){
+                 if(error){
+              
               
             return;}
             else{
-              res.json('success');  
+                 //console.log('jdsdsdvvdgddgsdcfsdsgfdgsdysvdjogendra',result[0][0].sublineId);
+              res.json('success');
+                
             }
-        });
+               }); 
+    
     },
 
      addSoftware: function(req, res, next) {
-        modelPortal.addSoftware('null',req.body.stype,
+        modelPortal.addSoftware(req.body.stype,req.body.stype,
 
             req.body.vendor,req.body.Invoicedate,
             req.body.name,

@@ -912,15 +912,84 @@ addSoftware: function(acid,stype,vendor,Invoicedate,name,des,test5,key,users,eda
         callback(err, result);
     });
 },
-addHardware:function(attIds,attributeValues,warranties,serialIds,type,invoiceNo,purchasedOrder,Quantity,invoiceDate,deliveryDate,vendor,invoiceAmt,callback){
+addHardware:function(type,invoiceNo,purchasedOrder,Quantity,invoiceDate,deliveryDate,vendor,invoiceAmt,userId,ides,callback){
     var q={
-        sql:'call usp_ast_addHardware(?,?,?,?,?,?,?,?,?,?,?,?)',
-        values:[attIds,attributeValues,warranties,serialIds,type,invoiceNo,purchasedOrder,Quantity,invoiceDate,deliveryDate,vendor,invoiceAmt]
-    };
-    mysql(q,function(err){
-        callback(q,err);
+        sql:'call usp_ast_addHardware(?,?,?,?,?,?,?,?,?,?)',
+        values:[type,invoiceNo,purchasedOrder,Quantity,invoiceDate,deliveryDate,vendor,invoiceAmt,userId,ides]
+    }
+    //console.log(q);
+    mysql(q,function(err,result){
+       
+        callback(err,result);
     }); 
 },
+
+/******************jogendra singh ***********************************/
+getlineid:function(id,callback){
+    var q={
+        sql:'call usp_ast_getlineid(?)',
+        values:[id]
+    };
+    console.log(q);
+    mysql(q,function(err,result){
+        callback(err,result);
+    }); 
+},
+
+getlinevalue:function(id,callback){
+    var q={
+        sql:'call usp_ast_getsubHardware(?)',
+        values:[id]
+    };
+    console.log(q);
+    mysql(q,function(err,result){
+        callback(err,result);
+    }); 
+},
+
+updateTag:function(tagNo,ides,callback){
+    var q={
+        sql:'call usp_ast_generateTagNo(?,?)',
+        values:[tagNo,ides]
+    };
+    console.log(q);
+    mysql(q,function(err,result){
+        callback(err,result);
+    }); 
+},
+
+getsublinevalue:function(id,callback){
+    var q={
+        sql:'call usp_ast_viewsublineEntry(?)',
+        values:[id]
+    };
+    console.log(q);
+    mysql(q,function(err,result){
+        callback(err,result);
+    }); 
+},
+
+addlineItem:function(type,serialno,attid,attrvalue,headerid,brand,warranty,ides,callback){
+    var q={
+        sql:'call usp_ast_addlineItem(?,?,?,?,?,?,?,?)',
+        values:[type,serialno,attid,attrvalue,headerid,brand,warranty,ides]
+    };
+    console.log(q);
+    mysql(q,function(err,result){
+        callback(err,result);
+    }); 
+},
+
+addsublineItem:function(type,serialno,lineId,color,headerid,brand,warranty,ides,callback){
+    var q={
+        sql:'call usp_ast_addsublineItem(?,?,?,?,?,?,?,?)',
+        values:[type,serialno,lineId,color,headerid,brand,warranty,ides]
+    };
+    mysql(q,function(err,result){
+        callback(err,result);
+    }); 
+},
+/***********************end*****************************/
 editData:function(id, callback){
     var q={ 
         sql:'call usp_ast_getEditStationary(?)',values:[id]

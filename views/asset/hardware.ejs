@@ -119,7 +119,7 @@
         <input type="button" class="btn btn-danger hide" id="cancel" value="Cancel">
       </div>
       <div class="col-md-1">
-        <input type="button" onclick="return saveall()"style="position:relative;left:-22%;" class="btn btn-info hide"value="Submit" id="submit">
+        <input type="button" onclick="parsealldata()"style="position:relative;left:-22%;" class="btn btn-info hide"value="Submit" id="submit">
       </div>
       <div class="col-md-1">
         <input type="button"class="btn btn-primary" id="next" style="position:relative;right:180%"value="NEXT"onclick="return addcompo()">
@@ -159,6 +159,7 @@
                 <tbody id="addcompobody">
                 </tbody>
               </table>
+              <input type="hidden" id="serids">
               <input type="button"class="btn btn-info" onclick="saveComp()" value="SUBMIT">
              <input type="button"class="btn btn-info" onclick="addCompModal()" value="ADD">
 
@@ -178,10 +179,11 @@
 </style>
     <script type="text/javascript">
       var countAddCompModal = 0;
-
+      var subheaderArray=[];
+      var componentArray=[];
      function addCompModal(){
 
-    var row = '<tr><td><input type = "text" class = "single form-control"></td><td><input type = "text" class = "single form-control"></td><td><select class="single form-control" id="brand"><option selected value="2">b</option></select></td><td><input type = "text" class = "single form-control"></td><td><input type = "text" class = "single form-control"></td></tr>';
+    var row = '<tr><td><select class = "single form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype[0].length;i++){%><option value="<%=htype[0][i].id%>"><%=htype[0][i].componentName%></option><%}%></select></td><td><input type = "text" class = "single form-control" id="srno'+countAddCompModal+'"></td><td><select class="single form-control" id="brand'+countAddCompModal+'"><option selected value="2">b</option></select></td><td><input type = "text" class = "single form-control" id="war'+countAddCompModal+'"></td><td><input type = "text" class = "single form-control" id="size'+countAddCompModal+'"></td></tr>';
          $('#addcompobody').append(row);
          countAddCompModal++;
 
@@ -270,6 +272,7 @@ var comps=[];
 var qty;
 var attlength;
 var allAttIds = [];
+var allAttIds1 = [];
 function addcompo(){
   
   var typ = document.getElementById('typel');
@@ -348,7 +351,9 @@ function addcompo(){
                     head=head+'<th>'+result[0][i].attribute+'</th>';
                   allAttIds.push(result[0][i].attId);
                   }
-                  allAttIds.push(0);
+                  allAttIds1=allAttIds;
+                  alert(allAttIds1);
+                  //allAttIds.push(0);
         /********************Important next line*************************/
             head=head+'<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty</th><th class = "">Components</th></tr>';
             $('#headi').append(head);
@@ -380,23 +385,24 @@ function addcompo(){
           k--;
 
 
-              row=row+'<td><select class="single" id="'+i+o+'">';
+              row=row+'<td><select class="single" id="brand'+i+'">';
             
            for(var dropdownValues=k;dropdownValues<result[1].length;dropdownValues++){
              row=row+'<option value="'+result[1][dropdownValues].dropDownValue+'">'+result[1][dropdownValues].value+'</option>';  
            }
           row = row + '</select></td><td><input'+
-        ' class="single form-control warrClass" id="warranty'+i+'type = "text"></td>';
-
+        ' class="single form-control warrClass" id="warranty'+i+'" type = "text"></td>';
+           row = row + '<td class="hide"><input'+
+        ' class="single form-control warrClass" id="componentdata'+i+'" type = "hidden"></td>';
       /******************************************************************************/
 
 
 
             row = row + '<td class = "">'+'<input class="btn btn-danger"type="button"data-toggle="modal"'+' value="Add"data-target="#addModal"'+'style="background-color:#f05f40;color:white;" id="'+i+'"'+
-            ' onclick="saveId(this.id)">'+
+            ' onclick="saveId('+i+')">'+
             '</td></tr>';
 
-
+          addId(i);
           $('#bodyi').append(row);
                     }
 
@@ -471,7 +477,9 @@ function addcompo(){
 
    // });
 }
-
+ function addId(ids){
+  $('#serids').val(ids);
+ }
   function save(){  
     var title=$('.modal-title').html();
     var obj=objs($('#serial').val(),$('#brand').val(),$('.modal-title').html());
@@ -498,7 +506,8 @@ function addcompo(){
 
   var compID;
   function saveId(id){
-     console.log(comps);
+    addId(id);
+    /* console.log(comps);
      comps = [];
     for(var i=0;i<comps.length;i++){
     if(arr[id].component.hasOwnProperty(comps[i])){
@@ -506,19 +515,68 @@ function addcompo(){
                 $('#brand').val(arr[$('#hide1').val()].component[$(option).val()].brand);
               }
             }
-      compID=id;
+      compID=id;*/
   }
+
+function addTag(ides){
+var  tagNo='PSSL'+ides;
+   $.ajax({
+        url:'/updateTag',
+        method:'post',
+        async:true,
+        data:{
+            'tagNo' : tagNo,
+             'ides':ides
+             },
+                dataType:'json',
+                success:function(result){
+                 
+             alert('data add successfully ');
+                                      }
+
+});
+}
+
   function saveComp(){
      tempArr=[];
-    alert(compID);
+     var str='';
+     
+    /*alert(compID);
             console.log($('#mserial'+compID).val());
             console.log($('#mbrand'+compID).val());
             
     for(var i=0;i<comps.length;i++){
   var obj=objs($('#mserial'+i).val(),$('#mbrand'+i).val(),
       $('#mwarranty'+i).val(),$('#msize'+i).val(),comps[i]);
-  arr[compID].component[comps[i]]=obj;
+  arr[compID].component[comps[i]]=obj;*/
+  for(var  i=0;i<countAddCompModal;i++){
+   str=str+$('#compo'.concat(i)).val()+','+$('#srno'.concat(i)).val()+','+$('#brand'.concat(i)).val()+','+$('#war'.concat(i)).val()+','+$('#size'.concat(i)).val();
+   tempArr[i]=str;
+   str='?';
    }
+   $('#componentdata'.concat($('#serids').val())).val(tempArr);
+   alert(tempArr);
+
+  }
+
+  function parsealldata(){
+    var q=$('#qty').val();
+    var str2='';
+    var str1='';
+    dataArray=[];
+   
+    for(var i=0;i<q;i++){
+      for(var j=0;j<allAttIds1.length;j++){
+   str2=str2+$('#'.concat(i).concat(j)).val()+',';}
+   //+','+$('#warranty'.concat(i)).val()+'@'+$('#componentdata'.concat(i)).val();$('#serial'.concat(i)).val()+','+
+   str1=str2+'$';
+   str2='';
+   dataArray[i]=str1;
+   //str1='$';
+    }
+    alert(dataArray);
+    addHardware(dataArray);
+  }
 function objs(serial,brand,warranty,size,title){
       var o={};
       console.log(title);
@@ -529,7 +587,7 @@ function objs(serial,brand,warranty,size,title){
       sizel:size
             };
             
-  }
+  
 $('.empty').val('');
   $('#addModal').hide('toggle');
 }
@@ -656,16 +714,93 @@ $("#inf1").val(a);
  console.log(comps);*/
  
   }
-function addHardware(newOuterArr,warrClassArr,serialClassArr){
-  allAttIds = allAttIds.join(',');
-  console.log(newOuterArr,warrClassArr,serialClassArr);
+
+  function addlinedata(t1,t2,t3,t6,t7,headid,ctypeid,arr1){
+    alert('hello line data');
+    alert(arr1);
+   var arr3=[];
+   arr3=arr1.split('?');
+   alert(arr3.length);
+    var arr2=[];
+
+   $.ajax({
+        url:'/addline',
+        method:'post',
+        async:true,
+        data:{
+            't1' : t1,
+            't2': t2,
+            't3' : t3,
+             't6' : t6,
+             't7' : t7,
+             'hdId' : headid,
+             'ctype':ctypeid,
+             'ides' :0
+
+             },
+                dataType:'json',
+                success:function(result){
+                  alert('jogi');
+                
+                    for(var i=0;i<arr3.length;i++){
+                       alert(arr3[i]);
+                       var   increment= arr3.length-1;
+                       var  inc=i;
+                      arr2=arr3[i].split(',');
+                     
+               addsubline(arr2[0],arr2[1],arr2[2],arr2[3],arr2[4],headid,ctypeid,result,increment,inc);
+                     }
+             
+             }
+
+});
+}
+function addsubline(st1,st2,st3,st4,st5,headerid,ctypeid,lineid,incr,inc1){
+ // allAttIds = allAttIds.join(',');
+ alert('addcomponent');
+  console.log("hfshgfshgdsh sshh",st1,st2,st3,st4,st5,headerid,ctypeid,lineid);
+  var ides=0;
+   $.ajax({
+        url:'/subaddline',
+        method:'post',
+        async:true,
+        data:{
+            'st1' : st1,
+            'st2': st2,
+            'st3' :st3,
+            'st4' : st4,
+            'st5'  : st5,
+             'hdId' : headerid,
+             'ctype':ctypeid,
+             'lineid':lineid,
+             'ides':ides
+             },
+                dataType:'json',
+                success:function(result){
+                  if(incr==inc1){
+               addTag(lineid);
+              
+                  }
+             
+                                      }
+
+});
+}
+function addHardware(newOuterArr){
+ // allAttIds = allAttIds.join(',');
+ var array=[];
+ var newarray=[];
+ var compdata=[];
+ var linedata=[];
+ var sublinedata=[];
+  var len=$('#qty').val();
+
    $.ajax({
         url:'/addHardware',
         method:'post',
-        data:{'attIds':allAttIds,
-            'attributeValues':newOuterArr,
-            'warranties':warrClassArr,
-            'serialIds':serialClassArr,
+        async:true,
+        data:{
+            'attr':newOuterArr,
             'type' : $('#typel').val(),
         'invoiceNo': $('#invoiceNo').val(),
   'purchasedOrder' : $('#order').val(),
@@ -673,12 +808,30 @@ function addHardware(newOuterArr,warrClassArr,serialClassArr){
     'invoiceDate'  : $('#Invoicedate').val(),
     'deliveryDate' : $('#Deliverydate').val(),
     'vendor'       : $('#vendor').val(),
-    'invoiceAmt'   : $('#invoiceAmt').val()
+    'invoiceAmt'   : $('#invoiceAmt').val(),
+          'ides'   : 0
              },
                 dataType:'json',
                 success:function(result){
-                      console.log('success')
+                 for(var i=0;i<len;i++){
+ array=newOuterArr[i].split("$");
+ alert(array[0]);
+ alert($('#componentdata'.concat(i)).val());
+ var attid= allAttIds1.toString();
+ //alert(array[0]);allAttIds1
+ /*alert(array[1]);
+ newarray=array[1].split("@");
+ linedata[i]=newarray[0];
+ sublinedata[i]=newarray[1];
+ alert(linedata[i]);
+ compdata=newarray[0].split(",");
+ alert(compdata[0]);*/
+ //+','+$('#warranty'.concat(i)).val()+'@'+$('#componentdata'.concat(i)).val();$('#serial'.concat(i)).val()+','+
+//console.log(compdata[0],compdata[1],compdata[2],compdata[3],compdata[4],compdata[5],compdata[6],result,$('#typel').val());
+          addlinedata($('#serial'.concat(i)).val(),attid,array[0],$('#brand'.concat(i)).val(),$('#warranty'.concat(i)).val(),result,$('#typel').val(),$('#componentdata'.concat(i)).val());
+
              
+                                      }
                                       }
 
 });

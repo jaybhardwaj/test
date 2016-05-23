@@ -30,7 +30,7 @@
           <%for(var i=0;i<stype[0].length;i++){%>
           <tr>
             <td><%=stype[0][i].name%></td>
-            <td><%=stype[0][i].softType%></td>
+            <td><%=stype[0][i].componentName%></td>
             <td><%=stype[0][i].vendor%></td>
             <td><%=stype[0][i].invoiceDate%></td>
             <td><%=stype[0][i].description%></td>
@@ -70,10 +70,11 @@
                 <label style="line-height:42px !important;">Software Type: *</label>
               </div>
               <div class="col-md-6">
-                <input id="typel"name="htype"class="form-control" value="" disabled>
+                <select id="typel"name="htype"class="form-control" value="" disabled="disable">
                   <%for(var i=0;i<stype[0].length;i++){%>
-                  <option selected="selected"><%=stype[0][i].componentName%></option>
+                  <option value='<%=stype[0][i].softType%>'><%=stype[0][i].componentName%></option>
                   <%}%>
+                  </select>
               </div>
             </div>
             <div class="col-md-6 a">
@@ -81,7 +82,7 @@
                   <label style="line-height:42px !important;">Name: *</label>
                 </div>
                 <div class="col-md-6">
-                  <input type='text'maxlength="50"style="margin-top:10px;" name="name"class="form-control" id="name"/>
+                  <input type='text'maxlength="50" name="name"class="form-control" id="name"/>
                 </div>
             </div>
           </div>
@@ -198,6 +199,7 @@
       $("#vendor").val(data[0][0].vendor);
       $("#Invoicedate").val(data[0][0].invoiceDate);
       $("#textarea").val(data[0][0].description);
+      //alert(data[0][0].licenceKey);
       if(data[0][0].licenceKey !=null)
       {
         $("#test5").click();

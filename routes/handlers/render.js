@@ -288,7 +288,8 @@ module.exports = {
 
 			// new for hardware
 			case 'viewHardware':
-				res.render('asset/viewHardware',{myModules:req.session.modules,hideFlag:0, htype:req.resultHardware,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover})
+				res.render('asset/viewHardware',{myModules:req.session.modules,hideFlag:0, htype:req.resultHardware[0],ctype:req.resultHardware[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover})
+		
 				break;
 			case 'viewFurniture' :
 				res.render('asset/viewFurniture',{myModules:req.session.modules,hideFlag:0,flag:req.body.flag, stype:req.resultFurniture,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
@@ -368,7 +369,7 @@ module.exports = {
 				res.json(req.resultAttribute);
 				break;
 			case 'hardware' :
-				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType,user:req.session.firstname,roleid:req.session.roleid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType,user:req.session.firstname,roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
  			case 'transAss':
  				res.json(req.resultAssigned);
