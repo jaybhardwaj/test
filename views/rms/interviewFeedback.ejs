@@ -7,11 +7,15 @@
 
             <style>
                 .title {
-                    color: #f05f40;
-                    font-size: 12px;
-                    font-weight: 2px;
+                    color: black;
+                    font-size: 14px;
+                    font-weight: 15px;
                     margin-left: 0%;
                     float: left
+                }
+                .labText{
+                    color: darkgray;
+                    font-size: 12px;
                 }
                 
                 #main-menu {
@@ -90,16 +94,14 @@
             </style>
 
             <body>
-                <div class="" style="padding-top:4%;background-color: antiquewhite;overflow: hidden;">
-
-
+                <div class="" style="padding-top:4%;background-color: antiquewhite;overflow: hidden;"> 
                     <center> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Interview Feedback</b></label></center>
 
-                    <div  style="color:#f05f40;cursor:pointer;float: right;padding-right: 20px" >
+                   <!--  <div  style="color:#f05f40;cursor:pointer;float: right;padding-right: 20px" >
                         
                         <span data-toggle="modal" onclick="scheduleInfo()" data-target="#historyModal" class="glyphicon glyphicon-plus" id="history" ><label> History</label></span>
                     </div>
-
+ -->
                     <div class="row" style="padding: 5%;padding-top: 0%;padding-bottom: 2%">
                         <form action="interviewData" enctype="multipart/form-data" method="post">
                             <input type="text" class="hide" name="id" id="id">
@@ -116,40 +118,40 @@
                                 <tbody style="">
                                     <tr>
                                         <td><span class="title">Candidate Name : </span> </td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].name%>
                                         </td>
 
                                         <td><span class="title">Interview Category : </span></td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].stateName%>
                                         </td>
                                         <td><span class="title">JD Title : </span></td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].title%>
                                         </td>
                                     </tr>
                                     <tr style="height:10px"></tr>
                                     <tr>
                                         <td><span class="title">Candidate's Skills: </span></td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].skills%>
                                         </td>
-                                        <td><span class="title">Rating : </span></td>
+                                        <td><span class="title">Rating <sup class="astrick">*</sup>:</span></td>
                                         <td> <input class="addDissable form-control" min="0" max="10"  type="number" name="rating" id="rating" placeholder="/10"  ></td>
                                         <td><span class="title">Current Round : </span></td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].rounds%>
                                         </td>
                                     </tr>
                                     <tr style="height:10px"></tr>
                                     <tr>
                                         <td><span class="title">Contact No. : </span> </td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].phone%>
                                         </td>
                                         <td>
-                                            <span class="title">Status :</span></td>
+                                            <span class="title">Status <sup class="astrick">*</sup> :</span></td>
                                         <td>
                                             <select id="status" name="status" class="addDissable form-control"  >
                                                 <option value="0">--select--</option>
@@ -158,20 +160,20 @@
                                             </select> 
                                         </td>
                                         <td><span class="title">Type :</span></td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].stateName%>
                                         </td>
                                     </tr>
                                     <tr style="height:10px"></tr>
                                     <tr>
                                         <td><span class="title">Email Id : </span></td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].emailID%>
                                         </td>
-                                        <td><span class="title">Time Take :</span></td>
+                                        <td><span class="title">Time Taken <sup class="astrick">*</sup>:</span></td>
                                         <td> <input class="addDissable form-control" type="number" min="0" max="999" name="time" id="time" placeholder="min."  ></td>
                                         <td><span class="title">Mode :</span></td>
-                                        <td>
+                                        <td class="labText">
                                             <%=cdt[0].mode%>
                                         </td>
                                     </tr>
@@ -180,29 +182,33 @@
                                         <td><span class="title"> Download Resume : </span></td>
                                         <td><a href="<%=cdt[0].resumeTitle%>" download><span  class='glyphicon glyphicon-save' style='color:#f05f40;font-size: 15px;cursor:pointer'title ='Download Resume'></span></a></td>
                                         <td>
-                                            <span class="title">Remarks:</span></td>
+                                            <span class="title">Remarks<sup class="astrick">*</sup>:</span></td>
                                         <td>
-                                            <textarea placeholder="add your comment" class="addDissable form-control" row="10"  name="remarks" id="remarks"></textarea>
+                                            <textarea placeholder="add your comment" class="addDissable form-control" row="10"  name="remarks" id="remarks" style=" height: 63px;max-height: 63px;max-width: 245px;"></textarea>
                                             (max. 500 characters)
                                         </td>
-                                        <td id="feed" style=" ">
-                                            <span class="title">Upload Feedback:</span>
-                                        </td>
-                                        <td><input type="file"   name="feedback" id="feedback">
-
+                                        <td id="feedL"  >
+                                            <span class="title">Upload Feedback :</span>
+                                            </td>
+                                            <td id="feedT">
+                                            <input type="file" style=" " name="feedback" id="feedback">
                                         </td>
                                     </tr>
                                     <tr>
-                                    <td></td>
-                                    <td></td>
+                                    <td >
+                                        <span class="title"> View History :</span>
+                                    </td>
+                                    <td>
+                                        <span data-toggle="modal" onclick="scheduleInfo()" data-target="#historyModal" class="glyphicon glyphicon-eye-open" id="history" style='color:#f05f40;font-size: 15px;cursor:pointer' ></span>
+                                    </td>
                                     <td></td>
                                         <td>
                                            <!--  <button  type="submit" id="submit" value="Submit" "  >Submit</button> -->
-                                           <button type="submit" class="button bt-small" onClick="return validateSubmit()" style="width:90px;margin-top: 20px"><i class="fa fa-save"></i> Submit</button>
+                                           <button type="submit" class="button  btn" onClick="return validateSubmit()" style="width:90px;margin-top: 20px"><i class="fa fa-save"></i> Submit</button>
                                         </td>
-                                        <td></td>
+                                        <td> <a class="title" href="/rms" style="float:left;margin-left:6%">View all Interviews</a></td>
                                         <td>
-                                            <a class="title" href="/rms" style="float:left;margin-left:6%">View all Interviews</a>
+                                           
                                         </td>
                                     </tr>
                                 </tbody>
@@ -226,7 +232,7 @@
                         <div class="modal-content" id="express2" style="">
                             <div class="modal-header" style="background-color:#f05f40;height:40px">
                                 <center>
-                                    <h4 id="dModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px">Schedule Interview</h4>
+                                    <h4 id="dModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px">Candidate's History</h4>
                                     <button type="button" class="close" data-dismiss="modal" style="margin-top:-28px;float:right">&times;</button>
                                 </center>
                             </div>
@@ -293,7 +299,8 @@
                             $('#remarks').html("<%=cdt[0].remarks%>");
 
                             if (isFile) {
-                                $('#feed').html("<span class='title'>Download Your Feedback Form:</span><a href='/attach/feedback/<%=cdt[0].feedbackForm%>'  download><span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download feedback form'></span>");
+                                $('#feedL').html("<span class='title'>Download your Feedback:</span>");
+                                $("feedT").html("<a href='/attach/feedback/<%=cdt[0].feedbackForm%>'  download><span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer; 'title ='Download feedback form'></span>");
                                 $('button[type="submit"]').attr('disabled', 'disabled')
                             } else {
                                 $('button[type="submit"]').attr("disabled", false);
@@ -386,6 +393,17 @@
                  
 
                     function validateSubmit() {
+                        
+                        var arrExt=["pdf","doc","docx","xlsx","xls"]
+                        var filename=$('#feedback').val();
+                        
+                        var fileExt=filename.split('.');
+                        fileExt=fileExt[fileExt.length-1];
+                         
+                        if(arrExt.indexOf(fileExt) == -1){
+                            alert("uploaded file format is invalid! \n valid formats: pdf,doc,docx.xls,xlsx");
+                         return false;
+                        }
                         if ($('#rating').val().trim() > 10 || $('#rating').val().trim() < 0 || $('#rating').val().trim().length <= 0) {
                             alert("Rating must be between 0-10");
                             return false;
@@ -410,6 +428,9 @@
                             alert("Remarks can not be more than 500  characters");
                             return false;
                         }
+                         /*if (fileExt==""){
+
+                         }*/
 
                         alert("Response Submited Successfully!!");
                     }

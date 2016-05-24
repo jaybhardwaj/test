@@ -2704,7 +2704,11 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [resId]
        
         };
+<<<<<<< Updated upstream
          
+=======
+  
+>>>>>>> Stashed changes
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
