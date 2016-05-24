@@ -1248,6 +1248,7 @@ Docmaster:function(req,res,next){
         var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
         parameter.push(req.body.tableid);
         parameter.push(req.body.id);
+        parameter.push(req.body.flag);
         modelPortal.inactiveAssetMaster(parameter,function(err,result){
             if(err){
                 console.log("oops");

@@ -2654,8 +2654,8 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         inactiveAssetMaster:function (info,callback){
             var q ={
               
-              sql: 'call usp_asset_inactiveAssetMaster(?,?,?,?,?)',
-              values: [info[0],info[1],info[2],info[3],info[4]]
+              sql: 'call usp_asset_inactiveAssetMaster(?,?,?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3],info[4],info[5]]
            
             };
             console.log(q);
@@ -2668,7 +2668,6 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                 callback(err,result);
                 }
             });   
->>>>>>> Stashed changes
         },
         //----------------------------------------Project Management System------------------------------
 /*    getAllResources : function (userId,roleId,retailerId,callback){*/

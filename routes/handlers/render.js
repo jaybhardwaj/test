@@ -23,7 +23,7 @@ module.exports = {
 					role:req.resultRoles[0],customRole:req.resultCustomRoles,roleid:req.session.roleId,
 					department:req.resultDepartment[0],level:req.resultLevel[0],
 					modules:req.result[0],logo:req.session.logo,user:req.session.firstName,
-					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,hrRole:req.hrRole});
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,hrRole:req.hrRole,allHod:req.hodList});
 				
 				break;
 				case 'success' :

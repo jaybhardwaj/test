@@ -538,7 +538,7 @@
       <div class="row" style="margin-top:1%;">
 
               <div  class="col-md-5">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%;" onclick="showHide(18)" >
                <a id="anchor" class="anchor" href="#assetComponent" data-toggle="collapse"> <label  style="padding:4px 145px" >Component</label><i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i></a>
                     <div id="assetComponent" class="collapse">
                       
@@ -600,7 +600,7 @@
                 </div>
               </div>
               <div  class="col-md-3" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center; ">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center; "onclick="showHide(19)">
                    <a id="anchor" class="anchor" href="#assetAttribute" data-toggle="collapse">
                    <div class="row">
                     <div class="col-md-6">
@@ -656,7 +656,7 @@
               </div>
 
               <div  class="col-md-3" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; "onclick="showHide(20)">
                    <a id="anchor" class="anchor" href="#assetValue" data-toggle="collapse">
                     <div class="row">
                          <div class="col-md-9"> <label  style="padding:4px 100px" >value</label></div>
@@ -713,7 +713,7 @@
       <div class="row"style="margin-top:2%">
       
           <div  class="col-md-6" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; "onclick="showHide(21)">
                    <a id="anchor" class="anchor" href="#assetAttributeValueMapping" onclick=getDropDownValueForAsset(1) data-toggle="collapse">
                     <div class="row">
                          <label  style="font-size: 12px; padding:4px 145px">Attribute Value Maping</label>
@@ -744,7 +744,7 @@
 
                                 </td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(4,insertCheckFlag)" style="font-size:18px;padding-left:35px;padding-top:5px;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" title =" Click Here to Insert and Add " onClick=" return insertComponent(4,insertCheckFlag)" style="font-size:18px;padding-left:35px;padding-top:5px;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -754,7 +754,7 @@
               </div>
 
               <div  class="col-md-6" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; "onclick="showHide(22)">
                    <a id="anchor" class="anchor" href="#assetComponentAttributeMapping" onclick=getDropDownValueForAsset(2) data-toggle="collapse">
                     <div class="row">
                          <label  style="font-size: 12px; padding:4px 145px">Component Attribute Maping</label>
@@ -1029,10 +1029,10 @@
     $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
     });
     
-    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8'];
+    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping'];
       
       function showHide(temp){
-          for(var i=0;i<17;i++){
+          for(var i=0;i<collapseId.length;i++){
                 
                 if(i!=temp){
                 $(collapseId[i]).collapse('hide');
@@ -2124,12 +2124,12 @@ else{
                      },
                  dataType :'json',              
               success: function (data){ 
-                console.log("yo",data);
+                
                 callback(checking,data[0][0].resultflag,data[0][0].generatedId);
               },
               error: function(){
               
-                    alert("error");
+                     window.location.href="/masters?flag=100" ;
               }
             });      
           }
@@ -2144,7 +2144,7 @@ else{
                   url: 'addeditattribute',
                   type: 'post',
                   data:{
-                      "name":$("#attrName").val(),
+                      "name":$("#attrName").val().trim(),
                       "oldname":'',
                       "flag":1
                   },
@@ -2153,8 +2153,7 @@ else{
                       callback(checking,data[0][0].resultflag,data[0][0].generatedId);
                   },
                   error: function(){
-                  
-                        alert("error ----");
+                   window.location.href="/masters?flag=100" ;
                   }
               });      
           }
@@ -2171,7 +2170,7 @@ else{
                   url: 'addeditvalue',
                   type: 'post',
                   data:{
-                      "name":$("#valueName").val(),
+                      "name":$("#valueName").val().trim(),
                       "oldname":'',
                       "flag":1
                   },
@@ -2182,7 +2181,7 @@ else{
                   },
                   error: function(){
                   
-                        alert("error ----");
+                        window.location.href="/masters?flag=100" ;
                   }
               });      
           }
@@ -2211,12 +2210,13 @@ else{
                   },
                   dataType :'json',              
                   success: function (data){ 
-                      tempAttrNameforId=$("#attrName3").val()  
-                      callback(checking,data[0][0].resultflag,0);
+                       alert("Mapped Successfully");
+                      window.location.href="/masters?flag=100" ;
+                      
                   },
                   error: function(){
                   
-                        alert("error ----");
+                        window.location.href="/masters?flag=100" ;
                   }
               });
           }
@@ -2245,12 +2245,11 @@ else{
                   },
                   dataType :'json',              
                   success: function (data){ 
-                     alert("mapped successfully");
+                     alert("Mapped Successfully");
                       window.location.href="/masters?flag=100" ;
                   },
                   error: function(){
-                  
-                        alert("error ----");
+                   window.location.href="/masters?flag=100" ;
                   }
               });
           }
@@ -2259,10 +2258,10 @@ else{
     } 
     
     function insertCheckFlag(checking,flag,generatedId){
-      alert(generatedId);
+     
       if(checking==1){
           if(flag!=-2){
-            alert("already exist");
+            alert("Already Exist! ");
             return ;
           }
           else{
@@ -2305,7 +2304,7 @@ else{
               $("#"+selectid).val(compval);
               $("#compName").val('');
               $("#compType").val(0);
-              alert("added successfully");
+              alert("Added Successfully!");
           }
         }
       else if(checking==2){
@@ -2340,13 +2339,13 @@ else{
               hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",2,getSaveStatus)></span>';
 
               $("#attrName").val('');
-              alert("added successfully");
+              alert("Added Successfully!");
 
             }
         }
         else if(checking==3){
             if(flag!=-2){
-            alert("already exist");
+            alert("Already Exist !");
             return ;
             }
             else{ 
@@ -2374,15 +2373,14 @@ else{
               hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="50"  value="'+$('#attrName').val()+'" />';
               hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",3,getSaveStatus)></span>';
 
-              $("#attrName").val('');
-              alert("added successfully");
+              $("#valueName").val('');
+              alert("Added Successfully!");
 
             }
         }
         else if(checking==4){
-            alert(flag);
             if(flag!=-2){
-            alert("already exist");
+            alert("Already Exist!");
             return ;
             }
             else{ 
@@ -2436,7 +2434,7 @@ else{
               hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",3,getSaveStatus)></span>';*/
 
               $("#attrName").val('');
-              alert("added successfully");
+              alert("Added Successfully!");
 
             }
         }     
@@ -2458,7 +2456,7 @@ else{
                 url: 'addeditComponent',
                 type: 'post',
                 data:{
-                    "name":$('#'+textid).val(),
+                    "name":$('#'+textid).val().trim(),
                     "oldname":compOldName,
                     "compOldType":compOldType,
                     "type":$('#'+selectid).val(),
@@ -2470,10 +2468,7 @@ else{
                       callback(rowid,rowhid,textid,selectid,data[0][0].resultflag,tableno);
                    
                 },
-                error: function(){
               
-                    alert("error");
-                }
               });
           }
           else if(tableno==2){
@@ -2482,7 +2477,7 @@ else{
                 url: 'addeditattribute',
                 type: 'post',
                 data:{
-                    "name":$('#'+textid).val(),
+                    "name":$('#'+textid).val().trim(),
                     "oldname":compOldName,
                     "flag":2
                      },
@@ -2491,10 +2486,7 @@ else{
                   callback(rowid,rowhid,textid,selectid,data[0][0].resultflag,tableno);
                    
                 },
-                error: function(){
-              
-                    alert("error");
-                }
+               
               });
           }
           else if(tableno==3){
@@ -2503,7 +2495,7 @@ else{
                   url: 'addeditvalue',
                   type: 'post',
                   data:{
-                      "name":$('#'+textid).val(),
+                      "name":$('#'+textid).val().trim(),
                       "oldname":compOldName,
                       "flag":2
                   },
@@ -2512,10 +2504,7 @@ else{
                   callback(rowid,rowhid,textid,selectid,data[0][0].resultflag,tableno);
                    
                 },
-                error: function(){
-              
-                    alert("error");
-                }
+               
               });
           }  
          
@@ -2533,16 +2522,7 @@ else{
               selectid="#"+selectid;
  
               document.getElementById("assetTable1").rows[rowid].cells.item(1).innerHTML = $(selectid+"  option:selected").text();
-              /*$("selectid option:selected").each(function(){
-                    
-                    var $this = $(this);
-                    if ($this.length) {
-
-                        var selText = $(this).text();
-
-                        
-                    }
-              });*/
+             
                document.getElementById("assetTable1").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
             }
             else if(tableno==2){
@@ -2581,41 +2561,80 @@ else{
                     "flag":2
                   },              
                   success: function (data){ 
-                    callback(tableno,rowid,data[0][0].resultflag);
+                    callback(tableno,rowid,data[0][0].resultflag,2);
                   }
             }); 
       }
      else if(flag==3){
               $("#"+hideRow).removeClass('hide');
               $("#"+rowid).addClass('hide'); 
-              callback(100,100,100);
+              callback(100,100,100,100);
       } 
       else if(flag==2){
-        document.getElementById("assetTable"+tableno).rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>';
+
+        if(confirm("Are you sure you want to  Active it .?")==true)
+          $.ajax({
+                  url: 'inactiveAssetMaster',
+                  type: 'post',
+                  dataType :'json',
+                  data:{
+                    "tableid":tableno,
+                    "id":tdId,
+                    "flag":1
+                  },              
+                  success: function (data){ 
+                    callback(tableno,rowid,data[0][0].resultflag,1);
+                  }
+            });
+
+        
+        
       }
        
       
     }
-    function activeCheckFlag(tableno,rowid,check){
+    function activeCheckFlag(tableno,rowid,check,flag){
       
           if(check==100){
             return ;
           }       
-          else if(check==-2){
-            if(tableno==1){             
-             document.getElementById("assetTable1").rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>';
-            }
-            if(tableno==2){     
+          if(flag==2){
+              if(check==-2){
+                if(tableno==1){             
+                 document.getElementById("assetTable1").rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>';
+                }
+                if(tableno==2){     
 
-             document.getElementById("assetTable2").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+                 document.getElementById("assetTable2").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+                }
+                if(tableno==3){             
+                 document.getElementById("assetTable3").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+                }
             }
-            if(tableno==3){             
-             document.getElementById("assetTable3").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+            else{
+                    if(tableno==1){
+                      alert("Error:Selected Component is mapped with Component Attribute mapping");
+                    }
+                    if(tableno==2){
+                      alert("Error:Selected Attribute is mapped with Attribute Value mapping");
+                    }
+                    if(tableno==3){
+                      alert("Error:Selected Value is mapped with Attribute Attribute mapping");
+                    }          
             }
-          }
-          else{
-                  alert("cant deactivate");          
-          }
+        }
+        else if(flag==1){
+            if(tableno==1){  
+
+              document.getElementById("assetTable1").rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>';
+            }
+            else if(tableno==2){  
+              document.getElementById("assetTable2").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+            }
+            else if(tableno==3){  
+              document.getElementById("assetTable3").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+            }
+        }
          
       
     }
@@ -2673,17 +2692,15 @@ else{
                     $("#Componentval4").tagger();
                     $("#attrValue4").tagger();
                 },
-                error: function(){
-              
-                    alert("error");
-                }
+               
 
       });
       }
      function deleterAttributeValMapping(flag,rowid){
-            var id=document.getElementById("assetTable4").rows[rowid].cells.item(0).id;
+            
             if(confirm("are you sure you want to delete this mapping ?")==true){
                   if(flag==1){
+                    var id=document.getElementById("assetTable4").rows[rowid].cells.item(0).id;
                     $.ajax({
                           url: 'addattrvaluemapping',
                           type: 'post',
@@ -2694,15 +2711,22 @@ else{
                           },
                           dataType :'json',                  
                       success: function (data){
-                        if(data[0][0].resultflag==-2){
-                              $('table#assetTable4 tr#'+rowid).remove();
-                            }
+                         
+                            if(data[0][0].resultflag==-2){
+                                  $('table#assetTable4 tr#'+rowid).remove();
+                                  alert("deleted successfully");
+                                }
+                                else{
+                                  alert("Error :Mapping cannot be deleted as it is mapped with Component Attribute Mapping");
+                                }
+                        
                         }    
                      
                     });
                   }
                   else if(flag==2){
-                    id=document.getElementById("assetTable5").rows[rowid].cells.item(0).id;
+                    var id=document.getElementById("assetTable5").rows[rowid].cells.item(0).id;
+                   
                     $.ajax({
                           url: 'deleteComponentAttributeMapping',
                           type: 'post',
@@ -2716,6 +2740,7 @@ else{
                                   $('table#assetTable5 tr#'+rowid).remove();
                                   alert("deleted successfully");
                                 }
+
                             }    
                      
                     });
