@@ -312,6 +312,15 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
 	app.post('/getres',portal.getres);
 	app.post('/Docmaster',portal.Docmaster);
 	app.post('/addeditComponent',portal.addeditComponent);
+	app.post('/addeditattribute',portal.addeditattribute);
+	app.post('/addeditvalue',portal.addeditvalue);
+	app.post('/getAttrAndValForAsset',portal.getAttrAndValForAsset);
+	app.post('/addattrvaluemapping',portal.addattrvaluemapping);
+	app.post('/addComponentAttributemapping',portal.addComponentAttributemapping);
+	app.post('/deleteComponentAttributeMapping',portal.deleteComponentAttributeMapping);
+	app.post('/inactiveAssetMaster',portal.inactiveAssetMaster);
+
+
 /*----------------------------------------------------------Project Management-----------------------------------------------------------*/
 	//app.get('/projectmngmt',url.projectmngmt,portal.projectmngmt,render.redirect);
 

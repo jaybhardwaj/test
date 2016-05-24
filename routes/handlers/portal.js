@@ -1121,7 +1121,6 @@ getRolesInfo : function(req,res,next){
 <!---added by saurav ------- -->
 
 Docmaster:function(req,res,next){
-       //console.log("------   ----    ----  ",req.body);
         modelPortal.Docmaster(req.session.userId,req.session.roleId,req.session.retailerId,req.body.type,req.body.oldname,req.body.name,req.body.flag,req.session.croleId,function(err,result){
             if(err){
                 
@@ -1138,9 +1137,118 @@ Docmaster:function(req,res,next){
     addeditComponent :function(req,res,next){
         var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
         parameter.push(req.body.name);
+        parameter.push(req.body.oldname);
         parameter.push(req.body.type);
+        parameter.push(req.body.compOldType);
         parameter.push(req.body.flag);
         modelPortal.addeditComponent(parameter,function(err,result){
+            if(err){
+                console.log("oops");
+            }   
+            else{
+                   res.json(result);
+            }   
+
+        });   
+
+    },
+    addeditattribute :function(req,res,next){
+        var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
+        parameter.push(req.body.name);
+        parameter.push(req.body.oldname);
+        parameter.push(req.body.flag);
+        modelPortal.addeditattribute(parameter,function(err,result){
+            if(err){
+                console.log("oops");
+            }   
+            else{
+                   res.json(result);
+            }   
+
+        });   
+
+    },
+    addeditvalue :function(req,res,next){
+        var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
+        parameter.push(req.body.name);
+        parameter.push(req.body.oldname);
+        parameter.push(req.body.flag);
+        modelPortal.addeditvalue(parameter,function(err,result){
+            if(err){
+                console.log("oops");
+            }   
+            else{
+                   res.json(result);
+            }   
+
+        });   
+
+    },
+    addattrvaluemapping :function(req,res,next){
+        var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
+        parameter.push(req.body.name);
+        parameter.push(req.body.val);
+        parameter.push(req.body.flag);
+        modelPortal.addattrvaluemapping(parameter,function(err,result){
+            if(err){
+                console.log("oops");
+            }   
+            else{
+                   res.json(result);
+            }   
+
+        });   
+
+    },
+    getAttrAndValForAsset:function(req,res,next){
+      modelPortal.getTypeAndSubtype(req.session.userId,req.session.roleId,req.session.retailerId,1,function(error,resultTypeSubtype){
+        if(error){
+           console.log("c"); 
+          next(error);
+         
+        }
+        console.log("d");
+          res.json(resultTypeSubtype);
+         
+      });
+    
+    },
+    addComponentAttributemapping :function(req,res,next){
+        var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
+        parameter.push(req.body.componentId);
+        parameter.push(req.body.attributeId);
+        parameter.push(req.body.flag);
+        modelPortal.addComponentAttributemapping(parameter,function(err,result){
+            if(err){
+                console.log("oops");
+            }   
+            else{
+                    console.log("success",result);
+                   res.json(result);
+            }   
+
+        });   
+
+    },
+    deleteComponentAttributeMapping :function(req,res,next){
+        var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
+        parameter.push(req.body.name);
+        modelPortal.deleteComponentAttributeMapping(parameter,function(err,result){
+            if(err){
+                console.log("oops");
+            }   
+            else{
+                   res.json(result);
+            }   
+
+        });   
+
+    },
+    inactiveAssetMaster :function(req,res,next){
+        var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
+        parameter.push(req.body.tableid);
+        parameter.push(req.body.id);
+        modelPortal.inactiveAssetMaster(parameter,function(err,result){
             if(err){
                 console.log("oops");
             }   
@@ -1886,7 +1994,7 @@ getViewHardware:function(req,res,next){
     },
     
     getDataAsset:function(req,res,next){
-      modelPortal.getTypeAndSubtype(req.session.userId,req.session.roleId,req.session.retailerId,function(error,resultTypeSubtype){
+      modelPortal.getTypeAndSubtype(req.session.userId,req.session.roleId,req.session.retailerId,0,function(error,resultTypeSubtype){
         if(error){
          
           next(error);

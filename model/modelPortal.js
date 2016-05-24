@@ -1142,10 +1142,10 @@ getType:function(tid,callback){
         callback(err,result);
     }); 
 },
-  getTypeAndSubtype:function(userId,roleId,retailerId,callback){
+  getTypeAndSubtype:function(userId,roleId,retailerId,flag,callback){
     var q={
-        sql:'call usp_ast_getTypeAndSubtype(?,?,?)',
-        values:[userId,roleId,retailerId]
+        sql:'call usp_ast_getTypeAndSubtype(?,?,?,?)',
+        values:[userId,roleId,retailerId,flag]
     };
       mysql(q,function(err,result){
         callback(err,result);
@@ -2537,33 +2537,138 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
           values: [userId,roleId,retailerId,type,oldname,name,flag,crole_id]
        
         };
-        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                //console.log(err);
+                console.log(err);
             }
             else {
             callback(err,result);
             }
         });   
         },
+        // adeed by saurav singh for asset master
         addeditComponent:function (info,callback){
-/*<<<<<<< HEAD
-*/       var q ={
-          sql: 'call usp_asset_addeditComponent(?,?,?,?,?,?)',
-          values: [info[0],info[1],info[2],info[3],info[4],info[5]]
-       
-        };
-        console.log(q);
-        mysql(q, function(err, result){
-            if (err) {
-                console.log("oop",err);
-            }
-            else {
-                console.log("result is ",result);
-            callback(err,result);
-            }
-        });   
+
+            var q ={
+              sql: 'call usp_asset_addeditComponent(?,?,?,?,?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]]
+           
+            };
+            
+            mysql(q, function(err, result){
+                if (err) {
+                    console.log("oop",err);
+                }
+                else {
+                    console.log("result is ",result);
+                callback(err,result);
+                }
+            });   
+        },
+        addeditattribute:function (info,callback){
+            var q ={
+              sql: 'call usp_asset_addeditattribute(?,?,?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3],info[4],info[5]]
+           
+            };
+            mysql(q, function(err, result){
+                if (err) {
+                    console.log("oop",err);
+                }
+                else {
+                    console.log("result is ",result);
+                callback(err,result);
+                }
+            });   
+        },
+       addeditvalue:function (info,callback){
+            var q ={
+              sql: 'call usp_asset_addeditvalue(?,?,?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3],info[4],info[5]]
+           
+            };
+            console.log(q);
+            mysql(q, function(err, result){
+                if (err) {
+                    console.log("oop",err);
+                }
+                else {
+                    console.log("result is ",result);
+                callback(err,result);
+                }
+            });   
+        },
+        addattrvaluemapping:function (info,callback){
+            var q ={
+              
+              sql: 'call usp_asset_addattrvaluemapping(?,?,?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3],info[4],info[5]]
+           
+            };
+            console.log(q);
+            mysql(q, function(err, result){
+                if (err) {
+                    console.log("oop",err);
+                }
+                else {
+                    console.log("result is ",result);
+                callback(err,result);
+                }
+            });   
+        },
+        addComponentAttributemapping:function (info,callback){
+            var q ={
+              sql: 'call usp_asset_addComponentAttributemapping(?,?,?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3],info[4],info[5]]
+           
+            };
+            console.log(q);
+            mysql(q, function(err, result){
+                if (err) {
+                    console.log("oop",err);
+                }
+                else {
+                    console.log("result is ",result);
+                callback(err,result);
+                }
+            });   
+        },
+        deleteComponentAttributeMapping:function (info,callback){
+            var q ={
+              
+              sql: 'call usp_asset_deleteComponentAttributeMapping(?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3]]
+           
+            };
+            console.log(q);
+            mysql(q, function(err, result){
+                if (err) {
+                    console.log("oop",err);
+                }
+                else {
+                    console.log("result is ",result);
+                callback(err,result);
+                }
+            });   
+        },
+        inactiveAssetMaster:function (info,callback){
+            var q ={
+              
+              sql: 'call usp_asset_inactiveAssetMaster(?,?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3],info[4]]
+           
+            };
+            console.log(q);
+            mysql(q, function(err, result){
+                if (err) {
+                    console.log("oop",err);
+                }
+                else {
+                    console.log("result is ",result);
+                callback(err,result);
+                }
+            });   
+>>>>>>> Stashed changes
         },
         //----------------------------------------Project Management System------------------------------
 /*    getAllResources : function (userId,roleId,retailerId,callback){*/
@@ -2608,9 +2713,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [resId]
        
         };
-        //console.log(q);
-/*<<<<<<< HEAD
-=======*/
+         
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
@@ -2627,7 +2730,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [flag,retailerId]
        
         };
-/*>>>>>>> Changes by Mayur*/
+ 
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);

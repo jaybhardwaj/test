@@ -13,9 +13,7 @@ module.exports = {
 				res.render('home',{myModules:req.session.modules,hideFlag:1,module:req.result1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 					case 'users' :
-				res.render('users',{myModules:req.session.modules,hideFlag:1,users:req.resultUsers[0],role:req.resultRoles[0],
-					customRole:req.resultCustomRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,
-					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('users',{myModules:req.session.modules,hideFlag:1,users:req.resultUsers[0],role:req.resultRoles[0],customRole:req.resultCustomRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 
 			case 'createEditUser' :
@@ -25,7 +23,7 @@ module.exports = {
 					role:req.resultRoles[0],customRole:req.resultCustomRoles,roleid:req.session.roleId,
 					department:req.resultDepartment[0],level:req.resultLevel[0],
 					modules:req.result[0],logo:req.session.logo,user:req.session.firstName,
-					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,hrRole:req.hrRole,allHod:req.hodList});
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,hrRole:req.hrRole});
 				
 				break;
 				case 'success' :
@@ -380,7 +378,6 @@ module.exports = {
 //---------------------------------Expense------------------------------------------
 			case 'expenseHome' :
 				res.render('expense/expenseHome',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
-				console.log(req.session.isApprover);
 				break;
 
 				case 'expenseHomenew' :
@@ -403,7 +400,7 @@ module.exports = {
 				/*end expense Jogendra singh*/
 				<!--- added by saurav   -->
 				case 'masters':
-				//console.log("master render-----------");
+				console.log("master render-----------");
 			     var flag=req.flag==null?0:req.flag;
 			   res.render('masters',
 			   	{	myModules:req.session.modules,
@@ -484,11 +481,11 @@ module.exports = {
                 role: req.session.hrRole,
                 Name: req.session.Name,
                 flag: flag,
-                myModules:req.session.modules,hideFlag:0,id:req.session.userId,user:req.session.firstName,
+                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
             });
-				//console.log('jjojojojo',req.hodResult[0]);
+				console.log('jjojojojo',req.hodResult[0]);
 			break ;
 			case 'allrequisitions':
 			res.render('rms/allrequisitions',{pdetails:req.allrequisitions[0],role:req.session.hrRole,
@@ -544,7 +541,7 @@ module.exports = {
 			                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 			                defaultModule:req.session.defaultModule
 	            });
-	            //console.log(req.viewReq[0]);
+	            console.log(req.viewReq[0]);
             break ;
             case 'userHrViewReq':	           
             res.render('rms/userHrViewReq', {
@@ -572,7 +569,7 @@ module.exports = {
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
 	            });
-            //console.log('cdtiddbs',req.interviewFeedback[0]);
+            console.log('cdtiddbs',req.interviewFeedback[0]);
             break;
             case 'reqApprover':
             res.render('rms/reqApprover', {
@@ -583,7 +580,6 @@ module.exports = {
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule,projectDetails:req.projectDetails
 	            });
-            console.log(req.reqApprover[0]);
             break;
             case 'updateStatusReqViaMail':
             res.render('index'); 

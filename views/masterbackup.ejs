@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,19 +6,6 @@
     <% include ./partials/adminheader %>
 </head>
 <style type="text/css">
-.tagger {
-              background-color: #fff;
-              cursor: text;
-              font-family: sans-serif;
-              font-size: 10pt;
-              padding: 9px 7px 3px 4px;
-              min-height: 19px;
-              display: table-cell;
-              width: 15em !important;
-        }
-       /* .focus{
-          width: 15em !important;
-        }*/
 .sol-selection-container{
    border-top-right-radius: initial;top: 215px;left: 268px !important;width: 302px;margin-top: -4%;
   }
@@ -529,35 +516,34 @@
                   </div>
                 </div>
                 <%}%> 
-              </div>
-
-    </section>
+              </div>             
+     </section>
      
     <section id = 'content4' class = 'background'>
 
-      <div class="row" style="margin-top:1%;">
+      <div class="row">
 
-              <div  class="col-md-5">
+              <div  class="col-md-5" style="margin-top:1%;">
                  <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
                <a id="anchor" class="anchor" href="#assetComponent" data-toggle="collapse"> <label  style="padding:4px 145px" >Component</label><i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i></a>
                     <div id="assetComponent" class="collapse">
                       
                       <table style="width:100%;text-align:center" id="assetTable1" class="table stripe hover cell-border" >
-                        <tr>
+                        <thead>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Type</th>
                         <th style="text-align:center">Action</th>
-                        </tr>                        
-                        <%console.log("come b ",assetType);for(var i=0;i<=assetType[1].length-1;i++){%> 
+                        </thead>
+                        <tbody>                        
+                        <%for(var i=0;i<=assetType[1].length-1;i++){%> 
                           <tr id="at_<%=i%>">
-                                <td id="<%=assetType[1][i].id%>"><%=assetType[1][i].componentName%></td>
-                                <td> <%=assetType[1][i].type%></td>                          
-                                <td>    <%if(assetType[1][i].active==1){%> 
-                                       <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick=assetStatus("at_<%=i%>",1,1,activeCheckFlag) title="click to Inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("at_<%=i%>",3,1,activeCheckFlag)></span>
+                                <td><%=assetType[1][i].componentName%></td>
+                                <td> <%=assetType[1][i].type%><td>                          
+                                    <%if(assetType[1][i].active==0){%> 
+                                       <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("at_<%=i%>",2,1) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("at_<%=i%>",3,1)></span>
                                     <%}
                                     else{%>
-                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("at_<%=i%>",2,1,activeCheckFlag) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("at_<%=i%>",3,activeCheckFlag)></span>
-                                        
+                                        <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick=assetStatus("at_<%=i%>",1,1) title="click to Inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("at_<%=i%>",3,1)></span>
                                     <%}%>
                                 </td>
                           </tr>  
@@ -573,11 +559,11 @@
                                      <%}%> 
                               </select>
                             <td>                          
-                                <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('at_<%=i%>',1,getSaveStatus)"></span>
+                                <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('at_<%=i%>',getSaveStatus)"></span>
                             </td>
-                          
+                        </tr>   
                         <%}%>
-                        </tr> 
+                      </tbody>  
                       </table> 
                       <table style="margin-left:4%;margin-right:2%;margin-top:2%">
                       <tr>
@@ -602,51 +588,45 @@
               <div  class="col-md-3" style="margin-top:;margin-left:">
                  <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center; ">
                    <a id="anchor" class="anchor" href="#assetAttribute" data-toggle="collapse">
-                   <div class="row">
-                    <div class="col-md-6">
-                         <label  style="padding:4px 100px" >Attributes</label>
-                    </div>
-                    <div class="col-md-3">
-                         <i style="margin-right: -136%;float:right;margin-top: 9%;" class="glyphicon glyphicon-resize-full"></i>
-                    </div>
-                 </div>   
+                   
+                         <label  style="" >Attributes</label>
+                         <i style="margin-right: 18%;float:right;margin-top: 11%;" class="glyphicon glyphicon-resize-full"></i>
+                 
                   </a>
                   <div id="assetAttribute" class="collapse">
-                    <div style="max-height: 234px; overflow-y: scroll;">
-                      <table style="width:100%;text-align:center" id="assetTable2" class="table stripe hover cell-border" >
-                        <tr>
+                      <table style="width:100%;text-align:center" id="assetTable1" class="table stripe hover cell-border" >
+                        <thead>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Action</th>
-                        </tr>                        
+                        </thead>
+                        <tbody>                        
                         <%for(var i=0;i<=assetType[2].length-1;i++){%> 
                           <tr id="bt_<%=i%>">
-                                <td id="<%=assetType[2][i].id%>"><%=assetType[2][i].attribute%></td>
-                                  <td>  <%if(assetType[2][i].active==1){%> 
-                                        <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick=assetStatus("bt_<%=i%>",1,2,activeCheckFlag) title="click to Inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("bt_<%=i%>",3,2,activeCheckFlag)></span>
-                                       
+                                <td><%=assetType[2][i].attribute%></td>
+                                  <td>  <%if(assetType[2][i].active==0){%> 
+                                       <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("bt_<%=i%>",2,2) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("bt_<%=i%>",3,2)></span>
                                     <%}
                                     else{%>
-                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("bt_<%=i%>",2,2,activeCheckFlag) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("bt_<%=i%>",3,2,activeCheckFlag)></span>
+                                        <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick=assetStatus("bt_<%=i%>",1,2) title="click to Inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("bt_<%=i%>",3,2)></span>
                                     <%}%>
                                 </td>
                           </tr>  
-                          <tr id="bth_<%=i%>" class="hide">
+                          <tr id="ath_<%=i%>" class="hide">
                             <td>
                               <input type="text" id="bt_text_<%=i%>" maxlength="50" value="<%=assetType[2][i].attribute%>">
                             </td>
                             <td>
-                            <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('bt_<%=i%>',2,getSaveStatus)"></span>
+                            <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('bt_<%=i%>',getSaveStatus)"></span>
                             </td>
-                          
+                          </tr>
                         <%}%>
-                        </tr> 
-                      </table>
-                     </div>  
+                        </tbody> 
+                      </table> 
                       <table style="margin-left:13%;margin-right:2%;margin-top:2%">
                               <tr>
                                 <td><input type="text" id="attrName" class="form-control" maxlength="50" placeholder="@ attribute Name"style="width:78%"></td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(2,insertCheckFlag)" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(2,insertCheckFlag())" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -657,50 +637,18 @@
 
               <div  class="col-md-3" style="margin-top:;margin-left:">
                  <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
-                   <a id="anchor" class="anchor" href="#assetValue" data-toggle="collapse">
+                   <a id="anchor" class="anchor" href="#assetAttribute" data-toggle="collapse">
                     <div class="row">
-                         <div class="col-md-9"> <label  style="padding:4px 100px" >value</label></div>
-                         <div class="col-md-3"> <i style="margin-left: 25%;margin-top: 8%;" class="glyphicon glyphicon-resize-full"></i></div>
+                         <div class="col-md-9"> <label  style="" >Attributes</label></div>
+                         <div class="col-md-3"> <i style="margin-right: 18%;float:right;margin-top: 11%;" class="glyphicon glyphicon-resize-full"></i></div>
                     </div>
                   </a>
-                  <div id="assetValue" class="collapse">
-                    <div style="max-height: 234px; overflow-y: scroll;">
-                      <table style="width:100%;text-align:center" id="assetTable3" class="table stripe hover cell-border" >
-                        <tr>
-                        <th style="text-align:center">Name</th>
-                        <th style="text-align:center">Action</th>
-                        </tr>                        
-                        <%for(var i=0;i<=assetType[3].length-1;i++){%> 
-                          <tr id="ct_<%=i%>">
-                                <td id="<%=assetType[3][i].id%>"><%=assetType[3][i].name%></td>
-                                  <td>  <%if(assetType[3][i].active==1){%>
-                                      <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick=assetStatus("ct_<%=i%>",1,3,activeCheckFlag) title="click to Inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("ct_<%=i%>",3,3,activeCheckFlag)></span> 
-                                      
-                                    <%}
-                                    else{%>
-                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("ct_<%=i%>",2,3,activeCheckFlag) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("ct_<%=i%>",3,3,activeCheckFlag)></span>
-                                        
-                                    <%}%>
-                                </td>
-                          </tr>  
-                          <tr id="cth_<%=i%>" class="hide">
-                            <td>
-                              <input type="text" id="ct_text_<%=i%>" maxlength="50" value="<%=assetType[3][i].name%>">
-                            </td>
-                            <td>
-                            <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('ct_<%=i%>',3,getSaveStatus)"></span>
-                            </td>
-                          
-                        <%}%>
-                        </tr> 
-                      </table> 
-                    </div >
-  
+                  <div id="assetAttribute" class="collapse">
                       <table style="margin-left:13%;margin-right:2%;margin-top:2%">
                               <tr>
-                                <td><input type="text" id="valueName" class="form-control" maxlength="50" placeholder="@ value Name"style="width:78%"></td>
+                                <td><input type="text" id="compName" class="form-control" maxlength="50" placeholder="@ attribute Name"></td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(3,insertCheckFlag)" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(2,insertCheckFlag())" style="margin-left:252%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -710,92 +658,7 @@
               </div>
       </div>
 
-      <div class="row"style="margin-top:2%">
-      
-          <div  class="col-md-6" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
-                   <a id="anchor" class="anchor" href="#assetAttributeValueMapping" onclick=getDropDownValueForAsset(1) data-toggle="collapse">
-                    <div class="row">
-                         <label  style="font-size: 12px; padding:4px 145px">Attribute Value Maping</label>
-                          <i style="margin-right: 3.5%;float:right;margin-top: 1%;" class="glyphicon glyphicon-resize-full"></i>
-                    </div>
-                  </a>
-                  <div id="assetAttributeValueMapping" class="collapse">
-                      <table style="width:100%;text-align:center" id="assetTable4" class="table stripe hover cell-border" >
-                        <tr id="dt_-1">
-                        <th style="text-align:center">Name</th>
-                        <th style="text-align:center">Value</th>
-                        <th style="text-align:center">Action</th>
-                        </tr>                        
-                        <%console.log("kkkkkk",assetType[4]);for(var i=0;i<=assetType[4].length-1;i++){%> 
-                          <tr id="dt_<%=i%>">
-                                <td id="<%=assetType[4][i].id%>"><%=assetType[4][i].attribute%></td>
-                                  <td>  <%=assetType[4][i].name%></td>
-                                   <td><a onclick=deleterAttributeValMapping(1,"dt_<%=i%>")>Delete</a></td> 
-                          </tr>
-                         <%}%>  
-                          
-                      </table> 
-                      <table style="margin-left:13%;margin-right:2%;margin-top:2%">
-                              <tr >
-                                <td id="setAttrName">
-                                </td>
-                                <td id="setValueName"style="padding-left: 7%;">
 
-                                </td>
-                                
-                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(4,insertCheckFlag)" style="font-size:18px;padding-left:35px;padding-top:5px;"></span></td>
-                                                  
-                              </tr>
-                      </table>               
-                  
-                  </div>
-                </div>
-              </div>
-
-              <div  class="col-md-6" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
-                   <a id="anchor" class="anchor" href="#assetComponentAttributeMapping" onclick=getDropDownValueForAsset(2) data-toggle="collapse">
-                    <div class="row">
-                         <label  style="font-size: 12px; padding:4px 145px">Component Attribute Maping</label>
-                          <i style="margin-right: 3.5%;float:right;margin-top: 1%;" class="glyphicon glyphicon-resize-full"></i>
-                    </div>
-                  </a>
-                  <div id="assetComponentAttributeMapping" class="collapse">
-                      <table style="width:100%;text-align:center" id="assetTable5" class="table stripe hover cell-border" >
-                        <tr id="dt_-1">
-                        <th style="text-align:center">Component</th>
-                        <th style="text-align:center">Atribute</th>
-                        <th style="text-align:center">Action</th>
-                        </tr>                        
-                        <%console.log("kkkkkk",assetType[5]);for(var i=0;i<=assetType[5].length-1;i++){%> 
-                          <tr id="dt_<%=i%>">
-                                <td id="<%=assetType[5][i].componentId%>"><%=assetType[5][i].componentName%></td>
-                                  <td>  <%=assetType[5][i].attributeName%></td>
-                                   <td><a onclick=deleterAttributeValMapping(2,"dt_<%=i%>")>Delete</a></td> 
-                          </tr>
-                         <%}%>  
-                          
-                      </table> 
-                      <table style="margin-left:13%;margin-right:2%;margin-top:2%">
-                              <tr >
-                                <td id="setComponentName">
-                                </td>
-                                <td id="setAttributeName"style="padding-left: 7%;">
-
-                                </td>
-                                
-                                <td> <span class="glyphicon glyphicon-plus-sign" title =" Click Here to Insert and Add "onClick=" return insertComponent(5,insertCheckFlag)" style="font-size:18px;padding-left:35px;padding-top:5px;"></span></td>
-                                                  
-                              </tr>
-                      </table>               
-                  
-                  </div>
-                </div>
-              </div>
-
-
-      </div> 
     </section>
      
      <section id="content6" class="background" >
@@ -986,13 +849,20 @@
   
     <script type="text/javascript">
   $( document ).ready(function() {
+       otable = $("#assetTable1").dataTable({
+                "aLengthMenu": [
+                    [10, 20, 50, 100, -1],
+                    ["10", "20", "50", "100", "all"]
+                ],
+                destroy: true,
 
-       
-         if("<%=flag%>"==100){
-          $("#tab4").click();
-
-        
-         }
+                "iDisplayLength": 10,
+                "showNEntries": true,
+                "bFilter": true,
+                "bLengthChange": true,
+                "aoColumnDefs": [{}],
+                "order": []
+            });
         $('.datepicker').datetimepicker({
             timepicker: false,
             format: 'm/d/y'
@@ -1021,8 +891,7 @@
                     $("#whours").removeClass('hide');
                     $(".floppysave").removeClass('show');
                     $(".floppysave").addClass('hide');
-            <%}%>  
-            $('#attrValue3').multiselect();       
+            <%}%>        
        });
 
     $('.anchor').click(function(){
@@ -2124,8 +1993,7 @@ else{
                      },
                  dataType :'json',              
               success: function (data){ 
-                console.log("yo",data);
-                callback(checking,data[0][0].resultflag,data[0][0].generatedId);
+                callback(data[0][0].resultflag);
               },
               error: function(){
               
@@ -2133,318 +2001,103 @@ else{
               }
             });      
           }
-      }else if(checking==2){
-          if($("#attrName").val().trim()==''){
+      }else{
+        if($("#attrName").val().trim()==''){
             alert("Error:attribute Name cannot be blank");
             return false;
           }
           
           else{
-              $.ajax({
-                  url: 'addeditattribute',
-                  type: 'post',
-                  data:{
-                      "name":$("#attrName").val(),
-                      "oldname":'',
-                      "flag":1
-                  },
-                  dataType :'json',              
-                  success: function (data){ 
-                      callback(checking,data[0][0].resultflag,data[0][0].generatedId);
-                  },
-                  error: function(){
-                  
-                        alert("error ----");
-                  }
-              });      
+            $.ajax({
+                url: 'addeditattribute',
+                type: 'post',
+                data:{
+                    "name":$("#attrName").val(),
+                    "oldname":'',
+                    "flag":1
+                     },
+                 dataType :'json',              
+              success: function (data){ 
+                callback(data[0][0].resultflag);
+              },
+              error: function(){
+              
+                    alert("error");
+              }
+            });      
           }
-      }
-      else if(checking==3){
-
-        if($("#valueName").val().trim()==''){
-            alert("Error:value Name cannot be blank");
-            return false;
-          }
-          
-          else{
-              $.ajax({
-                  url: 'addeditvalue',
-                  type: 'post',
-                  data:{
-                      "name":$("#valueName").val(),
-                      "oldname":'',
-                      "flag":1
-                  },
-                  dataType :'json',              
-                  success: function (data){ 
-                   
-                      callback(checking,data[0][0].resultflag,data[0][0].generatedId);
-                  },
-                  error: function(){
-                  
-                        alert("error ----");
-                  }
-              });      
-          }
-
-      }
-      else if(checking==4){
-       
-       if($("#attrName3").val()=='select attribute'){
-            alert("Error: Name cannot be blank");
-            return false;
-          }
-          if($("#attrValue3").val()==null){
-            alert("Error:value  cannot be blank");
-            return false;
-          }
-          
-          else{
-
-              $.ajax({
-                  url: 'addattrvaluemapping',
-                  type: 'post',
-                  data:{
-                      "name":$("#attrName3").val(),
-                      "val":$("#attrValue3").val().toString(),
-                      "flag":1
-                  },
-                  dataType :'json',              
-                  success: function (data){ 
-                      tempAttrNameforId=$("#attrName3").val()  
-                      callback(checking,data[0][0].resultflag,0);
-                  },
-                  error: function(){
-                  
-                        alert("error ----");
-                  }
-              });
-          }
-
-      }
-       else if(checking==5){
-       
-       if($("#Componentval4").val()=='select attribute'){
-            alert("Error: Component Name cannot be blank");
-            return false;
-          }
-          if($("#attrValue4").val()==null){
-            alert("Error:Attribute Name cannot be blank");
-            return false;
-          }
-          
-          else{
-            
-              $.ajax({
-                  url: 'addComponentAttributemapping',
-                  type: 'post',
-                  data:{
-                      "componentId":$("#Componentval4").val().toString(),
-                      "attributeId":$("#attrValue4").val().toString(),
-                      "flag":1
-                  },
-                  dataType :'json',              
-                  success: function (data){ 
-                     alert("mapped successfully");
-                      window.location.href="/masters?flag=100" ;
-                  },
-                  error: function(){
-                  
-                        alert("error ----");
-                  }
-              });
-          }
-
+        alert();
       }
     } 
     
-    function insertCheckFlag(checking,flag,generatedId){
-      alert(generatedId);
-      if(checking==1){
-          if(flag!=-2){
-            alert("already exist");
-            return ;
-          }
-          else{
-              var table = document.getElementById("assetTable1"); 
-              var rowCount = $('#assetTable1 tr').length;
-              var row = table.insertRow(rowCount);
-              var rowid='at_'+(parseInt(rowCount/2));
-              $(row).attr('id',rowid);
-              var cell1 = row.insertCell(0);
-              var cell2 = row.insertCell(1);
-              var cell3 = row.insertCell(2);
-              var selText;
-              $("#compType option:selected").each(function () {
-                  var $this = $(this);
-                   if ($this.length) {
-                  var selText = $this.text();
-                   cell2.innerHTML = selText;
-                  }
-              });
-              cell1.innerHTML = $('#compName').val();
-              cell3.innerHTML='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>';
-                           document.getElementById("assetTable1").rows[rowid].cells.item(0).id=generatedId ;
-
-              var hiderow = table.insertRow(rowCount+1);
-              var rowhid='ath_'+(parseInt(rowCount/2));     
-              var hidecell1 = hiderow.insertCell(0);
-              var hidecell2 = hiderow.insertCell(1);
-              var hidecell3 = hiderow.insertCell(2);
-              $(hiderow).attr('id',rowhid);
-              $(hiderow).attr('class','hide');
-              var compo=$("#compType").html();
-              var compval=$("#compType").val();
-              var textid='at_text_'+(parseInt(rowCount/2));
-              var selectid='at_select_'+(parseInt(rowCount/2));
-              var x =  '<select class=""  id="'+selectid+'" name="" style=";">'+compo+'</select>';
-              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="50"  value="'+$('#compName').val()+'" />';
-              hidecell2.innerHTML = x;
-              hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",1,getSaveStatus)></span>';
-
-              $("#"+selectid).val(compval);
-              $("#compName").val('');
-              $("#compType").val(0);
-              alert("added successfully");
-          }
+    function insertCheckFlag(flag){
+        if(flag!=-2){
+          alert("already exist");
+          return ;
         }
-      else if(checking==2){
-            if(flag!=-2){
-            alert("already exist");
-            return ;
-            }
-            else{
-              var table = document.getElementById("assetTable2"); 
-              var rowCount = $('#assetTable2 tr').length;
-              var row = table.insertRow(rowCount);
-              var rowid='bt_'+(parseInt(rowCount/2));
-              $(row).attr('id',rowid);
-              var cell1 = row.insertCell(0);
-              var cell3 = row.insertCell(1);
-              var selText;
-              
-              cell1.innerHTML = $('#attrName').val();
-              cell3.innerHTML='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
-              document.getElementById("assetTable2").rows[rowid].cells.item(0).id=generatedId ;
+        else{  alert(otable.fnGetData().length); 
+            var rowCount = otable.fnGetData().length/2;
+            otable.dataTable().fnDestroy();
+            var table = document.getElementById("assetTable1"); 
 
-              var hiderow = table.insertRow(rowCount+1);
-              var rowhid='bth_'+(parseInt(rowCount/2));     
-              var hidecell1 = hiderow.insertCell(0);
-              var hidecell3 = hiderow.insertCell(1);
-              $(hiderow).attr('id',rowhid);
-              $(hiderow).attr('class','hide');
-              var compo=$("#attrName").html();
-              var textid='bt_text_'+(parseInt(rowCount/2));
-             
-              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="50"  value="'+$('#attrName').val()+'" />';
-              hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",2,getSaveStatus)></span>';
+            
+            var row = table.insertRow(1);
+            var rowid='at_'+(parseInt(rowCount));
+            $(row).attr('id',rowid);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var selText;
+            $("#compType option:selected").each(function () {
+                var $this = $(this);
+                 if ($this.length) {
+                var selText = $this.text();
+                 cell2.innerHTML = selText;
+                }
+            });
+            cell1.innerHTML = $('#compName').val();
+            cell3.innerHTML='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,1) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1)></span>';
+           
+            var hiderow = table.insertRow(2);
+            var rowhid='ath_'+(parseInt(rowCount));     
+            var hidecell1 = hiderow.insertCell(0);
+            var hidecell2 = hiderow.insertCell(1);
+            var hidecell3 = hiderow.insertCell(2);
+            $(hiderow).attr('id',rowhid);
+            $(hiderow).attr('class','hide');
+            var compo=$("#compType").html();
+            var compval=$("#compType").val();
+            var textid='at_text_'+(parseInt(rowCount/2));
+            var selectid='at_select_'+(parseInt(rowCount/2));
+            var x =  '<select class=""  id="'+selectid+'" name="" style=";">'+compo+'</select>';
+            hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="50"  value="'+$('#compName').val()+'" />';
+            hidecell2.innerHTML = x;
+            hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",getSaveStatus)></span>';
 
-              $("#attrName").val('');
+            $("#"+selectid).val(compval);
+            $("#compName").val('');
+            $("#compType").val(0);
+           
+             otable = $("#assetTable1").dataTable({
+                "aLengthMenu": [
+                    [10, 20, 50, 100, -1],
+                    ["10", "20", "50", "100", "all"]
+                ],
+                destroy: true,
+
+                "iDisplayLength": 10,
+                "showNEntries": true,
+                "bFilter": true,
+                "bLengthChange": true,
+                "aoColumnDefs": [{}],
+                "order": []
+            });
               alert("added successfully");
-
-            }
-        }
-        else if(checking==3){
-            if(flag!=-2){
-            alert("already exist");
-            return ;
-            }
-            else{ 
-              var table = document.getElementById("assetTable3"); 
-              var rowCount = $('#assetTable3 tr').length;
-              var row = table.insertRow(rowCount);
-              var rowid='ct_'+(parseInt(rowCount/2));
-              $(row).attr('id',rowid);
-              var cell1 = row.insertCell(0);
-              var cell3 = row.insertCell(1);
-              
-              cell1.innerHTML = $('#valueName').val();
-              cell3.innerHTML='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,3,activeCheckFlag)></span>';
-              document.getElementById("assetTable3").rows[rowid].cells.item(0).id=generatedId ;
-
-              var hiderow = table.insertRow(rowCount+1);
-              var rowhid='cth_'+(parseInt(rowCount/2));     
-              var hidecell1 = hiderow.insertCell(0);
-              var hidecell3 = hiderow.insertCell(1);
-              $(hiderow).attr('id',rowhid);
-              $(hiderow).attr('class','hide');
-              var compo=$("#attrName").html();
-              var textid='bt_text_'+(parseInt(rowCount/2));
-             
-              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="50"  value="'+$('#attrName').val()+'" />';
-              hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",3,getSaveStatus)></span>';
-
-              $("#attrName").val('');
-              alert("added successfully");
-
-            }
-        }
-        else if(checking==4){
-            alert(flag);
-            if(flag!=-2){
-            alert("already exist");
-            return ;
-            }
-            else{ 
-             
-              var table = document.getElementById("assetTable4"); 
-              var lastRowId=$('#assetTable4 tr:last').attr('id');
-              var rowCount = $('#assetTable4 tr').length;
-              var row = table.insertRow(rowCount);
-              var cell1 = row.insertCell(0);
-              var cell2 = row.insertCell(1);
-              var cell3 = row.insertCell(2);
-              var splits=lastRowId.split("_");
-              var generatingId=parseInt(splits[1])+1;
-             
-              var rowid='dt_'+generatingId;
-               
-              /*alert("last rowid is = "+lastRowId);
-              alert("rowcount  is "+rowCount+"   new rowid is   "+rowid);
-              */$(row).attr('id',rowid);
-              cell1.id=tempAttrNameforId;
-              
-               $("#attrName3 option:selected").each(function () {
-                  var $this = $(this);
-                  if ($this.length) {
-                  var selText = $this.text();
-                   cell1.innerHTML = selText;
-                  }
-                  
-              });
-                var selText=" "; 
-                $("#attrValue3 option:selected").each(function (){
-                     var $this = $(this);
-                      if ($this.length){
-                         selText =selText+" "+$this.text()+",";
-                      }
-                });
-                selText=selText.slice(0,-1); 
-         
-              cell2.innerHTML = selText;
-              cell3.innerHTML='<a onclick=deleterAttributeValMapping("'+rowid+'")>Delete</a>';
-             /* var hiderow = table.insertRow(rowCount+1);
-              var rowhid='cth_'+(parseInt(rowCount/2));     
-              var hidecell1 = hiderow.insertCell(0);
-              var hidecell3 = hiderow.insertCell(1);
-              $(hiderow).attr('id',rowhid);
-              $(hiderow).attr('class','hide');
-*/              var compo=$("#attrName").html();
-              var textid='bt_text_'+(parseInt(rowCount/2));
-             
-            /*  hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="50"  value="'+$('#attrName').val()+'" />';
-              hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",3,getSaveStatus)></span>';*/
-
-              $("#attrName").val('');
-              alert("added successfully");
-
-            }
-        }     
+        }    
     }
 
     var check=0;
-    function saveAssetTable1(rowid,tableno,callback){        // edit save changes
-
+    function saveAssetTable1(rowid,callback){        // edit save changes
           var rowelement=rowid.split("_");
           var rowhid=rowelement[0]+'h_'+rowelement[rowelement.length-1];
           var textid=rowelement[0]+'_text_'+rowelement[rowelement.length-1];
@@ -2453,104 +2106,45 @@ else{
             alert("Error:This field cannot be blank");
             return ;
           }
-          else if(tableno==1){
-              $.ajax({
-                url: 'addeditComponent',
-                type: 'post',
-                data:{
-                    "name":$('#'+textid).val(),
-                    "oldname":compOldName,
-                    "compOldType":compOldType,
-                    "type":$('#'+selectid).val(),
-                    "flag":2
-                     },
-                 dataType :'json',              
-                success: function (data){ 
-
-                      callback(rowid,rowhid,textid,selectid,data[0][0].resultflag,tableno);
-                   
-                },
-                error: function(){
-              
-                    alert("error");
-                }
-              });
+          $.ajax({
+            url: 'addeditComponent',
+            type: 'post',
+            data:{
+                "name":$('#'+textid).val(),
+                "oldname":compOldName,
+                "compOldType":compOldType,
+                "type":$('#'+selectid).val(),
+                "flag":2
+                 },
+             dataType :'json',              
+          success: function (data){ 
+                 callback(rowid,rowhid,textid,selectid,data[0][0].resultflag);
+               
+          },
+          error: function(){
+          
+                alert("error");
           }
-          else if(tableno==2){
-
-              $.ajax({
-                url: 'addeditattribute',
-                type: 'post',
-                data:{
-                    "name":$('#'+textid).val(),
-                    "oldname":compOldName,
-                    "flag":2
-                     },
-                 dataType :'json',              
-                success: function (data){ 
-                  callback(rowid,rowhid,textid,selectid,data[0][0].resultflag,tableno);
-                   
-                },
-                error: function(){
-              
-                    alert("error");
-                }
-              });
-          }
-          else if(tableno==3){
-
-              $.ajax({
-                  url: 'addeditvalue',
-                  type: 'post',
-                  data:{
-                      "name":$('#'+textid).val(),
-                      "oldname":compOldName,
-                      "flag":2
-                  },
-                  dataType :'json',              
-                  success: function (data){  
-                  callback(rowid,rowhid,textid,selectid,data[0][0].resultflag,tableno);
-                   
-                },
-                error: function(){
-              
-                    alert("error");
-                }
-              });
-          }  
+        });
          
     }
 
 
-    function getSaveStatus(rowid,rowhid,textid,selectid,flag,tableno){
+    function getSaveStatus(rowid,rowhid,textid,selectid,flag){
         if(flag!=-2){
           alert("Error: Already exist");
           return ;
         } 
         else{
-            alert("Updated Successfully"); 
-            if(tableno==1){ 
-              selectid="#"+selectid;
- 
-              document.getElementById("assetTable1").rows[rowid].cells.item(1).innerHTML = $(selectid+"  option:selected").text();
-              /*$("selectid option:selected").each(function(){
-                    
-                    var $this = $(this);
-                    if ($this.length) {
-
-                        var selText = $(this).text();
-
-                        
-                    }
-              });*/
-               document.getElementById("assetTable1").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
-            }
-            else if(tableno==2){
-                 document.getElementById("assetTable2").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
-            }
-            else if(tableno==3){
-                 document.getElementById("assetTable3").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
-            }
+            alert("Updated Successfully");  
+            $("#"+selectid+" option:selected").each(function(){
+                  var $this = $(this);
+                  if ($this.length) {
+                      var selText = $(this).text();
+                      document.getElementById("assetTable1").rows[rowid].cells.item(1).innerHTML = selText;
+                  }
+            });
+            document.getElementById("assetTable1").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
             $("#"+rowhid).addClass('hide');
             $("#"+rowid).removeClass('hide');
         }
@@ -2559,7 +2153,7 @@ else{
 
     var compOldName ;
     var compOldType ;
-    function assetStatus(rowid,flag,tableno,callback){      // active inactive edit 
+    function assetStatus(rowid,flag,tableno){      // active inactive edit 
       var rowelement=rowid.split("_");
       var hideRow=rowelement[0]+'h_'+rowelement[rowelement.length-1];
       var compOldId=rowelement[0]+'_text_'+rowelement[rowelement.length-1];
@@ -2567,164 +2161,20 @@ else{
       
       compOldName=$("#"+compOldId).val();
       compOldType=$("#"+compOldTypeId).val();
-      var tdId=document.getElementById("assetTable"+tableno).rows[rowid].cells.item(0).id ;
-      //alert(tdId);
+      
       if(flag==1){
-          if(confirm("Are you sure you want to  InActive it .?")==true)
-          $.ajax({
-                  url: 'inactiveAssetMaster',
-                  type: 'post',
-                  dataType :'json',
-                  data:{
-                    "tableid":tableno,
-                    "id":tdId,
-                    "flag":2
-                  },              
-                  success: function (data){ 
-                    callback(tableno,rowid,data[0][0].resultflag);
-                  }
-            }); 
-      }
-     else if(flag==3){
-              $("#"+hideRow).removeClass('hide');
-              $("#"+rowid).addClass('hide'); 
-              callback(100,100,100);
-      } 
-      else if(flag==2){
-        document.getElementById("assetTable"+tableno).rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>';
-      }
-       
-      
-    }
-    function activeCheckFlag(tableno,rowid,check){
-      
-          if(check==100){
-            return ;
-          }       
-          else if(check==-2){
-            if(tableno==1){             
-             document.getElementById("assetTable1").rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>';
-            }
-            if(tableno==2){     
-
-             document.getElementById("assetTable2").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
-            }
-            if(tableno==3){             
-             document.getElementById("assetTable3").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
-            }
-          }
-          else{
-                  alert("cant deactivate");          
-          }
-         
-      
-    }
-    function getDropDownValueForAsset(flag){
-
-      $.ajax({
-                  url: 'getAttrAndValForAsset',
-                  type: 'post',
-                  dataType :'json',              
-                  success: function (data){  
-                    console.log("--- -- --",data[5]);
-                     var tableString=""; 
-                    if(flag==1){
-                         tableString='<tr id="dt_-1"><th style="text-align:center">Name</th><th style="text-align:center">Value</th><th style="text-align:center">Action</th></tr>';                        
-                        for(var i=0;i<=data[4].length-1;i++){
-                          tableString+='<tr id="dt_'+i+'"><td id="'+data[4][i].id+'">'+data[4][i].attribute+'</td><td>'+data[4][i].name+'</td><td><a onclick=deleterAttributeValMapping(1,"dt_'+i+'")>Delete</a></td></tr>';
-                        }
-                        $("#assetTable4").html(tableString);
-                    }
-                    else if(flag==2){
-                         tableString='<tr id="dt_-1"><th style="text-align:center">Component</th><th style="text-align:center">Atribute</th><th style="text-align:center">Action</th></tr>';                       
-                        for(var i=0;i<=data[5].length-1;i++){ 
-                           tableString+='<tr id="dt_'+i+'"><td id="'+data[5][i].componentId+'">'+data[5][i].componentName+'</td><td>'+data[5][i].attributeName+'</td><td><a onclick=deleterAttributeValMapping(2,"dt_'+i+'")>Delete</a></td></tr>';
-                         }
-                      console.log(tableString);
-                       $("#assetTable5").html(tableString);
-                    }  
-
-
-                    var  stringattrName='<select class="form-control" id="attrName3" name=""><option id="0">select attribute</option>';
-                    var stringvalueName='<select multiple = "multiple" id ="attrValue3" maxlength="50" placeholder="attribute value"  >'; 
-                    var stringComponentName='<select multiple = "multiple" id ="Componentval4" maxlength="50" placeholder="component value" >'; 
-                    var stringattributeName='<select multiple = "multiple" id ="attrValue4" maxlength="50" placeholder="attribute value"  >'; 
-                    for(var i=0;i<data[1].length;i++){
-                      stringComponentName+='<option value="'+data[1][i].id+'">'+data[1][i].componentName+'</option>';
-                    }
-                    for(var i=0;i<data[2].length;i++){
-                      stringattrName+='<option value="'+data[2][i].id+'">'+data[2][i].attribute+'</option>';
-                      stringattributeName+='<option value="'+data[2][i].id+'">'+data[2][i].attribute+'</option>';
-                    }
-                    for(var i=0;i<data[3].length;i++){
-                      stringvalueName+='<option value="'+data[3][i].id+'">'+data[3][i].name+'</option>';
-                    }
-
-                    stringattrName+='</select>';
-                    stringComponentName+='</select>';
-                    stringattributeName+='</select>';
-                    stringvalueName+='</select>';
-                    $("#setAttrName").html(stringattrName);
-                    $("#setValueName").html(stringvalueName);
-                    $("#attrValue3").tagger();
-                    $("#attrName3").tagger();
-                    $("#setComponentName").html(stringComponentName);
-                    $("#setAttributeName").html(stringattributeName);
-                    $("#Componentval4").tagger();
-                    $("#attrValue4").tagger();
-                },
-                error: function(){
-              
-                    alert("error");
-                }
-
-      });
-      }
-     function deleterAttributeValMapping(flag,rowid){
-            var id=document.getElementById("assetTable4").rows[rowid].cells.item(0).id;
-            if(confirm("are you sure you want to delete this mapping ?")==true){
-                  if(flag==1){
-                    $.ajax({
-                          url: 'addattrvaluemapping',
-                          type: 'post',
-                          data:{
-                              "name":id,
-                              "val":[],
-                              "flag":2
-                          },
-                          dataType :'json',                  
-                      success: function (data){
-                        if(data[0][0].resultflag==-2){
-                              $('table#assetTable4 tr#'+rowid).remove();
-                            }
-                        }    
-                     
-                    });
-                  }
-                  else if(flag==2){
-                    id=document.getElementById("assetTable5").rows[rowid].cells.item(0).id;
-                    $.ajax({
-                          url: 'deleteComponentAttributeMapping',
-                          type: 'post',
-                          data:{
-                              "name":id,
-                              "flag":2
-                          },
-                          dataType :'json',                  
-                          success: function (data){
-                            if(data[0][0].resultflag==-2){
-                                  $('table#assetTable5 tr#'+rowid).remove();
-                                  alert("deleted successfully");
-                                }
-                            }    
-                     
-                    });
-
-                  }
-            }                
+        if(confirm("Are you sure you want to  InActive it .?")==true)
+         document.getElementById("assetTable1").rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,1) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1)></span>';
      }
-      
-
-  
-
+     else if(flag==2){
+         if(confirm("Are you sure you want to  Active it .?")==true){      
+              document.getElementById("assetTable1").rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,1) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,1)></span>';
+       }
+    }
+     else if(flag==3){
+            $("#"+hideRow).removeClass('hide');
+            $("#"+rowid).addClass('hide'); 
+           
+     }
+    }
 </script>

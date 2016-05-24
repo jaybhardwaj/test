@@ -1,0 +1,123 @@
+<html lang="en">
+ <% include ./partials/head %>
+ <% include ./partials/adminheader %>
+
+ <style type="text/css">
+  
+    input[type=search] {
+    height: 29px !important;
+    border-radius: 5px !important;
+    border: 1px solid #669ECC !important;
+
+  }
+
+  thead{
+          background-color: #808080;
+          color:white;
+          font-size: 12px;
+        }
+
+      tbody{
+          color:#808080;
+          font-size: 12px;
+        }
+ .glyphicon-ok-circle{
+  color:green!important;
+ }
+
+</style>
+<script>
+var tabledel='';
+var rowid='';
+
+function inactive(a,flag){
+  
+
+if(confirm("Do you want InActive the Assignment?"))
+{
+
+
+//alert(a);
+   $.ajax({
+        url: '/buguser/changeAssignmentStatus',
+        type: 'post',
+        data: {"id":a},
+        success:function(data){
+       checkact(flag);
+        }
+
+});
+}
+else
+alert("You have Cancelled");
+}
+
+ $(document).ready(function() {
+
+ $('.assignment-img').addClass('active');
+
+ tabledel= $("#assigntable").dataTable({
+    'iDisplayLength':5,
+    "bFilter": true
+  }); 
+ });
+
+
+</script>
+
+
+ 
+    <div class="bug-background" id="accordions"  style=" "> 
+   
+   <a href="/assignment">
+    <button class="btn btn-danger" style="float:left;position:relative;left:2%; background-color:#f05f40;color:white;margin-top:15px;margin-bottom:15px;" >Active</button></a>
+  <a href="/assignment?inactive=0"> 
+    <button class="btn btn-danger" style="float:left;position:relative;left:2%; background-color:#f05f40;color:white;margin-top:15px;margin-bottom:15px;">InActive</button></a>
+    <a href="createassignment?flag=0&assignmentId=0">    
+        <button class="btn btn-danger" style="float:left;position:relative;left:2%; background-color:#f05f40;color:white; margin-top:15px;margin-bottom:15px;" >ADD</button>
+    </a>
+     <!-- <p class="pageTitle" style="margin-top:0%" >List Of All Assignment</p>  -->
+     <span class="modal-title" style="padding-left:16%">List Of All Assignment</span>
+      <table class="table table-hover table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" id="assigntable">  
+                 <thead>
+                    <tr style="font-size:12px">
+                        <th style='background-color:grey;color:white'>Project Name</th>
+                        <th style='background-color:grey;color:white'>WBS Code</th>
+                        <th style='background-color:grey;color:white'>WBS Name</th>
+                        <th style='background-color:grey;color:white'>User Name</th>
+                        <th style='background-color:grey;color:white'>Assignment Start Date</th>
+                        <th style='background-color:grey;color:white'>Assignment End Date</th>
+                        <th style='background-color:grey;color:white'>Action</th>
+                        
+                    </tr>
+
+                </thead> 
+                <tbody id="acttab">
+               <%console.log("-------Length-----------",allinfo1.length); for(var i=allinfo1[0].length-1;i>=0;i--) { %>
+                 
+                    <tr id="row_<%=allinfo1[0][i].AsIdt1%>">
+                      <td>
+                        <%=allinfo1[0][i].projectTitle%>
+                      </td>
+                      <td>
+                        <%=allinfo1[0][i].WBSName%>
+                      </td>
+                      <td>
+                        <%=allinfo1[0][i].WBSCode%>
+                      </td>
+                      <td>
+                        <%=allinfo1[0][i].fn%>
+                      </td>
+                      
+                      <td><%=allinfo1[0][i].AssignmentDate%></td>
+                      <td><%=allinfo1[0][i].AssignmentEndDate%></td>
+                      <td><a href="createAssignment?assignmentId=<%=allinfo1[0][i].AsIdt1%>&flag=1"><span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-left:5px;" title="Edit Assignment"></span></a><a href="/changeAssignmentStatus?assignmentId=<%=allinfo1[0][i].AsIdt1%>&flag=<%=allinfo1[0][i].assgisActive%>"><span <%if(allinfo1[0][i].assgisActive==1){%>class="glyphicon  glyphicon-ok-circle" <%} else{%>class="glyphicon  glyphicon-remove-sign" <%}%>style="color:green;height:10px; margin-left:50px;" title="Deactivate Assignment" ></span></td>
+                    </tr>
+                
+                <%}%>
+              </tbody>
+              </table>
+    </div>
+    
+
+    <div>  <% include ./partials/footer %>     </div>
