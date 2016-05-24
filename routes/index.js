@@ -69,6 +69,7 @@ app.post('/addHardware',url.setpageHardware,portal.addHardware,portal.getComp,re
 app.post('/addline',portal.addline);
 app.post('/subaddline',portal.subaddline);
 app.post('/getlineid',portal.getlineid);
+app.post('/getcomponentfordescription',portal.descriptionforatr);
 app.post('/updateTag',portal.updateTag);
 app.post('/getlinevalue',portal.getlinevalue);
 app.post('/getsublinevalue',portal.getsublinevalue);

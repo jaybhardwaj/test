@@ -1438,7 +1438,21 @@ function expensedescription(expclaimId){
                 }
                 });
    
-          } 
+          }
+
+    function tocheckAttachment(){
+     
+        var arrExt=["pdf","doc","docx","xlsx","xls","gif","jpeg","png"]
+                        var filename=$('#attachfile').val();
+                        
+                        var fileExt=filename.split('.');
+                        fileExt=fileExt[fileExt.length-1];
+                        
+                        if(arrExt.indexOf(fileExt) == -1){
+                        alert("uploaded file format is invalid! \n valid formats: pdf,doc,docx.xls,xlsx,jpeg,png");
+                        return false;
+                        }
+    }       
 
     function toChecktheDatersd(){
 
@@ -1637,13 +1651,13 @@ function submitExpense() {
                  $('#showcomment').html('');
                   $('#myModalshowcomment').modal('show');
                   if(data[0][0].anyFile==''){
-                  $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No any comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                  $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
                   }else{
                     $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[0][0].anyFile+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");}
                     if(data[1].length>0){
                     for (var i = 0; i < data[1].length; i++) {
                        if(data[1][i].remark==''){
-                   $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No any comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                   $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
                   }else{
                     $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[1][i].remark+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
                   }
@@ -1736,8 +1750,9 @@ function dateVarifyofHotel(){
       $('#htotalday').val(days+1);
 return true;;
   }else{
-   alert('Start date is greater than end date');
-document.getElementById("to").focus();
+    if(($('#from').val()!='')&&($('#to').val()!='')){
+   alert('Start date is greater than end date');}
+//document.getElementById("to").focus();
 return false;
   }
 }
@@ -1749,8 +1764,9 @@ function dateVarifyofTravel(){
       $('#traveltday').val(days+1);
 return true;;
   }else{
-alert('Start date is greater than end date');
-document.getElementById("tofortravel").focus();
+    if(($('#fromdatefortravel').val()!='')&&($('#tofortravel').val()!='')){
+alert('Start date is greater than end date');}
+//document.getElementById("tofortravel").focus();
 return false;
   }
 }
@@ -1759,8 +1775,9 @@ function dateVarifyofFood(){
   if(new Date($('#fromfood').val())<=new Date($('#tofood').val())){
 return true;;
   }else{
-alert('Start date is greater than end date');
-document.getElementById("tofood").focus();
+    if(($('#fromfood').val()!='')&&($('#tofood').val()!='')){
+alert('Start date is greater than end date');}
+//document.getElementById("tofood").focus();
 return false;
   }
 }
@@ -1768,8 +1785,10 @@ function dateVarifyofPhone(){
   if(new Date($('#fromdateforphone').val())<=new Date($('#todateforphone').val())){
 return true;;
   }else{
-alert('Start date is greater than end date');
-document.getElementById("todateforphone").focus();
+
+    if(($('#fromdateforphone').val()!='')&&($('#todateforphone').val()!='')){
+alert('Start date is greater than end date');}
+//document.getElementById("todateforphone").focus();
 return false;
   }
 }
@@ -1779,8 +1798,9 @@ function dateVarifyofRsd(){
     
 return true;;
   }else{
-alert('Start date is greater than end date');
-document.getElementById("todateforrfd").focus();
+    if(($('#fromdateforrfd').val()!='')&&($('#todateforrfd').val()!='')){
+alert('Start date is greater than end date');}
+//document.getElementById("todateforrfd").focus();
 return false;
   }
 }
@@ -1793,8 +1813,9 @@ function dateVarifyofPerdiem(){
       $('#diemday1').val(days+1);
 return true;;
   }else{
-alert('Start date is greater than end date');
-document.getElementById("todateperdiem").focus();
+    if(($('#fromdateperdiem').val()!='')&&($('#todateperdiem').val()!='')){
+alert('Start date is greater than end date');}
+//document.getElementById("todateperdiem").focus();
 return false;
   }
 }
@@ -1803,8 +1824,9 @@ function dateVarifyofOther(){
   if(new Date($('#fromother').val())<=new Date($('#otherToDate').val())){
 return true;;
   }else{
-alert('Start date is greater than end date');
-document.getElementById("otherToDate").focus();
+    if(($('#otherToDate').val()!='')&&($('#fromother').val()!='')){
+alert('Start date is greater than end date');}
+//document.getElementById("otherToDate").focus();
 return false;
   }
 }
@@ -2010,7 +2032,7 @@ function changeothercurrency(){
 
 <div id="showMessage" class="hide" style="height:px;width:200px;"><label id="showm" style="color:green;font-size:15px"></label></div>
 
-<div class="bug-background" id="accordionsdata" style="padding-top: 20px" >
+<div class="bug-background" id="accordionsdata">
 
     <table  id="data_table" class="table table-hover table-striped table-bordered rceDataTable" cellspacing="0" width="100%" >
                 <!-- <thead>
@@ -2122,7 +2144,7 @@ function changeothercurrency(){
               <label id='explabel' style="line-height:20px !important;color:white;margin-left: 65px;margin-top: 8px">Expense Type:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
         </div>
         <div class="col-md-3">
-              <select class="form-control" style="margin-top:3px;margin-bottom:3px;height:29px; background-color:#23527c;color:white; font-size:12px;float:left;width:280px;" id='typeEx' name="client" style="width:200px !important;" onchange="showexpensDetails()">
+              <select class="form-control" style="margin-top:3px;margin-bottom:3px;height:29px; background-color:#23527c;color:white; font-size:12px;float:left;width:280px;" id='typeEx' name="client" style="width:200px !important;" onclick="showexpensDetails()">
                       <option value=0>------Select------</option>                              
                         <%for(var i=0;i<expenseType.length;i++)
                         {%>
@@ -3155,14 +3177,14 @@ function changeothercurrency(){
                         </div>
               <div class="col-md-4"><label style="font-size:10px;">Attach Files</label>   
               </div>
-            <div class="col-md-4"><input type="file" name="comment-upload" class="upload" />
+            <div class="col-md-4"><input id="attachfile" type="file" name="comment-upload" class="upload" />
             </div>
         </div>
 
             <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
                             <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="">Submit</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="return tocheckAttachment()">Submit</button>
                         </center>
             </div>
          </div>

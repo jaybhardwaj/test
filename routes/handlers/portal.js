@@ -1763,8 +1763,14 @@ getViewHardware:function(req,res,next){
             return;
         }
 
+<<<<<<< Updated upstream
         req.resultHardware = resultHardware[0];
         //console.log(resultHardware[0]);
+=======
+
+        req.resultHardware = resultHardware;
+        console.log(resultHardware[1]);
+>>>>>>> Stashed changes
 
         next();
     });
@@ -1804,8 +1810,12 @@ getViewHardware:function(req,res,next){
              if(error){
 
                 console.log("hgdtfe rehryte eyer eyeyeyevteyttye ",error);
+<<<<<<< Updated upstream
               next(error);
 
+=======
+  
+>>>>>>> Stashed changes
               
             }
             else{
@@ -1965,6 +1975,17 @@ getViewHardware:function(req,res,next){
             }
             req.resultedit=result;
             next();
+        });
+    },
+
+     descriptionforatr:function(req,res,next){
+
+        modelPortal.descriptionforatr(req.body.id,function(error,result){
+            if(error){
+                next(error);
+            }
+            console.log(result);
+            res.json(result);
         });
     },
 
