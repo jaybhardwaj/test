@@ -1763,14 +1763,9 @@ getViewHardware:function(req,res,next){
             return;
         }
 
-<<<<<<< Updated upstream
         req.resultHardware = resultHardware[0];
         //console.log(resultHardware[0]);
-=======
 
-        req.resultHardware = resultHardware;
-        console.log(resultHardware[1]);
->>>>>>> Stashed changes
 
         next();
     });
