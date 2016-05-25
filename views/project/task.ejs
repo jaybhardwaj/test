@@ -10,7 +10,11 @@
 <title>task manaagement</title>
 <style>
  /***********************************Mayur CSS starts here********************************************/
+.selectRS{
+    padding-left: 2px;
+    padding-right: 2px;
 
+}
 .textboxEffEditAdd{
 	 width: 34%!important;
     margin-left: 2%;
@@ -110,7 +114,89 @@ th {
 	.title{
 		font-size: 13px;
 	}
-      input[type='text']{border: 0px!important;}
+  .ddResources{
+     font-size: 10px;
+    height: 25px;
+    padding: 0px;
+    background-color: white;
+
+  }
+  input[type='text']{border: 0px!important;}
+
+input[type="number"] {
+    position: relative;
+    margin: 0 0 1rem;
+    border: 0px solid #BBB;
+    border-color: #BBB #ECECEC #ECECEC #BBB;
+    padding: .2rem;
+}
+
+
+input[type="number"].mod::-webkit-outer-spin-button, 
+input[type="number"].mod::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    background: #FFF url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAKUlEQVQYlWNgwAT/sYhhKPiPT+F/LJgEsHv37v+EMGkmkuImoh2NoQAANlcun/q4OoYAAAAASUVORK5CYII=) no-repeat center center;
+    width: 1em;
+    border-left: 1px solid #BBB;
+    opacity: .5;  
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+input[type="number"].mod::-webkit-inner-spin-button:hover,
+input[type="number"].mod::-webkit-inner-spin-button:active{
+    box-shadow: 0 0 2px #0CF;
+    opacity: .8;
+}
+
+
+input:-webkit-autofill {
+    background: black;
+    color: red;
+}
+input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+    cursor:pointer;
+    display:block;
+    width:8px;
+    color: #333;
+    text-align:center;
+    position:relative;
+}
+
+input[type=number]::-webkit-inner-spin-button:before,
+input[type=number]::-webkit-inner-spin-button:after {
+    content: "^";
+    position:absolute;
+    right: 0;
+    font-family:monospace;
+    line-height:
+}
+
+input[type=number]::-webkit-inner-spin-button:before {
+    top:0px;
+}
+
+input[type=number]::-webkit-inner-spin-button:after {
+    bottom:0px;
+    -webkit-transform: rotate(180deg);
+}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{  
+
+   opacity: 1!important;
+   margin:1px;
+
+}
+
+ input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: scrollbarbutton-up!important; 
+  margin: 2px; 
+}
+
+
+
 </style>
 <% 
 
@@ -132,6 +218,7 @@ var marginleftarr = [];
     var Tree = '';
     var startCounterTreeComponent;
     console.log('ultimateEndId is ',ultimateEndId);
+    console.log('tc',treeComponent);
   for(var i = 0 ;(i<=ultimateEndId)&&(ultimateEndId!=0);i++){   //here i is table id 
    treeStructure.push([]);
 
@@ -147,7 +234,6 @@ for(var  k = 0 ; k < treeComponent.length; k++){  //here k is index number from 
 
 var newvar = treeStructure;
 var submitted  = 0;
- console.log('treeStructure is ',treeStructure); 
 var effortArr = ['','Hrs','Days','Weeks','Months','Years'];
 var Foldernames = [];
 if(!treeComponent.length){
@@ -158,17 +244,37 @@ else{
          submitted = treeComponent[0].isSubmit;
    }
 for(var i = 0 ;i<treeComponent.length;i++){
-	var newobj = { 'name' :  treeComponent[i].name,
+var resourceName = '';
+for(var j = 0;j<Resources.length;j++){
+if(Resources[j].id == treeComponent[i].resources){
+resourceName = Resources[j].firstName+' '+Resources[j].lastName;
+}
+
+}
+
+	var newobj =  { 'name' :  treeComponent[i].name,
 		           'sdate':  treeComponent[i].startDate,
 		           'edate': treeComponent[i].endDate,
-                   'effort':treeComponent[i].effort,
-                'effortType':effortArr[treeComponent[i].effortType],
-                 'perc'      : treeComponent[i].percCompleted + ' %'
+              'effort':treeComponent[i].effort,
+          'effortType':effortArr[treeComponent[i].effortType],
+          'perc'      : treeComponent[i].percCompleted + ' %',
+                 'resc'      : resourceName
 	              };
    Foldernames[treeComponent[i].id] = newobj;
 }
 
+var optionStr = '<select class = " ddResources"><option value = "0"> --Select </option>';
+for(var i = 0;i<Resources.length;i++){
+
+optionStr = optionStr +'<option value ="'+Resources[i].id+'" >'+Resources[i].firstName+' '+Resources[i].lastName+'</option>';
+}
+optionStr = optionStr + '</select>';
+//console.log(optionStr);
+
+
 createTree(treeStructure,0,-1);
+
+var hideAddButtonClass = '';
 
 function createTree(idarr,num,level){
       //console.log('loop',num,level);
@@ -177,24 +283,51 @@ function createTree(idarr,num,level){
 for(var i=0;i<idarr[num].length;i++){
     //console.log('size',idarr[num].length,'inc',i);
     if(level==-1){
+      if(!treeStructure[idarr[num][i]].length){
+         hideAddButtonClass = ' deleteCSS ';
+       
+      }
 
-    	Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="phase bold1"><img src="../img/project/minus.png" id = '+idarr[num][i]+'_sign_'+num+' onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+idarr[num][i]+'_add_'+num+'  class="shadow phaseImg " onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'    height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS bold1">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td class = "bold1">'+Foldernames[idarr[num][i]].perc+'</td><td></td></tr>';
+    else {
+            hideAddButtonClass = '';
+            
+         }
+                      
+         Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="phase bold1"><img src="../img/project/minus.png" id = '+idarr[num][i]+'_sign_'+num+' onclick = "collapseExpand(this.id,1)" class="minus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+idarr[num][i]+'_add_'+num+'  class="shadow phaseImg  " onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'    height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS bold1">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td class = "bold1">'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
     	 }
 
  else if(level==0){
-	Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="task"><img src="../img/project/plus.png" class="plus" onclick = "collapseExpand(this.id,1)"  id = '+idarr[num][i]+'_sign_'+num+' height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" class="shadow " height="18px" onclick = "addRow(this.id)"  id = '+idarr[num][i]+'_add_'+num+' title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+' height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td></tr>';
+
+    if(!treeStructure[idarr[num][i]].length){
+         hideAddButtonClass = ' deleteCSS ';
+      
+       
       }
+
+    else {
+            hideAddButtonClass = '';
+            
+         }
+         
+ Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="task"><img src="../img/project/plus.png" class="plus'+hideAddButtonClass+'" onclick = "collapseExpand(this.id,1)"  id = '+idarr[num][i]+'_sign_'+num+' height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" class="shadow " height="18px" onclick = "addRow(this.id)"  id = '+idarr[num][i]+'_add_'+num+' title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+' height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
+     
+
+      } 
+
+
+
+
       else if(level==1){
       	console.log('in level 1');
-	Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' class = "hide"><td></td><td class="subtask"><img src="../img/project/button.png" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1 "></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'  height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS ">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS ">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td></tr>';
+	Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' class = "hide"><td></td><td class="subtask"><img src="../img/project/button.png" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1 "></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'  height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS ">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS ">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
       }
-  else{
+
+else{
   	console.log('Error!!!!',i,num,idarr[num]);
       }
 
 
-   
-   if(level<1){
+  if(level<1){
   createTree(idarr,idarr[num][i],level1);
    }
 
@@ -212,8 +345,10 @@ return ;
 
 %>
 <script type="text/javascript">
-var startDateOriginal = '12/7/2016';
-var endDateOriginal   = '12/12/2016';
+
+var optionStr         = '<%=optionStr%>';
+var startDateOriginal = '<%=prStartDate%>';
+var endDateOriginal   = '<%=prEndDate%>';
 var startDate         = startDateOriginal;
 var endDate           = endDateOriginal;
 var endDateInDatePicker ,startDateInDatePicker ;
@@ -257,16 +392,17 @@ var curentDropdownValueForEffort = 0;
 var  currentNodeNameForUpdateArrAll =   '';
 var currenteffType                  =    0;
 
-function updateAllArr(insertFlag,idUsed,isActiveFl){
+function updateAllArr(idUsed,isActiveFl){
 var value = idUsed.split('_');
 var individualId = value[0];
 var parentId = value[2];
 idUsed = individualId + '_rowid_' + parentId
-var stringForId = '#' + idUsed;
-//var stringForNodeName = stringForId + ' td:first';
+var stringForId = '#' + idUsed + ' td '+ ' input ';
+var stringForSelect = '#' + idUsed + ' td '+ ' select ';
+/*//var stringForNodeName = stringForId + ' td:first';
 //var $td= $(stringForId).children('td'); 
 //console.log($td[0].);
-/*for(var  i =0;i<9;i++ ){
+for(var  i =0;i<9;i++ ){
 alldataTable[i] = $td.eq(i).text();  
 } 
 */
@@ -285,23 +421,43 @@ console.log(newArr);
 insertArr.push(newArr)
 }*/
 
-if(insertFlag==0){
+if(isActiveFl==0){
+var newArr = [];
+for(var i = 0;i<10;i++){
+  newArr.push(0);
+}
+
+newArr[0] = individualId;
+newArr[6] = parentId ;
+
+
+
+}
+
+
+
+if(isActiveFl==1){
 var newArr = [];
 newArr[0] = individualId;
-newArr[1] = currentNodeNameForUpdateArrAll;//Name 
-newArr[2] = $(stringForId).children('td')[4].innerHTML;//Start
-newArr[3] = $(stringForId).children('td')[5].innerHTML;//End
-if($(stringForId).children('td')[6].innerHTML.match(/^\d+(\.\d{1,4})?/i)){
-newArr[4] = $(stringForId).children('td')[6].innerHTML.match(/^\d+(\.\d{1,4})?/i)[0];//Effort
+newArr[1] = $(stringForId)[0].value;//Name 
+newArr[2] = $(stringForId)[1].value;//Start
+newArr[3] = $(stringForId)[2].value;//End
+if( $(stringForId)[3].value!=''){
+newArr[4] = $(stringForId)[3].value;//Effort
 }
 else newArr[4] = 0;
-newArr[5] =  curentDropdownValueForEffort;//Effort Type
+newArr[5] =  $(stringForSelect)[0].value;//Effort Type
 newArr[6] = parentId ;
 newArr[7] = isActiveFl;
-var strTemp = $(stringForId).children('td')[7].innerHTML; 
-newArr[8] =  strTemp.slice(0,strTemp.indexOf('%')-1);
-newArr[9] =  currenteffType;
+newArr[8] =  $(stringForId)[4].value; 
+newArr[9] = $(stringForSelect)[1].value;//Effort Type
 
+
+
+
+$('#'+individualId+'_del_'+parentId).attr("onclick" , "deleteRow(this.id,1)");
+
+}
 var iValue = -1;
 	for(var i = 0;i<updateArr.length;i++){
          if(updateArr[i][0]==individualId){
@@ -318,10 +474,10 @@ else{
 	updateArr[iValue] = newArr; 
 }
 
+console.log(newArr);
 
 
 
-}
 
 curentDropdownValueForEffort = 0;
 currentNodeNameForUpdateArrAll ='';
@@ -338,22 +494,8 @@ presentIdsArr.push(<%=treeComponent[i].id%>);
 
 
 $(document).ready(function(){
-  setTimeout(function(){$('.editRowClass').click();
-$('input[type="text"]').css('border',0);
-$('input[type="text"]').addClass('allTextAndNumberBoxes');
-$('input[type="number"]').addClass('allTextAndNumberBoxes');
-$('.datepicker').addClass('allTextAndNumberBoxes');
-$('td select').addClass('allTextAndNumberBoxes');
-
-$('.allTextAndNumberBoxes').click(function(){
-  console.log('hiiiiiiiii');
-  /*updateAllArr()************************************************************************/
-});
-
-
-
-},100);
-
+ 
+initializeJquery();
 
   $('.task-img').addClass('active');
 	$('.se-pre-con').fadeOut('slow');
@@ -372,7 +514,7 @@ $('.allTextAndNumberBoxes').click(function(){
 
      var selectJq1 = $('select option');
      var selectJq2=  selectJq1[index] ;
-     console.log('here is ',selectJq2);
+     //console.log('here is ',selectJq2);
      $(selectJq2).attr('selected',true);
 
 
@@ -472,6 +614,7 @@ $('.allTextAndNumberBoxes').click(function(){
  
 
     function addRow(currentId){
+        /*********addRRow**************/
     var value = currentId.split('_');
   var individualId = value[0];
   var parentId = value[2];
@@ -508,25 +651,52 @@ lastChildId = treeStructure[lastChildId][treeStructure[lastChildId].length-1];
      
 }
 
+var hideAddButtonClass = '';
+
+
  var newcurrentId = '#'+lastChildId +'_rowid_'+ lastParentId;
 
 if(depth ==0){
-	var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="phase paddingtd"><img src="../img/project/plus.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" ></td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+ultimateEndId+'_add_'+individualId+'  class="shadow phaseImg hide" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg"  onclick = "deleteRow(this.id,0)"  id = '+ultimateEndId+'_del_'+individualId+' height="18px" class="shadow"  title="Delete" width="18px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow" title="Green Tick" width="18px"></td><td class = "bold1 dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = '+ultimateEndId+'_sdate_'+individualId+' ></td><td class="dateTempCss bold1 "><input type = "text " id = '+ultimateEndId+'_edate_'+individualId+' class = "datePicker textBoxesCss"></td><td class="effCSS"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq "  id = '+ultimateEndId+'_eff_'+individualId+' ><select id = '+ultimateEndId+'_effType_'+individualId+' class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td class = "bold1"><input type = "text" class = "textBoxesCss"></td><td></td></tr>';
+	var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="phase paddingtd"><img src="../img/project/plus.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="plus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" ></td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+ultimateEndId+'_add_'+individualId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg" height="15px" class="shadow" onclick = "deleteRow(this.id,0)" id = '+ultimateEndId+'_del_'+individualId+'  title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" class = "hide"  width="18px"></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = '+ultimateEndId+'_sdate_'+individualId+' ></td><td class="dateTempCss bold1"><input type = "text " id = '+ultimateEndId+'_edate_'+individualId+' class = "datePicker textBoxesCss"></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = '+ultimateEndId+'_eff_'+individualId+' ><select id = '+ultimateEndId+'_effType_'+individualId+' class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss bold1"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
 		}
 
 else if (depth==1){
-	var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="task paddingtd"><img src="../img/project/plus.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1 bold1 paddingtd "><img src="../img/bug/addbug.png" id = '+ultimateEndId+'_add_'+individualId+'  class="shadow phaseImg hide" onclick = "addRow(this.id)" onclick = "deleteRow(this.id,0)" id = id = '+ultimateEndId+'_del_'+individualId+' height="18px" title="Add Phase" width="18px"></td><td class="images1 paddingtd "><img src="../img/project/blackdustbin.jpg" height="18px" class="shadow" title="Delete" width="18px"   onclick = "deleteRow(this.id,0)" id = '+ultimateEndId+'_del_'+individualId+'><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow" title="Green Tick" width="18px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "text " class = "textBoxesCss"></td><td></td></tr>';
+
+/*if(!treeStructure[ultimateEndId].length){
+         hideAddButtonClass = ' deleteCSS ';
+       
+      }
+
+    else {
+            hideAddButtonClass = '';
+            
+         }*/
+var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="task paddingtd"><img src="../img/project/plus.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="plus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = '+ultimateEndId+'_add_'+individualId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 paddingtd "><img src="../img/project/blackdustbin.jpg"  id = '+ultimateEndId+'_del_'+individualId+' onclick = "deleteRow(this.id,0)"     height="15px" class="shadow" title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" width="18px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
 
      }
 
      else if (depth==2){
-	var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="subtask "><img src="../img/project/button.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1  "></td><td class="images1 "><img src="../img/project/blackdustbin.jpg" height="18px" onclick = "deleteRow(this.id,0)" id = '+ultimateEndId+'_del_'+individualId+' class="shadow" title="Delete" width="18px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" height = "18px" onclick = "convertTonormalTr(1,this.id,'+depth+')" title="Save" width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "text" class = "textboxEffEditAdd textboxEffEditAddJq"><select class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></select></td><td><input type = "text" class = "textBoxesCss"></td><td></td></tr>';
+  var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="subtask "><img src="../img/project/button.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1 "></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg"   id = '+ultimateEndId+'_del_'+individualId+' onclick = "deleteRow(this.id,0)"  height="15px" class="shadow" title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" height = "18px" onclick = "convertTonormalTr(1,this.id,'+depth+')" class = "hide" title="Save" width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "text" class = "textboxEffEditAdd textboxEffEditAddJq"><select class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
 
      }
        makeEmptyAjaxCall();
        if(newcurrentId=='#0_rowid_-1') newcurrentId = '#tbody123'
      $(newcurrentId).after(str);
-      treeStructure[individualId].push(ultimateEndId);
+   initializeJquery();
+
+
+     var tdIdForSelect = '#'+ ultimateEndId+'_selectRS_'+individualId;
+     var decode = $(tdIdForSelect).html(optionStr).text();
+      decode = decode.replace(/"/g,'').replace(/'/g,'');
+      $(tdIdForSelect).html(decode);
+
+
+
+
+
+
+
+ treeStructure[individualId].push(ultimateEndId);
       treeStructure.push([]);
       ultimateEndId++;
 
@@ -539,7 +709,7 @@ $(".datePicker").datepicker({
     duration: "slow",
     beforeShow: findParentDate,
     onSelect: function(selected, evnt) {
-        console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
+       // console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
         var endDateFlag = checkNature($(this).attr('id'));
          startDateEndDateValidation(endDateFlag,$(this));
          }
@@ -611,6 +781,9 @@ if(depth==0){
       }
 
 
+
+
+
 $('#'+rowId).html(newStringForHtml);
 /*var rowIdVarForTreeIndex = rowId;
 var countForPosition =nextClass(depth,rowId);
@@ -635,7 +808,7 @@ currentNodeNameForUpdateArrAll = nodeName;
 currentEffType                 = effortType 
 //makeEmptyAjCall();
 if(addNewFlag!=-1){
-updateAllArr(0,rowId,1);
+updateAllArr(rowId,1);
  }
     
   
@@ -753,7 +926,7 @@ return;
 
 
     $.ajax({
-                    url: '/saveTask',
+                     url: '/saveTask',
                     type: 'post',
                     data :{
                       'updateQ':updateArr,
@@ -787,7 +960,7 @@ return;
 
 
 function editRow(rowId,AddFlag){
-
+/********editRRow*******/
 var value = rowId.split('_');
 var individualId = value[0];
 var parentId = value[2];
@@ -799,13 +972,16 @@ var tempStrForNodeName = $(stringForId).children('td')[1].innerHTML;
  var nodeName          =  tempStrForNodeName.slice(tempStrForNodeName.indexOf('>')+1);
 var sDateName          = $(stringForId).children('td')[4].innerHTML;//Start
 var eDateName          = $(stringForId).children('td')[5].innerHTML;//End
-var effortQuant        = $(stringForId).children('td')[6].innerHTML.match(/^\d+(\.\d{1,4})?/i)[0];//Effort
-if($(stringForId).children('td')[7].innerHTML.match(/\d{1,9}/i)){
-var percCompleted      = $(stringForId).children('td')[7].innerHTML.match(/\d{1,9}/i)[0];
+var effortQuant        = $(stringForId).children('td')[6].innerHTML.match(/\d{1,9}/i)[0];
+var strForpercComplete  = $(stringForId).children('td')[7].innerHTML;
+console.log('strForpercComplete',strForpercComplete);
+if(strForpercComplete!=''){
+var percCompleted      = strForpercComplete.slice(0, strForpercComplete.length-2);
 }
-else percCompleted = '';
+else { var percCompleted = '';}
 var effortArrStr       =  $(stringForId).children('td')[6].innerHTML;
 var effortType         = 0 
+var impResource        = $(stringForId).children('td')[9].innerHTML
 for(var i = 1;i<effortArr.length;i++){
 if(effortArrStr.indexOf(effortArr[i])!=-1){
   effortType = i;
@@ -829,27 +1005,98 @@ else if($(objForSecondTd).hasClass('task')){
 
 else depth = 2;
 
-
-
+var hideAddButtonClass = '';
+if(impResource!=''){
+var posForResource = optionStr.indexOf(impResource);
+console.log('Yo123',posForResource,impResource);
+    posForResource = posForResource - 4;
+    var selectedString = ' selected = "true" ';
+var optionStr2 = [optionStr.slice(0, posForResource), selectedString, optionStr.slice(posForResource)].join('');
+}
+else {
+  var optionStr2 = optionStr;
+}
 
 if(depth ==0){
-  var strForHtml =  '<td></td><td class="phase paddingtd"><img src="../img/project/plus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" ></td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg" height="18px" class="shadow" onclick = "deleteRow(this.id,1)" id = '+individualId+'_del_'+parentId+'  title="Delete" width="18px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow" title="Green Tick" width="18px"></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = '+individualId+'_sdate_'+parentId+' ></td><td class="dateTempCss bold1"><input type = "text " id = '+individualId+'_edate_'+parentId+' class = "datePicker textBoxesCss"></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = '+individualId+'_eff_'+parentId+' ><select id = '+individualId+'_effType_'+parentId+' class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "text" class = "textBoxesCss bold1"></td><td></td>';
+
+/*if(!treeStructure[individualId].length){
+         hideAddButtonClass = ' deleteCSS ';
+       
+      }
+
+    else {
+            hideAddButtonClass = '';
+            
+         }*/
+
+
+  var strForHtml =  '<td></td><td class="phase paddingtd"><img src="../img/project/minus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="minus'+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" ></td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg" height="15px" class="shadow" onclick = "deleteRow(this.id,1)" id = '+individualId+'_del_'+parentId+'  title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" class = "hide"  width="18px"></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = '+individualId+'_sdate_'+parentId+' ></td><td class="dateTempCss bold1"><input type = "text " id = '+individualId+'_edate_'+parentId+' class = "datePicker textBoxesCss"></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = '+individualId+'_eff_'+parentId+' ><select id = '+individualId+'_effType_'+parentId+' class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss bold1"></td><td></td><td class = "selectRS" id = "'+individualId+'_selectRS_'+parentId+'" ></td>';
     }
 
 
 else if (depth==1){
-  var strForHtml =  '<td></td><td class="task paddingtd"><img src="../img/project/plus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 paddingtd "><img src="../img/project/blackdustbin.jpg"  id = '+individualId+'_del_'+parentId+' onclick = "deleteRow(this.id,1)"     height="18px" class="shadow" title="Delete" width="18px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow" title="Green Tick" width="18px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "text " class = "textBoxesCss"></td><td></td>';
+
+/*if(!treeStructure[individualId].length){
+         hideAddButtonClass = ' deleteCSS ';
+       
+      }
+
+    else {
+            hideAddButtonClass = '';
+            
+         }*/
+
+
+var strForHtml =  '<td></td><td class="task paddingtd"><img src="../img/project/plus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="plus'+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 paddingtd "><img src="../img/project/blackdustbin.jpg"  id = '+individualId+'_del_'+parentId+' onclick = "deleteRow(this.id,1)"     height="15px" class="shadow" title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" width="18px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td id = "'+individualId+'_selectRS_'+parentId+'" class = "selectRS"></td>';
 
      }
 
      else if (depth==2){
-  var strForHtml =  '<td></td><td class="subtask "><img src="../img/project/button.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1 "></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg"   id = '+individualId+'_del_'+parentId+' onclick = "deleteRow(this.id,1)"  height="18px" class="shadow" title="Delete" width="18px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" height = "18px" onclick = "convertTonormalTr(1,this.id,'+depth+')" title="Save" width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "text" class = "textboxEffEditAdd textboxEffEditAddJq"><select class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></select></td><td><input type = "text" class = "textBoxesCss"></td><td></td>';
+  var strForHtml =  '<td></td><td class="subtask "><img src="../img/project/button.png" id = "'+individualId+'_sign_'+parentId+'" onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1 "></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg"   id = '+individualId+'_del_'+parentId+' onclick = "deleteRow(this.id,1)"  height="15px" class="shadow" title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" height = "18px" onclick = "convertTonormalTr(1,this.id,'+depth+')" class = "hide" title="Save" width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "text" class = "textboxEffEditAdd textboxEffEditAddJq"><select class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+individualId+'_selectRS_'+parentId+'"></td>';
 
      }
 
+    
+    /*$('.selectRS').each(function(){
+            
+    if($(this).html().trim()==''){  
+        if(rowId=='274_rowid_271'){
+              console.log('this html is',$(this).html(),$(this).html().length,$(this));
+      var decode =  $(this).html(optionStr).text();
+      decode = decode.replace(/"/g,'').replace(/'/g,'');
+     $(this).html(decode);
+                                }
+      else{
+     var decode =  $(this).html(optionStr).text();
+      decode = decode.replace(/"/g,'').replace(/'/g,'');
+     $(this).html(decode);
+   }
+    }
+
+   });*/
+
+
+
+
+
+/*     optionStr = optionStr.replace(/"/g,'').replace(/'/g,'');
+     console.log(optionStr);
+               $('.selectRS').html(optionStr.replace(/"/g,'').replace(/'/g,''));*/
+
+
+
+
      $('#'+rowId).html(strForHtml);
+    var tdIdForSelect = '#'+ individualId+'_selectRS_'+parentId;
+           var decode = $(tdIdForSelect).html(optionStr2).text();
+          decode = decode.replace(/"/g,'').replace(/'/g,'');
+        $(tdIdForSelect).html(decode);
+
+        console.log(optionStr2);
 
 
+
+            
 
        rowId = individualId+'_rowid_'+parentId;
     $('#'+rowId+' td input')[0].value = nodeName;
@@ -858,19 +1105,12 @@ else if (depth==1){
        $('#'+rowId+' td input')[3].value = effortQuant;
         var selectObjForJq   = $('#'+rowId+' td select option')[effortType-1];
   
-    console.log(selectObjForJq,'hiiiii','#'+rowId+' td select option');
-      $(selectObjForJq).attr('selected',true);
+/*    console.log(selectObjForJq,'hiiiii','#'+rowId+' td select option');
+*/      $(selectObjForJq).attr('selected',true);
         
         $('#'+rowId+' td input')[4].value =  percCompleted;
 
-         $('.datePicker').click(function(){
-          console.log($(this));
-
-             //alert('sdsdsdsd');
-
-
-     });
-
+        
   
 $(".datePicker").attr('readonly',true);
 $(".datePicker").datepicker({
@@ -879,9 +1119,14 @@ $(".datePicker").datepicker({
     duration: "slow",
     beforeShow: findParentDate,
     onSelect: function(selected, evnt) {
-        console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
+        //console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
         var endDateFlag = checkNature($(this).attr('id'));
          startDateEndDateValidation(endDateFlag,$(this));
+         var parentRowId =  $(this).parent('td')
+            parentRowId  =  $(parentRowId).parent('tr');
+            parentRowId  = $(parentRowId).attr('id');
+            updateAllArr(parentRowId,1);
+
          }
 
 });
@@ -1006,7 +1251,7 @@ function getStartDateEndDateTime(sDateInDatePicker, eDateInDatePicker) {
 
 function findParentDate(inputTextBox, par2) {
     var rowId = $(inputTextBox).parent('td').parent('tr').attr('id');
-    console.log('rowId is', rowId);
+   // console.log('rowId is', rowId);
     var value = rowId.split('_');
     var individualId = parseInt(value[0]);
     var parentId = parseInt(value[2]);
@@ -1021,8 +1266,8 @@ function findParentDate(inputTextBox, par2) {
         depth = 1;
     } else depth = 2;
 
-    console.log('depth is ', depth);
-
+/*    console.log('depth is ', depth);
+*/
     if (depth == 0) {
         startDate = startDateOriginal;
         endDate = endDateOriginal;
@@ -1067,7 +1312,7 @@ function findParentDate(inputTextBox, par2) {
 
     }
 
-    console.log('rowParentId is ', rowParentId, '  startDate is ', startDate, ' endDate is ', endDate);
+    //console.log('rowParentId is ', rowParentId, '  startDate is ', startDate, ' endDate is ', endDate);
 
     var tdVar = $(inputTextBox).parent('td');
 
@@ -1080,7 +1325,7 @@ function findParentDate(inputTextBox, par2) {
         endDateInDatePicker = $(inputTextBox).val();
     }
 
-    console.log('startDateInDatePicker is ', startDateInDatePicker, 'endDateInDatePicker is ', endDateInDatePicker);
+//console.log('startDateInDatePicker is ', startDateInDatePicker, 'endDateInDatePicker is ', endDateInDatePicker);
 }
 
 function hideAllOnSubmit() {
@@ -1098,8 +1343,9 @@ function hideAllOnSubmit() {
 }
 
 function deleteRow(rowId, editFlag) {
+/*deleteRRow*/    
 
-    var value = rowId.split('_');
+var value = rowId.split('_');
     var individualId = value[0];
     var parentId = value[2];
     rowId = individualId + '_rowid_' + parentId;
@@ -1130,7 +1376,7 @@ function deleteRow(rowId, editFlag) {
 
 
     convertTonormalTr(-1, rowId, depth);
-    updateAllArr(0, rowId, 0);
+    updateAllArr(rowId, 0);
     console.log('rowid ', rowId);
     $('#' + rowId).addClass('deleteCss');
 
@@ -1140,6 +1386,9 @@ function deleteRow(rowId, editFlag) {
 
 
 function DisableSpecificDates(date) {
+    if(endDate==null||startDate==null||endDate==''||startDate==''){
+return [true];
+    }
 
     //console.log(date);
     var m = date.getMonth();
@@ -1214,6 +1463,59 @@ function DisableSpecificDates(date) {
 
 
 function initializeJquery(){
+/*inittialize*/
+setTimeout(function(){
+  $('.editRowClass').click();
+$('input[type="text"]').css('border',0);
+$('input[type="text"],.textBoxesCss,input[type="number"]').addClass('allTextAndNumberBoxes');
+$('.datepicker').addClass('allTextAndNumberBoxes');
+$('.selectEffEditAdd').addClass('selectClassForJq');
+$('.ddResources').addClass('ddResourcesForJq');
+
+$('.allTextAndNumberBoxes').focusout(function(){
+
+
+var tdEle = $(this).parent('td');
+     tdEle = $(tdEle).parent('tr');
+     tdEle = $(tdEle).attr('id'); 
+
+updateAllArr(tdEle,1);
+
+});
+
+$('.selectClassForJq').change(function(){
+
+
+var tdEle = $(this).parent('td');
+     tdEle = $(tdEle).parent('tr');
+     tdEle = $(tdEle).attr('id'); 
+
+updateAllArr(tdEle,1);
+
+
+});
+
+$('.ddResourcesForJq').change(function(){
+  var tdEle = $(this).parent('td');
+     tdEle = $(tdEle).parent('tr');
+     tdEle = $(tdEle).attr('id'); 
+
+updateAllArr(tdEle,1);
+
+
+});
+
+//$('.textboxEffEditAddJq').spinner();
+
+
+},100);
+
+
+
+}
+
+
+function initializeJqueryUnderConstruction(){
 var dropDownSelectValue,effortQuant,endDateTimeForEffort = [];;
 $('.textBoxEffEditAddJq').focusout(function(){
        if(startDateInDatePicker=='') return;
@@ -1342,16 +1644,24 @@ if(d.length ==1){
 	<div  style="padding-top: 17px;padding-bottom: 4px;
 " class = 'col-md-12'>
 	<!-- 	<label>Select Project</label> -->
-	<div class = 'col-md-5'>
-			Status : <b id = 'statusSub'>Draft</b>
+	<div class = 'col-md-2'>
+			Status : <b id = 'statusSub'>Draft</b>       
 		</div>
-		<div class = 'col-md-5'>
-		<select class="form-control" style="width: 200px;margin-top: -1%;" id ='proSel'>
+		<div class = 'col-md-1'>
+    <span>Project :</span>
+  </div>
+      <div class = 'col-md-4'>
+
+		<select class="form-control" style="width: 300px;margin-top: -1%;" id ='proSel'>
       <%for(var i = 0;i<projectDetails.length;i++){%>
 			<option value = '<%=projectDetails[i].id%>'><%=projectDetails[i].projectTitle%></option>
       <%}%>
 		</select>
 		</div>
+
+    <div class = 'col-md-2'><b>Start Date :</b> <%=prStartDate%></div>
+    <div class = 'col-md-2'><b>End Date :</b> <%=prEndDate%></div>
+
 	</div>
 	<div class="col-md-12" id="taskBox" style="/*height: 440px;max-height:440px;*/margin-top: 5px;margin-right: 1%;border: #f05f40 solid;background-color: white;padding-bottom: 2%;">
 		
@@ -1368,9 +1678,10 @@ if(d.length ==1){
 			 		<thead>
 			 			<tr id = '0_rowid_-1'>
 			 			<th style = "width:4%">#</th>
-			 			<th style = "width:42%">Name</th><th style = "width:5%"><img src="../img/bug/addbug.png" class="shadow" id = '0_add_-1' onclick="addRow(this.id)" height="18px" title="Add Phase" width="18px"><div style = 'font-size:8px;'>Add Phase</div></th><th style = "width:5%">Action</th><th style = "width:9%">Start</th><th style = "width:9%">End</th><th style = "width:9%">Effort</th>
-			 			<th style = "width:9%"> % Completed</th>
+			 			<th style = "width:35%">Name</th><th style = "width:5%"><img src="../img/bug/addbug.png" class="shadow" id = '0_add_-1' onclick="addRow(this.id)" height="18px" title="Add Phase" width="18px"><div style = 'font-size:8px;'>Add Phase</div></th><th style = "width:5%">Delete</th><th style = "width:9%">Start</th><th style = "width:9%">End</th><th style = "width:9%">Effort</th>
+			 			<th style = "width:3%"> % Completed</th>
 			 			<th style = "width:9%">Dependencies</th>
+            <th style = "width:9%">Resources</th>
 			 		</tr>
 			 		</thead>
 			 		<tbody id = 'tbody123'>

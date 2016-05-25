@@ -595,7 +595,7 @@ module.exports = {
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule,treeComponent:req.treeComponent,maxid:req.maxid,
 	                startid :req.minid,flag :req.flag,ultimateEndId:req.ultimateEndId,projectDetails:req.projectDetails,
-	                prId:req.prId 
+	                prId:req.prId,prStartDate:req.prStartDate,prEndDate:req.prEndDate,Resources:req.Resources 
 	            });
 
             break;

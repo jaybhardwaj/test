@@ -4110,6 +4110,34 @@ addUser: function(req, res, next) {
             req.ultimateEndId = result[2][0].ultimateendid;
             req.projectDetails= result[3];
             req.prId          = result[1][0].prId; 
+            req.Resources     =  result[4];
+            for(var i = 0;i<req.projectDetails.length;i++){
+                if(req.prId==req.projectDetails[i].id){
+                    req.prStartDate = req.projectDetails[i].plannedStartDate;
+                    req.prEndDate   = req.projectDetails[i].plannedEndDate;
+                     if(req.prStartDate){
+                        var temp = '';
+                        req.prStartDate = req.prStartDate.split('/');
+                        temp = req.prStartDate[0];
+                        req.prStartDate[0] = req.prStartDate[1];
+                        req.prStartDate[1] = temp;
+                        req.prStartDate = req.prStartDate.join('/');
+                        }
+                       if(req.prEndDate){
+                         req.prEndDate = req.prEndDate.split('/');
+                         temp = req.prEndDate[0];
+                        req.prEndDate[0] = req.prEndDate[1];
+                        req.prEndDate[1] = temp;
+                        req.prEndDate = req.prEndDate.join('/');
+                           }
+
+
+ }
+                    break;
+
+                }
+
+            
             console.log('alldata here',req.treeComponent,req.maxid,req.minid);
                         next();
                 } 
