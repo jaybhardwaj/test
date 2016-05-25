@@ -33,6 +33,9 @@
     overflow-y: scroll;
    left:45% !important; 
   }
+  .overflowClass{
+  max-height: 234px; overflow-y: scroll
+  }
   </style>
 <body>
  
@@ -65,13 +68,14 @@
             <label for="tab6">Others</label>
 
     <section id="content1" class="background" >
-      <div class=" row"  style="margin:2%" id="bugtable" >
+      <div class=" row"  style="margin:%" id="bugtable" >
       <%for(var i=0;i<bugMaster.length;i++){%>       
           <div  class="col-md-4" style="margin-top:1%;" >
               <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:2% " onclick="showHide(<%=i%>)">             
                <a id="anchor_<%=i%>" class="anchor" href="#demo<%=bugMaster[i].code%>" data-toggle="collapse" > <label  style="padding:4px 145px" ><%=bugMaster[i].tablename%></label><i class="glyphicon glyphicon-resize-full"></i></a>
-                    <div id="demo<%=bugMaster[i].code%>" class="collapse">
-                      <table style="width:100%;text-align:center" id="bugTable_<%=bugMaster[i].code%>" class="table stripe hover cell-border" >
+                    <div id="demo<%=bugMaster[i].code%>" class="collapse ">
+                      <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="bugTable_<%=bugMaster[i].code%>" class="table  stripe hover cell-border" >
                         <tr><th style="text-align:center">Description</th><th style="text-align:center">Action</th></tr>
                         
                         <%for(var j=0;j<bugMasterSubData.length;j++){%>
@@ -79,7 +83,7 @@
                           <%if(bugMaster[i].code==bugMasterSubData[j].code){%>
                         <tr id="bugEditTextBoxTr_<%=bugMasterSubData[j].id%>"  class="bugEditTextBoxTr hide"  >
                           <td>
-                            <input type="text" maxlength="40" id="bugEditData_<%=bugMasterSubData[j].id%>"  value="<%=bugMasterSubData[j].description1%>">
+                            <input type="text" maxlength="25" id="bugEditData_<%=bugMasterSubData[j].id%>"  value="<%=bugMasterSubData[j].description1%>">
                           </td>
                            <td>
                           <%if(!bugMasterSubData[j].flag){%>                            
@@ -90,7 +94,7 @@
                          </td>
                          </tr>
                          <tr class="hide"><td>
-                      <input type="text" maxlength="40" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].isActive%>" >
+                      <input type="text" maxlength="25" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].isActive%>" >
                         </td></tr>
                         <tr id="bugEditLabelTr_<%=bugMasterSubData[j].id%>" class="bugEditLabelTr"> 
                           <td><%=bugMasterSubData[j].description1%></td>
@@ -110,8 +114,9 @@
                         <%}%>
                         <%}%>                       
                       </table> 
+                    </div>
                       <table>
-                         <tr><td style="width:20%"></td> <td><input type="text" maxlength="40" id="bugMasterData_<%=bugMaster[i].code%>" class="form-control" placeholder="@add <%=bugMaster[i].tablename%>"></td>
+                         <tr><td style="width:20%"></td> <td><input type="text" maxlength="25" id="bugMasterData_<%=bugMaster[i].code%>" class="form-control" placeholder="@add <%=bugMaster[i].tablename%>"></td>
                       <td><span class="glyphicon glyphicon-plus-sign" onClick="addBugMaster(<%=bugMaster[i].code%>)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>                     
                     </div>
@@ -121,7 +126,7 @@
               </div>             
     </section>
      <section id="content2">
-            <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+            <div  class="col-md-4" style="margin-top:1%;">
               <div style="border-radius: 25px;border:2px solid #f05f40;" onclick="showHide(5)">
 
                <a id="anchor" class="anchor" href="#cstrolesdiv" data-toggle="collapse"> 
@@ -130,8 +135,10 @@
                <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
                </center>
                </a>
-               <div id="cstrolesdiv" class="collapse">
-                      <table style="width:100%;text-align:center" id="cstRoleTable" class="table stripe hover cell-border" >
+               <div id="cstrolesdiv" class="collapse ">
+                  <div class="overflowClass">
+
+                      <table style="width:100%;text-align:center" id="cstRoleTable" class="table  stripe hover cell-border" >
                         <tr><th style="text-align:center">Role Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=1;i<customrole.length;i++){%>                         
                         <tr id="role_<%=customrole[i].id%>"> 
@@ -148,6 +155,7 @@
                         </tr>
                         <%}%> 
                       </table> 
+                   </div>   
                       <center>
                         <span class="glyphicon glyphicon-plus-sign" onClick="roleMulti()"  style="font-size:18px;adding-top:5px"></span>
                       
@@ -157,7 +165,7 @@
               </div>
 
                <!-- ---Industry          -->
-               <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+               <div  class="col-md-4" style="margin-top:1%;">
               <div style="border-radius: 25px;border:2px solid #f05f40;"  onclick="showHide(6)" >
 
                <a id="anchor" class="anchor" href="#inddiv" data-toggle="collapse"> 
@@ -166,8 +174,10 @@
                <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
                </center>
                </a>
-                    <div id="inddiv" class="collapse">
-                     <table style="width:100%;text-align:center" id="indTable" class="table stripe hover cell-border" >
+                    <div id="inddiv" class="collapse ">
+                      <div class="overflowClass">
+
+                     <table style="width:100%;text-align:center" id="indTable" class="table  stripe hover cell-border" >
                         <tr><th style="text-align:center">Industry Name</th><th style="text-align:center">Action</th></tr>                        
                         <%for(var i=0;i<industry[0].length;i++){%>                         
                           <tr id="ind_<%=i%>"> 
@@ -181,16 +191,17 @@
                               </td>
                           </tr>
                           <tr id="indh_<%=i%>"class="hide"> 
-                             <td> <input type="text" maxlength="20" id="indtext_<%=i%>"  value="<%=industry[0][i].values%>"></td>
+                             <td> <input type="text" maxlength="25" id="indtext_<%=i%>"  value="<%=industry[0][i].values%>"></td>
                              <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('ind_'+<%=i%>,2)"></span>
                               </td>
                           </tr>
                         <%}%> 
 
                       </table>
+                    </div>
                       <center>
                       <table style="margin:5%">
-                          <td><input type="text" id="indTableAdd" maxlength="20" class="form-control" placeholder="@add Industry "></td>
+                          <td><input type="text" id="indTableAdd" maxlength="25" class="form-control" placeholder="@add Industry "></td>
                          
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('ind',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -201,7 +212,7 @@
 
 
                <!-- ---Business           -->
-              <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+              <div  class="col-md-4" style="margin-top:1%;">
               <div style="border-radius: 25px;border:2px solid #f05f40;"  onclick="showHide(7)">
 
                <a id="anchor" class="anchor" href="#busdiv" data-toggle="collapse"> 
@@ -210,8 +221,9 @@
                <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
                </center>
                </a>
-                    <div id="busdiv" class="collapse">
-                      <table style="width:100%;text-align:center" id="busTable" class="table stripe hover cell-border" >
+                    <div id="busdiv" class="collapse ">
+                      <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="busTable" class="table  stripe hover cell-border" >
                         <tr><th style="text-align:center">Business Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=0;i<business[0].length;i++){%>                         
                           <tr id="bus_<%=i%>"> 
@@ -225,16 +237,17 @@
                               </td>
                           </tr>
                           <tr id="bush_<%=i%>"class="hide"> 
-                             <td> <input type="text" maxlength="20"  id="bustext_<%=i%>"  value="<%=business[0][i].values%>"></td>
+                             <td> <input type="text" maxlength="25"  id="bustext_<%=i%>"  value="<%=business[0][i].values%>"></td>
                              <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('bus_'+<%=i%>,2)"></span>
                               </td>
                           </tr>
                         <%}%> 
 
                       </table>
+                    </div>
                       <center>
                       <table style="margin:5%">
-                          <td><input type="text" id="busTableAdd" maxlength="20" class="form-control" placeholder="@add Business "></td>
+                          <td><input type="text" id="busTableAdd" maxlength="25" class="form-control" placeholder="@add Business "></td>
                          
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('bus',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -246,7 +259,7 @@
 
 
               <!-- ---Document Type            -->
-              <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+              <div  class="col-md-4" style="margin-top:1%;">
               <div style="border-radius: 25px;border:2px solid #f05f40;"  onclick="showHide(8)">
 
                <a id="anchor" class="anchor" href="#docdiv" data-toggle="collapse"> 
@@ -255,8 +268,10 @@
                <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
                </center>
                </a>
-                    <div id="docdiv" class="collapse">
-                    <table style="width:100%;text-align:center" id="docTable" class="table stripe hover cell-border" >
+                    <div id="docdiv" class="collapse ">
+                    <div  class="  overflowClass ">
+                    
+                    <table style="width:100%;text-align:center" id="docTable" class="table  stripe hover cell-border" >
                         <tr><th style="text-align:center">Business Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=0;i<document[0].length;i++){%>                         
                           <tr id="doc_<%=i%>"> 
@@ -271,19 +286,19 @@
                               </td>
                           </tr>
                           <tr id="doch_<%=i%>"class="hide"> 
-                             <td> <input type="text" maxlength="20"id="doctext_<%=i%>"  value="<%=document[0][i].values%>"></td>
+                             <td> <input type="text" maxlength="25"id="doctext_<%=i%>"  value="<%=document[0][i].values%>"></td>
                              <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('doc_'+<%=i%>,2)"></span>
                               </td>
                           </tr>
                         <%}%> 
 
                       </table>
-
+                    </div>
 
                       
                       <center>
                       <table style="margin:5%">
-                          <td><input type="text" id="docTableAdd" maxlength="20" class="form-control" placeholder="@add Document "></td>
+                          <td><input type="text" id="docTableAdd" maxlength="25" class="form-control" placeholder="@add Document "></td>
                          
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('doc',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -295,7 +310,7 @@
 
 
               <!-- ---Technology Type            -->
-               <div  class="col-md-4" style="margin-top:1%;margin-bottom:2%">
+               <div  class="col-md-4" style="margin-top:1%;">
               <div style="border-radius: 25px;border:2px solid #f05f40;"  onclick="showHide(9)">
 
                <a id="anchor" class="anchor" href="#tecdiv" data-toggle="collapse"> 
@@ -304,8 +319,9 @@
                <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
                </center>
                </a>
-                    <div id="tecdiv" class="collapse">
-                    <table style="width:100%;text-align:center" id="tecTable" class="table stripe hover cell-border" >
+                    <div id="tecdiv" class="collapse ">
+                      <div class="overflowClass">
+                    <table style="width:100%;text-align:center" id="tecTable" class="table  stripe hover cell-border" >
                         <tr><th style="text-align:center">Technology Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=0;i<technology[0].length;i++){%>                         
                           <tr id="tec_<%=i%>"> 
@@ -320,7 +336,7 @@
                               </td>
                           </tr>
                           <tr id="tech_<%=i%>"class="hide"> 
-                             <td> <input type="text" maxlength="20"id="tectext_<%=i%>"  value="<%=technology[0][i].values%>"></td>
+                             <td> <input type="text" maxlength="25"id="tectext_<%=i%>"  value="<%=technology[0][i].values%>"></td>
                              <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('tec_'+<%=i%>,2)"></span>
                               </td>
                           </tr>
@@ -328,11 +344,11 @@
 
                       </table>
 
-
+                    </div>
                       
                       <center>
                       <table style="margin:5%">
-                          <td><input type="text" id="tecTableAdd" maxlength="20" class="form-control" placeholder="@add Technology "></td>
+                          <td><input type="text" id="tecTableAdd" maxlength="25" class="form-control" placeholder="@add Technology "></td>
                          
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('tec',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -349,9 +365,12 @@
 
               <div  class="col-md-5" style="margin-top:1%;">
                  <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 108%; ">
+                  <div onclick="showHide(23)">
                <a id="anchor" class="anchor" href="#timestdiv" data-toggle="collapse"> <label  style="padding:4px 145px" >Holidays</label><i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i></a>
-                    <div id="timestdiv" class="collapse">
-                      <table style="width:100%;text-align:center" id="holiTable" class="table stripe hover cell-border" >
+             </div>
+                    <div id="timestdiv" class="collapse ">
+                      <div class="overflowClass">
+                        <table style="width:100%;text-align:center" id="holiTable" class="table  stripe hover cell-border" >
                         <tr>
                         <th style="text-align:center">Occasion Name</th>
                         <th style="text-align:center">Date</th>
@@ -359,8 +378,8 @@
                         </tr>                        
                         <%for(var i=0;i<=allinfo[0].length-1;i++){%>
                           <tr id="editHoli_<%=allinfo[0][i].id%>" class="hide">
-                          <td><input  type="text" id="ocName_<%=allinfo[0][i].id%>" maxlength="40" value="<%=allinfo[0][i].holidayName%>"></td>
-                          <td><input type="text" id="ocDate_<%=allinfo[0][i].id%>" maxlength="40" class="datepicker" value="<%=allinfo[0][i].holidayDate%>" readonly = "true"></td>
+                          <td><input  type="text" id="ocName_<%=allinfo[0][i].id%>" maxlength="25" value="<%=allinfo[0][i].holidayName%>"></td>
+                          <td><input type="text" id="ocDate_<%=allinfo[0][i].id%>" maxlength="25" class="datepicker" value="<%=allinfo[0][i].holidayDate%>" readonly = "true"></td>
                           <td>                          
                                 <span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli(<%=allinfo[0][i].id%>,1)"></span>
                             </td>
@@ -374,11 +393,12 @@
                         </tr>
                         <%}%> 
                       </table> 
+                    </div>
                       <table style="margin-left:4%;margin-right:2%;">
                       <tr>
-                        <td><input type="text" id="ocName_0" class="form-control" maxlength="40" placeholder="@ Occasion Name"></td>
+                        <td><input type="text" id="ocName_0" class="form-control" maxlength="25" placeholder="@ Occasion Name"></td>
                         <td style="padding-left:2%">
-                            <input type="text" id="ocDate_0" maxlength="40" style=" margin-left:;"class="datepicker form-control" placeholder="@ Occasion Date" readonly = "true"></td>
+                            <input type="text" id="ocDate_0" maxlength="25" style=" margin-left:;"class="datepicker form-control" placeholder="@ Occasion Date" readonly = "true"></td>
                         <td> <span class="glyphicon glyphicon-plus-sign" onClick="holiValidation(0)" style="margin-left: 41%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
                                           
                           
@@ -389,14 +409,16 @@
                 </div>
               </div>
               <div  class="col-md-5" style="margin-top:1%;margin-left:7%">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 108%; ">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 108%; " >
+                  <div onclick="showHide(24)">
                <a id="anchor" class="anchor" href="#tanother" data-toggle="collapse">
                 <div class="row">
                  <div class="col-md-9"> <label  style="padding:4px 145px" >TimeSheet</label></div>
                  <div class="col-md-3"> <i style="margin-right: 18%;float:right;margin-top: 11%;" class="glyphicon glyphicon-resize-full"></i></div>
               </div>
               </a>
-                    <div id="tanother" class="collapse">
+            </div>
+                    <div id="tanother" class="collapse ">
                       
                        <table style="margin-left:12%">
                         <tr>
@@ -412,7 +434,7 @@
                         
                         <tr>
                              <th style="margin-top: 13%;"id="hlabel">Date :</th> 
-                            <td><input placeholder="Enter Date Here"type="text" maxlength="40" readonly="true" class="form-control" id="hdate"style="margin-top: 6%;margin-left: 29%;width:200px" name="odate"value="<%=allinfo[2][0].startDate%>"></td>  
+                            <td><input placeholder="Enter Date Here"type="text" maxlength="25" readonly="true" class="form-control" id="hdate"style="margin-top: 6%;margin-left: 29%;width:200px" name="odate"value="<%=allinfo[2][0].startDate%>"></td>  
 
                         </tr>
 
@@ -443,7 +465,7 @@
      </section>
 
      <section id="content3">
-      <div class=" row"  style="margin:2%" id="bugtable" >
+      <div class=" row"  style="margin:" id="bugtable" >
       <%for(var i=0;i<expenseType.length;i++){%>       
           <div  class="<%if(expenseType[i].code==1){%>col-md-6<%}else{%>col-md-3<%}%>" style="margin-top:1%;text-align:center">
               <div style="border-radius: 25px;border:2px solid #f05f40; "onclick="showHide(10+<%=i%>)">             
@@ -451,13 +473,14 @@
                <center><label  style="padding:9px;<%if(expenseType[i].code!=1){%>width:1%<%}%>" > <%=expenseType[i].tableName%></label><i style="float:right;padding-right:3%;padding-top:2%" class="glyphicon glyphicon-resize-full"></i>
               </center>
                </a>
-                    <div id="exp<%=expenseType[i].code%>" class="collapse">
-                      <table style="width:100%;text-align:center" id="expTable_<%=expenseType[i].code%>" class="table stripe hover cell-border" >
+                    <div id="exp<%=expenseType[i].code%>" class="collapse ">
+                      <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="expTable_<%=expenseType[i].code%>" class="table  stripe hover cell-border" >
                         <tr>                        
                         <%if(expenseType[i].code==1){%>
                         <th style="text-align:center">Expense Type</th>
                         <th style="text-align:center">Is Bill Mandatory</th>
-                        <th style="text-align:center">Max. Bill Ammount</th>
+                        <th style="text-align:center">Max. Bill Amount</th>
                         <%}%>
                         <%if(expenseType[i].code==2){%>
                            <th style="text-align:center">Hotel Name</th>
@@ -474,7 +497,7 @@
                               <%//if(expenseMaster[j].id<=7){%> <!-- Mayur ask Manu-->
                            <%//=expenseMaster[j].description%>
                             <%//}else{%>
-                             <input type="text"  maxlength="40" id="expMasterData_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>"  value="<%=expenseMaster[j].description%>">                              
+                             <input type="text"  maxlength="25" id="expMasterData_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>"  value="<%=expenseMaster[j].description%>">                              
                             <%//}%>
                           </td>
                           <%if(expenseType[i].code==1){%>
@@ -485,7 +508,7 @@
                           </select>   
                           </td>                         
                             <td>
-                            <input type="number" maxlength="6" min="1" id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>"placeholder="@max Ammount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
+                            <input type="number" maxlength="6" min="1" id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>"placeholder="@max Amount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
                             </td>
                           <%}%>                                                 
                            <td>                                                  
@@ -505,12 +528,13 @@
                         </tr>
                           <%}%>                  
                        <%}%>
-                      </table> 
+                      </table>
+                      </div> 
                       <center>
                       <table style="margin:5px">
                          <tr>
                          <td >
-                         <input type="text" id="expMasterData_<%=expenseType[i].code%>" maxlength="40" min="1" class="form-control" placeholder="@expence type"></td>
+                         <input type="text" id="expMasterData_<%=expenseType[i].code%>" maxlength="25" min="1" class="form-control" placeholder="@expence type"></td>
                           <%if(expenseType[i].code==1){%>
                          <td>
                            <select id="isMandatory_<%=expenseType[i].code%>" class="form-control" onchange="toggeleBillBox(<%=expenseType[i].code%>,-1,0)" >
@@ -519,7 +543,7 @@
                              <option value="2">No</option>
                            </select>
                          </td>
-                         <td><input type="number" min="1" maxlength="3" id="maxBillAmnt_<%=expenseType[i].code%>" class="form-control" placeholder="@max Ammount "></td>
+                         <td><input type="number" min="1" maxlength="3" id="maxBillAmnt_<%=expenseType[i].code%>" class="form-control" placeholder="@max Amount "></td>
                          <%}%>
                       <td><span class="glyphicon glyphicon-plus-sign" onClick="addExpenseMaster(<%=expenseType[i].code%>,0,0)"style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
                       </tr>
@@ -545,9 +569,9 @@
                       <i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i>
                     </a>
                   </div>
-                    <div id="assetComponent" class="collapse">
-                      
-                      <table style="width:100%;text-align:center" id="assetTable1" class="table stripe hover cell-border" >
+                    <div id="assetComponent" class="collapse ">
+                      <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="assetTable1" class="table  stripe hover cell-border" >
                         <tr>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Type</th>
@@ -568,7 +592,7 @@
                           </tr>  
                           <tr id="ath_<%=i%>" class="hide">
                             <td>
-                              <input type="text" id="at_text_<%=i%>" maxlength="40" value="<%=assetType[1][i].componentName%>">
+                              <input type="text" id="at_text_<%=i%>" maxlength="25" value="<%=assetType[1][i].componentName%>">
                             </td>
                             <td> 
                               <select class=""  id="at_select_<%=i%>" name="" style="margin-left: 10%;">
@@ -583,10 +607,11 @@
                           
                         <%}%>
                         </tr> 
-                      </table> 
+                      </table>
+                      </div> 
                       <table style="margin-left:4%;margin-right:2%;margin-top:2%">
                       <tr>
-                        <td><input type="text" id="compName" class="form-control" maxlength="40" placeholder="@ Component Name"></td>
+                        <td><input type="text" id="compName" class="form-control" maxlength="25" placeholder="@ Component Name"></td>
                         <td style="">
                           <div id="getcompType">
                             <select class="form-control"  id='compType' name="compType" style="margin-left: 10%;">
@@ -618,9 +643,9 @@
                  </div>   
                   </a>
                 </div>
-                  <div id="assetAttribute" class="collapse">
-                    <div style="max-height: 234px; overflow-y: scroll;">
-                      <table style="width:100%;text-align:center" id="assetTable2" class="table stripe hover cell-border" >
+                  <div id="assetAttribute" class="collapse ">
+                    <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="assetTable2" class="table  stripe hover cell-border" >
                         <tr>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Action</th>
@@ -639,7 +664,7 @@
                           </tr>  
                           <tr id="bth_<%=i%>" class="hide">
                             <td>
-                              <input type="text" id="bt_text_<%=i%>" maxlength="40" value="<%=assetType[2][i].attribute%>">
+                              <input type="text" id="bt_text_<%=i%>" maxlength="25" value="<%=assetType[2][i].attribute%>">
                             </td>
                             <td>
                             <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('bt_<%=i%>',2,getSaveStatus)"></span>
@@ -651,7 +676,7 @@
                      </div>  
                       <table style="margin-left:13%;margin-right:2%;margin-top:2%">
                               <tr>
-                                <td><input type="text" id="attrName" class="form-control" maxlength="40" placeholder="@ attribute Name"style="width:78%"></td>
+                                <td><input type="text" id="attrName" class="form-control" maxlength="25" placeholder="@ attribute Name"style="width:78%"></td>
                                 
                                 <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(2,insertCheckFlag)" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
                                                   
@@ -673,9 +698,9 @@
                     </div>
                     </a>
                   </div>  
-                  <div id="assetValue" class="collapse">
-                    <div style="max-height: 234px; overflow-y: scroll;">
-                      <table style="width:100%;text-align:center" id="assetTable3" class="table stripe hover cell-border" >
+                  <div id="assetValue" class="collapse ">
+                    <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="assetTable3" class="table  stripe hover cell-border" >
                         <tr>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Action</th>
@@ -695,7 +720,7 @@
                           </tr>  
                           <tr id="cth_<%=i%>" class="hide">
                             <td>
-                              <input type="text" id="ct_text_<%=i%>" maxlength="40" value="<%=assetType[3][i].name%>">
+                              <input type="text" id="ct_text_<%=i%>" maxlength="25" value="<%=assetType[3][i].name%>">
                             </td>
                             <td>
                             <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('ct_<%=i%>',3,getSaveStatus)"></span>
@@ -708,7 +733,7 @@
   
                       <table style="margin-left:13%;margin-right:2%;margin-top:2%">
                               <tr>
-                                <td><input type="text" id="valueName" class="form-control" maxlength="40" placeholder="@ value Name"style="width:78%"></td>
+                                <td><input type="text" id="valueName" class="form-control" maxlength="25" placeholder="@ value Name"style="width:78%"></td>
                                 
                                 <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(3,insertCheckFlag)" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
                                                   
@@ -720,7 +745,7 @@
               </div>
       </div>
 
-      <div class="row"style="margin-top:2%">
+      <div class="row"style="margin-top:1%">
       
           <div  class="col-md-6" style="margin-top:;margin-left:">
                  <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%;">
@@ -732,22 +757,24 @@
                     </div>
                   </div>
                   </a>
-                  <div id="assetAttributeValueMapping" class="collapse">
-                      <table style="width:100%;text-align:center" id="assetTable4" class="table stripe hover cell-border" >
+                  <div id="assetAttributeValueMapping" class="collapse ">
+                     <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="assetTable4" class="table  stripe hover cell-border" >
                         <tr id="dt_-1">
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Value</th>
                         <th style="text-align:center">Action</th>
                         </tr>                        
-                        <%console.log("kkkkkk",assetType[4]);for(var i=0;i<=assetType[4].length-1;i++){%> 
+                        <%for(var i=0;i<=assetType[4].length-1;i++){%> 
                           <tr id="dt_<%=i%>">
                                 <td id="<%=assetType[4][i].id%>"><%=assetType[4][i].attribute%></td>
                                   <td>  <%=assetType[4][i].name%></td>
-                                   <td><a onclick=deleterAttributeValMapping(1,"dt_<%=i%>")>Delete</a></td> 
+                                   <td><img src="../img/project/blackdustbin.jpg" onclick=deleterAttributeValMapping(1,"dt_<%=i%>") title="Delete" ></td> 
                           </tr>
                          <%}%>  
                           
                       </table> 
+                    </div>
                       <table style="margin-left:13%;margin-right:2%;margin-top:2%">
                               <tr >
                                 <td id="setAttrName">
@@ -775,8 +802,9 @@
                     </div>
                   </a>
                   </div>
-                  <div id="assetComponentAttributeMapping" class="collapse">
-                      <table style="width:100%;text-align:center" id="assetTable5" class="table stripe hover cell-border" >
+                  <div id="assetComponentAttributeMapping" class="collapse ">
+                    <div class="overflowClass">                     
+                      <table style="width:100%;text-align:center" id="assetTable5" class="table  stripe hover cell-border" >
                         <tr id="dt_-1">
                         <th style="text-align:center">Component</th>
                         <th style="text-align:center">Atribute</th>
@@ -790,7 +818,8 @@
                           </tr>
                          <%}%>  
                           
-                      </table> 
+                      </table>
+                      </div> 
                       <table style="margin-left:13%;margin-right:2%;margin-top:2%">
                               <tr >
                                 <td id="setComponentName">
@@ -813,7 +842,7 @@
     </section>
      
      <section id="content6" class="background" >
-      <div class=" row"  style="margin:2%" id="Othertable" >
+      <div class=" row"  style="margin:%" id="Othertable" >
       <%for(var i=0;i<otherMaster.length;i++){%>       
           <div  class="col-md-4" style="margin-top:1%;">
               <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:2% "onclick="showHide(13+<%=i%>)">             
@@ -821,7 +850,7 @@
                <center><label  style="padding:4px" ><%=otherMaster[i].tablename%></label><i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
                </center></a>
                     <div id="demo<%=otherMaster[i].code%>" class="collapse ">
-                      <table style="width:100%;text-align:center" id="bugTable_<%=otherMaster[i].code%>" class="table stripe hover cell-border" >
+                      <table style="width:100%;text-align:center" id="bugTable_<%=otherMaster[i].code%>" class="table  stripe hover cell-border" >
                         <tr><th style="text-align:center">Description</th>
                         <%if(otherMaster[i].code==6){%><th style="text-align:center">Rate</th><%}%>
                         <th style="text-align:center">Action</th></tr>                        
@@ -830,11 +859,11 @@
                           <%if(otherMaster[i].code==bugMasterSubData[j].code){%>
                            <tr id="bugEditTextBoxTr_<%=bugMasterSubData[j].id%>"  class="hide">
                             <td>
-                            <input type="text" id="bugEditData_<%=bugMasterSubData[j].id%>" maxlength="40" style="width:80px"  value="<%=bugMasterSubData[j].description1%>">
+                            <input type="text" id="bugEditData_<%=bugMasterSubData[j].id%>" maxlength="25" style="width:80px"  value="<%=bugMasterSubData[j].description1%>">
                           </td>
                            <%if(otherMaster[i].code==6){%>
                            <td>
-                           <input type="text" style="width:100px" maxlength="40" id="crate_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].currencyRate%>">
+                           <input type="text" style="width:100px" maxlength="25" id="crate_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].currencyRate%>">
                            </td>
                            <%}%>
                            <td>
@@ -846,7 +875,7 @@
 
                          </tr>
                           <tr class="hide"><td>
-                      <input type="text" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" maxlength="40" value="<%=bugMasterSubData[j].isActive%>" >
+                      <input type="text" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" maxlength="25" value="<%=bugMasterSubData[j].isActive%>" >
                         </td></tr>
                         <tr id="bugEditLabelTr_<%=bugMasterSubData[j].id%>"> 
                           <td><%=bugMasterSubData[j].description1%></td>
@@ -869,7 +898,7 @@
                       </table> 
                       <center>
                       <table style="margin:5%">
-                        <td><input type="text" id="bugMasterData_<%=otherMaster[i].code%>" maxlength="20" class="form-control" placeholder="@add <%=otherMaster[i].tablename%>"></td>
+                        <td><input type="text" id="bugMasterData_<%=otherMaster[i].code%>" maxlength="25" class="form-control" placeholder="@add <%=otherMaster[i].tablename%>"></td>
                           <%if(otherMaster[i].code==6){%>
                          <td><input type="number" id="crate_<%=otherMaster[i].code%>" maxlength="10" class="form-control" placeholder="@add currency Rate"></td>
                           <%}%>
@@ -901,7 +930,7 @@
                <label style="line-height:42px !important;">Role ID:<sup>*</sup></label>
                </div>
                <div class="col-md-7">
-                <input placeholder="Enter Role Name Here"type="text" maxlength="20" style="width:100%" class="form-control" id="editRoleId" name="editRoleId" />
+                <input placeholder="Enter Role Name Here"type="text" maxlength="25" style="width:100%" class="form-control" id="editRoleId" name="editRoleId" />
                </div>
             </div> 
             <div class="col-md-12 a" style="padding-top:2%"> 
@@ -909,15 +938,15 @@
                <label style="line-height:42px !important;padding:0px">Custom Roles:<sup style="color:red">*</sup></label>
                </div>
                <div class="col-md-7">
-                <input placeholder="Enter Role Name Here"type="text" maxlength="20" style="width:100%" class="form-control" id="rl_name" name="rname" />
+                <input placeholder="Enter Role Name Here"type="text" maxlength="25" style="width:100%" class="form-control" id="rl_name" name="rname" />
                </div>
             </div>
                     <div class="col-md-12 a">
                     <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Industry:<sup style="color:red">*</sup></label></div>
                     <div class="col-md-7">
-                    <input type="hidden"id="<%=industry[0].id%>" maxlength="20" required name="industryhide" value="<%=industry[0].id%>">
+                    <input type="hidden"id="<%=industry[0].id%>" maxlength="25" required name="industryhide" value="<%=industry[0].id%>">
                     <div id="ii">
-                    <select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="40">
+                    <select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="25">
                       <%
                       if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
                             <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
@@ -929,7 +958,7 @@
                 <div class="col-md-12 a">
                     <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Business:<sup style="color:red">*</sup></label></div>
                     <div class="col-md-7">
-                      <input type="hidden"id="<%=business[0].id%>" maxlength="20" required name="businesshide"value="<%=business[0].id%>">
+                      <input type="hidden"id="<%=business[0].id%>" maxlength="25" required name="businesshide"value="<%=business[0].id%>">
                        <div id="bb">
                          <select multiple = "multiple" class="multiplebox clearField" id="my-selectBB" required name="b_name">
                             <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
@@ -942,7 +971,7 @@
                 <div class="col-md-12 a">
                     <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Document Type:<sup style="color:red">*</sup></label></div>
                   <div class="col-md-7">
-                          <input type="hidden"id="<%=document[0].id%>" maxlength="20" required name="doctypehide"value="<%=document[0].id%>">
+                          <input type="hidden"id="<%=document[0].id%>" maxlength="25" required name="doctypehide"value="<%=document[0].id%>">
                           <div id="dd">
                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectDD" required name="d_name">
                              <%
@@ -956,7 +985,7 @@
               <div class="col-md-12 a">
                     <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Technology:<sup style="color:red">*</sup></label></div>
                   <div class="col-md-7">
-                          <input type="hidden"id="<%=technology[0].id%>" maxlength="20" required name="newTechide"value="<%=technology[0].id%>">
+                          <input type="hidden"id="<%=technology[0].id%>" maxlength="25" required name="newTechide"value="<%=technology[0].id%>">
                         <div id="tt">  
                          <select multiple = "multiple" class="multiplebox clearField" id="my-selectTT" required name="t_name">
                          <%
@@ -970,7 +999,7 @@
              <div class="col-md-12 a">
                 <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Restriction Level:<sup style="color:red">*</sup></label></div>
                   <div class="col-md-7">
-               <input type="hidden"id="<%=restriction[0].id%>" maxlength="20"  required name="rLevelhide"value="<%=restriction[0].id%>">
+               <input type="hidden"id="<%=restriction[0].id%>" maxlength="25"  required name="rLevelhide"value="<%=restriction[0].id%>">
                 <div id="rr">  
                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectRR" required name="res_name">
                              <%for(var i=0;i<restriction[0].length;i++){%>
@@ -1009,7 +1038,9 @@
          }
         $('.datepicker').datetimepicker({
             timepicker: false,
-            format: 'm/d/y'
+            format: 'm/d/y',
+            scrollMouse:false,
+            scrollInput:false
         });
         $(".master-img").addClass('active');
         
@@ -1043,9 +1074,12 @@
     $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
     });
     
-    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping'];
+    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping','#timestdiv','#tanother'];
       
       function showHide(temp){
+        if(temp==5){
+          getActiveDocumentRole();
+        }
           for(var i=0;i<collapseId.length;i++){
                 
                 if(i!=temp){
@@ -1058,7 +1092,76 @@
         }
        
 
-   
+   function getActiveDocumentRole(){
+
+     $.ajax({
+            url: '/getind',
+           type: 'post',
+           dataType: 'json',
+            success: function(industry) {
+             // <div id="ii">
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="25">';
+                   
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                           str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+              
+                    $('#ii').html(str);
+                 
+            }
+        });
+     
+         $.ajax({
+            url: '/getdoc',
+            type: 'post',
+            dataType: 'json',
+            success: function(document) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectDD" required name="i_name" maxlength="25">';
+                   
+                      if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                           str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#dd').html(str);
+               
+            }
+        });
+  
+         $.ajax({
+            url: '/getbus',
+             type: 'post',
+            dataType: 'json',
+             success: function(business) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectBB" required name="i_name" maxlength="25">';
+                   
+                      if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                           str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#bb').html(str);
+                 
+            }
+        });
+
+         $.ajax({
+            url: '/gettec',
+          
+            type: 'post',
+             dataType: 'json',
+             success: function(technology) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectTT" required name="i_name" maxlength="25">';
+                   
+                      if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                           str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#tt').html(str);
+                  
+            }
+        });
+   }
+
     //-------------------Bug Master 
     function activeBugMaster(code,id,flag){
       if(!flag){
@@ -1294,7 +1397,7 @@
     if(flag==3){
       var row=rowid.split('_');
       var labelid=row[0]+'label_'+row[1];
-           var str='<tr id="'+rowid+'"><td id ='+labelid+'>'+$(add).val()+'</td><td><span style="color:green;height:10px" class="glyphicon glyphicon-ok" onclick="docsave('+func+',0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('+func+',4)" ></span></td></tr>'+'<tr class="hide" id="'+rowhid+'"><td><input type="text" maxlength="20"id="'+textid+'"value="'+$(add).val()+'"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="docsave('+func+',2)"</span></td></tr>';
+           var str='<tr id="'+rowid+'"><td id ='+labelid+'>'+$(add).val()+'</td><td><span style="color:green;height:10px" class="glyphicon glyphicon-ok" onclick="docsave('+func+',0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick="docsave('+func+',4)" ></span></td></tr>'+'<tr class="hide" id="'+rowhid+'"><td><input type="text" maxlength="25"id="'+textid+'"value="'+$(add).val()+'"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="docsave('+func+',2)"</span></td></tr>';
            $(tableid).append(str);
            alert("added successfully");
      }
@@ -1337,7 +1440,7 @@ function addBugMaster(code){
              if(data[0][0].flag==0)
               {
                 alert('Created successfully.'); 
-              $('#bugTable_'+code).append('<tr id="bugEditTextBoxTr_'+data[1][0].id+'" class="hide"><td><input type="text"   id="bugEditData_'+data[1][0].id+'" maxlength="40" style="width:80px"  value="'+$('#bugMasterData_'+code).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+data[1][0].code+','+data[1][0].id+',1)"></span></td></tr><tr class="hide"><td> <input type="text" id="bugMasterActiveVal_'+data[1][0].id+'" value="1" maxlength="40" class="hide"></td></tr><tr id="bugEditLabelTr_'+data[1][0].id+'"><td>'+$('#bugMasterData_'+code).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" onClick=showEditBugMaster('+data[1][0].code+','+data[1][0].id+',0)></span><span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster('+data[1][0].code+','+data[1][0].id+',0)"></span></td></tr>');
+              $('#bugTable_'+code).append('<tr id="bugEditTextBoxTr_'+data[1][0].id+'" class="hide"><td><input type="text"   id="bugEditData_'+data[1][0].id+'" maxlength="25" style="width:80px"  value="'+$('#bugMasterData_'+code).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+data[1][0].code+','+data[1][0].id+',1)"></span></td></tr><tr class="hide"><td> <input type="text" id="bugMasterActiveVal_'+data[1][0].id+'" value="1" maxlength="25" class="hide"></td></tr><tr id="bugEditLabelTr_'+data[1][0].id+'"><td>'+$('#bugMasterData_'+code).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" onClick=showEditBugMaster('+data[1][0].code+','+data[1][0].id+',0)></span><span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster('+data[1][0].code+','+data[1][0].id+',0)"></span></td></tr>');
                $('#bugMasterData_'+code).val('');
                $('#crate_'+code).val('')
               }
@@ -1397,9 +1500,9 @@ function addBugMaster(code){
         },
     method: 'POST',    
     success: function(data) { 
-         
+
   if(code==6){
-    insEdit ='<td><input type="number" maxlength="40" id="crate_'+id+'" value="'+$('#crate_'+id).val()+'"></td>'
+    insEdit ='<td><input type="number" maxlength="25" id="crate_'+id+'" value="'+$('#crate_'+id).val()+'"></td>'
     insLabel='<td>'+crate+'</td>';
   }
       var okIcon;
@@ -1412,18 +1515,25 @@ function addBugMaster(code){
           if((data[1][0].flag==0))
             {
           alert('Updated successfully.');  
-            $('#bugEditTextBoxTr_'+id).html('<td><input type="text" maxlength="40" id="bugEditData_'+id+'" style="width:80px"  value="'+$('#bugEditData_'+id).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+code+','+id+',1)"></span></td>');
+            $('#bugEditTextBoxTr_'+id).html('<td><input type="text" maxlength="25" id="bugEditData_'+id+'" style="width:80px"  value="'+$('#bugEditData_'+id).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+code+','+id+',1)"></span></td>');
             $('#bugEditTextBoxTr_'+id).addClass("hide");
             $('#bugEditLabelTr_'+id).html('<td>'+$('#bugEditData_'+id).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" onClick=showEditBugMaster('+code+','+id+',0)></span>'+okIcon+'</td>');
             //  $('#bugEditTextBoxTr_'+bugMasterId).addClass("hide"); 
              $('#bugEditLabelTr_'+id).removeClass("hide");
              }
-          else if((data[1][0].flag==2))
-          {
+          else if((data[1][0].flag==2)){
           alert('Already Exist');
-          }else 
-          {
-          alert('You cannot edit this master when bug exists for it.');
+          }
+          else{
+              if((code==1)&&(code==2)&&(code==3)&&(code==5)&&(code==9))
+                alert('Error:You cannot edit this master when bug exists for it.');
+              else if(code==4)
+                alert('Error:You cannot edit this master when project exists for it.');
+              else if(code==6)
+                alert('Error:You cannot edit this master when Expense exists for it.');
+              else 
+                alert('Error:You cannot edit this master when User exists for it.');
+              
           }
           },
           dataType: 'JSON',
@@ -1554,7 +1664,7 @@ function addrole(){
            dataType: 'json',
             success: function(industry) {
            
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="40">';
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="25">';
                    
                       if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
                            str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
@@ -1572,7 +1682,7 @@ function addrole(){
             type: 'post',
             dataType: 'json',
             success: function(document) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectDD" required name="i_name" maxlength="40">';
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectDD" required name="i_name" maxlength="25">';
                    
                       if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
                            str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
@@ -1589,7 +1699,7 @@ function addrole(){
              type: 'post',
             dataType: 'json',
              success: function(business) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectBB" required name="i_name" maxlength="40">';
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectBB" required name="i_name" maxlength="25">';
                    
                       if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                            str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
@@ -1607,7 +1717,7 @@ function addrole(){
             type: 'post',
              dataType: 'json',
              success: function(technology) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectTT" required name="i_name" maxlength="40">';
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectTT" required name="i_name" maxlength="25">';
                    
                       if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
                            str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
@@ -1626,7 +1736,7 @@ function addrole(){
              dataType: 'json',
              success: function(resultRestriction) {
 
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectRR" required name="i_name" maxlength="40">';
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectRR" required name="i_name" maxlength="25">';
                    
                       if(resultRestriction[0].length>0){for(var i=0;i<resultRestriction[0].length;i++){%>
                            str=str+ '<option value="'+resultRestriction[0][i].values_id+'">'+resultRestriction[0][i].values+'</option>';
@@ -1656,73 +1766,7 @@ function addrole(){
   /*-----------------------EDIT ROLE-------------------------*/
        function getrole(cid) {   
 
-         $.ajax({
-            url: '/getind',
-           type: 'post',
-           dataType: 'json',
-            success: function(industry) {
-             // <div id="ii">
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="40">';
-                   
-                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
-                           str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
-                            }}}
-                    str=str+'</select>'; 
-              
-                    $('#ii').html(str);
-                 //   $('#my-selectII').searchableOptionList();
-               //     </div>
-            }
-        });
-     
-         $.ajax({
-            url: '/getdoc',
-            type: 'post',
-            dataType: 'json',
-            success: function(document) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectDD" required name="i_name" maxlength="40">';
-                   
-                      if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
-                           str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
-                            }}}
-                    str=str+'</select>'; 
-                    $('#dd').html(str);
-                //    $('#my-selectDD').searchableOptionList();
-            }
-        });
-  
-         $.ajax({
-            url: '/getbus',
-             type: 'post',
-            dataType: 'json',
-             success: function(business) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectBB" required name="i_name" maxlength="40">';
-                   
-                      if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
-                           str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
-                            }}}
-                    str=str+'</select>'; 
-                    $('#bb').html(str);
-                   // $('#my-selectBB').searchableOptionList();
-            }
-        });
-
-         $.ajax({
-            url: '/gettec',
-          
-            type: 'post',
-             dataType: 'json',
-             success: function(technology) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectTT" required name="i_name" maxlength="40">';
-                   
-                      if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
-                           str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
-                            }}}
-                    str=str+'</select>'; 
-                    $('#tt').html(str);
-                   // $('#my-selectTT').searchableOptionList();
-            }
-        });
+        
          setTimeout(function() {
            $('#editRole').modal('show');
                    activeDocument=0;
@@ -1838,10 +1882,12 @@ else{ //New holiday updated
              
                      if(data[0][0].flag==1){
                         alert("Holiday Added successfully");
-                         $('#holiTable').append('<tr id="editHoli_'+data[1][0].id+'" class="hide"><td><input type="text" id="ocName_'+data[1][0].id+'" maxlength="40" value="'+$('#ocName_'+id).val()+'" ></td><td><input type="text" maxlength="40" id="ocDate_'+data[1][0].id+'" class="datepicker" value="'+$('#ocDate_'+id).val()+'"  readonly = "true"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli('+data[1][0].id+',1)"></span></td></tr><tr id="holi_'+data[1][0].id+'"><td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+data[1][0].id+',0)"></span></td></tr>'); 
+                         $('#holiTable').append('<tr id="editHoli_'+data[1][0].id+'" class="hide"><td><input type="text" id="ocName_'+data[1][0].id+'" maxlength="25" value="'+$('#ocName_'+id).val()+'" ></td><td><input type="text" maxlength="25" id="ocDate_'+data[1][0].id+'" class="datepicker" value="'+$('#ocDate_'+id).val()+'"  readonly = "true"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli('+data[1][0].id+',1)"></span></td></tr><tr id="holi_'+data[1][0].id+'"><td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+data[1][0].id+',0)"></span></td></tr>'); 
                          $('.datepicker').datetimepicker({
                             timepicker: false,
-                            format: 'm/d/y'
+                            format: 'm/d/y',
+                            scrollMouse:false,
+                            scrollInput:false
                         });
                           $('#ocName_0').val('');
                           $('#ocDate_0').val('');
@@ -1855,13 +1901,15 @@ else{ //New holiday updated
                      if(data[0][0].flag==3)
                      {
                     alert("Holiday Updated successfully");  
-                     $('#editHoli_'+id).html('<td><input type="text" id="ocName_'+id+'" maxlength="40" value="'+$('#ocName_'+id).val()+'"></td><td><input type="text" id="ocDate_'+id+'" maxlength="40" class="datepicker" value="'+$('#ocDate_'+id).val()+'" readonly = "true"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli('+id+',1)"></span></td>');  
+                     $('#editHoli_'+id).html('<td><input type="text" id="ocName_'+id+'" maxlength="25" value="'+$('#ocName_'+id).val()+'"></td><td><input type="text" id="ocDate_'+id+'" maxlength="25" class="datepicker" value="'+$('#ocDate_'+id).val()+'" readonly = "true"></td><td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli('+id+',1)"></span></td>');  
                       $('#editHoli_'+id).addClass("hide");                         
                         $('#holi_'+id).html('<td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+id+',0)"></span></td>');
                         $('#holi_'+id).removeClass("hide");
                          $('.datepicker').datetimepicker({
                             timepicker: false,
-                            format: 'm/d/y'
+                            format: 'm/d/y',
+                            scrollMouse:false,
+                            scrollInput:false
                           });
                 /*
                     $('#holi_'+id).html('<td>'+$('#ocName_'+id).val()+'</td><td>'+$('#ocDate_'+id).val()+'</td><td><span class="glyphicon glyphicon-pencil" onClick="showEditHoli('+data[1][0].id+',0)"></span></td>');*/
@@ -2052,7 +2100,10 @@ else{
         c4='No';
       }
 }
-
+if(billa>100000){
+  alert("Error : Max Amount Limit Is 100000");
+  return ;
+}
   $.ajax({
     url:'/insertExpenseMaster',
         data: {
@@ -2074,7 +2125,7 @@ else{
          else{
           edValue=$('#maxBillAmnt_'+ty).val();
          }
-        c1=' <td><select id="isMandatory_'+code+'_'+id+'" onChange="toggeleBillBox('+code+','+id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input type="number" id="maxBillAmnt_'+code+'_'+id+'" placeholder="@max Ammount" maxlength="10" value="'+edValue+'"></td>'; 
+        c1=' <td><select id="isMandatory_'+code+'_'+id+'" onChange="toggeleBillBox('+code+','+id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input type="number" id="maxBillAmnt_'+code+'_'+id+'" placeholder="@max Amount" maxlength="10" value="'+edValue+'"></td>'; 
 
         c3='<td>'+c4+'</td><td>'+edValue+'</td>';
       }      
@@ -2082,9 +2133,9 @@ else{
       {        
         alert('Expense Created successfully.'); 
         if(code==1){
-        c1=' <td><select id="isMandatory_'+code+'_'+data[0].id+'" onChange="toggeleBillBox('+code+','+data[0].id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input type="number" id="maxBillAmnt_'+code+'_'+data[0].id+'" placeholder="@max Ammount" maxlength="10" value="'+edValue+'"></td>'; 
+        c1=' <td><select id="isMandatory_'+code+'_'+data[0].id+'" onChange="toggeleBillBox('+code+','+data[0].id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input type="number" id="maxBillAmnt_'+code+'_'+data[0].id+'" placeholder="@max Amount" maxlength="10" value="'+edValue+'"></td>'; 
 }
-        $('#expTable_'+code).append('<tr id="expenseEdit_'+data[0].id+'" class="hide"><td id="abc"><input type="text" class="abc" id="expMasterData_'+code+'_'+data[0].id+'" maxlength="40" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+data[0].id+',1)"></span></td></tr><tr id="expenseShow_'+data[0].id+'"><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster('+code+','+data[0].id+',0)"></span></td></tr>');  
+        $('#expTable_'+code).append('<tr id="expenseEdit_'+data[0].id+'" class="hide"><td id="abc"><input type="text" class="abc" id="expMasterData_'+code+'_'+data[0].id+'" maxlength="25" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+data[0].id+',1)"></span></td></tr><tr id="expenseShow_'+data[0].id+'"><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster('+code+','+data[0].id+',0)"></span></td></tr>');  
         $('#maxBillAmnt_'+ty).val('');
         $('#expMasterData_'+ty).val('');
       }
@@ -2092,7 +2143,7 @@ else{
      else if(data[0].flag==1000)
       {
         alert('Expense Updated Successfully');
-        $('#expenseEdit_'+id).html('<td id="abc"><input type="text" class="abc" id="expMasterData_'+code+'_'+id+'" maxlength="40" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+id+',1)"></span></td>');        
+        $('#expenseEdit_'+id).html('<td id="abc"><input type="text" class="abc" id="expMasterData_'+code+'_'+id+'" maxlength="25" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster('+code+','+id+',1)"></span></td>');        
         $('#expenseEdit_'+id).toggleClass("hide");
         $('#expenseShow_'+id).html('><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster('+code+','+id+',0)"></span></td>');
         $('#expenseShow_'+id).toggleClass("hide");
@@ -2308,7 +2359,7 @@ else{
               var textid='at_text_'+(parseInt(rowCount/2));
               var selectid='at_select_'+(parseInt(rowCount/2));
               var x =  '<select class=""  id="'+selectid+'" name="" style=";">'+compo+'</select>';
-              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="40"  value="'+$('#compName').val()+'" />';
+              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="25"  value="'+$('#compName').val()+'" />';
               hidecell2.innerHTML = x;
               hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",1,getSaveStatus)></span>';
 
@@ -2346,7 +2397,7 @@ else{
               var compo=$("#attrName").html();
               var textid='bt_text_'+(parseInt(rowCount/2));
              
-              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="40"  value="'+$('#attrName').val()+'" />';
+              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="25"  value="'+$('#attrName').val()+'" />';
               hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",2,getSaveStatus)></span>';
 
               $("#attrName").val('');
@@ -2381,7 +2432,7 @@ else{
               var compo=$("#attrName").html();
               var textid='bt_text_'+(parseInt(rowCount/2));
              
-              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="40"  value="'+$('#attrName').val()+'" />';
+              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="25"  value="'+$('#attrName').val()+'" />';
               hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",3,getSaveStatus)></span>';
 
               $("#valueName").val('');
@@ -2441,7 +2492,7 @@ else{
 */              var compo=$("#attrName").html();
               var textid='bt_text_'+(parseInt(rowCount/2));
              
-            /*  hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="40"  value="'+$('#attrName').val()+'" />';
+            /*  hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="25"  value="'+$('#attrName').val()+'" />';
               hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",3,getSaveStatus)></span>';*/
 
               $("#attrName").val('');
@@ -2661,24 +2712,28 @@ else{
                     if(flag==1){
                          tableString='<tr id="dt_-1"><th style="text-align:center">Name</th><th style="text-align:center">Value</th><th style="text-align:center">Action</th></tr>';                        
                         for(var i=0;i<=data[4].length-1;i++){
-                          tableString+='<tr id="dt_'+i+'"><td id="'+data[4][i].id+'">'+data[4][i].attribute+'</td><td>'+data[4][i].name+'</td><td><a onclick=deleterAttributeValMapping(1,"dt_'+i+'")>Delete</a></td></tr>';
+                          tableString+='<tr id="dt_'+i+'"><td id="'+data[4][i].id+'">'+data[4][i].attribute+'</td><td>'+data[4][i].name+'</td><td><img src="../img/project/blackdustbin.jpg" onclick=deleterAttributeValMapping(1,"dt_'+i+'") height="16px" width="16px" title="Delete" ></td></tr>';
                         }
                         $("#assetTable4").html(tableString);
                     }
                     else if(flag==2){
                          tableString='<tr id="dt_-1"><th style="text-align:center">Component</th><th style="text-align:center">Atribute</th><th style="text-align:center">Action</th></tr>';                       
                         for(var i=0;i<=data[5].length-1;i++){ 
-                           tableString+='<tr id="dt_'+i+'"><td id="'+data[5][i].componentId+'">'+data[5][i].componentName+'</td><td>'+data[5][i].attributeName+'</td><td><a onclick=deleterAttributeValMapping(2,"dt_'+i+'")>Delete</a></td></tr>';
+                           tableString+='<tr id="dt_'+i+'"><td id="'+data[5][i].componentId+'">'+data[5][i].componentName+'</td><td>'+data[5][i].attributeName+'</td><td><img src="../img/project/blackdustbin.jpg" onclick=deleterAttributeValMapping(2,"dt_'+i+'") height="16px" width="16px" title="Delete" ></td></tr>';
                          }
+
+
+
+
                       console.log(tableString);
                        $("#assetTable5").html(tableString);
                     }  
 
 
                     var  stringattrName='<select class="form-control" id="attrName3" name=""><option id="0">select attribute</option>';
-                    var stringvalueName='<select multiple = "multiple" id ="attrValue3" maxlength="40" placeholder="attribute value"  >'; 
-                    var stringComponentName='<select multiple = "multiple" id ="Componentval4" maxlength="40" placeholder="component value" >'; 
-                    var stringattributeName='<select multiple = "multiple" id ="attrValue4" maxlength="40" placeholder="attribute value"  >'; 
+                    var stringvalueName='<select multiple = "multiple" id ="attrValue3" maxlength="25" placeholder="attribute value"  >'; 
+                    var stringComponentName='<select multiple = "multiple" id ="Componentval4" maxlength="25" placeholder="component value" >'; 
+                    var stringattributeName='<select multiple = "multiple" id ="attrValue4" maxlength="25" placeholder="attribute value"  >'; 
                     for(var i=0;i<data[1].length;i++){
                       stringComponentName+='<option value="'+data[1][i].id+'">'+data[1][i].componentName+'</option>';
                     }
