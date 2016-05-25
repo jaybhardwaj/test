@@ -923,7 +923,8 @@
         <div class="modal-dialog">
             <div class="modal-content" style="padding-bottom:2%" id="express2">
                 <div class="modal-titlebox" >
-                     <span id="head4" >Roles</span> 
+                     <span id="head4" >Roles</span>
+                     <button type="button" class="close" id='cancel' type="reset" data-dismiss="modal"style="margin-right: 2px;margin-top:-6px">&times;</button> 
                 </div>             
             <div class="hide">
                <div class="col-md-5">
@@ -1094,72 +1095,7 @@
 
    function getActiveDocumentRole(){
 
-     $.ajax({
-            url: '/getind',
-           type: 'post',
-           dataType: 'json',
-            success: function(industry) {
-             // <div id="ii">
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="25">';
-                   
-                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
-                           str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
-                            }}}
-                    str=str+'</select>'; 
-              
-                    $('#ii').html(str);
-                 
-            }
-        });
-     
-         $.ajax({
-            url: '/getdoc',
-            type: 'post',
-            dataType: 'json',
-            success: function(document) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectDD" required name="i_name" maxlength="25">';
-                   
-                      if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
-                           str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
-                            }}}
-                    str=str+'</select>'; 
-                    $('#dd').html(str);
-               
-            }
-        });
-  
-         $.ajax({
-            url: '/getbus',
-             type: 'post',
-            dataType: 'json',
-             success: function(business) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectBB" required name="i_name" maxlength="25">';
-                   
-                      if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
-                           str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
-                            }}}
-                    str=str+'</select>'; 
-                    $('#bb').html(str);
-                 
-            }
-        });
-
-         $.ajax({
-            url: '/gettec',
-          
-            type: 'post',
-             dataType: 'json',
-             success: function(technology) {
-                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectTT" required name="i_name" maxlength="25">';
-                   
-                      if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
-                           str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
-                            }}}
-                    str=str+'</select>'; 
-                    $('#tt').html(str);
-                  
-            }
-        });
+     /**/
    }
 
     //-------------------Bug Master 
@@ -1765,7 +1701,72 @@ function addrole(){
         }
   /*-----------------------EDIT ROLE-------------------------*/
        function getrole(cid) {   
+         $.ajax({
+            url: '/getind',
+           type: 'post',
+           dataType: 'json',
+            success: function(industry) {
+             // <div id="ii">
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectII" required name="i_name" maxlength="25">';
+                   
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                           str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+              
+                    $('#ii').html(str);
+                 
+            }
+        });
+     
+         $.ajax({
+            url: '/getdoc',
+            type: 'post',
+            dataType: 'json',
+            success: function(document) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectDD" required name="i_name" maxlength="25">';
+                   
+                      if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                           str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#dd').html(str);
+               
+            }
+        });
+  
+         $.ajax({
+            url: '/getbus',
+             type: 'post',
+            dataType: 'json',
+             success: function(business) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectBB" required name="i_name" maxlength="25">';
+                   
+                      if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                           str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#bb').html(str);
+                 
+            }
+        });
 
+         $.ajax({
+            url: '/gettec',
+          
+            type: 'post',
+             dataType: 'json',
+             success: function(technology) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField"id="my-selectTT" required name="i_name" maxlength="25">';
+                   
+                      if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                           str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#tt').html(str);
+                  
+            }
+        }); 
         
          setTimeout(function() {
            $('#editRole').modal('show');
