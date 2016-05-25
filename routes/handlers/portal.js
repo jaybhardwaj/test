@@ -1260,6 +1260,22 @@ Docmaster:function(req,res,next){
         });   
 
     },
+    addeditBrandName :function(req,res,next){
+        var parameter=[req.session.userId,req.session.roleId,req.session.retailerId];
+        parameter.push(req.body.brandName);
+        parameter.push(req.body.brandId);
+        parameter.push(req.body.flag);
+        modelPortal.addeditBrandName(parameter,function(err,result){
+            if(err){
+                console.log("oops");
+            }   
+            else{
+                   res.json(result);
+            }   
+
+        });   
+
+    },
  /*-------------------End Doc-----------------------------------------------------------*/
 //--------------------------Project-WBS-------------------
  projectDetails: function(req, res, next) {

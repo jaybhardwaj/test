@@ -320,6 +320,8 @@ app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
 	app.post('/addComponentAttributemapping',portal.addComponentAttributemapping);
 	app.post('/deleteComponentAttributeMapping',portal.deleteComponentAttributeMapping);
 	app.post('/inactiveAssetMaster',portal.inactiveAssetMaster);
+	app.post('/addeditBrandName',portal.addeditBrandName);
+
 
 
 /*----------------------------------------------------------Project Management-----------------------------------------------------------*/

@@ -577,7 +577,7 @@
                         <th style="text-align:center">Type</th>
                         <th style="text-align:center">Action</th>
                         </tr>                        
-                        <%console.log("come b ",assetType);for(var i=0;i<=assetType[1].length-1;i++){%> 
+                        <%for(var i=0;i<=assetType[1].length-1;i++){%> 
                           <tr id="at_<%=i%>">
                                 <td id="<%=assetType[1][i].id%>"><%=assetType[1][i].componentName%></td>
                                 <td> <%=assetType[1][i].type%></td>                          
@@ -693,7 +693,7 @@
                    <div onclick="showHide(20)">
                     <a id="anchor" class="anchor" href="#assetValue" data-toggle="collapse">
                     <div class="row">
-                         <div class="col-md-9"> <label  style="padding:4px 100px" >value</label></div>
+                         <div class="col-md-9"> <label  style="padding:4px 115px" >value</label></div>
                          <div class="col-md-3"> <i style="margin-left: 25%;margin-top: 8%;" class="glyphicon glyphicon-resize-full"></i></div>
                     </div>
                     </a>
@@ -810,7 +810,7 @@
                         <th style="text-align:center">Atribute</th>
                         <th style="text-align:center">Action</th>
                         </tr>                        
-                        <%console.log("kkkkkk",assetType[5]);for(var i=0;i<=assetType[5].length-1;i++){%> 
+                        <%for(var i=0;i<=assetType[5].length-1;i++){%> 
                           <tr id="dt_<%=i%>">
                                 <td id="<%=assetType[5][i].componentId%>"><%=assetType[5][i].componentName%></td>
                                   <td>  <%=assetType[5][i].attributeName%></td>
@@ -839,7 +839,65 @@
 
 
       </div> 
-    </section>
+
+      <div  class="col-md-3" style="margin-top:1%;margin-left:">
+                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center; ">
+                  <div onclick="showHide(23)"> <a id="anchor" class="anchor" href="#assetBrand" data-toggle="collapse">
+                   <div class="row">
+                    <div class="col-md-6">
+                         <label  style="padding:4px 115px" >Brand</label>
+                    </div>
+                    <div class="col-md-3">
+                         <i style="margin-right: -136%;float:right;margin-top: 9%;" class="glyphicon glyphicon-resize-full"></i>
+                    </div>
+                 </div>   
+                  </a>
+                </div>
+                  <div id="assetBrand" class="collapse ">
+                    <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="assetTable6" class="table  stripe hover cell-border" >
+                        <tr>
+                        <th style="text-align:center">Name</th>
+                        <th style="text-align:center">Action</th>
+                        </tr>                        
+                        <%for(var i=0;i<=assetType[6].length-1;i++){%> 
+                          <tr id="et_<%=i%>">
+                                <td id="<%=assetType[6][i].id%>"><%=assetType[6][i].name%></td>
+                                  <td>  <%if(assetType[6][i].active==1){%> 
+                                        <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick=assetStatus("et_<%=i%>",1,6,activeCheckFlag) title="click to Inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("et_<%=i%>",3,6,activeCheckFlag)></span>
+                                       
+                                    <%}
+                                    else{%>
+                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("et_<%=i%>",2,6,activeCheckFlag) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick=assetStatus("et_<%=i%>",3,6,activeCheckFlag)></span>
+                                    <%}%>
+                                </td>
+                          </tr>  
+                          <tr id="eth_<%=i%>" class="hide">
+                            <td>
+                              <input type="text" id="et_text_<%=i%>" maxlength="25" value="<%=assetType[6][i].name%>">
+                            </td>
+                            <td>
+                            <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('et_<%=i%>',4,getSaveStatus)"></span>
+                            </td>
+                          
+                        <%}%>
+                        </tr> 
+                      </table>
+                     </div>  
+                      <table style="margin-left:13%;margin-right:2%;margin-top:2%">
+                              <tr>
+                                <td><input type="text" id="brandName" class="form-control" maxlength="25" placeholder="@ Brand Name"style="width:78%"></td>
+                                
+                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(6,insertCheckFlag)" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
+                                                  
+                              </tr>
+                      </table>               
+                  
+                  </div>
+                </div>
+              </div> 
+ 
+     </section>
      
      <section id="content6" class="background" >
       <div class=" row"  style="margin:%" id="Othertable" >
@@ -1075,7 +1133,7 @@
     $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
     });
     
-    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping','#timestdiv','#tanother'];
+    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping','#timestdiv','#tanother','#assetBrand'];
       
       function showHide(temp){
         if(temp==5){
@@ -2318,10 +2376,39 @@ if(billa>100000){
           }
 
       }
+      else if(checking==6){
+       
+       
+          if($("#brandName").val().trim()==''){
+            alert("Error:brandName Name cannot be blank");
+            return false;
+          }
+          
+          else{
+            
+              $.ajax({
+                  url: 'addeditBrandName',
+                  type: 'post',
+                  data:{
+                      "brandName":$("#brandName").val(),
+                      "brandId":"",
+                      "flag":1
+                  },
+                  dataType :'json',              
+                  success: function (data){ 
+                      console.log("uuuu ",data);
+                     callback(checking,data[0][0].resultflag,data[0][0].generatedId);
+                  },
+                  error: function(){
+                   window.location.href="/masters" ;
+                  }
+              });
+          }
+
+      }
     } 
     
     function insertCheckFlag(checking,flag,generatedId){
-     
       if(checking==1){
           if(flag!=-2){
             alert("Already Exist! ");
@@ -2493,14 +2580,51 @@ if(billa>100000){
 */              var compo=$("#attrName").html();
               var textid='bt_text_'+(parseInt(rowCount/2));
              
-            /*  hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="25"  value="'+$('#attrName').val()+'" />';
-              hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",3,getSaveStatus)></span>';*/
+          
 
               $("#attrName").val('');
               alert("Added Successfully!");
 
             }
+
         }     
+
+        else if(checking==6){
+            if(flag!=-2){
+            alert("Already Exist!");
+            return ;
+            }
+            else{ 
+              var table = document.getElementById("assetTable6"); 
+              var rowCount = $('#assetTable6 tr').length;
+              var row = table.insertRow(rowCount);
+              var rowid='et_'+(parseInt(rowCount/2));
+              $(row).attr('id',rowid);
+              var cell1 = row.insertCell(0);
+              var cell3 = row.insertCell(1);
+              var selText;
+              cell1.innerHTML = $('#brandName').val();
+              cell3.innerHTML='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,6,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,6,activeCheckFlag)></span>';
+              document.getElementById("assetTable6").rows[rowid].cells.item(0).id=generatedId ;
+
+              var hiderow = table.insertRow(rowCount+1);
+              var rowhid='eth_'+(parseInt(rowCount/2));     
+              var hidecell1 = hiderow.insertCell(0);
+              var hidecell3 = hiderow.insertCell(1);
+              $(hiderow).attr('id',rowhid);
+              $(hiderow).attr('class','hide');
+              var compo=$("#attrName").html();
+              var textid='et_text_'+(parseInt(rowCount/2));
+             
+              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="25"  value="'+$('#brandName').val()+'" />';
+              hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",4,getSaveStatus)></span>';
+
+              $("#attrName").val('');
+              alert("Added Successfully!");
+
+            }
+            
+        }      
     }
 
     var check=0;
@@ -2569,7 +2693,26 @@ if(billa>100000){
                 },
                
               });
-          }  
+        }
+        else if(tableno==4){
+              $.ajax({
+                  url: 'addeditBrandName',
+                  type: 'post',
+                  data:{
+                      "brandName":$('#'+textid).val().trim(),
+                      "brandId":compOldName,
+                      "flag":2
+                  },
+                  dataType :'json',              
+                  success: function (data){ 
+                      console.log("uuuu ",data);
+                     callback(rowid,rowhid,textid,'',data[0][0].resultflag,tableno);
+                  },
+                  error: function(){
+                   window.location.href="/masters" ;
+                  }
+              });
+          }    
          
     }
 
@@ -2594,6 +2737,9 @@ if(billa>100000){
             else if(tableno==3){
                  document.getElementById("assetTable3").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
             }
+             else if(tableno==6){
+                 document.getElementById("assetTable6").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
+            }
             $("#"+rowhid).addClass('hide');
             $("#"+rowid).removeClass('hide');
         }
@@ -2611,7 +2757,6 @@ if(billa>100000){
       compOldName=$("#"+compOldId).val();
       compOldType=$("#"+compOldTypeId).val();
       var tdId=document.getElementById("assetTable"+tableno).rows[rowid].cells.item(0).id ;
-      //alert(tdId);
       if(flag==1){
           if(confirm("Are you sure you want to  InActive it .?")==true)
           $.ajax({
@@ -2673,6 +2818,9 @@ if(billa>100000){
                 if(tableno==3){             
                  document.getElementById("assetTable3").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
                 }
+                if(tableno==6){             
+                 document.getElementById("assetTable6").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,6,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,6,activeCheckFlag)></span>';
+                }
             }
             else{
                     if(tableno==1){
@@ -2683,6 +2831,9 @@ if(billa>100000){
                     }
                     if(tableno==3){
                       alert("Error:Selected Value is mapped with Attribute Attribute mapping");
+                    }
+                    if(tableno==6){
+                      alert("Error:Selected Brand is mapped with Hardware");
                     }          
             }
         }
@@ -2696,6 +2847,9 @@ if(billa>100000){
             }
             else if(tableno==3){  
               document.getElementById("assetTable3").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+            }
+            else if(tableno==6){  
+              document.getElementById("assetTable6").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,6,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" onClick=assetStatus("'+rowid+'",3,6,activeCheckFlag)></span>';
             }
         }
          
@@ -2726,7 +2880,6 @@ if(billa>100000){
 
 
 
-                      console.log(tableString);
                        $("#assetTable5").html(tableString);
                     }  
 
