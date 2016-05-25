@@ -212,7 +212,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" style="margin:0px;">
                     <div class="modal-header" style="background-color:#f05f40;height:40px">
-                        <button type="button" onClick="window.location.reload()" class="close"  style="margin-top:-10px">&times;</button></a>
+                        <button type="button" onClick="window.location.href='/allrequisitions'" class="close"  style="margin-top:-10px">&times;</button></a>
                         <center>
                             <h4 id="ModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px"></h4></center>
                     </div>
@@ -224,13 +224,11 @@
                                 <div class="col-md-1 col-md-offset-5" id="submitButton">
                                     <!-- <button type="submit" class="button bt-small" style="width:200%"><i class="fa fa-save"></i> Submit</button> -->
                                 </div>
-                            </div>
-
-
+                            </div> 
           <div class="row ">
                 <div class="col-md-4 ">
                     <div class="col-md-4">
-                    <label>Job Title<sup class="astrick">*</sup></label>
+                    <label>Job Title:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
                     <input name="JobTitle" type="text" id="jobTitle" class="form-control addUsed addDisable" style="width:100%" maxlength="250" required>
@@ -238,7 +236,7 @@
                 </div>
                  <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Designation<sup class="astrick">*</sup></label>
+                    <label>Designation:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
                      <select id="browsers" style="width:100%;" class="form-control addUsed addDisable" name="designation" required>
@@ -253,7 +251,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Skills<sup class="astrick">*</sup></label>
+                    <label>Skills:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
                     <select max-size="1" multiple class="form-control " style="max-height:9%;overflow-y:auto;width:100%" id='skillsId' name="skills">
@@ -268,7 +266,7 @@
              <div class="row" style="margin-top:5px" >
                <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Location<sup class="astrick">*</sup></label>
+                    <label>Location:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
                       <select name="Location" id="location" class="form-control addUsed addDisable" style="width:100%;" required>
@@ -283,7 +281,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-4">
-                    <label># positions<sup class="astrick">*</sup></label>
+                    <label>#positions:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
                      <input type = 'text'  style = 'display:none;' id = 'locationnameId' name = 'locationName'>
@@ -292,10 +290,10 @@
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Experience<sup class="astrick">*</sup></label>
+                    <label>Experience:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
-                    <input name="YearsOfExp"  class="form-control" id="yox" placeholder="Yrs" type="number" step="0.1" style="width:100%" maxlength="10" required max="999" min="0"  required>
+                    <input name="YearsOfExp"  class="form-control addUsed addDisable" id="yox" placeholder="Yrs" type="text" step="0.1" style="width:100%" maxlength="10"   required>
                     </div>        
                 </div>
             </div>
@@ -310,7 +308,7 @@
                 </div>
                   <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Admin-HR<sup class="astrick">*</sup></label>
+                    <label>Admin-HR:<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
                    <select name="adminhr" id="adminhr" class="form-control addUsed addDisable" style="width:100%;" required>
@@ -325,7 +323,7 @@
                 </div>
                  <div class="col-md-4">
                     <div class="col-md-4">
-                    <label>Priority</label>
+                    <label>Priority :</label>
                     </div>
                     <div class="col-md-8">
                      <select name="mailPriority" class="form-control addUsed " id="priority" style="width:100%;"  >
@@ -514,9 +512,9 @@
                             } 
                         }
                         $('.addDisable').attr('disabled', false);   
-                         $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
+                        // $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
                         $('.addDisable').removeAttr('disabled');
-                        $(".chosen-select").removeAttr('disabled');
+                       // $(".chosen-select").removeAttr('disabled');
                         $('input ,  select').removeAttr('disabled');
  
                     } 
@@ -581,12 +579,7 @@
                                         arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skill;
                                         $('#skills_' + JSON.parse(JSON.stringify(data.result[6]))[i].skill).prop('selected', true);
                                     }
-                                  
-                                   /*  $('#skillsId').val(arr.toString().split(',')).trigger('change');
-                                    $('#skillsId').trigger('chosen:updated');
-                                    $('#skillsId').prop('disabled', false).trigger("chosen:updated");
-                                    */
-                                    console.log(arr);
+                                
                                      $('#skillsId').tagger({
                                         preselectedTags: arr,
                                         fieldWidth:'12em'
@@ -598,7 +591,7 @@
                                     for (var i = 0; i < data.result[8].length; i++) {
                                          desc = data.result[8][i].description;
                                          //console.log("Hiss ",desc);
-                                        $('#historyTable').append("<tr style=padding-top:2%;width:100%;float:left;font-size:14px;color:grey><td style=color:black>" + counter++ + ".</td><td>\t" + data.result[8][i].name + " has edited <b> style=color:black>" + data.result[8][i].columnName + "</b> to " + desc + " on <b>" + data.result[8][i].date.slice(0, 10) + "</b> </td></tr></br>");
+                                        $('#historyTable').append("<tr style=padding-top:2%;width:100%;float:left;font-size:14px;color:grey><td style='color:black'>" + counter++ + ".</td><td>\t" + data.result[8][i].name + " has edited <b style=color:black>" + data.result[8][i].columnName + "</b> to " + desc + " on <b>" + data.result[8][i].date.slice(0, 10) + "</b> </td></tr></br>");
                                     }
 
                                 //--------------View Detail Pop-Up
@@ -639,7 +632,7 @@
                                     //free to edit
                                     $('.addUsed').addClass("used");
                                     $('.addDisable').attr('disabled', false); 
-                                    $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
+                                   // $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
 
                                 }
                                 if (flag == "edit") {
@@ -647,7 +640,7 @@
                                     if (con == 0) { // show everything and edit everything
                                         $('.addUsed').addClass("used");
                                         $('.addDisable').attr('disabled', false);  
-                                        $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
+                                      //  $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
                                     }
                                     if (con == 2 || con == 1) {
                                         //partial editing is allowed
@@ -655,7 +648,7 @@
                                         $('.addUsed').addClass("used");
                                         $('.addDisable').attr('disabled', true);
                                         $(".addDisable").css("color", "grey");
-                                        $(".chosen-select").prop('disabled', true).trigger('chosen:updated');
+                                       // $(".chosen-select").prop('disabled', true).trigger('chosen:updated');
                                     }
                                 }
                             }
@@ -785,71 +778,5 @@
                         }
                     });
                 </script>
-                <style type="text/css">
-
-                    
-         /*             .disabledInput {
-                        color: #999!important;
-                        background-color: #eeeeee!important;
-                    }
-                    
-                    #skillsId_chosen {
-                        width: 100%!important;
-                    }
-                    
-                    #noOfPositions {
-                        width: 100%!important;
-                    }
-                    
-                    input[type=date] {
-                        background-image: url(../images/calendar.png);
-                        background-position: right center;
-                        background-repeat: no-repeat;
-                    }
-                    
-                    #main-menu {
-                        margin-top: 5.6% !important;
-                        height: 81.4% !important;
-                    }
-                    
-                    thead th {
-                        text-align: center;
-                        background-color: #7FCEE6;
-                        color: #4D4E50;
-                    }
-                    
-                    td {
-                        text-align: center;
-                    }
-                    
-                    #mceu_14-body {
-                        display: none;
-                        overflow-y: scroll;
-                    }
-                    
-                    .button {
-                        background-color: #66caec !important;
-                        border-bottom: 2px solid #2B6173 !important;
-                    }
-                    
-                    .bt-small {
-                        padding: 5px 8px;
-                    }
-                
-                    #main-menu {
-                        margin-top: 5.6% !important;
-                        height: 81.4% !important;
-                    }
-                    
-                    thead th {
-                        text-align: center;
-                        background-color: #7FCEE6;
-                        color: #4D4E50eeeeee;
-                        ;
-                    }
-                    
-                    td {
-                        text-align: center;
-                    }*/
-                </style>
+              
  

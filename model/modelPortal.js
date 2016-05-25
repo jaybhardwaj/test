@@ -2704,6 +2704,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [resId]
        
         };
+ 
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
