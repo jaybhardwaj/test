@@ -1804,13 +1804,8 @@ getViewHardware:function(req,res,next){
         modelPortal.addHardware(req.body.type,req.body.invoiceNo,req.body.purchasedOrder,req.body.Quantity,req.body.invoiceDate,req.body.deliveryDate,req.body.vendor,req.body.invoiceAmt,req.session.userId,req.body.ides,function(error,result){
              if(error){
 
-                console.log("hgdtfe rehryte eyer eyeyeyevteyttye ",error);
-<<<<<<< Updated upstream
-              next(error);
+                console.log(" addHardware",error);
 
-=======
-  
->>>>>>> Stashed changes
               
             }
             else{
