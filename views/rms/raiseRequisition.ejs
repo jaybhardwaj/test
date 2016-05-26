@@ -98,7 +98,7 @@
                     <label>Experience :<sup class="astrick">*</sup></label>
                     </div>
                     <div class="col-md-8">
-                    <input name="YearsOfExp"  class="form-control" id="yox" placeholder="Experience" type="number" step="0.1" style="width:100%" maxlength="10" required max="999" min="0" required/>
+                    <input name="YearsOfExp"  class="form-control" id="yox" placeholder="Experience" type="text"  style="width:100%" maxlength="10"   required/>
                     </div>        
                 </div>
             </div>
@@ -216,12 +216,16 @@
                         alert("Please fill Experience");
                         return false;
                     }
-                    if ($('#minsal').val()-$('#maxsal').val()>0) {
-                        alert("Minimum Salary must be less than Maximum Salary");
-                        return false;
+                    if($('#minsal').val().length){
+                        if($('#maxsal').val().length){
+                            if ($('#minsal').val()-$('#maxsal').val()>0) {
+                                alert("Minimum Salary must be less than Maximum Salary");
+                                return false;
+                            }
+                        }
                     }
                     if ($('#skillsId').val() == null) {
-                        alert('Please select a skill');
+                        alert('Please select a skill from dropdown');
                         return false;
                     }
                     /*  if($('#jobType').val()<1){

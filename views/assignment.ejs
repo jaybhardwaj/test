@@ -13,6 +13,13 @@
         height:10px;
         margin-left:15px; 
        }
+        .dataTables_filter, .dataTables_length {
+     display: none;
+    }
+
+ .glyphicon-ok-circle{
+  color:green!important;
+ }
 </style>
 <script>
 var tabledel='';
@@ -21,6 +28,20 @@ var stdat=[];
 var eddat=[];
 var time;
  $(document).ready(function() {
+
+ otable=$('#bugtable').dataTable({
+    'iDisplayLength': 10, 
+    "info":false,
+     "bFilter": true,
+    "order":[]
+  });
+   $("#searchbox").keyup(function() {
+        otable.fnFilter(this.value);
+      });
+
+   $(window).bind('resize', function () {
+                oTable.fnAdjustColumnSizing();
+              } );
 ShowAssignments();
  $('.assignment-img').addClass('active');
 
@@ -215,22 +236,20 @@ window.location.href = "/changeAssignmentStatus?assignmentId="+b+"& flag="+1;
 }
 
 </script>
-    <div class="bug-background" id="accordions" > 
-    <div style="padding:0 1%" >
-      <div style="padding-top:1%">
-    <a href="createassignment?flag=0&assignmentId=0"><img  src="./img/add.png" height="40px"
-            width="40px" title="Create New" style="float:left;position:relative;left:2%;cursor:pointer"></a>
-     <span class="modal-title" style="padding-left:40%"> Assignments</span>
+    <div style="padding-bottom:2%;padding-left :2%;padding-right:2%; background-color:antiquewhite "> 
+    
+      
+<div style="padding-top:1%;">
+    <a href="createassignment?flag=0&assignmentId=0">
+    <img  title="Create New"   class="addNewPlus"></a>
+     <span class="modal-title" style="padding-left:35%"> Assignments</span>
 
- <select  id="stat" style="float:right;width:auto; margin-bottom:1%;" class="form-control" onChange="ShowAssignments()">
-        
+ <select  id="stat" class="form-text-box" style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" onChange="ShowAssignments()"> 
         <option value='1'>    Active         </option>
         <option value='0'>    InActive    </option>
         <option value='2'  >   All           </option>
       </select>
-
-</div>
-<div class=""  style="margin-top:1%;padding-bottom:1%">
+  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
       <table   id="assigntable" class="stripe hover cell-border">  
                  <thead>
                     <tr >
@@ -248,6 +267,6 @@ window.location.href = "/changeAssignmentStatus?assignmentId="+b+"& flag="+1;
               </table>
     </div>
     </div>
-    </div>
+     
   <div>  
     <% include ./partials/footer %>     </div>

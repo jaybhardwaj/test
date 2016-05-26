@@ -4,17 +4,18 @@
 <head>
     <% include ./partials/head %>
 <style>
-input[type=search] {
-    height: 29px !important;
-    border-radius: 5px !important;
-    border: 1px solid #669ECC !important;
-}
+.dataTables_filter, .dataTables_length {
+     display: none;
+    }
+.glyphicon-ok-circle{
+  color:green!important;
+ }
 
- 
 </style>
 <script type="text/javascript">
 var otable='';
 $(document).ready(function() {
+
 
     var abc=$('#pstatus11').val();
     console.log('pstatus---',abc);
@@ -24,9 +25,15 @@ $(document).ready(function() {
   otable=$('#bugtable').dataTable({
     'iDisplayLength': 10,
     "order":[],
-    "bDestroy": true
+    "bDestroy": true, 
+    "info":false,
   });
-
+   $("#searchbox").keyup(function() {
+        otable.fnFilter(this.value);
+      });
+$(window).bind('resize', function () {
+                oTable.fnAdjustColumnSizing();
+              } );
 
   $('#pstatus11').change(function() {
             console.log($(this).val());
@@ -207,30 +214,24 @@ function projectAddEdit(projectId,flag) {
 </head>
 <body>
   
-  <div  id="accordions"  style="padding-bottom:2%;padding-left
-  :2%;padding-right:2%;background-color:antiquewhite">  
-   
-      <div style="padding-top:1%">
-            <a onclick="projectAddEdit(0,0)">
-            <img  src="./img/add.png" height="40px"
-            width="40px" title="Create New" style="float:left;position:relative;left:2%;cursor:pointer"> </a>
+  <div  style="padding-bottom:2%;padding-left :2%;padding-right:2%; background-color:antiquewhite ">   
 
-                     <span class="modal-title" style="padding-left:40%">Projects Details</span>
+ <div   style="padding-top:1%; "> 
+                     <a onclick="projectAddEdit(0,0)">
+                    <img    title="Create New"  class="addNewPlus">
+                     </a>
 
-                     <select style="float:right;width:auto; margin-bottom:1%;" class="form-control" id ="pstatus11" name="pstatus" >
-                      
+                     <span class="modal-title" style="padding-left:35%">Projects Details</span>
+
+                     <select style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" class="form-text-box" id ="pstatus11" name="pstatus" > 
                        <option value=1>Active</option>
                        <option value=0>Inactive</option>
                        <option value=2>All</option>
                               
                     </select>
-                                    
-            </div>
-
-
-         <div   style="margin-top:1%;margin-bottom-1%">
-            <table class="table stripe cell-border hover" id="bugtable"  >
-
+  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
+     
+     <table class="table stripe cell-border hover" id="bugtable"  > 
                <thead> 
                 <th   >Project title</th>
                 <th   >Project Code</th>

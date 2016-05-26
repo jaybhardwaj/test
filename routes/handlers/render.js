@@ -72,8 +72,7 @@ module.exports = {
 				case 'viewBug':
 				res.render('bug/viewBug',{
 					myModules:req.session.modules,
-					hideFlag:0,
-					 
+					hideFlag:0, 
 					bug:req.resultViewBug[0],
 					project:req.resultViewBug[1],
 					status:req.resultViewBug[2],
@@ -83,11 +82,14 @@ module.exports = {
 					technology:req.resultViewBug[6],
 					directedby:req.resultViewBug[3],
 					type:req.resultViewBug[7],
-                                       allusers:req.resultViewBug[8],
+                    allusers:req.resultViewBug[8],
 					userid:req.session.userId,
 					roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,
-					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover,
+					showSelect:'-'
+				});
 				break;
 
 				case 'raiseBug':
@@ -128,7 +130,6 @@ module.exports = {
 				case 'filterBug':
 				res.render('bug/viewBug',{ 
 				 myModules:req.session.modules,hideFlag:0,
-				 
 				project:req.resultFilterBug[0],
 				status:req.resultFilterBug[1],
 				assingedto:req.resultFilterBug[2],
@@ -138,8 +139,12 @@ module.exports = {
 				directedby:req.resultFilterBug[2],
 				type:req.resultFilterBug[6],
 				bug:req.resultFilterBug[7],
-                                allusers:req.resultFilterBug[8],
-				roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,userid:req.session.userid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover
+                allusers:req.resultFilterBug[8],
+				roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,
+				userid:req.session.userid,
+				defaultModule:req.session.defaultModule,
+				isApp:req.session.isApprover,
+				showSelect:req.showSelect
 			});	
 				break;
 			

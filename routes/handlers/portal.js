@@ -501,10 +501,7 @@ if(req.body.colname == 'assingedToUserId'){
             next();
                   });
     },
-       filterBug: function(req, res, next) { 
-
-       
-
+       filterBug: function(req, res, next) {   
 var tempstatus='';
     var tempseverity='';
     var temppriority='';
@@ -618,7 +615,7 @@ project=project?project:'';
                  return;
              }
             req.resultFilterBug=resultFilterBug;
-         
+            req.showSelect=req.body.showSelect;
             next();
                   });
     },

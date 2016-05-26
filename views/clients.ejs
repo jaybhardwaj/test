@@ -4,11 +4,14 @@
 <head>
     <% include ./partials/head %>
     <style>
-    .dataTableScrollable{
- /* overflow-x: scroll;
-    overflow-y: hidden;*/
+   .dataTables_filter, .dataTables_length {
+     display: none;
     }
-        .fa {
+.glyphicon-ok-circle{
+  color:green!important;
+ }
+
+/*        .fa {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: 19px;
@@ -27,26 +30,25 @@
     .rowClass{
         background-color:;
     }
-
+*/
 </style>
 </head>
  <% include ./partials/adminheader %>
 <body>
 
-    <div class="container-fluid  " style="background-color:antiquewhite">
-   <div class="col-md-12 rowClass" style="padding-top:1%">
-    <img  src="./img/add.png" onclick="addEditClient(0)"class="add-image" style="padding-left:1%"> 
-  <select id="clientStatus" style="float:right;width:auto"  class="form-control" onChange="getClientsByStatus()">
+    <div style="padding-bottom:2%;padding-left :2%;padding-right:2%;padding-bottom:2%;background-color:antiquewhite ">
+    
+ <div    style="padding-top:1%; ">
+
+   <img   onclick="addEditClient(0)" class="addNewPlus" > 
+  <select id="clientStatus"  style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" class="form-text-box" onChange="getClientsByStatus()">
           <option value="1">Active</option>
           <option value="2">Inactive</option>
-          <option value="3">All</option>
-          
-
-  </select> 
-  <!-- <i class="fa fa-plus addClass" onclick="addEditClient(0)" style=""></i> -->
-<span class="modal-title" style="padding-left:38%">Client Details</span>
-  </div>  
- <div  class="col-md-12 rowClass"  style="margin-bottom-1%">
+          <option value="3">All</option> 
+  </select>
+  <span class="modal-title" style="padding-left:35%">Client Details</span> 
+  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
+     
   <table id="client-table" class="table stripe cell-border hover">  
                  <thead>
                     <tr>
@@ -133,8 +135,19 @@
             <%}%>
 
              oTable = $('#client-table').dataTable({
-                "order": []
+               'iDisplayLength': 10,
+                "order":[],
+                "bDestroy": true, 
+                "info":false,
             });
+                $("#searchbox").keyup(function() {
+        otable.fnFilter(this.value);
+      });
+$(window).bind('resize', function () {
+                oTable.fnAdjustColumnSizing();
+              } );
+
+
             $(window).bind('resize', function () {
                 oTable.fnAdjustColumnSizing();
               } );

@@ -74,11 +74,11 @@
    <div style="background-color:antiquewhite;overflow-x:hidden ">		
 		<div class="slidingpanel" style="font-size: 13px;font-size: 12px;">
 			<div class="col-md-12" style="color:">
-				<form action="/filterBug" method="post" onSubmit=''>
-
-				<div style="padding-top:10px" >
+				<form action="/filterBug" onsubmit="return checkedBox()" method="post" class="checkl"  >
+<input class="hide" id="allSelected" name="showSelect"> 
+				<div style="padding-top:10px"  >
 						<label style="height:10px" >Project </label>
-						<div id="project" style="margin-left: -13px;">
+						<div id="project" style="margin-left: -13px;" >
 							<input type="radio" name="projectis" checked="true" value="in">Is</input> <input type="radio" name="projectis" value="not in">Is Not</input>
 						</div>
 					</div>
@@ -324,81 +324,101 @@
 
 <script>
 
- 	$(document).ready(function(){ 
- 		$('.se-pre-con').fadeOut('slow');
+function checkedBox(){
+var array = [];
+    $('.checkl  option:selected').each(function() {
+        array.push($(this).attr("id"));
+    });
+    $("#allSelected").val(array); 
+	return true;
+}
 
-$('#download').removeClass("hide");
-$('#downloadL').removeClass("hide");
+ 	$(document).ready(function(){ 
+ 		$('.se-pre-con').fadeOut('slow'); 
+		$('#download').removeClass("hide");
+		$('#downloadL').removeClass("hide");
+
+		var newArr="<%=showSelect%>".split(",");
+		console.log("previously selected values",newArr);
+		/*for(var s=0;s<newArr.length;s++){
+			console.log(".checkl option[id='"+newArr[s]+"']");
+			$(".checkl option[id='"+newArr[s]+"']").prop("selected",true);
+			//$("#"+newArr[s]).attr("selected",true);
+		}*/
 
 var str='<select name="project" id="projects" multiple="" style="width:100%;margin-top:10px;">';
 					 	<% for(var i=0;i<project.length;i++) { %>
-					 	str=str+'<option value="<%=project[i].id%>"><%=project[i].projectTitle%></option>';
+					 		var selectpro='';
+					 		if(newArr.indexOf("pro_<%=project[i].id%>")!=-1){ 
+					 			selectpro="selected";
+					 		}
+					 	str=str+'<option id="pro_<%=project[i].id%>" '+selectpro+' value="<%=project[i].id%>"><%=project[i].projectTitle%></option>';
 						<%}%> 
-str=str+'</select>';
-
- 		$("#6").append(str);
-
-
-
+str=str+'</select>'; 
+ 		$("#6").append(str); 
 		var str='<select name="status" id="statuss" multiple="" style="width:100%;margin-top:10px;">';
 					 	<% for(var i=0;i<status.length;i++) { %>
-					 	str=str+'<option value="<%=status[i].id%>"><%=status[i].description1%></option>';
+					 		var selectstat='';
+					 		if(newArr.indexOf("sta_<%=status[i].id%>")!=-1){ 
+					 			selectstat="selected";
+					 		}
+					 	str=str+'<option id="sta_<%=status[i].id%>" '+selectstat+' value="<%=status[i].id%>"><%=status[i].description1%></option>';
 						<%}%> 
-str=str+'</select>';
-
- 		$("#1").append(str);	
- 		
+str=str+'</select>'; 
+ 		$("#1").append(str); 
  		str='<select name="priority" id="prioritys" multiple="" style="width:100%;margin-top:10px">';
 					<% for(var i=0;i<priority.length;i++) { %>
-						str=str+'<option value="<%=priority[i].id %>"><%=priority[i].description1%></option>';
+						    var selectprio='';
+					 		if(newArr.indexOf("pri_<%=priority[i].id %>")!=-1){ 
+					 			selectprio="selected";
+					 		}
+						str=str+'<option id="pri_<%=priority[i].id %>"  '+selectprio+'  value="<%=priority[i].id %>"><%=priority[i].description1%></option>';
 						<%}%> 
-						str=str+'</select>';
-
-						$("#2").append(str);
-
-
+						str=str+'</select>'; 
+						$("#2").append(str); 
 						str=' <select name="severity" id="severitys" multiple="" style="width:100%;margin-top:10px">';
 						<% for(var i=0;i<severity.length;i++) { %>
-						str=str+'<option value="<%=severity[i].id %>" ><%=severity[i].description1%></option>';
+							var selectseve='';
+					 		if(newArr.indexOf("sev_<%=severity[i].id %>")!=-1){ 
+					 			selectseve="selected";
+					 		}
+						str=str+'<option id="sev_<%=severity[i].id %>" '+selectseve+' value="<%=severity[i].id %>" ><%=severity[i].description1%></option>';
 							<%}%> 
-			 			str=str+'</select>';
-					
-		$("#3").append(str);
-
+			 			str=str+'</select>'; 
+						$("#3").append(str); 
 						str=' <select size="5"name="assingedto" class="sel"id="assingedtos" multiple="" style="width:100%;margin-top:10px">';
 						<%for(var i=0;i<allusers.length;i++) {%>
-									str=str+'<option value="<%=allusers[i].userId%>"><%=allusers[i].Name%></option>';
-									<%}%> 
-            					str=str+'</select>';
-            			
-		$("#4").append(str);
-
-
+							var selectasto='';
+					 		if(newArr.indexOf("asto_<%=allusers[i].userId%>")!=-1){ 
+					 			selectasto="selected";
+					 		}
+						str=str+'<option id="asto_<%=allusers[i].userId%>" '+selectasto+' value="<%=allusers[i].userId%>" ><%=allusers[i].Name%></option>';
+						<%}%> 
+						str=str+'</select>'; 
+						$("#4").append(str); 
             			str='<select name="technology" id="technologys" multiple="" style="width:100%;margin-top:10px">';
 							<% for(var i=0;i<technology.length;i++) { %>
-							str=str+'<option value="<%=technology[i].id %>" ><%=technology[i].description1%></option>';
+								var selecttech='';
+					 		if(newArr.indexOf("tech_<%=technology[i].id %>")!=-1){ 
+					 			selecttech="selected";
+					 		}
+							str=str+'<option id="tech_<%=technology[i].id %>" '+selecttech+'  value="<%=technology[i].id %>" ><%=technology[i].description1%></option>';
 							<%}%> 
             			str=str+'</select>';
 
-
-
-		$("#5").append(str);
-
+		$("#5").append(str);  
+		$("#pro_93").addClass('selected');
  		 $('.viewbug-img').addClass('active');
- 		$( "#resizable" ).resizable();
-
- 		$('#bugtitle0').click();
-
+ 		//$( "#resizable" ).resizable(); 
+ 		$('#bugtitle0').click(); 
  		$('.select-vbug').css('cursor', 'pointer');
-		 //$( "#resizable" ).resizable();
 
+		 //$( "#resizable" ).resizable(); 
 		 $('#projects').change(function() {
         	console.log($(this).val());
         }).multipleSelect({
             width: '75%'
-        });
-
-
+        }); 
 		$('#statuss').change(function() {
         	console.log($(this).val());
         }).multipleSelect({
@@ -427,6 +447,9 @@ str=str+'</select>';
         }).multipleSelect({
             width: '75%'
         });
+
+	
+      
 
 		//....................Side filter...................
 
