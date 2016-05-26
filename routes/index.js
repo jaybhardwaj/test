@@ -171,12 +171,12 @@ app.post('/submitparsedData',url.submitparsedData, portal.submitParseData,render
 app.post('/upload_resume', upload.single('attach'),portal.upload_resume);
 app.post('/deleteUploadRecords',portal.deleteUploadRecords);
 app.get("/viewReq",url.viewReq,portal.viewReq,render.redirect);
-app.get("/userHrViewReq",url.userHrViewReq,portal.userHrViewReq,render.redirect);
+//app.get("/userHrViewReq",url.userHrViewReq,portal.userHrViewReq,render.redirect);
 app.post("/search",portal.searchHr);
 app.post("/asearch",portal.advancesearchHr);
 app.post("/interviewerInfo",portal.interviewerInfo);
 app.post("/updateStatusReq",portal.updateStatusReq);
-app.get("/updateStatusReqViaMail",url.updateStatusReqViaMail,portal.updateStatusReq,render.redirect);
+//app.get("/updateStatusReqViaMail",url.updateStatusReqViaMail,portal.updateStatusReq,render.redirect);
 app.post("/getReleventTag",portal.getReleventTag);
 app.post("/removeTag",portal.removeTag);
 app.post("/getreleventState",portal.getreleventState);

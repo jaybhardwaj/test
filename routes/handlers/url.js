@@ -678,6 +678,7 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 
 	},
+	
 	//new 4 hardware
 	setpageViewHardware:function(req,res,next){
 
@@ -808,7 +809,6 @@ setpageAssignSoftware:     function(req,res,next){
 	//-----------------------------------------------------hr management--------------------------------------------------
 
 hr:function(req,res,next){
-	   console.log('session id is ',req.session.retailerId)
          if(req.session.modules.indexOf(config.RMS)>=0){
 		if(req.session.hrRole){
 			if (req.session.hrRole != 4) {
@@ -873,20 +873,7 @@ hr:function(req,res,next){
 			res.redirect('/portal');
 		}
 	},
-updateStatusReqViaMail:function(req,res,next){
-		 if(req.session.modules.indexOf(config.RMS)>=0){	
-			req.body.flag=req.query.flag;		
-			req.body.jdid=req.query.jdid;	
-			req.hrRole=req.query.role;	
-			req.body.approve=req.query.approve;	
-			console.log("Approver :---",req.query.hrRole,req.body.jdid,req.body.flag);	
-		req.page="updateStatusReqViaMail";
-		next();
-	}
-	else{
-			res.redirect('/portal');
-		}
-},
+
 	upload :function(req,res,next){
 		 if(req.session.modules.indexOf(config.RMS)>=0){
 		req.page="upload";
@@ -912,15 +899,6 @@ updateStatusReqViaMail:function(req,res,next){
 	viewReq:function(req,res,next){
 		 if(req.session.modules.indexOf(config.RMS)>=0){
 		req.page="viewReq";
-		next();
-	}
-	else{
-			res.redirect('/portal');
-		}
-	},
-	userHrViewReq:function(req,res,next){
-		 if(req.session.modules.indexOf(config.RMS)>=0){
-		req.page="userHrViewReq";
 		next();
 	}
 	else{

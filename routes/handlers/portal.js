@@ -1897,17 +1897,18 @@ changeAssignmentStatus: function(req, res, next) {
     },
 //new4hardware
 getViewHardware:function(req,res,next){
-    modelPortal.getHardware(req.session.firstname,req.session.roleid,function(error,resultHardware){
+    modelPortal.getHardware(req.session.firstname,req.session.roleid,req.session.retailerId,function(error,resultHardware){
         if(error){
             next(error);
             return;
         }
 
+
  
  
         req.resultHardware = resultHardware;
  
-        next();
+
     });
 },
     getViewSoftware: function(req,res,next){
@@ -1944,11 +1945,11 @@ getViewHardware:function(req,res,next){
         modelPortal.addHardware(req.body.type,req.body.invoiceNo,req.body.purchasedOrder,req.body.Quantity,req.body.invoiceDate,req.body.deliveryDate,req.body.vendor,req.body.invoiceAmt,req.session.userId,req.body.ides,function(error,result){
              if(error){
 
-       
             }
             else{
               
               res.json(result[0][0].headerId); 
+
           }
       });
     },
@@ -2127,7 +2128,7 @@ getViewHardware:function(req,res,next){
 
     getComp:function(req,res,next){
 
-      modelPortal.getType(req.body.atid,function(error, resultHardwareType){
+      modelPortal.getType(req.body.atid,req.session.retailerId,function(error, resultHardwareType){
 
         if(error){
 
@@ -2163,7 +2164,7 @@ getViewHardware:function(req,res,next){
       });
     },
     getAttribute:function(req,res,next){
-        modelPortal.getAttribute(req.body.acid,function(error,resultAttribute){
+        modelPortal.getAttribute(req.body.acid,req.session.retailerId,function(error,resultAttribute){
             if(error){
               next(error);
             return;}
@@ -2189,7 +2190,9 @@ getViewHardware:function(req,res,next){
             req.resultType=result;
             next();  
         });
-    }, saveAssignment:function(req,res,next){
+    },
+     saveAssignment:function(req,res,next){
+        console.log(req.body);
         modelPortal.saveAssignment(req.body.cid,req.body.lid
             ,req.body.uid,req.body.tid,req.body.aflag,req.body.adate,
             function(error){

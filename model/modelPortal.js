@@ -1074,10 +1074,10 @@ mysql(q,function(err,result){
 });
 },
 //new for hardware
-getHardware:function(firstName,roleId,callback){
+getHardware:function(firstName,roleId,retailid,callback){
     var q={
-        sql:'call usp_ast_viewHardware()',
-        values:[]
+        sql:'call usp_ast_viewHardware(?)',
+        values:[retailid]
     };
     mysql(q,function(err,result){
         callback(err,result);
@@ -1179,10 +1179,10 @@ getSoftware:function(firstName,roleId,callback){
         callback(err,result);
     });
 },//for dynamic software
-getType:function(tid,callback){
+getType:function(tid,retailerid,callback){
     var q={
-        sql:'call usp_ast_getComponentType(?)',
-        values:[tid]
+        sql:'call usp_ast_getComponentType(?,?)',
+        values:[tid,retailerid]
     };
     mysql(q,function(err,result){
         callback(err,result);
@@ -1224,10 +1224,10 @@ mysql(q,function(err,result){
         callback(err,result);
     });
   },
-   getAttribute:function(qids,callback){
+   getAttribute:function(qids,retailer,callback){
     var q={
-        sql:'call usp_ast_getAttr(?)',
-        values:[qids]
+        sql:'call usp_ast_getAttr(?,?)',
+        values:[qids,retailer]
     };
     mysql(q,function(err,result){
         callback(err,result);
@@ -1253,6 +1253,7 @@ mysql(q,function(err,result){
         callback(err,result);
     });
   },
+  
   saveAssignment:function(cid,lid,uid,tid,aflag,adate,callback){
     var q={
         sql:'call usp_ast_assetAssignment(?,?,?,?,?,?)',
@@ -2809,24 +2810,6 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                 }
             });   
         },
-        addeditBrandName:function (info,callback){
-            var q ={
-              
-              sql: 'call usp_asset_addeditBrandName(?,?,?,?,?,?)',
-              values: [info[0],info[1],info[2],info[3],info[4],info[5]]
-           
-            };
-            console.log(q);
-            mysql(q, function(err, result){
-                if (err) {
-                    console.log("oop",err);
-                }
-                else {
-                    console.log("result is ",result);
-                callback(err,result);
-                }
-            });   
-        },
         //----------------------------------------Project Management System------------------------------
         //----------------------------------------Project Management System------------------------------
     getAllResources : function (userId,roleId,retailerId,callback){       
@@ -2851,7 +2834,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [resId]
        
         };
- 
+
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);

@@ -16,13 +16,13 @@
  </style>
 </header>
 <script type="text/javascript">
-
+var array=[];
 /*document id for data table and datepicher*/
 var str1='';
 $(document).ready(function() {
 $('.exphome-img').addClass('active');
 toCheckExpenseSubmitOrNot();
-
+hidethebuttons();
 role(); 
 newExpense();
 //showstatus(); 
@@ -1156,6 +1156,26 @@ function expensedescription(expclaimId){
 
  }*/
 
+ function hidethebuttons(){
+  if(($('#i').val()==0)&&($('#k').val()==101)){
+    $('#submitbuttonresub').addClass('hide');
+    $('#submitbuttonforresubmit').removeClass('hide');
+
+  }
+  else if($('#k').val()==101){
+ $('#submitbuttonresub').removeClass('hide');
+    $('#submitbuttonforresubmit').addClass('hide');
+ }
+  else if($('#j').val()>0){
+ $('#submitbuttonresub').addClass('hide');
+    $('#submitbuttonforresubmit').addClass('hide');
+ }
+ else if($('#i').val()==0){
+   $('#submitbuttonresub').addClass('hide');
+    $('#submitbuttonforresubmit').removeClass('hide');
+ }
+
+}
  function rejectReason(claimarray,useremail,cstatus,totalAmount,transId,status1){
    
   //alert('sagscagsfsa');
@@ -1206,7 +1226,7 @@ function expensedescription(expclaimId){
                      $('#c'.concat(transId)).html('');
                       $('#c'.concat(transId)).append('Rejected');
                       $( "#typeExp option:selected" ).text().replace("pending", "Rejected");
-                     
+                     resubmittheExpenseforCopy(claimarray);
                 }
                 });
                 }
@@ -1298,7 +1318,7 @@ function expensedescription(expclaimId){
       } 
 
       function thisAlert(){
-        alert('you can not raise expense for this fortnight');
+        alert('you can not raise expense for this fortnight'); 
       }       
 
      function toCheckExpenseSubmitOrNot(){
@@ -1442,14 +1462,14 @@ function expensedescription(expclaimId){
 
     function tocheckAttachment(){
      
-        var arrExt=["pdf","doc","docx","xlsx","xls","gif","jpeg","png"]
+        var arrExt=["pdf","doc","docx","xlsx","xls","gif","jpeg","png","csv"]
                         var filename=$('#attachfile').val();
                         
                         var fileExt=filename.split('.');
                         fileExt=fileExt[fileExt.length-1];
                         
                         if(arrExt.indexOf(fileExt) == -1){
-                        alert("uploaded file format is invalid! \n valid formats: pdf,doc,docx.xls,xlsx,jpeg,png");
+                        alert("uploaded file format is invalid! \n valid formats: pdf,doc,docx.xls,xlsx,jpeg,png,csv");
                         return false;
                         }
     }       
@@ -1704,14 +1724,14 @@ function resubmittheExpenseforCopy(expclaimId) {
                     expclaimId:expclaimId
                 },
                 success: function(data) {
-                      window.location.href ='/expensenew';
+                     // window.location.href ='/expensenew';
                 }
                 });
 
                 }
   
-   function resubmittheExpense(expclaimId) {
-   
+   function resubmittheExpense() {
+          var expclaimId=$('#resubmitExpenseid').val();
             var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/reSubmit';
             $.ajax({
                 url: url1,
@@ -2085,7 +2105,19 @@ function changeothercurrency(){
                                     </td> 
                                       <td>
                                       <%if((expenseDetails[i].ClaimedStatus==0)&&(expenseDetails[i].Submitted==1)){%>
-                                      <a> <span  class='glyphicon glyphicon-adjust' style='height:10px;color:red;font-size:10px;' title='ReSubmit' onclick='resubmittheExpense(<%=expenseDetails[i].expenseclaimId%>)'></span></a>
+                                     
+                                      <input type='hidden' id='i' value='<%=expenseDetails[i].ClaimedStatus%>'>
+                                      <%}%>
+                                      <%if((expenseDetails[i].ClaimedStatus!=0)&&(expenseDetails[i].Submitted==1)){%>
+                                     
+                                      <input type='hidden' id='j' value='<%=expenseDetails[i].ClaimedStatus%>'>
+                                      <%}%>
+                                      <%if((expenseDetails[i].ClaimedStatus==101)&&(expenseDetails[i].Submitted==1)){%>
+                                     
+                                      <input type='hidden' id='k' value='<%=expenseDetails[i].ClaimedStatus%>'>
+                                      <%}%>
+                                      <%if((expenseDetails[i].ClaimedStatus==0)&&(expenseDetails[i].Submitted==1)){%>
+                                      <input type='hidden' id='resubmitExpenseid' value='<%=expenseDetails[i].expenseclaimId%>'>
                                       <%}%>
                                       <%if(expenseDetails[i].Submitted!=1){%>
                                       <a  style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a1'  class='glyphicon glyphicon-trash' style='color:red;height:10px' onclick='DeleteExpense(<%=expenseDetails[i].expenseType%>,<%=expenseDetails[i].expId%>,<%=expenseDetails[i].expenseclaimId%>);' data-target='#myModal1' title ='Delete Expense' ></span>
@@ -2118,8 +2150,8 @@ function changeothercurrency(){
                                Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>
                                   <% }%>
                                    <%if(((expenseDetails[i].ClaimedStatus==10)||(expenseDetails[i].ClaimedStatus==101))&&(expenseDetails[i].Submitted==1)){%>
-                              Rejected
-                                <a> <span  class='glyphicon glyphicon-share' style='height:20px;color:red;font-size:15px;' title='ReSubmit' onclick='resubmittheExpenseforCopy(<%=expenseDetails[i].expenseclaimId%>)'></span></a>
+                                   Rejected
+                                  
                                </td>
                                 <% }%>
                                        </td>
@@ -2163,6 +2195,10 @@ function changeothercurrency(){
        </div--> 
        <div id='submitbutton' class="col-md-1 hide" style="float:right;"><input type='button' id="submitedbutton" class="form-control" style="margin-top:3px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="submitExpense()" value='Submit'>
        </div>  
+       <div id='submitbuttonresub' class="col-md-1 hide" style="float:right;"><a href="/expensenew?expin=0"><input type='button' id="submit" class="form-control" style="margin-top:3px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="" value='Resubmit'></a>
+       </div> 
+       <div id='submitbuttonforresubmit' class="col-md-1 hide" style="float:right;"><a href="/expensenew?expin=0"><input type='button' id="submit" class="form-control" style="margin-top:3px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="resubmittheExpense()" value='Edit&Add'></a>
+       </div> 
        <!--hr style="max-width:100%;margin-top:2.9%;border-color:##f05f40"-->              
 </div>
 
@@ -3165,7 +3201,7 @@ function changeothercurrency(){
 
             <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
                     <center>
-                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Attachment</b></label>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Upload Attachment</b></label>
                         <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
                     </center>
                        <input Type="hidden" id="claimeid" name="claimedid" value="0">
@@ -3348,7 +3384,7 @@ function changeothercurrency(){
 
             <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
                     <center>
-                        <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>Expense Details</b></label>
+                        <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>comments</b></label>
                         <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
                     </center>
                 </div>

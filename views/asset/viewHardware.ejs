@@ -553,7 +553,7 @@ function getlinedtata(){
       $.ajax({
         url:'/getAttr',
         method:'post',
-                data:{acid:1},
+                data:{acid:75},
                 dataType:'json',
                 success:function(result){
                   
@@ -566,7 +566,7 @@ function getlinedtata(){
                   allAttIds.push(result[0][i].attId);
                   }
                   allAttIds1=allAttIds;
-                 // alert(allAttIds1);
+                  alert(allAttIds1);
                   //allAttIds.push(0);
         /********************Important next line*************************/
             head=head+'<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty</th><th class = "">Components</th></tr>';
@@ -586,7 +586,7 @@ function getlinedtata(){
            
           for(var dropdownValues=0;dropdownValues<result[1].length;dropdownValues++){
                  if(result[0][o].attId==result[1][dropdownValues].attId){
-              row=row+'<option value="'+result[1][dropdownValues].dropDownValue+'">'+result[1][dropdownValues].value+'</option>';          
+              row=row+'<option value="'+result[1][dropdownValues].id+'">'+result[1][dropdownValues].value+'</option>';          
                  }
 
               }
@@ -602,7 +602,7 @@ function getlinedtata(){
               row=row+'<td><select class="single" id="brand'+i+'">';
             
            for(var dropdownValues=k;dropdownValues<result[1].length;dropdownValues++){
-             row=row+'<option value="'+result[1][dropdownValues].dropDownValue+'">'+result[1][dropdownValues].value+'</option>';  
+             row=row+'<option value="'+result[1][dropdownValues].id+'">'+result[1][dropdownValues].value+'</option>';  
            }
           row = row + '</select></td><td><input'+
         ' class="single  warrClass" id="warranty'+i+'" type = "text"></td>';
@@ -698,13 +698,13 @@ function getlinedtata(){
                 {
                   //alert(result[0][0]);
                  // getsubline(result[0][0].Id);
-                  $('#id'.concat(nu)).val(result[0][0].id);
+                  $('#id'.concat(nu)).val(id);
                   $('#serial'.concat(nu)).val(result[0][0].serialNo);
                   $('#brand'.concat(nu)).val(2);
                   $('#warranty'.concat(nu)).val(result[0][0].warranty);
                   for(var j=0;j<result[2].length;j++)
                   {
-                      $('#'.concat(nu).concat(j)).val(result[2][j].dropDownValue);
+                      $('#'.concat(nu).concat(j)).val(result[2][j].id);
 
                   }
                }
