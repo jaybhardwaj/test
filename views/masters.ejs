@@ -6,6 +6,11 @@
     <% include ./partials/adminheader %>
 </head>
 <style type="text/css">
+.table>thead>tr>th {
+       color: #808080;
+    background-color: antiquewhite;
+    text-align: center;
+}
 .tagger {
               background-color: #fff;
               cursor: text;
@@ -571,12 +576,15 @@
                   </div>
                     <div id="assetComponent" class="collapse ">
                       <div class="overflowClass">
-                      <table style="width:100%;text-align:center" id="assetTable1" class="table  stripe hover cell-border" >
-                        <tr>
+                      <table style="" id="assetTable1" class="table " >
+                        <thead>
+                          <tr>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Type</th>
                         <th style="text-align:center">Action</th>
-                        </tr>                        
+                        </tr>
+                        </thead>
+                        <tbody>                        
                         <%for(var i=0;i<=assetType[1].length-1;i++){%> 
                           <tr id="at_<%=i%>">
                                 <td id="<%=assetType[1][i].id%>"><%=assetType[1][i].componentName%></td>
@@ -607,14 +615,15 @@
                           
                         <%}%>
                         </tr> 
+                      </tbody>  
                       </table>
                       </div> 
-                      <table style="margin-left:4%;margin-right:2%;margin-top:2%">
+                      <table class="table">
                       <tr>
                         <td><input type="text" id="compName" class="form-control" maxlength="25" placeholder="@ Component Name"></td>
                         <td style="">
                           <div id="getcompType">
-                            <select class="form-control"  id='compType' name="compType" style="margin-left: 10%;">
+                            <select class="form-control"  id='compType' name="compType" style="">
                                 <option value="0">Select Type</option>
                                   <%for(var i=0;i<=assetType[0].length-1;i++){%> 
                                    <option value="<%=assetType[0][i].id%>"><%=assetType[0][i].type%></option>
@@ -622,7 +631,7 @@
                             </select>
                           </div>  
                         </td>
-                        <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(1,insertCheckFlag)" style="margin-left:252%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
+                        <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(1,insertCheckFlag)" style="padding-top:25% ;font-size:18px;"></span></td>
                                           
                       </tr>
                       </table>
@@ -645,11 +654,14 @@
                 </div>
                   <div id="assetAttribute" class="collapse ">
                     <div class="overflowClass">
-                      <table style="width:100%;text-align:center" id="assetTable2" class="table  stripe hover cell-border" >
+                      <table  id="assetTable2" class="table " >
+                        <thead>
                         <tr>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Action</th>
-                        </tr>                        
+                        </tr> 
+                      </thead>
+                        <tbody>                       
                         <%for(var i=0;i<=assetType[2].length-1;i++){%> 
                           <tr id="bt_<%=i%>">
                                 <td id="<%=assetType[2][i].id%>"><%=assetType[2][i].attribute%></td>
@@ -671,14 +683,15 @@
                             </td>
                           
                         <%}%>
-                        </tr> 
+                        </tr>
+                       </tbody>  
                       </table>
                      </div>  
-                      <table style="margin-left:13%;margin-right:2%;margin-top:2%">
+                      <table class="table">
                               <tr>
-                                <td><input type="text" id="attrName" class="form-control" maxlength="25" placeholder="@ attribute Name"style="width:78%"></td>
+                                <td><input type="text" id="attrName" class="form-control" maxlength="25" placeholder="@ attribute Name"style=""></td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(2,insertCheckFlag)" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(2,insertCheckFlag)" style="font-size:18px;padding-top:8px;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -700,11 +713,14 @@
                   </div>  
                   <div id="assetValue" class="collapse ">
                     <div class="overflowClass">
-                      <table style="width:100%;text-align:center" id="assetTable3" class="table  stripe hover cell-border" >
+                      <table style="" id="assetTable3" class="table " >
+                        <thead>
                         <tr>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Action</th>
-                        </tr>                        
+                        </tr> 
+                        </thead>
+                        <tbody>                       
                         <%for(var i=0;i<=assetType[3].length-1;i++){%> 
                           <tr id="ct_<%=i%>">
                                 <td id="<%=assetType[3][i].id%>"><%=assetType[3][i].name%></td>
@@ -727,15 +743,16 @@
                             </td>
                           
                         <%}%>
-                        </tr> 
+                        </tr>
+                        </tbody> 
                       </table> 
                     </div >
   
-                      <table style="margin-left:13%;margin-right:2%;margin-top:2%">
+                      <table style="" class="table">
                               <tr>
-                                <td><input type="text" id="valueName" class="form-control" maxlength="25" placeholder="@ value Name"style="width:78%"></td>
+                                <td><input type="text" id="valueName" class="form-control" maxlength="25" placeholder="@ value Name"style=""></td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(3,insertCheckFlag)" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(3,insertCheckFlag)" style="font-size: 18px;padding-top: 29%;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -747,7 +764,7 @@
 
       <div class="row"style="margin-top:1%">
       
-          <div  class="col-md-6" style="margin-top:;margin-left:">
+          <div  class="col-md-5" style="margin-top:;margin-left:">
                  <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%;">
                    <div onclick="showHide(21)"><a id="anchor" class="anchor" href="#assetAttributeValueMapping" onclick=getDropDownValueForAsset(1) data-toggle="collapse">
                     
@@ -759,12 +776,15 @@
                   </a>
                   <div id="assetAttributeValueMapping" class="collapse ">
                      <div class="overflowClass">
-                      <table style="width:100%;text-align:center" id="assetTable4" class="table  stripe hover cell-border" >
+                      <table  id="assetTable4" class="table" >
+                        <thead>
                         <tr id="dt_-1">
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Value</th>
                         <th style="text-align:center">Action</th>
-                        </tr>                        
+                        </tr> 
+                        </thead>
+                        <tbody id="assetTablebody4">                       
                         <%for(var i=0;i<=assetType[4].length-1;i++){%> 
                           <tr id="dt_<%=i%>">
                                 <td id="<%=assetType[4][i].id%>"><%=assetType[4][i].attribute%></td>
@@ -772,18 +792,18 @@
                                    <td><img src="../img/project/blackdustbin.jpg" onclick=deleterAttributeValMapping(1,"dt_<%=i%>") title="Delete" ></td> 
                           </tr>
                          <%}%>  
-                          
+                        </tbody>  
                       </table> 
                     </div>
                       <table style="margin-left:13%;margin-right:2%;margin-top:2%">
                               <tr >
                                 <td id="setAttrName">
                                 </td>
-                                <td id="setValueName"style="padding-left: 7%;">
+                                <td id="setValueName"style=";padding-right: 28px;padding-left: 7%;">
 
                                 </td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" title =" Click Here to Insert and Add " onClick=" return insertComponent(4,insertCheckFlag)" style="font-size:18px;padding-left:35px;padding-top:5px;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" title =" Click Here to Insert and Add " onClick=" return insertComponent(4,insertCheckFlag)" style="font-size:18px;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -792,7 +812,7 @@
                 </div>
               </div>
 
-              <div  class="col-md-6" style="margin-top:;margin-left:">
+              <div  class="col-md-5" style="margin-top:;margin-left:">
                  <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%;" >
                   <div onclick="showHide(22)">
                    <a id="anchor" class="anchor" href="#assetComponentAttributeMapping" onclick=getDropDownValueForAsset(2) data-toggle="collapse">
@@ -804,12 +824,15 @@
                   </div>
                   <div id="assetComponentAttributeMapping" class="collapse ">
                     <div class="overflowClass">                     
-                      <table style="width:100%;text-align:center" id="assetTable5" class="table  stripe hover cell-border" >
+                      <table  id="assetTable5" class="table" >
+                        <thead>
                         <tr id="dt_-1">
                         <th style="text-align:center">Component</th>
                         <th style="text-align:center">Atribute</th>
                         <th style="text-align:center">Action</th>
-                        </tr>                        
+                        </tr> 
+                        <thead>
+                        <tbody id="assetTablebody5">                       
                         <%for(var i=0;i<=assetType[5].length-1;i++){%> 
                           <tr id="dt_<%=i%>">
                                 <td id="<%=assetType[5][i].componentId%>"><%=assetType[5][i].componentName%></td>
@@ -817,18 +840,18 @@
                                    <td><a onclick=deleterAttributeValMapping(2,"dt_<%=i%>")>Delete</a></td> 
                           </tr>
                          <%}%>  
-                          
+                        </tbody>  
                       </table>
                       </div> 
                       <table style="margin-left:13%;margin-right:2%;margin-top:2%">
                               <tr >
                                 <td id="setComponentName">
                                 </td>
-                                <td id="setAttributeName"style="padding-left: 7%;">
+                                <td id="setAttributeName"style="padding-left: 7%;padding-right: 5%;">
 
                                 </td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" title =" Click Here to Insert and Add "onClick=" return insertComponent(5,insertCheckFlag)" style="font-size:18px;padding-left:35px;padding-top:5px;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" title =" Click Here to Insert and Add "onClick=" return insertComponent(5,insertCheckFlag)" style="font-size:18px;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -856,10 +879,13 @@
                   <div id="assetBrand" class="collapse ">
                     <div class="overflowClass">
                       <table style="width:100%;text-align:center" id="assetTable6" class="table  stripe hover cell-border" >
+                      <thead>  
                         <tr>
                         <th style="text-align:center">Name</th>
                         <th style="text-align:center">Action</th>
-                        </tr>                        
+                        </tr>
+                       </thead>
+                       <tbody>                         
                         <%for(var i=0;i<=assetType[6].length-1;i++){%> 
                           <tr id="et_<%=i%>">
                                 <td id="<%=assetType[6][i].id%>"><%=assetType[6][i].name%></td>
@@ -881,14 +907,15 @@
                             </td>
                           
                         <%}%>
-                        </tr> 
+                        </tr>
+                        </tbody> 
                       </table>
                      </div>  
-                      <table style="margin-left:13%;margin-right:2%;margin-top:2%">
+                      <table style="" class="table">
                               <tr>
                                 <td><input type="text" id="brandName" class="form-control" maxlength="25" placeholder="@ Brand Name"style="width:78%"></td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(6,insertCheckFlag)" style="margin-left:-64%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(6,insertCheckFlag)" style="margin-left:-200%;font-size:18px;padding-top:7px;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -2344,13 +2371,13 @@ if(billa>100000){
 
       }
        else if(checking==5){
-       
-       if($("#Componentval4").val()=='select attribute'){
-            alert("Error: Component Name cannot be blank");
+    
+       if($("#Componentval4").val()==null){
+            alert("Error: Component Name is invalid");
             return false;
           }
           if($("#attrValue4").val()==null){
-            alert("Error:Attribute Name cannot be blank");
+            alert("Error:Attribute Name is invalid");
             return false;
           }
           
@@ -2396,7 +2423,6 @@ if(billa>100000){
                   },
                   dataType :'json',              
                   success: function (data){ 
-                      console.log("uuuu ",data);
                      callback(checking,data[0][0].resultflag,data[0][0].generatedId);
                   },
                   error: function(){
@@ -2619,7 +2645,7 @@ if(billa>100000){
               hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="25"  value="'+$('#brandName').val()+'" />';
               hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",4,getSaveStatus)></span>';
 
-              $("#attrName").val('');
+              $("#brandName").val('');
               alert("Added Successfully!");
 
             }
@@ -2865,14 +2891,14 @@ if(billa>100000){
                     console.log("--- -- --",data[5]);
                      var tableString=""; 
                     if(flag==1){
-                         tableString='<tr id="dt_-1"><th style="text-align:center">Name</th><th style="text-align:center">Value</th><th style="text-align:center">Action</th></tr>';                        
+                         tableString='';                        
                         for(var i=0;i<=data[4].length-1;i++){
                           tableString+='<tr id="dt_'+i+'"><td id="'+data[4][i].id+'">'+data[4][i].attribute+'</td><td>'+data[4][i].name+'</td><td><img src="../img/project/blackdustbin.jpg" onclick=deleterAttributeValMapping(1,"dt_'+i+'") height="16px" width="16px" title="Delete" ></td></tr>';
                         }
-                        $("#assetTable4").html(tableString);
+                        $("#assetTablebody4").html(tableString);
                     }
                     else if(flag==2){
-                         tableString='<tr id="dt_-1"><th style="text-align:center">Component</th><th style="text-align:center">Atribute</th><th style="text-align:center">Action</th></tr>';                       
+                         tableString='';                       
                         for(var i=0;i<=data[5].length-1;i++){ 
                            tableString+='<tr id="dt_'+i+'"><td id="'+data[5][i].componentId+'">'+data[5][i].componentName+'</td><td>'+data[5][i].attributeName+'</td><td><img src="../img/project/blackdustbin.jpg" onclick=deleterAttributeValMapping(2,"dt_'+i+'") height="16px" width="16px" title="Delete" ></td></tr>';
                          }
@@ -2880,7 +2906,7 @@ if(billa>100000){
 
 
 
-                       $("#assetTable5").html(tableString);
+                       $("#assetTablebody5").html(tableString);
                     }  
 
 
@@ -2911,6 +2937,8 @@ if(billa>100000){
                     $("#setAttributeName").html(stringattributeName);
                     $("#Componentval4").tagger();
                     $("#attrValue4").tagger();
+                   /* $(".tagger").attr("placeholder", "Type a Location").placeholder();
+                    $("#attrValue4").attr("placeholder", "Type a Location").placeholder();*/
                 },
                
 
