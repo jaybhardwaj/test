@@ -522,8 +522,8 @@ module.exports = {
             case 'scheduleInterview':
              res.redirect('/viewCandidate')
                  break;
-                 case 'submitparsedData':
-             res.redirect('rms/upload')
+              case 'submitparsedData':
+             res.redirect('/viewCandidate')
                  break;
            
             case 'upload':

@@ -3265,7 +3265,7 @@ addUser: function(req, res, next) {
         if (flag == undefined) flag = -1;
         modelPortal.reqHod(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
-                //console.log("there is an error",err);
+                console.log("reqhod---portal",err);
             }   
             else{
                 req.hodResult=result;

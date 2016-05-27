@@ -25,16 +25,10 @@ label{
 .dataTable td{
   word-wrap:break-word;
   max-width:100px; 
- overflow:hidden;
- 
-}
- 
+ overflow:hidden; 
+} 
 </style>
-
-
-<style>
-  
-</style>
+ 
 
 
     <div class="se-pre-con hide"></div>
@@ -49,7 +43,7 @@ label{
         <td>
         <select id="selectsource" class="form-control" name="selectsource" style = ' '>
           <option value='0'>-select-</option>
-          <%for(var i=0;i<source.length;i++){ console.log("source------------------------",source[i].sourcename)%>
+          <%for(var i=0;i<source.length;i++){  %>
           <option value="<%=source[i].id%>"> <%=source[i].sourcename%> </option>  
           <%}%>    
         </select>
@@ -58,7 +52,7 @@ label{
          <label style="style:font-size:12px;float:right">Upload Resume : </label>
         </td>
         <td style="width:28%">
-            <form id="form" action="/upload_resume" method="post"    style = 'width: 75%'  enctype="multipart/form-data">            
+            <form id="form" action="/upload_resume" method="post"  onsubmit="return validation()"  style = 'width: 75%'  enctype="multipart/form-data">            
              <input  type="file" id="file" onclick = 'select1source()' style = ' ' name="attach" class="form-control" value="Upload Resume"  >
             </form>
          </td>
@@ -136,6 +130,17 @@ var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 var currentrow;
 var id;
 var targetPath;
+function validation(){
+   var arrExt=["pdf","doc","docx","zip"]
+                        var filename=$('#file').val(); 
+                        var fileExt=filename.split('.');
+                        fileExt=fileExt[fileExt.length-1];
+                         
+                        if(arrExt.indexOf(fileExt) == -1){
+                            alert("uploaded file format is invalid! \n valid formats: pdf,doc,docx,pdf,zip");
+                         return false;
+                        }
+}
 //.......................................Document.Ready......................................
 var newDataTable;
 
@@ -533,6 +538,7 @@ function select1source(){
     alert("Select a Source for Resume");
     return false;
   }
+  
 }
 function removeDuplicates(arrstring){
 if(!arrstring) return ''

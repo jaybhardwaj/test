@@ -2030,20 +2030,21 @@ getHrRole:function(userId,roleId,retailerId,callback){
                 sql: 'call usp_allRequisitionsHod(?,?)',
                 values: [userId,retailerId]
          }
+         console.log(q);
          mysql(q, function(err, result) {
+            console.log("reqhod modal portal",err);
                         callback(err, result);
-         });
-
-        
+         }); 
     },
 
     allrequisitions : function (userId,roleId,retailerId,callback){
          var q = {
-                sql: 'call usp_allrequisitions(?)',
-                values: [retailerId]
+                sql: 'call usp_allrequisitions(?,?)',
+                values: [userId,retailerId]
          }
-         //console.log("lollllll",q);
+         console.log("lollllll",q);
          mysql(q, function(err, result) {
+         	console.log("all reqsnerr",err);
                     callback(err, result);
          });
 
