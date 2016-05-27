@@ -1,6 +1,14 @@
  'use strict';
 
  var userauth = require('../../model/userauthentication');
+ var crypto = require('crypto'),
+    key = 'efghabcdijklmnop',
+    iv = '0123456789654321',
+    cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
+var idarr = [];
+var loggedinarr = [];
+var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(3);
  module.exports = {
      checkauterization: function(req, res, next) {
          if (req.session.userId) {
@@ -12,7 +20,9 @@
          }
      },
      login: function(req, res, next) {
-         userauth.login(req.body.userid, req.body.password, function(err, result) {
+        console.log("yo :",req.body.password);        
+        var pass=bcrypt.hashSync(req.body.password,salt);
+       userauth.login(req.body.userid,pass,function(err, result) {
              if (err) {
                  next(err);
                  res.json('0');

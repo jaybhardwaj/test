@@ -24,6 +24,15 @@ module.exports = {
             callback(err, result);
         });
     },
+     checkPassword:function(emailId,password,flag,callback) {
+        var query = {
+            sql: 'call usp_checkPassword(?,?)',
+            values: [emailId,flag]
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
      validateUser: function(emailid, callback) {
         
         var dec=emailid.split('|');
@@ -70,9 +79,11 @@ module.exports = {
             sql: "call usp_changePassword(?,?,?)",
             values:[userid, pass,oldpass]
         };
+        console.log("query is ",query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
+
     },
      
 

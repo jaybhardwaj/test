@@ -20,7 +20,11 @@ module.exports = {
 		req.page = 'users';
 		next();
 	}, 
- 
+ 	errorSWW :function(req,res,next){
+ 		console.log("loaaaaaaaaaaaaaaaa");
+    req.page = 'errorSWW';
+    next();
+	},
 	setpagecreateEditUser: function(req, res, next) {
 	req.userid=req.body.hdnId;
 		req.page = 'createEditUser';
@@ -936,7 +940,7 @@ updateStatusReqViaMail:function(req,res,next){
 	},
 
 error:function(req,res,next){
-		req.page="error";
-		next();
+		req.page = 'errorSWW';
+    	next();
 	}
 }

@@ -1,12 +1,20 @@
  'use strict';
    
- var modelPortal = require('../../model/modelPortal');
- var mailTemplates = require('../../lib/mailtemplates');
- var randomString = require('../../lib/common').generateRandomString;
- var flag = require('../../config/config').flagUsed;
- var path = require('path');
- var fs = require('fs');
-  var textract = require('textract');
+var modelPortal = require('../../model/modelPortal');
+var mailTemplates = require('../../lib/mailtemplates');
+var randomString = require('../../lib/common').generateRandomString;
+var flag = require('../../config/config').flagUsed;
+var path = require('path');
+var fs = require('fs');
+var textract = require('textract');
+ var crypto = require('crypto'),
+    key = 'efghabcdijklmnop',
+    iv = '0123456789654321',
+    cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
+var idarr = [];
+var loggedinarr = [];
+var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(3);
 var config = {
 
     preserveLineBreaks: true,
@@ -26,6 +34,15 @@ preserveLineBreaks : true,
 tesseract: { lang:"eng" } 
 
 }; 
+
+var crypto = require('crypto'),
+    key = 'efghabcdijklmnop',
+    iv = '0123456789654321',
+    cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
+var idarr = [];
+var loggedinarr = [];
+var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(3);
 //*********************************************************************************///////
 var pdf_extract = require('pdf-extract');
  var skillsIdfromdb = [];
@@ -49,7 +66,7 @@ var locationId = [],
          });
      } ,
 
- getModules: function(req, res, next) {
+    getModules: function(req, res, next) {
          modelPortal.getModules(req.session.userId,req.session.roleId, req.session.retailerId, function(err, result) {
              if (err) {
                  next(err);
@@ -59,9 +76,30 @@ var locationId = [],
             req.session.url = req.url;
              next();
              }
+
          });
      } ,
-       
+        
+    checkPassword: function(req, res, next) {
+         modelPortal.checkPassword(req.body.userid,req.body.password,0,function(err, result) {
+             if (err) {
+                 next(err);
+
+             } else { 
+                   var hash=result[0][0].userPassword;
+
+                   if(bcrypt.compareSync(req.body.password,hash)){
+                    res.json("1");
+                   }
+                   else{
+                     res.json("0");
+                   }
+                    
+             }
+
+         });
+     } ,
+
      EmailVerification:function(req, res, next) {
          modelPortal.EmailVerification(req.body.userid, function(err, result) {
              if (err) {
@@ -73,7 +111,7 @@ var locationId = [],
          });
      } ,   
      registration: function(req, res, next) {
-      
+        //var pass=bcrypt.hashSync(req.body.pass);
          modelPortal.retailerRegistration(
              req.body.compname,
              req.body.email,
@@ -144,16 +182,37 @@ var locationId = [],
              }
          });
      },
-     changePass: function(req,res,next){
-        modelPortal.changePass(req.session.userId,req.body.pass,req.body.oldpass,function(err, result){
-            if(err){
-                next(err);
-            } else
-            { 
-                res.json(result[0]);
+    changePass: function(req,res,next){
+         modelPortal.checkPassword(req.session.userId,req.body.pass,1,function(err, result) {
+             if (err) {
+                 next(err);
+             }
+            else{ 
+                console.log(result,req.body.pass);
+                var hash=result[0][0].userPassword;
+                if(bcrypt.compareSync(req.body.oldpass,hash)){
+                    console.log("yup        ",bcrypt.hashSync('2',salt)   ,req.body.pass);
+                    console.log("yup        ",bcrypt.hashSync(req.body.pass,salt));
+                    modelPortal.changePass(req.session.userId,bcrypt.hashSync(req.body.pass,salt),req.body.oldpass,
+                        function(err, result){
+                        if(err){
+                            next(err);
+                        } else
+                        { 
+                            res.json(1);
+                        }
+                    });
+               }
+               else{
+                    console.log("nooo");
+                    res.json(0);
+               }
+                    
             }
-        });
-     },
+
+         });
+        
+    },
  getClient: function(req, res, next) {
   
          modelPortal.getAllClient(req.clientid, req.session.roleId, req.session.retailerId,req.statusflag, function(err, resultClient) {
@@ -2848,7 +2907,7 @@ addUser: function(req, res, next) {
       var inNum=req.body.inNum;
       var billingRate=req.body.billingRate;
       var rtype=req.body.rtype==''?'':req.body.rtype;
-         var randomPassword = randomString(10);
+      var randomPassword = bcrypt.hashSync(randomString(10),salt);
 
          modelPortal.addUser(req.body.timesheet,req.body.isClient,req.body.clientId,req.body.isbill,req.body.expense,inNum,
             req.body.hdnUserId, req.body.firstName, req.body.lastName, req.body.emailId, req.body.contactNumber, billingRate,

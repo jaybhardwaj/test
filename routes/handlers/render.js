@@ -33,7 +33,11 @@ module.exports = {
 				res.render('index');
 				break;
 				
-				
+				case 'errorSWW' :
+	            res.render('errorSWW',{role: req.session.roleId,Name: ' ',myModules:req.session.modules,hideFlag:0,id:req.userid,
+	            	user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+		                defaultModule:req.session.defaultModule});
+            	break;
 				case 'clients' :
 				res.render('clients',{myModules:req.session.modules,hideFlag:1,clients:req.resultClient[2],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,flagActive:req.session.statusflag,isApp:req.session.isApprover});
 				break;
