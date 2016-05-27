@@ -54,29 +54,92 @@ color:black;
 
 </head>
 <body class=" "  >
-<div id="aa" >
+<div id="aa" style="background-color:antiquewhite;padding:2%" >
  
-<form id="addassignform"  method="post" onsubmit="" name="client" style="background-color:antiquewhite; margin-bottom: 0px;">
+<form id="addassignform"  method="post" onsubmit="" name="client" >
+                          <input type="hidden" name="flag" id="hid">
+                            <input type="hidden" name="ascode" id="ascodeid" value=''> 
+   <span class="modal-title" style="padding-left: 44%;padding-bottom: 1%">Create Assingment</span>  
+    <input type="hidden" value=""id='pcount'name='pcount'> 
+    <table class="table">
+  <tr>
+    <td>
+      <td><label class="form-label">Project Name:<sup class="astrick">*</sup></label></td>
+      <td>
+       <select  <%if(flag==1){%>disabled <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="pclient" id="procode" maxlength="50" onChange="getwbs();">
+                          <option value=0>Select</option>
+                              <% for(var i=0;i<allinfo[1].length;i++) {   %>  
+                                  <option <%if(flag==1){ 
+                                  if(allinfo[2][0].ProjectId==allinfo[1][i].id){
+                                      %>  selected <%}}%> value="<%=allinfo[1][i].id%>" ><%=allinfo[1][i].projectTitle%></option>');<%}%>
 
-                            <input type="hidden" name="flag" id="hid">
-                            <input type="hidden" name="ascode" id="ascodeid" value=''>
- <div class="" id="" role="dialog" style=" ">
-    <div style="width:100%;padding-top:1%; ">  
-      <center> 
-       <%if(flag==0){%>
-       <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Create Assignment</b></label>  
-         <%}else{%>
-          <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Edit Assignment</b></label>
-         
-          <%}%>           
-     </center>
-   </div>
-    <input type="hidden" value=""id='pcount'name='pcount'>
+               </select></td>
+    </td>
+    <td>
+      <td><label class="form-label">WBS Name:<sup class="astrick">*</sup></label></td>
+      <td> 
+        <select <%if(flag==1){%>disabled  <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()";>
+            <option value=0>Select</option>
+            <%if(flag==1){%>
+             <option selected value='<%=allinfo[2][0].WBSId%>'><%=allinfo[2][0].WBSName%></option>   <%}%> 
+      </select>
+    </td>
+    </td>
+    <td>
+      <td><label class="form-label">User:<sup class="astrick">*</sup></label></td>
+      <td>
+       <select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important"> 
+       </select>
+        </td>
+    </td>
+    <td>
+      <td><label class="form-label">Status:</label></td>
+      <td>
+       <div class="radio" id="rad">
+              <input type="hidden" id="act" >
+                <label><input type="radio"   name="status" id="active" value='1' checked >Active</label>
+                <label><input type="radio"  name="status" id="inactive" value='0' >InActive</label> 
+              </div>
+        </td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <td><label class="form-label">Start Date:<sup class="astrick">*</sup></label></td>
+      <td>
+         <input type="text"  name="Edate" class="form-text-box datepicker" id="datepicker" style="margin-top: 10px; cursor: pointer; background-color: rgb(255, 255, 255);" onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%> required>
+           
+          
+      </td>
+    </td>
+    <td>
+      <td><label class="form-label">End Date:<sup class="astrick">*</sup></label></td>
+      <td> 
+      <input type="text"  name="Edate" class="form-text-box datepicker" id="datepicker1" style="margin-top: 10px; cursor: pointer; background-color: rgb(255, 255, 255);" onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%> required>
+      </td>
+    </td>
+    <td>
+      <td><label class="form-label"></label></td>
+      <td></td>
+    </td>
+    <td>
+      <td><label class="form-label"></label></td>
+      <td></td>
+    </td>
+  </tr> 
+  <tr>
+            <td></td><td></td><td></td><td></td> 
+           <td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td> 
+          </tr>
+</table>
+ 
+<!-- 
 <div class="row">
        <div class="col-md-6 a">
          <div class="col-md-5"> <label style="padding-top: 10px;">Project Name:<sup style="color:red;">*</sup></label></div>
           <div class="col-md-7">
-            <select  <%if(flag==1){%>disabled <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-control" name="pclient" id="procode" maxlength="50" onChange="getwbs();">
+            <select  <%if(flag==1){%>disabled <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="pclient" id="procode" maxlength="50" onChange="getwbs();">
                           <option value=0>Select</option>
                               <% for(var i=0;i<allinfo[1].length;i++)
             {   %>    
@@ -94,7 +157,7 @@ color:black;
         <div class="col-md-6 a">
           <div class="col-md-5"><label style="padding-top: 10px;">WBS Name :<sup style="color:red;">*</sup></label></div>
           <div class="col-md-7 " id="wbsDiv">
-        <select <%if(flag==1){%>disabled  <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-control" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()";>
+        <select <%if(flag==1){%>disabled  <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()";>
       
           <option value=0>Select</option>
           <%if(flag==1){%>
@@ -107,7 +170,7 @@ color:black;
         <div class="col-md-6 a">
           <div class="col-md-5"><label style="padding-top: 10px;">Users:<sup style="color:red;">*</sup></label></div>
           <div class="col-md-7 " id="asdDiv" style="margin-top:8px;">
-           <select class="form-control" name="asd" id="asd" multiple="multiple"style="height:300px !important">
+           <select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important">
             
                
             </select>
@@ -131,7 +194,7 @@ color:black;
         <div class="col-md-6 a">
           <div class="col-md-5"><label style="padding-top: 10px;">Assignment Start Date:<sup style="color:red;">*</sup> </label></div>
           <div class="col-md-7">  
-            <input type="text"  name="Edate" class="form-control datepicker" id="datepicker" style="margin-top: 10px; cursor: pointer; background-color: rgb(255, 255, 255);" onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%> required>
+            <input type="text"  name="Edate" class="form-text-box datepicker" id="datepicker" style="margin-top: 10px; cursor: pointer; background-color: rgb(255, 255, 255);" onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%> required>
           </div>
         </div>
         
@@ -139,14 +202,15 @@ color:black;
         <div class="col-md-6 a">
           <div class="col-md-5"><label style="padding-top: 10px;">Assignment End Date:<sup style="color:red;">*</sup> </label></div>
           <div class="col-md-7">
-           <input type="text"  name="Edate" class="form-control datepicker" id="datepicker1" style="margin-top: 10px; cursor: pointer; background-color: rgb(255, 255, 255);" onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%> required>
+
+           <input type="text"  name="Edate" class="form-text-box datepicker" id="datepicker1" style="margin-top: 10px; cursor: pointer; background-color: rgb(255, 255, 255);" onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%> required>
           </div>
         </div>
        </div>
         </div>
-          
+           -->
    
-       <center style="margin-top:2%"> 
+       <center style="margin-bottom:1%"> 
 
        <a href="/assignment">
           <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
@@ -188,9 +252,15 @@ color:black;
 
 
 $(document).ready(function(){
-$("#asd").tagger();
-$('#procode').tagger();
-$('#wbs2').tagger();
+$("#asd").tagger({
+  'fieldWidth':"13em"
+});
+$('#procode').tagger({
+   'fieldWidth':"13em"
+});
+$('#wbs2').tagger({
+   'fieldWidth':"13em"
+});
   $('.assignment-img').addClass('active');
    dtable=$("#wbstable").DataTable({
     'iDisplayLength':10,
@@ -391,7 +461,7 @@ function getwbs(){
   var pid=$('#procode').val();
   $('#wbs2').html(''); 
    $('#asd').html('');
-  var str='<select style="background-color:#FFFFFF;margin-top:3%;" class="form-control" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()">'+'<option value=0>Select</option>';
+  var str='<select style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()">'+'<option value=0>Select</option>';
         <%  for(var i=0;i<allinfo[3].length;i++)
             {  
         %>                  
@@ -405,7 +475,7 @@ str=str+'</select>';
 
 $('#wbsDiv').html(str);
 $('#wbs2').tagger();
-str='<select class="form-control" name="asd" id="asd" multiple="multiple"style="height:300px !important">';
+str='<select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important">';
 <%for (var i = 0; i < allinfo[2].length; i++) { %>
    if(pid=='<%=allinfo[2][i].projectId%>')
                     { 

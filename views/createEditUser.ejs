@@ -17,6 +17,16 @@
         .marginAlign{
             margin-top: 2%;
         }
+        .form-table label {
+          display: inline-block;
+          margin: 0 0 -1px;
+          padding: 5%;
+          font-weight: 600;
+          text-align: center;
+          color: #524A4A;
+          border: 1px solid transparent;
+          font-size: 11px;
+      }
     </style>
 </head>
 <body>
@@ -38,7 +48,121 @@
         <label for="tab3">HR</label> 
         <input id="tab4" class="tabradio" type="radio" name="tabs">
         <section id="content1">
-          <div class="col-md-6">
+        <table class="table form-table" style="padding-bottom: 1%">
+          <tr>
+            <td>
+              <td><label class="form-Label">First Name:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="20" class="form-text-box" id="first-name"   name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Last Name:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="20"   class="form-text-box" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" /></td>
+            </td>
+            <td>
+              <td><label class="form-Label">Email:<sup  class="astrick">*</sup></label></td>
+              <td><input type="email" maxlength="150"   class="form-text-box" id="emailId" name="emailId" placeholder="abc@mydomain.com" /> </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Contact Number: </label></td>
+              <td><input type="text" maxlength="11"  class="form-text-box" id="contact-number" name="contact-number" placeholder="Contact Number" /></td>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <td><label class="form-Label">Employee Code:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="10"   class="form-text-box" id="ecode" name="ecode" placeholder="Employee Code" /></td>
+            </td>
+            <td>
+              <td><label class="form-Label">Designation: </label></td>
+              <td><select class="form-text-box"   id='designation' name="designation"  >
+                <option value="0">Select Department</option>
+                  <%for(var i=0;i<department.length;i++){%>
+                <option value="<%=department[i].id%>">
+                   <%=department[i].description1%>
+                </option>
+                <%}%>
+              </select> 
+              </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Level:</label></td>
+              <td> <select class="form-text-box"   id='level' name="level"  >
+                <option value="0">Select Level</option>
+                <%for(var i=0;i<level.length;i++){%>
+                <option value="<%=level[i].id%>">
+                <%=level[i].description1%>
+                </option>
+                <%}%>
+              </select> </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Reporting To : </label></td>
+              <td> <select class="form-text-box"   id='manager' name="manager" style="width:180px !important;">
+                <option value='0' >--Select Supervisor--</option>
+                <%for(var i=0;i<report.length;i++){%>
+                <option value="<%=report[i].id%>">
+                <%=report[i].Name%>
+                </option>
+                <%}%>
+              </select></td>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <td><label class="form-Label">Modules:<sup  class="astrick">*</sup></label></td>
+              <td>
+              <select multiple = "multiple" class=" multiplebox " name="modules" id ="modules" style="padding: 18px !important" maxlength="50">
+                <%for(var i=0;i<modules.length;i++){%>
+                <option value="<%=modules[i].id%>" 
+                  <%if(editflag==1){if(modules[i].id==userModule[i].moduleId){%> selected <%}}%> >
+                  <%=modules[i].Name%>
+                </option>
+                <%}%>
+              </select> 
+             
+              </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Default Module: </label></td>
+              <td>  <select class="form-text-box"   id='default-module' name="defmod" >
+             <option>No Module Solelected</option>
+            </select> </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Role:<sup  class="astrick">*</sup></label></td>
+              <td><select class="form-text-box"   id='user-role' name="user-role"  >
+                <%for(var i=0;i<role.length;i++){%>
+                <%if(role[i].id==1||role[i].id==2||role[i].id==4||role[i].id==5){%>
+                <option value="<%=role[i].id%>">
+                  <%=role[i].roleName%>
+                </option>
+                  <%}}%>
+              </select> </td>
+            </td>
+            <td>
+              <td> </td>
+              <td> </td>
+            </td>
+          </tr>
+           <tr>
+            <td></td><td></td><td></td><td></td> 
+           <td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td> 
+          </tr>
+        </table>
+        <center style="padding-bottom: 1%">
+          
+              <a href="/users">
+                 <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
+              </a>
+             
+             <button class="btn btn-primary" onclick="validBasicInfo1()" id="create-user">Submit</button>
+             
+             <input type="button"  value="Next"  onclick="changeTab(5)" class="btn btn-primary" style="background-color: #f05f40 !important;">
+            
+        </center>
+ 
+         <!--  <div class="col-md-6">
             <div class="col-md-5"> <label style="line-height:25px !important;">First Name:<sup style="color:red;">*</sup></label> </div>
             <div class="col-md-7"> <input type="text" maxlength="20" class="form-control" id="first-name" style="margin-top:10px;width:100%;" name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> </div>
           </div>
@@ -129,6 +253,7 @@
           <div class="col-md-6 a">
             <div class="col-md-5"> <label style="line-height:25px !important;">Role:<sup style="color:red;">*</sup></label> </div>
             <div class="col-md-7">
+
               <select class="form-control" style="margin-top:15px;margin-bottom:4%;   width: 99%;" id='user-role' name="user-role" style="width:200px; !important;">
                 <%for(var i=0;i<role.length;i++){%>
                 <%if(role[i].id==1||role[i].id==2||role[i].id==4||role[i].id==5){%>
@@ -155,15 +280,16 @@
              <input type="button"  value="Next"  onclick="changeTab(5)" class="btn btn-primary" style="background-color: #f05f40 !important;">
             
           </center>
-          </div>
+          </div> -->
         </section>
 
         <section id="content2">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label style="line-height:25px !important;">Resource Type:</label> </div>
+        <div class="row form-table" >
+        
+      <div class="col-md-6">
+            <div class="col-md-5"> <label >Resource Type:</label> </div>
             <div class="col-md-7"> 
-              <select class="form-control" style="margin-top:10px;margin-bottom:4%;   width: 99%;" id='isbill' name="isbill" style="width:200px !important;;">
+              <select class="form-text-box" style="margin-top:10px;margin-bottom:4%;   width: 99%;" id='isbill' name="isbill" style="width:200px !important;;">
                 <option value=0>Not Billable</option>
                 <option value=1>Is Billable</option>
                 
@@ -172,30 +298,44 @@
           </div>
           <div class="col-md-6 a" id="billRate">
             <div class="col-md-5"> <label style="line-height:25px !important;">Billable Rate:<sup style="color:red;">*</sup></label> </div>
-            <div class="col-md-7"> <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-control " id="billrate" name="billrate" onkeypress=" return checkBillrate(event)" /> </div>
-          </div>
+            <div class="col-md-7"> <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-text-box " placeholder="enter bill rate" id="billrate" name="billrate" onkeypress=" return checkBillrate(event)" /> </div>
+          </div> 
         </div>
         
-        <div class="modal-footer" style="border-top:0px;">
-          <center> <button class="btn btn-primary" onclick="validFinance()">Save Changes</button>
-          <input type="button"  value="Next"  onclick="changeTab(3)" class="btn btn-primary" style="background-color: #f05f40 !important;"> </center>
-        </div>
+          <center style="padding-bottom: 1%">
+           <button class="btn btn-primary" onclick="validFinance()">Save Changes</button>
+          <input type="button"  value="Next"  onclick="changeTab(3)" class="btn btn-primary" style="background-color: #f05f40 !important;">
+           </center>
+     
       </section>
         <section id="content3">
-        <div class="row">
+        <table class="table form-table">
+          <tr>
+            <td><label class="form-Label">Date of Joining:<sup  class="astrick">*</sup></label></td>
+            <td> <input name="doj" placeholder="MM/DD/YYYY"  class="form-text-box date" id="doj" readonly="true" ></td>
+            <td><label class="form-Label">Date of Confirmation:</label></td>
+            <td><input   placeholder="MM/DD/YYYY" class="form-text-box date" id="doc" name="doc" readonly="true" ></td>
+            <td> <label class="form-Label">Date of Birth:</label></td>
+            <td><input    placeholder="MM/DD/YYYY" class="form-text-box date" id="dob" name="dob"  readonly="true"></td>
+          </tr> 
+        </table>
+         <center>
+             <button class="btn btn-primary" style="margin-bottom:1%" onclick="validHr()">Save Changes</button> </center> 
+          </center>
+        <!-- <div class="row">
           <div class="col-md-6">
             <div class="col-md-5"> <label style="line-height:25px !important;">Date of Joining:<sup style="color:red;">*</sup></label> </div>
-            <div class="col-md-7"> <input name="doj" placeholder="MM/DD/YYYY" style="margin-top:10px;cursor: pointer;background-color: rgb(255, 255, 255);"class="form-control date" id="doj" readonly="true" > </div>
+            <div class="col-md-7"> <input name="doj" placeholder="MM/DD/YYYY" style="margin-top:10px;cursor: pointer;background-color: rgb(255, 255, 255);"class="form-text-box date" id="doj" readonly="true" > </div>
           </div>
           <div class="col-md-6 a">
             <div class="col-md-5"> <label style="line-height:25px !important;">Date of Confirmation:</label> </div>
-            <div class="col-md-7"> <input style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="MM/DD/YYYY" class="form-control date" id="doc" name="doc" readonly="true" > </div>
+            <div class="col-md-7"> <input style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="MM/DD/YYYY" class="form-text-box date" id="doc" name="doc" readonly="true" > </div>
           </div>
           </div>
           <div class="row">
           <div class="col-md-6 a">
             <div class="col-md-5"> <label style="line-height:25px !important;">Date of Birth:</label> </div>
-            <div class="col-md-7"> <input  style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="MM/DD/YYYY" class="form-control date" id="dob" name="dob"  readonly="true"> </div>
+            <div class="col-md-7"> <input  style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="MM/DD/YYYY" class="form-text-box date" id="dob" name="dob"  readonly="true"> </div>
             
           </div>
            <div class="col-md-6 a" style="height:">
@@ -204,26 +344,26 @@
           <center>
              <button class="btn btn-primary" style="margin-bottom:1%" onclick="validHr()">Save Changes</button> </center>
              
-          </center>
+          </center> -->
         </section>
 
 
         <section id="content5">        
           <%for(var j=0;j<modules.length;j++){%>
-          <div class="row">
+          <div class="row form-table">
           
                  <%if(modules[j].Name=="Expense" ){%>
                    <div class="col-md-4 ">
                    <label style="line-height:25px;  width: 90%;!important;">Approver(<%=modules[j].Name%>)</label>
                    </div>
                     <div class="col-md-2 ">
-                    <select class="form-control" style="margin-top:10px; " id='expense' name="role1" style="" ><option value='0'>No</option> 
+                    <select class="form-text-box" style="margin-top:10px; " id='expense' name="role1" style="" ><option value='0'>No</option> 
                     <option value='1'>Yes</option>
                                       
                     </select>
                   </div>
                   <div class="col-md-6 ">
-                <input type="number" maxlength="10" class="form-control" style="margin-top:10px;width:200px; " class="form-control" id="inNum" name="inNum" placeholder="Approve Limit" onkeypress="return specialCharacter(event)" /> 
+                <input type="number" maxlength="10" class="form-text-box" style="margin-top:10px;width:200px; " class="form-text-box" id="inNum" name="inNum" placeholder="Approve Limit" onkeypress="return specialCharacter(event)" /> 
                 </div>
                   <%}%>
 
@@ -232,7 +372,7 @@
                      <label style="line-height:25px;  width: 90%;!important;">Supervisor(<%=modules[j].Name%>)</label>
                    </div>
                      <div class="col-md-2 ">
-                <select class="form-control" style="margin-top:10px; " id='time' name="role1" style=" "> <option value=0>No</option>
+                <select class="form-text-box" style="margin-top:10px; " id='time' name="role1" style=" "> <option value=0>No</option>
                     <option value=1>Yes</option>
                                     
                 </select>
@@ -244,7 +384,7 @@
                    </div>
                         <div class="col-md-2 ">
                  <div id ="customeRoleDiv">
-                <select class="form-control"  style="margin-top:10px;" id='crole' name="crole">
+                <select class="form-text-box"  style="margin-top:10px;" id='crole' name="crole">
                   <option selected="true" value="0">---  Select ---</option>
                  <%for(var k=0;k<customRole[0].length;k++){%> 
                   <option id="<%=customRole[0][k].id%>"value="<%=customRole[0][k].id%>"> <%=customRole[0][k].description%></option>
@@ -261,7 +401,7 @@
                    </div>
                  <div class="col-md-2 ">
                  <div id ="customeRoleDiv">
-                <select class="form-control" onChange="showHod()" style="margin-top:10px;" id='hrRole' name="crole">
+                <select class="form-text-box" onChange="showHod()" style="margin-top:10px;" id='hrRole' name="crole">
                   <option selected="true" value="0">---  Select ---</option>
                  <%console.log("hr rollleeeeeeee",hrRole);for(var k=0;k<hrRole.length;k++){%> 
                   <option id="<%=hrRole[k].id%>"value="<%=hrRole[k].id%>"> <%=hrRole[k].roleName%></option>
@@ -270,7 +410,7 @@
               </div>
               </div>
                 <div class="col-md-6 a">
-                      <select class="form-control"  style="margin-top:10px;width:33%" id='hodList' name="hodList" style="">
+                      <select class="form-text-box"  style="margin-top:10px;width:33%" id='hodList' name="hodList" style="">
                           <option selected="true" value="0">--Select Hod--</option>
                         <%console.log("hod rollleeeeeeee",allHod);for(var i=0;i<allHod.length;i++){%>
                           <option value="<%=allHod[i].id%>"><%=allHod[i].hodName%></option>  
@@ -280,19 +420,19 @@
                 <%}%>
             </div>
                 <%}%>
-                <div class="row">
+                <div class="row form-table">
                   <div class="col-md-4 a">
                      <label style="line-height:25px;  width: 90%;!important;">Client-User</label>
                    </div>
                      <div class="col-md-2 a">
-                      <select class="form-control" style="margin-top:10px; " onChange="showClient()" id='isClient' name="isClient" style=" ">
+                      <select class="form-text-box" style="margin-top:10px; " onChange="showClient()" id='isClient' name="isClient" style=" ">
                       <option value="0"  >No</option>  
                         <option value="1">Yes</option>
                                          
                       </select>
                       </div>
                       <div class="col-md-6 a">
-                      <select class="form-control" style="margin-top:10px;width:33%" id='clientId' name="clientId" style="">
+                      <select class="form-text-box" style="margin-top:10px;width:33%" id='clientId' name="clientId" style="">
                           <option value="0">--Select Client--</option>
                         <%for(var i=0;i<client.length;i++){%>
                           <option value="<%=client[i].id%>"><%=client[i].clientName%></option>  
@@ -403,12 +543,12 @@ function getDefaultModule(){
       
 
      
-      $('#level').tagger({
+    /*  $('#level').tagger({
         baseURL: '../img/'
       , tabindexOffset: 400
       , fieldWidth: null
       });
-    
+    */
 
        $('#manager').tagger({
         baseURL: '../img/'
@@ -417,11 +557,11 @@ function getDefaultModule(){
       });
     
 
-       $('#designation').tagger({
+   /*    $('#designation').tagger({
         baseURL: '../img/'
       , tabindexOffset: 400
       , fieldWidth: null
-      });
+      });*/
     
 
           $('#isbill').on('change',function(){

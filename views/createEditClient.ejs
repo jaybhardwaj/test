@@ -8,7 +8,8 @@
 
 .marginAlign{
   margin-top: 2%;
-}    .tagger {
+}   
+ .tagger {
     border: 2px steelblue;
     background-color: #fff;
     cursor: text;
@@ -17,6 +18,7 @@
     padding: 9px 7px 3px 4px;
     min-height: 19px;
     display: table-cell;
+    width: 220px;
 }
     </style>
         <script>
@@ -25,14 +27,14 @@
 
                  $('#cal').tagger({
                     baseURL: '../img/'
-                  , tabindexOffset: 400
-                  , fieldWidth: null
+                   
+                  , fieldWidth: "13em"
                   });
 
                   $('#location').tagger({
                     baseURL: '../img/'
-                  , tabindexOffset: 400
-                  , fieldWidth: null
+                  
+                  , fieldWidth: "13em"
                   });
 
                 $('.client-img').addClass('active');
@@ -54,113 +56,118 @@ sup {  color: red;  }
     <div>
         <% include ./partials/adminheader %>
     </div>
-    <div style="background-color:antiquewhite;padding-bottom:2%;">
-        <form action="/addEditClient" method="post" onsubmit="return validateForm()">
-            <div>
-                <div style="width:100%;padding-top:1%;">
-                    <center>
-                        <%console.log(editflag,"create edit ejs------------------",clientinfo);  if(editflag==0){ %> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Create Client</b></label>
-                            <%}       else    { %> <label id="" class=" " style="font-size:14pt;color:#f05f40;"><b>Edit Client</b></label>
+    <div style="background-color:antiquewhite; padding:2%">
+       
+     
+                        <% if(editflag==0){  %> <span class="modal-title" style="padding-left:45%">Create Client</span>
+                            <%} else { %> <span class="modal-title" style="padding-left:45%">Edit Client</span>< 
                                 <%}%>
-                    </center>
-                </div> 
+      <form action="/addEditClient" method="post" onsubmit="return validateForm()">             
                 <input type="text" class="hide" id='hiddenid' name="hiddenid" <%if((editflag==1)){%>value='<%=clientinfo[0].id%>'
                     <%}%>> 
                     <input type="text" class="hide" id='hiddeneditflag' name="hiddeneditflag" <%if((editflag==1)){%>value='<%=editflag%>'<%}else {%>value='0' <%}%>>
-                             
-                                <script>
-                                </script>
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"> <label style="padding-top: 10px;">Client Name<sup>*</sup> :</label></div>
-                                    <div class="col-md-7">
-                                     <input type="text" maxlength="40"  onkeypress="return specialCharacter(event)"  style="margin-top:10px;" class="form-control " id="cname" name="cname" placeholder="Name" <%if((editflag==1)){%>value='<%=clientinfo[0].clientName%>'
-                                            <%}%> required /> </div>
-                                </div>
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Abbriviate Name <sup>*</sup> :</label></div>
-                                    <div class="col-md-7">
-                                     <input type="text" style="margin-top:10px;"  onkeypress="return specialCharacter(event)"  maxlength="45" class="form-control" id="cabbname" name="cabbname" placeholder="Abbrivated Name"  <%if((editflag==1)){%>value='<%=clientinfo[0].clientAbbName%>'
-                                            <%}%> required /> </div>
-                                </div>
-                            
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Category :</label></div>
-                                    <div class="col-md-7"> <select style="background-color:#FFFFFF;margin-top:3%;" class="form-control" name="category" id="category" maxlength="50" onchange="" ;>
+ <table class="table" style="margin-top: 1%">
+        
+    <tr>
+        <td>
+            <td><label class="form-label">Client Name:</label><sup>*</sup> </td>
+            <td>
+            <input type="text" maxlength="40"  onkeypress="return specialCharacter(event)" 
+            class="form-text-box " id="cname" name="cname" placeholder="Name" <%if((editflag==1)){%>value='<%=clientinfo[0].clientName%>'
+            <%}%> required />
+            </td>
+        </td>
+        <td>
+            <td><label class="form-label">Client Abbriviate Name:<sup>*</sup> </label></td>
+            <td><input type="text"   onkeypress="return specialCharacter(event)"  maxlength="45" class="form-text-box" id="cabbname" name="cabbname" placeholder="Abbrivated Name"  <%if((editflag==1)){%>value='<%=clientinfo[0].clientAbbName%>'
+            <%}%> required />
+            </td>
+        </td>
+        <td>
+            <td><label class="form-label">Category:</label></td>
+            <td>
+            <select  class="form-text-box" name="category" id="category" maxlength="50" onchange="" ;>
           <option value="Silver" <% if((editflag==1) && "Silver"==clientinfo[0].category){%>selected<%}%>>Silver</option>
           <option value="Gold" <% if((editflag==1) && "Gold"==clientinfo[0].category){%>selected<%}%>>Gold</option>
            <option value="Diamond" <% if((editflag==1) && "Diamond"==clientinfo[0].category){%>selected <%}%>>Diamond</option>
-
-    </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Account Lead :</label></div>
-                                    <div class="col-md-7 marginAlign"> <span id="errmsg" style="color:red"></span>
-                                        <select name="cal" id="cal" class="form-control" style="margin-top:3%;width:100%">
+            </select>
+    </td>
+        </td>
+        <td>
+            <td><label class="form-label">Account Lead:</label></td>
+            <td><span id="errmsg" style="color:red"></span>
+                                        <select name="cal" id="cal" class="form-text-box"  >
                                             <option value="0">--Select--</option>
                                             <%for(var i=0;i<users.length;i++){%>
                                             <option value="<%=users[i].id%>" <%if(editflag==1&&clientinfo[0].clientAccountLead==users[i].id){%>selected<%}%> ><%=users[i].firstName%>
                                             </option>
                                             <%}%>
-                                        </select>
-                                    <!--  <input type="text" style="margin-top:10px;" onkeypress="return isNumberKey(event)" maxlength="10" class="form-control" id="caccount" name="caccount" <%if((editflag==1)){%>value='
-                                        <%=clientinfo[0].client_Account_Lead%>'
-                                            <%}%> /> -->
-                                             </div>
-                                </div>
-                                    <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Code:</label></div>
-                                    <div class="col-md-7"> <input type="text" style="margin-top:10px;" maxlength="45" class="form-control" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
-                                            <%}%> readonly /> </div>
-                                </div>
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Contact Person<sup>*</sup> :</label></div>
-                                    <div class="col-md-7"> <input type="text" style="margin-top:10px;" maxlength="25" class="form-control"  onkeypress="return specialCharacter(event)"  id="ccontactperson" placeholder="Client Name" name="ccontactperson" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPerson%>'<%}%> required/> </div>
-                                </div>
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Contact Person Email<sup>*</sup> :</label></div>
-                                    <div class="col-md-7"> <input type="email
-            " style="margin-top:10px;" maxlength="100" placeholder="abc@example.com" class="form-control" id="ccperemail" name="ccperemail" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPersonEmail%>'
-                                            <%}%> /> </div>
-                                </div>
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Client Contact Phone :</label></div>
-                                    <div class="col-md-7"> <input   style="margin-top:10px;" maxlength="11" class="form-control" id="clconphone" placeholder="Contact No." name="clconphone" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPhone%>'
-                                            <%}%> /> </div>
-                                </div>
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Location :</label></div>
-                                    <div class="col-md-7 marginAlign">
-                                        <select name="location" class="form-control" id="location" style="margin-top:3%;width:100%">
+                                        </select></td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <td><label class="form-label">Client Code:</label></td>
+            <td><input type="text"   maxlength="45" class="form-text-box" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
+                                            <%}%> readonly /> </td>
+        </td>
+        <td>
+            <td><label class="form-label">Client Contact Person:<sup class="astrick">*</sup></label></td>
+            <td><input type="text"   maxlength="25" class="form-text-box"  onkeypress="return specialCharacter(event)"  id="ccontactperson" placeholder="Client Name" name="ccontactperson" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPerson%>'<%}%> required/> </td>
+        </td>
+        <td>
+            <td><label class="form-label">Client Contact Email:<sup class="astrick">*</sup></label></td>
+            <td>
+                 <input type="email"   maxlength="100" placeholder="abc@example.com" class="form-text-box" id="ccperemail" name="ccperemail" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPersonEmail%>'
+                                            <%}%> /> 
+            </td>
+        </td>
+        <td>
+            <td><label class="form-label">Client Contact Conatact:</label></td>
+            <td>
+            <input     maxlength="11" class="form-text-box" id="clconphone" placeholder="Contact No." name="clconphone" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPhone%>'
+                                            <%}%> /> 
+                                            </td>
+        </td>
+    </tr> 
+    <tr>
+        <td>
+            <td><label class="form-label">Location:</label></td>
+            <td> <select name="location" class="form-text-box" id="location"  >
                                             <option value="0">--Select--</option>
                                             <%for(var i=0;i<location.length;i++){%>
                                             <option value="<%=location[i].id%>" <%if(editflag==1&&clientinfo[0].location==location[i].id){%>selected<%}%> ><%=location[i].location%>
                                             </option>
                                             <%}%>
-                                        </select>
-                                        <!--  <input type="text" style="margin-top:10px;" maxlength="50" class="form-control" id="location" name="location" <%if((editflag==1)){%>value='
-                                            <%=clientinfo[0].location%>'
-                                                <%}%> /> -->
-                                    </div>
-                                </div>
-                                <div class="col-md-6 a">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Address:</label></div>
-                                    <div class="col-md-7"> <textarea type="" placeholder="Client Address" style="margin-top:10px;" maxlength="300" height="103" class="form-control" id="address" name="address" <%if((editflag==1)){ console.log(clientinfo[0].address);%>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea> </div>
-                                </div>
-                                <div id='dact' class="col-md-6 a hide">
-                                    <div class="col-md-5"><label style="padding-top: 10px;">Active:</label></div>
-                                    <div class="col-md-7"> <select class="form-control " id='active' name="active" style="width:100%;margin-top:10px;" <%if((editflag==1)){%> <%}%> onchange="set1();">
-                <option value="0" >No</option>
-                <option value="1" selected >Yes</option>
-              </select> </div>
-                                </div>
-                                <center>
+                                        </select></td>
+        </td>
+        <td>
+            <td><label class="form-label">Address:</label></td>
+            <td><textarea type="" placeholder="Client Address"   maxlength="300" height="103" style="max-width: 200px;max-height: 100px" class="form-text-box" id="address" name="address" <%if((editflag==1)){ console.log(clientinfo[0].address);%>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea></td>
+        </td>
+        <td>
+            <td><label class="form-label"></label></td>
+            <td></td>
+        </td>
+        <td>
+            <td><label class="form-label"></label></td>
+            <td></td>
+        </td>
+    </tr>   
+    <tr>
+            <td></td><td></td><td></td><td></td> 
+           <td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td> 
+          </tr>  
+</table>          
+ 
+                                <center style="padding-bottom: 1%">
                                     <a href="/clients?inactive=false">
                                   <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
                                   </a>
                                   <input type="submit" class="btn btn-primary  " value="Submit" style="background-color: #f05f40 !important;"> 
                                 </center>
-            </div>
+             
         </form>
     </div>
     <footer>
