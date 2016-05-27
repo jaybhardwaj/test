@@ -2919,11 +2919,11 @@ addUser: function(req, res, next) {
       var inNum=req.body.inNum;
       var billingRate=req.body.billingRate;
       var rtype=req.body.rtype==''?'':req.body.rtype;
-      var randomPassword = bcrypt.hashSync(randomString(10),salt);
+      var randomPassword = randomString(10);
 
          modelPortal.addUser(req.body.timesheet,req.body.isClient,req.body.clientId,req.body.isbill,req.body.expense,inNum,
             req.body.hdnUserId, req.body.firstName, req.body.lastName, req.body.emailId, req.body.contactNumber, billingRate,
-             req.body.userRole, req.body.manager, req.body.defaultModule, req.body.customRole, randomPassword,
+             req.body.userRole, req.body.manager, req.body.defaultModule, req.body.customRole,  bcrypt.hashSync(randomString(10),salt),
             req.body.ecode,req.body.designation,req.body.level,modules,req.body.doj,req.body.dob,req.body.doc,rtype,
           req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,function(err, result) {
              if (err) {
