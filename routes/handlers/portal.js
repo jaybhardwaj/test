@@ -61,8 +61,17 @@ var locationId = [],
              }
          });
      } ,
-    
- 
+       
+     EmailVerification:function(req, res, next) {
+         modelPortal.EmailVerification(req.body.userid, function(err, result) {
+             if (err) {
+                 next(err);
+
+             }else { 
+                 res.json(result);
+             }
+         });
+     } ,   
      registration: function(req, res, next) {
       
          modelPortal.retailerRegistration(

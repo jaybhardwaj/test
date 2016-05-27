@@ -23,6 +23,8 @@ app.use(bodyParser({
 	app.post('/registration', portal.registration);
 	app.post('/recoverPassword', portal.recoverPassword);
 	app.post('/login', auth.login);
+	app.post('/EmailVerification', portal.EmailVerification);
+
 	app.get('/validateuser',portal.validateUser);  //index
 	app.all('*', auth.checkauterization, render.redirect);
 	app.get('/', url.setpage, render.redirect);

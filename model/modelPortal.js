@@ -15,8 +15,16 @@ module.exports = {
         });
     },
 
-    
- validateUser: function(emailid, callback) {
+    EmailVerification:function(emailId ,callback) {
+        var query = {
+            sql: 'call usp_EmailVerification(?)',
+            values: [emailId]
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
+     validateUser: function(emailid, callback) {
         
         var dec=emailid.split('|');
 
