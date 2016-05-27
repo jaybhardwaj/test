@@ -33,6 +33,9 @@ app.use(bodyParser({
 	app.get('/logout', portal.logout,render.redirect);
 	app.post('/changePassword',portal.changePass);
 
+	app.post('/exportToCsv',portal.exportToCsv);
+
+	
 	//------------------------BUG-------------------------------------------------
 	
 	app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);

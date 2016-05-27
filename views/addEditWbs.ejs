@@ -141,7 +141,7 @@
              <label class="form-Label">Planned Start Date: <sup>*</sup> </label>
            </td>
            <td>
-             <input type="text" maxlength="20" placeholder="Select Planned Start Date" class="form-text-box" readonly="true" id="datepicker" style="cursor: pointer;background-color: rgb(255, 255, 255);" name="wbspsdate" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].wplannedStartDate%>' <%}%>> 
+             <input type="text" maxlength="20" placeholder="Select Planned Start Date" class="form-text-box" readonly="true" id="datepicker" style="cursor: pointer;background-color: rgb(255, 255, 255);" name="wbspsdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'){%>value=' <%=name[0][0].wplannedStartDate%>' <%}%>> 
           </td>
           <td>
             <td>
@@ -156,7 +156,7 @@
             <label class="form-Label">Actual Start Date:   </label>
           </td>
            <td>
-          <input type="text" maxlength="20" class="form-text-box" id="datepicker2" placeholder="Select Actual Start Date" readonly="true" style="cursor: pointer;background-color: rgb(255, 255, 255);" name="wbsasdate" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value='  <%=name[0][0].wactualStartDate%>' <%}%>> 
+          <input type="text" maxlength="20" class="form-text-box" id="datepicker2" placeholder="Select Actual Start Date" readonly="true" style="cursor: pointer;background-color: rgb(255, 255, 255);" name="wbsasdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualStartDate){%>value='  <%=name[0][0].wactualStartDate%>' <%}%>> 
           <td>
         </td>
         <td>
@@ -164,7 +164,7 @@
            <label class="form-Label">Actual End Date:   </label>
           </td>
            <td>
-           <input type="text" maxlength="20" placeholder="Select Actual End Date" class="form-text-box" id="datepicker3" readonly="true" style="cursor: pointer;background-color: rgb(255, 255, 255);" name="wbsaedate" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].wactualEndDate%>' <%}%>>
+           <input type="text" maxlength="20" placeholder="Select Actual End Date" class="form-text-box" id="datepicker3" readonly="true" style="cursor: pointer;background-color: rgb(255, 255, 255);" name="wbsaedate" <%if(flag==1 && typeof (name[0][0]) !='undefined' && name[0][0].wactualEndDate){%>value=' <%=name[0][0].wactualEndDate%>' <%}%>>
         </td>
         </td>
       </tr>
@@ -193,7 +193,7 @@
              <select style="" id="assign" class="form-text-box" name="assign">
                   <option value=2>Select Option</option>
                   <option value=1>Yes</option>
-                  <option value=0>No</option>
+                  <option value=0  selected="true">No</option>
                 </select>
           <td>
         </td>
@@ -202,10 +202,10 @@
            <label class="form-Label">Type :</label>
           </td>
            <td>
-            <div style="width: 50%;float: left;">
+            <!-- <div style="width: 50%;float: left;">
                <input class="form-text-box" placeholder="Enter Type" type="text" maxlength="10" id="wbsType" name="wbsType"   <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].type%>' <%}%> >
-            </div>
-            <div style="width: 50%;float: right;padding-right: 14px">
+            </div> -->
+            <div style="width: 108%;float: left;padding-right: 14px">
               <select style="" id="typeValue" class="form-text-box" name="typeValue">
                 <option value=0>Select Type</option>
                 <option value=1>Fixed</option>
@@ -217,8 +217,8 @@
       </tr>
       <tr>
         <td>
-          <td><label class="form-Label" style="padding-top: 13px">Status :</label></td>
-          <td>
+          <td><label class="form-Label hide" style="padding-top: 13px">Status :</label></td>
+          <td class="hide">
               <input type="radio" name="wbsstatus" value=1 id="wbsstatus1" style="margin-top:10px;"> Active 
               <input type="radio" name="wbsstatus" value=0 id="wbsstatus2" style="margin-top:10px;"> Inactive
           </td>
@@ -812,14 +812,14 @@ selected<%}%>>
                         return false;
                     }
                 }
-                var wbsType = $('#wbsType').val();
+                /*var wbsType = $('#wbsType').val();
                 var typeValue = $('#typeValue').val();
                 if (wbsType != '') {
                     if (typeValue == 0) {
                         alert('Please Select Type');
                         return false;
                     }
-                }
+                }*/
                 submitwbs();
                 /* if('<%=flag%>'=='0'){
                      submitwbs();

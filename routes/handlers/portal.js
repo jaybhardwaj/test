@@ -362,6 +362,26 @@ filename=req.session.logo;
     },
 
 
+    exportToCsv: function(req, res, next) {               
+       modelPortal.exportToCsv(req.body.type,req.session.userId,req.session.roleId,req.session.retailerId, function(errorCsv, resultCsv) {
+                    if (errorCsv) {
+                 next(errorCsv);
+                 return;
+             }
+             var data = resultCsv[0].map(function(o, i) {
+        var arr = Object.keys(o).map(function(_o, _i) {
+          return o[_o];
+        });
+        return arr;
+      });
+      res.json(data);
+
+        });
+    },
+
+
+
+
      //-----------------------------------BUG---------------------------------------------------
       bugHome: function(req, res, next) {    
      
@@ -1528,6 +1548,8 @@ req.projectResults=result;
      },
 
 addEditWbsDetails: function(req, res, next) {
+    console.log('grfswsfff---------',req.body);
+    //console.log('proname---',req.body.proname);
         req.proname=req.body.proname;
     
         req.wbshidden=req.body.wbshidden;
@@ -1535,7 +1557,7 @@ addEditWbsDetails: function(req, res, next) {
             req.body.proname,
         req.body.wbsowner,req.body.wbspsdate,
         req.body.wbspedate,req.body.wbsasdate,req.body.wbsaedate,req.body.wbsstatus,req.body.wbseffort,req.body.wbseffort1,
-        req.body.wbslocation,req.body.wbsType,req.body.typeValue,req.session.userId,req.session.roleId,req.session.retailerId,
+        req.body.wbslocation,req.body.typeValue,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 
              if (err) {

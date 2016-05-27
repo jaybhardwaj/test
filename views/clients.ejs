@@ -35,7 +35,7 @@
 </head>
  <% include ./partials/adminheader %>
 <body>
-
+<div class="se-pre-con"></div>
     <div style="padding-bottom:2%;padding-left :2%;padding-right:2%;padding-bottom:2%;background-color:antiquewhite ">
     
  <div    style="padding-top:1%; ">
@@ -46,6 +46,10 @@
           <option value="2">Inactive</option>
           <option value="3">All</option> 
   </select>
+
+  <span id="download" class="glyphicon glyphicon-download" onclick="exportClient('client')" style="margin-left:;cursor: pointer;font-size:19px" title="Download Clients List" ></span>
+
+
   <span class="modal-title" style="padding-left:35%">Client Details</span> 
   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
      
@@ -120,7 +124,7 @@
         }
         var oTable ;
         $(document).ready(function() {
-            
+            $('.se-pre-con').fadeOut('slow');
            
            <%if(flagActive=="false"){%>
             $('#clientStatus').val('1');
@@ -141,7 +145,7 @@
                 "info":false,
             });
                 $("#searchbox").keyup(function() {
-        otable.fnFilter(this.value);
+        oTable.fnFilter(this.value);
       });
 $(window).bind('resize', function () {
                 oTable.fnAdjustColumnSizing();
@@ -218,6 +222,33 @@ $(window).bind('resize', function () {
 
 
         </script>
+
+        <script src="http://alasql.org/console/alasql.min.js"></script>
+    <script>
+    function exportClient(type)
+{
+     $(".se-pre-con").fadeIn("slow");
+var header=['Code','Name','Abbreviation Name','Category','Client account lead','Location','Address','Contact Person','Contact Person Email Id','Phone Number','Client Type'];
+
+var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/exportToCsv';
+$.ajax({
+url: url,
+method: 'POST',
+data : {"type":type},
+success: function(data) {
+    console.log('bugdata',data)
+data.unshift(header);
+alasql("SELECT * INTO CSV('Client.csv') FROM ?",[data]);
+/*$(".se-pre-con").fadeOut("slow");
+$("#btnDownloadbug").prop('disabled', false);*/
+},
+dataType: 'JSON',
+});   
+
+$(".se-pre-con").fadeOut("slow");
+}
+
+</script>
 </body>
 
 </html>

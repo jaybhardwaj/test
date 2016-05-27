@@ -211,6 +211,17 @@ getProfile:function(userId,roleId,retailerId,callback){
 },
 
 
+exportToCsv: function(type,userId, roleId,retailerid, callback){
+        var query = {
+            sql: 'call usp_exportToCsv(?,?,?,?)',
+            values: [type,userId, roleId,retailerid]
+        };
+        
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
+
     //------------------------Bug--------------------------
 
     bugHomeData: function(userId, roleId,retailerid, callback){
@@ -642,11 +653,11 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
   addEditWbsDetails: function(assign,flaghide,wbsidhide,wbsname,wbscode,
         proname,wbsowner,wbspsdate,
         wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,
-        wbslocation,type,typeVal,userId,roleId,retailerId, callback) {
+        wbslocation,typeVal,userId,roleId,retailerId, callback) {
         var query = {
-            sql: 'call usp_addEditWbsDetails(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            sql: 'call usp_addEditWbsDetails(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [assign,flaghide,wbsidhide,wbsname,wbscode,proname,wbsowner,wbspsdate,
-        wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,wbslocation,type,typeVal,userId,roleId,retailerId]
+        wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,wbslocation,typeVal,userId,roleId,retailerId]
         };
         console.log(query)
         mysql(query, function(err, result) {

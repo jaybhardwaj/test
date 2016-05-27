@@ -21,6 +21,8 @@
 <script type="text/javascript">
 var otable='';
 $(document).ready(function() {
+
+  $('.se-pre-con').fadeOut('slow');
   
   $('.wbs-img').addClass('active');
 
@@ -34,7 +36,7 @@ $(document).ready(function() {
         otable.fnFilter(this.value);
       });
    $(window).bind('resize', function () {
-                oTable.fnAdjustColumnSizing();
+                otable.fnAdjustColumnSizing();
               } );
 
  wbsStatus();
@@ -149,9 +151,42 @@ function actinact(wbsid,flag){
 }
 
 </script>  
+
+<script src="http://alasql.org/console/alasql.min.js"></script>
+    <script>
+    function exportWBS(type)
+{
+     $(".se-pre-con").fadeIn("slow");
+var header=['WBS Name','WBS Code','Project Name','WBS Owner','Planned Start Date','Planned End Date','Actual Start Date','Actual End Date','Estimate Effort','WBS Location','type'];
+
+var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/exportToCsv';
+$.ajax({
+url: url,
+method: 'POST',
+data : {"type":type},
+success: function(data) {
+    console.log('bugdata',data)
+data.unshift(header);
+alasql("SELECT * INTO CSV('WBS.csv') FROM ?",[data]);
+/*$(".se-pre-con").fadeOut("slow");
+$("#btnDownloadbug").prop('disabled', false);*/
+},
+dataType: 'JSON',
+});   
+
+$(".se-pre-con").fadeOut("slow");
+}
+
+</script>
+
+
 <div>
         <% include ./partials/adminheader %>
     </div>
+
+    <div class="se-pre-con"></div>
+
+
   <div   style="padding-bottom:2%;padding-left :2%;padding-right:2%; background-color:antiquewhite ">  
  
   <div style="padding-top:1%;">  
@@ -163,7 +198,11 @@ function actinact(wbsid,flag){
                  <option value="1">Active</option>
                  <option value="0">Inactive</option>
                  <option value="2">All</option>
-                </select>   
+                </select>
+
+                 <span id="download" class="glyphicon glyphicon-download" onclick="exportWBS('wbs')" style="margin-left:390px;cursor: pointer;font-size:19px" title="Download WBS List" ></span>
+
+
          <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
             <table class="table stripe cell-border hover" id="bugtable" >
 
