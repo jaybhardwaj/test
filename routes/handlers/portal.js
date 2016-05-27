@@ -154,7 +154,8 @@ var locationId = [],
                      req.session.croleId=result[0][0].crole_id;  
                      req.session.isRetailer=result[0][0].isRetailer; 
                      req.session.hrRole=result[0][0].hrRole; 
-                     req.session.documentalert=0; 
+                     req.session.documentalert=0;
+                     req.session.loginIdUser=result[0][0].lastinsert; 
                      req.session.modules=result[1].map(function(v){
                         return v.id;
                      });        
@@ -691,9 +692,20 @@ project=project?project:'';
      //--------------------------------------Bug End-------------------------------------------------
 
      logout: function(req,res,next){
-        req.session.destroy();
-           req.page = 'index';             
-             next();
+        modelPortal.logout(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId,req.session.loginIdUser,function(error, result){
+            if(error){
+                req.session.destroy();
+                req.page = 'index';           
+                next();
+            }
+            else{
+                req.session.destroy();
+                req.page = 'index';           
+                next();
+ 
+            }
+        });
+        
      },
 
 

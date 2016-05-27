@@ -14,7 +14,15 @@ module.exports = {
             callback(err, result);
         });
     },
-
+logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
+        var query = {
+            sql: 'call usp_logout(?)',
+            values: [loginIdUser]
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
     EmailVerification:function(emailId ,callback) {
         var query = {
             sql: 'call usp_EmailVerification(?)',

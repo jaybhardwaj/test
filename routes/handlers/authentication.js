@@ -20,7 +20,6 @@ var salt = bcrypt.genSaltSync(3);
          }
      },
      login: function(req, res, next) {
-        console.log("yo :",req.body.password);        
         var pass=bcrypt.hashSync(req.body.password,salt);
        userauth.login(req.body.userid,pass,function(err, result) {
              if (err) {
@@ -42,6 +41,7 @@ var salt = bcrypt.genSaltSync(3);
                      req.session.isRetailer=result[0][0].isRetailer;
                      req.session.hrRole=result[0][0].hrRole;
                      req.session.documentalert=0;
+                     req.session.loginIdUser=result[0][0].lastinsert;
                      req.session.modules=result[1].map(function(v){
                         return v.id;
                      });
