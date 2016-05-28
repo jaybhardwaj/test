@@ -42,53 +42,88 @@
   max-height: 234px; overflow-y: scroll
   }
   </style>
-<body>
+<body >
+ <div class="container-fluid" style="background-color:antiquewhite">
  
- <div class="container-fluid user-list"  style="background-color:antiquewhite">
-          <div class="modal-header" style="padding:0px;margin-top:10px">
-              <h3 class="modal-title">Masters Details</h3> </div>
-              <main> 
-                <%if(myModules.indexOf(1)>=0){%>
-              <input type="hidden" id="hdnId" name="hdnUserId" value="0"> 
-              <input id="tab1" class="tabradio" type="radio" name="tabs" checked>
-              <label for="tab1">BUG</label>
-                 <%}%>
-            <%if(myModules.indexOf(6)>=0){%>
-                  <input id="tab2" class="tabradio" type="radio" name="tabs">
-                <label for="tab2">Document </label> 
-            <%}%> 
-           <%if(myModules.indexOf(2)>=0){%>
-             <input id="tab7" class="tabradio" type="radio" name="tabs">
-              <label for="tab7">TimeSheet</label> 
-           <%}%> 
-            <%if(myModules.indexOf(3)>=0){%>
-                    <input id="tab3" class="tabradio" type="radio" name="tabs">
-                    <label for="tab3">Expense</label> 
-               <%}%>
-            <%if(myModules.indexOf(5)>=0){%>
-                      <input id="tab4" class="tabradio" type="radio" name="tabs">
-                      <label for="tab4">Asset</label> 
-            <%}%>
-            <input id="tab6"  class="tabradio" type="radio" name="tabs">
-            <label for="tab6">Others</label>
-
-    <section id="content1" class="background" >
-      <div class=" row"  style="margin:%" id="bugtable" >
+  
+  <div style="padding:0px;margin-top:10px"onclick="toggleIt()" >
+             
+          <span class="glyphicon glyphicon-plus"></span>  Masters Details
+       
+  </div>
+     <div class="col-md-10"style="margin-left:4%;margin-top:1%">
+    <div class="col-md-2" id="hideItinOnLoad"> 
+        <ul class="nav nav-pills nav-stacked">
+          <li class="b">
+            <a onclick="openDiv(0)"><%if(myModules.indexOf(1)>=0){%>
+              <span class="glyphicon glyphicon-minus"></span>
+             
+               Bug
+              <%}%> 
+            </a>
+          </li>
+          <li class="d">
+            <a onclick="openDiv(1)">
+              <%if(myModules.indexOf(6)>=0){%>
+              <span class="glyphicon glyphicon-minus"></span>
+              Document
+              <%}%> 
+            </a>
+          </li>
+          <li class="t">
+            <a onclick="openDiv(2)"><%if(myModules.indexOf(2)>=0){%>
+               <span class="glyphicon glyphicon-minus"></span> TimeSheet
+              <%}%> 
+            </a>
+          </li>
+          <li class="e">
+            <a onclick="openDiv(3)">
+              <%if(myModules.indexOf(3)>=0){%>
+              <span class="glyphicon glyphicon-minus"></span> Expense
+              <%}%> 
+            </a>
+          </li>
+           <li class="a">
+            <a onclick="openDiv(4)"><%if(myModules.indexOf(5)>=0){%>
+               <span class="glyphicon glyphicon-minus"></span> Asset
+              <%}%> 
+            </a>
+          </li>
+          <li class="o">
+            <a onclick="openDiv(5)">
+            <span class="glyphicon glyphicon-minus"></span> Others           
+            </a>
+          </li>
+        </ul>
+    </div>
+    <div class="col-md-8" id="hideItinOnLoad1">
+      <div id="Bug">
+      <section id="content1" class="background" style="padding:0px">
+      <div class=" row"  style="margin:2%" id="bugtable" >
       <%for(var i=0;i<bugMaster.length;i++){%>       
-          <div  class="col-md-4" style="margin-top:1%;" >
-              <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:2% " onclick="showHide(<%=i%>)">             
-               <a id="anchor_<%=i%>" class="anchor" href="#demo<%=bugMaster[i].code%>" data-toggle="collapse" > <label  style="padding:4px 145px" ><%=bugMaster[i].tablename%></label><i class="glyphicon glyphicon-resize-full"></i></a>
+          <div  class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;" >
+              <div  style="text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% " onclick="showHide(<%=i%>)">             
+               <a id="anchor_<%=i%>" class="anchor" href="#demo<%=bugMaster[i].code%>" data-toggle="collapse" > 
+                <div class="row">
+                 <div class="col-md-10"> 
+                <label  style="" ><%=bugMaster[i].tablename%></label>
+              </div>
+              <div class="col-md-2"> 
+                <span><i class="glyphicon glyphicon-resize-full"></i></span>
+               </div>
+              </div>  
+                </a>
                     <div id="demo<%=bugMaster[i].code%>" class="collapse ">
-                      <div class="overflowClass">
-                      <table style="width:100%;text-align:center" id="bugTable_<%=bugMaster[i].code%>" class="table  stripe hover cell-border" >
+                            <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="bugTable_<%=bugMaster[i].code%>" class="table stripe hover cell-border " >
                         <tr><th style="text-align:center">Description</th><th style="text-align:center">Action</th></tr>
-                        
+                  
                         <%for(var j=0;j<bugMasterSubData.length;j++){%>
                        
                           <%if(bugMaster[i].code==bugMasterSubData[j].code){%>
                         <tr id="bugEditTextBoxTr_<%=bugMasterSubData[j].id%>"  class="bugEditTextBoxTr hide"  >
                           <td>
-                            <input type="text" maxlength="25" id="bugEditData_<%=bugMasterSubData[j].id%>"  value="<%=bugMasterSubData[j].description1%>">
+                            <input type="text" maxlength="50" id="bugEditData_<%=bugMasterSubData[j].id%>"  value="<%=bugMasterSubData[j].description1%>">
                           </td>
                            <td>
                           <%if(!bugMasterSubData[j].flag){%>                            
@@ -99,7 +134,7 @@
                          </td>
                          </tr>
                          <tr class="hide"><td>
-                      <input type="text" maxlength="25" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].isActive%>" >
+                      <input type="text" maxlength="50" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].isActive%>" >
                         </td></tr>
                         <tr id="bugEditLabelTr_<%=bugMasterSubData[j].id%>" class="bugEditLabelTr"> 
                           <td><%=bugMasterSubData[j].description1%></td>
@@ -117,33 +152,37 @@
                           </td>
                         </tr>
                         <%}%>
-                        <%}%>                       
+                        <%}%>
+
                       </table> 
-                    </div>
-                      <table>
-                         <tr><td style="width:20%"></td> <td><input type="text" maxlength="25" id="bugMasterData_<%=bugMaster[i].code%>" class="form-control" placeholder="@add <%=bugMaster[i].tablename%>"></td>
+                       </div>
+                       <center>
+                      <table class="table">
+                         <tr><td style="width:20%"></td> <td><input type="text" maxlength="50" id="bugMasterData_<%=bugMaster[i].code%>" class="form-control" placeholder="@add <%=bugMaster[i].tablename%>"></td>
                       <td><span class="glyphicon glyphicon-plus-sign" onClick="addBugMaster(<%=bugMaster[i].code%>)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
-                      </table>                     
+                      </table> 
+                      </center>                    
                     </div>
                   </div>
                 </div>
                 <%}%> 
               </div>             
     </section>
-     <section id="content2">
-            <div  class="col-md-4" style="margin-top:1%;">
-              <div style="border-radius: 25px;border:2px solid #f05f40;" onclick="showHide(5)">
+          </div>    
+          <div id="Document">
+                  <section id="content2" style="padding:0px">
+            <div  class="row" style="margin-left: 10%;margin-right: 10%;">
+              <div style="text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% " onclick="showHide(5)">
 
                <a id="anchor" class="anchor" href="#cstrolesdiv" data-toggle="collapse"> 
                <center>
-               <label  style="padding:8px" >Custom Roles</label>
-               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               <label  >Custom Roles</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;"></i>
                </center>
                </a>
-               <div id="cstrolesdiv" class="collapse ">
-                  <div class="overflowClass">
-
-                      <table style="width:100%;text-align:center" id="cstRoleTable" class="table  stripe hover cell-border" >
+               <div id="cstrolesdiv" class="collapse">
+                    <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="cstRoleTable" class="table stripe hover cell-border" >
                         <tr><th style="text-align:center">Role Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=1;i<customrole.length;i++){%>                         
                         <tr id="role_<%=customrole[i].id%>"> 
@@ -159,8 +198,8 @@
                           </td>
                         </tr>
                         <%}%> 
-                      </table> 
-                   </div>   
+                      </table>
+                     </div>  
                       <center>
                         <span class="glyphicon glyphicon-plus-sign" onClick="roleMulti()"  style="font-size:18px;adding-top:5px"></span>
                       
@@ -170,19 +209,18 @@
               </div>
 
                <!-- ---Industry          -->
-               <div  class="col-md-4" style="margin-top:1%;">
-              <div style="border-radius: 25px;border:2px solid #f05f40;"  onclick="showHide(6)" >
+               <div  class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;">
+              <div style=" text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% "  onclick="showHide(6)" >
 
                <a id="anchor" class="anchor" href="#inddiv" data-toggle="collapse"> 
                <center>
-               <label  style="padding:8px" >Industry</label>
-               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               <label    >Industry</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;"></i>
                </center>
                </a>
-                    <div id="inddiv" class="collapse ">
-                      <div class="overflowClass">
-
-                     <table style="width:100%;text-align:center" id="indTable" class="table  stripe hover cell-border" >
+                    <div id="inddiv" class="collapse">
+                    <div class="overflowClass">
+                     <table style="width:100%;text-align:center" id="indTable" class="table stripe hover cell-border" >
                         <tr><th style="text-align:center">Industry Name</th><th style="text-align:center">Action</th></tr>                        
                         <%for(var i=0;i<industry[0].length;i++){%>                         
                           <tr id="ind_<%=i%>"> 
@@ -196,7 +234,7 @@
                               </td>
                           </tr>
                           <tr id="indh_<%=i%>"class="hide"> 
-                             <td> <input type="text" maxlength="25" id="indtext_<%=i%>"  value="<%=industry[0][i].values%>"></td>
+                             <td> <input type="text" maxlength="20" id="indtext_<%=i%>"  value="<%=industry[0][i].values%>"></td>
                              <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('ind_'+<%=i%>,2)"></span>
                               </td>
                           </tr>
@@ -206,7 +244,7 @@
                     </div>
                       <center>
                       <table style="margin:5%">
-                          <td><input type="text" id="indTableAdd" maxlength="25" class="form-control" placeholder="@add Industry "></td>
+                          <td><input type="text" id="indTableAdd" maxlength="20" class="form-control" placeholder="@add Industry "></td>
                          
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('ind',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -217,18 +255,18 @@
 
 
                <!-- ---Business           -->
-              <div  class="col-md-4" style="margin-top:1%;">
-              <div style="border-radius: 25px;border:2px solid #f05f40;"  onclick="showHide(7)">
+              <div  class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;">
+              <div style=" text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% "  onclick="showHide(7)">
 
                <a id="anchor" class="anchor" href="#busdiv" data-toggle="collapse"> 
                <center>
-               <label  style="padding:8px" >Business</label>
-               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               <label    >Business</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;"></i>
                </center>
                </a>
-                    <div id="busdiv" class="collapse ">
+                    <div id="busdiv" class="collapse">
                       <div class="overflowClass">
-                      <table style="width:100%;text-align:center" id="busTable" class="table  stripe hover cell-border" >
+                      <table style="width:100%;text-align:center" id="busTable" class="table stripe hover cell-border" >
                         <tr><th style="text-align:center">Business Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=0;i<business[0].length;i++){%>                         
                           <tr id="bus_<%=i%>"> 
@@ -242,7 +280,7 @@
                               </td>
                           </tr>
                           <tr id="bush_<%=i%>"class="hide"> 
-                             <td> <input type="text" maxlength="25"  id="bustext_<%=i%>"  value="<%=business[0][i].values%>"></td>
+                             <td> <input type="text" maxlength="20"  id="bustext_<%=i%>"  value="<%=business[0][i].values%>"></td>
                              <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('bus_'+<%=i%>,2)"></span>
                               </td>
                           </tr>
@@ -252,7 +290,7 @@
                     </div>
                       <center>
                       <table style="margin:5%">
-                          <td><input type="text" id="busTableAdd" maxlength="25" class="form-control" placeholder="@add Business "></td>
+                          <td><input type="text" id="busTableAdd" maxlength="20" class="form-control" placeholder="@add Business "></td>
                          
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('bus',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -264,19 +302,18 @@
 
 
               <!-- ---Document Type            -->
-              <div  class="col-md-4" style="margin-top:1%;">
-              <div style="border-radius: 25px;border:2px solid #f05f40;"  onclick="showHide(8)">
+              <div  class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;">
+              <div style=" text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% "  onclick="showHide(8)">
 
                <a id="anchor" class="anchor" href="#docdiv" data-toggle="collapse"> 
                <center>
-               <label  style="padding:8px" >Document Type</label>
-               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               <label    >Document Type</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;"></i>
                </center>
                </a>
-                    <div id="docdiv" class="collapse ">
-                    <div  class="  overflowClass ">
-                    
-                    <table style="width:100%;text-align:center" id="docTable" class="table  stripe hover cell-border" >
+                    <div id="docdiv" class="collapse">
+                      <div class="overflowClass">
+                    <table style="width:100%;text-align:center" id="docTable" class="table stripe hover cell-border" >
                         <tr><th style="text-align:center">Business Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=0;i<document[0].length;i++){%>                         
                           <tr id="doc_<%=i%>"> 
@@ -291,7 +328,7 @@
                               </td>
                           </tr>
                           <tr id="doch_<%=i%>"class="hide"> 
-                             <td> <input type="text" maxlength="25"id="doctext_<%=i%>"  value="<%=document[0][i].values%>"></td>
+                             <td> <input type="text" maxlength="20"id="doctext_<%=i%>"  value="<%=document[0][i].values%>"></td>
                              <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('doc_'+<%=i%>,2)"></span>
                               </td>
                           </tr>
@@ -303,7 +340,7 @@
                       
                       <center>
                       <table style="margin:5%">
-                          <td><input type="text" id="docTableAdd" maxlength="25" class="form-control" placeholder="@add Document "></td>
+                          <td><input type="text" id="docTableAdd" maxlength="20" class="form-control" placeholder="@add Document "></td>
                          
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('doc',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -315,18 +352,18 @@
 
 
               <!-- ---Technology Type            -->
-               <div  class="col-md-4" style="margin-top:1%;">
-              <div style="border-radius: 25px;border:2px solid #f05f40;"  onclick="showHide(9)">
+               <div  class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;">
+              <div style=" text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% "  onclick="showHide(9)">
 
                <a id="anchor" class="anchor" href="#tecdiv" data-toggle="collapse"> 
                <center>
-               <label  style="padding:8px" >Technology Type</label>
-               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               <label    >Technology Type</label>
+               <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;"></i>
                </center>
                </a>
-                    <div id="tecdiv" class="collapse ">
-                      <div class="overflowClass">
-                    <table style="width:100%;text-align:center" id="tecTable" class="table  stripe hover cell-border" >
+                    <div id="tecdiv" class="collapse">
+                       <div class="overflowClass">
+                    <table style="width:100%;text-align:center" id="tecTable" class="table stripe hover cell-border" >
                         <tr><th style="text-align:center">Technology Name</th><th style="text-align:center">Action</th></tr>                        
                         <% for(var i=0;i<technology[0].length;i++){%>                         
                           <tr id="tec_<%=i%>"> 
@@ -341,7 +378,7 @@
                               </td>
                           </tr>
                           <tr id="tech_<%=i%>"class="hide"> 
-                             <td> <input type="text" maxlength="25"id="tectext_<%=i%>"  value="<%=technology[0][i].values%>"></td>
+                             <td> <input type="text" maxlength="20"id="tectext_<%=i%>"  value="<%=technology[0][i].values%>"></td>
                              <td>   <span class="glyphicon glyphicon-floppy-disk" onclick="docsave('tec_'+<%=i%>,2)"></span>
                               </td>
                           </tr>
@@ -353,7 +390,7 @@
                       
                       <center>
                       <table style="margin:5%">
-                          <td><input type="text" id="tecTableAdd" maxlength="25" class="form-control" placeholder="@add Technology "></td>
+                          <td><input type="text" id="tecTableAdd" maxlength="20" class="form-control" placeholder="@add Technology "></td>
                          
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('tec',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
                       </table>
@@ -363,68 +400,71 @@
               </div>
                   
            
-     </section>
-     <section id="content7">
+      </section>
+     </div>   
+      <div id="TimeSheet">
+        <section id="content7" style="padding:0px">
          <!---------------timesheet---->
-         <div class="row">
-
-              <div  class="col-md-5" style="margin-top:1%;">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 108%; ">
-                  <div onclick="showHide(23)">
-               <a id="anchor" class="anchor" href="#timestdiv" data-toggle="collapse"> <label  style="padding:4px 145px" >Holidays</label><i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i></a>
-             </div>
-                    <div id="timestdiv" class="collapse ">
-                      <div class="overflowClass">
-                        <table style="width:100%;text-align:center" id="holiTable" class="table  stripe hover cell-border" >
-                        <tr>
-                        <th style="text-align:center">Occasion Name</th>
-                        <th style="text-align:center">Date</th>
-                        <th style="text-align:center">Action</th>
-                        </tr>                        
-                        <%for(var i=0;i<=allinfo[0].length-1;i++){%>
-                          <tr id="editHoli_<%=allinfo[0][i].id%>" class="hide">
-                          <td><input  type="text" id="ocName_<%=allinfo[0][i].id%>" maxlength="25" value="<%=allinfo[0][i].holidayName%>"></td>
-                          <td><input type="text" id="ocDate_<%=allinfo[0][i].id%>" maxlength="25" class="datepicker" value="<%=allinfo[0][i].holidayDate%>" readonly = "true"></td>
-                          <td>                          
-                                <span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli(<%=allinfo[0][i].id%>,1)"></span>
-                            </td>
-                          </tr>                                               
-                          <tr id="holi_<%=allinfo[0][i].id%>" > 
-                            <td><%=allinfo[0][i].holidayName%></td>
-                            <td><%=allinfo[0][i].holidayDate%></td>
-                            <td>                          
-                                <span class="glyphicon glyphicon-pencil" onClick="showEditHoli(<%=allinfo[0][i].id%>,0)"></span>
-                            </td>
-                        </tr>
-                        <%}%> 
-                      </table> 
-                    </div>
-                      <table style="margin-left:4%;margin-right:2%;">
-                      <tr>
-                        <td><input type="text" id="ocName_0" class="form-control" maxlength="25" placeholder="@ Occasion Name"></td>
-                        <td style="padding-left:2%">
-                            <input type="text" id="ocDate_0" maxlength="25" style=" margin-left:;"class="datepicker form-control" placeholder="@ Occasion Date" readonly = "true"></td>
-                        <td> <span class="glyphicon glyphicon-plus-sign" onClick="holiValidation(0)" style="margin-left: 41%;font-size:18px;padding-left:6px;padding-top:5px;"></span></td>
-                                          
-                          
-                         
-                      </tr>
-                      </table>
-                      </div>
-                </div>
-              </div>
-              <div  class="col-md-5" style="margin-top:1%;margin-left:7%">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 108%; " >
-                  <div onclick="showHide(24)">
-               <a id="anchor" class="anchor" href="#tanother" data-toggle="collapse">
-                <div class="row">
-                 <div class="col-md-9"> <label  style="padding:4px 145px" >TimeSheet</label></div>
-                 <div class="col-md-3"> <i style="margin-right: 18%;float:right;margin-top: 11%;" class="glyphicon glyphicon-resize-full"></i></div>
-              </div>
-              </a>
-            </div>
-                    <div id="tanother" class="collapse ">
+            <div  class="row" style="">
+              <div style="width:95%;margin-left:10%;border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;"onclick="showHide(23)">
+              <a id="anchor" class="anchor" href="#timestdiv" data-toggle="collapse" > 
+                <div class="row" style="width:100%">
+                     
+                      <label  style="" >Holidays</label>
                       
+                      <i style="float:right;padding-top:1%" class="glyphicon glyphicon-resize-full"></i> 
+                   
+                 </div>  
+              </a>
+        
+              <div id="timestdiv" class="collapse">
+                 <div class="overflowClass">
+                <table  id="holiTable" class="table stripe hover cell-border" >
+                  <tr>
+                  <th style="text-align:center">Occasion Name</th>
+                  <th style="text-align:center">Date</th>
+                  <th style="text-align:center">Action</th>
+                  </tr>                        
+                  <%for(var i=0;i<=allinfo[0].length-1;i++){%>
+                    <tr id="editHoli_<%=allinfo[0][i].id%>" class="hide">
+                    <td><input  type="text" id="ocName_<%=allinfo[0][i].id%>" maxlength="50" value="<%=allinfo[0][i].holidayName%>"></td>
+                    <td><input type="text" id="ocDate_<%=allinfo[0][i].id%>" maxlength="50" class="datepicker" value="<%=allinfo[0][i].holidayDate%>" readonly = "true"></td>
+                    <td>                          
+                          <span class="glyphicon glyphicon-floppy-disk" onClick="showEditHoli(<%=allinfo[0][i].id%>,1)"></span>
+                      </td>
+                    </tr>                                               
+                    <tr id="holi_<%=allinfo[0][i].id%>" > 
+                      <td><%=allinfo[0][i].holidayName%></td>
+                      <td><%=allinfo[0][i].holidayDate%></td>
+                      <td>                          
+                          <span class="glyphicon glyphicon-pencil" onClick="showEditHoli(<%=allinfo[0][i].id%>,0)"></span>
+                      </td>
+                  </tr>
+                  <%}%> 
+                </table> 
+              </div>
+                <table class='table'>
+                    <tr>
+                      <td><input type="text" id="ocName_0" class="form-control" maxlength="50" placeholder="@ Occasion Name"></td>
+                      <td style="padding-left:2%">
+                          <input type="text" id="ocDate_0" maxlength="50" style=" margin-left:;"class="datepicker form-control" placeholder="@ Occasion Date" readonly = "true"></td>
+                      <td> <span class="glyphicon glyphicon-plus-sign" onClick="holiValidation(0)" style=""></span></td>
+                    </tr>
+                </table>
+              </div>
+              </div>
+            </div>  
+               <div  class="row" style="padding-top:1%">
+                 <div style="width:95%;margin-left:10%;border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;"onclick="showHide(24)">
+               <a id="anchor" class="anchor" href="#tanother" data-toggle="collapse">
+                <div class="row" style="width:100%">
+                  <label  >TimeSheet</label>
+                   <i style="float:right;padding-top:1%" class="glyphicon glyphicon-resize-full"></i>
+                 </div>
+              
+              </a>
+                    <div id="tanother" class="collapse">
+                       <div class="overflowClass">
                        <table style="margin-left:12%">
                         <tr>
                              <th>Select Weekend Holiday :</th> 
@@ -439,7 +479,7 @@
                         
                         <tr>
                              <th style="margin-top: 13%;"id="hlabel">Date :</th> 
-                            <td><input placeholder="Enter Date Here"type="text" maxlength="25" readonly="true" class="form-control" id="hdate"style="margin-top: 6%;margin-left: 29%;width:200px" name="odate"value="<%=allinfo[2][0].startDate%>"></td>  
+                            <td><input placeholder="Enter Date Here"type="text" maxlength="50" readonly="true" class="form-control" id="hdate"style="margin-top: 6%;margin-left: 29%;width:200px" name="odate"value="<%=allinfo[2][0].startDate%>"></td>  
 
                         </tr>
 
@@ -462,116 +502,23 @@
                               </td>
                         </tr>
                       </table>                      
-                                   
+                     </div>              
                     </div>
-                </div>
-              </div>
-            </div>
-     </section>
+                </div> 
+              
+      </section>
+    </div>
+          
+     <div id="Asset">
+       <section id = 'content4' class = 'background' style="padding:0px">
+      <div class="row" style="margin:2%;">
 
-     <section id="content3">
-      <div class=" row"  style="margin:" id="bugtable" >
-      <%for(var i=0;i<expenseType.length;i++){%>       
-          <div  class="<%if(expenseType[i].code==1){%>col-md-6<%}else{%>col-md-3<%}%>" style="margin-top:1%;text-align:center">
-              <div style="border-radius: 25px;border:2px solid #f05f40; "onclick="showHide(10+<%=i%>)">             
-               <a id="anchor" class="anchor" href="#exp<%=expenseType[i].code%>" data-toggle="collapse"> 
-               <center><label  style="padding:9px;<%if(expenseType[i].code!=1){%>width:1%<%}%>" > <%=expenseType[i].tableName%></label><i style="float:right;padding-right:3%;padding-top:2%" class="glyphicon glyphicon-resize-full"></i>
-              </center>
-               </a>
-                    <div id="exp<%=expenseType[i].code%>" class="collapse ">
-                      <div class="overflowClass">
-                      <table style="width:100%;text-align:center" id="expTable_<%=expenseType[i].code%>" class="table  stripe hover cell-border" >
-                        <tr>                        
-                        <%if(expenseType[i].code==1){%>
-                        <th style="text-align:center">Expense Type</th>
-                        <th style="text-align:center">Is Bill Mandatory</th>
-                        <th style="text-align:center">Max. Bill Amount</th>
-                        <%}%>
-                        <%if(expenseType[i].code==2){%>
-                           <th style="text-align:center">Hotel Name</th>
-                        <%}%>
-                        <%if(expenseType[i].code==3){%>
-                           <th style="text-align:center">Travel Mode</th>
-                        <%}%>
-                        <th style="text-align:center">Action</th>
-                        </tr>                        
-                        <% for(var j=0;j<expenseMaster.length;j++){%>                      
-                          <%if(expenseType[i].code==expenseMaster[j].code){%>
-                           <tr id="expenseEdit_<%=expenseMaster[j].id%>"  class="hide">
-                              <td>
-                              <%//if(expenseMaster[j].id<=7){%> <!-- Mayur ask Manu-->
-                           <%//=expenseMaster[j].description%>
-                            <%//}else{%>
-                             <input type="text"  maxlength="25" id="expMasterData_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>"  value="<%=expenseMaster[j].description%>">                              
-                            <%//}%>
-                          </td>
-                          <%if(expenseType[i].code==1){%>
-                          <td>
-                          <select id="isMandatory_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>" onChange="toggeleBillBox(<%=expenseMaster[i].code%>,<%=expenseMaster[j].id%>,1)">
-              <option value="1" <%if(expenseMaster[j].minimumBillableMandetory==1){%>selected<%}%>>Yes</option>
-              <option  value="0" <%if(expenseMaster[j].minimumBillableMandetory!=1){%>selected<%}%>>No</option>
-                          </select>   
-                          </td>                         
-                            <td>
-                            <input type="number" maxlength="6" min="1" id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>"placeholder="@max Amount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
-                            </td>
-                          <%}%>                                                 
-                           <td>                                                  
-                            <span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,1)"></span>                      
-                         </td>
-                         </tr> 
-                        <tr id="expenseShow_<%=expenseMaster[j].id%>"> 
-                          <td><%=expenseMaster[j].description%></td>
-                            <%if(expenseType[i].code==1){%>
-                            <%if(expenseMaster[j].minimumBillableMandetory==1){%>
-                            <td>Yes</td><%}else{%><td>No</td><%}%>
-                            <td><%=expenseMaster[j].maximumBillableMandetory%></td>
-                          <%}%>                          
-                          <td>                          
-                              <span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,0)"></span>                          
-                          </td>
-                        </tr>
-                          <%}%>                  
-                       <%}%>
-                      </table>
-                      </div> 
-                      <center>
-                      <table style="margin:5px">
-                         <tr>
-                         <td >
-                         <input type="text" id="expMasterData_<%=expenseType[i].code%>" maxlength="25" min="1" class="form-control" placeholder="@expence type"></td>
-                          <%if(expenseType[i].code==1){%>
-                         <td>
-                           <select id="isMandatory_<%=expenseType[i].code%>" class="form-control" onchange="toggeleBillBox(<%=expenseType[i].code%>,-1,0)" >
-                             <option value="0">is Mandatory?</option>
-                             <option value="1">Yes</option>
-                             <option value="2">No</option>
-                           </select>
-                         </td>
-                         <td><input type="number" min="1" maxlength="3" id="maxBillAmnt_<%=expenseType[i].code%>" class="form-control" placeholder="@max Amount "></td>
-                         <%}%>
-                      <td><span class="glyphicon glyphicon-plus-sign" onClick="addExpenseMaster(<%=expenseType[i].code%>,0,0)"style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
-                      </tr>
-                      </table> 
-                      </center>                    
-                    </div>
-                  </div>
-                </div>
-                <%}%> 
-              </div>
-
-    </section>
-     
-    <section id = 'content4' class = 'background'>
-
-      <div class="row" style="margin-top:1%;">
-
-              <div  class="col-md-5">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%;"  >
-                    <div onclick="showHide(18)">
+              <div  class="row">
+                 <div style="margin-left:10%;border-radius: 25px;border:2px solid #f05f40; text-align:center" >
+                    <div style="width:98%" onclick="showHide(17)">
                      <a id="anchor" class="anchor" href="#assetComponent" data-toggle="collapse">
-                      <label  style="padding:4px 145px" >Component</label>
-                      <i style="float:right;padding-right:1%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i>
+                      <label  style="padding:5px" >Component</label>
+                      <i style="float:right; padding-top:1%" class="glyphicon glyphicon-resize-full"></i>
                     </a>
                   </div>
                     <div id="assetComponent" class="collapse ">
@@ -639,16 +586,17 @@
                 </div>
               </div>
 
-              <div  class="col-md-3" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center; ">
-                  <div onclick="showHide(19)"> <a id="anchor" class="anchor" href="#assetAttribute" data-toggle="collapse">
+              <div  class="row" style="margin-top:1%;margin-left:">
+                 <div style=" margin-left:10%;border-radius: 25px;border:2px solid #f05f40; text-align:center"  >
+                  <div onclick="showHide(18)"> <a id="anchor" class="anchor" href="#assetAttribute" data-toggle="collapse">
                    <div class="row">
-                    <div class="col-md-6">
-                         <label  style="padding:4px 100px" >Attributes</label>
+                    <div class="row" style="width:98%">
+                         <label style="padding:5px" >Attributes</label>
+                         <i style=" float:right;padding-top:1% " class="glyphicon glyphicon-resize-full"></i>
                     </div>
-                    <div class="col-md-3">
-                         <i style="margin-right: -136%;float:right;margin-top: 9%;" class="glyphicon glyphicon-resize-full"></i>
-                    </div>
+                   
+                         
+                    
                  </div>   
                   </a>
                 </div>
@@ -700,14 +648,14 @@
                 </div>
               </div>
 
-              <div  class="col-md-3" style="margin-top:;margin-left:">
+              <div  class="row" style="margin-top:1%;margin-left:">
                  
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%; ">
-                   <div onclick="showHide(20)">
+                 <div style="margin-left:10%;border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 91%; ">
+                   <div onclick="showHide(19)">
                     <a id="anchor" class="anchor" href="#assetValue" data-toggle="collapse">
-                    <div class="row">
-                         <div class="col-md-9"> <label  style="padding:4px 115px" >value</label></div>
-                         <div class="col-md-3"> <i style="margin-left: 25%;margin-top: 8%;" class="glyphicon glyphicon-resize-full"></i></div>
+                    <div class="row" style="width:100%">
+                         <label >value</label>
+                          <i style=" float:right;padding-top:1%" class="glyphicon glyphicon-resize-full"></i>
                     </div>
                     </a>
                   </div>  
@@ -752,7 +700,7 @@
                               <tr>
                                 <td><input type="text" id="valueName" class="form-control" maxlength="25" placeholder="@ value Name"style=""></td>
                                 
-                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(3,insertCheckFlag)" style="font-size: 18px;padding-top: 29%;"></span></td>
+                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(3,insertCheckFlag)" style="font-size: 18px;padding-top:12%;"></span></td>
                                                   
                               </tr>
                       </table>               
@@ -764,13 +712,13 @@
 
       <div class="row"style="margin-top:1%">
       
-          <div  class="col-md-5" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%;">
-                   <div onclick="showHide(21)"><a id="anchor" class="anchor" href="#assetAttributeValueMapping" onclick=getDropDownValueForAsset(1) data-toggle="collapse">
+          <div  class="row" style="margin-top:;margin-left:">
+                 <div style="margin-left:13%;border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 83%;">
+                   <div onclick="showHide(20)"><a id="anchor" class="anchor" href="#assetAttributeValueMapping" onclick=getDropDownValueForAsset(1) data-toggle="collapse">
                     
-                    <div class="row">
-                         <label  style="font-size: 12px; padding:4px 145px">Attribute Value Maping</label>
-                          <i style="margin-right: 3.5%;float:right;margin-top: 1%;" class="glyphicon glyphicon-resize-full"></i>
+                    <div class="row" style="width:100%">
+                         <label   >Attribute Value Maping</label>
+                          <i style="float:right;margin-top: 1%;" class="glyphicon glyphicon-resize-full"></i>
                     </div>
                   </div>
                   </a>
@@ -812,12 +760,12 @@
                 </div>
               </div>
 
-              <div  class="col-md-5" style="margin-top:;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 100%;" >
-                  <div onclick="showHide(22)">
+              <div  class="row" style="margin-top:1%;margin-left:">
+                 <div style="margin-left:13%;border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 83%;" >
+                  <div onclick="showHide(21)">
                    <a id="anchor" class="anchor" href="#assetComponentAttributeMapping" onclick=getDropDownValueForAsset(2) data-toggle="collapse">
                     <div class="row">
-                         <label  style="font-size: 12px; padding:4px 145px">Component Attribute Maping</label>
+                         <label   >Component Attribute Maping</label>
                           <i style="margin-right: 3.5%;float:right;margin-top: 1%;" class="glyphicon glyphicon-resize-full"></i>
                     </div>
                   </a>
@@ -863,16 +811,14 @@
 
       </div> 
 
-      <div  class="col-md-3" style="margin-top:1%;margin-left:">
-                 <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center; ">
-                  <div onclick="showHide(23)"> <a id="anchor" class="anchor" href="#assetBrand" data-toggle="collapse">
+      <div  class="row" style="margin-top:1%;margin-left:">
+                 <div style="margin-left:12%;border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 86%;">
+                  <div onclick="showHide(22)"> 
+                    <a id="anchor" class="anchor" href="#assetBrand" data-toggle="collapse">
                    <div class="row">
-                    <div class="col-md-6">
-                         <label  style="padding:4px 115px" >Brand</label>
-                    </div>
-                    <div class="col-md-3">
-                         <i style="margin-right: -136%;float:right;margin-top: 9%;" class="glyphicon glyphicon-resize-full"></i>
-                    </div>
+                    <div class="row" style="padding-top:1%">
+                        <label  >Brand</label> <i style="float:right;margin-right: 6%;" class="glyphicon glyphicon-resize-full"></i>
+                 
                  </div>   
                   </a>
                 </div>
@@ -925,17 +871,113 @@
               </div> 
  
      </section>
-     
-     <section id="content6" class="background" >
-      <div class=" row"  style="margin:%" id="Othertable" >
+          </div>
+          <div id="Expense">
+                <section id="content3" style="padding:0px">
+      <div class=" row"  style="margin:2%" id="bugtable" >
+      <%for(var i=0;i<expenseType.length;i++){%>       
+          <div  class="<%if(expenseType[i].code==1){%>row<%}else{%>row<%}%>" style="margin-top:1%;text-align:center">
+              <div style="margin-left:10%;border-radius: 25px;border:2px solid #f05f40; "onclick="showHide(10+<%=i%>)">             
+               <a id="anchor" class="anchor" href="#exp<%=expenseType[i].code%>" data-toggle="collapse"> 
+               <center><label  style="padding:5px;<%if(expenseType[i].code!=1){%>width:1%<%}%>" > <%=expenseType[i].tableName%></label><i style="float:right;padding-right:3%;padding-top:1%" class="glyphicon glyphicon-resize-full"></i>
+              </center>
+               </a>
+                    <div id="exp<%=expenseType[i].code%>" class="collapse">
+                       <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="expTable_<%=expenseType[i].code%>" class="table stripe hover cell-border" >
+                        <tr>                        
+                        <%if(expenseType[i].code==1){%>
+                        <th style="text-align:center">Expense Type</th>
+                        <th style="text-align:center">Is Bill Mandatory</th>
+                        <th style="text-align:center">Max. Bill Ammount</th>
+                        <%}%>
+                        <%if(expenseType[i].code==2){%>
+                           <th style="text-align:center">Hotel Name</th>
+                        <%}%>
+                        <%if(expenseType[i].code==3){%>
+                           <th style="text-align:center">Travel Mode</th>
+                        <%}%>
+                        <th style="text-align:center">Action</th>
+                        </tr>                        
+                        <% for(var j=0;j<expenseMaster.length;j++){%>                      
+                          <%if(expenseType[i].code==expenseMaster[j].code){%>
+                           <tr id="expenseEdit_<%=expenseMaster[j].id%>"  class="hide">
+                              <td>
+                              <%//if(expenseMaster[j].id<=7){%> <!-- Mayur ask Manu-->
+                           <%//=expenseMaster[j].description%>
+                            <%//}else{%>
+                             <input type="text"  maxlength="50" id="expMasterData_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>"  value="<%=expenseMaster[j].description%>">                              
+                            <%//}%>
+                          </td>
+                          <%if(expenseType[i].code==1){%>
+                          <td>
+                          <select id="isMandatory_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>" onChange="toggeleBillBox(<%=expenseMaster[i].code%>,<%=expenseMaster[j].id%>,1)">
+              <option value="1" <%if(expenseMaster[j].minimumBillableMandetory==1){%>selected<%}%>>Yes</option>
+              <option  value="0" <%if(expenseMaster[j].minimumBillableMandetory!=1){%>selected<%}%>>No</option>
+                          </select>   
+                          </td>                         
+                            <td>
+                            <input type="number" maxlength="6" min="1" id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>"placeholder="@max Ammount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
+                            </td>
+                          <%}%>                                                 
+                           <td>                                                  
+                            <span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,1)"></span>                      
+                         </td>
+                         </tr> 
+                        <tr id="expenseShow_<%=expenseMaster[j].id%>"> 
+                          <td><%=expenseMaster[j].description%></td>
+                            <%if(expenseType[i].code==1){%>
+                            <%if(expenseMaster[j].minimumBillableMandetory==1){%>
+                            <td>Yes</td><%}else{%><td>No</td><%}%>
+                            <td><%=expenseMaster[j].maximumBillableMandetory%></td>
+                          <%}%>                          
+                          <td>                          
+                              <span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,0)"></span>                          
+                          </td>
+                        </tr>
+                          <%}%>                  
+                       <%}%>
+                      </table>
+                      </div> 
+                      <center>
+                      <table style="margin:5px">
+                         <tr>
+                         <td >
+                         <input type="text" id="expMasterData_<%=expenseType[i].code%>" maxlength="50" min="1" class="form-control" placeholder="@expence type"></td>
+                          <%if(expenseType[i].code==1){%>
+                         <td>
+                           <select id="isMandatory_<%=expenseType[i].code%>" class="form-control" onchange="toggeleBillBox(<%=expenseType[i].code%>,-1,0)" >
+                             <option value="0">is Mandatory?</option>
+                             <option value="1">Yes</option>
+                             <option value="2">No</option>
+                           </select>
+                         </td>
+                         <td><input type="number" min="1" maxlength="3" id="maxBillAmnt_<%=expenseType[i].code%>" class="form-control" placeholder="@max Ammount "></td>
+                         <%}%>
+                      <td><span class="glyphicon glyphicon-plus-sign" onClick="addExpenseMaster(<%=expenseType[i].code%>,0,0)"style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
+                      </tr>
+                      </table> 
+                      </center>                    
+                    </div>
+                  </div>
+                </div>
+                <%}%> 
+              </div>             
+     </section>
+          </div>
+          
+          <div id="Others">
+                <section id="content6" class="background" style="padding:0px">
+      <div class=" row"  style="" id="Othertable" >
       <%for(var i=0;i<otherMaster.length;i++){%>       
-          <div  class="col-md-4" style="margin-top:1%;">
-              <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:2% "onclick="showHide(13+<%=i%>)">             
+          <div  class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;">
+              <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1% "onclick="showHide(13+<%=i%>)">             
                <a id="anchor" class="anchor" href="#demo<%=otherMaster[i].code%>" data-toggle="collapse"> 
-               <center><label  style="padding:4px" ><%=otherMaster[i].tablename%></label><i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:2%"></i>
+               <center><label ><%=otherMaster[i].tablename%></label><i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;padding-top:1%"></i>
                </center></a>
                     <div id="demo<%=otherMaster[i].code%>" class="collapse ">
-                      <table style="width:100%;text-align:center" id="bugTable_<%=otherMaster[i].code%>" class="table  stripe hover cell-border" >
+                       <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="bugTable_<%=otherMaster[i].code%>" class="table stripe hover cell-border" >
                         <tr><th style="text-align:center">Description</th>
                         <%if(otherMaster[i].code==6){%><th style="text-align:center">Rate</th><%}%>
                         <th style="text-align:center">Action</th></tr>                        
@@ -944,11 +986,11 @@
                           <%if(otherMaster[i].code==bugMasterSubData[j].code){%>
                            <tr id="bugEditTextBoxTr_<%=bugMasterSubData[j].id%>"  class="hide">
                             <td>
-                            <input type="text" id="bugEditData_<%=bugMasterSubData[j].id%>" maxlength="25" style="width:80px"  value="<%=bugMasterSubData[j].description1%>">
+                            <input type="text" id="bugEditData_<%=bugMasterSubData[j].id%>" maxlength="50" style="width:80px"  value="<%=bugMasterSubData[j].description1%>">
                           </td>
                            <%if(otherMaster[i].code==6){%>
                            <td>
-                           <input type="text" style="width:100px" maxlength="25" id="crate_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].currencyRate%>">
+                           <input type="text" style="width:100px" maxlength="50" id="crate_<%=bugMasterSubData[j].id%>" value="<%=bugMasterSubData[j].currencyRate%>">
                            </td>
                            <%}%>
                            <td>
@@ -960,7 +1002,7 @@
 
                          </tr>
                           <tr class="hide"><td>
-                      <input type="text" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" maxlength="25" value="<%=bugMasterSubData[j].isActive%>" >
+                      <input type="text" id="bugMasterActiveVal_<%=bugMasterSubData[j].id%>" maxlength="50" value="<%=bugMasterSubData[j].isActive%>" >
                         </td></tr>
                         <tr id="bugEditLabelTr_<%=bugMasterSubData[j].id%>"> 
                           <td><%=bugMasterSubData[j].description1%></td>
@@ -981,9 +1023,10 @@
                         <%}%>
                         <%}%>                       
                       </table> 
+                    </div>
                       <center>
                       <table style="margin:5%">
-                        <td><input type="text" id="bugMasterData_<%=otherMaster[i].code%>" maxlength="25" class="form-control" placeholder="@add <%=otherMaster[i].tablename%>"></td>
+                        <td><input type="text" id="bugMasterData_<%=otherMaster[i].code%>" maxlength="20" class="form-control" placeholder="@add <%=otherMaster[i].tablename%>"></td>
                           <%if(otherMaster[i].code==6){%>
                          <td><input type="number" id="crate_<%=otherMaster[i].code%>" maxlength="10" class="form-control" placeholder="@add currency Rate"></td>
                           <%}%>
@@ -996,15 +1039,21 @@
                 <%}%> 
               </div>             
     </section>
-    </main>
-    </div>
+          </div>
+    </div>  
+  </div>
+
+    </div>  
+  </div>
+
+</div>
     </body>
      <footer>
         <% include ./partials/footer %>
     </footer>
 <!-- ---------------------------------------------- EDIT ROLE------------------------------------------------------> 
    
-  <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
+ <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content" style="padding-bottom:2%" id="express2">
                 <div class="modal-titlebox" >
@@ -1112,8 +1161,28 @@
             </div>
             </div>
 </div>
-  
     <script type="text/javascript">
+    var divName=["Bug","Document","TimeSheet","Expense","Asset","Others"];
+    var navName=["b","d","t","e","a","o"];
+    openDiv(0);
+    function openDiv(id){
+     
+      for(var i=0;i<divName.length;i++){
+       if(i!=id){
+        $('#'+divName[i]).addClass('hide');
+        $('.'+navName[i]).removeClass('active');
+      }
+       else{ 
+          $('#'+divName[i]).removeClass('hide');
+          $('.'+navName[i]).addClass('active');
+        }  
+      }
+    }
+
+    function toggleIt(){
+      $("#hideItinOnLoad").toggle();
+      $("#hideItinOnLoad1").toggle();
+    }
   $( document ).ready(function() {
           showHide(22);
           setTimeout(function(){showHide(22);},1000);
@@ -1160,7 +1229,7 @@
     $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
     });
     
-    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping','#timestdiv','#tanother','#assetBrand'];
+    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping','#assetBrand','#timestdiv','#tanother'];
       
       function showHide(temp){
         if(temp==5){
