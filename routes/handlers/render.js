@@ -64,7 +64,13 @@ module.exports = {
             	req.session.logo=req.resultProfile[0][0].logo;
                res.render('profile',{isRetailer:req.session.isRetailer,myModules:req.session.modules,hideFlag:1,info:req.resultProfile,logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
                 break;
-
+                
+                //------------------Dashboards <Phase1 : Not Lived> --------------------------
+                case 'vis_dashboard' :
+            	req.session.firstName=req.resultProfile[0][0].firstName;
+            	req.session.logo=req.resultProfile[0][0].logo;
+                res.render('dashboard',{isRetailer:req.session.isRetailer,myModules:req.session.modules,hideFlag:1,info:req.resultProfile,logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+                break;
                 
                case 'updateProfile' :
                res.redirect('/profile');

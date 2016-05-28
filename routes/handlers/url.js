@@ -173,6 +173,12 @@ module.exports = {
 		next();
 	},
 
+    //----------------Dashboards-------------------
+	setDashboard: function(req, res, next) {
+		req.page = 'vis_dashboard';
+		next();
+	},
+
 	//----------------------------------ASSIGNMENT-----------------------------------
 
 	setpageAssignment: function(req, res, next) {

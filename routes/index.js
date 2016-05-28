@@ -241,7 +241,7 @@ app.post('/saveTask',portal.saveTask);
 	/*app.post('/clientStatus',portal.getClientStatus,render.redirect);*/
 
 	app.get('/users',url.setpageUser, portal.getUser,portal.getRole,portal.getCustomRole,render.redirect);
-app.post('/createEditUser',url.setpagecreateEditUser,portal.getClient,portal.getUser,portal.getRole,portal.getCustomRoleforUser,
+    app.post('/createEditUser',url.setpagecreateEditUser,portal.getClient,portal.getUser,portal.getRole,portal.getCustomRoleforUser,
 	portal.getDepartment,portal.getLevel,portal.getModules,portal.getHrRole,render.redirect);
 
 	app.post('/addUser', portal.addUser,render.redirect);
@@ -261,7 +261,9 @@ app.post('/createEditUser',url.setpagecreateEditUser,portal.getClient,portal.get
 	app.get('/profile',url.setProfile,portal.profile,render.redirect);
 	app.post('/updateProfile',upload.single('logo'),url.updateProfile,portal.updateProfile,render.redirect);
 	
+	//--------------Dashboards------------
 
+    app.get('/dash',url.setDashboard,portal.profile,render.redirect);
  //------------------------------------Project -WBS ------------------------------------------
 
     
