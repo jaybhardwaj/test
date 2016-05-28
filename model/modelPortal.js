@@ -1797,7 +1797,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
     billingRate,userRole, manager, defaultModule, customRole, randomPassword,ecode,designation,level,modules,doj,dob,doc,rtype,userId,
      roleId, retailerId,crole,hrRole ,hodId,callback) {
         
-        //console.log("inNum-----    ",inNum);
+        
         var query = {
             sql: 'call atemp_usp_createRetailerUser(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, lastName, emailId, contactNumber,
@@ -1805,7 +1805,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             ecode,designation,level,modules,doj,dob,doc,rtype,
              userId, roleId, retailerId,crole,hrRole,hodId]
         };
-        console.log("query---  ",query);
+       
         mysql(query, function(err, result) {
             callback(err, result);
         });

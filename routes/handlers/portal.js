@@ -86,12 +86,13 @@ var locationId = [],
                  next(err);
 
              } else { 
-                   var hash=result[0][0].userPassword;
-
-                   if(bcrypt.compareSync(req.body.password,hash)){
+                   var hash=result[0][0].userPassword.toString();
+                    console.log("yooooooo      ",hash);
+                   if((bcrypt.compareSync(req.body.password,hash))&&(hash!=0)){
                     res.json("1");
                    }
                    else{
+                    console.log("kaminaa");
                      res.json("0");
                    }
                     
@@ -192,8 +193,7 @@ var locationId = [],
                 console.log(result,req.body.pass);
                 var hash=result[0][0].userPassword;
                 if(bcrypt.compareSync(req.body.oldpass,hash)){
-                    console.log("yup        ",bcrypt.hashSync('2',salt)   ,req.body.pass);
-                    console.log("yup        ",bcrypt.hashSync(req.body.pass,salt));
+                 
                     modelPortal.changePass(req.session.userId,bcrypt.hashSync(req.body.pass,salt),req.body.oldpass,
                         function(err, result){
                         if(err){
@@ -2942,17 +2942,18 @@ addUser: function(req, res, next) {
       var billingRate=req.body.billingRate;
       var rtype=req.body.rtype==''?'':req.body.rtype;
       var randomPassword = randomString(10);
-      console.log("lola",randomPassword,bcrypt.hashSync(randomString(10),salt));
+      var encriptPass=bcrypt.hashSync(randomPassword,salt);
+    
          modelPortal.addUser(req.body.timesheet,req.body.isClient,req.body.clientId,req.body.isbill,req.body.expense,inNum,
             req.body.hdnUserId, req.body.firstName, req.body.lastName, req.body.emailId, req.body.contactNumber, billingRate,
-             req.body.userRole, req.body.manager, req.body.defaultModule, req.body.customRole,bcrypt.hashSync(randomPassword,salt),
+             req.body.userRole, req.body.manager, req.body.defaultModule, req.body.customRole,encriptPass,
             req.body.ecode,req.body.designation,req.body.level,modules,req.body.doj,req.body.dob,req.body.doc,rtype,
           req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,function(err, result) {
              if (err) {
                  next(err);
              } else {
                  if (result[0][0].flag == flag.inserted) {
-                     mailTemplates.retailerRegistration(req.body.firstName, req.body.emailId, randomPassword, function(error, resultMail) {
+                     mailTemplates.retailerRegistration(req.body.firstName, req.body.emailId,randomPassword,function(error, resultMail) {
                          if (error) {
                              result[0][0].flag = flag.mailFailed;
                          }
