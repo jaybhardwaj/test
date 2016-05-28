@@ -5,6 +5,23 @@ var randomString = require('../lib/common').generateRandomString;
  
 
 module.exports = {
+     getEmpData:function(retId,emp_id,mgr_id,callback){
+        if(emp_id==undefined){
+            emp_id='';
+        }
+        if(mgr_id==undefined){
+            mgr_id='';
+        }
+           var query = {
+            sql: 'call usp_getEmpData(?,?,?)',
+            values: [retId,emp_id,mgr_id]
+        };
+        
+        mysql(query, function(err, result) {
+            callback(err, result);
+            console.log(err,result);
+        });
+    },
     customRolesExist:function(userId,roleId,retailerId,roleName, callback) {
         var query = {
             sql: 'call usp_customRolesExist(?)',

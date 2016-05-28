@@ -116,7 +116,7 @@ module.exports = {
 					allusers:req.resultRaiseBug[8],
 					roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover});
+					isApp:req.session.isApprover,bugSetting:req.session.bugSetting});
 				break;
 				case 'bugDetails':				
 				res.json(req.resultBugDetails);

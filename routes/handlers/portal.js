@@ -57,6 +57,16 @@ var locationId = [],
 
  
  module.exports = {
+    getEmpData: function(req,res,next){
+        modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
+            if (err) {
+                 next(err);
+
+             } else { 
+            res.json(result);
+             }
+        });
+    },
     customRolesExist: function(req, res, next) {
          modelPortal.customRolesExist(req.session.userId,req.session.roleId, req.session.retailerId,req.body.roleName,function(err, result) {
              if (err) {

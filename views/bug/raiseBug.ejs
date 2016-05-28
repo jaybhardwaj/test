@@ -8,6 +8,225 @@
 
     <head>
  
+        <style> 
+            #titleg {
+                border-top-right-radius: 20px;
+                border-top-left-radius: 20px;
+            }
+            #raise {
+                border-radius: 10px;
+            }
+
+            .raiseBug{
+                padding-top:5px;
+                padding-bottom: 5px;
+
+            }
+        </style>
+    </head>
+    <div class="se-pre-con"></div>
+<%console.log("-----bug setting data---------------",bugSetting)%>
+    <div class="fluid-container  " style="background-color:antiquewhite;margint-top:8%"> 
+        <center>
+            <form onsubmit="return validateForm()" action="/addBug" method="post"  enctype="multipart/form-data" name="rbug" >
+                <div class="row" style="width:90%; ">
+                    <div class="col-md-3" style="height:100%">
+                        <center>
+                            <div class="main-box-raisebug box-size " style="width:auto; padding-bottom:2%;margin-top:4.5%;margin-bottom:5%;">
+                                <div class="row raiseBug" style="width:100%;height:auto;padding-top:5px;margin-left:-1px">
+                                    <div class="col-md-6">
+                                        <div style="width:100%;padding-top:11px;font-size:95%;margin-left:-39px"><b>Reported By</b></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4><span class="label label-info" style="padding-top:5%;padding-bottom:5%;font-size:57%"><b><%=user%></b></span></h4>
+                                    </div>
+                                </div>
+                                <div class="row raiseBug" style="  width:95%;height:auto;" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                       <div style="width:100%;"><label class="form-Label"> Project :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select onchange="Getalltech()" style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="project" id="proj" >
+                                            <option value="0">-select-</option>
+                                            <% for(var i=0;i<project.length;i++) { %>
+                   <option value="<%=project[i].id %>" <%if(bugSetting[0]==project[i].id){%>selected<%}%> >
+                                                    <%=project[i].projectTitle%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Status <sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="status" id="status">
+                                            <option>New</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-6" style="" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Assinged To :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-6" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="assingedto" id="assingedto">
+                                          <!--    <option value="0">-Select-</option> -->  
+                     <% for(var i=0;i<assingedto.length;i++) {  console.log(assingedto[i].id,"---------",bugSetting[1])  %>
+                             <option value="<%=assingedto[i].id%>" <%if(assingedto[i].id==bugSetting[1]){%>selected <%}%> >
+                                                    <%=assingedto[i].firstName %>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Priority :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="priority" id="priority">
+                                            <% for(var i=0;i<priority.length;i++) { %>
+                                                <option value="<%=priority[i].id %>" <%if(bugSetting[2]==priority[i].id){%>selected<%} else { if(priority[i].description1=="Medium" ){%>selected <%}}%>  >
+                                                        <%=priority[i].description1%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Severity :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="severity" id="severity">
+                                            <% for(var i=0;i<severity.length;i++) { %>
+                                                <option value="<%=severity[i].id %>"  <%if(bugSetting[3]==severity[i].id){%>  selected<%} else { if(severity[i].description1=="Medium" ){%>selected <%}}%>  >      <%=severity[i].description1%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Technology : <sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="technology" id="technology">
+                                             <!--  <option value="0">-Select-</option>   -->
+                                        <!--     <% for(var i=0;i<technology.length;i++) { console.log("techhhhhhhhhhhh",technology[i].description1) %>
+                                                <option value="<%=technology[i].id %>">
+                                                    <%=technology[i].description1%>
+                                                </option>
+                                                <%}%> -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Type : <sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="type" id="type">
+                                            <% for(var i=0;i<type.length;i++) { %>
+                                                <option value="<%=type[i].id %>" <%if(bugSetting[5]==type[i].id){%>selected<%}%>>
+                                                    <%=type[i].description1%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Detected By :</label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="detectedBy" id="detectedBy">
+                                           <option value="0">-select-</option>
+                                           <!-- <% for(var i=0;i<allusers.length;i++) { %>
+                                                <option value="<%=allusers[i].id %>">
+                                                    <%=allusers[i].Name%>
+                                                </option>
+                                                <%}%> -->
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                          <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Cycle :</label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="cycle" id="cycle">
+                                          <option value="0">-select-</option>
+
+                                            <% for(var i=0;i<cycle.length;i++) { %>
+                                                <option value="<%=cycle[i].id %>" <%if(bugSetting[7]==cycle[i].id){%>selected<%}%>>
+                                                    <%=cycle[i].description1%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-6" style="width:50%" align="left">
+                                        <div style="width:102%;"><label class="form-Label">Tentative Closure : </label></div>
+                                    </div>
+                                    <div class="col-md-6" style="width:50%;height:auto" align="right">
+                                        <input type="text" name="tentativeclouser" id="tentativeclouser" class="form-text-box" style="width:90px;font-size:85%;padding:3%;" placeholder="Select date ">
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                    <div class="col-md-9"  >
+                        <div style="height:50px;padding-top:10px" id="titleg">
+                            <input class="form-control" type="text" maxlength="75"name="titlebox" id="titlebox" style="width:100%; float:center; " placeholder="Enter title/summary for new bug ... * ">
+                        </div>
+                        <div class="border-boxs" style="width:100%;">
+                            <div style="width:100%">
+                                <textarea name="description" id="description" class="form-control" maxlength="500" rows="10"></textarea>
+                                (max. 1200 characters.)
+                            </div>
+                            <div class="row " style="padding-top:0%;color:grey;padding-left:2.5%;" align="left">
+                                <i class="fa fa-file-image-o" aria-hidden="true" style="float: left"></i>
+                                <div class="col-md-2">Attach Files <b>(limit :10 mb)</b></div>
+                                <div class="col-md-2">
+                                    <input type="file" id="addBugUp" name="addBugUpload" class="upload" />
+                                </div>
+                            </div>
+                            <div>
+                            <label style="float: right"><input type="checkbox" name="setting" id="setting" value="1"<%if(bugSetting[8]=='1'){%>checked="true"<%}%> />Remember Setting </label>
+                            <input type="submit" class="btn" name="submit" id="raise" value="Raise Bug" style="margin-top: 3%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </center>
+    </div>
+
+</body>
+<% include ../partials/footer%>
+</html>
+
+    
+
         <script>
 /*$(function() {
     $( "#tentativeclouser" ).datepicker({ minDate: 0});
@@ -16,7 +235,7 @@
         function validateForm() {
             var titlebox = document.forms["rbug"]["titlebox"].value;
             var editorContent = tinyMCE.get('description').getContent();
-            var tentativeclouser = document.forms["rbug"]["tentativeclouser"].value;
+          /*  var tentativeclouser = document.forms["rbug"]["tentativeclouser"].value;*/
             var tech = document.forms["rbug"]["technology"].value;
             var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
            // console.log("dsssssssf" + tech);
@@ -55,12 +274,12 @@
                     alert("Please chose a Technology For this Bug");
                 return false;
             }*/
-            
+   /*         
      if (tentativeclouser == null || tentativeclouser == "") {
                 alert("Please fill tentative Closure date!");
                 return false;
             }
-
+*/
             var input, file;
             input = document.getElementById('addBugUp');
             file = input.files[0];
@@ -119,7 +338,7 @@
                 method: 'POST',
                 success: function(data) {
                  //    alert("in all tech success");
-                     console.log("---------------data-----EJS---------",data);
+                     console.log("---------------data-----EJS---------","<%=bugSetting%>");
                     if(data.length != 0){  
                         //data=data[0];
                         console.log(data)  ;
@@ -132,23 +351,44 @@
 
                        //  $('#technology').append($("<option value=0>-Select-</option>");
                       //  $('#assingedto').append($("<option value=0>-Select-</option>"); 
-
+                        var techs=false; 
                         for(var i =0;i<data[0].length;i++){   
+                            if(data[0][i].id=='<%=bugSetting[4]%>'){
+                                    techs=true; 
+                                }
+                                else{
+                                    techs=false;
+                                }
                             $('#technology')
                             .append($("<option></option>")
-                            .attr("value",data[0][i].id)              
-                            .text(data[0][i].description1));          
+                            .attr("value",data[0][i].id).attr("selected",techs)             
+                            .text(data[0][i].description1));
+                                     
                         }
+                        var asto=false; 
                         for(var i =0;i<data[1].length;i++){   
+                             if(data[1][i].userId=='<%=bugSetting[1]%>'){
+                                    asto=true; 
+                                }
+                                else{
+                                    asto=false;
+                                }                         
                             $('#assingedto')
                             .append($("<option></option>")
-                            .attr("value",data[1][i].userId)              
+                            .attr("value",data[1][i].userId).attr("selected",asto)             
                             .text(data[1][i].firstName));   
                         }
+                         var dets=false; 
                         for(var i =0;i<data[1].length;i++){   
+                            if(data[1][i].userId=='<%=bugSetting[6]%>'){
+                                    dets=true; 
+                                } 
+                                else{
+                                    dets=false;
+                                }
                             $('#detectedBy')
                             .append($("<option></option>")
-                            .attr("value",data[1][i].userId)              
+                            .attr("value",data[1][i].userId).attr("selected",dets)             
                             .text(data[1][i].firstName));   
                         }
 
@@ -159,217 +399,3 @@
         }
 
         </script>
-        <style> 
-            #titleg {
-                border-top-right-radius: 20px;
-                border-top-left-radius: 20px;
-            }
-            #raise {
-                border-radius: 10px;
-            }
-
-            .raiseBug{padding-top:3%;}
-        </style>
-    </head>
-    <div class="se-pre-con"></div>
-
-    <div class="fluid-container  " style="background-color:antiquewhite;margint-top:8%"> 
-        <center>
-            <form onsubmit="return validateForm()" action="/addBug" method="post"  enctype="multipart/form-data" name="rbug" >
-                <div class="row" style="width:90%;height:570px; ">
-                    <div class="col-md-3" style="height:100%">
-                        <center>
-                            <div class="main-box-raisebug box-size " style="width:auto;height:455px;padding-bottom:2%;margin-top:4.5%;margin-left:-20%;">
-                                <div class="row raiseBug" style="width:100%;height:auto;padding-top:5px;margin-left:-1px">
-                                    <div class="col-md-6">
-                                        <div style="width:100%;padding-top:11px;font-size:95%;margin-left:-39px"><b>Reported By</b></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h4><span class="label label-info" style="padding-top:5%;padding-bottom:5%;font-size:57%"><b><%=user%></b></span></h4>
-                                    </div>
-                                </div>
-                                <div class="row raiseBug" style="margin-top:4%; width:95%;height:auto;" align="left">
-                                    <div class="col-md-5" style="width:50%" align="left">
-                                        <div style="width:100%;">Project <sup class="astrick">*</sup></div>
-                                    </div>
-                                    <div class="col-md-7" style="width:50%" align="right">
-                                        <select onchange="Getalltech()" style="width:90px;font-size:85%;padding:3%;" name="project" id="proj" >
-                                            <option value="0">-select-</option>
-                                            <% for(var i=0;i<project.length;i++) { %>
-                                                <option value="<%=project[i].id %>">
-                                                    <%=project[i].projectTitle%>
-                                                </option>
-                                                <%}%>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-5" style="width:50%" align="left">
-                                        <div style="width:100%;">Status <sup class="astrick">*</sup></div>
-                                    </div>
-                                    <div class="col-md-7" style="width:50%" align="right">
-                                        <select style="width:90px;font-size:85%;padding:3%;" name="status" id="status">
-                                            <option>New</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-6" style="" align="left">
-                                        <div style="width:100%;">Assinged To <sup class="astrick">*</sup></div>
-                                    </div>
-                                    <div class="col-md-6" style="width:50%" align="right">
-                                        <select style="width:90px;font-size:85%;padding:3%;" name="assingedto" id="assingedto">
-                                          <!--    <option value="0">-Select-</option> -->  
-                                            <% for(var i=0;i<assingedto.length;i++) { %>
-                                                <option value="<%=assingedto[i].id%>">
-                                                    <%=assingedto[i].firstName %>
-                                                </option>
-                                                <%}%>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-5" style="width:50%" align="left">
-                                        <div style="width:100%;">Priority <sup class="astrick">*</sup></div>
-                                    </div>
-                                    <div class="col-md-7" style="width:50%" align="right">
-                                        <select style="width:90px;font-size:85%;padding:3%;" name="priority" id="priority">
-                                            <% for(var i=0;i<priority.length;i++) { %>
-                                                <option value="<%=priority[i].id %>" <%if(priority[i].description1=="Medium" ){%>selected
-                                                    <%}%> >
-                                                        <%=priority[i].description1%>
-                                                </option>
-                                                <%}%>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-5" style="width:50%" align="left">
-                                        <div style="width:100%;">Severity <sup class="astrick">*</sup></div>
-                                    </div>
-                                    <div class="col-md-7" style="width:50%" align="right">
-                                        <select style="width:90px;font-size:85%;padding:3%;" name="severity" id="severity">
-                                            <% for(var i=0;i<severity.length;i++) { %>
-                                                <option value="<%=severity[i].id %>" <%if(severity[i].description1=="Medium" ){%>selected
-                                                    <%}%>>
-                                                        <%=severity[i].description1%>
-                                                </option>
-                                                <%}%>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-5" style="width:50%" align="left">
-                                        <div style="width:100%;">Technology <sup class="astrick">*</sup></div>
-                                    </div>
-                                    <div class="col-md-7" style="width:50%" align="right">
-                                        <select style="width:90px;font-size:85%;padding:3%;" name="technology" id="technology">
-                                             <!--  <option value="0">-Select-</option>   -->
-                                        <!--     <% for(var i=0;i<technology.length;i++) { console.log("techhhhhhhhhhhh",technology[i].description1) %>
-                                                <option value="<%=technology[i].id %>">
-                                                    <%=technology[i].description1%>
-                                                </option>
-                                                <%}%> -->
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-5" style="width:50%" align="left">
-                                        <div style="width:100%;">Type <sup class="astrick">*</sup></div>
-                                    </div>
-                                    <div class="col-md-7" style="width:50%" align="right">
-                                        <select style="width:90px;font-size:85%;padding:3%;" name="type" id="type">
-                                            <% for(var i=0;i<type.length;i++) { %>
-                                                <option value="<%=type[i].id %>">
-                                                    <%=type[i].description1%>
-                                                </option>
-                                                <%}%>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-5" style="width:50%" align="left">
-                                        <div style="width:100%;">Detected By</div>
-                                    </div>
-                                    <div class="col-md-7" style="width:50%" align="right">
-                                        <select style="width:90px;font-size:85%;padding:3%;" name="detectedBy" id="detectedBy">
-                                           <option value="0">-select-</option>
-                                           <!-- <% for(var i=0;i<allusers.length;i++) { %>
-                                                <option value="<%=allusers[i].id %>">
-                                                    <%=allusers[i].Name%>
-                                                </option>
-                                                <%}%> -->
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                          <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-5" style="width:50%" align="left">
-                                        <div style="width:100%;">Cycle</div>
-                                    </div>
-                                    <div class="col-md-7" style="width:50%" align="right">
-                                        <select style="width:90px;font-size:85%;padding:3%;" name="cycle" id="cycle">
-                                          <option value="0">-select-</option>
-
-                                            <% for(var i=0;i<cycle.length;i++) { %>
-                                                <option value="<%=cycle[i].id %>">
-                                                    <%=cycle[i].description1%>
-                                                </option>
-                                                <%}%>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-
-                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
-                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
-                                    <div class="col-md-6" style="width:50%" align="left">
-                                        <div style="width:102%;">Tentative Closure <sup class="astrick">*</sup></div>
-                                    </div>
-                                    <div class="col-md-6" style="width:50%;height:auto" align="right">
-                                        <input type="text" name="tentativeclouser" id="tentativeclouser" style="width:90px;font-size:85%;padding:3%;" placeholder="Select date ">
-                                    </div>
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                    <div class="col-md-9" style=";height:90%">
-                        <div style="height:50px;padding-top:10px" id="titleg">
-                            <input class="form-control" type="text" maxlength="75"name="titlebox" id="titlebox" style="width:100%; float:center; " placeholder="Enter title/summary for new bug ... * ">
-                        </div>
-                        <div class="border-boxs" style="width:100%;height:82%;background-color:#fcfcfc">
-                            <div style="width:100%">
-                                <textarea name="description" id="description" class="form-control" maxlength="500" rows="10"></textarea>
-                                (max. 1200 characters.)
-                            </div>
-                            <div class="row " style="padding-top:1%;color:grey;padding-left:2.5%;" align="left">
-                                <div class="col-md-1 glyphicon glyphicon-folder-open" style="color:grey;"></div>
-                                <div class="col-md-2">Attach Files <b>(limit :10 mb)</b></div>
-                                <div class="col-md-2">
-                                    <input type="file" id="addBugUp" name="addBugUpload" class="upload" />
-                                </div>
-                            </div>
-                            <input type="submit" class="label-info" name="submit" id="raise" style="color:white;background-color:#0066ff;"value="Raise Bug">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </center>
-    </div>
-
-</body>
-<% include ../partials/footer%>
-</html>
-
-    

@@ -1,6 +1,12 @@
 'use strict';
  var config = require('../../config/config').modules;
 module.exports = { 
+	getEmpData:function(req,res,next){
+		req.emp_id=req.query.emp_id;
+		req.mgr_id=req.query.mgr_id;
+		console.log("inURL",req.emp_id,req.mgr_id);
+		next();
+	},
 	home:function(req,res,next){
 		req.page='home';
 		next();
@@ -231,7 +237,9 @@ module.exports = {
 	if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{	
 		req.page='raiseBug';
-		next();
+		if(!req.session.bugSetting)
+		req.session.bugSetting='';
+		next(); 
 	}
 	else
 	{
@@ -239,9 +247,24 @@ module.exports = {
 	}
 	},
 	addBug:function(req,res,next){
+	var arr=[];
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
 	    req.page='addBug';
+	    console.log(req.body);
+	    if(req.body.setting=='1'){
+	    	arr.push(req.body.project); 
+	    	arr.push(req.body.assingedto);
+	    	arr.push(req.body.priority);
+	    	arr.push(req.body.severity);
+	    	arr.push(req.body.technology);
+	    	arr.push(req.body.type);
+	    	arr.push(req.body.detectedBy);
+	    	arr.push(req.body.cycle); 
+	    	arr.push(req.body.setting) ;
+	    }
+	    req.session.bugSetting=arr;
+	    console.log("session url",req.session.bugSetting);
 		next();	
 	}
 	else
