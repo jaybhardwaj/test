@@ -3,7 +3,7 @@
 var mysql = require('../lib/mysql').executeQuery;
 var randomString = require('../lib/common').generateRandomString;
  
-
+ 
 module.exports = {
      getEmpData:function(retId,emp_id,mgr_id,callback){
         if(emp_id==undefined){
@@ -2515,6 +2515,79 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             }
         });         
     },
+
+    getClientContacts : function (userId,roleId,retailerId,clientId,callback){
+       var q ={
+          sql: "call usp_getClientContacts(?,?)",
+        values: [clientId,retailerId]
+       
+        };
+        console.log(q);
+        mysql(q, function(err, result) {
+            console.log(result)
+            if (err) {
+                //console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+
+    addeditClientContacts : function (userId,roleId,retailerId,body,callback){
+       var q ={
+          sql: "call usp_addeditClientContacts(?,?,?,?,?,?,?)",
+        values: [body.cname,body.cemail,body.ccontact,body.clientId,body.id,retailerId,body.password]
+       
+        };
+        console.log(q);
+        mysql(q, function(err, result) {
+            console.log(result)
+            if (err) {
+                //console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+    updateClientPassword : function (userId,roleId,retailerId,body,callback){
+       var q ={
+          sql: "call usp_sendMailClient(?,?)",
+        values: [body.id,body.password]
+       
+        };
+        console.log(q);
+        mysql(q, function(err, result) {
+            console.log(result)
+            if (err) {
+                //console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+    blockUser : function (body,callback){
+       var q ={
+          sql: "call usp_blockClientContact(?)",
+        values: [body.id]
+       
+        };
+        console.log(q);
+        mysql(q, function(err, result) {
+            console.log(result)
+            if (err) {
+                //console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
 
      saveHrm: function (selected,reqId,callback){
        var q ={

@@ -37,6 +37,10 @@ app.use(bodyParser({
 	app.get('/getEmpData',url.getEmpData,portal.getEmpData);
 	
 	
+
+app.post('/sendMailClient',portal.updateClientPassword,portal.sendMailClient);
+app.post('/blockUser',portal.blockUser);
+	
 	//------------------------BUG-------------------------------------------------
 	
 	app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);
@@ -189,8 +193,8 @@ app.get('/interviewFeedback',url.interviewFeedback,portal.interviewFeedback,rend
 app.get('/reqApprover',url.reqApprover,portal.reqApprover,render.redirect);
 
 app.post('/error',url.error,render.redirect);
-
-
+ app.post('/getClientContacts',portal.getClientContacts);
+ app.post('/addeditClientContacts',portal.addeditClientContacts);
 
 //-----------------------------------------Project------------------------------------------
 app.get('/task',url.task,portal.task,render.redirect);

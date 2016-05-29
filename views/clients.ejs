@@ -10,27 +10,6 @@
 .glyphicon-ok-circle{
   color:green!important;
  }
-
-/*        .fa {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: 19px;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translate(0, 0);
-    }
-    .bodyClass{
-        background-color:antiquewhite;margin-top:2% 
-    }
-    .addClass{
-            margin-right: 2%;
-             float: right;: 
-    }
-    .rowClass{
-        background-color:;
-    }
-*/
 </style>
 </head>
  <% include ./partials/adminheader %>
@@ -47,11 +26,13 @@
           <option value="3">All</option> 
   </select>
 
-  <span id="download" class="glyphicon glyphicon-download" onclick="exportClient('client')" style="margin-left:;cursor: pointer;font-size:19px" title="Download Clients List" ></span>
+
 
 
   <span class="modal-title" style="padding-left:35%">Client Details</span> 
   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
+
+    <span id="download" class="glyphicon glyphicon-download" onclick="exportClient('client')" style="margin-right:10px;cursor: pointer;font-size:19px;float:right" title="Download Clients List" ></span>
      
   <table id="client-table" class="table stripe cell-border hover">  
                  <thead>
@@ -72,7 +53,7 @@
                 </thead> 
                 <tbody id="clientBody">
                <%for(var i=0;i<clients.length;i++){ %>
-                 <tr id="row_<%=clients[i].id%>">       
+                 <tr onclick="getContacts('<%=clients[i].id%>',this.id)" id="row_<%=clients[i].id%>" class="rows">       
                  <td id="row_<%=clients[i].id%>1"+><%=clients[i].clientCode%></td>
                  <td id="row_<%=clients[i].id%>2"+ ><%=clients[i].clientName%></td>
                  <td  id="row_<%=clients[i].id%>3"+  ><%=clients[i].clientAbbName%></td>
@@ -97,18 +78,244 @@
                             <%}%>>
                         </span>
                     </a>
+
+
+                   <span style="margin-left:10px" class="glyphicon glyphicon-link" onclick="addEditContacts(0,'<%=clients[i].id%>')" title="Add client contact person"  data-toggle="modal" data-target="#myModal" ></span>
                  </td>
 
                  </tr>
               <%}%>
                 </tbody>
             </table>
+
+
+
+
+
+<div style="margin-top :2%">
+
+             <table id="client-contact-table" class="table stripe cell-border hover">  
+                 <thead>
+                    <tr>                                         
+                        <th>Contact Person</th>
+                        <th>Contact Person Email</th>
+                        <th>Contact Phone</th>
+                         <th>Client Name</th>
+                        <th>Client Code</th>  
+                        <th>Action</th>
+
+                    </tr>
+                </thead> 
+                <tbody id="client-contact-body">
+              
+                </tbody>
+            </table>
+
+</div>
         </div> 
     </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add/Edit client contact person</h4>
+        </div>
+        <div class="modal-body">
+         
+
+      <label class="form-label">Contact Person Name:</label><sup>*</sup>
+<input type="text" maxlength="40" class="form-text-box clearAll " id="cname" placeholder="Name"  required />
+
+      <label class="form-label">Contact Person Emailid:</label><sup>*</sup>
+<input type="text" maxlength="40" class="form-text-box clearAll" id="cemail" placeholder="Email id"  required />
+
+      <label class="form-label">Contact Person Contact num:</label><sup>*</sup>
+<input type="text" maxlength="40" class="form-text-box clearAll" id="ccontact"  placeholder="Contact Num"  required />
+<input type="text" maxlength="40" class="form-text-box clearAll hide" id="clientid" required />
+<input type="text" maxlength="40" class="form-text-box clearAll hide" id="flag"   required />
+
+
+
+
+        </div>
+        <div class="modal-footer center">
+             <button type="button" class="btn btn-success" onclick="createEditContact()">Create</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
     <footer>
         <% include ./partials/footer %>
     </footer>
         <script>
+
+        function getContacts(clientId,rowId){
+            $(".rows").removeClass('active-row');
+            $("#"+rowId).addClass('active-row');
+
+                            var ch = '';
+                            $.ajax({
+                                url: 'getClientContacts',
+                                data: {
+                                    'clientid': clientId
+                                },
+                                method: 'post',
+                                success: function(pdetails) {
+                                    console.log(pdetails)
+                                    if(otableclint != null)otableclint.fnDestroy();
+                                    $('#client-contact-body').html(ch);
+                                    for (var i = 0; i < pdetails.length; i++) {                                 
+                                        ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%">' + pdetails[i].Name + '</td><td>' + pdetails[i].emailId + '</td><td style = "width:10%">' + pdetails[i].contactNum + '</td><td style = "width:10%">' + pdetails[i].clientName + '</td><td  id = "con_' + i + '">' + pdetails[i].clientCode + '</td>';
+                     
+                     if(pdetails[i].isActive==1){
+                                       ch=ch+'</td><td ><i class="glyphicon glyphicon-pencil  " style = "font-size:130%;color:#555555" data-toggle="modal" data-target="#myModal"  title = "Edit" id = "edit_' + pdetails[i].id + '_' + i + '" onclick = "addEditContacts('+pdetails[i].id+','+pdetails[i].clientId+')"></i> <i class="glyphicon glyphicon-envelope" style = "font-size:130%;color:#555555; margin-left:10px"  title = "Send mail" id = "mail' + pdetails[i].id + '_' + i + '" onclick = "sendMail('+pdetails[i].id+')"></i><i class="glyphicon glyphicon-ban-circle" style = "font-size:130%;color:#555555; margin-left:10px"  title = "Block access" id = "block' + pdetails[i].id + '_' + i + '" onclick = "blockUser('+pdetails[i].id+')"></i></td></tr>';
+                                   }
+                                   else
+                                   {
+ch+='<td style="color:red">Blocked</td></tr>';
+                                   }
+                                    }
+
+
+                                    $('#client-contact-body').html(ch);
+      
+         otableclint=$('#client-contact-table').dataTable({
+               'iDisplayLength': 10,
+                "order":[],
+                "bDestroy": true, 
+                "info":false,
+            });
+
+
+                     
+                                }
+                            });
+
+
+
+
+
+        }
+
+        function addEditContacts(id,clientId)
+        {
+            console.log('id is ',id);
+
+            console.log('clientid is ',clientId);
+var rowId="row_"+id;
+     $("#cemail").prop('disabled',false);
+$(".clearAll").val('');
+if(id>0)
+{
+    var name=document.getElementById("client-contact-table").rows[rowId].cells.item(0).innerHTML;
+var mail=document.getElementById("client-contact-table").rows[rowId].cells.item(1).innerHTML;
+var con=document.getElementById("client-contact-table").rows[rowId].cells.item(2).innerHTML;
+    $("#cname").val(name);
+    $("#ccontact").val(con);
+    $("#cemail").val( mail);
+     $("#cemail").prop('disabled',true);
+}
+ $("#clientid").val(clientId);
+  $("#flag").val(id);
+
+        }
+
+        function createEditContact()
+        {
+
+var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+ var numreg = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
+
+
+if($("#cname").val().trim().length<=0)
+{
+    alert('Client Contact Name is required');
+    return ;
+}
+
+if($("#cemail").val().trim().length<=0 || !(re.test($("#cemail").val())))
+{
+    alert('Valid Client Contact Email is required');
+    return ;
+}
+if($("#ccontact").val().trim().length<=0 ||isNaN($("#ccontact").val()))
+{
+    alert('Valid Client Contact contact num is required');
+    return ;
+}
+                         $.ajax({
+                                url: 'addeditClientContacts',
+                                data: {
+                                    'cname': $("#cname").val(),
+                                    'cemail': $("#cemail").val(),
+                                    'ccontact': $("#ccontact").val(),
+                                    'clientId':$("#clientid").val(),
+                                    'id':$("#flag").val()
+
+                                },
+                                method: 'post',
+                                success: function(pdetails) {
+                                    acd=pdetails;
+                                    console.log(pdetails)
+                                  if(pdetails[0].flag=='1')
+                                    {
+                                        alert('Contact Person information created successfully.');
+                                          window.location.reload();
+                                   }
+                                   else
+                                    if(pdetails[0].flag=='2')
+                                    {
+                                        alert('Contact Person information updated successfully.');
+                                          window.location.reload();
+                                    }
+                                    else
+                                    {
+                                        alert('Email id already exist');
+
+                                    }
+                                }
+                            });
+
+        }
+
+function blockUser(id)
+{
+
+ 
+ if(confirm('Access for fusion will be revoked for this user. Do you want to continue?'))
+{
+                        $.ajax({
+                                url: 'blockUser',
+                                data: {
+                                    
+                                    'id':id
+
+                                },
+                                method: 'post',
+                                success: function(pdetails) {
+                                    console.log(pdetails)
+alert('User has been deactivated successfully.');
+window.location.reload();
+                                }
+                            });
+}
+
+
+}
+
         function getClientsByStatus(){
             if($("#clientStatus").val()==1){
                
@@ -144,6 +351,16 @@
                 "bDestroy": true, 
                 "info":false,
             });
+
+
+             otableclint=$('#client-contact-table').dataTable({
+               'iDisplayLength': 10,
+                "order":[],
+                "bDestroy": true, 
+                "info":false,
+            });
+
+
                 $("#searchbox").keyup(function() {
         oTable.fnFilter(this.value);
       });
@@ -220,7 +437,26 @@ $(window).bind('resize', function () {
 
 
 
+function sendMail(id)
+{
+if(confirm('Mail will be send to for activation. Do you want to continue?'))
+{
+                        $.ajax({
+                                url: 'sendMailClient',
+                                data: {
+                                    
+                                    'id':id
 
+                                },
+                                method: 'post',
+                                success: function(pdetails) {
+                                    console.log(pdetails)
+alert('Mail has been sent successfully.')
+                                }
+                            });
+}
+
+}
         </script>
 
         <script src="http://alasql.org/console/alasql.min.js"></script>

@@ -68,41 +68,7 @@
                     </tr>
                 </thead>
                 <tbody style="margin-top:7%;padding-top:7%" id="tbodyReq">
-                    <%for(var i=0;i<pdetails.length;i++){%>
-                        <tr id="row_<%=pdetails[i].id%>">
-                            <td style="">
-                                <a onclick='reqData(<%=pdetails[i].id%>,"show",7)'  data-toggle='modal' data-target='#jdDetailModal' style="color:black;cursor:pointer">
-                                <%=pdetails[i].title%>
-                                </a>
-                            </td>
-                            <td>
-                                <%=pdetails[i].skills%>
-                            </td>
-                            <td style="width:10%">
-                                <%=pdetails[i].positions%>
-                            </td>
-                            <td style="width:10%">
-                                <%=pdetails[i].Experience%>
-                            </td>
-                            <td class="hide" id="con_<%=i%>">
-                                <%=pdetails[i].assignedTo%>
-                            </td>
-                            <td id="assign_<%=pdetails[i].id%>">
-                                <%if(pdetails[i].assignedToName!=null){ console.log(i,pdetails[i].assignedToName)%>
-                                    <%=pdetails[i].assignedToName%>
-                                        <%}
-                                        else{%><span class="glyphicon glyphicon-option-horizontal"></span>
-                                            <%}%>
-                            </td>
-                            <td>
-                                <%=pdetails[i].adminHrname%>
-                            </td>
-                            <td><i class="glyphicon glyphicon-pencil" style="font-size:130%;color:#555555" title="Edit" id="edit_<%=pdetails[i].id%>_<%=i%>" onclick="showmodal(this.id)"></i></td>
-                            <td class='hide' id="user_<%=pdetails[i].id%>">
-                                <%=pdetails[i].assignedTo%>
-                            </td>
-                        </tr>
-                        <%}%>
+                
                 </tbody>
             </table>
         </div> 
@@ -239,8 +205,9 @@
                                 },
                                 method: 'post',
                                 success: function(pdetails) {
+                                    if(newDataTable != null)newDataTable.fnDestroy();
                                     $('#tbodyReq').html(ch);
-                                    console.log(pdetails);
+                                    console.log('pdetails',pdetails);
                                     for (var i = 0; i < pdetails.length; i++) {
                                         var hide = 'hide';
                                         console.log(pdetails[i].adminHR, uid);
@@ -271,6 +238,16 @@
                                             $(str).html('<i class="glyphicon glyphicon-ok" style = "color:green" title = "Assigned"></i>');
                                         }
                                     }
+ $("#openreqstate1").dataTable({ 
+                            "bFilter": true,
+                            "pageLength": 10,
+                            "bLengthChange": false
+                        });
+                           $("#searchbox").keyup(function() {
+                        newDataTable.fnFilter(this.value);
+                    });
+
+                     
                                 }
                             });
 

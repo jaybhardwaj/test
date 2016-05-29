@@ -11,7 +11,8 @@ var textract = require('textract');
  var crypto = require('crypto'),
     key = 'efghabcdijklmnop',
     iv = '0123456789654321',
-    cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
+    cipher = crypto.createCipheriv('aes-128-cbc', key, iv)
+    , decipher = crypto.createDecipher('aes-128-cbc', key,iv);
 var idarr = [];
 var loggedinarr = [];
 var bcrypt = require('bcryptjs');
@@ -22,7 +23,7 @@ var config = {
     tesseract: {
         lang: "eng"    
     }
-
+ 
 }
 var options = {
     type: 'text' // extract the actual text in the pdf file 
@@ -35,11 +36,11 @@ preserveLineBreaks : true,
 tesseract: { lang:"eng" } 
 
 }; 
-
+/*
 var crypto = require('crypto'),
     key = 'efghabcdijklmnop',
     iv = '0123456789654321',
-    cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
+    cipher = crypto.createCipheriv('aes-128-cbc', key, iv);*/
 var idarr = [];
 var loggedinarr = [];
 var bcrypt = require('bcryptjs');
@@ -4061,6 +4062,94 @@ addUser: function(req, res, next) {
 
         });
     },
+
+    getClientContacts:function(req,res,next){
+        //console.log("addQuickTag portal");
+        modelPortal.getClientContacts(req.session.userId,req.session.roleId,req.session.retailerId,req.body.clientid,
+           function(err,result){
+            if(err){
+                //console.log("there is an error",err);
+            }   
+            else{
+                    res.json(result[0]);
+                }    
+
+
+
+        });
+    },
+
+
+
+    addeditClientContacts:function(req,res,next){
+        //console.log("addQuickTag portal");
+        var randomPassword = randomString(10);
+        var encriptPass=bcrypt.hashSync(randomPassword,salt);
+        req.body.password=encriptPass;
+        req.body.randomPassword=randomPassword;
+
+        modelPortal.addeditClientContacts(req.session.userId,req.session.roleId,req.session.retailerId,req.body,
+           function(err,result){
+            if(err){
+                //console.log("there is an error",err);
+            }   
+            else{
+                    res.json(result[0]);
+                }    
+
+
+
+        });
+    },
+
+    updateClientPassword:function(req,res,next){
+      var randomPassword = randomString(10);
+      var encriptPass=bcrypt.hashSync(randomPassword,salt);
+    req.body.password=encriptPass;
+    req.body.randomPassword=randomPassword;
+
+        modelPortal.updateClientPassword(req.session.userId,req.session.roleId,req.session.retailerId,req.body,
+           function(err,result){
+            if(err){
+                console.log("there is an error",err);
+            }   
+            else{
+                console.log(result)
+                req.body.emailId=result[0][0].userEmail;
+                req.body.firstName=result[0][0].firstName;
+                   next();
+                }  
+        });
+    },
+
+
+    sendMailClient:function(req,res,next){
+console.log('sendMailClient',req.body)
+           mailTemplates.retailerRegistration(req.body.firstName, req.body.emailId,req.body.randomPassword,function(error, result) {
+                         console.log(error)
+                         if (error) {
+                             //result[0][0].flag = flag.mailFailed;
+                         }
+
+                         res.json(result);
+                         
+                     });
+
+    },
+
+        blockUser:function(req,res,next){
+           modelPortal.blockUser(req.body,function(error, result) {
+                         console.log(error)
+                         if (error) {
+                             //result[0][0].flag = flag.mailFailed;
+                         }
+
+                         res.json(result);
+                         
+                     });
+
+    },
+
 
  saveHrm:function(req,res,next){
         //console.log("addQuickTag portal");
