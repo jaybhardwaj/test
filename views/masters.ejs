@@ -7,8 +7,7 @@
 </head>
 <style type="text/css">
 .table>thead>tr>th {
-       color: #808080;
-    background-color: antiquewhite;
+       color: #808080; 
     text-align: center;
 }
 .tagger {
@@ -27,10 +26,7 @@
 .sol-selection-container{
    border-top-right-radius: initial;top: 215px;left: 268px !important;width: 302px;margin-top: -4%;
   }
- .background {
-     background-color:antiquewhite; 
-     padding:2%;
-  }
+ 
   section{
     min-height: 400px;
   }
@@ -45,6 +41,7 @@
 <body >
  <div class="container-fluid" style="background-color:antiquewhite">
  
+<<<<<<< Updated upstream
   
   <div style="padding:0px;margin-top:10px"onclick="toggleIt()" >
              
@@ -100,6 +97,38 @@
       <div id="Bug">
       <section id="content1" class="background" style="padding:0px">
       <div class=" row"  style="margin:2%" id="bugtable" >
+=======
+ <div class="container-fluid user-list secondry-color"   >
+          <div class="modal-header" style="padding:0px;margin-top:10px">
+              <h3 class="modal-title">Masters Details</h3> </div>
+              <main> 
+                <%if(myModules.indexOf(1)>=0){%>
+              <input type="hidden" id="hdnId" name="hdnUserId" value="0"> 
+              <input id="tab1" class="tabradio" type="radio" name="tabs" checked>
+              <label for="tab1">BUG</label>
+                 <%}%>
+            <%if(myModules.indexOf(6)>=0){%>
+                  <input id="tab2" class="tabradio" type="radio" name="tabs">
+                <label for="tab2">Document </label> 
+            <%}%> 
+           <%if(myModules.indexOf(2)>=0){%>
+             <input id="tab7" class="tabradio" type="radio" name="tabs">
+              <label for="tab7">TimeSheet</label> 
+           <%}%> 
+            <%if(myModules.indexOf(3)>=0){%>
+                    <input id="tab3" class="tabradio" type="radio" name="tabs">
+                    <label for="tab3">Expense</label> 
+               <%}%>
+            <%if(myModules.indexOf(5)>=0){%>
+                      <input id="tab4" class="tabradio" type="radio" name="tabs">
+                      <label for="tab4">Asset</label> 
+            <%}%>
+            <input id="tab6"  class="tabradio" type="radio" name="tabs">
+            <label for="tab6">Others</label>
+
+    <section id="content1" class="secondry-color" >
+      <div class=" row"  style="margin:%" id="bugtable" >
+>>>>>>> Stashed changes
       <%for(var i=0;i<bugMaster.length;i++){%>       
           <div  class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;" >
               <div  style="text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% " onclick="showHide(<%=i%>)">             
@@ -504,6 +533,7 @@
                       </table>                      
                      </div>              
                     </div>
+<<<<<<< Updated upstream
                 </div> 
               
       </section>
@@ -512,6 +542,109 @@
      <div id="Asset">
        <section id = 'content4' class = 'background' style="padding:0px">
       <div class="row" style="margin:2%;">
+=======
+                </div>
+              </div>
+            </div>
+     </section>
+
+     <section id="content3">
+      <div class=" row"  style="margin:" id="bugtable" >
+      <%for(var i=0;i<expenseType.length;i++){%>       
+          <div  class="<%if(expenseType[i].code==1){%>col-md-6<%}else{%>col-md-3<%}%>" style="margin-top:1%;text-align:center">
+              <div style="border-radius: 25px;border:2px solid #f05f40; "onclick="showHide(10+<%=i%>)">             
+               <a id="anchor" class="anchor" href="#exp<%=expenseType[i].code%>" data-toggle="collapse"> 
+               <center><label  style="padding:9px;<%if(expenseType[i].code!=1){%>width:1%<%}%>" > <%=expenseType[i].tableName%></label><i style="float:right;padding-right:3%;padding-top:2%" class="glyphicon glyphicon-resize-full"></i>
+              </center>
+               </a>
+                    <div id="exp<%=expenseType[i].code%>" class="collapse ">
+                      <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="expTable_<%=expenseType[i].code%>" class="table  stripe hover cell-border" >
+                        <tr>                        
+                        <%if(expenseType[i].code==1){%>
+                        <th style="text-align:center">Expense Type</th>
+                        <th style="text-align:center">Is Bill Mandatory</th>
+                        <th style="text-align:center">Max. Bill Amount</th>
+                        <%}%>
+                        <%if(expenseType[i].code==2){%>
+                           <th style="text-align:center">Hotel Name</th>
+                        <%}%>
+                        <%if(expenseType[i].code==3){%>
+                           <th style="text-align:center">Travel Mode</th>
+                        <%}%>
+                        <th style="text-align:center">Action</th>
+                        </tr>                        
+                        <% for(var j=0;j<expenseMaster.length;j++){%>                      
+                          <%if(expenseType[i].code==expenseMaster[j].code){%>
+                           <tr id="expenseEdit_<%=expenseMaster[j].id%>"  class="hide">
+                              <td>
+                              <%//if(expenseMaster[j].id<=7){%> <!-- Mayur ask Manu-->
+                           <%//=expenseMaster[j].description%>
+                            <%//}else{%>
+                             <input type="text"  maxlength="25" id="expMasterData_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>"  value="<%=expenseMaster[j].description%>">                              
+                            <%//}%>
+                          </td>
+                          <%if(expenseType[i].code==1){%>
+                          <td>
+                          <select id="isMandatory_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>" onChange="toggeleBillBox(<%=expenseMaster[i].code%>,<%=expenseMaster[j].id%>,1)">
+              <option value="1" <%if(expenseMaster[j].minimumBillableMandetory==1){%>selected<%}%>>Yes</option>
+              <option  value="0" <%if(expenseMaster[j].minimumBillableMandetory!=1){%>selected<%}%>>No</option>
+                          </select>   
+                          </td>                         
+                            <td>
+                            <input type="number" maxlength="6" min="1" id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>"placeholder="@max Amount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
+                            </td>
+                          <%}%>                                                 
+                           <td>                                                  
+                            <span class="glyphicon glyphicon-floppy-disk" onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,1)"></span>                      
+                         </td>
+                         </tr> 
+                        <tr id="expenseShow_<%=expenseMaster[j].id%>"> 
+                          <td><%=expenseMaster[j].description%></td>
+                            <%if(expenseType[i].code==1){%>
+                            <%if(expenseMaster[j].minimumBillableMandetory==1){%>
+                            <td>Yes</td><%}else{%><td>No</td><%}%>
+                            <td><%=expenseMaster[j].maximumBillableMandetory%></td>
+                          <%}%>                          
+                          <td>                          
+                              <span class="glyphicon glyphicon-pencil" onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,0)"></span>                          
+                          </td>
+                        </tr>
+                          <%}%>                  
+                       <%}%>
+                      </table>
+                      </div> 
+                      <center>
+                      <table style="margin:5px">
+                         <tr>
+                         <td >
+                         <input type="text" id="expMasterData_<%=expenseType[i].code%>" maxlength="25" min="1" class="form-control" placeholder="@expence type"></td>
+                          <%if(expenseType[i].code==1){%>
+                         <td>
+                           <select id="isMandatory_<%=expenseType[i].code%>" class="form-control" onchange="toggeleBillBox(<%=expenseType[i].code%>,-1,0)" >
+                             <option value="0">is Mandatory?</option>
+                             <option value="1">Yes</option>
+                             <option value="2">No</option>
+                           </select>
+                         </td>
+                         <td><input type="number" min="1" maxlength="3" id="maxBillAmnt_<%=expenseType[i].code%>" class="form-control" placeholder="@max Amount "></td>
+                         <%}%>
+                      <td><span class="glyphicon glyphicon-plus-sign" onClick="addExpenseMaster(<%=expenseType[i].code%>,0,0)"style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
+                      </tr>
+                      </table> 
+                      </center>                    
+                    </div>
+                  </div>
+                </div>
+                <%}%> 
+              </div>
+
+    </section>
+     
+    <section id = 'content4' class = 'secondry-color'>
+
+      <div class="row" style="margin-top:1%;">
+>>>>>>> Stashed changes
 
               <div  class="row">
                  <div style="margin-left:10%;border-radius: 25px;border:2px solid #f05f40; text-align:center" >
@@ -871,6 +1004,7 @@
               </div> 
  
      </section>
+<<<<<<< Updated upstream
           </div>
           <div id="Expense">
                 <section id="content3" style="padding:0px">
@@ -969,6 +1103,11 @@
           <div id="Others">
                 <section id="content6" class="background" style="padding:0px">
       <div class=" row"  style="" id="Othertable" >
+=======
+     
+     <section id="content6" class="secondry-color" >
+      <div class=" row"  style="margin:%" id="Othertable" >
+>>>>>>> Stashed changes
       <%for(var i=0;i<otherMaster.length;i++){%>       
           <div  class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;">
               <div style="border-radius: 25px;border:2px solid #f05f40;padding-bottom:1% "onclick="showHide(13+<%=i%>)">             
