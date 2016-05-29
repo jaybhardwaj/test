@@ -319,6 +319,12 @@ mailServerConfigure: function(req,res,next){
         next(error);
         return;
      }
+     else{
+        configEmail.service= req.body.domain;
+                            configEmail.user=req.body.uname,
+                            configEmail.password= req.body.smtppass,
+                            configEmail.port= req.body.port; 
+     }
     
           next();
   });
