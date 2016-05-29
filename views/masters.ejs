@@ -6,10 +6,32 @@
     <% include ./partials/adminheader %>
 </head>
 <style type="text/css">
-.table>thead>tr>th {
+
+ .thead {
+    background-color: black;
+    color: white;
+    font-size: 12px;
+} 
+/*.table>thead>tr>th {
        color: #808080;
-    background-color: antiquewhite;
+    background-color: none;
     text-align: center;
+} */
+thead tr th {
+    background-color: #D8FAD7;
+    color: #808080;
+    font-size: 12px;
+}
+.menu{
+    text-align:right;
+}
+.menu li{
+  cursor: pointer;
+    text-transform: uppercase;
+    display:inline; 
+    list-style-type:none;
+    list-style-position: inside;
+    border-bottom: solid 1px red;
 }
 .tagger {
               background-color: #fff;
@@ -43,21 +65,22 @@
   }
   </style>
 <body >
- <div class="container-fluid secondry-color"  >
+ <div class="container-fluid secondry-color" style="min-height:400px" >
  
   
-  <div style="padding:0px;margin-top:10px"onclick="toggleIt()" >
+  <div style="padding:0px;margin-top:10px" >
              
-          <span class="glyphicon glyphicon-plus"></span>  Masters Details
-       
+          <span onclick="toggleIt()" class="glyphicon glyphicon-plus">
+          </span>  
+          <span onclick="toggleIt()">Masters Details</span>  
   </div>
      <div class="col-md-10"style="margin-left:4%;margin-top:1%">
     <div class="col-md-2" id="hideItinOnLoad" style="border-right: 2px solid"> 
-        <ul class="nav nav-pills nav-stacked">
+
+        <ul class="nav nav-pills nav-stacked menu" style="text-align:left">
           <li class="b">
             <a onclick="openDiv(0)"><%if(myModules.indexOf(1)>=0){%>
-              <span class="glyphicon glyphicon-minus"></span>
-             
+              <i class="fa fa-bug" aria-hidden="true"></i> 
                Bug
               <%}%> 
             </a>
@@ -65,39 +88,39 @@
           <li class="d">
             <a onclick="openDiv(1)">
               <%if(myModules.indexOf(6)>=0){%>
-              <span class="glyphicon glyphicon-minus"></span>
+              <i class="fa fa-file" aria-hidden="true"></i>
               Document
               <%}%> 
             </a>
           </li>
           <li class="t">
             <a onclick="openDiv(2)"><%if(myModules.indexOf(2)>=0){%>
-               <span class="glyphicon glyphicon-minus"></span> TimeSheet
+               <i class="fa fa-calendar" aria-hidden="true"></i> TimeSheet
               <%}%> 
             </a>
           </li>
           <li class="e">
             <a onclick="openDiv(3)">
               <%if(myModules.indexOf(3)>=0){%>
-              <span class="glyphicon glyphicon-minus"></span> Expense
+              <i class="fa fa-money" aria-hidden="true"></i> Expense
               <%}%> 
             </a>
           </li>
            <li class="a">
             <a onclick="openDiv(4)"><%if(myModules.indexOf(5)>=0){%>
-               <span class="glyphicon glyphicon-minus"></span> Asset
+               <i class="fa fa-desktop" aria-hidden="true"></i> Asset
               <%}%> 
             </a>
           </li>
           <li class="o">
             <a onclick="openDiv(5)">
-            <span class="glyphicon glyphicon-minus"></span> Others           
+            <i class="fa fa-hashtag" aria-hidden="true"></i> Others           
             </a>
           </li>
         </ul>
     </div>
     <div class="col-md-8" id="hideItinOnLoad1">
-      <div id="Bug">
+      <div id="Bug" class="">
       <section id="content1" class="background" style="padding:0px">
       <div class=" row"  style="margin:2%" id="bugtable" >
       <%for(var i=0;i<bugMaster.length;i++){%>       
@@ -169,7 +192,7 @@
               </div>             
     </section>
           </div>    
-          <div id="Document">
+          <div id="Document" class="hide">
                   <section id="content2" style="padding:0px">
             <div  class="row" style="margin-left: 10%;margin-right: 10%;">
               <div style="text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% " onclick="showHide(5)">
@@ -402,7 +425,7 @@
            
       </section>
      </div>   
-      <div id="TimeSheet">
+      <div id="TimeSheet" class="hide">
         <section id="content7" style="padding:0px">
          <!---------------timesheet---->
             <div  class="row" style="">
@@ -509,9 +532,9 @@
       </section>
     </div>
           
-     <div id="Asset">
+     <div id="Asset" class="hide">
        <section id = 'content4' class = 'background' style="padding:0px">
-      <div class="row" style="margin:2%;">
+        <div class="row" style="margin:2%;">
 
               <div  class="row">
                  <div style="margin-left:10%;border-radius: 25px;border:2px solid #f05f40; text-align:center" >
@@ -872,7 +895,7 @@
  
      </section>
           </div>
-          <div id="Expense">
+          <div id="Expense" class="hide">
                 <section id="content3" style="padding:0px">
       <div class=" row"  style="margin:2%" id="bugtable" >
       <%for(var i=0;i<expenseType.length;i++){%>       
@@ -966,7 +989,7 @@
      </section>
           </div>
           
-          <div id="Others">
+          <div id="Others" class="hide">
                 <section id="content6" class="background" style="padding:0px">
       <div class=" row"  style="" id="Othertable" >
       <%for(var i=0;i<otherMaster.length;i++){%>       
@@ -1184,11 +1207,11 @@
       $("#hideItinOnLoad1").toggle();
     }
   $( document ).ready(function() {
-          showHide(22);
-          setTimeout(function(){showHide(22);},1000);
+          showHide(221);
+          setTimeout(function(){
+           showHide(22);},1000);
           if("<%=flag%>"==100){
-          $("#tab4").click();
-
+         openDiv(4);
         
          }
         $('.datepicker').datetimepicker({
@@ -1232,9 +1255,9 @@
     var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping','#assetBrand','#timestdiv','#tanother'];
       
       function showHide(temp){
-        if(temp==5){
+       /* if(temp==5){
           getActiveDocumentRole();
-        }
+        }*/
           for(var i=0;i<collapseId.length;i++){
                 
                 if(i!=temp){
