@@ -57,13 +57,13 @@
         <div class="form-group">
           <label for="no" class="col-md-3 control-label">Quantity</label>
           <div class="col-md-9">
-            <input name="no" class="form-control" type="number" max="20" min="1" id="qty" placeholder="Quantity">
+            <input name="no" class="form-control" type="number" max="20" min="1" id="qty" placeholder="Quantity" onchange="addcompo()">
           </div>
         </div>
         <div class="form-group">
           <label for="vendor" class="col-md-3 control-label">Vendor</label>
           <div class="col-md-9">
-            <input name="vendor"class="form-control" id="vendor" placeholder="Vendor">
+            <input name="vendor"class="form-control" id="vendor" placeholder="Vendor" required>
           </div>
         </div>
       </div>
@@ -71,19 +71,19 @@
         <div class="form-group">
           <label for="invoiceNo" class="col-md-5 control-label">Invoice No.</label>
           <div class="col-md-7">
-            <input name="invoiceNo" class="form-control" id="invoiceNo" placeholder="Invoice No.">
+            <input name="invoiceNo" class="form-control" id="invoiceNo" placeholder="Invoice No." required>
           </div>
         </div>
         <div class="form-group">
           <label for="Invoicedate" class="col-md-5 control-label">Invoice Date</label>
           <div class="col-md-7">
-            <input name="Invoicedate" class="form-control datetimepicker" id="Invoicedate" placeholder="Invoice Date">
+            <input name="Invoicedate" class="form-control datetimepicker" id="Invoicedate" placeholder="Invoice Date" required>
           </div>
         </div>
         <div class="form-group">
           <label for="invoiceAmt" class="col-md-5 control-label">Invoice Amt.</label>
           <div class="col-md-7">
-            <input name="invoiceAmt" class="form-control" id="invoiceAmt" placeholder="Invoice Amount">
+            <input name="invoiceAmt" class="form-control" id="invoiceAmt" placeholder="Invoice Amount" required>
           </div>
         </div>
       </div>
@@ -91,13 +91,13 @@
         <div class="form-group">
           <label for="order" class="col-md-5 control-label">Purchased Order</label>
           <div class="col-md-7">
-            <input name="order" class="form-control" id="order" placeholder="Purchased Order">
+            <input name="order" class="form-control" id="order" placeholder="Purchased Order" required>
           </div>
         </div>
         <div class="form-group">
           <label for="Deliverydate" class="col-md-5 control-label">Delivery Date</label>
           <div class="col-md-7">
-            <input name="Deliverydate" class="form-control datetimepicker" id="Deliverydate" placeholder="Delivery Date">
+            <input name="Deliverydate" class="form-control datetimepicker" id="Deliverydate" placeholder="Delivery Date" required="required">
           </div>
         </div>
       </div>
@@ -134,9 +134,11 @@
 <div class="modal " id="addModal"  role="dialog">
   <div class="modal-dialog" style="display:table;height:95%;">
     <!-- Modal content-->
-    <div class="modal-content" id="express2" style="height:356px;">
+    <div class="modal-content" id="express2" style="height:356px;width:800px">
       <div class="modal-header" style="background-color:#f05f40;">
-        <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Add Component</b></label></center>
+        <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Add Component</b></label>
+        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:black;margin-bottom: 15px'></span>
+        </center>
       </div>
       <div id="err" class="col-lg-6 col-sm-offset-3"></div>
       <div class="modal-body">
@@ -150,17 +152,18 @@
                 <thead id="modalHead">
                   <tr>
                     <th>Component</th>
-                    <th style="width:32%;">Serial No.</th>
-                    <th style="width:18%;">Brand</th>
-                    <th style="width:16%">Warranty</th>
-                    <th>Size</th>
+                    <th style="width:25%;">Serial No.</th>
+                    <th style="width:15%;">Brand</th>
+                    <th style="width:15%">Warranty</th>
+                    <th style="width:15%">Size</th>
+                    <th style="width:15%">Action</th>
                   </tr>
                 </thead>
                 <tbody id="addcompobody">
                 </tbody>
               </table>
               <input type="hidden" id="serids">
-              <input type="button"class="btn btn-info" onclick="saveComp()" value="SUBMIT">
+              <input  data-dismiss="modal" type="button"class="btn btn-info" onclick="saveComp()" value="SUBMIT">
              <input type="button"class="btn btn-info" onclick="addCompModal()" value="ADD">
 
             </div>
@@ -181,16 +184,22 @@
       var countAddCompModal = 0;
       var subheaderArray=[];
       var componentArray=[];
+      i=0;
      function addCompModal(){
-
-    var row = '<tr><td><select class = "single form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype[0].length;i++){%><option value="<%=htype[0][i].id%>"><%=htype[0][i].componentName%></option><%}%></select></td><td><input type = "text" class = "single form-control" id="srno'+countAddCompModal+'"></td><td><select class="single form-control" id="brand'+countAddCompModal+'"><option selected value="2">b</option></select></td><td><input type = "text" class = "single form-control" id="war'+countAddCompModal+'"></td><td><input type = "text" class = "single form-control" id="size'+countAddCompModal+'"></td></tr>';
+       getbrand();
+    var row = '<tr id="tr'+countAddCompModal+''+i+'"><td><select class = "single form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype[0].length;i++){%><option value="<%=htype[0][i].id%>"><%=htype[0][i].componentName%></option><%}%></select></td><td><input type = "text" class = "single form-control" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 single form-control" id="brand'+countAddCompModal+'"></select></td><td><input type = "text" class = "single form-control" id="war'+countAddCompModal+'"></td><td><input type = "text" class = "single form-control" id="size'+countAddCompModal+'"></td><td><span style="font-size:25px;color:red" class="glyphicon glyphicon-remove-circle" onclick="removeRow('+countAddCompModal+','+i+')"></span></td></tr>';
          $('#addcompobody').append(row);
+         
          countAddCompModal++;
+         i++
 
      }
 
 
-
+ function removeRow(tt,j){
+  $(('#tr'.concat(tt)).concat(j)).html('');
+  countAddCompModal--;
+ }
 
 
 
@@ -261,7 +270,7 @@ var arr=[];
 $(document).ready(function(){
   jQuery('.datetimepicker').datetimepicker({
   timepicker:false,
-  format:'Y-m-d'
+  format:'d-m-Y'
   });
   
   $('.sin').selectpicker();
@@ -289,7 +298,7 @@ function addcompo(){
     return false;
      }
 //..............................validation commented for  testing................................
-  /*if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
+  if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
   {
     alert("Vendor is Missing!");    
     return false;
@@ -324,7 +333,7 @@ function addcompo(){
     alert("Delivery date Missing!");    
     return false;
   }
-*/
+
    //else if($('#invoiceNo').val().length<1||$.trim($("#idpname").val()) =="")){}
 
     
@@ -353,7 +362,7 @@ function addcompo(){
                   allAttIds.push(result[0][i].attId);
                   }
                   allAttIds1=allAttIds;
-                  alert(allAttIds1);
+                  //alert(allAttIds1);
                   //allAttIds.push(0);
         /********************Important next line*************************/
             head=head+'<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty</th><th class = "">Components</th></tr>';
@@ -382,14 +391,14 @@ function addcompo(){
           }
 
     /*******************Code by Mayur for brandname and warranty***************************/
-          var k = 0;while(result[1][k++].attId!=0);
-          k--;
+         // var k = 0;while(result[1][k++].attId!=0);
+         // k--;
 
 
               row=row+'<td><select class="single" id="brand'+i+'">';
             
-           for(var dropdownValues=k;dropdownValues<result[1].length;dropdownValues++){
-             row=row+'<option value="'+result[1][dropdownValues].id+'">'+result[1][dropdownValues].value+'</option>';  
+           for(var dropdownValues=0;dropdownValues<result[2].length;dropdownValues++){
+             row=row+'<option value="'+result[2][dropdownValues].id+'">'+result[2][dropdownValues].value+'</option>';  
            }
           row = row + '</select></td><td><input'+
         ' class="single form-control warrClass" id="warranty'+i+'" type = "text"></td>';
@@ -556,7 +565,7 @@ var  tagNo='PSSL'+ides;
    str='?';
    }
    $('#componentdata'.concat($('#serids').val())).val(tempArr);
-   alert(tempArr);
+  // alert(tempArr);
 
   }
 
@@ -575,7 +584,7 @@ var  tagNo='PSSL'+ides;
    dataArray[i]=str1;
    //str1='$';
     }
-    alert(dataArray);
+    //alert(dataArray);
     addHardware(dataArray);
   }
 function objs(serial,brand,warranty,size,title){
@@ -716,18 +725,42 @@ $("#inf1").val(a);
  
   }
 
+   function getbrand()
+  {
+ 
+   $.ajax({
+        url:'/getbrand',
+        method:'post',
+        async:true,
+        
+                dataType:'json',
+                success:function(result)
+                {
+                  var att='';
+                   $('.branddrop1').html('');
+                  for(var j=0;j<result[0].length;j++)
+                  {
+                      
+                      att='<option value='+result[0][j].id+'>'+result[0][j].value+'</option>';
+
+                       $('.branddrop1').append(att);
+                  }
+               }
+
+         });
+  }
+
   function addlinedata(t1,t2,t3,t6,t7,headid,ctypeid,arr1){
-    alert('hello line data');
-    alert(arr1);
+   // alert('hello line data');
+   // alert(arr1);
    var arr3=[];
    arr3=arr1.split('?');
-   alert(arr3.length);
+  // alert(arr3.length);
     var arr2=[];
 
    $.ajax({
         url:'/addline',
         method:'post',
-        async:true,
         data:{
             't1' : t1,
             't2': t2,
@@ -741,30 +774,37 @@ $("#inf1").val(a);
              },
                 dataType:'json',
                 success:function(result){
-                  alert('jogi');
+                 // alert('jogi');
                 
                     for(var i=0;i<arr3.length;i++){
-                       alert(arr3[i]);
+                       //alert(arr3[i]);
                        var   increment= arr3.length-1;
                        var  inc=i;
                       arr2=arr3[i].split(',');
+                      if(arr3.length!=0){
                      
                addsubline(arr2[0],arr2[1],arr2[2],arr2[3],arr2[4],headid,ctypeid,result,increment,inc);
+                   }
+                   else{
+                    if(fact==($('#qty').val())){
+                    alert('add data successfully');}
+                   }
                      }
+                   }
              
-             }
+             
 
 });
 }
+ var t=0;
 function addsubline(st1,st2,st3,st4,st5,headerid,ctypeid,lineid,incr,inc1){
  // allAttIds = allAttIds.join(',');
- alert('addcomponent');
+ //alert('addcomponent');
   console.log("hfshgfshgdsh sshh",st1,st2,st3,st4,st5,headerid,ctypeid,lineid);
   var ides=0;
    $.ajax({
         url:'/subaddline',
         method:'post',
-        async:true,
         data:{
             'st1' : st1,
             'st2': st2,
@@ -778,10 +818,15 @@ function addsubline(st1,st2,st3,st4,st5,headerid,ctypeid,lineid,incr,inc1){
              },
                 dataType:'json',
                 success:function(result){
-                  if(fact==$('#qty').val()){
-              // addTag(lineid);
-              alert('add data successfully');
+                  if((fact==$('#qty').val())&&(incr==inc1)){
+                   t++;
+              //alert('add data successfully');
+                if(t==fact){
+               alert('add data successfully');
+               window.location.href='/viewHardware';
                   }
+                  }
+                
              
                                       }
 
@@ -789,6 +834,7 @@ function addsubline(st1,st2,st3,st4,st5,headerid,ctypeid,lineid,incr,inc1){
 }
 function addHardware(newOuterArr){
  // allAttIds = allAttIds.join(',');
+ document.getElementById("submit").disabled = true;
  var array=[];
  var newarray=[];
  var compdata=[];
@@ -799,7 +845,7 @@ function addHardware(newOuterArr){
    $.ajax({
         url:'/addHardware',
         method:'post',
-        async:true,
+       
         data:{
             'attr':newOuterArr,
             'type' : $('#typel').val(),
@@ -817,8 +863,8 @@ function addHardware(newOuterArr){
                  for(var i=0;i<len;i++){
                 fact++;
  array=newOuterArr[i].split("$");
- alert(array[0]);
- alert($('#componentdata'.concat(i)).val());
+// alert(array[0]);
+ //alert($('#componentdata'.concat(i)).val());
  var attid= allAttIds1.toString();
  //alert(array[0]);allAttIds1
  /*alert(array[1]);

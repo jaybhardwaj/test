@@ -1816,7 +1816,7 @@ changeAssignmentStatus: function(req, res, next) {
      
 
      getViewFurniture:function(req, res, next){
-      modelPortal.getFurniture(req.session.firstname,req.session.roleid,function(error, resultFurniture){
+      modelPortal.getFurniture(req.session.firstname,req.session.roleid,req.session.retailerId,function(error, resultFurniture){
             if(error){
               next(error);
                 return;
@@ -1900,19 +1900,19 @@ getViewHardware:function(req,res,next){
     modelPortal.getHardware(req.session.firstname,req.session.roleid,req.session.retailerId,function(error,resultHardware){
         if(error){
             next(error);
-            return;
+            console.log(error);
         }
 
-
+ 
  
  
         req.resultHardware = resultHardware;
- 
 
+      next();
     });
 },
     getViewSoftware: function(req,res,next){
-        modelPortal.getSoftware(req.session.firstname,req.session.roleid,function(error, resultSoftware){
+        modelPortal.getSoftware(req.session.firstname,req.session.roleid,req.session.retailerId,function(error, resultSoftware){
             if(error){
                 next(error);
                 return;
@@ -1928,7 +1928,7 @@ getViewHardware:function(req,res,next){
             req.body.invoiceNo,req.body.Invoicedate,
             req.body.invoiceAmt,req.body.typel,
             req.body.uprice,
-            req.body.color,req.body.brand,'1','furniture', function(error, result) {
+            req.body.color,req.body.brand,'1','furniture',req.session.userId, function(error, result) {
                 if (error) {
                     next(error);
                 } else 
@@ -1973,13 +1973,13 @@ getViewHardware:function(req,res,next){
          
             subaddline:function(req,res,next){  
             console.log('jai mata di',req.body) ; 
-             modelPortal.addsublineItem(req.body.st1,req.body.st2,req.body.lineid,req.body.st3,req.body.hdId,req.body.st4,req.body.st5,req.body.ides,function(error,result){
+             modelPortal.addsublineItem(req.body.st1,req.body.st2,req.body.lineid,req.body.st5,req.body.hdId,req.body.st3,req.body.st4,req.body.ides,function(error,result){
                  if(error){
               
               
             return;}
             else{
-                 //console.log('jdsdsdvvdgddgsdcfsdsgfdgsdysvdjogendra',result[0][0].sublineId);
+                 console.log('jdsdsdvvdgddgsdcfsdsgfdgsdysvdjogendra,jai mata di');
               res.json('success');
                 
             }
@@ -2012,7 +2012,7 @@ getViewHardware:function(req,res,next){
             req.body.vendor,
             req.body.invoiceAmt,req.body.Invoicedate,
             req.body.invoiceNo,req.body.typel,
-            '1','stationary',  function(error, result) {
+            '1','stationary', req.session.userId, function(error, result) {
                 if (error) {
                     next(error);
                 } else 
@@ -2031,6 +2031,30 @@ getViewHardware:function(req,res,next){
             }else{
             req.resultdelete=result;
             next();}
+        });
+    },
+
+
+    deletehardware: function(req,res,next){
+
+        modelPortal.deletehardware(req.body.id,function(error,result){
+            if(error){
+                next(error);
+            }else{
+                res.json('success');
+            }
+        });
+    },
+
+
+    getsubComponent: function(req,res,next){
+
+        modelPortal.getsubComponent(req.body.lineId,function(error,result){
+            if(error){
+                next(error);
+            }else{
+                res.json(result);
+            }
         });
     },
 
@@ -2116,7 +2140,7 @@ getViewHardware:function(req,res,next){
     },
 
     getViewStationary: function(req,res,next){
-      modelPortal.getStationary(req.session.firstname,req.session.roleid,function(error,resultStationary){
+      modelPortal.getStationary(req.session.firstname,req.session.roleid,req.session.retailerId,function(error,resultStationary){
         if (error){
           next(error);
           return;
@@ -2169,11 +2193,23 @@ getViewHardware:function(req,res,next){
               next(error);
             return;}
             req.resultAttribute=resultAttribute;
+            console.log(req.resultAttribute);
             next();
         });
     },
+
+    getbrand:function(req,res,next){
+        modelPortal.getbrand(req.session.retailerId,function(error,result){
+            if(error){
+              next(error);
+            }
+            else{
+            res.json(result);}
+        });
+    },
+
     getAccessories:function(req,res,next){
-        modelPortal.getAccessories(req.body.cid,function(error,resultType){
+        modelPortal.getAccessories(req.body.cid,req.session.retailerId,function(error,resultType){
            if(error){
               next(error);
             return;}
@@ -2183,7 +2219,7 @@ getViewHardware:function(req,res,next){
     },
     getAtt:function(req,res,next){
 
-        modelPortal.getAtt(req.body.atid,function(error,result){
+        modelPortal.getAtt(req.body.atid,req.session.retailerId,function(error,result){
              if(error){
               next(error);
             return;}
@@ -2195,11 +2231,14 @@ getViewHardware:function(req,res,next){
         console.log(req.body);
         modelPortal.saveAssignment(req.body.cid,req.body.lid
             ,req.body.uid,req.body.tid,req.body.aflag,req.body.adate,
-            function(error){
+            function(error,result){
                if(error){
-              next(error);
-            return;}
-            next();   
+              
+          }
+          else{
+             res.json(result[0][0].tsId);
+          }
+             
             });
     },
 getUnassigned:function(req,res,next){

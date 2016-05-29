@@ -898,10 +898,10 @@ changeAssignmentStatus: function(flag,assignmentId,callback) {
     //------------------------------------------Asset-------------------------------
 
 
-getFurniture: function(firstName,roleId,callback){
+getFurniture: function(firstName,roleId,retailerid,callback){
     var q={ 
-      sql:'call usp_ast_viewStationary(?)',
-      values: ['1']
+      sql:'call usp_ast_viewStationary(?,?)',
+      values: ['1',retailerid]
     };
     mysql(q,function(err,result){
       callback(err, result);
@@ -909,32 +909,32 @@ getFurniture: function(firstName,roleId,callback){
   },
 
 
-addFurniture: function(acid,order,no,Deliverydate, vendor,invoiceNo,Invoicedate, invoiceAmt, typel, uprice, color,brand, flag,assettype, callback) {
+addFurniture: function(acid,order,no,Deliverydate, vendor,invoiceNo,Invoicedate, invoiceAmt, typel, uprice, color,brand, flag,assettype,userId, callback) {
     var query = {
-        sql:'call usp_ast_addFurniture(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        sql:'call usp_ast_addFurniture(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         values:[
         acid,
         order,no,Deliverydate,vendor,
         invoiceNo,Invoicedate,
         invoiceAmt,typel,
         uprice,color,
-        brand,'1',assettype]
+        brand,'1',assettype,userId]
     };
     mysql(query, function(err, result) {
         callback(err, result);
     });
 },
 
-addStationary: function(acid,order,no,Deliverydate, vendor,invoiceAmt,Invoicedate,invoiceNo,typel,flag,assettype, callback) {
+addStationary: function(acid,order,no,Deliverydate, vendor,invoiceAmt,Invoicedate,invoiceNo,typel,flag,assettype,userId, callback) {
     var query = {
-        sql:'call usp_ast_addstationary(?,?,?,?,?,?,?,?,?,?,?)',
+        sql:'call usp_ast_addstationary(?,?,?,?,?,?,?,?,?,?,?,?)',
         values:[
         acid,order,
         no,Deliverydate,
         vendor,invoiceAmt,
         Invoicedate,invoiceNo,
         typel,
-        '1',assettype ]
+        '1',assettype,userId]
     }
     mysql(query, function(err, result) {
         callback(err, result);
@@ -1144,6 +1144,15 @@ updatesoft:function(acid,htype,vendor,Invoicedate,name,test5,des,key,users,pdate
     });
 },
 
+deletehardware: function(id, callback){
+    var q={sql:'call usp_ast_deleteHardware(?)',
+        values :[id]
+    };
+    mysql(q,function(err,result){
+        callback(err,result);
+    });
+},
+
 deleteData: function(id, callback){
     var q={sql:'call usp_ast_updateStationary(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         values :['null','0',
@@ -1161,19 +1170,19 @@ deleteData: function(id, callback){
     });
 },
 
-getStationary: function(firstName,roleId,callback){
+getStationary: function(firstName,roleId,retailerid,callback){
     var q={ 
-      sql:'call usp_ast_viewStationary(?)',
-      values: ['2']
+      sql:'call usp_ast_viewStationary(?,?)',
+      values: ['2',retailerid]
     };
     mysql(q,function(err,result){
         callback(err,result);
     });
 },
-getSoftware:function(firstName,roleId,callback){
+getSoftware:function(firstName,roleId,retailerid,callback){
     var q={
-        sql:'call usp_ast_viewStationary(?)',
-        values:['3']
+        sql:'call usp_ast_viewStationary(?,?)',
+        values:['3',retailerid]
     };
     mysql(q,function(err,result){
         callback(err,result);
@@ -1215,10 +1224,10 @@ getType:function(tid,retailerid,callback){
         callback(err,result);
     }); 
 },
- getAccessories:function(cid,callback){
+ getAccessories:function(cid,retailerId,callback){
     var q={
-        sql:'call usp_ast_getUnassignedAcc(?)',
-        values:[cid]
+        sql:'call usp_ast_getUnassignedAcc(?,?)',
+        values:[cid,retailerId]
     };
 mysql(q,function(err,result){
         callback(err,result);
@@ -1228,6 +1237,16 @@ mysql(q,function(err,result){
     var q={
         sql:'call usp_ast_getAttr(?,?)',
         values:[qids,retailer]
+    };
+    mysql(q,function(err,result){
+        callback(err,result);
+    });
+  },
+
+   getbrand:function(retailer,callback){
+    var q={
+        sql:'call usp_ast_getbrand(?)',
+        values:[retailer]
     };
     mysql(q,function(err,result){
         callback(err,result);
@@ -1244,23 +1263,23 @@ mysql(q,function(err,result){
     });
   },
 
-   getAtt:function(tid,callback){ 
+   getAtt:function(tid,retailer,callback){ 
     var q={
-        sql:'call usp_ast_getAcc(?)',
-        values:[tid]
+        sql:'call usp_ast_getAcc(?,?)',
+        values:[tid,retailer]
     };
 mysql(q,function(err,result){
         callback(err,result);
     });
   },
-  
+
   saveAssignment:function(cid,lid,uid,tid,aflag,adate,callback){
     var q={
         sql:'call usp_ast_assetAssignment(?,?,?,?,?,?)',
         values:[aflag,uid,tid,lid,cid,adate]
     };
 mysql(q,function(err,result){
-        callback(err);
+        callback(err,result);
     });
   },
   saveAssetMap:function(acid,pri,priAtt,sec,secAtt,callback){
@@ -1276,6 +1295,18 @@ getAssignedAssets:function(atid,uid,callback){
  var q={
         sql:'call usp_ast_getAssignedAsset(?,?)',
         values:[uid,atid]
+    };
+mysql(q,function(err,result){
+        callback(err,result);
+    });
+
+},
+
+
+getsubComponent:function(lineId,callback){
+ var q={
+        sql:'call usp_ast_getSubcomponent(?)',
+        values:[lineId]
     };
 mysql(q,function(err,result){
         callback(err,result);

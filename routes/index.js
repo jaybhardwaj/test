@@ -83,6 +83,8 @@ app.post('/getlineid',portal.getlineid);
 app.post('/getcomponentfordescription',portal.descriptionforatr);
 app.post('/updateTag',portal.updateTag);
 app.post('/getlinevalue',portal.getlinevalue);
+app.post('/getbrand',portal.getbrand);
+app.post('/getsubComponent',portal.getsubComponent);
 app.post('/getsublinevalue',portal.getsublinevalue);
 app.post('/getAttr',url.setpageHw,portal.getAttribute,render.redirect);
 app.post('/getTransDetails',url.setpageTransAssigned,portal.getAssignedAssets,render.redirect);
@@ -97,6 +99,7 @@ app.get('/viewHardware',url.setpageViewHardware,portal.getViewHardware,portal.ge
 app.post('/getEditHardware',url.editHardware,portal.editHardware,render.redirect);//new4hard
 app.post('/updateHardware',url.setUpdateHardware,portal.updateHardware,render.redirect);//newhard
 app.post('/deleteHeader',url.setDelete,portal.deleteData,render.redirect);
+app.post('/deleteHeaderandline',url.setDelete,portal.deletehardware);
 app.post('/getEditStationary',url.setEdit,portal.editData,render.redirect);
 app.post('/updateFurniture',url.setUpdate,portal.updateFurniture,render.redirect);
 app.post('/updateStationary',url.setUpdatestat,portal.updateStation,render.redirect);
