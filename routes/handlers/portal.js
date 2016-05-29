@@ -4,6 +4,7 @@ var modelPortal = require('../../model/modelPortal');
 var mailTemplates = require('../../lib/mailtemplates');
 var randomString = require('../../lib/common').generateRandomString;
 var flag = require('../../config/config').flagUsed;
+var configEmail=require('../../config/config').mailconfig;
 var path = require('path');
 var fs = require('fs');
 var textract = require('textract');
@@ -154,6 +155,13 @@ var locationId = [],
                  if (err) {
                      next(err);
                  } else {   
+                        if( result[2].length>0){
+                            configEmail.service= result[2][0].domailUserName;
+                            configEmail.user=result[2][0].smtpMail,
+                            configEmail.password= result[2][0].domailUserName,
+                            configEmail.port= result[2][0].domailUserName;  
+                           } 
+
                      req.session.firstName = result[0][0].firstName;
                      req.session.userName = result[0][0].userEmail;
                      req.session.password = result[0][0].userPassword;

@@ -34,7 +34,8 @@ app.use(bodyParser({
 	app.post('/changePassword',portal.changePass);
 
 	app.post('/exportToCsv',portal.exportToCsv);
-	app.get('/getEmpData',url.getEmpData,portal.getEmpData)
+	app.get('/getEmpData',url.getEmpData,portal.getEmpData);
+	
 	
 	//------------------------BUG-------------------------------------------------
 	

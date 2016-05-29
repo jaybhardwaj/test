@@ -5,7 +5,7 @@
 </head>
 <div class="secondry-color" style=" ">
       
-<!-- <label class="pageTitle" style="float:none;margin-right:none;margin-left:33%;margin-top:0%" >Edit Mail Configuration</label>  -->
+
 <span class="modal-title" style="padding-left:43%">Edit Mail Configuration</span>
 
 <form action="/mailServerConfigure" method="post" style=" ">  
@@ -14,7 +14,7 @@
 
 <div class="col-md-6">
   <div class="col-md-5" > <label class="form-label">SMTP Service:<sup style="color:red;">*</sup></label></div>
-  <div class="col-md-7" style=" "> <select id="smtp" class="form-text-box" style="width:100%" name="smtp" onchange="getValues()" >
+  <div class="col-md-7" style=" "> <select id="smtp" class="form-text-box" style="" name="smtp" onchange="getValues()" >
       <option  value="Gmail">Gmail</option>
       <option  value="Yahoo">Yahoo</option>
       <option  value="Outlook">Outlook</option>
@@ -83,7 +83,7 @@ $('.mail-img').addClass("active");
       $('#domain').val('<%=mailserver[0].domainName%>');
       $('#smtp').val('<%=mailserver[0].domainName%>');
       $('#port').val('<%=mailserver[0].port%>');
-      $('#uname').val('<%=mailserver[0].domainUserName%>');
+      $('#uname').val('<%=mailserver[0].smtpMail%>');
       $('#smtppass').val('<%=mailserver[0].domainPassword%>');
     if($('#smtp').val() ==null)
    {
@@ -100,40 +100,48 @@ $('.mail-img').addClass("active");
        } )  ; 
 
 function smtpvalidation(){
-if($('#uname').val()==''){    
-  alert("SMTP user name must be filled");
-  return false;
-  }
+    if($('#uname').val()==''){    
+      alert("SMTP user name must be filled");
+      return false;
+      }
 
-if($('#smtppass').val()==''){   
-  alert("Password must be Entered For Your SMTP Email");
-  return false;
-  }
-if($('#smtp').val()=='other'){
-  if($('#domain').val()==''){   
-  alert("Enter Service Name For SMTP mail");
-  return false;
-  }
-  if($('#port').val()==''){   
-  alert("Enter Domain Name For SMTP mail");
-  return false;
-  }
-  if($('#port').val()==''){   
-  alert("Enter Domain Name For SMTP mail");
-  return false;
-  }
-  if(isNaN($('#port').val())){
-  alert("Enter Only Integer for Port Number");
-  return false;   
-  }
-}
+    if($('#smtppass').val()==''){   
+          alert("Password must be Entered For Your SMTP Email");
+          return false;
+    }
+    if($('#smtp').val()=='other'){
+          if($('#domain').val()==''){   
+          alert("Enter Service Name For SMTP mail");
+          return false;
+          }
+          if($('#port').val()==''){   
+          alert("Enter Domain Name For SMTP mail");
+          return false;
+          }
+          if($('#port').val()==''){   
+          alert("Enter Domain Name For SMTP mail");
+          return false;
+          }
+          if(isNaN($('#port').val())){
+          alert("Enter Only Integer for Port Number");
+          return false;   
+          }
+    }
+  
+      alert("updated Successfully");
+  
+
+
 }
 
 function getValues()
 {
+  $('#domain').prop('disabled', true);
+  $('#port').prop('disabled', true);
   if($("#smtp").val()=='Gmail')
   {
  $("#domain").val('Gmail');
+ 
  $("#port").val("587");
   }
  else if($("#smtp").val()=='Yahoo')
@@ -148,6 +156,8 @@ function getValues()
   }
   else
   {
+     $('#domain').prop('disabled',false);
+     $('#port').prop('disabled',false);
      $("#domain").val('');
       $("#port").val("");
       $("#uname").val('');

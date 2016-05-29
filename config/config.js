@@ -14,7 +14,8 @@ module.exports = {
 	mailconfig: {
 		service: 'Gmail',
 		user: 'support@polestarllp.com',
-		password:'Polestar@123'
+		password:'Polestar@123',
+		port:257
 	},
 
 	flagUsed:{

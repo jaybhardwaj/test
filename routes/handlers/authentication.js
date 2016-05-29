@@ -1,6 +1,7 @@
  'use strict';
 
  var userauth = require('../../model/userauthentication');
+ var configEmail=require('../../config/config').mailconfig;
  var crypto = require('crypto'),
     key = 'efghabcdijklmnop',
     iv = '0123456789654321',
@@ -21,12 +22,19 @@ var salt = bcrypt.genSaltSync(3);
      },
      login: function(req, res, next) {
         var pass=bcrypt.hashSync(req.body.password,salt);
-       userauth.login(req.body.userid,pass,function(err, result) {
+        userauth.login(req.body.userid,pass,function(err, result) {
              if (err) {
                  next(err);
                  res.json('0');
              } else {
                  if (result[0].length > 0) {
+
+                            if( result[2].length>0){
+                            configEmail.service= result[2][0].domailUserName;
+                            configEmail.user=result[2][0].smtpMail,
+                            configEmail.password= result[2][0].domailUserName,
+                            configEmail.port= result[2][0].domailUserName;  
+                           }     
                      req.session.firstName = result[0][0].firstName;
                      req.session.userName = result[0][0].userEmail;
                      req.session.password = result[0][0].userPassword;
