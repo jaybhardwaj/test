@@ -233,7 +233,7 @@ exportToCsv: function(type,userId, roleId,retailerid, callback){
             sql: 'call usp_exportToCsv(?,?,?,?)',
             values: [type,userId, roleId,retailerid]
         };
-        
+        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
