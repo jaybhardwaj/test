@@ -425,9 +425,19 @@ width:24% !important;
             <td>
               <td><label style="padding:4%;color: #524A4A;font-size: 11px">Project Type:</label></td>
               <td>
-                <input type="radio" name="ptype"  value= 1  id = "ptype1" required  style="margin-top:3%;"  > Time & Expense
+                <!-- <input type="radio" name="ptype"  value= 1  id = "ptype1" required  style="margin-top:3%;"  > Time & Expense
              &nbsp;&nbsp;&nbsp;
-              <input type="radio" name="ptype"  value= 2  id = "ptype2" required  style="margin-top:3%;"  > Time
+              <input type="radio" name="ptype"  value= 2  id = "ptype2" required  style="margin-top:3%;"  > Time -->
+
+              <select style="" id="ptype1" class="form-text-box" name="ptype">
+                  <option value=0>Select Option</option>
+                  <option value=1>T & F</option>
+                  <option value=2>FC</option>
+                  <option value=3>MF</option>
+                  <option value=4>TC</option>
+                </select>
+
+
               </td>
             </td>
             <td>
@@ -551,7 +561,7 @@ width:24% !important;
 
 if( '<%=flag%>'=='1'){
          <%if(name.length){%>
-           $("input[name=ptype][value=<%=name[0].ptype%>]").prop('checked', true);
+           //$("input[name=ptype][value=<%=name[0].ptype%>]").prop('checked', true);
            $("input[name=pstatus][value=<%=name[0].pstatus%>]").prop('checked', true);
            $("input[name=isBillable][value=<%=name[0].isBillable%>]").prop('checked', true);
 
@@ -565,7 +575,14 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
       }
 
 
-      
+      if ('<%=name[0].ptype%>' == null) {
+                        //$("#wbslocation").prop("selectedIndex", -1);
+                        $('#ptype1').val(0);
+                    } else {
+                        $('#ptype1').val('<%=name[0].ptype%>');
+                    }
+
+
     <%}%>
 
  }
@@ -935,7 +952,7 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
                 "presource": presource,
                 "ptech": ptech,
                "pcode": $("#pcode").val(),
-                 "ptype": $('input:radio[name=ptype]:checked').val(),
+                 "ptype": $('#ptype1').val(),
                  "pdescription": $("#DescriptionID").val(),
                  "psdate": $("#datepicker").val(),
                 "pedate": $('#datepicker1').val(),

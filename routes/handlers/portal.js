@@ -1739,6 +1739,107 @@ var tab=req.body.tabDetail;
          });
      },
 
+
+     AssignmentWBSForProject: function(req, res, next) {
+
+ 
+           modelPortal.AssignmentWBSForProject(req.body.flag,req.body.pid,req.body.wbsid,req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+             res.json(result);
+             }
+         });
+     },
+
+     updateAssignmentWBSForProject: function(req, res, next) {
+
+           modelPortal.updateAssignmentWBSForProject(req.body.assignmentid,
+            req.body.wbsid,req.body.wbsname,req.body.wpsdate,
+            req.body.wpedate,req.body.wasdate,req.body.waedate,req.body.asdate,
+            req.body.aedate,req.body.flag,
+            req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+             res.json(result);
+             }
+         });
+     },
+
+
+     getProjectAssignment: function(req, res, next) {
+
+        var pid=req.body.pid;
+        
+ 
+           modelPortal.getProjectAssignment(req.body.wbsid,req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+             res.json(result);
+             }
+         });
+     },
+
+
+      changeProjectAssignment: function(req, res, next) {
+
+           modelPortal.changeProjectAssignment(req.body.wid,req.body.wbsname,req.body.wpsdate,req.body.wpedate,
+            req.body.wasdate,req.body.waedate,
+            req.body.pid,req.body.pname,req.body.psdate,req.body.pedate,
+            req.body.asdate,req.body.aedate,req.body.aid,req.body.assignname,req.body.assigndate,
+            req.body.assignedate,req.body.flag,
+            req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+             res.json(result);
+             }
+         });
+     },
+
+     projectWbsForAssignment: function(req, res, next) {
+
+ 
+           modelPortal.projectWbsForAssignment(req.body.aid,
+            req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+             res.json(result);
+             }
+         });
+     },
+
+
+changeProjectWbs: function(req, res, next) {
+
+           modelPortal.changeProjectWbs(req.body.wid,req.body.wbsname,req.body.wpsdate,req.body.wpedate,
+            req.body.wasdate,req.body.waedate,
+            req.body.pid,req.body.pname,req.body.psdate,req.body.pedate,
+            req.body.asdate,req.body.aedate,req.body.flag,
+            req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+             res.json(result);
+             }
+         });
+     },
+
     //----------------------------------ASSIGNMENT---------------------------------------
 getAssignment:  function(req, res, next) {
 

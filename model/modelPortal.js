@@ -820,6 +820,121 @@ console.log(result);
               }
         });
     },
+
+
+
+    AssignmentWBSForProject: function(flag,pid,wbsid,userId,roleId,retailerId, callback) {
+        
+        var query = {
+            sql: 'call usp_AssignmentWBSForProject(?,?,?,?,?,?)',
+            values: [flag,pid,wbsid,userId,roleId,retailerId,]
+        };
+        console.log(query);
+        mysql(query, function(err, result) {
+
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            else{
+            callback(err, result);
+              }
+        });
+    },
+
+    updateAssignmentWBSForProject: function(assignmentid,wbsid,wbsname,wpsdate,wpedate,wasdate,
+        waedate,asdate,
+        aedate,flag,userId,roleId,retailerId, callback) {
+        
+        var query = {
+            sql: 'call usp_updateAssignmentWBSForProject(?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [assignmentid,wbsid,wbsname,wpsdate,wpedate,wasdate,waedate,asdate,
+        aedate,flag,userId,roleId,retailerId,]
+        };
+        console.log('gsdrfgfrsrsf',query);
+        //console.log('wbs assignment--------',query);
+        mysql(query, function(err, result) {
+
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            else{
+            callback(err, result);
+              }
+        });
+    },
+
+
+      getProjectAssignment: function(wbsid,userId,roleId,retailerId, callback) {
+        
+        var query = {
+            sql: 'call usp_getProjectAssignment(?,?,?,?)',
+            values: [wbsid,userId,roleId,retailerId]
+        };
+
+        console.log('wbs query---',query);
+        mysql(query, function(err, result) {
+
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            else{
+            callback(err, result);
+              }
+        });
+    },
+
+
+
+    changeProjectAssignment: function(wid,wbsname,wpsdate,wpedate,wasdate,waedate,
+        pid,pname,psdate,pedate,asdate,aedate,aid,assignname,assigndate,assignedate,flag,
+        userId,roleId,retailerId, callback) {
+
+        var query = {
+            sql: 'call usp_changeProjectAssignment(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [wid,wbsname,wpsdate,wpedate,wasdate,waedate,
+            pid,pname,psdate,pedate,asdate,aedate,aid,assignname,assigndate,assignedate,flag,userId,roleId,retailerId]
+        };
+        console.log(query);
+        mysql(query, function(err, result) {
+
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            else{
+            callback(err, result);
+              }
+        });
+    },
+
+
+ projectWbsForAssignment: function(aid,userId,roleId,retailerId, callback) {
+        
+        var query = {
+            sql: 'call usp_projectWbsForAssignment(?,?,?,?)',
+            values: [aid,userId,roleId,retailerId]
+        };
+
+        console.log('assignment query---',query);
+        mysql(query, function(err, result) {
+
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            else{
+            callback(err, result);
+              }
+        });
+    },
+
+     changeProjectWbs: function(wid,wbsname,wpsdate,wpedate,wasdate,waedate,
+        pid,pname,psdate,pedate,asdate,aedate,flag,
+        userId,roleId,retailerId, callback) {
+
+        var query = {
+            sql: 'call usp_changeProjectWbs(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [wid,wbsname,wpsdate,wpedate,wasdate,waedate,
+            pid,pname,psdate,pedate,asdate,aedate,flag,userId,roleId,retailerId]
+        };
+        console.log('assignment update--------',query);
+        mysql(query, function(err, result) {
+
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            else{
+            callback(err, result);
+              }
+        });
+    },
+
  
     //-------------------------------------------ASSIGNMENT---------------------------------------
 

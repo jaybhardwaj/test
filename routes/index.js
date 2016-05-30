@@ -294,6 +294,20 @@ app.post('/saveTask',portal.saveTask);
 	app.post('/addEditWbsDetails',url.setAddEditWbsDetails,portal.addEditWbsDetails,render.redirect);
 
 app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
+
+
+app.post('/AssignmentWBSForProject', portal.AssignmentWBSForProject,render.redirect);
+
+app.post('/updateAssignmentWBSForProject', portal.updateAssignmentWBSForProject,render.redirect);
+
+app.post('/getProjectAssignment', portal.getProjectAssignment,render.redirect);
+
+app.post('/changeProjectAssignment', portal.changeProjectAssignment,render.redirect);
+
+app.post('/projectWbsForAssignment', portal.projectWbsForAssignment,render.redirect);
+
+app.post('/changeProjectWbs', portal.changeProjectWbs,render.redirect);
+
 	//---------------------------------------ASSIGNMENT---------------------------------------
 
 	app.get('/assignment',url.setpageAssignment, portal.getAssignment,render.redirect);
