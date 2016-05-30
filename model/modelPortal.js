@@ -2841,6 +2841,24 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                 }
             });   
         },
+        addeditBrandName:function (info,callback){
+            var q ={
+              
+              sql: 'call usp_asset_addeditBrandName(?,?,?,?,?,?)',
+              values: [info[0],info[1],info[2],info[3],info[4],info[5]]
+           
+            };
+            console.log(q);
+            mysql(q, function(err, result){
+                if (err) {
+                    console.log("oop",err);
+                }
+                else {
+                    console.log("result is ",result);
+                callback(err,result);
+                }
+            });   
+        },
         //----------------------------------------Project Management System------------------------------
         //----------------------------------------Project Management System------------------------------
     getAllResources : function (userId,roleId,retailerId,callback){       
