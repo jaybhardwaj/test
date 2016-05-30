@@ -142,11 +142,11 @@ var locationId = [],
          });
      } ,   
      registration: function(req, res, next) {
-        //var pass=bcrypt.hashSync(req.body.pass);
+       var encriptPass=bcrypt.hashSync(req.body.pass,salt);
          modelPortal.retailerRegistration(
              req.body.compname,
              req.body.email,
-             req.body.pass,
+             encriptPass,
              req.body.fname,
              req.body.lname,
              req.body.cno,

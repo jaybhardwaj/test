@@ -271,7 +271,7 @@ app.post('/saveTask',portal.saveTask);
 	
 	//--------------Dashboards------------
 
-    app.get('/dash',url.setDashboard,portal.profile,render.redirect);
+    app.get('/reports',url.setDashboard,portal.profile,render.redirect);
  //------------------------------------Project -WBS ------------------------------------------
 
     
