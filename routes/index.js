@@ -35,8 +35,8 @@ app.use(bodyParser({
 
 	app.post('/exportToCsv',portal.exportToCsv);
 	app.get('/getEmpData',url.getEmpData,portal.getEmpData);
-	
-	
+	app.post('/addNewModules',portal.addNewModules);
+	//app.get('/isRetailer',portal.isRetailer);
 
 app.post('/sendMailClient',portal.updateClientPassword,portal.sendMailClient);
 app.post('/blockUser',portal.blockUser);

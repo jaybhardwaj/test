@@ -2947,5 +2947,24 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                callback(err,result);
             }
         });         
-    }                                    
+    },   
+    /*added by saurav*/    
+    addNewModules : function (userid,roleid,retailerid,modules,callback){
+
+       var q ={
+          sql: 'call usp_addNewModules(?,?,?,?)',
+        values: [userid,roleid,retailerid,modules]
+       
+        };
+        mysql(q, function(err, result) {
+            if (err) {
+                console.log(err,q);
+            }
+            else {
+            console.log(q,result);
+          
+               callback(err,result);
+            }
+        });         
+    }                                
 }

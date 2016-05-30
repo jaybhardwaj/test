@@ -104,7 +104,6 @@ var locationId = [],
                     res.json("1");
                    }
                    else{
-                    console.log("kaminaa");
                      res.json("0");
                    }
                     
@@ -112,7 +111,26 @@ var locationId = [],
 
          });
      } ,
+     /*added by saurav*/
+     addNewModules:function(req, res, next) {
+        console.log("------ - - - -  ",req.body);
+         modelPortal.addNewModules(req.session.userId,req.session.roleId,req.session.retailerId,req.body.modules,function(err, result) {
+             if (err) {
+                 next(err);
 
+             } else { 
+                   
+                        console.log("session ki jay : " ,req.session.modules);
+                    req.session.modules=req.session.modules.concat(JSON.parse("["+req.body.modules+"]"));        
+                     res.json("0");
+                   }
+                    
+             
+             });
+     } ,
+    /* isRetailer:function(req, res, next) {
+        res.json(req.session.isRetailer);
+     } ,*/
      EmailVerification:function(req, res, next) {
          modelPortal.EmailVerification(req.body.userid, function(err, result) {
              if (err) {

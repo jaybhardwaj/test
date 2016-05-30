@@ -1,5 +1,5 @@
-<!--   <div class="se-pre-con"></div>
-   -->
+
+
  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top" style="background-color:white;font-family: Merriweather,'Helvetica Neue',Arial,sans-serif;padding-right:10px;padding-left:10px">
 
      <div class="navbar-header">
@@ -9,9 +9,14 @@
               <a href="/portal"> <img src="/images/brand_logo.gif" href="/portal"  height="70px" width="70px" /></a>
                 <%}%>
     </div>
+
 <div align="center">
         <ul class="nav navbar-nav navbar-right"  >
                       <%if(roleid==1){%>
+
+                    <li> 
+                       <img src="../img/cart.png" id="cart" data-toggle="modal" data-target="#mymodel"style="width: 38px;margin-top: 18%;margin-right: 10px;">
+                    </li>
                     <li  class="modulemenu active setting-tab" >
                         <a  class="page-scroll " href="/portal"  >  <label class="header-title" >Setting </label>  </a>
                     </li>
@@ -23,7 +28,7 @@
                            <%}%>
                         <%if(myModules.indexOf(6)>=0){%>
                      <li class="modulemenu document-tab">
-                        <a class="page-scroll " href="/document"><label class="header-title" onclick="return verifyCustomRole()" style="color:">DOCUMENT  </label></a>
+                        <a class="page-scroll " href="/document"><label class="header-title" onclick="return verifyCustomRole()" style="color:">DOCUMENT</label></a>
                     </li>
                            <%}%>
                          <%if(myModules.indexOf(3)>=0){%>
@@ -31,12 +36,12 @@
                      <li class="modulemenu expense-tab">
                         <a class="page-scroll " href="/expense"><label class="header-title">EXPENSE  </label></a>
                     </li>
-       <%}%>
+                    <%}%>
                         <%if(myModules.indexOf(4)>=0){%>
                      <li class="modulemenu asset-tab" >
                         <a class="page-scroll " href="/asset"><b class="header-title">ASSET  </b></a>
                     </li >
-       <%}%>
+                    <%}%>
                         <%if(myModules.indexOf(2)>=0){%>
                      <li class="modulemenu timesheet-tab">
                         <a class="page-scroll " href="/timesheet"><label class="header-title">TIMESHEET  </label></a>
@@ -48,14 +53,13 @@
                      <li class="modulemenu rms-tab">
                         <a class="page-scroll " href="/rms"><label class="header-title">RMS  </label></a>
                     </li>
-                   <%}%>
-
-                     <%if(myModules.indexOf(5)>=0){%>
+                    <%}%>
+                    <%if(myModules.indexOf(5)>=0){%>
                      <li class="modulemenu project-tab">
                         <a class="page-scroll " href="/task"><label class="header-title">Project</label></a>
                     </li>
                    <%}%>
-                  
+                   
                     <li style=" float:right ;" title="Logout">
                         <a class="imageInc" href="/logout"><img src="/img/logout.png" id="logout" width="25px" height="25px" style=" margin-top:-2px "/></a>
                     </li> 
@@ -71,12 +75,7 @@
 
 </div>
 
-    <!-- <div align="center">
-        <label class="portal-header">Welcome to Lemonade portal.</label>
-        <a href="/logout"><button type="button" class="btn btn-primary" style="float:right;margin:0 1% 0 1%">Log Out</button></a>
-        <label style="color:#f05f40;float:right; margin-top:.5%">Hi, <1%=user%1> </label>
-    </div> -->
-  
+    
 </nav>
   
 <div   class="sub-header">
@@ -87,7 +86,8 @@
              <td class="master-img" style="width:12%">
                     <%if(roleid==1){%>
                         <a href="/masters">
-                            <img class="imageInc" src="../img/bug/setting.png" class="shadow"  height="30px" width="30px">
+                            <img class="imageInc" src="../img/bug/setting.png" class="shadow"
+                              height="30px" width="30px">
                         </a>
                         <%}%>
                 </td>
@@ -244,18 +244,68 @@
     </div>
 </center>
 <script type="text/javascript">
+     var  myModules=JSON.parse("["+'<%=myModules%>'+"]");
+     console.log("yo ",<%=myModules%>);
+     var totalModules=[1,2,3,4,5,6,7];
+     var difference=[];
+     jQuery.grep(totalModules, function(el) {
+        if (jQuery.inArray(el, myModules) == -1) difference.push(el);
+    });
      $(document).ready(function() {
-        $('#cancel').click(function(){       
-        $('#newpass').val('');
-        $('#confpass').val('');
-        $('#oldpass').val('');
-     });
-        if($('.portal-menu').hasClass('hide')){
-            $('setting-tab').removeClass('active');
-        }
-        $('#changepassimg').css('cursor', 'pointer');
-     });
+                    $('#cancel').click(function(){       
+                    $('#newpass').val('');
+                    $('#confpass').val('');
+                    $('#oldpass').val('');
+                     });
+                    if($('.portal-menu').hasClass('hide')){
+                        $('setting-tab').removeClass('active');
+                    }
+                    $('#changepassimg').css('cursor', 'pointer');
+                    if(difference.length==0){
+                        $("#cart").addClass("hide");
+                    }
 
+     });
+   /* var progressBar = $('#progress-bar'),width=0;
+  
+    progressBar.width(width);
+    var interval=setInterval(function() {
+                    width += 10;
+                    progressBar.css('width', width + '%');
+                    if (width >= 100) {
+                        clearInterval(interval);
+                    }
+    }, 1000);*/
+     function installModule(){
+       var tempCount=0;
+       var tempArray=[];
+           for(i=0;i<difference.length;i++){
+                if($("#"+difference[i]). prop("checked") == true){
+                        tempArray[tempArray.length]=difference[i];
+                }
+           }  
+           if(tempArray.length==0){
+                alert("No  module selected");
+                return false;
+           } 
+         $.ajax({
+            url:'/addNewModules',
+            type: 'post',
+            data: { 
+                "modules": tempArray.toString()
+                 },
+            success: function(data) {
+               
+               alert("added successfully");
+
+                window.location.reload();
+            },
+            error: function(){
+                window.location.reload();
+            },
+            dataType: 'JSON',
+        });
+     }
     function verifyCustomRole(){
         var check=1;
         $.ajax({
@@ -322,3 +372,104 @@
     });}
 }
 </script>
+
+<div class="modal fade" id="mymodel" role="dialog" >
+        <div class="modal-dialog">
+          <!-- Modal content-->
+            <div class="modal-content" id="express2">
+               
+               <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Choose New Module</h4>
+        </div>
+
+             
+              <div class="modal-body">
+                  
+                      <input type="hidden" value=""id='hmodules' name="hmodules">
+
+                      <div class="row">
+                          <div class="col-md-2"><label>Type :</label></div>
+                          <div class="col-md-5"><input type="radio" name="offer" checked="true"> Free</div>
+                          <div class="col-md-5"><input type="radio" name="offer">Paid</div>
+                      </div>
+                      <center>
+                        <table   border="2" class="CSSTableGenerator">
+                          <tr style="font-size:15px;font-weight:2px;height:15px;color:black;text-align:center; ">
+                            <th style="text-align:center" >Modules</th>
+                            <th style="text-align:center" > Duration</th>
+                            <th  style="text-align:center" ># Users</th>
+                            <th  style="text-align:center">Action</th>
+                          </tr>
+                            <%if(myModules.indexOf(1)<0){%>
+                          <tr style="text-align:center" class="cellborder">
+                            <td style="text-align:center" style="width:50%">Bug Management</td>
+                            <td style="text-align:center">30 Days</td>
+                            <td style="text-align:center" >10 Users</td>
+                            <td style="text-align:center">  <input type="checkbox" class=" chk" id="1" value="1"    name="newusername" style=" "> </td>
+                          </tr>
+                          <%}%>
+                          <%if(myModules.indexOf(2)<0){%>
+                          <tr id="2">
+                          <td style="text-align:center" style="width:50%"> Timesheet Management</td>
+                          <td style="text-align:center">30 Days</td>
+                            <td style="text-align:center">10 Users</td>
+                            <td style="text-align:center">  <input type="checkbox"   class="chk" id="2" value="2" name="timecheck"  style=" " align="center" > </td>
+                          </tr>
+                           <%}%>
+                           <%if(myModules.indexOf(3)<0){%>
+                          <tr>
+                          <td style="text-align:center" style="width:50%"> Expense Management</td>
+                          <td style="text-align:center">30 Days</td>
+                            <td style="text-align:center">20 Users</td>
+                            <td style="text-align:center" > <input type="checkbox"class="chk" value="3" id="3" name="expensecheck" style="  " align="center" > </td>
+                          </tr> 
+                          <%}%>
+                          <%if(myModules.indexOf(4)<0){%>                        
+                          <tr>
+                          <td style="text-align:center" style="width:50%"> Asset Management</td>
+                          <td style="text-align:center">30 Days</td>
+                            <td style="text-align:center">20 Users</td>
+                            <td style="text-align:center">   <input type="checkbox"   class="  chk" value="4" id="4" name="assetcheck" style=" " align="center"  >  </td>
+                          </tr>
+                           <%}%>
+                           <%if(myModules.indexOf(7)<0){%> 
+                          <tr>
+                          <td style="text-align:center" style="width:50%">Recruitment Management System</td>
+                          <td style="text-align:center">30 Days</td>
+                            <td style="text-align:center">20 Users</td>
+                            <td style="text-align:center"><input type="checkbox"class="chk" value="7" id="7" name="rmscheck" style=" " align="center"  >  </td>
+                          </tr>
+                           <%}%>
+                          <%if(myModules.indexOf(5)<0){%>
+                          <tr>
+                          <td style="text-align:center" style="width:50%">Project Management System</td>
+                          <td style="text-align:center">30 Days</td>
+                            <td style="text-align:center">20 Users</td>
+                            <td style="text-align:center">   <input type="checkbox"   class="  chk" value="5" id="5" name="projectcheck" style=" " align="center"  >  </td>
+                          </tr>
+                           <%}%>
+                           <%if(myModules.indexOf(6)<0){%>
+                           <tr>
+                          <td style="text-align:center" style="width:50%">Document Management</td>
+                          <td style="text-align:center">30 Days</td>
+                            <td style="text-align:center">5 Users</td>
+                            <td style="text-align:center">  <input type="checkbox"   class=" chk" value="6" id="6" name="documentcheck" style=" " align="center" ></td>
+                          </tr>
+                          <%}%>
+                        </table>
+                      </center>
+           
+                    <div class="modal-footer" style="border-top:0px;">
+                        <center>
+                           <button onclick="installModule()"   class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:white;padding-top: 4px; width:100px;height:30px;">Install</button>
+                          <!--   <div class="progress-bar" style="width: 100%;"> </div> -->
+                        </center>
+                         
+                    </div>
+                   
+                 
+            </div>
+          </div>
+        </div>
+    </div>
