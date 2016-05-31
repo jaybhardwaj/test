@@ -124,7 +124,7 @@ thead tr th {
           <%}%> 
           <li class="o">
             <a onclick="openDiv(5)">
-            <i class="fa fa-hashtag" aria-hidden="true"></i> Others           
+            <i class="fa fa-square" aria-hidden="true"></i> Others           
             </a>
           </li>
         </ul>
@@ -162,7 +162,7 @@ thead tr th {
                           <%if(!bugMasterSubData[j].flag){%>                            
                             <span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)"></span>
                           <%}else{%>
-                          <span class="glyphicon glyphicon-ban-circle"></span>
+                          <span class="glyphicon glyphicon-ban-circle" title="non editable"></span>
                           <%}%>
                          </td>
                          </tr>
@@ -180,7 +180,7 @@ thead tr th {
                               <span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)"></span>
                               <%}%>
                             <%}else{%>
-                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            <span class="glyphicon glyphicon-ban-circle" title="non editable"></span>
                             <%}%>
                           </td>
                         </tr>
@@ -215,17 +215,17 @@ thead tr th {
                </a>
                <div id="cstrolesdiv" class="collapse">
                     <div class="overflowClass">
-                      <table style="width:100%;text-align:center" id="cstRoleTable" class="table stripe hover cell-border" >
+                       <table style="width:100%;text-align:center" id="cstRoleTable" class="table stripe hover cell-border" >
                         <tr><th style="text-align:center">Role Name</th><th style="text-align:center">Action</th></tr>                        
-                        <% for(var i=1;i<customrole.length;i++){%>                         
+                        <% for(var i=0;i<customrole.length;i++){%>                         
                         <tr id="role_<%=customrole[i].id%>"> 
                           <td><%=customrole[i].description%></td>
-                          <td>   <%if(customrole[i].Active==0){%>
-                           <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign hide'></span></a><span class="glyphicon glyphicon-pencil" onclick="getrole(<%=customrole[i].id%>)"  style="margin-left:5%"></span> 
+                          <td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser(<%=customrole[i].id%>)"  data-toggle='modal' data-target='#viewrole' title="users assigned"></span>   <%if(customrole[i].Active==0){%>
+                           <span style='margin-left:5%;color:red;height:10px' class='glyphicon glyphicon-remove-sign 'title="click to active" onclick="docActiveInactive(<%=customrole[i].id%>,1)" ></span></a><span class="glyphicon glyphicon-pencil" title="click to edit" onclick="getrole(<%=customrole[i].id%>)"  style="margin-left:5%"></span> 
                         
                           <%}
                           else{%>
-                           <span style='color:green;height:10px' class='glyphicon glyphicon-ok hide'></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" onclick='getrole(<%=customrole[i].id%>)'></span>
+                           <span style='margin-left:5%;color:green;height:10px' class='glyphicon glyphicon-ok 'title="click to  inactive" onclick="docActiveInactive(<%=customrole[i].id%>,0)"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick='getrole(<%=customrole[i].id%>)'></span>
                           
                              <%}%>
                           </td>
@@ -1030,7 +1030,7 @@ thead tr th {
                           <%if(!bugMasterSubData[j].flag){%>                            
                             <span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)"></span>
                           <%}else{%>
-                          <span class="glyphicon glyphicon-ban-circle"></span>
+                          <span class="glyphicon glyphicon-ban-circle" title="non editable"></span>
                           <%}%></td>
 
                          </tr>
@@ -1049,7 +1049,7 @@ thead tr th {
                               <span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)" title="click to Activate"></span>
                               <%}%>
                             <%}else{%>
-                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            <span class="glyphicon glyphicon-ban-circle" title="non editable"></span>
                             <%}%>
                           </td>
                         </tr>
@@ -1089,10 +1089,18 @@ thead tr th {
  <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content" style="padding-bottom:2%" id="express2">
-                <div class="modal-titlebox" >
+                
+
+                <div class="modal-header">
+                  <button type="button" class="close" id='cancel' type="reset" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Roles</h4>
+               </div>
+
+
+                <!-- <div class="modal-titlebox" >
                      <span id="head4" >Roles</span>
                      <button type="button" class="close" id='cancel' type="reset" data-dismiss="modal"style="margin-right: 2px;margin-top:-6px">&times;</button> 
-                </div>             
+                </div>   -->           
             <div class="hide">
                <div class="col-md-5">
                <label style="line-height:42px !important;">Role ID:<sup>*</sup></label>
@@ -1193,6 +1201,21 @@ thead tr th {
          
             </div>
             </div>
+</div>
+<div class="modal fade" id="viewrole" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" id="express2">
+                <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Users Assigned</h4>
+            </div>
+                <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+                <div class="modal-body">
+                      <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="roletable"style="width:100%"></table>
+
+            </div>
+          </div>
+        </div>
 </div>
     <script type="text/javascript">
     var divName=["Bug","Document","TimeSheet","Expense","Asset","Others"];
@@ -1648,9 +1671,9 @@ function addBugMaster(code){
           alert('Already Exist');
           }
           else{
-              if((code==1)&&(code==2)&&(code==3)&&(code==5)&&(code==9))
+              if((code==1||code==2)||(code==3)||(code==5)||(code==9))
                 alert('Error:You cannot edit this master when bug exists for it.');
-              else if(code==4)
+              else if(code==4||code==10||code==11)
                 alert('Error:You cannot edit this master when project exists for it.');
               else if(code==6)
                 alert('Error:You cannot edit this master when Expense exists for it.');
@@ -1709,7 +1732,7 @@ var arr3=[];
 var arr4=[];
 var arr5=[];
 function addrole(){
-    var newactiveDocument
+    var newactiveDocument ;
   if(activeDocument==1)
   {
    newactiveDocument=1;
@@ -1748,7 +1771,7 @@ function addrole(){
                             } else if (data[0][0].flag == 1) {
                                 alert('Custom Role added successfully');
                                 $('#cancel').click();
-                                $('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok hide"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+data[1][0].id+')"   style="margin-left:5%"></span></td></tr>');
+                                $('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+data[1][0].id+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:green" class="glyphicon glyphicon-ok "></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+data[1][0].id+')"   style="margin-left:5%"></span></td></tr>');
                               } else if (data[0][0].flag == 3) {
                                 alert('Custom Role is already exist.Please enter with different Custom Role.');
                             }else if(data[0][0].flag == 4){
@@ -1758,13 +1781,12 @@ function addrole(){
                                 alert('Custom Roles update successfully.');
                             $('#editRole').modal('toggle');
                                 $("#RoleEdit").val($('#RoleEdit').val());
-                               
-                                if($('#RoleEdit').val()==0){
-                                  $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:red" class="glyphicon glyphicon-remove hide"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')"  style="margin-left:5%"></span></td>');
+                                if(newactiveDocument==0){
+                                  $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+cid+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:red;margin-left:10px;height:10px" class="glyphicon glyphicon-remove "title="click to active"onclick="docActiveInactive('+cid+',1)"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')"style="margin-left:10px"title="click to edit"></span></td>');
                                 
-                               }
+                                  }
                                else{
-                                $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span style="color:green" class="glyphicon glyphicon-ok hide"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')"  style="margin-left:5%"></span></td>');
+                                $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+cid+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:green;margin-left:10px;height:10px" class="glyphicon glyphicon-ok "title="click to inactive" onclick="docActiveInactive('+cid+',0)"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+cid+')" title="click to edit" style="margin-left:10px"></span></td>');
                                 
                               } 
                             } 
@@ -3098,8 +3120,74 @@ if(billa>100000){
                   }
             }                
      }
-      
+       function viewroleUser(cid){
+       $.ajax({
+            url: '/getRolesInfo',
+            type: 'post',
+            data: {
+                c_id : cid
+            },
+            dataType: 'json',
+            success: function(user) {
+              user=user[0];
 
-  
+                console.log("List of All user",user);
+                    var info=[];
+                for(var i=0;i<user.length;i++) {
+               
+                    info.push($.map(user[i],function(k,v){return k;})); 
+                }
+                console.log('==============',info);
+                 table= $('#roletable').DataTable({
+                 "iDisplayLength": 10, /*used to display no of element  on page load or relaod*/
+                 "showNEntries": true, /* for displaying showing 10 out of 50 entries at left bottom corner*/
+                 "bFilter": true,        /*dispalying search box at top right corner*/
+                 "bLengthChange": true,
+                 "searching": true,
+                 "bDestroy" : true,
+                 data:info,
+                 columns: [
+                 {title:"User Name" }]
+                });
+             }
+        });
+    }
+
+    function docActiveInactive(croleid,flag){
+      if(flag==0)
+       var title="are you sure you want to Deactivate ? "
+     else
+      var title="are you sure you want to Activate ? "
+       if(confirm(title)==true) 
+       $.ajax({
+            url: '/docActiveInactive',
+            type: 'post',
+            data: {
+               croleid:croleid,
+               flag:flag
+            },
+            dataType: 'json',
+            success: function(result){
+              console.log(result);
+              if(result[0][0].resultflag==-2){
+                    alert("updated Successfully");
+                    if(flag==0){
+                            document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='<span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+croleid+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:red;margin-left:10px;height:10px" class="glyphicon glyphicon-remove "title="click to active"onclick="docActiveInactive('+croleid+',1)"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+croleid+')"style="margin-left:10px"title="click to edit"></span>';
+                    }
+                    else{
+                       document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='<span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+croleid+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:green;margin-left:10px;height:10px" class="glyphicon glyphicon-ok "title="click to inactive" onclick="docActiveInactive('+croleid+',0)"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+croleid+')" title="click to edit" style="margin-left:10px"></span>';
+                    }
+              }
+              else{
+                  alert('This Custome role cant be inactive , it is bind with Some Others user  ');
+              }
+             
+                
+             }
+        });
+
+    }
 
 </script>
+
+

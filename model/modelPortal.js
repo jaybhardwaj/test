@@ -459,7 +459,15 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             callback(err, result);
         });
      },
-
+     docActiveInactive: function(retailerId,crole,flag,callback){
+        var query={
+            sql: 'call usp_docActiveInactive(?,?,?)',
+            values: [retailerId,crole,flag]
+        };
+        mysql(query,function(err,result){
+            callback(err, result);
+        });
+     },
     getAllFiles: function(userId,roleId,retailerId,croleid,callback){
         var query={
             sql: 'call usp_doc_getallFilesandFolder(?,?,?,?)',

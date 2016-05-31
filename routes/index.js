@@ -332,6 +332,7 @@ app.post('/changeProjectWbs', portal.changeProjectWbs,render.redirect);
      app.post('/selectidRole',portal.getCustomRoleById);
     app.post('/customRolesEntry',url.setpageaddcustomRoles,portal.addCustomRole,render.redirect);
     app.post('/customRolesUpdate',portal.updateCustomRole);
+    app.post('/docActiveInactive',portal.docActiveInactive);
     app.post('/getRolesInfo',portal.getRolesInfo);
 	app.post('/addEditClientAjax',portal.addEditClientAjax);
 

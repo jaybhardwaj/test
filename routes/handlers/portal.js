@@ -956,7 +956,18 @@ project=project?project:'';
               });
           },
 
-
+ docActiveInactive:function(req,res,next){
+     
+  modelPortal.docActiveInactive(req.session.retailerId,req.body.croleid,req.body.flag,function(err, result){
+                if(err){
+                    next(err);
+                    return;
+                }
+               
+                res.json(result);
+              
+              });
+          },         
     getAllFiles: function(req,res,next){
      
         modelPortal.getAllFiles(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId,function(err,resultFiles){
