@@ -1326,12 +1326,12 @@ thead tr th {
       if(!flag){
             if(confirm("Are you sure you want to Deactivate?")){
               $('#bugMasterActiveVal_'+id).val('0');
-           saveEditBugMaster(code,id);
+           saveEditBugMaster(code,id,0);
           }}
         else{
             if(confirm("Are you sure you want to Activate?")){
              $('#bugMasterActiveVal_'+id).val('1');
-           saveEditBugMaster(code,id);
+           saveEditBugMaster(code,id,1);
         }}
   }
   var oldname ;
@@ -1634,10 +1634,10 @@ function addBugMaster(code){
        } 
     
      }
-      saveEditBugMaster(code,bugMasterId);      
+      saveEditBugMaster(code,bugMasterId,3);      
     }
   }
-  function saveEditBugMaster(code,id){
+  function saveEditBugMaster(code,id,flag){
      if($('#bugEditData_'+id).val().trim().length<1){
     alert("Can not update blank field!");
     return false;
@@ -1647,13 +1647,16 @@ function addBugMaster(code){
    
     crate=$('#crate_'+id).val();   
   }
-
+if(flag==3){
+act=1;
+}else
+var act=$('#bugMasterActiveVal_'+id).val();
     $.ajax({
     url:'/updateStatus',
         data: {           
          "code":code,
          "desc":$('#bugEditData_'+id).val(),
-         "active": $('#bugMasterActiveVal_'+id).val(),
+         "active":act ,
          "id":id,      
          "crate":crate
         },
@@ -1665,7 +1668,7 @@ function addBugMaster(code){
     insLabel='<td>'+crate+'</td>';
   }
       var okIcon;
-          if($('#bugMasterActiveVal_'+id).val()==1){
+          if(($('#bugMasterActiveVal_'+id).val()==1)||(flag==3)){
             okIcon='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster('+code+','+id+',0)"></span>';
           } 
           else{
