@@ -923,6 +923,15 @@ hr:function(req,res,next){
 			res.redirect('/portal');
 		}
 	},
+	userHrViewReq:function(req,res,next){
+		 if(req.session.modules.indexOf(config.RMS)>=0){
+		req.page="userHrViewReq";
+		next();
+	}
+	else{
+			res.redirect('/portal');
+		}
+	},
 
 	//---------------------------------------Project----------------------------------------------
 	task:function(req,res,next){
