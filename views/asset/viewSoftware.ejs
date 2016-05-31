@@ -8,8 +8,8 @@
   
 </head>
 <body >
-  <div class="secondry-color">
-    <a href="/addSoftware"type="button"style="margin-top:10px;font-size:12px; margin-left:2%;padding:0.5%;" title="Add New Stationary" class="button btn btn-info" value="Addstationary">Add Software</a>
+  <div class="container-fluid secondry-color">
+    <a href="/addSoftware"type="button" title="Add New Stationary"  value="Addstationary"><img   class="addNewPlus" ></a>
     <span class="modal-title" style="padding-left:35%;">List Of All Softwares</span>
     <br>
     <table class="table table-hover table-striped table-bordered rceDataTable"id="softtable" cellpadding="0" cellspacing="0" border="0"style="width:100%">
@@ -58,118 +58,72 @@
 <div class="modal fade" id="editstation" role="dialog">
   <div class="modal-dialog modal-lg">
     <!--- Modal content-->
-    <div class="modal-content" id="express2">
+    <div class="modal-content" id="express2" style="width: 1100px;margin-left: -11%">
       <div class="modal-header" style="background-color:#f05f40;">
-        <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Software</b></label></center>
+        <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Software</b></label>
+        <span id="closeedit"  class='close closeedit' data-dismiss="modal" style='float:right;'title ='Close' > &times;  </span>
+        </center>
       </div>
       <div id="err" class="col-lg-6 col-sm-offset-3"></div>
         <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;">Software Type: *</label>
-              </div>
-              <div class="col-md-6">
-                <select id="typel"name="htype"class="form-control" value="" disabled="disable">
+          <table class="table"  style="margin-bottom:0px;">
+          <tr><td><td>
+                <label class="form-Label" >Software Type: *</label></td>
+              <td>
+                <select id="typel"name="htype"class="form-text-box" value="" disabled="disable">
                   <%for(var i=0;i<stype[0].length;i++){%>
                   <option value='<%=stype[0][i].softType%>'><%=stype[0][i].componentName%></option>
                   <%}%>
                   </select>
-              </div>
-            </div>
-            <div class="col-md-6 a">
-                <div class="col-md-6">
-                  <label style="line-height:42px !important;">Name: *</label>
-                </div>
-                <div class="col-md-6">
-                  <input type='text'maxlength="50" name="name"class="form-control" id="name"/>
-                </div>
-            </div>
-          </div>
-          <div class="row">  
-            <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;">Vendor: *</label>
-              </div>
-              <div class="col-md-6">
-                <input type='text'maxlength="50"style="margin-top:10px;" name="vendor"class="form-control" id="vendor"/>
-              </div>
-            </div>
-            <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;">Invoice Date: *</label>
-              </div>
-              <div class="col-md-6">
-                <input type="" style="margin-top:10px;"class="form-control date"id="Invoicedate" name="Invoicedate" />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;">Licence Required:</label>
-              </div>
-              <div class="col-md-6">
-                <input style="margin-top:10%;" name='test5'type="checkbox" id="test5"/>
-              </div>
-            </div>
-            <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;">Description: *</label>
-              </div>
-              <div class="col-md-6">
-                <textarea id='textarea'name="des"style="margin-top:10px;" class="form-control"></textarea>
-              </div>
-            </div>
-          </div>
+                  </td></td><td><td>
+                  <label class="form-Label">Name: *</label></td>
+                  <td>
+                  <input type='text'maxlength="50" name="name"class="form-text-box" id="name"/>
+                </td></td><td><td>
+                <label class="form-Label" >Vendor: *</label>
+              </td><td>
+                <input type='text'maxlength="50" name="vendor"class="form-text-box" id="vendor"/>
+              </td></td></tr><tr><td><td>
+                <label class="form-Label" >Invoice Date: *</label>
+              </td><td>
+                <input type="" class="form-text-box date"id="Invoicedate" name="Invoicedate" />
+             </td></td><td><td>
+                <label class="form-Label" >Licence Required:</label>
+              </td><td>
+                <input  name='test5'type="checkbox"  id="test5"/>
+               </td></td><td><td>
+                <label class="form-Label" >Description: *</label>
+              </td><td>
+                <textarea id='textarea'name="des" class="form-text-box"></textarea>
+              </td></td></tr></table>
           
-          <div class="row hide"id="lic">
-          
-            <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;">Licence Key: *</label>
-              </div>
-              <div class="col-md-6">
-                <input type="text"  name="key" class="form-control" id="key" maxlength="11" style="margin-top:10px;" class="form-control" />
-              </div>
-            </div>
-            <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;"># Users: *</label>
-              </div>
-              <div class="col-md-6">
-                <input type="number" name="users" class="form-control" id="users"style="margin-top:10px;"/>
-              </div>
-            </div>
-            
-              <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;">Purchase Date: *</label>
-              </div>
-              <div class="col-md-6">
-                <input style="margin-top:10px;"class="form-control date"id="pdate" name="pdate" />
-              </div>
-            </div>
-            <div class="col-md-6 a">
-              <div class="col-md-6">
-                <label style="line-height:42px !important;">Expiry Date:</label>
-              </div>
-              <div class="col-md-6">
-                <input style="margin-top:10px;"class="form-control date"id="edate" name="edate" />
-              </div>
-            </div>
+            <div class="hide"id="lic">
+            <table class="table" style="margin-bottom:-39px;" ><tr><td><td>
+                <label class="form-Label" >Licence Key: *</label>
+              </td><td>
+                <input type="text"  name="key" class="form-text-box" id="key" maxlength="11"  class="form-control" /></td>
+              </td><td><td>
+                <label class="form-Label" ># Users: *</label></td>
+              <td>
+                <input type="number" name="users" class="form-text-box" id="users"/></td></td><td><td>
+             
+                <label class="form-Label" >Purchase Date: *</label></td><td>
+                <input class="form-text-box date"id="pdate" name="pdate" /></td></td></tr><tr><td><td>
+                <label class="form-Label" >Expiry Date:</label></td><td>
+                <input class="form-text-box date"id="edate" name="edate" /></td></td><td><td></td><td>
+                </td></td><td><td></td><td>
+                </td></td></tr></table>
           </div>
-          <br/>
+           </div>
           <div class="modal-footer"style="border-top:0px;">
             <center>
               <input type="text" class="hide" value="" id="hdnId" name="hdnId">
               <button id="cancel"type="reset"data-dismiss="modal"class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
               <a onclick="return validate()"class="btn btn-default"style="margin-top:10px;background-color:#f05f40;color:black;padding-top:4px; width:100px;height:30px;color:white">Submit</a>
             </center>
-          </div>
-        
-      </div>
+          </div> 
     </div>
+  </div>
   </div>
 <script type="text/javascript"> 
 

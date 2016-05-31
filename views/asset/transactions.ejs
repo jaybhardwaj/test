@@ -12,17 +12,17 @@
       <div class="row" style="padding-top: 1%">
          <span class="modal-title" style="padding-left:38%;">Assign/Unassign</span>
       </div>
-      <div style="float: left">
-      Select User : 
-      <select id="selector"   onchange="getData(1)">
+      <div class="row" style="float: left;width: 400px">
+     <div class="col-md-4"> Select User : </div>
+      <div class="col-md-8"><select id="selector" class="form-text-box"  onchange="getData(1)" >
             <option disabled value="0"selected="">select</option>
               <%for(var i=0;i<users.length;i++){%><option value='<%=users[i].id%>'><%=users[i].Name%></option>
               <%}%>
-          </select>
+          </select></div>
       </div>
 
       <div class="hide"   id="tab1"> 
-      <table class="table">
+      <table class="table" >
         <tr>
           <td>
             <td>
@@ -34,7 +34,7 @@
             </td>
           </td>
           <td>
-            <label>Service Tag:</label>
+            <label class="form-Label">Service Tag:</label>
           </td>
           <td>
             <select id="com" class="form-text-box show">
@@ -43,7 +43,7 @@
 
           <td>
           <td>
-            <label>Software Type:</label>
+            <label class="form-Label">Software Type:</label>
           </td>
           <td>
             <select id="ac" type="dropdown"class="form-text-box" onchange="getAcc(this.value)"></select>
@@ -51,7 +51,7 @@
           </td>
         
           <td>
-            <label>Licence Key:</label>
+            <label class="form-Label">Licence Key:</label>
           </td>
           <td>
            <select id="acc" class="form-text-box show" onchange="">
@@ -221,9 +221,9 @@
 
 var count=0;
     function addSubline(copId,copName,lineId,tagNo){
-      alert(copName);
+    
       console.log(copId,copName,lineId,tagNo);
-        var row='<tr><td>'+ ++count+'</td><td>'+copName+'<input type="hidden" id="compId'+ count+'" value='+copId+'></td><td>'+tagNo+'<input type="hidden" id="line'+count+'" value='+lineId+'></td><td><input id="date'+count+'" class="form-text-box date"></input><input  type="hidden" id="tsId'+count+'" value="0"></input>'+'<td><span id="assignreg'+count+'" style=" color:green; " class="glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"><span  style=" color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+lineId+')"></span></td><td class="hide">0</td>'+'<td class="">Draft</td>';
+        var row='<tr><td>'+ ++count+'</td><td>'+copName+'<input type="hidden" id="compId'+ count+'" value='+copId+'></td><td>'+tagNo+'<input type="hidden" id="line'+count+'" value='+lineId+'></td><td><input id="date'+count+'" class="form-text-box date"></input><input  type="hidden" id="tsId'+count+'" value="0"></input>'+'<td><span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"><span  style="margin-left:70px;color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+lineId+')"></span></td><td class="hide">0</td>'+'<td id="assign'+count+'" class="">Draft</td>';
                   $('#bodyi').append(row);
                   jQuery('.date').datetimepicker({
                     timepicker:false,
@@ -246,16 +246,16 @@ var count=0;
              $("#tab1").removeClass("hide");
             for(var i=0;i<result[0].length;i++){
               var row='<tr><td>'+ ++count+'</td><td>'+result[0][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[0][i].ACID+'></td><td>'+
-                  result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:70px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span><span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+result[0][i].Id+')"></span></td>';
+                  result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:70px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span><span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+result[0][i].Id+')"></span>';
                   if(result[0][i].assign==1){
                    
-                  //  $('#assignreg1').removeClass('hide');
+                  row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>'
                   
                     $('#assignreg'+count).removeClass('hide');
                     $("#assignapp"+count).addClass('hide');
                   row=row+'<td id="assign'+count+'">assigned</td>';  
                   }else{
-                   
+                      row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
                      $('#assignapp'+count).removeClass('hide');
                      $('#assignreg'+count).addClass('hide');
                    row=row+'<td class="hide">0'+'</td><td id="assign'+count+'">unassigned</td>'; 
@@ -264,16 +264,16 @@ var count=0;
             }
             for(var i=0;i<result[1].length;i++){
               //alert(result[1].length);
-              var row='<tr><td>'+ ++count+'</td><td>'+result[1][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[1][i].ACID+'></td><td>'+result[1][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[1][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[1][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[1][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:70px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td><td class="hide">0'+result[1][i].cid+'</td><td class="hide">'+result[1][i].lid+'</td>';
+              var row='<tr><td>'+ ++count+'</td><td>'+result[1][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[1][i].ACID+'></td><td>'+result[1][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[1][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[1][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[1][i].assignDate).toString()).slice(0,10)+'"></input><td>';
                  if(result[1][i].assign==1){
-                   
+                   row=row+'<span id="assignapp'+count+'" style="margin-left:70px; color:red; " class=" hide glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
                 
                   
                     $('#assignreg'+count).removeClass('hide');
                     $("#assignapp"+count).addClass('hide');
                   row=row+'<td id="assign'+count+'">assigned</td>';  
                   }else{
-                   
+                   row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
                      $('#assignapp'+count).removeClass('hide');
                      $('#assignreg'+count).addClass('hide');
                    row=row+'<td class="hide">0'+'</td><td id="assign'+count+'">unassigned</td>'; 
@@ -431,7 +431,7 @@ var count=0;
 
                 jQuery('.date').datetimepicker({
                   timepicker:false,
-                  format:'d-m-y'
+                  format:'Y-m-d'
                 });
               }
             }
@@ -457,7 +457,7 @@ var count=0;
     adate=$('#date'.concat(num)).val();
     tid=$('#tsId'.concat(num)).val();
     aflag=1;
-    alert(tid);
+   
     console.log(uid,lid,cid,adate,tid);
       $.ajax({
         url: "/saveAssignment",
@@ -476,7 +476,7 @@ var count=0;
     }
 
      function unasigned(num){
-      alert(num);
+    
       var uid,lid,cid,adate,tid;
     uid=userid;
     lid=$('#line'.concat(num)).val();
@@ -501,7 +501,7 @@ var count=0;
     }
 
 function add(i){
-  alert(i);
+  
 }
      function getsubComponent(lineId){
        $("#myModalcomp").modal('show');
@@ -523,7 +523,7 @@ function add(i){
             var coName=result[0][i].componentName;
             var lid=result[0][i].id;
             var tag=result[0][i].tagNo;
-             comp=comp+'<tr><td>'+result[0][i].componentName+'</td><td class="hide">'+result[0][i].id+'</td><td>'+result[0][i].tagNo+'</td><td><span class=" glyphicon glyphicon-tasks" onclick=addSubline('+coid+',"'+coName+'",'+lid+',"'+tag+'")></span></td></tr>';
+             comp=comp+'<tr><td>'+result[0][i].componentName+'</td><td class="hide">'+result[0][i].id+'</td><td>'+result[0][i].tagNo+'</td><td><span data-dismiss="modal" class=" glyphicon glyphicon-tasks" onclick=addSubline('+coid+',"'+coName+'",'+lid+',"'+tag+'")></span></td></tr>';
              $('#addcompobody1').append(comp);
           }
         
