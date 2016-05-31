@@ -4,17 +4,9 @@
 
   <% include header %>
   	   <% include ../partials/adminheader %>
-  	   
-  	   
+  
 </head>	
 	<style>
-	.selectedBug{
-		border: 2px solid green;
-
-	}
-	.dataTables_filter, .dataTables_length {
-     display: none;
-    }
 	#headMenu{
 		float: right
 	}
@@ -77,6 +69,8 @@
 <body>
 
 <div class="se-pre-con"></div>
+
+
    <div class="secondry-color" style=" overflow-x:hidden ">		
 		<div class="slidingpanel" style="font-size: 13px;font-size: 12px;">
 			<div class="col-md-12" style="color:">
@@ -142,46 +136,72 @@
 
 
  <label href="javascript:void(0);" class="slider-arrow show" style="float:left">Filter &laquo;</label>
- <div class="row" style="padding:2%;padding-top:1%;padding-bottom:0px">
-	<span class="modal-title" style="padding-left:46%">Bug Details</span> 	
-<input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="margin-top: 5px;margin-bottom: 5px;float:right;width: 13%;"> 
+		
+
 	 
 		 <!-- 
 		<button class="btn btn-info" onclick="exportBug()"style="margin-left:92.5%;margin-top:1%;">Export</button> -->
 
-            <table id="data_table" class="table table-striped table-bordered" 	cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
-                <thead>
-                    <th>S.No.</th>
-                    <th>Bug ID</th>
-                    <th>Title</th>
-                    <th>Project</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Severity</th>
-                    <th>Technology</th>
-                    <th>Assinged To</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                </thead>	
-                <tbody id="bugDetails">
-                 <% var c=0;
-						 for(var j=0;j<bug.length;j++){   %>
-                        <tr class="rows" id="vbug-sbox_<%=j%>" checked="true" onclick="showdetails(<%=bug[j].id%>,<%=j%>)">
-                            <td align="center">
-								<%=++c%>
-                            </td>
-                            <td class="col-md-1" align="center" style="width:84px">
-                               <span><%=bug[j].id%></span> 
-                            </td>
-                            <td class="col-md-2">
-                                <input type="hidden" id="hiddentitle<%=j%>" onchange="updatebugdetails(<%=bug[j].id%>,this,'bugTitle')" value="<%=bug[j].bugTitle%>">
-                                <input type="text" id="bugtitle<%=j%>" style="width:100%;background-color:none;border:none" maxlength="75"onchange=" updatebugdetails(<%=bug[j].id%>,this,'bugTitle',<%=j%>)" value="<%=bug[j].bugTitle%>">
-                            </td>
-                            <td>
-                                <span><%=bug[j].projectTitle%></span>
-                            </td>
-                            <td class="col-md-1">
-                          <button><select  class="select-vbug"  onchange="updatebugdetails(<%=bug[j].id%>,this,'status')">
+		<div class="row" style="margin-left:0px;margin-right:0px;padding-top:5px;">
+			<center>
+			  <div  class="row vbug-centerbox" style=" width:98%" >
+					<div class="row vbug-header  " style="min-width:100%;max-width:100%;margin-left:0px" align="left" >
+						<div class="col-md-1 " style="width:55px" >
+							S.No.
+						</div>
+						<div class="col-md-1 " style="width:84px">
+							Bug ID
+						</div>
+						<div class="col-md-2">
+							Title
+						</div>
+						<div style="margin-left:-1%" class="col-md-1">
+							Project
+						</div>
+						<div class="col-md-1">
+							Status
+						</div>
+						<div class="col-md-1 ">
+							Priority
+						</div>
+						<div class="col-md-1">
+							Severity
+						</div>
+						<div class="col-md-1">
+							Technology
+						</div>
+						<div class="col-md-1" align="center" style="width:179px">
+							Assinged To
+						</div>
+						<div class="col-md-1" style="margin-left:1%" >
+							Start Date
+						</div>
+						<div class="col-md-1">
+							End Date
+						</div>
+						<hr>
+					</div>
+					<div id="resizable" class="auto-scroll" style="width:100%;height:230px;font-size:11px" >
+						<% var c=1;
+						 for(var j=0;j<bug.length;j++){  
+						 						 	
+						 	  %>
+						<div id="vbug-sbox_<%=j%>" title="Edit/Change"class="row vbug-box" align="left" checked="checked" onclick="showdetails(<%=bug[j].id%>,<%=j%>)">
+							<div class="col-md-1 " align="center" style="width:55px">
+								<%=c++%>
+							</div>
+							<div  class="col-md-1" align="center" style="width:84px">
+							<span><%=bug[j].id%></span>
+							</div>
+							<div class="col-md-2">
+								<input type="hidden" id="hiddentitle<%=j%>" onchange="updatebugdetails(<%=bug[j].id%>,this,'bugTitle')" value="<%=bug[j].bugTitle%>">
+						 		<input type="text" id="bugtitle<%=j%>" style="width:100%;background-color:none;border:none" maxlength="75"onchange=" updatebugdetails(<%=bug[j].id%>,this,'bugTitle',<%=j%>)" value="<%=bug[j].bugTitle%>">
+							</div>
+							<div  class="col-md-1">
+							<span><%=bug[j].projectTitle%></span>
+							</div>
+							<div class="col-md-1" >
+							<select  class="select-vbug"  onchange="updatebugdetails(<%=bug[j].id%>,this,'status')">
              						<% for(var i=0;i<status.length;i++) { %>
 									<%if(status[i].description1 != 'Close'){ %>             					
                     				<option value="<%=status[i].id%>" <%if(bug[j].status== status[i].id){%> selected <%}%>>
@@ -196,37 +216,37 @@
                     				   	<%}%>       
                     				   	<%}%>     
 										<%}%>
-               					</select></button>
-                            </td>
-                            <td>
-                            	<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'priority')">
+               					</select>
+							</div>
+							<div class="col-md-1 ">
+								<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'priority')">
                 					<% for(var i=0;i<priority.length;i++) { %>
                						<option value="<%=priority[i].id %>" <%if(bug[j].priority == priority[i].id){%> selected <%}%>>
 									<%=priority[i].description1%>    
                 					</option>
                 					<%}%>
                 				</select>
-                            </td>
-                            <td>
-                            	<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'severity')">
+							</div>
+							<div class="col-md-1">
+								<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'severity')">
        	        					<% for(var i=0;i<severity.length;i++) { %>
                 					<option value="<%=severity[i].id %>" <%if(bug[j].severity == severity[i].id){%> selected <%}%>>
 										<%=severity[i].description1%>    
        	        					</option>
                 					<%}%>
                 				</select>
-                            </td>
-                            <td>
-                            	<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'technology')">
+							</div>
+							<div class="col-md-1">
+								<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'technology')">
                   					<% for(var i=0;i<technology.length;i++) { %>
                     				<option value="<%=technology[i].id %>" <%if(bug[j].technology== technology[i].id){%> selected <%}%> >
 										<%=technology[i].description1%>    
                     				</option>
 									<%}%>
                 				</select>
-                            </td>
-                            <td>
-                            	<select style="width:70%"class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'assingedToUserId')">
+							</div>
+							<div class="col-md-1" align="center" style="width:179px">
+								<select style="width:70%"class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'assingedToUserId')">
                   					<%  for(var i=0;i<assingedto.length;i++) { %>
  									<% if(assingedto[i].projectId==bug[j].projectId){%>
                   					<option value="<%=assingedto[i].userId%>" <%if(bug[j].assingedToUserId==assingedto[i].userId){%> selected <%}%>>
@@ -235,20 +255,19 @@
 										<%}%>
 											<%}%>
                 				</select>
-                            </td>
-                            <td>
-                            	<%=bug[j].startdate%>
-                            </td>
-                            <td>
-                            	<input class="datepicker select-vbug"  id='end+<%=j%>' onchange="updatebugdetails(<%=bug[j].id%>,this,'effectiveEndDate',this.id,'<%=bug[j].enddate%>')" style="border:none;" value="<%=bug[j].enddate%>">
-                            </td>
-                        </tr>
-
-                        <%}%>   	
-                </tbody>
-            </table>
-        </div>
-		
+							</div>
+							<div class="col-md-1">
+								<%=bug[j].startdate%>
+							</div>
+							<div class="col-md-1" align="left">
+								<input class="datepicker select-vbug"  id='end+<%=j%>' onchange="updatebugdetails(<%=bug[j].id%>,this,'effectiveEndDate',this.id,'<%=bug[j].enddate%>')" style="border:none;" value="<%=bug[j].enddate%>">
+							</div>
+						</div>
+						<%}%>
+					</div>	
+				</div>	
+			</center>
+		</div>
 
 		<div class="row secondry-color" style="width:100%;padding-left:2.2%;padding-top:5px;padding-bottom:1%;">
 			<div class="col-md-12" style=" height:auto;width:100%;padding-right:0px;padding-left:0px" >
@@ -304,8 +323,7 @@
 </html>
 
 <script>
-      
-          
+
 function checkedBox(){
 var array = [];
     $('.checkl  option:selected').each(function() {
@@ -316,19 +334,6 @@ var array = [];
 }
 
  	$(document).ready(function(){ 
- 		      otable = $("#data_table").DataTable({
-                
-                 'iDisplayLength': 5,
-                "order":[],
-                "bDestroy": true, 
-                "info":false,
-                
-            });
- 		               $("#searchbox").keyup(function() {
-        otable.search(this.value).draw();
-
-      });
-
  		$('.se-pre-con').fadeOut('slow'); 
 		$('#download').removeClass("hide");
 		$('#downloadL').removeClass("hide");
@@ -536,11 +541,8 @@ str=str+'</select>';
   
 	function showdetails(bid,divId){
 		//alert(bid);
-		//$('.vbug-box').attr("color","yellow");
-		//$('.vbug-box').css("border","none");
-		//$("#vbug-sbox_"+divId).css("border-style","groove");
-		  $(".rows").css({"background-color":"white"});
-		$("#vbug-sbox_"+divId).css({"background-color":"#CBDDEA"});
+		$('.vbug-box').css("border","none");
+		$("#vbug-sbox_"+divId).css("border-style","groove");
 		//alert("show details"+bid)
 		$("#bugidhidden").val(bid);
 		//alert($("#bugidhidden").val());

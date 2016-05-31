@@ -258,6 +258,7 @@ exportBug: function(userId, roleId,retailerid, callback){
         };
         
         mysql(query, function(err, result) {
+             console.log(query);
             callback(err, result);
         });
     },
@@ -267,6 +268,7 @@ exportBug: function(userId, roleId,retailerid, callback){
             values: [userId, roleId,retailerid]
         };
         mysql(query, function(err, result) {
+  console.log(query);
             callback(err, result);
         });
     },
@@ -366,7 +368,7 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project, userId, retailerId, roleId]
         };
-        //console.log('filter bug---',query);
+        console.log('filter bug---',query);
         mysql(query, function(err, result) {
            
             callback(err, result);
