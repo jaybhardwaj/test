@@ -23,7 +23,7 @@
 </style>
 <script>
 var tabledel='';
-var rowid='';
+var rowid=''; 
 var stdat=[];
 var eddat=[];
 var time;
@@ -551,16 +551,16 @@ function changeProjectWbs(pid,wid,flag){
     <script>
    function exportAssignment(type)
 {
+  var status=$("#stat").val();
      $(".se-pre-con").fadeIn("slow");
-var header=['Project Name','WBS Code','WBS Name','User Name','Assignment Start Date','Assignment End Date'];
+var header=['Project Name','WBS Code','WBS Name','User Name','Assignment Start Date','Assignment End Date','Status'];
 
 var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/exportToCsv';
 $.ajax({
 url: url,
 method: 'POST',
-data : {"type":type},
+data : {"type":type,'status':status},
 success: function(data) {
-    console.log('bugdata',data)
 data.unshift(header);
 alasql("SELECT * INTO CSV('Assignment.csv') FROM ?",[data]);
 /*$(".se-pre-con").fadeOut("slow");
@@ -606,8 +606,10 @@ function showAll()
 
   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
 
+
   </div>
    <div  class="row" style="max-width:103%;overflow-y:auto "> 
+
 
       <table   id="assigntable" class="stripe hover cell-border">  
                  <thead>
@@ -626,8 +628,9 @@ function showAll()
               </table>
     </div>
 
-   
-     
+   </div>
+   </html> 
+
 
 
     <div id="projectDiv" class="hide" style="padding-bottom:2%;padding-left :1%;padding-right:1%; max-width:103%;overflow-y:auto  ">

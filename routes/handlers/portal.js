@@ -406,7 +406,7 @@ filename=req.session.logo;
 
 
     exportToCsv: function(req, res, next) {               
-       modelPortal.exportToCsv(req.body.type,req.session.userId,req.session.roleId,req.session.retailerId, function(errorCsv, resultCsv) {
+       modelPortal.exportToCsv(req.body.type,req.body.status,req.session.userId,req.session.roleId,req.session.retailerId, function(errorCsv, resultCsv) {
                     if (errorCsv) {
                  next(errorCsv);
                  return;

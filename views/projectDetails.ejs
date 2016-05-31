@@ -484,14 +484,15 @@ function projectAddEdit(projectId,flag) {
     <script>
     function exportProject(type)
 {
+      var status=$("#pstatus11").val();
      $(".se-pre-con").fadeIn("slow");
-var header=['Project Title','Code','Project Type','Description','Planned Start Date','Planned End Date','Actual Start Date','Actual End Date','Last Updated By','Open Bugs','Closed Bugs'];
+var header=['Project Title','Code','Project Type','Description','Planned Start Date','Planned End Date','Actual Start Date','Actual End Date','Last Updated By','Open Bugs','Closed Bugs','Status'];
 
 var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/exportToCsv';
 $.ajax({
 url: url,
 method: 'POST',
-data : {"type":type},
+data : {"type":type,'status':status},
 success: function(data) {
     console.log('bugdata',data)
 data.unshift(header);
@@ -624,10 +625,12 @@ function showAll()
             </table>
             </div>
 
+
           
           <div id="wbstable1" class="hide row" style="max-width:103%;overflow-y:auto  ">
               <div style="margin-bottom:10px">
               <span class="modal-title" style="padding-left:45%;margin-top:10px">List of WBS for selected project</span>
+
 
               </div>
 

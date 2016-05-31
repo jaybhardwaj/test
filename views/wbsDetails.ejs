@@ -22,7 +22,7 @@
 
  
 </style>
-<script type="text/javascript">
+<script type="text/javascript"> 
 var otable='';
 $(document).ready(function() {
 
@@ -535,6 +535,7 @@ var c=checkAssignment(assignmentId);
     <script>
     function exportWBS(type)
 {
+    var status=$("#selectwbs").val();
      $(".se-pre-con").fadeIn("slow");
 var header=['WBS Name','WBS Code','Project Name','WBS Owner','Planned Start Date','Planned End Date','Actual Start Date','Actual End Date','Estimate Effort','WBS Location','Status'];
 
@@ -542,7 +543,7 @@ var url = window.location.origin.split("/")[3] ? window.location.origin : window
 $.ajax({
 url: url,
 method: 'POST',
-data : {"type":type},
+data : {"type":type,'status':status},
 success: function(data) {
     console.log('bugdata',data)
 data.unshift(header);

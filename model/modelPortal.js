@@ -228,10 +228,10 @@ getProfile:function(userId,roleId,retailerId,callback){
 },
 
 
-exportToCsv: function(type,userId, roleId,retailerid, callback){
+exportToCsv: function(type,status,userId, roleId,retailerid, callback){
         var query = {
-            sql: 'call usp_exportToCsv(?,?,?,?)',
-            values: [type,userId, roleId,retailerid]
+            sql: 'call usp_exportToCsv(?,?,?,?,?)',
+            values: [type,status,userId, roleId,retailerid]
         };
         console.log(query)
         mysql(query, function(err, result) {

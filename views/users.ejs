@@ -205,6 +205,8 @@ function userStatus(){
     <script>
     function exportUsers(type)
 {
+  var status=$("#active").val();
+
      $(".se-pre-con").fadeIn("slow");
 var header=['Employee Code','Name','Email Id','Contact Number','Role','Supervisor','User Type','Status'];
 
@@ -212,7 +214,7 @@ var url = window.location.origin.split("/")[3] ? window.location.origin : window
 $.ajax({
 url: url,
 method: 'POST',
-data : {"type":type},
+data : {"type":type,'status':status},
 success: function(data) {
     console.log('bugdata',data)
 data.unshift(header);

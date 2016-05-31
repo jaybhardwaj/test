@@ -7,7 +7,7 @@
    .dataTables_filter, .dataTables_length {
      display: none;
     }
-.glyphicon-ok-circle{
+.glyphicon-ok-circle{ 
   color:green!important;
  }
 </style>
@@ -460,14 +460,17 @@ alert('Mail has been sent successfully.')
     <script>
     function exportClient(type)
 {
+    var status=$("#clientStatus").val();
+    if(status=='2')
+      status=0;
      $(".se-pre-con").fadeIn("slow");
-var header=['Client Code','Client Name','Abbreviation Name','Category','Client account lead','Location'];
+var header=['Client Code','Client Name','Abbreviation Name','Category','Client account lead','Location','Address','Status'];
 
 var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/exportToCsv';
 $.ajax({
 url: url,
 method: 'POST',
-data : {"type":type},
+data : {"type":type,'status':status},
 success: function(data) {
     console.log('bugdata',data)
 data.unshift(header);
