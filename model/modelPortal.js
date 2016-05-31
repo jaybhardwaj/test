@@ -849,13 +849,17 @@ console.log(result);
         });
     },
 
-    updateAssignmentWBSForProject: function(assignmentid,wbsid,wbsname,wpsdate,wpedate,wasdate,
+
+
+    updateAssignmentWBSForProject: function(pid,psdate1,pedate1,asdate1,aedate1,
+        assignmentid,wbsid,wbsname,wpsdate,wpedate,wasdate,
         waedate,asdate,
         aedate,flag,userId,roleId,retailerId, callback) {
         
         var query = {
-            sql: 'call usp_updateAssignmentWBSForProject(?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [assignmentid,wbsid,wbsname,wpsdate,wpedate,wasdate,waedate,asdate,
+            sql: 'call usp_updateAssignmentWBSForProject(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [pid,psdate1,pedate1,asdate1,aedate1,
+            assignmentid,wbsid,wbsname,wpsdate,wpedate,wasdate,waedate,asdate,
         aedate,flag,userId,roleId,retailerId,]
         };
         console.log('gsdrfgfrsrsf',query);

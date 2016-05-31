@@ -110,7 +110,42 @@ function checkactive(st){
                         if(data[0][i].lastupdatedby==null){data[0][i].lastupdatedby='';}
 
 
-                        log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
+                        log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].id+'" style="cursor: pointer;border:0px"   value="'+data[0][i].actualStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="aedate_'+data[0][i].id+'" value="'+data[0][i].actualEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
+
+                        $('body').on('focus',"#psdate_"+data[0][i].id, function(){
+                          $(this).datetimepicker({
+                                timepicker:false,
+                                format:"m/d/y",
+                                    scrollMouse: false,
+                                    scrollInput: false
+                               });
+                      });
+                      $('body').on('focus',"#pedate_"+data[0][i].id, function(){
+                          $(this).datetimepicker({
+                                timepicker:false,
+                                format:"m/d/y",
+                                    scrollMouse: false,
+                                    scrollInput: false
+                               });
+                      });
+                      $('body').on('focus',"#asdate_"+data[0][i].id, function(){
+                          $(this).datetimepicker({
+                                timepicker:false,
+                                format:"m/d/y",
+                                    scrollMouse: false,
+                                    scrollInput: false
+                               });
+                      });
+                      $('body').on('focus',"#aedate_"+data[0][i].id, function(){
+                          $(this).datetimepicker({
+                                timepicker:false,
+                                format:"m/d/y",
+                                    scrollMouse: false,
+                                    scrollInput: false
+                               });
+                      });
+
+
                             if(data[0][i].isActive==1){
 
                               if(data[0][i].projectTitle != 'DummyProject'){
@@ -197,7 +232,7 @@ $(".active-row").removeClass('hide');
 
 
 
-                            log = log + '<tr  id="wbsrow_'+data[0][i].WBSId+'" class="rows1"  style=height:20px;color:grey;font-size:12px onclick="allAssignmentForWBS('+data[0][i].WBSId+');"><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true"  id="wbsname_'+data[0][i].WBSId+'" value="' + data[0][i].WBSName + '" onchange="updateWbsAssignment('+data[0][i].WBSId+',0,\'WBS\')"></td><td><input type="text"  style="cursor: pointer;border:0px" class="wpsdate" readonly="true"  id="wpsdate_'+data[0][i].WBSId+'"  value="' + data[0][i].wplannedStartDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+',0,\'WBS\')"></td><td><input type="text" readonly="true"   class="wpedate" id="wpedate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px" value="' + data[0][i].wplannedEndDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+',0,\'WBS\')"></td><td><input type="text"  readonly="true" id="wasdate_'+data[0][i].WBSId+'" class="wasdate"  style="cursor: pointer;border:0px"  value="' + data[0][i].wactualStartDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+',0,\'WBS\')"></td><td><input type="text" readonly="true"  id="waedate_'+data[0][i].WBSId+'" class="waedate"   style="cursor: pointer;border:0px"  value="' + data[0][i].wactualEndDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+',0,\'WBS\')"></td></tr>';
+                            log = log + '<tr  id="wbsrow_'+data[0][i].WBSId+'" class="rows1"  style=height:20px;color:grey;font-size:12px onclick="allAssignmentForWBS('+data[0][i].WBSId+');"><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true"  id="wbsname_'+data[0][i].WBSId+'" value="' + data[0][i].WBSName + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+',0,2)"></td><td><input type="text"  style="cursor: pointer;border:0px" class="wpsdate" readonly="true"  id="wpsdate_'+data[0][i].WBSId+'"  value="' + data[0][i].wplannedStartDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+',0,2)"></td><td><input type="text" readonly="true"   class="wpedate" id="wpedate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px" value="' + data[0][i].wplannedEndDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+',0,2)"></td><td><input type="text"  readonly="true" id="wasdate_'+data[0][i].WBSId+'" class="wasdate"  style="cursor: pointer;border:0px"  value="' + data[0][i].wactualStartDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+',0,2)"></td><td><input type="text" readonly="true"  id="waedate_'+data[0][i].WBSId+'" class="waedate"   style="cursor: pointer;border:0px"  value="' + data[0][i].wactualEndDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+',0,2)"></td></tr>';
 
 
                                 $('body').on('focus',"#wpsdate_"+data[0][i].WBSId, function(){
@@ -284,7 +319,7 @@ $('#wbsTable').dataTable();
                       var date = new Date(sdate);
                             var date1 = new Date(edate);
                             
-                            log = log + '<tr  id="assignmentrow_'+data[0][i].id+'" onclick="abc('+data[0][i].id+');" class="rows2" style=height:20px;color:grey;font-size:12px><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" value="' + data[0][i].projectTitle + '"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" id="asname_'+data[0][i].WBSId+'" value="' + data[0][i].WBSName + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].WBSId+'"  style="cursor: pointer;border:0px"  value="' + data[0][i].AssignmentDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td><td><input type="text" readonly="true"  id="aedate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"    value="' + data[0][i].AssignmentEndDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td></tr>';
+                            log = log + '<tr  id="assignmentrow_'+data[0][i].id+'" onclick="abc('+data[0][i].id+');" class="rows2" style=height:20px;color:grey;font-size:12px><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" value="' + data[0][i].projectTitle + '"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" id="asname_'+data[0][i].WBSId+'" value="' + data[0][i].WBSName + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].WBSId+'"  style="cursor: pointer;border:0px"  value="' + data[0][i].AssignmentDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td><td><input type="text" readonly="true"  id="aedate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"    value="' + data[0][i].AssignmentEndDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td></tr>';
 
                             $('body').on('focus',"#asdate_"+data[0][i].WBSId, function(){
                                 $(this).datetimepicker({
@@ -385,11 +420,78 @@ $('#wbsTable').dataTable();
                 return true;
  }
 
- function updateWbsAssignment(wbsid,asid,type){
+ function checkProject(projectId){
+  //var pname=$('#pname_'+projectId).val();
+    var psdate=$('#psdate_'+projectId).val();//alert(psdate)
+    var pedate=$('#pedate_'+projectId).val();//alert(pedate)
+    var asdate=$('#asdate_'+projectId).val();
+    var aedate=$('#aedate_'+projectId).val();
+
+    var sdate = new Date(psdate);
+                var edate = new Date(pedate);
+                var asdate = new Date(asdate);
+                var aedate = new Date(aedate);
+
+                 /*if (pname.val().trim().length == 0 ||  pname == '') {
+                    alert("Please Enter Project Name First");
+                    return false;
+                }
+*/
+
+                if (sdate > edate) {
+                    alert('Planned End Date can not be less than Planned Start Date');
+                    return false;
+                }
+
+                if (waedate != '') {
+                    if (wasdate != '') {
+                        if (asdate > aedate) {
+                            alert('Actual End Date can not be less than Actual Start Date');
+                            return false;
+                        }
+                    } else {
+                        alert('Please Select Actual Start Date');
+                        return false;
+                    }
+                }
+
+                return true;
+ }
+
+
+ function updateWbsAssignment(pid,wbsid,asid,type){//alert(type);
 
 var a=checkWBS(wbsid);
 var b=checkAssignment(wbsid);
-if(type== 'WBS'){
+
+var c=checkProject(pid);
+
+if(type==1){ //alert('bdbdbdbgd'); 
+    //if(c==true){
+
+        //var pname=$('#pname_'+pid).val();
+    var psdate=$('#psdate_'+pid).val();//alert(psdate)
+    var pedate=$('#pedate_'+pid).val();//alert(pedate)
+    var asdate=$('#asdate_'+pid).val();
+    var aedate=$('#aedate_'+pid).val();
+
+         $.ajax({
+                url: '/updateAssignmentWBSForProject',
+                type: 'post',
+                data: {"pid":pid,"psdate1":psdate,"pedate1":pedate,"asdate1":asdate,"aedate1":aedate,"assignmentid":0,"wbsid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","asdate":"0","aedate":"0","flag":1},
+                success: function(data) {
+                   $(".active-row").click();
+
+                    //console.log(data[0][0].msg);
+                    if(data[0][0].msg==1){
+                        alert('Date validations of project are not according to WBS');
+                    }
+                }
+
+            });
+    
+}
+else if(type== 2){  //alert('fefe');
     if(a==true){
     wbsname=$('#wbsname_'+wbsid).val();
    wpsdate=$('#wpsdate_'+wbsid).val();
@@ -400,8 +502,14 @@ if(type== 'WBS'){
    $.ajax({
                 url: '/updateAssignmentWBSForProject',
                 type: 'post',
-                data: {"assignmentid":asid,"wbsid":wbsid, "wbsname": wbsname,"wpsdate":wpsdate ,"wpedate":wpedate, "wasdate":wasdate,"waedate":waedate,"asdate":0,"aedate":0,"flag":1},
+                data: {"pid":0,"psdate1":"0","pedate1":"0","asdate1":"0","aedate1":"0","assignmentid":0,"wbsid":wbsid, "wbsname": wbsname,"wpsdate":wpsdate ,"wpedate":wpedate, "wasdate":wasdate,"waedate":waedate,"asdate":"0","aedate":"0","flag":2},
                 success: function(data) {
+                   $(".active-row").click();
+
+                    //console.log(data[0][0].msg);
+                    if(data[0][0].msg==2){
+                        alert('Date validations of WBS are not according to Assignment');
+                    }
                 }
 
             });
@@ -410,7 +518,7 @@ if(type== 'WBS'){
             return false;
         }
    }
-   else{
+   else{ //alert('raadadea');
 
     if(b==true){
     asname=$('#asname_'+wbsid).val();
@@ -420,8 +528,9 @@ if(type== 'WBS'){
     $.ajax({
                 url: '/updateAssignmentWBSForProject',
                 type: 'post',
-                data: {"assignmentid":asid,"wbsid":wbsid, "wbsname": wbsname,"wpsdate":0 ,"wpedate":0, "wasdate":0,"waedate":0,"asdate":asdate,"aedate":aedate,"flag":2},
+                data: {"pid":0,"psdate1":"0","pedate1":"0","asdate1":"0","aedate1":"0","assignmentid":asid,"wbsid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","asdate":asdate,"aedate":aedate,"flag":3},
                 success: function(data) {
+                   
                 }
 
             });

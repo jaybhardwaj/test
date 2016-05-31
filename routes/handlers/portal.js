@@ -1767,7 +1767,9 @@ var tab=req.body.tabDetail;
 
      updateAssignmentWBSForProject: function(req, res, next) {
 
-           modelPortal.updateAssignmentWBSForProject(req.body.assignmentid,
+           modelPortal.updateAssignmentWBSForProject(req.body.pid,
+            req.body.psdate1,req.body.pedate1,
+            req.body.asdate1,req.body.aedate1,req.body.assignmentid,
             req.body.wbsid,req.body.wbsname,req.body.wpsdate,
             req.body.wpedate,req.body.wasdate,req.body.waedate,req.body.asdate,
             req.body.aedate,req.body.flag,
