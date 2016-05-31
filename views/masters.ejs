@@ -1648,7 +1648,7 @@ function addBugMaster(code){
     crate=$('#crate_'+id).val();   
   }
 if(flag==3){
-act=1;
+act=3;
 }else
 var act=$('#bugMasterActiveVal_'+id).val();
     $.ajax({
@@ -1662,31 +1662,35 @@ var act=$('#bugMasterActiveVal_'+id).val();
         },
     method: 'POST',    
     success: function(data) { 
-
+      console.log("swalke",data);
   if(code==6){
     insEdit ='<td><input type="number" maxlength="25" id="crate_'+id+'" value="'+$('#crate_'+id).val()+'"></td>'
     insLabel='<td>'+crate+'</td>';
   }
       var okIcon;
-          if(($('#bugMasterActiveVal_'+id).val()==1)||(flag==3)){
+          if($('#bugMasterActiveVal_'+id).val()==1){
             okIcon='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster('+code+','+id+',0)"></span>';
           } 
           else{
             okIcon='<span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster('+code+','+id+',1)"></span>';
           }  
-          if((data[1][0].flag==0))
+          if(data[0][0].flag==0)
             {
           alert('Updated successfully.');  
             $('#bugEditTextBoxTr_'+id).html('<td><input type="text" maxlength="25" id="bugEditData_'+id+'" style="width:80px"  value="'+$('#bugEditData_'+id).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+code+','+id+',1)"></span></td>');
             $('#bugEditTextBoxTr_'+id).addClass("hide");
-            $('#bugEditLabelTr_'+id).html('<td>'+$('#bugEditData_'+id).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" onClick=showEditBugMaster('+code+','+id+',0)></span>'+okIcon+'</td>');
-            //  $('#bugEditTextBoxTr_'+bugMasterId).addClass("hide"); 
-             $('#bugEditLabelTr_'+id).removeClass("hide");
+            if(act!=3){$('#bugEditLabelTr_'+id).html('<td>'+$('#bugEditData_'+id).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" onClick=showEditBugMaster('+code+','+id+',0)></span>'+okIcon+'</td>');
+               
+           }else{
+            document.getElementById("bugTable_"+code).rows['bugEditLabelTr_'+id].cells.item(0).innerHTML =$('#bugEditData_'+id).val();
+             
+           }
+           $('#bugEditLabelTr_'+id).removeClass("hide");
              }
-          else if((data[1][0].flag==2)){
+          else if(data[0][0].flag==2){
           alert('Already Exist');
           }
-          else{
+          else if((data[0][0].flag==3)){
               if((code==1||code==2)||(code==3)||(code==5)||(code==9))
                 alert('Error:You cannot edit this master when bug exists for it.');
               else if(code==4||code==10||code==11)
