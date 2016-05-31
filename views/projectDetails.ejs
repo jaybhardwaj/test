@@ -57,7 +57,7 @@ $(window).bind('resize', function () {
         });
 
 
-   
+
 
 });
 
@@ -85,7 +85,7 @@ function checkactive(st){
 
  function projectStatus(st){
     
-  if(st==1 || st==0){
+ 
     $.ajax({
                 url: '/projectStatus',
                 type: 'post',
@@ -109,82 +109,47 @@ function checkactive(st){
                         if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
                         if(data[0][i].lastupdatedby==null){data[0][i].lastupdatedby='';}
 
-                        if(data[0][i].isActive==1){
-                            log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td><td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> ';
 
-                            if(data[0][i].projectTitle != 'DummyProject'){
-                            log=log+ '<span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
-                        }
+                        log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
+                            if(data[0][i].isActive==1){
 
+                              if(data[0][i].projectTitle != 'DummyProject'){
+                            
+                                log=log+'<td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
+                            }
                         }
                         else{
-                            log=log+ '<tr  id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px;  onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td> <td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td><td>   <a onclick=" actinact('+data[0][i].id+',0,0)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px;" title="Click to active"></span></a> </td>  </tr>';
-
+                            log=log+'<td>   <a onclick=" actinact('+data[0][i].id+',0,0)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px;" title="Click to active"></span></a> </td>  </tr>';
                         }
 
-                    }otable.fnDestroy();
+                    }
+                    otable.fnDestroy();
                     $('#pstatus').html(log);
                     otable=$('#bugtable').dataTable({
                         'iDisplayLength': 10,
                         "order":[]
                         });
+                    otable.$('tr:first').click();
+                    otable.$('tr').addClass('hide');
+                    otable.$('tr:first').removeClass('hide');
+
                 }
+
+
 
             });
 
-  }
-  else{
-    $.ajax({
-                url: '/projectStatus',
-                type: 'post',
-                data: { "status": st },
-                success: function(data) {
-                    
-                    console.log(data);
-                    var log = '',log1='',log2='';
-                    
-                    for (var i = data[0].length-1; i >=0 ; i--) {
-
-                        if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
-                        if(data[0][i].pcode==null){data[0][i].pcode='';}
-                        if(data[0][i].ptype==0){data[0][i].ptype='';}
-                        if(data[0][i].ptype==2){data[0][i].ptype='Time';}
-                        if(data[0][i].ptype==1){data[0][i].ptype='Time & Expense';}
-                        if(data[0][i].description==null){data[0][i].description='';}
-                        if(data[0][i].plannedStartDate==null){data[0][i].plannedStartDate='';}
-                        if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
-                        if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
-                        if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
-                        if(data[0][i].lastupdatedby==null){data[0][i].lastupdatedby='';}
-                        
-                         if(data[0][i].isActive==1){
-                            log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px;  onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td><td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> ';
-
-                            if(data[0][i].projectTitle != 'DummyProject'){
-                            log=log+ '<span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
-                        }
-
-                        }
-                        else{
-                            log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px;  onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td>'+data[0][i].plannedStartDate+'</td><td>'+data[0][i].plannedEndDate+'</td><td>'+data[0][i].actualStartDate+'</td><td>'+data[0][i].actualEndDate+'</td> <td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td><td>   <a onclick=" actinact('+data[0][i].id+',0,0)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px;" title="Click to active"></span></a> </td>  </tr>';
-
-                        }
-
-                    }otable.fnDestroy();
-                    $('#pstatus').html(log);           
-                    otable=$('#bugtable').dataTable({
-                        'iDisplayLength': 10,
-                        "order":[]
-                        });
-                }
-
-            });
-  }
+  
  }
 
  function allWBS(pid){
 $(".rows").removeClass('active-row');
+
+
             $("#projectrow_"+pid).addClass('active-row');
+
+            otable.$("tr").addClass('hide');
+$(".active-row").removeClass('hide');
 
 
     //$('#projectrow_'+pid).css('background-color', '#00ffff');
@@ -289,6 +254,7 @@ $(".rows").removeClass('active-row');
                         });*/
 
 $('#wbsTable').dataTable();
+ wbstable.$('tr:first').click();
                 }
             });
  
@@ -318,7 +284,7 @@ $('#wbsTable').dataTable();
                       var date = new Date(sdate);
                             var date1 = new Date(edate);
                             
-                            log = log + '<tr  id="assignmentrow_'+data[0][i].id+'" onclick="abc('+data[0][i].id+');" class="rows2" style=height:20px;color:grey;font-size:12px><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" id="asname_'+data[0][i].WBSId+'" value="' + data[0][i].WBSName + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].WBSId+'"  style="cursor: pointer;border:0px"  value="' + data[0][i].AssignmentDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td><td><input type="text" readonly="true"  id="aedate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"    value="' + data[0][i].AssignmentEndDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td></tr>';
+                            log = log + '<tr  id="assignmentrow_'+data[0][i].id+'" onclick="abc('+data[0][i].id+');" class="rows2" style=height:20px;color:grey;font-size:12px><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" value="' + data[0][i].projectTitle + '"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" id="asname_'+data[0][i].WBSId+'" value="' + data[0][i].WBSName + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].WBSId+'"  style="cursor: pointer;border:0px"  value="' + data[0][i].AssignmentDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td><td><input type="text" readonly="true"  id="aedate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"    value="' + data[0][i].AssignmentEndDate + '" onchange="updateWbsAssignment('+data[0][i].WBSId+','+data[0][i].id+',\'Assignment\')"></td></tr>';
 
                             $('body').on('focus',"#asdate_"+data[0][i].WBSId, function(){
                                 $(this).datetimepicker({
@@ -539,6 +505,11 @@ dataType: 'JSON',
 $(".se-pre-con").fadeOut("slow");
 }
 
+function showAll()
+{
+    otable.$('tr').removeClass('hide');
+    }
+
 </script>
 
 
@@ -558,6 +529,8 @@ $(".se-pre-con").fadeOut("slow");
 
                      <span class="modal-title" style="padding-left:35%">Projects Details</span>
 
+                     <input type="button" onclick="showAll()" value='Show All'>
+
                      <select style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" class="form-text-box" id ="pstatus11" name="pstatus" > 
                        <option value=1>Active</option>
                        <option value=0>Inactive</option>
@@ -565,7 +538,7 @@ $(".se-pre-con").fadeOut("slow");
                               
                     </select>
 
-                    <span id="download" class="glyphicon glyphicon-download" onclick="exportProject('project')" style="margin-left:365px;cursor: pointer;font-size:19px" title="Download Projects List" ></span>
+                    <span id="download" class="glyphicon glyphicon-download" onclick="exportProject('project')" style="margin-left:300px;cursor: pointer;font-size:19px" title="Download Projects List" ></span>
 
 
   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
@@ -650,19 +623,15 @@ $(".se-pre-con").fadeOut("slow");
               </tbody>
             </table>
             </div>
-<<<<<<< Updated upstream
 
-        
-=======
           
-          <div id="wbstable1" class="hide" style="padding-bottom:2%;padding-left :2%;padding-right:2%; ">
-          <div style="margin-bottom:10px">
-          <span class="modal-title" style="padding-left:45%;margin-top:10px">List of WBS for selected project</span>
->>>>>>> Stashed changes
-          </div>
+          <div id="wbstable1" class="hide row" style="max-width:103%;overflow-y:auto  ">
+              <div style="margin-bottom:10px">
+              <span class="modal-title" style="padding-left:45%;margin-top:10px">List of WBS for selected project</span>
 
+              </div>
 
-              <table class="table stripe cell-border hover" id="wbsTable"  > 
+              <table class="table stripe cell-border hover" id="wbsTable"   style="width: 100%"> 
                    <thead> 
                     <th   >WBS Name</th>
                 <th   >Planned Start Date</th>
@@ -677,15 +646,16 @@ $(".se-pre-con").fadeOut("slow");
                 </table>
             </div>
 
-            <div id="assignmenttable1" class="hide"  style="padding-bottom:2%;padding-left :2%;padding-right:2%;">
+            <div id="assignmenttable1" class="hide row" style="max-width:103%;overflow-y:auto  ">
 
             <div style="margin-bottom:10px">
           <span class="modal-title" style="padding-left:45%;margin-top:10px">List of Assignments for selected WBS</span>
           </div>
 
 
-              <table class="table stripe cell-border hover" id="assignmentTable"  > 
+              <table class="table stripe cell-border hover" id="assignmentTable"  style="width: 100%" > 
                    <thead> 
+                   <th   >Project Name</th>
                     <th   >WBS Name</th>
                 <th   >Assignment Start Date</th>
                 <th   >Assignment End Date</th>

@@ -29,7 +29,7 @@ var eddat=[];
 var time;
  $(document).ready(function() {
 $('.se-pre-con').fadeOut('slow');
- otable=$('#bugtable').dataTable({
+ otable=$('#assigntable').dataTable({
     'iDisplayLength': 10, 
     "info":false,
      "bFilter": true,
@@ -38,12 +38,14 @@ $('.se-pre-con').fadeOut('slow');
 
  projectTable=$('#projectTable').dataTable({
     'iDisplayLength': 10,
-    "order":[]
+    "order":[],
+                    "bFilter": false,"bInfo": false,"bLengthChange": false
   });
 
  wbsTable=$('#wbsTable').dataTable({
     'iDisplayLength': 10,
-    "order":[]
+    "order":[],
+                    "bFilter": false,"bInfo": false,"bLengthChange": false
   });
 
 
@@ -235,7 +237,16 @@ else
                 <%}%>
 
                 $('#acttab').html(a);
-                $('#assigntable').dataTable();
+                $('#assigntable').dataTable({
+    'iDisplayLength': 10, 
+    "info":false,
+     "bFilter": true,
+    "order":[]
+  });
+
+                $('#assigntable').dataTable().$('tr:first').click();
+                    $('#assigntable').dataTable().$('tr').addClass('hide');
+                    $('#assigntable').dataTable().$('tr:first').removeClass('hide');
 
        }
 function inactive(b,flag){;
@@ -252,8 +263,13 @@ window.location.href = "/changeAssignmentStatus?assignmentId="+b+"& flag="+1;
 }
 
 function projectWbsForAssignment(aid){
+
+  
   $(".rows").removeClass('active-row');
             $("#row_"+aid).addClass('active-row');
+
+            $('#assigntable').dataTable().$("tr").addClass('hide');
+$(".active-row").removeClass('hide');
 
 $('#projectDiv').removeClass('hide');
 
@@ -311,7 +327,8 @@ $('#wbsDiv').removeClass('hide');
                     $('#projectBody').html(log);
                     projectTable=$('#projectTable').dataTable({
                       'iDisplayLength': 10,
-                      "order":[]
+                      "order":[],
+                    "bFilter": false,"bInfo": false,"bLengthChange": false
                       });
 
 
@@ -377,7 +394,8 @@ $('#wbsDiv').removeClass('hide');
                     $('#wbsBody').html(log1);
                     wbsTable=$('#wbsTable').dataTable({
                       'iDisplayLength': 10,
-                      "order":[]
+                      "order":[],
+                    "bFilter": false,"bInfo": false,"bLengthChange": false
                       });
 
                    
@@ -554,6 +572,13 @@ dataType: 'JSON',
 $(".se-pre-con").fadeOut("slow");
 }
 
+function showAll()
+{
+    $('#assigntable').dataTable().$('tr').removeClass('hide');
+    }
+
+
+
 </script>
 
 
@@ -569,22 +594,21 @@ $(".se-pre-con").fadeOut("slow");
     <img  title="Create New"   class="addNewPlus"></a>
      <span class="modal-title" style="padding-left:35%"> Assignments</span>
 
+      <input type="button" onclick="showAll()" value='Show All'>
+
  <select  id="stat" class="form-text-box" style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" onChange="ShowAssignments()"> 
         <option value='1'>    Active         </option>
         <option value='0'>    InActive    </option>
         <option value='2'  >   All           </option>
       </select>
 
-      <span id="download" class="glyphicon glyphicon-download" onclick="exportAssignment('assignment')" style="margin-left:380px;cursor: pointer;font-size:19px" title="Download Assignments List" ></span>
+      <span id="download" class="glyphicon glyphicon-download" onclick="exportAssignment('assignment')" style="margin-left:315px;cursor: pointer;font-size:19px" title="Download Assignments List" ></span>
 
   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
-<<<<<<< Updated upstream
+
   </div>
    <div  class="row" style="max-width:103%;overflow-y:auto "> 
-=======
 
-
->>>>>>> Stashed changes
       <table   id="assigntable" class="stripe hover cell-border">  
                  <thead>
                     <tr >
@@ -601,14 +625,12 @@ $(".se-pre-con").fadeOut("slow");
               </tbody>
               </table>
     </div>
-<<<<<<< Updated upstream
-   </div>
-   </html> 
-     
-=======
-    
 
-    <div id="projectDiv" class="hide" style="padding-bottom:2%;padding-left :2%;padding-right:2%;  ">
+   
+     
+
+
+    <div id="projectDiv" class="hide" style="padding-bottom:2%;padding-left :1%;padding-right:1%; max-width:103%;overflow-y:auto  ">
 
     <div style="margin-bottom:10px">
           <span class="modal-title" style="padding-left:45%;margin-top:10px">Project for selected assignment</span>
@@ -635,7 +657,7 @@ $(".se-pre-con").fadeOut("slow");
             </table>
           </div>
 
-          <div id="wbsDiv" class="hide" style="padding-bottom:2%;padding-left :2%;padding-right:2%; ">
+          <div id="wbsDiv" class="hide" style="padding-bottom:2%;padding-left :1%;padding-right:1%; max-width:103%;overflow-y:auto">
 
            <div style="margin-bottom:10px">
           <span class="modal-title" style="padding-left:45%;margin-top:10px">WBS for selected assignment</span>
@@ -654,7 +676,9 @@ $(".se-pre-con").fadeOut("slow");
                   </tbody>
                 </table>
             </div>
+            </div>
+   
      </div>
->>>>>>> Stashed changes
+
   <div>  
     <% include ./partials/footer %>     </div>

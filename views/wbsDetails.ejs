@@ -39,12 +39,12 @@ $(document).ready(function() {
 
   projectTable=$('#projectTable').dataTable({
     'iDisplayLength': 10,
-    "order":[]
+    "order":[],"bFilter": false,"bInfo": false,"bLengthChange": false
   });
 
   assignmentTable=$('#assignmentTable').dataTable({
     'iDisplayLength': 10,
-    "order":[]
+    "order":[],"bFilter": false,"bInfo": false,"bLengthChange": false
   });
 
 
@@ -168,6 +168,10 @@ if(data[0][i].projectTitle!='DummyProject'){
                       'iDisplayLength': 10,
                       "order":[]
                       });
+
+                    otable.$('tr:first').click();
+                    otable.$('tr').addClass('hide');
+                    otable.$('tr:first').removeClass('hide');
                 }
 
             });
@@ -217,8 +221,14 @@ function getProjectAssignment(wbsid){
   $(".rows").removeClass('active-row');
             $("#abc_"+wbsid).addClass('active-row');
 
+          otable.$("tr").addClass('hide');
+          $(".active-row").removeClass('hide');
+             
+
   $('#assignmentDiv').removeClass('hide');
   $('#projectDiv').removeClass('hide');
+
+ 
 
   $.ajax({
                 url: '/getProjectAssignment',
@@ -270,7 +280,8 @@ function getProjectAssignment(wbsid){
                     $('#projectBody').html(log);
                     projectTable=$('#projectTable').dataTable({
                       'iDisplayLength': 10,
-                      "order":[]
+                      "order":[],
+                    "bFilter": false,"bInfo": false,"bLengthChange": false
                       });
 
 
@@ -281,7 +292,7 @@ function getProjectAssignment(wbsid){
                             var date1 = new Date(edate);
 
                             //alert(sdate+' '+edate)
-                       log1=log1+ '<tr style=height:20px;color:grey;font-size:12px; onclick="highlight(0,'+data[1][i].id+',2)" class="rows2"  id="assignmentRow_'+data[1][i].id+'"><td><input type="text"  readonly="true" style="cursor: pointer;border:0px"   value="'+data[1][i].WBSName+'" id="assignname_'+data[1][i].id+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="assigndate_'+data[1][i].id+'" value="'+data[1][i].AssignmentDate+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="assignedate_'+data[1][i].id+'" value="'+data[1][i].AssignmentEndDate+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td></tr>';
+                       log1=log1+ '<tr style=height:20px;color:grey;font-size:12px; onclick="highlight(0,'+data[1][i].id+',2)" class="rows2"  id="assignmentRow_'+data[1][i].id+'"><td><input type="text"  readonly="true" style="cursor: pointer;border:0px"   value="'+data[1][i].projectTitle+'"></td><td><input type="text"  readonly="true" style="cursor: pointer;border:0px"   value="'+data[1][i].WBSName+'" id="assignname_'+data[1][i].id+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="assigndate_'+data[1][i].id+'" value="'+data[1][i].AssignmentDate+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="assignedate_'+data[1][i].id+'" value="'+data[1][i].AssignmentEndDate+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td></tr>';
 
                        $('body').on('focus',"#assigndate_"+data[1][i].id, function(){
                           $(this).datetimepicker({
@@ -313,7 +324,8 @@ function getProjectAssignment(wbsid){
                     $('#assignmentBody').html(log1);
                     assignmentTable=$('#assignmentTable').dataTable({
                       'iDisplayLength': 10,
-                      "order":[]
+                      "order":[],
+                    "bFilter": false,"bInfo": false,"bLengthChange": false
                       });
 
 
@@ -544,6 +556,12 @@ dataType: 'JSON',
 $(".se-pre-con").fadeOut("slow");
 }
 
+function showAll()
+{
+    otable.$('tr').removeClass('hide');
+    }
+
+
 </script>
 
 
@@ -561,13 +579,15 @@ $(".se-pre-con").fadeOut("slow");
    <img    title="Create New"   class="addNewPlus">
     </a> 
     <span class="modal-title" style="padding-left:35%">WBS Details</span> 
+
+    <input type="button" onclick="showAll()" value="Show All">
        <select class="form-text-box" style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" id="selectwbs" onchange="wbsStatus()">
                  <option value="1">Active</option>
                  <option value="0">Inactive</option>
                  <option value="2">All</option>
                 </select>
 
-                 <span id="download" class="glyphicon glyphicon-download" onclick="exportWBS('wbs')" style="margin-left:390px;cursor: pointer;font-size:19px" title="Download WBS List" ></span>
+                 <span id="download" class="glyphicon glyphicon-download" onclick="exportWBS('wbs')" style="margin-left:320px;cursor: pointer;font-size:19px" title="Download WBS List" ></span>
 
 
          <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
@@ -649,17 +669,15 @@ $(".se-pre-con").fadeOut("slow");
               </tbody>
             </table>
 </div>
-<<<<<<< Updated upstream
-     
-=======
+
           
 
-          <div id="projectDiv" class="hide" style="padding-bottom:2%;padding-left :2%;padding-right:2%; ">
+          <div id="projectDiv" class="hide row" style="max-width:103%;overflow-y:auto  ">
 
           <div style="margin-bottom:10px">
           <span class="modal-title" style="padding-left:45%;margin-top:10px">Project for selected WBS</span>
           </div>
->>>>>>> Stashed changes
+
 
 
             <table class="table stripe cell-border hover" id="projectTable"  >
@@ -682,7 +700,7 @@ $(".se-pre-con").fadeOut("slow");
             </table>
           </div>
 
-          <div id="assignmentDiv" class="hide" style="padding-bottom:2%;padding-left :2%;padding-right:2%; ">
+          <div id="assignmentDiv" class="hide row" style="max-width:103%;overflow-y:auto  ">
 
           <div style="margin-bottom:10px">
           <span class="modal-title" style="padding-left:45%;margin-top:10px">List of Assignments for selected WBS</span>
@@ -694,7 +712,7 @@ $(".se-pre-con").fadeOut("slow");
                <thead>
                 
                  <tr  >
-                
+                <th   >Project Name</th>
                 <th   >WBS Name</th>
                 <th   >Assignment Start Date</th>
                 <th   >Assignment End Date</th>
