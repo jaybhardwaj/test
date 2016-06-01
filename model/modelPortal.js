@@ -699,6 +699,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
             sql: 'call usp_addEditProject(?,?,?,?,?)',
             values: [pid,flag,userId,roleId,retailerId]
         };
+        console.log('addeditproject--------',query);
          var q='select companyName from t_retailer where id='+retailerId;
 
             mysql(q, function(e,r) {
@@ -795,14 +796,14 @@ console.log(result);
         });
     },
 
-    projectAddEditDetailsWithFlag: function(pid,pname, pcode, ptype, pclient, ptech,presource,
+    projectAddEditDetailsWithFlag: function(pid,pname, pcode, ptype,pcat, pclient, ptech,presource,ccontact,
             pdescription, psdate,  pedate,  asdate,  aedate,
             pstatus,  pcomplexity,  plocation, pcommercialhead,
             paccounthead, pmanager,completed,isBillable,taxCode,poNumber,
             tab,userId,roleId,retailerId, callback) {
         var query = {
-            sql: 'call usp_addEditProWithFlag(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [pid, pname, pcode, ptype, pclient, ptech,presource,
+            sql: 'call usp_addEditProWithFlag(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [pid, pname, pcode, ptype,pcat, pclient, ptech,presource,ccontact,
             pdescription, psdate,  pedate,  asdate,  aedate,
             pstatus,  pcomplexity,  plocation, pcommercialhead,
             paccounthead, pmanager,completed,isBillable,taxCode,poNumber,tab,
@@ -939,6 +940,23 @@ console.log(result);
             sql: 'call usp_changeProjectWbs(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [wid,wbsname,wpsdate,wpedate,wasdate,waedate,
             pid,pname,psdate,pedate,asdate,aedate,flag,userId,roleId,retailerId]
+        };
+        console.log('assignment update--------',query);
+        mysql(query, function(err, result) {
+
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            else{
+            callback(err, result);
+              }
+        });
+    },
+
+    clientContactAccToClient: function(cid,
+        userId,roleId,retailerId, callback) {
+
+        var query = {
+            sql: 'call usp_clientContactAccToClient(?,?,?,?)',
+            values: [cid,userId,roleId,retailerId]
         };
         console.log('assignment update--------',query);
         mysql(query, function(err, result) {

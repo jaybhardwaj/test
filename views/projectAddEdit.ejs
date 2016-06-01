@@ -89,13 +89,35 @@ width:24% !important;
             </td>
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Client: <sup>*</sup></label></td>
-              <td><select  class="form-text-box" style=""  name="pclient" id ="pclient"> 
+              <td><select  class="form-text-box" style=""  name="pclient" id ="pclient" onchange="getSelectedOptions($('#pclient :selected').val())"> 
               <option value='0' selected>Select a client</option>
                   <% for(var i=0;i<client.length;i++) {%>
                 <option value="<%=client[i].id%>"><%=client[i].clientName%></option>
                  <%}%>
               </select> </td>
             </td>
+
+
+            <td>
+              <td class=""><label style="padding:2%;color: #524A4A;font-size: 11px">Client Contact Person: <sup>*</sup></label></td>
+              <td class="">
+              <div id="contactDiv">
+               <select multiple="multiple" class="form-text-box" style=""  name="ccontact" id ="ccontact"> 
+              </select> 
+              </div>
+              </td>
+
+              </td>
+<!-- 
+
+  <script type="text/javascript">
+
+   $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected", false);
+</script>
+           -->
+
+
+
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Technology: <sup>*</sup></label></td>
               <td><select multiple="multiple" class="form-text-box" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Project Technology..."> 
@@ -297,9 +319,14 @@ width:24% !important;
                 <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
                 <%}%>
               </select>
+              <%if(flag==1){for(var i=0;i<name.length;i++){%>
+              <%console.log('gdgtdgdtfgdgd-----------',name[i].ccmid)%>
+              <%}}%>
               <script type="text/javascript">
    $("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
+   $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
 </script>
+
               </td>
             </td>
           </tr>
@@ -426,42 +453,66 @@ width:24% !important;
         <table class="table form-table" >
           <tr>
             <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Billable:</label></td>
+              <td><label style="padding:2%;color: #524A4A;font-size: 11px;width:107px">Billable:</label></td>
               <td>
                <input type="radio" name="isBillable"  value= 1  id = "isBillable1" required  style="margin-top:3%;"> Yes
               <input type="radio" name="isBillable"  value= 0  id = "isBillable2" required  style="margin-top:3%;"> No
               </td>
             </td>
             <td>
-              <td><label style="padding:4%;color: #524A4A;font-size: 11px">Project Type:</label></td>
+              <td><label style="padding:4%;color: #524A4A;font-size: 11px;width:107px">Project Type:</label></td>
               <td>
                 <!-- <input type="radio" name="ptype"  value= 1  id = "ptype1" required  style="margin-top:3%;"  > Time & Expense
              &nbsp;&nbsp;&nbsp;
               <input type="radio" name="ptype"  value= 2  id = "ptype2" required  style="margin-top:3%;"  > Time -->
 
               <select style="" id="ptype1" class="form-text-box" name="ptype">
-                  <option value=0>Select Option</option>
-                  <option value=1>T & F</option>
-                  <option value=2>FC</option>
-                  <option value=3>MF</option>
-                  <option value=4>TC</option>
+                  <option disabled selected value=0>Select a Project Type</option>
+              <% for(var i=0;i<allPtype.length;i++) {%>
+              <option value="<%=allPtype[i].id%>"><%=allPtype[i].description1%></option>
+              <%}%>
                 </select>
-
-
               </td>
             </td>
+
+            <!-- <td>
+              <td><label style="padding:4%;color: #524A4A;font-size: 11px">Project Category:</label></td>
+              <td>
+              <select style="" id="pcat" class="form-text-box" name="pcat">
+                  <option disabled selected value=0>Select a Project Category</option>
+              <% for(var i=0;i<allPcat.length;i++) {%>
+              <option value="<%=allPcat[i].id%>"><%=allPcat[i].description1%></option>
+              <%}%>
+                </select>
+              </td>
+            </td> -->
+
+
             <td>
-              <td><label style="padding:8%;color: #524A4A;font-size: 11px">Tax Code:</label></td>
+              <td><label style="padding:8%;color: #524A4A;font-size: 11px;width:107px;margin-top:-4%">Tax Code:</label></td>
               <td> <input type="text" placeholder=" -- Enter Tax Code -- "  class= "form-text-box" id="taxCode" style="margin-top:%;" name="taxCode"  maxlength="20"  <%if(flag==1){%>value='<%=name[0].taxCode%>' <%}%>>
               </td>
             </td>
             <td>
-              <td><label style="padding:6%;color: #524A4A;font-size: 11px">PO Number:</label></td>
+              <td><label style="padding:6%;color: #524A4A;font-size: 11px;width:107px">PO Number:</label></td>
               <td style="width: 220px">
               <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "10" min = "1" max = "99999" placeholder=" -- Enter PO Number -- "class= "form-text-box" id="poNumber" style="margin-top:%;" name="poNumber" <%if(flag==1){%>value='<%=name[0].poNumber%>'<%}%> >
               </td>
             </td>
           </tr> 
+          <tr>
+            <td>
+              <td><label style="padding:4%;color: #524A4A;font-size: 11px;width:107px">Project Category:</label></td>
+              <td>
+              <select style="" id="pcat" class="form-text-box" name="pcat">
+                  <option selected disabled value=0>Select a Category</option>
+              <% for(var i=0;i<allPcat.length;i++) {%>
+              <option value="<%=allPcat[i].id%>"><%=allPcat[i].description1%></option>
+              <%}%>
+                </select>
+              </td>
+            </td>
+          </tr>
           <tr>
             <td></td><td></td><td></td><td></td> 
            <td></td><td></td><td></td><td></td>
@@ -555,7 +606,11 @@ width:24% !important;
         "fieldWidth":"13em"
       });
 
+       $('#ccontact').tagger({
+        "fieldWidth":"13em"
+      });
 
+  
   $('#plocation').tagger({
         "fieldWidth":"11em"
       });
@@ -591,6 +646,12 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
                     } else {
                         $('#ptype1').val('<%=name[0].ptype%>');
                     }
+      if ('<%=name[0].category%>' == null) {
+          //$("#wbslocation").prop("selectedIndex", -1);
+          $('#pcat').val(0);
+      } else {
+          $('#pcat').val('<%=name[0].category%>');
+      }
 
 
     <%}%>
@@ -605,7 +666,59 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
   $('#datepicker2').datetimepicker({ timepicker: false, format: 'm/d/y' });
   $('#datepicker3').datetimepicker({ timepicker: false, format: 'm/d/y' });*/
 
+if( '<%=flag%>'=='1'){
+getSelectedOptions($('#pclient').val());
+
+}
+
+
 });
+
+
+    $('#pclient').change(function() {
+       alert('1');
+    }); 
+
+
+function getSelectedOptions(cid) {//alert(cid); 
+ clientContactAccToClient(cid);
+}
+function clientContactAccToClient(cid){//alert(cid);
+  $.ajax({
+                url: '/clientContactAccToClient',
+                type: 'post',
+                data: { "cid": cid},
+                success: function(data) {
+               
+
+               $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
+
+
+                //  $('#ccontact').html('');
+                  var string1="<select multiple='multiple' id=\"ccontact\"><option value=0>Select a client contact person</option>" ;
+                  // $('#ccontact').append($("<option></option>").attr("value",0).text('Select a client contact person'));
+                   for(var i =0;i<data[0].length;i++){   
+                //  $('#ccontact').append($("<option></option>").attr("value",data[0][i].id).text(data[0][i].Name));
+                        string1+="<option value="+data[0][i].id+" <%if(flag==1){for(var i=0;i<name.length;i++){%>";
+
+                        if(data[0][i].id=='<%=name[i].ccmid%>'){
+                          string1+='selected';
+                        }
+
+                        string1+="<%}}%>>"+data[0][i].Name+"</option>"  ;           
+                        }
+              string1+="</select>";
+
+              $("#contactDiv").html(string1);
+                  
+                   $('#ccontact').tagger({
+                    "fieldWidth":"13em"
+                      }); 
+                }
+
+            });
+}
+
     var y = Math.floor((Math.random() * 1000) + 1);
     function myFunction() {
       var x = document.getElementById("idpname");
@@ -953,6 +1066,7 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
             var pclient=$("#pclient").val().toString();
             var ptech=$("#ptech").val().toString();
             var presource=$("#presource").val()==null?'0':$("#presource").val().toString();
+            var ccontact=$("#ccontact").val()==null?'0':$("#ccontact").val().toString();
             $.ajax({
               url: '/projectAddEditDetailsWithFlag',
               method: 'POST',
@@ -960,9 +1074,11 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
                 "pname": $("#idpname").val(),
                 "pclient": pclient,
                 "presource": presource,
+                "ccontact":ccontact,
                 "ptech": ptech,
                "pcode": $("#pcode").val(),
                  "ptype": $('#ptype1').val(),
+                 "pcat": $('#pcat').val(),
                  "pdescription": $("#DescriptionID").val(),
                  "psdate": $("#datepicker").val(),
                 "pedate": $('#datepicker1').val(),

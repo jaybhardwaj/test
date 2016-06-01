@@ -1711,12 +1711,14 @@ var tab=req.body.tabDetail;
     var pclient=req.body.pclient==null?'':req.body.pclient;
     var ptech=req.body.ptech==null?'':req.body.ptech;
      var presource=req.body.presource==null?'':req.body.presource;
+     var ccontact=req.body.ccontact==null?'':req.body.ccontact;
      var plocation=req.body.plocation==''?'0':req.body.plocation;
      var pcomplexity=req.body.pcomplexity==''?'0':req.body.pcomplexity;
     req.pname=req.body.completed;
   
 
-           modelPortal.projectAddEditDetailsWithFlag(pid,req.body.pname, req.body.pcode, req.body.ptype, pclient, ptech,presource,
+           modelPortal.projectAddEditDetailsWithFlag(pid,req.body.pname, req.body.pcode, req.body.ptype,req.body.pcat,
+            pclient, ptech,presource,ccontact,
             req.body.pdescription, req.body.psdate,  req.body.pedate,  req.body.asdate,  req.body.aedate,
             req.body.pstatus,pcomplexity, plocation, req.body.pcommercialhead,
             req.body.paccounthead, req.body.pmanager,
@@ -1842,6 +1844,20 @@ changeProjectWbs: function(req, res, next) {
             req.body.wasdate,req.body.waedate,
             req.body.pid,req.body.pname,req.body.psdate,req.body.pedate,
             req.body.asdate,req.body.aedate,req.body.flag,
+            req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+             res.json(result);
+             }
+         });
+     },
+
+     clientContactAccToClient: function(req, res, next) {
+
+           modelPortal.clientContactAccToClient(req.body.cid,
             req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 

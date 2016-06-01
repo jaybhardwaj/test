@@ -308,6 +308,8 @@ app.post('/projectWbsForAssignment', portal.projectWbsForAssignment,render.redir
 
 app.post('/changeProjectWbs', portal.changeProjectWbs,render.redirect);
 
+app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.redirect);
+
 	//---------------------------------------ASSIGNMENT---------------------------------------
 
 	app.get('/assignment',url.setpageAssignment, portal.getAssignment,render.redirect);

@@ -256,7 +256,8 @@ module.exports = {
 				break;
 
 				case 'projectAddEdit' :
-				res.render('projectAddEdit',{myModules:req.session.modules,hideFlag:1,allProjects:req.projectResults[7],flag:req.flag,location:req.projectResults[1],
+				res.render('projectAddEdit',{allPtype:req.projectResults[9],allPcat:req.projectResults[8],
+					myModules:req.session.modules,hideFlag:1,allProjects:req.projectResults[7],flag:req.flag,location:req.projectResults[1],
 					resource:req.projectResults[5],flagForTab:req.projectResults[6],
 					tech:req.projectResults[2],manager:req.projectResults[4],teamlead:req.projectResults[5],
 					client:req.projectResults[3],name:req.projectResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
