@@ -194,7 +194,7 @@
                     </div>
                     <div class="col-md-8">
                      <select id="browsers" style="width:100%;" class="form-text-box addUsed addDisable" name="designation" required>
-                            <option value=""></option>
+                            
                             <%for(var i = 0 ;i<designation.length;i++){%>
                                 <option id="skillsm_<%=designation[i].desigId%>" value="<%=designation[i].desigId%>">
                                     <%=designation[i].desigName%>
@@ -209,7 +209,7 @@
                     </div>
                     <div class="col-md-8">
                     <select max-size="1" multiple class="form-text-box " style="max-height:9%;overflow-y:auto;width:100%" id='skillsId' name="skills">
-                            <option value=''></option>
+                          
                             <%for(var i = 0 ;i<skills.length;i++){%>
                                 <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>"><%=skills[i].skills%></option>
                                 <%}%>
@@ -224,7 +224,7 @@
                     </div>
                     <div class="col-md-8">
                       <select name="Location" id="location" class="form-text-box addUsed addDisable" style="width:100%;" required>
-                            <option value=''></option>
+                             
                             <%for(var i = 0 ;i<cities.length;i++){%>
                                 <option id="skills_<%=cities[i].id%>" value="<%=cities[i].id%>">
                                     <%=cities[i].location%>
@@ -266,7 +266,7 @@
                     </div>
                     <div class="col-md-8">
                    <select name="adminhr" id="adminhr" class="form-text-box addUsed addDisable" style="width:100%;" required>
-                        <option value=''></option>
+                         
                         <%for(var i = 0 ;i<adminhr.length;i++){%>
                             <option id="skills_<%=adminhr[i].id%>" value="<%=adminhr[i].id%>">
                                 <%=adminhr[i].firstName%>
@@ -280,8 +280,7 @@
                     <label class="form-Label">Priority :</label>
                     </div>
                     <div class="col-md-8">
-                     <select name="mailPriority" class="form-text-box addUsed " id="priority" style="width:100%;"  >
-                            <option value=''></option>
+                     <select name="mailPriority" class="form-text-box addUsed " id="priority" style="width:100%;"  > 
                             <%for(var i = 0 ;i<priority.length;i++){%>
                                 <option id="priority_<%=priority[i].id%>" value="<%=priority[i].id%>">
                                     <%=priority[i].priority%>
@@ -407,7 +406,8 @@
                 <script>
                  var str1;var flage;
                     tinymce.init({
-                        selector: '#Description'
+                        selector: '#Description',
+                        menubar:false
                     }); 
                    
                     function validateForm() { 
@@ -442,12 +442,13 @@
                         var re = new RegExp(find, 'g');
                         decode = decode.replace(re, '');
                         decode = decode.trim();
+                         
                         if (decode == '') {
                             alert('Please fill in some description');
                             return false;
                         }
-                        if (decode.length > 2000) {
-                            alert('Description can not be more than 2000 characters');
+                        if (decode.length > 4000) {
+                            alert('Job Description contains '+decode.length+' characters, it can not be more than 4000 characters');
                             return false;
                         }  
                          

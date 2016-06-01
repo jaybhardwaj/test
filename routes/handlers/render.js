@@ -282,7 +282,11 @@ module.exports = {
 				res.render('assignment',{myModules:req.session.modules,hideFlag:1,allinfo1:req.allinfo1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 			case 'createAssignment' :
-				res.render('createAssignment',{myModules:req.session.modules,hideFlag:1,allinfo:req.allinfo,assignmentId:req.assignmentId,flag:req.flag,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('createAssignment',{
+					myModules:req.session.modules,hideFlag:1,allinfo:req.allinfo,
+					assignmentId:req.assignmentId,flag:req.flag,roleid:req.session.roleId,
+					logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 		    case 'changeAssignmentStatus' :
 		       if(req.flag==1)
@@ -305,25 +309,40 @@ module.exports = {
 		
 				break;
 			case 'viewFurniture' :
-				res.render('asset/viewFurniture',{myModules:req.session.modules,hideFlag:0,flag:req.body.flag, stype:req.resultFurniture,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/viewFurniture',{myModules:req.session.modules,hideFlag:0,
+					flag:req.body.flag, stype:req.resultFurniture,roleid:req.session.roleId,
+					logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover});
 				break;
 
 			case 'viewStationary' :
-				res.render('asset/viewStationary',{myModules:req.session.modules,hideFlag:0,flag:req.body.flag,stype:req.resultStationary,logo:req.session.logo,user:req.session.firstname,roleid:req.session.roleid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/viewStationary',{
+					myModules:req.session.modules,hideFlag:0,flag:req.body.flag,
+					stype:req.resultStationary,logo:req.session.logo,user:req.session.firstName,
+					roleid:req.session.roleid,defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover});
 				break;
 			case 'viewSoftware':
-				res.render('asset/viewSoftware',{myModules:req.session.modules,hideFlag:0,flag:req.body.flag,stype:req.resultSoftware,logo:req.session.logo,user:req.session.firstname,roleid:req.session.roleid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/viewSoftware',{
+					myModules:req.session.modules,hideFlag:0,flag:req.body.flag,stype:req.resultSoftware,
+					logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleid,
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 
 			case 'addFurniture' :
-				res.render('asset/addFurniture',{myModules:req.session.modules,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover})
+				res.render('asset/addFurniture',{myModules:req.session.modules,hideFlag:0,
+					roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover})
 				break;
 
 			case 'trans' :
 				res.json(req.resultUsers[0]);
 				break;
 			case 'transactions' :
-				res.render('asset/transactions',{myModules:req.session.modules,hideFlag:0,users:req.resultUsers[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover})
+				res.render('asset/transactions',{myModules:req.session.modules,hideFlag:0,
+					users:req.resultUsers[0],roleid:req.session.roleId,logo:req.session.logo,
+					user:req.session.firstName,defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover})
 				break;
 			
 			case 'Delete' :
@@ -369,7 +388,7 @@ module.exports = {
 				res.json(req.resultType);
 				break;
 			case 'assetSettings' :
-				res.render('assetSettings',{myModules:req.session.modules,hideFlag:0,assetType:req.resultTypeSubtype[0],assetComponent:req.resultTypeSubtype[1],attr:req.resultTypeSubtype[2],user:req.session.firstname,roleid:req.session.roleid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('assetSettings',{myModules:req.session.modules,hideFlag:0,assetType:req.resultTypeSubtype[0],assetComponent:req.resultTypeSubtype[1],attr:req.resultTypeSubtype[2],user:req.session.firstName,roleid:req.session.roleid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 				case 'transa' :
                 res.json();
@@ -382,7 +401,7 @@ module.exports = {
 				res.json(req.resultAttribute);
 				break;
 			case 'hardware' :
-				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType[0],brandtype:req.resultType[1],user:req.session.firstname,roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType[0],brandtype:req.resultType[1],user:req.session.firstName,roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
  			case 'transAss':
  				res.json(req.resultAssigned);
@@ -571,7 +590,9 @@ module.exports = {
             break;
             case 'error':
             res.render('rms/error', {
-	                 role: req.session.hrRole,Name: '',uid: req.session.userId
+	                 role: req.session.hrRole,Name: '',uid: req.session.userId,myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+		                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+		                defaultModule:req.session.defaultModule
 	            });
             break;
             case 'interviewFeedback':

@@ -7,16 +7,20 @@
        <% include assetheader %>
        <% include ../partials/adminheader %>
 </head>
-
+<style type="text/css">
+   .dataTables_filter, .dataTables_length {
+     display: none;
+    }
+</style>
 <body >
  
- <div class="container-fluid secondry-color">
+ <div class="container-fluid secondry-color" style="padding-top:1%">
  
   
   <a href="/hardware" type="button" title="Add New Stationary"  value="Addstationary"><img   class="addNewPlus" ></a>
     
-     <span class="modal-title" style="padding-left:35%;">List Of All Hardware</span>
- 
+     <span class="modal-title" style="padding-left:41%;">List Of All Hardware</span>
+ <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
   <table class="table table-hover table-striped table-bordered rceDataTable"id="hardtable" cellpadding="0" cellspacing="0" border="0"style="width:100%">
     <thead>
 
@@ -363,13 +367,20 @@ var countAddCompModal=0;
 
 
     $(document).ready(function(){
-      $("#hardtable").dataTable({
+       $('.asset-img').addClass('active');
+   var oTable=   $("#hardtable").dataTable({
         "bLengthChange": false,
         "binfo":false
       });
-      $("#addComptable").dataTable({
+             $("#searchbox").keyup(function() {
+        oTable.fnFilter(this.value);
+      });
+     var oTable1= $("#addComptable").dataTable({
         "bLengthChange": false,
         "binfo":false
+      });
+             $("#searchbox").keyup(function() {
+        oTable1.fnFilter(this.value);
       });
       //getlinedtata();
     });

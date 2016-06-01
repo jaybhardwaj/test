@@ -6,15 +6,19 @@
        <% include assetheader %>
        <% include ../partials/adminheader %>
 </head>
-
+<style type="text/css">
+   .dataTables_filter, .dataTables_length {
+     display: none;
+    }
+</style>
 <body>
    
- <div class="container-fluid secondry-color" >
+ <div class="container-fluid secondry-color" style="padding-top:1%">
   
   <a href="/addFurniture1" title="Add New Furniture" value="Addstationary" ><img   class="addNewPlus" ></a>
-  <span class="modal-title" style="padding-left:35%;">List Of All Furniture</span>
+  <span class="modal-title" style="padding-left:41%;">List Of All Furniture</span>
   
-  
+  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
  
   <table class="table table-hover table-striped table-bordered rceDataTable"id="furtable" cellpadding="0" cellspacing="0" border="0"style="width:100%">
     <thead>
@@ -169,14 +173,21 @@
 
 <script>
 $(document).ready(function(){
+
+    
+            $('.asset-img').addClass('active');
+        
   <%if(flag==1){%>
       alert("Furniture successfully added!");
     <%}%>
-  $("#furtable").dataTable({
+  var oTable=$("#furtable").dataTable({
     "bLengthChange": false,
     "binfo":false
   });
 });
+       $("#searchbox").keyup(function() {
+        oTable.fnFilter(this.value);
+      });
 jQuery('.date').datetimepicker({
    timepicker:false,
   format:'Y-m-d'
