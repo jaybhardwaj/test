@@ -1986,6 +1986,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
         };
        
         mysql(query, function(err, result) {
+            console.log("____saa___ ::   ",query);
             callback(err, result);
         });
     },
