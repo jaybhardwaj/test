@@ -154,7 +154,7 @@ function updateAssing(ldate,id,a,date,i){
                   success:function(data){
                       $(".active-row").click();
                    console.log(" hi iam in success");
-                 alert('swf');
+                 //alert('swf');
                  }
                   });
      
@@ -518,12 +518,14 @@ function changeProjectWbs(pid,wid,flag){
                 type: 'post',
                 data: { "pid":pid,"pname":pname,"psdate":psdate,"pedate":pedate,"asdate":asdate,"aedate":aedate,"wid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","flag":flag},
                 success: function(data) {
-                   $(".active-row").click();
+                   //$(".active-row").click();
 
 
                    if(data[0][0].msg==1){
                         alert('Date validations of Project are not according to WBS');
                     }
+
+                    ShowAssignments();
                     /*else{
                       alert('WBS updated');
                     }*/
@@ -554,6 +556,8 @@ function changeProjectWbs(pid,wid,flag){
                    if(data[0][0].msg==2){
                         alert('Date validations of WBS are not according to Assignment');
                     }
+
+                    //ShowAssignments();
                     /*else{
                       alert('WBS updated');
                     }*/
@@ -615,8 +619,10 @@ function showAll()
     <img  title="Create New"   class="addNewPlus"></a>
      <span class="modal-title" style="padding-left:35%"> Assignments</span>
 
-      <input type="button" onclick="showAll()" value='Show All'>
+     <!--  <input type="button" onclick="showAll()" value='Show All'>
+ -->
 
+ <img class="imageInc" src="../img/showAll.png" onclick="showAll()"  class="shadow" style="margin-left:10px " height="30px" title="Show All" width="30px"> 
  <select  id="stat" class="form-text-box" style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" onChange="ShowAssignments()"> 
         <option value='1'>    Active         </option>
         <option value='0'>    InActive    </option>
