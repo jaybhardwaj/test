@@ -86,6 +86,7 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             values: [companyName, emailId, password, firstName, lastName, contactNo, choosedModule]
         };
         mysql(query, function(err, result) {
+            console.log(query,"-----error",err);
             callback(err, result);
         });
     },
