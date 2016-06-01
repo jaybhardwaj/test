@@ -519,6 +519,16 @@ function changeProjectWbs(pid,wid,flag){
                 data: { "pid":pid,"pname":pname,"psdate":psdate,"pedate":pedate,"asdate":asdate,"aedate":aedate,"wid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","flag":flag},
                 success: function(data) {
                    $(".active-row").click();
+
+
+                   if(data[0][0].msg==1){
+                        alert('Date validations of Project are not according to WBS');
+                    }
+                    /*else{
+                      alert('WBS updated');
+                    }*/
+
+
                 }
 
             });
@@ -539,7 +549,16 @@ function changeProjectWbs(pid,wid,flag){
                 data: { "pid":0,"pname":"0","psdate":"0","pedate":"0","asdate":"0","aedate":"0","wid":wid, "wbsname": wbsname,"wpsdate":wpsdate ,"wpedate":wpedate, "wasdate":wasdate,"waedate":waedate,"flag":flag },
                 success: function(data) {
                    $(".active-row").click();
-                   alert('wbs update')
+
+
+                   if(data[0][0].msg==2){
+                        alert('Date validations of WBS are not according to Assignment');
+                    }
+                    /*else{
+                      alert('WBS updated');
+                    }*/
+
+                   
                 }
 
             });

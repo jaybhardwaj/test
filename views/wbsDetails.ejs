@@ -96,48 +96,48 @@ $(document).ready(function() {
                       var sdate=data[0][i].plannedStartDate;
                       var edate=data[0][i].plannedEndDate;
                       var date = new Date(sdate);
-                            var date1 = new Date(edate);
+                      var date1 = new Date(edate);
                       //alert(date+' '+date1)
                           log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows" id="abc_'+data[0][i].WBSId+'" onclick="getProjectAssignment('+data[0][i].WBSId+');"><td><input type="text" style="cursor: pointer;border:0px"   id="wbsname_'+data[0][i].WBSId+'" value="'+data[0][i].WBSName+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td><input style="cursor: pointer;border:0px"   type="text"  readonly="true" id="wpsdate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="wpedate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" readonly="true"  id="wasdate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"   value="'+data[0][i].wactualStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="waedate_'+data[0][i].WBSId+'" value="'+data[0][i].wactualEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td>';
 
                           $('body').on('focus',"#wpsdate_"+data[0][i].WBSId, function(){
                               $(this).datetimepicker({
                                     timepicker: false,
-                                    minDate: date,
-                                    maxDate: date1,
                                     format: 'm/d/y',
                                     scrollMouse: false,
-                                    scrollInput: false
+                                    scrollInput: false,
+                                    minDate: date,
+                                    maxDate: date1
                                    });
                           });
                           $('body').on('focus',"#wpedate_"+data[0][i].WBSId, function(){
                               $(this).datetimepicker({
                                     timepicker: false,
-                                    minDate: date,
-                                    maxDate: date1,
                                     format: 'm/d/y',
                                     scrollMouse: false,
-                                    scrollInput: false
+                                    scrollInput: false,
+                                    minDate: date,
+                                    maxDate: date1
                                    });
                           });
                           $('body').on('focus',"#wasdate_"+data[0][i].WBSId, function(){
                               $(this).datetimepicker({
                                     timepicker: false,
-                                    minDate: date,
-                                    maxDate: date1,
                                     format: 'm/d/y',
                                     scrollMouse: false,
-                                    scrollInput: false
+                                    scrollInput: false,
+                                    minDate: date,
+                                    maxDate: date1
                                    });
                           });
                           $('body').on('focus',"#waedate_"+data[0][i].WBSId, function(){
                               $(this).datetimepicker({
                                     timepicker: false,
-                                    minDate: date,
-                                    maxDate: date1,
                                     format: 'm/d/y',
                                     scrollMouse: false,
-                                    scrollInput: false
+                                    scrollInput: false,
+                                    minDate: date,
+                                    maxDate: date1
                                    });
                           });
 
@@ -491,6 +491,13 @@ var c=checkAssignment(assignmentId);
                 data: { "wid":0,"wbsname":"0","wpsdate":"0","wpedate":"0","wasdate":"0","waedate":"0", "pid":projectId,"pname":pname,"psdate":psdate,"pedate":pedate,"asdate":asdate,"aedate":aedate,"aid":0,"assignname":"0","assigndate":"0","assignedate":"0", "flag": flag },
                 success: function(data) {
                    $(".active-row").click();
+
+                   if(data[0][0].msg==1){
+                        alert('Date validations of project are not according to WBS');
+                    }
+                    /*else{
+                      alert('Project updated');
+                    }*/
                 }
 
             });
@@ -514,6 +521,12 @@ var c=checkAssignment(assignmentId);
                 data: {  "wid":0,"wbsname":"0","wpsdate":"0","wpedate":"0","wasdate":"0","waedate":"0","pid":0,"pname":"0","psdate":"0","pedate":"0","asdate":"0","aedate":"0","aid":assignmentId,"assignname":assignname,"assigndate":assigndate,"assignedate":assignedate, "flag": flag },
                 success: function(data) {
                    
+                   if(data[0][0].msg==2){
+                        alert('Date validations of Assignment are not according to WBS');
+                    }
+                    /*else{
+                      alert('assignment updated');
+                    }*/
                 }
 
             });
