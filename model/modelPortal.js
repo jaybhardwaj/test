@@ -1493,6 +1493,18 @@ mysql(q,function(err,result){
         });
     },
 
+     toSelectByExpenseAdmin: function(userId,date,mgId,callback) {
+        var query = {
+            sql: 'call Ex_getExpenseTypeforAdmin(?,?,?)',
+            values: [userId,date,mgId]
+        };
+        mysql(query, function(err, result) {
+            console.log('jai mata di11111111111111',query,result,err);
+            callback(err, result);
+
+        });
+    },
+
      toShowExpenseapprover: function(userid,callback) {
         var query = {
             sql: 'call Ex_showExpenseDescription(?)',
@@ -1642,10 +1654,10 @@ mysql(q,function(err,result){
         });
     },
 
-       insertHotelExpense: function(hotelexpensetypeid,hoteltrip,fromDate,toDate,hotelName,hotelReason,hotelifOther,hotelperDayRate,hotelTotalDay,hotelCurrency,htex,userid,userid1,retailerId,callback) {
+       insertHotelExpense: function(hotelexpensetypeid,hoteltrip,fromDate,toDate,hotelName,hotelReason,hotelifOther,hotelperDayRate,hotelTotalDay,hotelCurrency,htex,userid,userid1,retailerId,fornightDate,callback) {
         var query = {
-            sql: 'call usp_insertHotelExpense_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values:[hotelexpensetypeid,hoteltrip,fromDate,toDate,hotelName,hotelReason,hotelifOther,hotelperDayRate,hotelTotalDay,hotelCurrency,htex,userid,userid1,retailerId]
+            sql: 'call usp_insertHotelExpense_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values:[hotelexpensetypeid,hoteltrip,fromDate,toDate,hotelName,hotelReason,hotelifOther,hotelperDayRate,hotelTotalDay,hotelCurrency,htex,userid,userid1,retailerId,fornightDate]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -1662,10 +1674,10 @@ mysql(q,function(err,result){
         });
     },
 
-       insertTravelExpense: function( travelexpensetypeid,traveltrip,travelFromDate,travelToDate,travelType,travelReason,travelIfNot,travelRatePerDay,travelTotalDay,travelCurrency,travelex,userid,userid1,retailerId,callback) {
+       insertTravelExpense: function( travelexpensetypeid,traveltrip,travelFromDate,travelToDate,travelType,travelReason,travelIfNot,travelRatePerDay,travelTotalDay,travelCurrency,travelex,userid,userid1,retailerId,fornightDate,callback) {
         var query = {
-            sql:'call usp_insertExpenseforTravel_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values:[travelexpensetypeid,traveltrip,travelFromDate,travelToDate,travelType,travelReason,travelIfNot,travelRatePerDay,travelTotalDay,travelCurrency,travelex,userid,userid1,retailerId]
+            sql:'call usp_insertExpenseforTravel_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values:[travelexpensetypeid,traveltrip,travelFromDate,travelToDate,travelType,travelReason,travelIfNot,travelRatePerDay,travelTotalDay,travelCurrency,travelex,userid,userid1,retailerId,fornightDate]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -1682,10 +1694,10 @@ mysql(q,function(err,result){
         });
     },
 
-       insertFoodExpense: function( travelexpensetypeid,foodtrip,foodFromDate,foodToDate,foodReason,foodCurrency,foodtex,userid,userid1,retailerId,callback) {
+       insertFoodExpense: function( travelexpensetypeid,foodtrip,foodFromDate,foodToDate,foodReason,foodCurrency,foodtex,userid,userid1,retailerId,fornightDate,callback) {
         var query = {
-            sql: 'call usp_insertExpenseforFood_rsandinr(?,?,?,?,?,?,?,?,?,?)',
-            values:[travelexpensetypeid,foodtrip,foodFromDate,foodToDate,foodReason,foodCurrency,foodtex,userid,userid1,retailerId]
+            sql: 'call usp_insertExpenseforFood_rsandinr(?,?,?,?,?,?,?,?,?,?,?)',
+            values:[travelexpensetypeid,foodtrip,foodFromDate,foodToDate,foodReason,foodCurrency,foodtex,userid,userid1,retailerId,fornightDate]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -1702,10 +1714,10 @@ mysql(q,function(err,result){
         });
     },
 
-       insertPhoneExpense: function(travelexpensetypeid,phonetrip,phoneFromDate,phoneToDate,phoneReason,phoneCurrency,phoneExp,userid,userid1,retailerId,callback) {
+       insertPhoneExpense: function(travelexpensetypeid,phonetrip,phoneFromDate,phoneToDate,phoneReason,phoneCurrency,phoneExp,userid,userid1,retailerId,fornightDate,callback) {
         var query = {
-            sql: 'call usp_insertExpenseforPhone_rsandinr(?,?,?,?,?,?,?,?,?,?)',
-            values:[travelexpensetypeid,phonetrip,phoneFromDate,phoneToDate,phoneReason,phoneCurrency,phoneExp,userid,userid1,retailerId]
+            sql: 'call usp_insertExpenseforPhone_rsandinr(?,?,?,?,?,?,?,?,?,?,?)',
+            values:[travelexpensetypeid,phonetrip,phoneFromDate,phoneToDate,phoneReason,phoneCurrency,phoneExp,userid,userid1,retailerId,fornightDate]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -1722,10 +1734,10 @@ mysql(q,function(err,result){
         });
     },
 
-       insertRsdExpense: function( travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,retailerId,callback) {
+       insertRsdExpense: function( travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,retailerId,fornightDate,callback) {
         var query = {
-            sql: 'call usp_insertExpenseforRSD_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values:[travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,retailerId]
+            sql: 'call usp_insertExpenseforRSD_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values:[travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,retailerId,fornightDate]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -1745,10 +1757,10 @@ mysql(q,function(err,result){
         });
     },
 
-       insertPerdiemExpense: function( travelexpensetypeid,perdiemtrip,perdiemFromDate,perdiemToDate,perdiemHotelName,perdiemReason,perdiemIfNot,perdiemRate,perdiemtotal,perdiemCurrency,perdiemtex,userid,userid1,retailerId,callback) {
+       insertPerdiemExpense: function( travelexpensetypeid,perdiemtrip,perdiemFromDate,perdiemToDate,perdiemHotelName,perdiemReason,perdiemIfNot,perdiemRate,perdiemtotal,perdiemCurrency,perdiemtex,userid,userid1,retailerId,fornightDate,callback) {
         var query = {
-            sql: 'call usp_insertExpenseforPerDiem_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values:[travelexpensetypeid,perdiemtrip,perdiemFromDate,perdiemToDate,perdiemHotelName,perdiemReason,perdiemIfNot,perdiemRate,perdiemtotal,perdiemCurrency,perdiemtex,userid,userid1,retailerId]
+            sql: 'call usp_insertExpenseforPerDiem_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values:[travelexpensetypeid,perdiemtrip,perdiemFromDate,perdiemToDate,perdiemHotelName,perdiemReason,perdiemIfNot,perdiemRate,perdiemtotal,perdiemCurrency,perdiemtex,userid,userid1,retailerId,fornightDate]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -1765,10 +1777,10 @@ mysql(q,function(err,result){
         });
     },
 
-       insertOtherExpense: function( travelexpensetypeid,othertrip,otherFromDate,otherToDate,otherReason,otherCurrency,othertex,userid,userid1,retailerId,callback) {
+       insertOtherExpense: function( travelexpensetypeid,othertrip,otherFromDate,otherToDate,otherReason,otherCurrency,othertex,userid,userid1,retailerId,fornightDate,callback) {
         var query = {
-            sql: 'call usp_insertExpenseforOther_rsandinr(?,?,?,?,?,?,?,?,?,?)',
-            values:[travelexpensetypeid,othertrip,otherFromDate,otherToDate,otherReason,otherCurrency,othertex,userid,userid1,retailerId]
+            sql: 'call usp_insertExpenseforOther_rsandinr(?,?,?,?,?,?,?,?,?,?,?)',
+            values:[travelexpensetypeid,othertrip,otherFromDate,otherToDate,otherReason,otherCurrency,othertex,userid,userid1,retailerId,fornightDate]
         };
         mysql(query, function(err, result) {
             callback(err, result);

@@ -138,7 +138,10 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
     app.post('/reSubmit',url.setNewExpense, portal.reSubmitExpense,portal.getRole);
       app.post('/showremarkandcomment',url.setNewExpense, portal.remarkAndCommentExpense,portal.getRole);
   app.post('/checkExpenseSubmitOrNot',url.setNewExpense,portal.checkExpenseSubmitOrNot,portal.getRole);
-    app.post('/reSubmitforcopy',url.setNewExpense, portal.reSubmitExpenseforCopy,portal.getRole); 
+    app.post('/reSubmitforcopy',url.setNewExpense, portal.reSubmitExpenseforCopy,portal.getRole);
+    app.get('/expenseDetails',url.setExpenseDetails,portal.getRole,render.redirect);
+    app.get('/expenseother',url.setOtherExpense,portal.getExpense,portal.getRole,render.redirect); 
+    app.post('/expenseAdmin', portal.selectByExpenseAdmin,portal.getRole);
 
 
    //---------------------------------TimeSheet-----------------------------------------

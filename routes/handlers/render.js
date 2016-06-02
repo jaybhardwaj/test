@@ -412,11 +412,11 @@ module.exports = {
  
 //---------------------------------Expense------------------------------------------
 			case 'expenseHome' :
-				res.render('expense/expenseHome',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('expense/expenseHome',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0});
 				break;
 
 				case 'expenseHomenew' :
-				res.render('expense/expenseHome',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpensenew[0],expenseDetails:req.resultExpensenew[1],currency:req.resultExpensenew[2],totalExpense:req.resultExpensenew[3],bilableusers:req.resultExpensenew[4],trip:req.resultExpensenew[5],travelType:req.resultExpensenew[7],hotelType:req.resultExpensenew[6],Ex:0,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit ,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('expense/expenseHome',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpensenew[0],expenseDetails:req.resultExpensenew[1],currency:req.resultExpensenew[2],totalExpense:req.resultExpensenew[3],bilableusers:req.resultExpensenew[4],trip:req.resultExpensenew[5],travelType:req.resultExpensenew[7],hotelType:req.resultExpensenew[6],Ex:0,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit ,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0});
 				break;
 				case 'fileAttechment' :
 				res.redirect('expensenew')
@@ -429,8 +429,16 @@ module.exports = {
 				res.redirect('expensemaster')
 				break;
 
+				case 'expenseDetails' :
+				res.render('expense/expenseDetails',{myModules:req.session.modules,hideFlag:0,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0});
+				break;
+
+                case 'expenseOther' :
+				res.render('expense/expenseHome',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:1});
+				break;     
+
 				case 'expensemaster' :
-				res.render('expense/expenseMaster',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpensemaster[0],role:req.resultRoles[0],expenseMasterType:req.resultExpensemaster[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('expense/expenseMaster',{myModules:req.session.modules,hideFlag:0,expenseType:req.resultExpensemaster[0],role:req.resultRoles[0],expenseMasterType:req.resultExpensemaster[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0});
 				break;
 				/*end expense Jogendra singh*/
 				<!--- added by saurav   -->

@@ -46,7 +46,7 @@
             <label class="form-Label">Software Type:</label>
           </td>
           <td>
-            <select id="ac" type="dropdown"class="form-text-box" onchange="getAcc(this.value)"></select>
+            <select id="ac" type="dropdown" class="form-text-box" onchange="getAcc(this.value)"></select>
           </td>
           </td>
         
@@ -268,7 +268,7 @@ var count=0;
               //alert(result[1].length);
               var row='<tr><td>'+ ++count+'</td><td>'+result[1][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[1][i].ACID+'></td><td>'+result[1][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[1][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[1][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[1][i].assignDate).toString()).slice(0,10)+'"></input><td>';
                  if(result[1][i].assign==1){
-                   row=row+'<span id="assignapp'+count+'" style="margin-left:70px; color:red; " class=" hide glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
+                   row=row+'<span id="assignapp'+count+'" style="margin-left:70px; color:red; " class=" glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
                 
                   
                     $('#assignreg'+count).removeClass('hide');
@@ -299,6 +299,7 @@ var count=0;
               var data=JSON.stringify(result[0]);
               var options = $("#hw");
               options.empty();
+
               $.each(JSON.parse(data), function() {
                 console.log(data);
                 options.append($("<option />").val(this['id']).text(this['componentName']));
@@ -306,6 +307,7 @@ var count=0;
               $('#hw').val(JSON.parse(data)[0].id).trigger('change');        
               var option = $("#ac");
               option.empty();
+              option.append($("<option />").val('0').text('select'));
               $.each(JSON.parse(qwer), function() {
                 option.append($("<option />").val(this['id']).text(this['componentName']));
               });

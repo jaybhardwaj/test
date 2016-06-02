@@ -453,6 +453,18 @@ module.exports = {
 	}
 	},
 
+	setExpenseDetails: function(req, res, next) {
+		if(req.session.modules.indexOf(config.Expense)>=0)
+		 	{
+		req.page = 'expenseDetails';
+		next();
+	}
+		else
+	{
+			res.redirect('/portal')
+	}
+	},
+
 		setExpenseMaster: function(req, res, next) {
 			if(req.session.modules.indexOf(config.Expense)>=0)
 		 	{
@@ -475,6 +487,19 @@ module.exports = {
 			res.redirect('/portal')
 	}
 	},
+
+     setOtherExpense: function(req, res, next) {
+    	if(req.session.modules.indexOf(config.Expense)>=0)
+		 	{
+		req.page = 'expenseOther';
+		next();
+	}
+		else
+	{
+			res.redirect('/portal')
+	}
+	},
+
 	 insertExpenses: function(req, res, next) {
 	 	if(req.session.modules.indexOf(config.Expense)>=0)
 		 	{

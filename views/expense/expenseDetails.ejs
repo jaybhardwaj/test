@@ -1,0 +1,543 @@
+
+<html>
+<head>
+<% include ../partials/head %>
+<% include expHeader.ejs %>
+ <% include ../partials/adminheader %>
+
+
+<!--  <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.css" rel="stylesheet" media="screen">
+                <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js"></script>
+                <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js">
+                </script>
+ --> 
+ <style>
+.dataTables_filter, .dataTables_length {
+     display: none;
+     margin-right:40px; 
+    }
+ </style>
+</header>
+<script type="text/javascript">
+var array=[];
+/*document id for data table and datepicher*/
+var str1='';
+$(document).ready(function() {
+$('.exphome-img').addClass('active');
+
+//showstatus(); 
+// getdate(); 
+showexpensDetailsofuser(); 
+
+$("#bugtable1").dataTable();
+
+ jQuery('.dateRangePicker').datetimepicker({
+                            i18n: {
+                                de: {
+                                    months: [
+                                        'Januar', 'Februar', 'März', 'April',
+                                        'Mai', 'Juni', 'Juli', 'August',
+                                        'September', 'Oktober', 'November', 'Dezember',
+                                    ],
+                                    dayOfWeek: [
+                                        "So.", "Mo", "Di", "Mi",
+                                        "Do", "Fr", "Sa.",
+                                    ]
+                                }
+                            },
+                            timepicker: false,
+                            format: 'Y.m.d'
+                        });
+        //.datepicker
+        // ({ dateFormat: "yy-mm-dd" }).val();  
+/* code for datepicher*/
+ jQuery('.datepicker').datetimepicker({
+                            i18n: {
+                                de: {
+                                    months: [
+                                        'Januar', 'Februar', 'März', 'April',
+                                        'Mai', 'Juni', 'Juli', 'August',
+                                        'September', 'Oktober', 'November', 'Dezember',
+                                    ],
+                                    dayOfWeek: [
+                                        "So.", "Mo", "Di", "Mi",
+                                        "Do", "Fr", "Sa.",
+                                    ]
+                                }
+                            },
+                            timepicker: false,
+                            format: 'Y-m-d'
+                        });
+
+ /*for DataTable*/
+// var oTable=$("#bugtable").dataTable();
+
+    $('#cli').addClass('hide');
+            $('.users8').addClass('activetab');
+          /*  if(oTable){
+                oTable.destroy();
+            }*/
+          var  oTable = $("#bugtable").dataTable({
+                "bLengthChange": false,
+                "paging": false,
+                "binfo" : false ,
+                "bDestroy": true ,  
+
+                "aoColumnDefs": [{
+                    "bSortable": false,
+                    "aTargets": [-1]
+                }],
+                "autoWidth": false,
+                "columns": [{
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }]
+            });
+          $("#searchbox").keyup(function() {
+        oTable.fnFilter(this.value);
+      });
+
+});
+/*date function*/
+var ab=$(function(){
+var formatted_date = function(date){
+                var m = ("0"+ (date.getMonth()+1)).slice(-2); // in javascript month start from 0.
+                var d = ("0"+ date.getDate()).slice(-2); // add leading zero 
+                var y = date.getFullYear();
+                return  y +'-'+m+'-'+d; 
+}
+ 
+        var curr_date =new Date();
+                 
+        var day = curr_date.getDay();
+                 
+        var diff = curr_date.getDate() - day + (day == 0 ? -6:1); // 0 for sunday
+         if(diff<16) {      
+        var week_start_tstmp = curr_date.setDate(1);           
+         }
+         else{
+          week_start_tstmp = curr_date.setDate(16); 
+         }         
+        var week_start = new Date(week_start_tstmp);
+                 
+        var week_start_date =formatted_date(week_start);
+                 
+        var week_end  = new Date(week_start_tstmp);  // first day of week 
+                 
+        week_end = new Date (week_end.setDate(week_end.getDate() + 6));
+         var stardate= ("0"+ week_start.getDate()).slice(-2)+'-'+("0"+ (week_start.getMonth()+1)).slice(-2)+'-'+week_start.getFullYear();
+         //alert(stardate);       
+        var week_end_date =formatted_date(week_end);
+      //alert('sjdshgdgsh');
+        date=week_start_date + ' to '+week_end_date;    // date range for current week
+        $('#datebutton').val(stardate);
+        $('#datebuttonuser').val(stardate);
+        $('#hiddendatebuttonuser').val(week_start_date);
+        $('#hiddendatebutton').val(week_start_date);
+     //alert(date);
+       /*
+         var week_end_date =formatted_date(new Date());hiddendatebuttonuser // limit current week date range upto current day.
+       */
+ 
+});
+
+
+
+//alert(date);
+/*end*/
+/*end datepicher code*/
+
+
+ /*end*/
+ function datepicker1(){
+ document.getElementById("datebutton").focus();
+ datepicher(); 
+}
+
+function datepickerforotherUser(){
+ document.getElementById("datebuttonuser").focus();
+ datepicherforUser(); 
+}
+ /*function for open attachment form*/
+
+function showAttechmentmodel(id){
+ // alert("submit attechment");
+$('#claimeid').val(id);
+ $("#myModal10").modal('show'); 
+}
+/*end*/
+/*date function in javascript*/
+function datepicherforUser(){
+   $(".dateRangePicker").on("change",function(){
+        var selected = $(this).val();
+        var date = new Date(selected);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() + 15);
+    if(newdate.getDate()<16){
+    
+    // var dd =("0"+newdate.getDate()).slice(-2);
+    var dd=("0"+1)
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();}
+    else{
+      var dd=("0"+16)
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+    }
+
+    var someFormattedDate = dd + '-' + mm + '-' + y;
+    document.getElementById('datebuttonuser').value = someFormattedDate.toString();
+    showexpensDetailsofuser();
+      });
+      }
+function datepicher(){
+   $(".dateRangePicker").on("change",function(){
+        var selected = $(this).val();
+       var date = new Date(selected);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() + 15);
+    if(newdate.getDate()<16){
+    
+     var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+    else{
+       var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+    }
+
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    var someFormattedDate1 = dd + '-' + mm + '-' + y;
+    document.getElementById('datebutton').value = someFormattedDate1.toString();
+     $('#hiddendatebutton').val(someFormattedDate.toString());
+    selecthotelExpenseforweek(); 
+    });
+}
+function getdate() {
+  //alert('dashgfdhsd');
+  toChekRasieExpenseOrNotforNext()
+    var tt =  $('#hiddendatebutton').val();
+
+    var date = new Date(tt);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() + 15);
+    if((newdate.getDate()<16)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
+    
+     var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+
+   if((newdate.getDate()>15)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
+     
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 2)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+    
+   if((newdate.getDate()>1)&&(("0"+(newdate.getMonth() + 1)).slice(-2)==12)){
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+1).slice(-2);
+    var y = newdate.getFullYear()+1;
+  }
+ 
+    
+
+    var someFormattedDate = dd + '-' + mm + '-' + y;
+    var someFormattedDate1=y + '-' + mm + '-' + dd;
+    document.getElementById('datebutton').value = someFormattedDate.toString();
+     $('#hiddendatebutton').val(someFormattedDate1.toString());
+    selecthotelExpenseforweek();
+}
+
+function getdateprev() {
+  //alert('dashgfdhsd');
+  toChekRasieExpenseOrNotforPrev()
+    var tt = $('#hiddendatebutton').val() ;
+
+    var date = new Date(tt);
+    var newdate = new Date(date);
+     //alert(newdate.getDate());
+
+    //newdate.setDate(newdate.getDate() - 15);
+    if(newdate.getDate()<16){
+      if(("0"+(newdate.getMonth())).slice(-2)!=00){
+    var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth())).slice(-2);
+    var y = newdate.getFullYear();
+  }
+  else{
+     var dd =("0"+16).slice(-2);
+    var mm = ("0"+12).slice(-2);
+    var y = newdate.getFullYear()-1; 
+
+  }
+  }
+  else{
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth()+1)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+
+    var someFormattedDate = dd + '-' + mm + '-' + y;
+    var someFormattedDate1 = y + '-' + mm + '-' + dd;
+    document.getElementById('datebutton').value = someFormattedDate.toString();
+     $('#hiddendatebutton').val(someFormattedDate1.toString());
+     selecthotelExpenseforweek();
+}
+
+function getdateuser() {
+  //alert('dashgfdhsd');
+    var tt = $('#hiddendatebuttonuser').val();
+
+    var date = new Date(tt);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() + 15);
+   if((newdate.getDate()<16)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
+    
+     var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+
+   if((newdate.getDate()>15)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
+     
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth() + 2)).slice(-2);
+    var y = newdate.getFullYear();
+  }
+    
+      if((newdate.getDate()>1)&&(("0"+(newdate.getMonth() + 1)).slice(-2)==12)){
+      var dd =("0"+1).slice(-2);
+    var mm = ("0"+1).slice(-2);
+    var y = newdate.getFullYear()+1;
+  }
+ 
+    
+    var someFormattedDate1 = dd + '-' + mm + '-' + y;
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    document.getElementById('datebuttonuser').value = someFormattedDate1.toString();
+      $('#hiddendatebuttonuser').val(someFormattedDate.toString());
+    showexpensDetailsofuser();
+}
+
+function getdateprevuser() {
+  //alert('dashgfdhsd');
+    var tt = $('#hiddendatebuttonuser').val();
+
+    var date = new Date(tt);
+    var newdate = new Date(date);
+
+    //newdate.setDate(newdate.getDate() - 15);
+    if(newdate.getDate()<16){
+      
+    var dd =("0"+16).slice(-2);
+    var mm = ("0"+(newdate.getMonth())).slice(-2);
+    var y = newdate.getFullYear();
+  }
+ if(("0"+(newdate.getMonth())).slice(-2)==00){
+    var dd =("0"+16).slice(-2);
+    var mm = ("0"+12).slice(-2);
+    var y = newdate.getFullYear()-1;
+     }
+    if(newdate.getDate()>15){
+       var dd =("0"+1).slice(-2);
+    var mm = ("0"+(newdate.getMonth()+1)).slice(-2);
+    var y = newdate.getFullYear();
+    }
+    var someFormattedDate1 = dd + '-' + mm + '-' + y;
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    document.getElementById('datebuttonuser').value = someFormattedDate1.toString();
+     $('#hiddendatebuttonuser').val(someFormattedDate.toString());
+    showexpensDetailsofuser();
+}
+/*end*/
+/*function for show expense form according expense type*/
+ function showexpensDetailsofuser11() {
+     claimid="";
+         $('#datetablediv').removeClass('hide');
+         $('#accordions').removeClass('hide');
+         $('#accordionsdata').addClass('hide');
+            var userId = $('#selectstatus').val();
+            var date1=$('#datebuttonuser').val();
+showexpensDetailsofuser()
+}
+
+
+  
+
+ function showexpensDetailsofuser() {
+     claimid="";
+         $('#datetablediv').removeClass('hide');
+         $('#accordions').removeClass('hide');
+         $('#accordionsdata').addClass('hide');
+            var userId = $('#selectstatus').val();
+            var date1=$('#datebuttonuser').val();
+            //alert(userId);
+            var flag=1;
+            if (flag == 1) {
+                return ($.ajax({
+                    url: '/expenseAdmin',
+                    type: 'post',
+                    data: {
+                   userId:userId,
+                   date1:date1
+                    },
+                    dataType: 'json',
+
+                    success: function(users1) {
+                      var  users =users1[0];
+                      console.log(users1);
+                     
+                           var log='';
+                         
+                             log = "<thead><tr style='font-size:12px' >" + "<th>User Name</th>" + "<th>From Date</th>" + "<th>To Date</th>" + "<th>Total Amount</th><th>Action</th><th>Status</th></tr></thead><tbody id='tablebody' >";
+
+                            for (var i = 0; i < users.length; i++) {
+                             claimid=claimid+users[i].expenseclaimedId+",";
+                              
+                                log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].firstName + "' id='l" + users[i].firstName + "'>" + "<td >" + users[i].firstName +  "</td>"  + "<td >" + users[i].toDate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
+                                
+                                log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-list-alt' style='color:black;height:10px' onclick='expensedescription("+users[i].expenseclaimId+")'   title ='description' ></span></a>";
+                                 log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-comment' style='color:blue;height:15px' onclick='showCommentandRemark("+users[i].expenseclaimId+")'   title ='comment' ></span></a>";
+
+                            
+                                  log+="</td><td>";
+                               if((users[i].ClaimedStatus==0)&&(users[i].Status==0)&&(users[i].Submitted==1)){
+                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending..</span></td>";
+                                 }
+                                  if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Status==0)&&(users[i].Submitted==1)){
+                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending..</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
+                                 }
+
+                                   if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)&&(users[i].Status==1)){
+                                    //hidetheButton(users[i].expenseclaimId);
+                                     //$('#a'.concat(users[i].expenseclaimId)).addClass('hide');
+                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by manager</span></td>";
+                                 }
+                                   if((users[i].ClaimedStatus>1)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by manager</span></td>";
+                                 }
+                                   if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by finance</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
+                                 }
+                                   if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)){
+                                log=log +"<span style='padding-left:20px;height:20px;font-size:10px;'>Rejected</span></td>";
+                                 }
+                                     if(users[i].Status==100){
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected</span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
+                                 }
+                            
+                            log = log + "</tr>";}
+                            log=log+"</tbody>";
+
+                            $("#bugtable").dataTable().fnDestroy();
+                                     $("#bugtable").html('');
+
+                            $("#bugtable").html(log);
+                             $("#bugtable").dataTable({
+                                "bLengthChange": true,
+                "paging": true,
+                "binfo" : false , 
+                 "bDestroy": true ,  
+
+                "aoColumnDefs": [{
+                    "bSortable": false,
+                    "aTargets": [-1]
+                }],
+                "autoWidth": false,
+                "columns": [{
+                    "width": "10%"
+                },  {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                },{
+                    "width": "10%"
+                }, {
+                    "width": "15%"
+                }]
+                       });  
+                      
+                        
+                    }
+                
+            }));
+        }
+        } 
+
+
+/*end function dateVarify*/
+ 
+</script>
+      <style>
+  
+      </style>
+</head>
+<body>
+
+
+
+<!--DataTable Code for display the expense Details-->
+<div id="aprovediv" class="col-md-12 a " style="background-color:rgba(51, 60, 125, 0.62);margin-top:0%;">
+        <div class="col-md-2"> <label id="statuslabel" style="margin-top:10px;color:white;padding-left50px;" class="">User : <%=user%></label>
+       </div>
+        
+       <div class='col-md-1'></div>
+        <div class="col-md-4 " id="datetablediv" style="height:29px;width:270px;background-color:white;margin-top:5px;border-radius: 25px;">
+       <!-- <div class="" style="height:40px;width:50px">-->
+            <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuser()'>
+              <input type="hidden" id="hiddendatebuttonuser"><input type='text' id="datebuttonuser" style="margin-top:3px;text-align: center;font-size:12px" class="shadow dateRangePicker"  value=''/ onchange=" showexpensDetailsofuser()">
+            
+            <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateuser()'>
+             <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUser()'></span>
+       </div>
+       <div class='col-md-2' style="float: right;"><select style="margin-top: 4px" id="selectstatus" class="form-text-box" onchange="showexpensDetailsofuser()"><option value="1"> All<option><option value="2">panding<option><option value="3">approve<option></select></div> 
+       </div>
+      
+       
+
+</div>
+
+
+
+
+<div class="secondry-color" id="accordions">
+<div class='row' style="margin-top:3%">
+<input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
+
+
+        <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable" style="width:1300px">
+            
+         </table>
+        </div>
+    </div>
+
+<div id="totalandaddEX" class="col-md-12 a" style="background-color:rgba(51, 60, 125, 0.62);height:36px; 
+    border-bottom:solid #f05f40;">
+        
+    
+                    
+</div>
+
+
+</body>
+</html>
+<% include ../partials/footer.ejs %>
