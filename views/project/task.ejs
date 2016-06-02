@@ -10,13 +10,17 @@
 <title>task manaagement</title>
 <style>
  /***********************************Mayur CSS starts here********************************************/
+.disablePointer {
+cursor: not-allowed!important; 
+}
+
 .selectRS{
     padding-left: 2px;
     padding-right: 2px;
 
 }
 .textboxEffEditAdd{
-	 width: 34%!important;
+   width: 45%!important;
     margin-left: 2%;
     margin-right: 4%;
     text-align::center;
@@ -24,13 +28,13 @@
     border :0px;
 }
 .selectEffEditAdd{
-	 width: 53%;
+   width: 53%;
    font-size: 12px;
 }
 .paddingtd{
-	border-width: 1px; 
+  border-width: 1px; 
   padding-top: 3px;
-  padding-bottom: 3px;	
+  padding-bottom: 3px;  
 }
 #projTable{
 border: 3px #d9d9d9;
@@ -39,17 +43,17 @@ border: 3px #d9d9d9;
 #projTable td{
  border-width: 1px; 
   padding-top: 3px;
-  padding-bottom: 3px;	
+  padding-bottom: 3px;  
 }
 
 .phase{
-	font-size: 12px;
+  font-size: 12px;
     padding-left: 43px;
     font-weight:bold;
  }
 
  .task{
-	font-size: 12px;
+  font-size: 12px;
     padding-left: 62px;
       }
 
@@ -59,14 +63,14 @@ padding-left: 81px;
 
  }
  .images1{
- 	text-align:center;
+  text-align:center;
  }
  .dateCSS{
    text-align:center;
    font-size:12px;
  }
  .bold1{
- 	font-weight:bold;
+  font-weight:bold;
  }
 .deleteCSS{
        display:none!important;
@@ -92,28 +96,28 @@ th {
     text-align: center;
      font-size: 12px!important;
   }
-	.row{
-		margin-right:0px;
-		margin-left:0px;
-	}
-	.newTask{
-		cursor: pointer;
-		border-bottom:1px solid #e4e4e4;
-		background-color:#f5f5f5;
-		height: 30px;
+  .row{
+    margin-right:0px;
+    margin-left:0px;
+  }
+  .newTask{
+    cursor: pointer;
+    border-bottom:1px solid #e4e4e4;
+    background-color:#f5f5f5;
+    height: 30px;
 
-	}
-	.newTask:hover{
-		background-color: #F0FFFF;
-	}
-	.addTask{
-		padding: 2%;
-		
-		background-color: white;
-	}
-	.title{
-		font-size: 13px;
-	}
+  }
+  .newTask:hover{
+    background-color: #F0FFFF;
+  }
+  .addTask{
+    padding: 2%;
+    
+    background-color: white;
+  }
+  .title{
+    font-size: 13px;
+  }
   .ddResources{
      font-size: 10px;
     height: 25px;
@@ -217,8 +221,8 @@ var marginleftarr = [];
     var treeStructure = [];
     var Tree = '';
     var startCounterTreeComponent;
-    console.log('ultimateEndId is ',ultimateEndId);
-    console.log('tc',treeComponent);
+    //console.log('ultimateEndId is ',ultimateEndId);
+    //console.log('tc',treeComponent);
   for(var i = 0 ;(i<=ultimateEndId)&&(ultimateEndId!=0);i++){   //here i is table id 
    treeStructure.push([]);
 
@@ -242,7 +246,7 @@ if(!treeComponent.length){
 
 else{
          submitted = treeComponent[0].isSubmit;
-   }
+    }
 for(var i = 0 ;i<treeComponent.length;i++){
 var resourceName = '';
 for(var j = 0;j<Resources.length;j++){
@@ -252,14 +256,14 @@ resourceName = Resources[j].firstName+' '+Resources[j].lastName;
 
 }
 
-	var newobj =  { 'name' :  treeComponent[i].name,
-		           'sdate':  treeComponent[i].startDate,
-		           'edate': treeComponent[i].endDate,
+  var newobj =  { 'name' :  treeComponent[i].name,
+               'sdate':  treeComponent[i].startDate,
+               'edate': treeComponent[i].endDate,
               'effort':treeComponent[i].effort,
           'effortType':effortArr[treeComponent[i].effortType],
           'perc'      : treeComponent[i].percCompleted + ' %',
                  'resc'      : resourceName
-	              };
+                };
    Foldernames[treeComponent[i].id] = newobj;
 }
 
@@ -294,7 +298,7 @@ for(var i=0;i<idarr[num].length;i++){
          }
                       
          Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="phase bold1"><img src="../img/project/minus.png" id = '+idarr[num][i]+'_sign_'+num+' onclick = "collapseExpand(this.id,1)" class="minus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+idarr[num][i]+'_add_'+num+'  class="shadow phaseImg  " onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'    height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS bold1">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td class = "bold1">'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
-    	 }
+       }
 
  else if(level==0){
 
@@ -309,7 +313,7 @@ for(var i=0;i<idarr[num].length;i++){
             
          }
          
- Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="task"><img src="../img/project/plus.png" class="plus'+hideAddButtonClass+'" onclick = "collapseExpand(this.id,1)"  id = '+idarr[num][i]+'_sign_'+num+' height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" class="shadow " height="18px" onclick = "addRow(this.id)"  id = '+idarr[num][i]+'_add_'+num+' title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+' height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
+ Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="task"><img src="../img/project/plus.png" class="plus'+hideAddButtonClass+'" onclick = "collapseExpand(this.id,1)"  id = '+idarr[num][i]+'_sign_'+num+' height="18px" title="" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" class="shadow " height="18px" onclick = "addRow(this.id)"  id = '+idarr[num][i]+'_add_'+num+' title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+' height="22px" class="shadow editRowClass" title="Add Child" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
      
 
       } 
@@ -318,12 +322,12 @@ for(var i=0;i<idarr[num].length;i++){
 
 
       else if(level==1){
-      	console.log('in level 1');
-	Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' class = "hide"><td></td><td class="subtask"><img src="../img/project/button.png" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1 "></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'  height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS ">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS ">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
+        console.log('in level 1');
+  Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' class = "hide"><td></td><td class="subtask"><img src="../img/project/button.png" class="shadow donthide" height="18px" title="" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1 "></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'  height="22px" class="shadow editRowClass" title="Add Child" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS ">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS ">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
       }
 
 else{
-  	console.log('Error!!!!',i,num,idarr[num]);
+    console.log('Error!!!!',i,num,idarr[num]);
       }
 
 
@@ -345,12 +349,14 @@ return ;
 
 %>
 <script type="text/javascript">
-
+var tempEffortInDays;
+var effortIndays = [];
 var optionStr         = '<%=optionStr%>';
 var startDateOriginal = '<%=prStartDate%>';
 var endDateOriginal   = '<%=prEndDate%>';
 var startDate         = startDateOriginal;
 var endDate           = endDateOriginal;
+console.log('startDate',startDate,'endDate',endDate);
 var endDateInDatePicker ,startDateInDatePicker ;
 var edateTime = '' ,sdateTime = '';
 var saturdayOffFlag = 1;/*Take Diff from this Date and Satdurday found diff must be multiple of 14.
@@ -394,7 +400,7 @@ var currenteffType                  =    0;
 
 function updateAllArr(idUsed,isActiveFl){
 var value = idUsed.split('_');
-var individualId = value[0];
+var individualId = parseInt(value[0]);
 var parentId = value[2];
 idUsed = individualId + '_rowid_' + parentId
 var stringForId = '#' + idUsed + ' td '+ ' input ';
@@ -451,7 +457,7 @@ newArr[6] = parentId ;
 newArr[7] = isActiveFl;
 newArr[8] =  $(stringForId)[4].value; 
 newArr[9] = $(stringForSelect)[1].value;//Effort Type
-
+newArr[10] = effortIndays[individualId];
 
 
 
@@ -459,7 +465,7 @@ $('#'+individualId+'_del_'+parentId).attr("onclick" , "deleteRow(this.id,1)");
 
 }
 var iValue = -1;
-	for(var i = 0;i<updateArr.length;i++){
+  for(var i = 0;i<updateArr.length;i++){
          if(updateArr[i][0]==individualId){
                    iValue = i;
                    break;
@@ -467,11 +473,11 @@ var iValue = -1;
     }
 
 if(iValue == -1){
-	updateArr.push(newArr);
+  updateArr.push(newArr);
 }
 else{
 
-	updateArr[iValue] = newArr; 
+  updateArr[iValue] = newArr; 
 }
 
 console.log(newArr);
@@ -498,7 +504,7 @@ $(document).ready(function(){
 initializeJquery();
 
   $('.task-img').addClass('active');
-	$('.se-pre-con').fadeOut('slow');
+  $('.se-pre-con').fadeOut('slow');
     var decode =  $('#tbody123').html('<%=Tree%>').text();
      $('#tbody123').html(decode);
 
@@ -532,7 +538,7 @@ initializeJquery();
      });
 
 
-	 
+   
 });
  function collapseExpand(id,flag){
 
@@ -557,7 +563,7 @@ initializeJquery();
                  $(str).addClass('hide1');
                  $(str).hide('fast');       
                  if($(str2).hasClass('minus')){
-                 	console.log(str2);
+                  console.log(str2);
                  $(str2).addClass('keepOpen');
                  }
                  str2 = str2.slice(1);
@@ -587,9 +593,9 @@ initializeJquery();
                  $(str).removeClass('hide1');
                   $(str).show('slow'); 
                   if($(str2).hasClass('keepOpen')){
-                  	$(str2).removeClass('keepOpen');
+                    $(str2).removeClass('keepOpen');
                      str2 = str2.slice(1);
-                  	collapseExpand(str2,1);
+                    collapseExpand(str2,1);
                   }
      
   
@@ -620,17 +626,17 @@ initializeJquery();
   var parentId = value[2];
     var lastChildId = individualId ;
   var lastParentId = parentId ;
-  var depth = 0 ;
+var depth = 0 ;
 var idStr = '#'+currentId;
 var signStr = '#'+ individualId + '_sign_'+parentId;
 if($(signStr).hasClass('plus')){
   $(signStr).click();
 }
 if(individualId==0){
-	depth = 0
+  depth = 0
 }
 
-else if($(idStr).hasClass('phaseImg')){
+else if(parentId==0){
   depth = 1;
  }
   else depth = 2; 
@@ -657,8 +663,8 @@ var hideAddButtonClass = '';
  var newcurrentId = '#'+lastChildId +'_rowid_'+ lastParentId;
 
 if(depth ==0){
-	var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="phase paddingtd"><img src="../img/project/plus.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="plus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" ></td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+ultimateEndId+'_add_'+individualId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg" height="15px" class="shadow" onclick = "deleteRow(this.id,0)" id = '+ultimateEndId+'_del_'+individualId+'  title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" class = "hide"  width="18px"></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = '+ultimateEndId+'_sdate_'+individualId+' ></td><td class="dateTempCss bold1"><input type = "text " id = '+ultimateEndId+'_edate_'+individualId+' class = "datePicker textBoxesCss"></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = '+ultimateEndId+'_eff_'+individualId+' ><select id = '+ultimateEndId+'_effType_'+individualId+' class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss bold1"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
-		}
+  var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="phase paddingtd"><img src="../img/project/plus.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="plus '+hideAddButtonClass+'" height="18px" title="" width="18px" style="margin-right:5px;"><input type = "text" style = "width: 90%;" ></td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+ultimateEndId+'_add_'+individualId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg" height="15px" class="shadow" onclick = "deleteRow(this.id,0)" id = '+ultimateEndId+'_del_'+individualId+'  title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" class = "hide"  width="18px"></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = '+ultimateEndId+'_sdate_'+individualId+' ></td><td class="dateTempCss bold1"><input type = "text " id = '+ultimateEndId+'_edate_'+individualId+' class = "datePicker textBoxesCss"></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = '+ultimateEndId+'_eff_'+individualId+' ><select id = '+ultimateEndId+'_effType_'+individualId+' class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss bold1"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
+    }
 
 else if (depth==1){
 
@@ -671,12 +677,12 @@ else if (depth==1){
             hideAddButtonClass = '';
             
          }*/
-var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="task paddingtd"><img src="../img/project/plus.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="plus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = '+ultimateEndId+'_add_'+individualId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 paddingtd "><img src="../img/project/blackdustbin.jpg"  id = '+ultimateEndId+'_del_'+individualId+' onclick = "deleteRow(this.id,0)"     height="15px" class="shadow" title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" width="18px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
+var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="task paddingtd"><img src="../img/project/plus.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="plus '+hideAddButtonClass+'" height="18px" title="" width="18px" style="margin-right:5px;"><input type = "text" style = "width: 90%;"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = '+ultimateEndId+'_add_'+individualId+'  class="shadow " onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 paddingtd "><img src="../img/project/blackdustbin.jpg"  id = '+ultimateEndId+'_del_'+individualId+' onclick = "deleteRow(this.id,0)"     height="15px" class="shadow" title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" width="18px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd" id = '+ultimateEndId+'_effType_'+individualId+'><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
 
      }
 
      else if (depth==2){
-  var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="subtask "><img src="../img/project/button.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1 "></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg"   id = '+ultimateEndId+'_del_'+individualId+' onclick = "deleteRow(this.id,0)"  height="15px" class="shadow" title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" height = "18px" onclick = "convertTonormalTr(1,this.id,'+depth+')" class = "hide" title="Save" width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "text" class = "textboxEffEditAdd textboxEffEditAddJq"><select class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
+  var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td class="subtask "><img src="../img/project/button.png" id = '+ultimateEndId+'_sign_'+individualId+' onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="" width="18px" style="margin-right:5px;"><input type = "text" style = "width: 90%;"></td><td class="images1 "></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg"   id = '+ultimateEndId+'_del_'+individualId+' onclick = "deleteRow(this.id,0)"  height="15px" class="shadow" title="Delete" width="15px"><img id = '+ultimateEndId+'_OK_'+individualId+'  src="../img/project/greentick.jpg" height = "18px" onclick = "convertTonormalTr(1,this.id,'+depth+')" class = "hide" title="Save" width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = "textboxEffEditAdd textboxEffEditAddJq"><select class = " selectEffEditAdd"  id = '+ultimateEndId+'_effType_'+individualId+'><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+ultimateEndId+'_selectRS_'+individualId+'"></td></tr>';
 
      }
        makeEmptyAjaxCall();
@@ -684,26 +690,51 @@ var str =  '<tr id = '+ultimateEndId+'_rowid_'+individualId+' ><td></td><td clas
      $(newcurrentId).after(str);
    initializeJquery();
 
-
+         /************Resources DropDown***********/
      var tdIdForSelect = '#'+ ultimateEndId+'_selectRS_'+individualId;
      var decode = $(tdIdForSelect).html(optionStr).text();
       decode = decode.replace(/"/g,'').replace(/'/g,'');
       $(tdIdForSelect).html(decode);
 
+    /*********************************************/
+
+
+
+  /************Resources DropDown***********/
+if(depth!=0){
+ if(!treeStructure[individualId].length){
+  var tdchild = $('#'+ individualId + '_rowid_'+parentId + ' td')[6];
+  tdchild   = $(tdchild).children('input');
+   $(tdchild).val(0);
+  $(tdchild).attr('disabled',true);
+  $(tdchild).addClass('disablePointer');
+  tdchild = $(tdchild).parent('td');
+  tdchild   = $(tdchild).next();
+  tdchild   =  $(tdchild).children('input');
+  $(tdchild).val(0);
+  $(tdchild).attr('disabled',true);
+  $(tdchild).addClass('disablePointer');
+
+
+ }
+
+}
+
+/*********************************************/
 
 
 
 
 
 
- treeStructure[individualId].push(ultimateEndId);
+treeStructure[individualId].push(ultimateEndId);
       treeStructure.push([]);
       ultimateEndId++;
 
 
 
-$(".datePicker").attr('readonly',true);
-$(".datePicker").datepicker({
+/*$(".datePicker").attr('readonly',true);   //Commented for testing
+    $(".datePicker").datepicker({
     dateFormat: 'dd/mm/yy',
     beforeShowDay: DisableSpecificDates,
     duration: "slow",
@@ -714,7 +745,7 @@ $(".datePicker").datepicker({
          startDateEndDateValidation(endDateFlag,$(this));
          }
 
-});
+});*/
     
 
   }
@@ -725,7 +756,7 @@ $(".datePicker").datepicker({
     $('.minus').attr('src','../img/project/plus.png');
      $('.plus').attr('src','../img/project/minus.png');
      $('.minus').addClass('minus1');
-     $('.plus').addClass('plus1');	
+     $('.plus').addClass('plus1');  
      $('.minus').addClass('plus');
      $('.plus1').addClass('minus');
     $('.minus1').removeClass('minus');
@@ -740,18 +771,18 @@ $(".datePicker").datepicker({
 
     function convertTonormalTr(addNewFlag,rowId,depth){
         console.log(rowId);
-    	rowId = rowId.trim();  console.log(rowId);
+      rowId = rowId.trim();  console.log(rowId);
         
 
 
 
 
-    	var value = rowId.split('_');
-    	var individualId = value[0];
-    	var parentId     = value[2];
-    	 rowId = individualId+'_rowid_'+parentId;
-    	var nodeName     = $('#'+rowId+' td input')[0].value;
-    	var sDateName    =$('#'+rowId+' td input')[1].value;
+      var value = rowId.split('_');
+      var individualId = value[0];
+      var parentId     = value[2];
+       rowId = individualId+'_rowid_'+parentId;
+      var nodeName     = $('#'+rowId+' td input')[0].value;
+      var sDateName    =$('#'+rowId+' td input')[1].value;
         var eDateName    = $('#'+rowId+' td input')[2].value;
         var effortQuant  = $('#'+rowId+' td input')[3].value;
         var effortType   = $('#'+rowId+' td select')[0].value;
@@ -768,16 +799,16 @@ return;
  }
 if(depth==0){
 
-    	var newStringForHtml = '<td></td><td class="phase bold1"><img src="../img/project/plus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+nodeName+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png"  onclick = "editRow(this.id,0)"  id = '+individualId+'_edit_'+parentId+'  height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS bold1">'+sDateName+'</td><td class="dateCSS bold1">'+eDateName+'</td><td class="effCSS bold1" style = "font-size:11px;">'+effortQuant+' '+effortArrName+'</td><td style = "font-size:12px;" class = "bold1">'+percCompleted+'</td><td></td>';
-    	 }
+      var newStringForHtml = '<td></td><td class="phase bold1"><img src="../img/project/plus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+nodeName+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png"  onclick = "editRow(this.id,0)"  id = '+individualId+'_edit_'+parentId+'  height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS bold1">'+sDateName+'</td><td class="dateCSS bold1">'+eDateName+'</td><td class="effCSS bold1" style = "font-size:11px;">'+effortQuant+' '+effortArrName+'</td><td style = "font-size:12px;" class = "bold1">'+percCompleted+'</td><td></td>';
+       }
 
  else if(depth==1){
 
-	 var newStringForHtml = '<td></td><td class="task"><img src="../img/project/plus.png" class="plus" onclick = "collapseExpand(this.id,1)"  id = '+individualId+'_sign_'+parentId+' height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+nodeName+'</td><td class="images1 "><img src="../img/bug/addbug.png" class="shadow" height="18px" onclick = "addRow(this.id)"  id = '+individualId+'_add_'+parentId+' title="Add Phase" width="18px"></td><td class="images1 "><img src="../img/write.png" height="22px" class="shadow editRowClass"  onclick = "editRow(this.id,0)" id = '+individualId+'_edit_'+parentId+'  title="Add Phase" width="22px"></td><td class="dateCSS ">'+sDateName+'</td><td class="dateCSS">'+eDateName+'</td><td class="effCSS" style = "font-size:11px;">'+effortQuant+' '+effortArrName+'</td><td style = "font-size:12px;">'+percCompleted+'</td><td></td>';
+   var newStringForHtml = '<td></td><td class="task"><img src="../img/project/plus.png" class="plus" onclick = "collapseExpand(this.id,1)"  id = '+individualId+'_sign_'+parentId+' height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+nodeName+'</td><td class="images1 "><img src="../img/bug/addbug.png" class="shadow" height="18px" onclick = "addRow(this.id)"  id = '+individualId+'_add_'+parentId+' title="Add Phase" width="18px"></td><td class="images1 "><img src="../img/write.png" height="22px" class="shadow editRowClass"  onclick = "editRow(this.id,0)" id = '+individualId+'_edit_'+parentId+'  title="Add Phase" width="22px"></td><td class="dateCSS ">'+sDateName+'</td><td class="dateCSS">'+eDateName+'</td><td class="effCSS" style = "font-size:11px;">'+effortQuant+' '+effortArrName+'</td><td style = "font-size:12px;">'+percCompleted+'</td><td></td>';
       }
       else if(depth==2){
 
-	var newStringForHtml = '<td></td><td class="subtask"><img src="../img/project/button.png" class="shadow      donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+nodeName+'</td><td class="images1 "></td><td class="images1 "><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+individualId+'_edit_'+parentId+'    height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS ">'+sDateName+'</td><td class="dateCSS ">'+eDateName+'</td><td style = "font-size:11px;" class="effCSS ">'+effortQuant+' '+effortArrName+'</td><td style = "font-size:12px;">'+percCompleted+'</td><td></td>';
+  var newStringForHtml = '<td></td><td class="subtask"><img src="../img/project/button.png" class="shadow      donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+nodeName+'</td><td class="images1 "></td><td class="images1 "><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+individualId+'_edit_'+parentId+'    height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS ">'+sDateName+'</td><td class="dateCSS ">'+eDateName+'</td><td style = "font-size:11px;" class="effCSS ">'+effortQuant+' '+effortArrName+'</td><td style = "font-size:12px;">'+percCompleted+'</td><td></td>';
       }
 
 
@@ -800,7 +831,7 @@ var nextId = $('#'+rowId).next().attr('id');
 var positionTreeStructure = treeStructure[parentId].length -countForPosition;
   treeStructure[parentId].splice(positionTreeStructure,0,individualId);
  while(treeStructure.length!=ultimateEndId){
-treeStructure.push([]);	
+treeStructure.push([]); 
   }*/
   
 curentDropdownValueForEffort = effortType;
@@ -825,9 +856,9 @@ updateAllArr(rowId,1);
                       'projectid':projectId
                         },
                     success: function(data) {
-                    	console.log('sucess');
+                      console.log('sucess');
 
-                    	counterForAjax--;/*    Important code to be inserted here Mayur */
+                      counterForAjax--;/*    Important code to be inserted here Mayur */
                     },
 
                      error:function(){
@@ -855,7 +886,7 @@ if(depth==2){
 while(nextId!=undefined&&($('#'+nextId).hasClass('subtask')||$('#'+nextId).hasClass('subtaskTemp'))){
 
 if($('#'+nextId).hasClass('subtask')){
-count++;	
+count++;  
 }
 nextId = $('#'+nextId).next().attr('id');
 
@@ -867,7 +898,7 @@ if(depth==1){
 while(nextId!=undefined&&(!$('#'+nextId).hasClass('phase'))){
 
 if($('#'+nextId).hasClass('task')){
-count++;	
+count++;  
 }
 nextId = $('#'+nextId).next().attr('id');
 }
@@ -878,7 +909,7 @@ if(depth==0){
 while(nextId!=undefined){
 
 if(nextId!=undefined){
-count++;	
+count++;  
 }
 nextId = $('#'+nextId).next().attr('id');
 }
@@ -900,17 +931,17 @@ return count;
       }
    if(joinFlag){
 for(var i = 0;i<updateArr.length;i++){
-	updateArr[i] = updateArr[i].join('$@$');
+  updateArr[i] = updateArr[i].join('$@$');
   }
   updateArr = updateArr.join('||');
 
-  	$('.se-pre-con').fadeIn('slow');
+    $('.se-pre-con').fadeIn('slow');
      }
 
      counterForRecursionAjax++;
      if(counterForRecursionAjax==20){
          alert('Server error,Reloading page');
-     	return;
+      return;
      }
 
   if(counterForAjax!=0){
@@ -918,9 +949,9 @@ setTimeout(function(){
 savethis(submitFlag,0);
 return;
 },3000);
-  	 return;
-  	     }
-  	   
+     return;
+         }
+       
 
 
 
@@ -934,7 +965,7 @@ return;
                    'projectId' :projectId
                         },
                     success: function(data) {
-                    	console.log('sucess');
+                      console.log('sucess');
                   $('.se-pre-con').fadeOut('slow');
                   counterForRecursionAjax = 0;
                   updateArr = [];
@@ -1030,7 +1061,7 @@ if(depth ==0){
          }*/
 
 
-  var strForHtml =  '<td></td><td class="phase paddingtd"><img src="../img/project/minus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="minus'+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" ></td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg" height="15px" class="shadow" onclick = "deleteRow(this.id,1)" id = '+individualId+'_del_'+parentId+'  title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" class = "hide"  width="18px"></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = '+individualId+'_sdate_'+parentId+' ></td><td class="dateTempCss bold1"><input type = "text " id = '+individualId+'_edate_'+parentId+' class = "datePicker textBoxesCss"></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = '+individualId+'_eff_'+parentId+' ><select id = '+individualId+'_effType_'+parentId+' class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss bold1"></td><td></td><td class = "selectRS" id = "'+individualId+'_selectRS_'+parentId+'" ></td>';
+  var strForHtml =  '<td></td><td class="phase paddingtd"><img src="../img/project/minus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="minus'+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" style = "width: 90%;"></td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg" height="15px" class="shadow" onclick = "deleteRow(this.id,1)" id = '+individualId+'_del_'+parentId+'  title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" class = "hide"  width="18px"></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = '+individualId+'_sdate_'+parentId+' ></td><td class="dateTempCss bold1"><input type = "text " id = '+individualId+'_edate_'+parentId+' class = "datePicker textBoxesCss"></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = '+individualId+'_eff_'+parentId+' ><select id = '+individualId+'_effType_'+parentId+' class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss bold1"></td><td></td><td class = "selectRS" id = "'+individualId+'_selectRS_'+parentId+'" ></td>';
     }
 
 
@@ -1047,12 +1078,12 @@ else if (depth==1){
          }*/
 
 
-var strForHtml =  '<td></td><td class="task paddingtd"><img src="../img/project/plus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="plus'+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 paddingtd "><img src="../img/project/blackdustbin.jpg"  id = '+individualId+'_del_'+parentId+' onclick = "deleteRow(this.id,1)"     height="15px" class="shadow" title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" width="18px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td id = "'+individualId+'_selectRS_'+parentId+'" class = "selectRS"></td>';
+var strForHtml =  '<td></td><td class="task paddingtd"><img src="../img/project/plus.png" id = '+individualId+'_sign_'+parentId+' onclick = "collapseExpand(this.id,1)" class="plus'+hideAddButtonClass+'" height="18px" title="" width="18px" style="margin-right:5px;"><input type = "text" style = "width: 90%;"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = '+individualId+'_add_'+parentId+'  class="shadow " onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 paddingtd "><img src="../img/project/blackdustbin.jpg"  id = '+individualId+'_del_'+parentId+' onclick = "deleteRow(this.id,1)"     height="15px" class="shadow" title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,'+depth+')" height="18px" class="shadow hide" title="Green Tick" width="18px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd" id = '+individualId+'_effType_'+parentId+'><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td id = "'+individualId+'_selectRS_'+parentId+'" class = "selectRS"></td>';
 
      }
 
      else if (depth==2){
-  var strForHtml =  '<td></td><td class="subtask "><img src="../img/project/button.png" id = "'+individualId+'_sign_'+parentId+'" onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text"></td><td class="images1 "></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg"   id = '+individualId+'_del_'+parentId+' onclick = "deleteRow(this.id,1)"  height="15px" class="shadow" title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" height = "18px" onclick = "convertTonormalTr(1,this.id,'+depth+')" class = "hide" title="Save" width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "text" class = "textboxEffEditAdd textboxEffEditAddJq"><select class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+individualId+'_selectRS_'+parentId+'"></td>';
+  var strForHtml =  '<td></td><td class="subtask "><img src="../img/project/button.png" id = "'+individualId+'_sign_'+parentId+'" onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="" width="18px" style="margin-right:5px;"><input type = "text" style = "width: 90%;"></td><td class="images1 "></td><td class="images1 bold1"><img src="../img/project/blackdustbin.jpg"   id = '+individualId+'_del_'+parentId+' onclick = "deleteRow(this.id,1)"  height="15px" class="shadow" title="Delete" width="15px"><img id = '+individualId+'_OK_'+parentId+'  src="../img/project/greentick.jpg" height = "18px" onclick = "convertTonormalTr(1,this.id,'+depth+')" class = "hide" title="Save" width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" class = "datePicker textBoxesCss"></td><td class="effCSS "><input type = "number" class = "textboxEffEditAdd textboxEffEditAddJq"><select id = '+individualId+'_effType_'+parentId+' class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option><option value = "5">Years</option></select></td><td><input type = "number" class = "textBoxesCss"></td><td></td><td class = "selectRS" id = "'+individualId+'_selectRS_'+parentId+'"></td>';
 
      }
 
@@ -1132,6 +1163,33 @@ $(".datePicker").datepicker({
 });
 
 
+if(depth!=0||1){
+ if(treeStructure[individualId].length){
+  var tdchild = $('#'+ individualId + '_rowid_'+parentId + ' td')[6];
+  tdchild   = $(tdchild).children('input')[0];
+   //$(tdchild).val(0);
+   console.log('here is ',tdchild);
+  $(tdchild).attr('disabled',true);
+  $(tdchild).addClass('disablePointer');
+
+  tdchild = $(tdchild).parent('td');
+  tdchild   = $(tdchild).next();
+  tdchild   =  $(tdchild).children('input')[0];
+
+console.log('here is 2 ',tdchild);
+
+  //$(tdchild).val(0);
+  $(tdchild).attr('disabled',true);
+  $(tdchild).addClass('disablePointer');
+
+
+ }
+
+}
+
+
+
+
        
   /*    $('.datepicker').prop('readonly', true);
        //document.getElementById('datepicker1').disabled = false;
@@ -1148,7 +1206,8 @@ $(".datePicker").datepicker({
      else{
        if($("#peffort").val()!='')
          {
-          $("#peffort").focusout();
+          $("#peffort").  $(tdchild).attr('disabled',true);
+  $(tdchild).addClass('disablePointer');();
          }
      }
    }
@@ -1167,12 +1226,12 @@ function checkNature(inputTextBoxId) {
     if ($(tdVar).next().children('input').hasClass('datePicker')) {
         startDateInDatePicker = $(inputTextBoxId).val();
         endDateInDatePicker = $(tdVar).next().children('input').val();
-        getStartDateEndDateTime(startDateInDatePicker, endDateInDatePicker);
+        getStartDateEndDateTime(startDateInDatePicker, endDateInDatePicker,false);
         return false;
     } else {
         startDateInDatePicker = $(tdVar).prev().children('input').val();
         endDateInDatePicker = $(inputTextBoxId).val();
-        getStartDateEndDateTime(startDateInDatePicker, endDateInDatePicker);
+        getStartDateEndDateTime(startDateInDatePicker, endDateInDatePicker,false);
         return true;
 
     }
@@ -1203,7 +1262,7 @@ function startDateEndDateValidation(endDateFlag,datepickerthis) {
 
 
 
-function getStartDateEndDateTime(sDateInDatePicker, eDateInDatePicker) {
+function getStartDateEndDateTime(sDateInDatePicker, eDateInDatePicker,flagForMonthCalculation) {
     edateTime = '', sdateTime = ''
 
     var startDateTime = ''
@@ -1240,10 +1299,15 @@ function getStartDateEndDateTime(sDateInDatePicker, eDateInDatePicker) {
         startDateTime = startDateTime.getTime();
     }
 
+
+if(!flagForMonthCalculation){
     edateTime = endDateTime
     sdateTime = startDateTime
-
-
+}
+else {
+return  (endDateTime - startDateTime)
+  
+    }
     // console.log(endDateTime);
 }
 
@@ -1371,14 +1435,18 @@ var value = rowId.split('_');
     }
     individualId = parseInt(individualId);
     var arrForTreeStr = treeStructure[parentId]
-    arrForTreeStr.splice(arrForTreeStr.indexOf(individualId), 0);
+    console.log('before',arrForTreeStr);
+    arrForTreeStr.splice(arrForTreeStr.indexOf(individualId), 1);
     treeStructure[parentId] = arrForTreeStr;
+        console.log('after',arrForTreeStr);
 
 
-    convertTonormalTr(-1, rowId, depth);
+
+   // convertTonormalTr(-1, rowId, depth);
     updateAllArr(rowId, 0);
     console.log('rowid ', rowId);
     $('#' + rowId).addClass('deleteCss');
+    
 
 }
 
@@ -1462,6 +1530,9 @@ return [true];
 }
 
 
+
+var tempChildrenRowId2 = '',changeTimeFormatFlag = true;; 
+
 function initializeJquery(){
 /*inittialize*/
 setTimeout(function(){
@@ -1474,23 +1545,191 @@ $('.ddResources').addClass('ddResourcesForJq');
 
 $('.allTextAndNumberBoxes').focusout(function(){
 
-
 var tdEle = $(this).parent('td');
      tdEle = $(tdEle).parent('tr');
-     tdEle = $(tdEle).attr('id'); 
+     tdEle = $(tdEle).attr('id');
+     var valtest =  tdEle.split('_');
+     var parentIdTest = parseInt(valtest[2]);
+     var individualIdTest = parseInt(valtest[0]);
+/***************************Parent Effort and hour Calculation************************************/
+      if(parentIdTest!=0){ 
+        var value = tdEle.split('_');
+       individualId = value[0];
+       parentId     = value[2];
+       var parentRowId = -1
+       var sumEffort = 0 ;
+       var sumQuantEffort = 0;
+       for(var i = 0;i<=ultimateEndId;i++){
+        console.log('#'+parentId + '_rowid_'+i);
+        if($('#'+parentId + '_rowid_'+i).length){
+           //  console.log('sassddassdasdasd','#'+parentId + '_rowid_'+i);
+            parentRowId  = '#'+parentId + '_rowid_'+i;
+            break;
+        }
+       }
+     //  alert('parentRowId'+parentRowId); 
 
-updateAllArr(tdEle,1);
+      if(parentRowId==-1){
+       // alert('Js Error ,Pls hire a more useful developer');
+        return;
+      }
+
+      for(var i = 0;i<treeStructure[parentId].length;i++){
+           var tempChildrenRowId = '#' +treeStructure[parentId][i] + '_rowid_' + parentId;
+                tempChildrenRowId2   = tempChildrenRowId
+           var tempChildInput = $(tempChildrenRowId +' td')[6];
+           var  tempPerComp =  $(tempChildrenRowId +' td')[7];
+                tempPerComp   = $(tempPerComp).children('input')[0];
+               tempPerCompQuant = $(tempPerComp).val();
+
+               if(tempPerCompQuant=='') tempPerCompQuant =0;
+               else tempPerCompQuant = parseInt(tempPerCompQuant);
+           tempChildInput      = $(tempChildInput).children('input')[0];
+           var tempQuant        =  $(tempChildInput).val();
+               var tempSelect = $(tempChildInput).next();
+             var tempSelectValue = $(tempSelect).val();
+                tempQuant = calculateTempQuantBasedOnDropDown(tempQuant,tempSelectValue);
+                 sumQuantEffort = sumQuantEffort + (tempQuant*tempPerCompQuant/100);
+                 sumEffort = sumEffort + parseInt(tempQuant); 
+console.log('tempQuant is',tempQuant,'tempPerCompQuant is',tempPerCompQuant,'tempSelectValue is',tempSelectValue);
+      }
+
+      /*********************Calculate sumQuantEffort and effortIndays*********************************/
+     sumQuantEffort = (sumQuantEffort*100)/sumEffort;
+  effortIndays[parentIdTest] = parseInt(sumEffort/workingHoursInADay);
+   /**********************************************************************/
+
+        /***************Effort Value Insertion***************/
+         var  parentEle = $(parentRowId +' td')[6];
+         var inputChild =  $(parentEle).children('input')[0];
+             inputChild = $(inputChild).next();
+        var selectedInpuChildNext = $(inputChild).val();
+          sumEffort = calculateTQBODN(sumEffort,selectedInpuChildNext);
+        inputChild = $(inputChild).prev();
+          $(inputChild).val(parseInt(sumEffort));
+  /***********************************************************/
+
+  /************************Perc Complete Insertion**********************/
+ 
+         parentEle = $(parentRowId +' td')[7];
+        inputChild =  $(parentEle).children('input');
+         $(inputChild).val(parseInt(sumQuantEffort));
+     $(parentRowId+' .allTextAndNumberBoxes').focusout();
+       /************************Perc Complete Insertion**********************/
+
+
+
+}
+
+if(!treeStructure[individualIdTest].length){
+
+  /****************Update Arr in case of no child*************/
+var dropDownId =   '#' + individualIdTest + '_effType_' + parentIdTest;
+   var tempSelectValue =   $(dropDownId).val();
+             dropDownId = $(dropDownId).prev();
+      var  tempQuant   = $(dropDownId).val();
+
+   tempQuant = calculateTempQuantBasedOnDropDown(tempQuant,tempSelectValue);
+
+   effortIndays[individualIdTest] = parseInt(tempQuant/workingHoursInADay);
+
+  
+  console.log('all from here2',effortIndays[individualIdTest],individualIdTest);
+
+    /*********************************************************/
+
+
+}
+
+
+/***************************************************************/
+console.log('all from here',effortIndays[parentIdTest],parentIdTest);
+      updateAllArr(tdEle,1);
+
+
 
 });
 
-$('.selectClassForJq').change(function(){
 
+var prevSelected = 0;
 
-var tdEle = $(this).parent('td');
+$('.selectClassForJq').on('focus', function () {
+   
+/*   var parentId = 
+*/   prevSelected = $(this).val();
+
+    var prevEle = $(this).prev()[0];
+     //  $(prevEle).focus();
+       $(prevEle).focusout();
+
+}).change(function(){
+
+  var tempSelectValue = $(this).val();
+
+  console.log('*************tempSelectValue***************',tempSelectValue);
+ // alert(tempSelectValue);
+/*  console.log('tempSelectValue',tempSelectValue);
+*/  
+var currentId = $(this).attr('id');
+ // alert(currentId);
+
+var value  = currentId.split('_');
+var individualId = parseInt(value[0]);
+var parentId     = parseInt(value[2]);
+
+if(treeStructure[individualId].length){
+  var childRowId = '#'+treeStructure[individualId][0]+'_effType_'+individualId;
+  //alert(childRowId);
+  //childRowId = $(childRowId).prev();
+  //$(childRowId).focus();
+  $(childRowId).focus();
+  childRowId = $(childRowId).prev();
+   $(childRowId).focusout();
+
+}
+
+var tdEle = $(this).parent('td').parent('tr').attr('id'); 
+//updateAllArr(tdEle,1);
+var inBox = $(this).prev()[0];
+setTimeout(function(){
+  console.log('***********inBox********',inBox);
+  //$(inBox).focus();
+  $(inBox).focusout();
+  //updateAllArr(tdEle,1);
+
+},400);
+/*setTimeout(function(){
+
+var tdEle = $(this1).parent('td');
      tdEle = $(tdEle).parent('tr');
      tdEle = $(tdEle).attr('id'); 
 
-updateAllArr(tdEle,1);
+  alert(tdEle);
+
+
+     var prevEle = $(this1).prev();
+/*       $(prevEle).focus();
+       $(prevEle).focusout();/
+
+       if($(prevEle).hasClass('disablePointer')){
+        var tempQuant = $(prevEle).val();
+        console.log('tempQuant is',tempQuant);
+/*        tempQuant = calculateTempQuantBasedOnDropDown(tempQuant,prevSelected);
+/       tempQuant = calculateTQBODN(tempQuant,tempSelectValue);
+        $(prevEle).val(tempQuant);
+        alert(tempQuant);
+        //tempSelectValue--;
+      // this1.selectedIndex = ''+tempSelectValue;
+
+        updateAllArr(tdEle,1);
+
+      }
+
+
+  
+
+
+},100);*/
 
 
 });
@@ -1515,7 +1754,118 @@ updateAllArr(tdEle,1);
 }
 
 
-function initializeJqueryUnderConstruction(){
+
+function calculateTQBODN(tempQuant,tempSelectValue){
+
+           if(tempQuant == ''){
+            tempQuant = 0 ;
+           }
+          tempSelectValue = parseInt(tempSelectValue);
+
+
+          if(tempSelectValue == 2){
+            tempQuant = tempQuant/workingHoursInADay;
+
+          }
+
+           if(tempSelectValue ==3){
+            tempQuant = tempQuant/(workingHoursInADay*5);
+            if(!saturdayOffFlag){
+              tempQuant = tempQuant*5/6;
+            }
+          }
+
+          if(tempSelectValue==4){
+       tempQuant = tempQuant/(workingHoursInADay*5);
+            if(!saturdayOffFlag){
+              tempQuant = tempQuant*5/6;
+            }
+
+            tempQuant = tempQuant/4;
+
+
+
+
+        }
+
+
+  return parseInt(tempQuant);
+
+
+}
+
+
+
+
+
+function calculateTempQuantBasedOnDropDown(tempQuant,tempSelectValue){
+
+           if(tempQuant == ''){
+            tempQuant = 0 ;
+           }
+        tempSelectValue = parseInt(tempSelectValue);
+      tempQuant  =  parseInt(tempQuant);
+        
+          if(tempSelectValue == 2){
+            tempQuant = tempQuant*workingHoursInADay;
+
+          }
+          if(tempSelectValue ==3){
+            tempQuant = tempQuant*workingHoursInADay*5;
+            if(!saturdayOffFlag){
+              tempQuant = tempQuant*6/5;
+            }
+          }
+
+          if(tempSelectValue==4){
+            var startDateEle = $(tempChildrenRowId2+' td '+'input')[1];
+                startDateEle = $(startDateEle).val();
+                if(startDateEle == ''){
+                  tempQuant = 0 ;
+                }
+                else{
+          var  valstartDateEle =  startDateEle.split('/');
+          var  endDateEle      = [valstartDateEle[0],parseInt(valstartDateEle[1])+tempQuant,valstartDateEle[2]].join('/'); 
+                var tempQuant2 = tempQuant;
+                   tempQuant = getStartDateEndDateTime(startDateEle,endDateEle,true);
+                        tempQuant = (tempQuant/(3600000*24));
+                        if(saturdayOffFlag){
+                          tempQuant = tempQuant - (tempQuant2*8)
+                        }
+                        else{
+                                         tempQuant = tempQuant-(tempQuant2*4);
+                            }
+                               tempQuant = tempQuant*workingHoursInADay;
+
+                     }
+
+           
+
+          }
+
+
+
+tempChildrenRowId2 = '';
+
+
+return parseInt(tempQuant);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function initializeJqueryUnderConstruction(){           
 var dropDownSelectValue,effortQuant,endDateTimeForEffort = [];;
 $('.textBoxEffEditAddJq').focusout(function(){
        if(startDateInDatePicker=='') return;
@@ -1640,54 +1990,54 @@ if(d.length ==1){
 <body style="overflow-x:none ">
 <div class="se-pre-con"></div>
 
-<div class="row secondry-color" style=" margin-left: 0px; margin-right: 0px;padding-bottom: 2%;overflow:none ">
-	<div  style="padding-top: 17px;padding-bottom: 4px;
-" class = 'col-md-12'>
-	<!-- 	<label>Select Project</label> -->
-	<div class = 'col-md-2'>
-			Status : <b id = 'statusSub'>Draft</b>       
-		</div>
-		<div class = 'col-md-1'>
+
+<div class="col-md-12" style="background-color: antiquewhite;margin-left: 0px;padding-left: 2%;margin-right: 0px;padding-bottom: 2%;overflow:none ">
+  <div  style="padding-top: 17px;padding-bottom: 4px;" class = 'col-md-12'>
+  <!--  <label>Select Project</label> -->
+  <div class = 'col-md-2'>
+      Status : <b id = 'statusSub'>Draft</b>       
+    </div>
+    <div class = 'col-md-1'>
     <span>Project :</span>
   </div>
       <div class = 'col-md-4'>
 
-		<select class="form-control" style="width: 300px;margin-top: -1%;" id ='proSel'>
+    <select class="form-control" style="width: 300px;margin-top: -1%;" id ='proSel'>
       <%for(var i = 0;i<projectDetails.length;i++){%>
-			<option value = '<%=projectDetails[i].id%>'><%=projectDetails[i].projectTitle%></option>
+      <option value = '<%=projectDetails[i].id%>'><%=projectDetails[i].projectTitle%></option>
       <%}%>
-		</select>
-		</div>
+    </select>
+    </div>
 
     <div class = 'col-md-2'><b>Start Date :</b> <%=prStartDate%></div>
     <div class = 'col-md-2'><b>End Date :</b> <%=prEndDate%></div>
 
-	</div>
-	<div class="col-md-12" id="taskBox" style="/*height: 440px;max-height:440px;*/margin-top: 5px;margin-right: 1%;border: #f05f40 solid;background-color: white;padding-bottom: 2%;">
-		
-		<div class="addTask">
-	
-			 	<table border = '3' style = "width:100%" id = "projTable">
-			 		   <col width="40">
+  </div>
+  <div class="col-md-12" id="taskBox" style="/*height: 440px;max-height:440px;*/margin-top: 5px;margin-right: 1%;border: #f05f40 solid;background-color: white;padding-bottom: 2%;">
+    
+    <div class="addTask">
+  
+        <table border = '3' style = "width:100%" id = "projTable">
+             <col width="40">
                        <col width="10">
                        <col width="10">
                        <col width="15">
                        <col width="15">
                        <col width="5">
                        <col width="5">
-			 		<thead>
-			 			<tr id = '0_rowid_-1'>
-			 			<th style = "width:4%">#</th>
-			 			<th style = "width:35%">Name</th><th style = "width:5%"><img src="../img/bug/addbug.png" class="shadow" id = '0_add_-1' onclick="addRow(this.id)" height="18px" title="Add Phase" width="18px"><div style = 'font-size:8px;'>Add Phase</div></th><th style = "width:5%">Delete</th><th style = "width:9%">Start</th><th style = "width:9%">End</th><th style = "width:9%">Effort</th>
-			 			<th style = "width:3%"> % Completed</th>
-			 			<th style = "width:9%">Dependencies</th>
+          <thead>
+            <tr id = '0_rowid_-1'>
+            <th style = "width:4%">#</th>
+            <th style = "width:35%">Name</th><th style = "width:5%"><img src="../img/bug/addbug.png" class="shadow" id = '0_add_-1' onclick="addRow(this.id)" height="18px" title="Add Phase" width="18px"><div style = 'font-size:8px;'>Add Phase</div></th><th style = "width:5%">Delete</th><th style = "width:9%">Start</th><th style = "width:9%">End</th><th style = "width:9%">Effort</th>
+            <th style = "width:3%"> % Completed</th>
+            <th style = "width:9%">Dependencies</th>
             <th style = "width:9%">Resources</th>
-			 		</tr>
-			 		</thead>
-			 		<tbody id = 'tbody123'>
+          </tr>
+          </thead>
+          <tbody id = 'tbody123'>
 
-			 		
-		<!-- 	<tr>
+          
+    <!--  <tr>
     <td class="phase bold1"><img src="../img/project/minus.png" class="shadow" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">Fusion</td>
     <td class="images1 bold1"><img src="../img/bug/addbug.png" class="shadow" height="18px" title="Add Phase" width="18px"> </td>
     <td class="images1 bold1"><img src="../img/write.png" height="22px" class="shadow" title="Add Phase" width="22px"></td>
@@ -1760,7 +2110,7 @@ if(d.length ==1){
     <td class="dateCSS ">12/09/15</td>
     <td class="effCSS ">asdasd</td>
 
-</tr>	
+</tr> 
 <tr>
     <td class="task "><img src="../img/project/plus.png" class="shadow" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">Expense</td>
     <td class="images1 "><img src="../img/bug/addbug.png" class="shadow" height="18px" title="Add Phase" width="18px"> </td>
@@ -1769,24 +2119,24 @@ if(d.length ==1){
     <td class="dateCSS ">12/09/15</td>
     <td class="effCSS ">asdasd</td>
 
-</tr>	 -->	 		
-			 		</tbody>			 		
-			 	</table>
-			 
-			</div>
-		<div>
-		</div>	 
-	</div>
-	<!--  <div style = ''> -->
-	 <button type="button" class="btn btn-success" style=" margin-bottom: -6%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:85%;" onclick="savethis(0,1)">Save</button>
+</tr>  -->      
+          </tbody>          
+        </table>
+       
+      </div>
+    <div>
+    </div>   
+  </div>
+  <!--  <div style = ''> -->
+   <button type="button" class="btn btn-success" style=" margin-bottom: -6%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:85%;" onclick="savethis(0,1)">Save</button>
     <button type="button" class="btn btn-success" style=" margin-bottom: -1%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:91%;" onclick="savethis(1,1)">Submit</button>
 <!--     <div>
  --></body>
 </div>
 
 </html>
-		
- <% include ../partials/footer %>	
+    
+ <% include ../partials/footer %> 
  
 
    <!------------------------------editTask/addSubTask---------------------------->
@@ -1801,39 +2151,39 @@ if(d.length ==1){
                              </center>
                     </div>
                     <div class="modal-body" id="iremarkdiv" style="margin:10px;height: 300px">
-                    	<input type="text" style="margin-bottom: 5px" id="eTitle" class="form-control" placeholder="+ add title for your task">
-			 	<textarea style="float:left;width:100%;" id="eDiscription"  maxlength="10000" class='form-control description'></textarea>
-			 	<table style="width: 100%;margin-top: 5px">
-			 		<tr>
-			 			<td>
-			 				<input type="text" id="eStartDate" class="form-control date" placeholder="start date"  >
-			 			</td>
-			 			<td>
-			 				<input type="text" id="eEndDate" class="form-control date" placeholder="end date" >
-			 			</td>
-			 			<td>
-			 				<!-- <label>Phases</label> -->
-							 	<select id="ePhase" class="form-control">
-							 		<option>Phase</option>
-							 		<option>Designing</option>
-							 		<option>Development</option>
-							 	</select>
-			 			</td>
-			 			<td>
-			 				<!-- <label>Resources</label> -->
-						 	<select id="eResources" class="form-control">
-						 		<option>Resources</option>
-						 	</select>
-			 			</td>
-			 			<td>
-			 				<input type="number" id="eEffort" class="form-control" max="400" placeholder="+ effort">
-			 			</td>
-			 		</tr>
-			 	</table>
-			 	<input type="text" class="hide" id="flag" value="">
-			 	<input type="text" class="hide" id="parentRowId" value="">
-			 	<input type="text" class="hide" id="jValue" value="">
-			 	<span class="glyphicon glyphicon-floppy-disk" id="esave" title="save" data-dismiss="modal"   style="color: black;float: right;font-size: 18px;margin: 18px"></span>
+                      <input type="text" style="margin-bottom: 5px" id="eTitle" class="form-control" placeholder="+ add title for your task">
+        <textarea style="float:left;width:100%;" id="eDiscription"  maxlength="10000" class='form-control description'></textarea>
+        <table style="width: 100%;margin-top: 5px">
+          <tr>
+            <td>
+              <input type="text" id="eStartDate" class="form-control date" placeholder="start date"  >
+            </td>
+            <td>
+              <input type="text" id="eEndDate" class="form-control date" placeholder="end date" >
+            </td>
+            <td>
+              <!-- <label>Phases</label> -->
+                <select id="ePhase" class="form-control">
+                  <option>Phase</option>
+                  <option>Designing</option>
+                  <option>Development</option>
+                </select>
+            </td>
+            <td>
+              <!-- <label>Resources</label> -->
+              <select id="eResources" class="form-control">
+                <option>Resources</option>
+              </select>
+            </td>
+            <td>
+              <input type="number" id="eEffort" class="form-control" max="400" placeholder="+ effort">
+            </td>
+          </tr>
+        </table>
+        <input type="text" class="hide" id="flag" value="">
+        <input type="text" class="hide" id="parentRowId" value="">
+        <input type="text" class="hide" id="jValue" value="">
+        <span class="glyphicon glyphicon-floppy-disk" id="esave" title="save" data-dismiss="modal"   style="color: black;float: right;font-size: 18px;margin: 18px"></span>
                     </div>
                 </div>
             </div>
