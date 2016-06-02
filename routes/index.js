@@ -181,6 +181,7 @@ app.get("/userHrViewReq",url.userHrViewReq,portal.userHrViewReq,render.redirect)
 app.post("/search",portal.searchHr);
 app.post("/asearch",portal.advancesearchHr);
 app.post("/interviewerInfo",portal.interviewerInfo);
+app.get("/interview",url.interview,render.redirect);
 app.post("/updateStatusReq",portal.updateStatusReq);
 //app.get("/updateStatusReqViaMail",url.updateStatusReqViaMail,portal.updateStatusReq,render.redirect);
 app.post("/getReleventTag",portal.getReleventTag);

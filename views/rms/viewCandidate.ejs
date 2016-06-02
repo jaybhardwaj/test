@@ -322,7 +322,7 @@
             <div class="modal-dialog" style="width:100%">
                 <!-- Modal content-->
                 <center>
-                    <div class="modal-content" id="express2" style="width:1000px">
+                    <div class="modal-content" id="express2" style="width:1000px;min-height:100px">
                         <div class="modal-header" style="background-color:#f05f40;height:40px">
                             <center>
                              <h4 id="dModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px">Schedule Interview</h4>
@@ -334,11 +334,12 @@
                         </div>
                         <center>
                             <h2 id="cdtnameint" style="text-transform:capitalize;color:#f05f40;margin:5px;float:left"></h2>
+                        </center>
                             <a style="color:#f05f40;float:right;padding-right:30px;width: 100px" id="history">History<span  class='glyphicon glyphicon-plus' style="padding-left:4%" ></span></a>
                             <div id='taggedInMulJd'></div>
-                        </center>
                         
-                        <div id="showhistorydiv" style="border:solid 2px #f05f40;margin:20px 10px 0px 10px;overflow-x:scroll;overflow-y:scroll;max-width:100%;max-height:300px">
+                        
+                        <div id="showhistorydiv" style="border:solid 2px #f05f40;margin:30px 22px -2px;overflow-x:scroll;overflow-y:scroll;max-width:100%;max-height:300px;min-height:70px">
                             <table style="margin:10px;float:left">
                                 <tbody id="historytable">
                                 </tbody>
@@ -347,7 +348,7 @@
 
                         <div style="margin:10px">
                             <div id="schedulediv">
-                                <form action="/scheduleInterview" method="post">
+                                <form action="/scheduleInterview" method="post" >
                                     <table style="width:100%">
                                         <tr>
                                             <td>
@@ -357,7 +358,7 @@
                                           </td>
                                             <td>
                                                  <label>State<sup class="astrick">*</sup></label>
-                                                    <select id="schstate" class="form-text-box" style="width:95%" name="schstate"></select>
+                                                    <select id="schstate" class="form-text-box schstate" style="width:95%" name="schstate"></select>
                                             </td>
                                             <td id="statusTd" class="hide">
                                               <label>Status<sup class="astrick">*</sup></label>
@@ -549,10 +550,7 @@
 
                         $("#intremark").click(function() {
                             $('#intremark').addClass("used");
-                        });
-
-
-
+                        }); 
                         $(".closeedit").click(function() {
                             $('#edit').modal("hide");
                         });
@@ -596,7 +594,7 @@
                                 for (var i = 0; i < data.length; i++) {
                                     countTag[data[i].id] = data[i].countTag;
 
-                                    var sicon = "<a data-toggle='modal' data-target='#schedule' onclick='scheduleInfo(" + data[i].id + ")'> <span  class='glyphicon glyphicon-dashboard' style='color:#06394A;height:10px;cursor:pointer'title ='Schedule Interview' > </a>";
+                                    var sicon = "<a data-toggle='modal' data-target='#schedule' onclick='scheduleInfo(" + data[i].id + ")'> <span  class='glyphicon glyphicon-dashboard' style='color:#06394A;height:10px;cursor:pointer' title ='Schedule Interview/View History' > </a>";
 
                                     var skl = data[i].skills;
                                     if (data[i].stateName == null || data[i].stateName == 0) {
@@ -790,7 +788,7 @@
                     }
                     //-------------------show Schedule INFO---------------------
                     function scheduleInfo(id) {
-
+                      getreleventState();
                         $("#showhistorydiv").hide();
                         $.ajax({
                             url: '/getscheduleInfo',
@@ -812,6 +810,7 @@
                                 for (var i = 0; i < data[0].length; i++) {
                                     $('#schtaggedJd').append("<option value='" + data[0][i].jdID + "''>" + data[0][i].title + "</option>");
                                 }
+
                                 $('#interviewer').html('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data[2].length; i++) {
                                     $('#interviewer').append("<option value='" + data[2][i].id + "''>" + data[2][i].firstName + "</option>");
@@ -822,6 +821,8 @@
                                 }
 
 
+
+
                                 //--------------------History Table...............................................
                                 $('#historytable').html('');
                                 var t = 0;
@@ -829,6 +830,7 @@
                                 var jdtemp = [];
                                 var jdcount = [];
                                 var temparr = [];
+                                var lastDate;
                                 // .............storing all jd title.........
                                 for (var i = 0; i < data[5].length; i++) {
                                     // alert(data[5][i].title);
@@ -856,6 +858,7 @@
                                           data[5][t].firstName="HR";
                                         }
                                         var date = data[5][t].date;
+                                        lastDate=date;
                                         date = date.slice(0, 10);
                                         if (data[5][t].interviewerRemarks != null) {
                                             data[5][t].interviewerRemarks = JSON.stringify(data[5][t].interviewerRemarks);
@@ -866,20 +869,56 @@
                                         if (data[5][t].statusName == 'Pending') {
                                             deleteString = '<i class="glyphicon glyphicon-trash" id = "trash_' + i + '_' + j + '" title = "delete schedule" style="color:#06394A;float:right" onclick = "deleteHistory(' + data[5][t].id + ',this.id)" ></i>';
                                         }
+                                    
+                                        if(data[5][t].stateId==6&&data[5][t].statusID==5){
+                                         
+                                          $("#dModalHeading").html("Candidate Joined");
+                                          $("#schedulediv").addClass("hide");
+                                           $('#history').click();
+                                        } 
+                                        else{
+                                          $("#dModalHeading").html("Schedule Interview");
+                                          $("#schedulediv").removeClass("hide");
+                                        }
+
+                                       if(data[5][t].stateId!=4){
+                                           $("#schstate option[value=6]").hide();
+                                          $("#schstate option[value=5]").hide();
+                                        }
+
+                                     
                                         $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + deleteString + '</div><div style="font-size:10px">By- ' + data[5][t].firstName + '</div><div style="font-size:10px">On -' + date + '</div></div></td>');
+                                 
                                         t++;
                                         clr++;
                                         if (clr == 5)
                                             clr = 0;
+
+                                        
+
                                     }
                                     $('#historytable').append("</tr><tr style='height:3px'><td></td><td></td><td></td>)<td></td>;<td></td><td></td> <td></td> <td></td> <td></td><td></td> <td></td> </tr>");
+
+
+                                   
+
                                 }
+
+                                var todate=new Date();
+                                lastDate=new Date(lastDate);
+                                if(data[5].length){
+                                  todate=lastDate;
+                                } 
+                                $('#intdatetime').datetimepicker({
+                                   minDate:todate
+                                });
+
 
 
                                 $('#schtaggedJd').val(data[0][0].jdID);
                                // $("#schtaggedJd").trigger("chosen:updated");
                                 $('#schtaggedJd').addClass('used');
-                                getreleventState();
+                                
 
                             }
                         });
@@ -1495,10 +1534,10 @@ var id = e.options[e.selectedIndex].value;*/
                         forceParse: 0,
                             showMeridian: 1
                         });*/
-                    var todate=new Date();
+                   /* var todate=new Date();
                     $('#intdatetime').datetimepicker({
                        minDate:todate
-                    });
+                    });*/
                 </script>
 
                 </body>

@@ -838,8 +838,9 @@ hr:function(req,res,next){
 		if(req.session.hrRole){
 			if (req.session.hrRole != 4) {
 			 	req.page="dashboard";	       
-		    } else {
-		    	req.page="interview";		       
+		    } 
+		    else{
+		    	req.page="interview";
 		    }
 		}
 		else{	
@@ -856,6 +857,15 @@ hr:function(req,res,next){
 		 if(req.session.modules.indexOf(config.RMS)>=0){
 		req.page="raiseRequisition";
 		next();}
+		else{
+			res.redirect('/portal');
+		}
+	},
+	interview:function(req,res,next){
+		 if(req.session.modules.indexOf(config.RMS)>=0){
+			req.page="interview";
+			next();
+		}
 		else{
 			res.redirect('/portal');
 		}
