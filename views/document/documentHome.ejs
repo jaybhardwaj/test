@@ -95,6 +95,12 @@
     .labelclass{
         position:relative;top:10%;margin-top:-10px;margin-left:0%
     }    
+    .sol-inner-container{
+
+    height: 23px;
+
+
+    }
 </style>
 
 
@@ -109,8 +115,8 @@
 
   <% include ../partials/adminheader %>
         <% include headerDoc.ejs %>
-<body style="overflow-y:none"> 
-<div class="row secondry-color" style="margin-top:2%;overflow-y:none">
+<body style="overflow-x:hidden"> 
+<div class="row secondry-color" style="margin-top:2%">
 <div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);width:280px;
     height:auto;padding:10px;min-height: 780px;">
 <div class="" style="padding-left: 7%;margin-top:-1%"><b> Search By :</b></div>
@@ -118,7 +124,7 @@
                     <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                         <div class="row labelclass form-Label" style=""><b>Industry:</b>
                         </div>
-                        <div class="">
+                        <div class="form-Label">
                             <select id="select1" multiple="multiple" required name="industry1">
                               <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
                             <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
@@ -131,7 +137,7 @@
 
                     <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                         <div class="row labelclass form-Label" style=""><b>Business:</b></div>
-                        <div class="">
+                        <div class="form-Label">
                             <select id="select2" multiple="multiple" required name="business1">
                                  <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][0].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
@@ -143,7 +149,7 @@
                     <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                         <div class="row labelclass form-Label" style=""><b>Document type:</b></div>
 
-                        <div class="">
+                        <div class="form-Label">
                             <select id="select3" multiple="multiple" required name="doctype">
                                             <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
                             <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
@@ -156,7 +162,7 @@
 
                     <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                         <div class="row labelclass form-Label" style=""><b>Technology :</b></div>
-                        <div class="">
+                        <div class="form-Label">
                             <select id="select4" multiple="multiple" required name="newTec1">
                                              <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][0].Active==1){%>
                             <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
@@ -168,7 +174,7 @@
                     <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                         <div class="row labelclass form-Label" style=""><b>Restriction Level:</b>
                         </div>
-                        <div class="">
+                        <div class="form-Label">
                             <select id="select5" multiple="true" required name="rLevel1">
                                          <%for(var i=0;i<restriction[0].length;i++){%>
                                         <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
@@ -243,9 +249,9 @@
                 </div>
 
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                    <div class="row labelclass form-Label" style=""><b>Industry:<sup style="color:red;">*</sup></b></div>
-                    <div class="">
-                     <%if(industry[0].length>0){%>  <input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"></input><%}%>
+                    <div class="row labelclass form-Label" ><b>Industry:<sup style="color:red;">*</sup>
+                    
+                     <%if(industry[0].length>0){%><input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"></input><%}%>
                         <select id="my-select1" multiple="multiple" required name="industry">
                            <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
                             <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
@@ -257,7 +263,7 @@
 
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="row labelclass form-Label" style=""><b>Business:<sup style="color:red;">*</sup></b></div>
-                    <div class="">
+                    <div class="form-Label">
                         <%if(business[0].length>0){%> <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>"></input>  <%}%>
                         <select id="my-select2" multiple="multiple" required name="business">
                             <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
@@ -269,7 +275,7 @@
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="row labelclass form-Label" style=""><b>Document type:<sup style="color:red;">*</sup></b></div>
 
-                    <div class="">  <%if(document[0].length>0){%>
+                    <div class="form-Label">  <%if(document[0].length>0){%>
                         <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>"></input>   <%}%>
                         <select id="my-select3" multiple="multiple" required name="doctype">
                                          <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
@@ -281,7 +287,7 @@
                 </div>
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="row labelclass form-Label" style=""><b>Technology :<sup style="color:red;">*</sup></b></div>
-                    <div class=""><%if(technology[0].length>0){%>
+                    <div class="form-Label"><%if(technology[0].length>0){%>
                         <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"></input><%}%>
                         <select id="my-select4" multiple="multiple" required name="newTec">
                                              <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
@@ -294,9 +300,9 @@
                     <div class="row labelclass form-Label" style="">
                         <b>Restriction Level:<sup style="color:red;">*</sup></b>
                     </div>
-                    <div class="">
+                    <div class="form-Label">
                         <input type="hidden" id="<%=restriction[0][0].id%>" required name="rLevelhide" value="<%=restriction[0][0].id%>"></input>
-                        <select id="my-select5" required name="rLevel" class="form-control"style="font-size: 12px;">
+                        <select id="my-select5" required name="rLevel" class="form-control form-Label" style="padding: 3px;">
                              <%for(var i=0;i<restriction[0].length;i++){%>
                             <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                             <%}%>
@@ -338,7 +344,7 @@
                             <label style="line-height:42px !important;"> Author Name:</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="label" maxlength="45" class="form-control" id="authname" style="width:" name="fname" readonly />
+                       <input type="label" maxlength="45" class="form-control" id="authname" style="width:" name="fname" readonly />
                         </div>
                     </div>
 
