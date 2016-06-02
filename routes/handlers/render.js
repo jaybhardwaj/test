@@ -654,6 +654,19 @@ module.exports = {
 	            });
             break;
 
+
+            case 'projStatus':
+             res.render('project/projStatus', {	               
+                role: req.session.roleId,
+                Name: ' ',
+                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
+	                defaultModule:req.session.defaultModule,effProjectCalculations:req.effProjectCalculations,
+                     projectDetails:req.projectDetails
+	            });
+
+             break;
+
 			default:
 				next();
 		}

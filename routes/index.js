@@ -208,6 +208,7 @@ app.get('/resourceView',url.resource,portal.getAllResources,render.redirect);
 app.post('/projectByResource',portal.projectByResource);
 app.post('/emptyProj',portal.emptyProj);
 app.post('/saveTask',portal.saveTask);
+app.get('/projStatus',url.projStatus,portal.projStatus,render.redirect);
 
 
 //-------------------------Admin Routes----------------------------------------------------

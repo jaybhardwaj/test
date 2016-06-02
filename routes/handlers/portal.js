@@ -1435,6 +1435,7 @@ Docmaster:function(req,res,next){
                  if (err) {
                      next(err);
                  } else { 
+
                      req.projectResults=result[0];
 
              next();
@@ -4527,6 +4528,7 @@ console.log('sendMailClient',req.body)
                 if(req.prId==req.projectDetails[i].id){
                     req.prStartDate = req.projectDetails[i].plannedStartDate;
                     req.prEndDate   = req.projectDetails[i].plannedEndDate;
+                    console.log('prStartDate',req.prStartDate,'prEndDate',req.prEndDate);
                      if(req.prStartDate){
                         var temp = '';
                         req.prStartDate = req.prStartDate.split('/');
@@ -4542,15 +4544,14 @@ console.log('sendMailClient',req.body)
                         req.prEndDate[1] = temp;
                         req.prEndDate = req.prEndDate.join('/');
                            }
-
-
- }
-                    break;
+                            break;
+                      }
+                   
 
                 }
 
             
-            console.log('alldata here',req.treeComponent,req.maxid,req.minid);
+           // console.log('alldata here',req.treeComponent,req.maxid,req.minid);
                         next();
                 } 
         });
@@ -4581,6 +4582,49 @@ modelPortal.emptyProj(req.body.projectid,function(err,result){
 
 
 },
+
+
+projStatus :function(req,res,next){
+    console.log(req.session.retailerId);
+modelPortal.projStatus(req.session.retailerId,function(err,result){
+            if(err){
+             console.log("there is an error",err);
+            }   
+            else{
+
+
+                  req.projectDetails = result[0];
+                   req.effProjectCalculations = getDateTime(result[1],result[0].length);
+                   console.log('***********',req.effProjectCalculations);
+                
+                    next();
+
+                 
+                } 
+        });
+
+
+
+
+},
+
+getAllTreeForProjStatus:function(req,res,next){
+
+modelPortal.getAllTreeForProjStatus(req.body.proId,function(err,result){
+            if(err){
+             console.log("there is an error",err);
+            }   
+            else{
+        
+                  res.json(result[0]);
+
+                 
+            } 
+        });
+
+
+
+}
 
 
      
@@ -5287,3 +5331,222 @@ function blankentry(targetPath, req) {
 
 
 }
+
+
+function getDateTime(timeStamp,dateTimeLength) {
+    var originalArr = [[],[]];
+
+
+
+     for(var i = 0;i<2;i++){
+      for(var j =0;j<dateTimeLength+1;j++){
+           originalArr[i].push(0);
+
+    }
+
+ }
+
+for(var i=0;i<timeStamp.length;i++){
+
+    console.log('StartDate is ',timeStamp[i].startDate,'endDate is',timeStamp[i].endDate);
+    //if()
+}
+
+    /*****************Today date Calculation**************************/
+    var nowDateTime = new Date();
+ var nowDateTimeForEmptyStartEndDate = nowDateTime;
+    var nowDateTimeArr = [];
+    nowDateTimeArr[0] = nowDateTime.getDate();
+    nowDateTimeArr[1] = nowDateTime.getMonth();
+    nowDateTimeArr[2] = nowDateTime.getFullYear();
+    nowDateTime = new Date(nowDateTimeArr[2], nowDateTimeArr[1], nowDateTimeArr[0]);
+    nowDateTime = nowDateTime.getTime();
+    var dateinDDMMYYFormat =  nowDateTimeArr[0] +'/' + (nowDateTimeArr[1] +1) + '/' + nowDateTimeArr[2]; 
+
+
+
+
+
+    /********************************Actual completetion********************************/
+
+    var compInc = 0;
+    var completeArr = setAllValuesInArray();
+    var sumEff = 0;
+
+    for (var inc = 0; inc < timeStamp.length; inc++) { //if-else
+
+           if(inc!=timeStamp.length-1){
+        while (timeStamp[inc].project == timeStamp[inc+1].project) {
+
+           
+                // console.log('completeArr[compInc] is',completeArr[compInc],'timeStamp[inc].percCompleted is',timeStamp[inc].percCompleted,'effortInDays is',timeStamp[inc].percCompleted);
+
+            completeArr[compInc] = completeArr[compInc]+ (parseInt(timeStamp[inc].percCompleted) *parseInt(timeStamp[inc].effortInDays)) ;
+            sumEff = sumEff + parseInt(timeStamp[inc].effortInDays);
+
+     console.log('In while____ inc is', inc,'id is', timeStamp[inc].id,' completeArr['+compInc+'] is ',completeArr[compInc],'sumEff is',sumEff,'effort in days',timeStamp[inc].effortInDays);
+
+          
+
+            if (inc == timeStamp.length - 1) {
+                break;
+            }
+
+            inc++;
+
+}
+
+}
+
+
+
+ if (inc != timeStamp.length - 1) {
+  sumEff = sumEff + timeStamp[inc].effortInDays;
+ completeArr[compInc] = (completeArr[compInc]+ parseInt(timeStamp[inc].percCompleted)*parseInt(timeStamp[inc].effortInDays))/sumEff;
+
+if(isNaN(completeArr[compInc])){  console.log('In Nan if inc is',parseInt(timeStamp[inc].project));  completeArr[compInc] = 0; }
+console.log('In if inc is', inc, 'id is',timeStamp[inc].id,'completeArr['+compInc+'] is',completeArr[compInc],'sumEff is',sumEff,'effort in days',timeStamp[inc].effortInDays);
+ originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
+        
+        compInc++;
+        sumEff = 0;
+     //   inc++;
+}
+
+else{
+
+ completeArr[compInc] = completeArr[compInc]/sumEff;
+
+
+if(isNaN(completeArr[compInc])){  console.log('In Nan else inc is',parseInt(timeStamp[inc].project));  completeArr[compInc] = 0; }
+
+
+
+  originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
+console.log('In else inc is', inc, 'id is',timeStamp[inc].id,'completeArr['+compInc+'] is',completeArr[compInc],'sumEff is',sumEff,'effort in days',timeStamp[inc].effortInDays);
+ inc++
+         
+}
+
+
+
+
+    }
+
+
+    for(var inc=0;inc<completeArr.length;inc++){
+        if(isNaN(completeArr[inc])){
+            completeArr[inc] = 0;
+        }
+    }
+
+
+
+
+    /******************Asli Estimated Calculation***************************/
+        var sumEff = 0,sumEffTotal = 0 ;
+   for (var inc = 0; inc < timeStamp.length; inc++) {
+
+  if(inc!=timeStamp.length-1){
+     while(timeStamp[inc].project==timeStamp[inc+1].project){
+
+    sumEff =   sumEff +  getEffNumberOfDays(dateinDDMMYYFormat,timeStamp[inc].startDate);
+sumEffTotal = sumEffTotal + getEffNumberOfDays(timeStamp[inc].endDate,timeStamp[inc].startDate);
+    inc++;
+   if(inc==timeStamp.length-1){break;}
+                        }
+                  }
+
+if(inc==timeStamp.length-1){
+   sumEff =   sumEff +  getEffNumberOfDays(dateinDDMMYYFormat,timeStamp[inc].startDate);
+sumEffTotal = sumEffTotal + getEffNumberOfDays(timeStamp[inc].endDate,timeStamp[inc].startDate);
+console.log('In if sumEff is',sumEff,'sumEffTotal is',sumEffTotal);
+originalArr[0][parseInt(timeStamp[inc].project)] = (sumEff/sumEffTotal)*100 ;
+
+  }
+
+  else{
+
+       sumEff =   sumEff +  getEffNumberOfDays(dateinDDMMYYFormat,timeStamp[inc].startDate);
+   sumEffTotal = sumEffTotal + getEffNumberOfDays(timeStamp[inc].endDate,timeStamp[inc].startDate);
+   console.log('In else sumEff is',sumEff,'sumEffTotal is',sumEffTotal);
+
+    originalArr[0][parseInt(timeStamp[inc].project)] = (sumEff/sumEffTotal)*100 ;
+     sumEff = 0;
+    sumEffTotal =0;
+
+  }
+
+
+}
+             
+
+
+
+
+
+for(var i =0;i<2;i++){
+for(var j = 0;j<originalArr[i].length;j++){
+  if(isNaN(originalArr[i][j])){
+    
+    originalArr[i][j]  = 0;
+}
+
+
+ if(originalArr[i][j]==Infinity||originalArr[i][j]>100){
+    
+    originalArr[i][j]  = 100;
+}
+
+originalArr[i][j] = Math.round(originalArr[i][j]*100)/100;
+
+}
+
+}
+
+
+
+
+   return originalArr;
+
+}
+
+
+function getEffNumberOfDays(EndDateTime,StartDateTime){
+var EndDateTimeValue =  EndDateTime.split('/');
+var StartDateTimeValue = StartDateTime.split('/');
+if(EndDateTimeValue.length<3||StartDateTimeValue.length<3){
+    return 0;
+} 
+if(StartDateTimeValue[2].length==2){ StartDateTimeValue[2] = '20' + StartDateTimeValue[2];}
+if(EndDateTimeValue[2].length==2){ EndDateTimeValue[2] = '20' + EndDateTimeValue[2];}
+
+
+var endDateTimeInTime = new Date(parseInt(EndDateTimeValue[2]),parseInt(EndDateTimeValue[1]), parseInt(EndDateTimeValue[0]));
+    endDateTimeInTime = endDateTimeInTime.getTime();
+
+    var StartDateTimeInTime =   new Date(parseInt(StartDateTimeValue[2]),parseInt(StartDateTimeValue[1]), parseInt(StartDateTimeValue[0]));
+       StartDateTimeInTime  = StartDateTimeInTime.getTime();
+
+
+   console.log('EndDateTimeInTime is',endDateTimeInTime,'StartDateTimeInTime is',StartDateTimeInTime,'diff is',endDateTimeInTime-StartDateTimeInTime);
+
+if((endDateTimeInTime-StartDateTimeInTime)<0){
+return 0;
+}
+return (endDateTimeInTime - StartDateTimeInTime);
+
+
+
+}
+
+
+
+function setAllValuesInArray(){
+    var arr = [];
+for(var i = 0;i<100000;i++){
+    arr[i] = 0;
+}
+return arr;
+}
+

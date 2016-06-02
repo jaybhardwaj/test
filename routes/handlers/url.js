@@ -983,5 +983,9 @@ hr:function(req,res,next){
 error:function(req,res,next){
 		req.page = 'errorSWW';
     	next();
+	},
+  projStatus:function(req,res,next){
+		req.page = 'projStatus';
+    	next();
 	}
 }

@@ -3067,7 +3067,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                 //console.log(err);
             }
             else {
-                console.log(q,result);
+                //console.log(q,result);
           
             callback(err,result);
             }
@@ -3115,7 +3115,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
        var q ={
           sql: 'call usp_addNewModules(?,?,?,?)',
         values: [userid,roleid,retailerid,modules]
-       
+        
         };
         mysql(q, function(err, result) {
             if (err) {
@@ -3127,5 +3127,45 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                callback(err,result);
             }
         });         
-    }                                
+       
+
+    },
+
+     projStatus :function(retailerId,callback){
+    
+    var q ={
+          sql: 'call usp_getProjStat(?)',
+        values: [retailerId]
+        };
+        mysql(q, function(err, result) {
+            if (err) {
+                console.log(err,q);
+            }
+            else {
+            console.log(q,result);
+          
+               callback(err,result);
+            }
+        });         
+    },                                
+
+
+    getAllTreeForProjStatus: function(proId,callback){
+    
+    var q ={
+          sql: 'call usp_getAllTreeForProjStatus(?)',
+        values: [proId]
+        };
+        mysql(q, function(err, result) {
+            if (err) {
+                console.log(err,q);
+            }
+            else {
+           
+           callback(err,result);
+          }
+        });         
+    }
+
+
 }
