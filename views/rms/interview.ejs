@@ -3,7 +3,7 @@
  <link rel="stylesheet" type="text/css" href="../public/bower_components/bootstrap-calendar/css/calendar.css">
  <link rel="stylesheet" type="text/css" href="../public/bower_components/bootstrap-calendar/css/calendar.min.css">
  <link rel="stylesheet" type="text/css" href="../public/bower_components/bootstrap-calendar/components/bootstrap2/css/bootstrap-responsive.css">
-   <script>
+  
  <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
@@ -45,6 +45,7 @@ a:hover{
 <div class="page-header ">
 
     <div class="pull-right form-inline" style="margin-top: 0px;">
+
       <div class="btn-group">
         <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
         <button class="btn" data-calendar-nav="today">Today</button>
@@ -57,12 +58,13 @@ a:hover{
         <button class="btn btn-warning" data-calendar-view="day">Day</button>
       </div>
     </div>
-    <h3></h3>
+    <h3 ></h3>
+    <small></small>
   </div>
+    <div class="span9">
+      <div id="calendar"></div>
+    </div>
 
-<div class="row" style="margin-top: 50px;">
-  <div id="calendar"></div>
-</div>
 </div>
 </div>
 </div>
@@ -78,7 +80,7 @@ a:hover{
         url: '/interviewerInfo',
         type: 'post',
         success: function(data) {
-        console.log("Data for this interviewer: ",data);
+       
 var info=[];
 
     for(var i=0;i<data[0].length;i++){
@@ -112,6 +114,7 @@ else{
     var $this = $(this);
     $this.click(function() {
         calendar.navigate($(this).data('calendar-nav'));
+         console.log("Data for this nav: ",calendar.navigate($(this).data('calendar-nav')));
     });
 });
 
@@ -119,6 +122,7 @@ $('.btn-group button[data-calendar-view]').each(function() {
     var $this = $(this);
     $this.click(function() {
         calendar.view($this.data('calendar-view'));
+        console.log("Data for this canlender: ",calendar.view($this.data('calendar-view')));
     });
 });
 
@@ -126,6 +130,7 @@ $('#first_day').change(function(){
     var value = $(this).val();
     value = value.length ? parseInt(value) : null;
     calendar.setOptions({first_day: value});
+    console.log("firstday",value);
     calendar.view();
 });
 
