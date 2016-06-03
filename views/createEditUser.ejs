@@ -129,7 +129,7 @@
             </td>
             <td>
               <td><label class="form-Label">Contact Number: </label></td>
-              <td><input type="text" maxlength="11"  class="form-text-box" id="contact-number" name="contact-number" placeholder="Contact Number" /></td>
+              <td><input type="text" maxlength="15"  class="form-text-box" id="contact-number" name="contact-number" placeholder="Contact Number" /></td>
             </td>
           </tr>
           <tr>
@@ -336,7 +336,7 @@
                        <%}%> 
                       </select>
                     </div>
-                    <div class="col-md-6 a">
+                    <div class="col-md-2 a">
                           <select class="form-text-box"  style="" id='hodList' name="hodList" style="">
                               <option selected="true" value="0">--Select Hod--</option>
                             <%for(var i=0;i<allHod.length;i++){%>
@@ -737,23 +737,20 @@ function getDefaultModule(){
             }
     }
     function checkFinal(){
-            if($("#isClient").val()=='1' && $("#clientId").val()=='0'){
-                alert('Error:In Role Details ,Client is required');
-                return false;
-            }
-            else if($("#hrRole").val()=='3' && $("#hodList").val()=='0'){
+          
+             if(($("#hrRole").val()=='3') &&( $("#hodList").val()=='0') && ($('#modules').val().indexOf("7")>=0)){
                 alert('Error:In Role Details ,HOD is required');
                 return false;
             }
-            else if($("#expense").val()=='1' && $("#inNum").val()==''){
+            else if(($("#expense").val()=='1') && ($("#inNum").val()=='') && ($('#modules').val().indexOf("3")>=0)){
                  alert('Error:In Role Details , Expense limit is required');
                 return false;
             }
-            else if($("#expense").val()=='1' && $("#inNum").val()==0){
+            else if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
                 alert('Error:In Role Details , Expense limit should be greated than 0');
                 return false;
               } 
-            else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)){
+            else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)&& ($('#modules').val().indexOf("2")>=0)){
                     alert('Error:Enter Billrate greater than zero');
                     return false;
             }
@@ -780,21 +777,21 @@ function getDefaultModule(){
           pressButton=4;  
           subFlag=0;
           var abc=validBasicInfo();
-          if((abc)&&(check)){
+          if((abc)&&(check)||($('#modules').val().indexOf("3")>=0)){
               if($("#expense").val()=='1' && $("#inNum").val()==''){
                 alert('Error:Expense limit is required');
                 return false;
               }
-              if($("#expense").val()=='1' && $("#inNum").val()==0){
+              if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
                 alert('Error:Expense limit should be greated than 0');
                 return false;
               }
-                if($("#isClient").val()=='1' && $("#clientId").val()=='0'){
+                if(($("#isClient").val()=='1') && ($("#clientId").val()=='0')&&($('#modules').val().indexOf("2")>=0)){
                 alert('Error:Client is required');
                 return false;
               }
                
-                if($("#hrRole").val()=='3' && $("#hodList").val()=='0'){
+                if(($("#hrRole").val()=='3') && ($("#hodList").val()=='0')&&($('#modules').val().indexOf("7")>=0)){
                 alert('Error:HOD is required');
                 return false;
               }
@@ -809,7 +806,7 @@ function getDefaultModule(){
               subFlag=0;
               pressButton=2;
               var abc=validBasicInfo();
-              if((abc)&&(check)){
+              if((abc)&&(check)&& ($('#modules').val().indexOf("3")>=0)){
                    if($('#isbill').val()==1){
                     
                       if($('#billrate').val().length<1){
@@ -826,7 +823,6 @@ function getDefaultModule(){
      function validHr(){
       pressButton=3;
       var abc=validBasicInfo();
-      console.log("mayur abc ",abc);
       subFlag=100;
       var text = $('#doj').val();
       var comp = text.split('/');
@@ -858,20 +854,22 @@ function getDefaultModule(){
       }
     function addUser(temp) {
  
-      if($('#modules').val().indexOf("2")>=0){
-
+      if($('#modules').val().indexOf("2")<0){
+          $("#time").val('0');
       }  
-      if($('#modules').val().indexOf("3")>=0){
-        
+      if($('#modules').val().indexOf("3")<0){
+         $("#expense").val('0');
+          $("#inNum").val('0');
       }
-      if($('#modules').val().indexOf("6")>=0){
-        
+      if($('#modules').val().indexOf("6")<0){
+        $("#crole").val('0');
       }
-      if($('#modules').val().indexOf("7")>=0){
-        
+      if($('#modules').val().indexOf("7")<0){
+        $("#hrRole").val('0');
+        $("#hodList").val('0');
+        $("#hodList").addClass('hide');
       }
       var modules=$('#modules').val().toString();
-      alert(modules);
          $.ajax({
             url: '/addUser',
             method: 'POST',
