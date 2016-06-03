@@ -277,7 +277,7 @@
                         <center>
                             <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;width:auto;margin-top:-5px"><b>Tag Candidate</b>
                         </center>
-                     <span id="closeedit"  class='close closeedit' onclick=" " data-dismiss="modal" style='float:right;margin-top:-26px'title ='Close' > &times;  </span>
+                     <span id="closeedit"  class='close closeedit' onclick='window.location.href="/viewCandidate"' data-dismiss="modal" style='float:right;margin-top:-26px'title ='Close' > &times;  </span>
                     </div>
 
                     <center id="cdtname" style="text-transform:capitalize;color:black;padding-bottom:5px">                        
@@ -789,6 +789,10 @@
                     //-------------------show Schedule INFO---------------------
                     function scheduleInfo(id) {
                       getreleventState();
+                      
+                       $("#schstate option[value=6]").hide();
+                       $("#schstate option[value=5]").hide();
+
                         $("#showhistorydiv").hide();
                         $.ajax({
                             url: '/getscheduleInfo',
@@ -843,8 +847,7 @@
                                 for (var i in temparr) {
                                     jdcount.push(temparr[i]);
                                 }
-                                console.log("JDTEMP", jdtemp);
-                                console.log("JDCOUNT", jdcount);
+                        
                                 for (var i = 0; i < jdcount.length; i++) {
                                     $('#historytable').append("<tr>");
                                     var temp = 0;
@@ -870,8 +873,7 @@
                                             deleteString = '<i class="glyphicon glyphicon-trash" id = "trash_' + i + '_' + j + '" title = "delete schedule" style="color:#06394A;float:right" onclick = "deleteHistory(' + data[5][t].id + ',this.id)" ></i>';
                                         }
                                     
-                                        if(data[5][t].stateId==6&&data[5][t].statusID==5){
-                                         
+                                        if(data[5][t].stateId==6&&data[5][t].statusID==5){ 
                                           $("#dModalHeading").html("Candidate Joined");
                                           $("#schedulediv").addClass("hide");
                                            $('#history').click();
@@ -880,10 +882,10 @@
                                           $("#dModalHeading").html("Schedule Interview");
                                           $("#schedulediv").removeClass("hide");
                                         }
-
-                                       if(data[5][t].stateId!=4){
-                                           $("#schstate option[value=6]").hide();
-                                          $("#schstate option[value=5]").hide();
+                                        
+                                       if(data[5][t].stateId==4){ 
+                                           $("#schstate option[value=6]").show();
+                                          $("#schstate option[value=5]").show();
                                         }
 
                                      

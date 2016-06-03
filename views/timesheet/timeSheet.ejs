@@ -22,6 +22,17 @@
               height:auto; 
               width:977px;
             }
+            .heart {
+                font-size: 150px;
+                color: #e00;
+                animation: beat .25s infinite alternate;
+                transform-origin: center;
+            }
+
+            /* Heart beat animation */
+            @keyframes beat{
+                to { transform: scale(1.4); }
+            }
         </style>
         <script>
             var new1;
@@ -403,7 +414,7 @@
                 for (var j = 0; j <= no_of_asgmnt + 1; j++) {
 
                     if (j == 0) {
-                        a1 = a1 + '<tr style="color:#10104E;font-size: 13px;font-weight:700;"><td style="max-width:200px"><input type="text"  style="width:200px;height:49px; text-align: center; " value="Assignment" disabled></input></td>';
+                        a1 = a1 + '<tr style="  ;font-size: 13px;font-weight:700;"><td style="max-width:200px"><input type="text"  style="width:200px;height:49px; text-align: center; " value="Assignment" disabled></input></td>';
                         a3 = a3 + '<td><input type="text" style="width:60px; height:49px;text-align:center;" value="Total" disabled></input></td></tr>';
 
                         if (ftdy) {
@@ -456,13 +467,13 @@
                         a = a + '';
                      
                         if (i == 0 && j < no_of_asgmnt /*&& j>0*/ ) {
-                            b = b + '<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px; background-color:rgba(125, 51, 61, 0); color: rgb(254, 254, 254);" value="' + curr_wbsnm[j] + '" disabled></input></td>';
+                            b = b + '<td style="max-width:200px;"><input type="hidden" id="id' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px;text-align:center;background-color:#d0eaf0" value="' + curr_wbsnm[j] + '" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt) {
-                            b = b + '<td style="max-width:200px"><input type="hidden" id="id' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></input></td>';
+                            b = b + '<td style="max-width:200px;font-weight:700"><input type="hidden" id="id' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt + 1) {
-                            b = b + '<td style="max-width:200px"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Work Schedules" disabled></input></td>'
+                            b = b + '<td style="max-width:200px;font-weight:700"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Work Schedules" disabled></input></td>'
                         }
                         if (i < 31 && j == no_of_asgmnt + 1) {
                             a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
@@ -472,7 +483,7 @@
                             a = a + ' <td><input disabled id="id' + i + '' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center;" onkeypress="return isNumber(event)"></input> </td>'
                         } else
                         if (i == temp + 1) {
-                            a = a + '<td><input id="id' + i + '' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" onkeypress="return isNumber(event)"></input> </td> '
+                            a = a + '<td><input id="id' + i + '' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center;  ;font-weight:700" value="0" onkeypress="return isNumber(event)"></input> </td> '
                         } else {
                             a = a + '<td><input  id="id' + i + '' + j + '" type="number"  class="abc numeric clearAllfield"  style="width:60px; text-align:center; " value="" onKeyUp="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
                         }
@@ -509,53 +520,68 @@
 </head>
 
 <body style=" ">
-    <div   class="secondry-color">
+    <div   class="secondry-color" style="margin-top:-5px;margin-bottom:0px">
 
-        <div class="hide col-md-12" id="OtherEmp" style=" margin-bottom:0%; background-color:rgba(51, 60, 125, 0.62);">
-
-            <div class="col-md-2">
-                <select style="" class="form-control" id="dropuserdata" onClick="DropdownUsers()">
-                 
-          </select>
+        <div class="hide row sub-header" id="OtherEmp" style=" margin-bottom:0%; margin-top:0px">
+            <div class="col-md-1"></div>
+            <div class="col-md-1" style="text-align:center">
+                <select   class="form-text-box" id="dropuserdata" style="width:162px" onchange="DropdownUsers()">
+                </select>
             </div>
-            <a href="/timesheet"><button type="button" style="float:right;font-size:10px;margin-top: 3px;" class="btn btn-primary" >Own TimeSheet</button></a>
-
+            <div class="col-md-9">
+                
+            </div>
+            <div class="col-md-1">
+            <a href="/timesheet"><button type="button" style="float:right;font-size:10px; " class="btn btn-primary" >Own TimeSheet</button></a>
+    
+            </div>
+            
         </div>
-        <div class="row" id="headerTime" style="width:101%;margin-bottom:4%; background-color:rgba(51, 60, 125, 0.62);">
+        <div class="row sub-header" id="headerTime" style="width:101%;margin-top:0%">
 
-            <div class="col-md-3" style="padding-top:1%;padding-left:4%">
-                <label class="labelHead">Name:</label> <label><%=user%> </label>
+            <div class="col-md-4" style="padding-top:4px;padding-left:5%">
+                <label class="labelHead">Name  :  </label> <label><%=user%> </label>
             </div>
-            <div class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white; margin-top: 6px; border-radius: 25px;">
+            <div class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white;  border-radius: 25px;">
 
 
-                <img type="button" src="../img/bug/left.jpg" class="shadow" style=" " height="15px" title="" width="15px" onClick="getdateprev()">
+                <img type="button" src="../img/bug/left.jpg" class="shadow glyphicon" style=" " title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
                 <input disabled type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
-                <img type="button" src="../img/bug/Right.jpg" class="shadow" style=" " height="15px" title="" width="15px" onClick="getdateuser()">
+                <img type="button" src="../img/bug/Right.jpg" title="Next" class="shadow glyphicon" style=" " height="15px" title="" width="15px" onClick="getdateuser()">
 
                 <span id="StartDate" name="StartDate" class="glyphicon glyphicon-calendar" style="top:3px" title=" Select Calender"></span>
             </div>
 
-            <div class="col-md-3" style=" text-align:left;   margin-top: 8px;">
+            <div class="col-md-3" style=" text-align:right;   margin-top: 4px;">
                 <!--    <input class="date" id="StartDate" name="StartDate" style="height:25px" value="" type="hidden" /> -->
                 <!--   <input type="text" class="hide" id="hiddenDate" >  -->
-                <label class="labelHead">Status:</label>
+                <label class="labelHead">Status  :  </label>
                 <label id="timestatus">Draft</label>
             </div>
 
-            <div class="col-md-3" style="    margin-top: 4px;     float: right;">
+            <div class="col-md-2" style="         float: right;">
                 <!--  <% if(timeinfo[6].length!=0 || roleid==1) {%> 
                     <button style="font-size:10px; height: 26px; width: 165px;" type="button" class="btn btn-primary" onClick="showDiv()">Other Employee's Details </button>
                     <%}%> -->
                 <% if(timeinfo[9][0].timeApproval==1 || roleid==1) {%>
-                    <button style="font-size:10px; height: 26px; width: 165px;float:right;margin-top:1px" type="button" class="btn btn-primary" onClick="showDiv()">Other Employee's Details </button>
+                    <button style="font-size:10px; height: 26px; width: 165px;float:right;margin-top:1px" type="button" class="btn " onClick="showDiv()">Other Employee's Details </button>
                     <%}%>
 
             </div>
+
         </div>
+ <hr style="max-width:100%">
+
+<div class="hide" style="min-height:300px" id="otherBlankDiv">
+    <span class="fa fa-hand-o-up  heart" style="font-size:18px;padding-left:10%"></span>
+    <div  style="margin-top:30px;color:#7e7e7e;padding-left:30px;" class="center">
+        <center><label style="color:#7e7e7e;font-size:20pt;">Select a User!!!</label></center> 
+    </div>
+</div>
 
 
-        <div id="MainTime" class="container-fluid">
+
+        <div id="MainTime" class="container-fluid" style="margin-top:3%">
             <div class="row tab-content" style="margin-left:3%; width:94%">
          
                 <div class="row" style="">   
@@ -582,9 +608,9 @@
                     </div>
                   </div>   
                     <div class="row" style="margin-left: 40%;padding-top:10px;">
-                        <button type="button" id="resettimesheet" class="btn btn-primary" onClick="ClearAll()">Reset</button>
-                        <button type="button" class="btn btn-primary" id="savetimesheet" onClick="Totalsum(1)">Save</button>
-                        <input id="submitTimes" type="button" style=" " class="btn btn-primary" onClick="Totalsum(2)" value="Submit">
+                        <button type="button" id="resettimesheet" class="btn  " onClick="ClearAll()">Reset</button>
+                        <button type="button" class="btn  " id="savetimesheet" onClick="Totalsum(1)">Save</button>
+                        <input id="submitTimes" type="button" style=" " class="btn " onClick="Totalsum(2)" value="Submit">
                     </div>
                     <br>
                     <br>
@@ -1096,6 +1122,7 @@
     function showDiv() {
         // alert("hide");
         $('#OtherEmp').removeClass('hide');
+        $("#otherBlankDiv").removeClass("hide");
         $('#MainTime').addClass('hide');
         $('#headerTime').addClass('hide');
 
@@ -1121,6 +1148,9 @@
                     }
 
                 }
+                $("#dropuserdata").tagger({
+                    "fieldWidth":"20em"
+                }); 
 
             }
 

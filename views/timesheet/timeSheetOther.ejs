@@ -152,7 +152,7 @@
                             }
                         }
                         document.getElementById('UsName').innerHTML = data[2][0].firstName;
-                        //$('#UsName').val(data[1][0].firstName);
+                     //   alert(ata[2][0].firstName);
                         document.getElementById('Currsname').innerHTML = data[2][0].firstName;
                         //$('#Currsname').val(data[1][0].firstName);
                         // alert("length of data one is "+data[1].length);
@@ -493,13 +493,13 @@
                            a=a+'<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id'+j+'" value="@" ><input type="text"  style="width:200px;  text-align:left;   background-color: rgba(125, 51, 61, 0);color: rgb(254, 254, 254); " value="holiday"  disabled></input></td>'
                          }*/
                         if (i == 0 && j < no_of_asgmnt) {
-                            b = b + '<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px; background-color:rgba(125, 51, 61, 0); color: rgb(254, 254, 254);" value="' + curr_wbsnm[j] + '" disabled></input></td>';
+                            b = b + '<td style="max-width:200px; background-color:#d0eaf0;"><input type="hidden" id="id' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px; background-color:#d0eaf0; text-align: center;  " value="' + curr_wbsnm[j] + '" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt) {
-                            b = b + '<td style="max-width:200px"><input type="hidden" id="id' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></input></td>';
+                            b = b + '<td style="max-width:200px"><input type="hidden" id="id' + j + '" value="#" ><input  type="text"  style="width:200px;font-weight:700;text-align: center;" value="Total Hours" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt + 1) {
-                            b = b + '<td style="max-width:200px"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Work Schedules" disabled></input></td>'
+                            b = b + '<td style="max-width:200px"><input  type="text"  style="width:200px; color: #000000;text-align: center;font-weight:700;" value="Work Schedules" disabled></input></td>'
                         }
                         if (i < 31 && j == no_of_asgmnt + 1) {
                             a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
@@ -531,55 +531,50 @@
         <% include ../partials/adminheader %>
 </head>
 
-<body>
-    <div class="secondry-color">
+<body style="overflow-x:hidden">
+    <div class="secondry-color" style="margin-top:-3px">
 
-        <div class="row" id="headerTime" style="margin-right:0px; margin-bottom:4%; background-color:rgba(51, 60, 125, 0.62);">
+        <div class="row sub-header" id="headerTime" style="width:101%;margin-top:0%">
 
-            <div class="col-md-2" style="margin-top:8px;margin-left:4%">
-                <label style="color:white">NAME :</label>
+            <div class="col-md-4" style="padding-top:4px;padding-left:5%">
+                <label style="color:white">Name  :  </label>
 
                 <label id="Currsname"></label>
             </div>
 
-            <div class="col-md-3" style="text-align-last: center; height:29px;width:264px; background-color:white; border-radius: 25px;     margin-top: 4px;">
-                <img type="button" src="../img/bug/left.jpg" class="shadow" style=" " height="15px" title="" width="15px" onClick="getdateprev()">
+            <div class="col-md-3" style="text-align-last: center; height:29px;width:264px; background-color:white; border-radius: 25px; ">
+                <img type="button" src="../img/bug/left.jpg" class="shadow glyphicon" style=" " height="15px" title="Previous" width="15px" onClick="getdateprev()">
 
                 <input disabled type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
 
-                <img type="button" src="../img/bug/Right.jpg" class="shadow" style=" " height="15px" title="" width="15px" onClick="getdateuser()">
+                <img type="button" src="../img/bug/Right.jpg" class="shadow glyphicon" style=" " height="15px" title="Next" width="15px" onClick="getdateuser()">
 
 
 
                 <span id="StartDate" name="StartDate" class="glyphicon glyphicon-calendar" style="top:3px" height="28px" width="22px" title=" Select Calender"></span>
 
             </div>
-            <div class="col-md-1" style="margin-top:.5%;">
-                <!--  <input class="date" id="StartDate" name="StartDate" style="height:25px" value="" type="hidden" /> -->
-
+            
+            <div class="col-md-2" style=" text-align:right;   margin-top: 4px;">
+                <label style="color:white; ">Status  :  </label>
+                <label style=" " id="timestatus">Draft</label>
             </div>
 
+            <div class="col-md-3" style=" float: right; ">
 
-            <div class="col-md-3" style="    margin-top: 8px;">
-                <label style="color:white;float:left">STATUS :</label>
-                <label style="float:left" id="timestatus">Draft</label>
-            </div>
+                <input id="Approved" type="button" style="font-size:10px;background-color: rgba(15, 26, 68, 0.89); " class="btn btn-primary" value="Approve" onClick="return ApporReject(3)"></input>
 
-            <div class="col-md-3" style="    margin-top: 8px;     float: right;margin-bottom:8px">
-
-                <input id="Approved" type="button" style="font-size:10px;background-color: rgba(15, 26, 68, 0.89);margin-top: -3px;" class="btn btn-primary" value="Approve" onClick="return ApporReject(3)"></input>
-
-                <input id="Rejected" type="button" style="background-color: rgba(15, 26, 68, 0.89);font-size:10px;margin-top: -3px;" class="btn btn-primary" value="Reject" data-toggle='modal' data-target='#tag'></input>
+                <input id="Rejected" type="button" style="background-color: rgba(15, 26, 68, 0.89);font-size:10px; " class="btn btn-primary" value="Reject" data-toggle='modal' data-target='#tag'></input>
 
                 <a href="/timesheet">
-                    <button type="button" style="float:right;font-size:10px;margin-top: -3px;" class="btn btn-primary">Own TimeSheet</button>
+                    <button type="button" style="float:right;font-size:10px; " class="btn btn-primary">Own TimeSheet</button>
                 </a>
 
             </div>
         </div>
+<hr style="max-width:100%">
 
-
-        <div id="MainTime" class="container-fluid" style="padding-bottom:4%">
+        <div id="MainTime" class="container-fluid" style="padding-bottom:2%;padding-top:2%">
             <div class="row tab-content" style="margin-left:3%; width:94%">
                   <div class="row" style=""> 
                     
@@ -606,8 +601,8 @@
                     </div>
                   </div> 
                     <div class="hide" style="margin-left: 86%;margin-top: 2%;">
-                        <button type="button" id="resettimesheet" class="btn btn-primary" onClick="ClearAll()"></button>
-                        <button type="button" class="btn btn-primary" id="savetimesheet" onClick="Totalsum()"></button>
+                        <button type="button" id="resettimesheet" class="btn" onClick="ClearAll()"></button>
+                        <button type="button" class="btn" id="savetimesheet" onClick="Totalsum()"></button>
                     </div>
                     <br>
                     <br>
@@ -615,15 +610,16 @@
             </div>
         </div>
 
-        <div class="row" id="OtherEmp" style=" margin-bottom:0%; width:1317px ; background-color:rgba(51, 60, 125, 0.62);">
-
-            <div class="col-md-2">
-                <select style="" class="form-control" id="dropuserdata" onClick="DropdownUsers()">
+        <div class="row" id="OtherEmp" style=" padding-bottom:10px; width: ;  ">
+            <div class="col-md-2" style="text-align:right"> View Other's Timesheet :</div>
+            <div class="col-md-2" style="text-align:center">
+            
+                <select style="" class="form-text-box" id="dropuserdata" onchange="DropdownUsers()">
                  
           </select>
             </div>
             <div class="col-md-1"><label id="UsName" class="hide"></label></div>
-            <div class="col-md-9"> </div>
+            <div class="col-md-7"> </div>
 
 
         </div>
@@ -635,14 +631,15 @@
                 <div class="modal-content" id="express2">
                     <div class="modal-header" style="background-color:#f05f40;">
                         <center>
-                            <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px"><b>Please provide a reason for Reject Timesheet!</b> 
-                    <span  class='glyphicon glyphicon-remove ' onclick="fun()" style='color:#06394A;height:20px;float:right'title ='Close' > 
-                    </h4>
-                        </center>
+                            <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px"><b>Please provide a reason for Reject Timesheet!</b>  </h4>
+                             </center>
+                     <span   class='close closeedit' data-dismiss="modal" style='float:right;margin-top:-26px'title ='Close' > &times;  </span>
+                   
+                       
                     </div>
                     <h4 style="margin-left:17px" id="tagstatus"></h4>
                     <div class="modal-body" style="height:30%; text-align:center ;margin-top:-10px;padding-top:0px;padding-right:17px;padding-left:17px">
-                        <textarea placeholder="Limit:500 words" id="RejectReason" maxlength=500; style="margin-top:3%" value=" " style="height:75%" class="form-control" rows="5"></textarea>
+                        <textarea placeholder="Limit:500 words" id="RejectReason" maxlength=500; style="margin-top:3%;height:75%;resize:none" class="form-control" rows="5"></textarea>
                         <!-- <input class="form-control" rows="5" type="textarea" id="abcd" name="abcd" value=" " style="height:70%"class="form-control" </input> -->
                         <input type="hidden" id="hid" name="abcd1" value=" " class="form-control" </input>
                         <input type="submit" onclick="ApporReject(4)" style="width:15% ;margin-top: 2%;" class="btn btn-primary active"></input>
@@ -982,6 +979,9 @@
                     }
 
                 }
+                $("#dropuserdata").tagger({
+                    "fieldWidth":"20em"
+                });
 
             }
 
