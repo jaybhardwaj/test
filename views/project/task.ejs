@@ -500,7 +500,6 @@ presentIdsArr.push(<%=treeComponent[i].id%>);
 
 
 $(document).ready(function(){
- 
 initializeJquery();
 
   $('.task-img').addClass('active');
@@ -1446,6 +1445,42 @@ var value = rowId.split('_');
     updateAllArr(rowId, 0);
     console.log('rowid ', rowId);
     $('#' + rowId).addClass('deleteCss');
+
+
+
+    if(!treeStructure[parentId].length){
+
+ var parentRowId = -1; 
+ var grandParentId = -1;
+
+      for(var i = 0;i<=ultimateEndId;i++){
+        console.log('#'+parentId + '_rowid_'+i);
+        if($('#'+parentId + '_rowid_'+i).length){
+           //  console.log('sassddassdasdasd','#'+parentId + '_rowid_'+i);
+            parentRowId  = '#'+parentId + '_rowid_'+i;
+            grandParentId  = i;
+            break;
+        }
+       }
+
+       
+
+       var newRowId = $(parentRowId +' td')[7];
+       var inputChild = $(newRowId).children('input'); 
+     inputChild = inputChild[0];
+     console.log('% Complete is ',inputChild);
+      $(inputChild).removeClass('disablePointer');
+      $(inputChild).removeAttr('disabled');
+
+       newRowId = '#' + parentId+ '_effType_'+ grandParentId;
+      newRowId  = $(newRowId).prev();
+      $(newRowId).removeClass('disablePointer');
+      $(newRowId).removeAttr('disabled');
+    console.log('Effort is ',newRowId);
+
+
+
+    }
     
 
 }
