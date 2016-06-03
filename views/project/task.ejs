@@ -747,7 +747,7 @@ treeStructure[individualId].push(ultimateEndId);
 
 });*/
     
-
+initializeJquery();
   }
 
 
@@ -1534,7 +1534,31 @@ return [true];
 var tempChildrenRowId2 = '',changeTimeFormatFlag = true;; 
 
 function initializeJquery(){
+
+
 /*inittialize*/
+$(".datePicker").attr('readonly',true);
+$(".datePicker").datepicker({
+    dateFormat: 'dd/mm/yy',
+    beforeShowDay: DisableSpecificDates,
+    duration: "slow",
+    beforeShow: findParentDate,
+    onSelect: function(selected, evnt) {
+        //console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
+        var endDateFlag = checkNature($(this).attr('id'));
+         startDateEndDateValidation(endDateFlag,$(this));
+         var parentRowId =  $(this).parent('td')
+            parentRowId  =  $(parentRowId).parent('tr');
+            parentRowId  = $(parentRowId).attr('id');
+            updateAllArr(parentRowId,1);
+
+         }
+
+});
+
+
+
+
 setTimeout(function(){
   $('.editRowClass').click();
 $('input[type="text"]').css('border',0);
@@ -1991,7 +2015,7 @@ if(d.length ==1){
 <div class="se-pre-con"></div>
 
 
-<div class="col-md-12" style="background-color: antiquewhite;margin-left: 0px;padding-left: 2%;margin-right: 0px;padding-bottom: 2%;overflow:none ">
+<div class="row" style="margin-left: 0px;padding-left: 2%;margin-right: 0px;padding-bottom: 2%;overflow:none ">
   <div  style="padding-top: 17px;padding-bottom: 4px;" class = 'col-md-12'>
   <!--  <label>Select Project</label> -->
   <div class = 'col-md-2'>
