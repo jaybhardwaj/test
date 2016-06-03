@@ -1603,13 +1603,13 @@ $('.selectEffEditAdd').addClass('selectClassForJq');
 $('.ddResources').addClass('ddResourcesForJq');
 
 $('.allTextAndNumberBoxes').focusout(function(){
-
+/**********focussout******************/
 var tdEle = $(this).parent('td');
      tdEle = $(tdEle).parent('tr');
      tdEle = $(tdEle).attr('id');
      var valtest =  tdEle.split('_');
-     var parentIdTest = parseInt(valtest[2]);
-     var individualIdTest = parseInt(valtest[0]);
+    var parentIdTest = parseInt(valtest[2]);
+    var individualIdTest = parseInt(valtest[0]);
 /***************************Parent Effort and hour Calculation************************************/
       if(parentIdTest!=0){ 
         var value = tdEle.split('_');
@@ -1619,7 +1619,7 @@ var tdEle = $(this).parent('td');
        var sumEffort = 0 ;
        var sumQuantEffort = 0;
        for(var i = 0;i<=ultimateEndId;i++){
-        console.log('#'+parentId + '_rowid_'+i);
+       // console.log('#'+parentId + '_rowid_'+i);
         if($('#'+parentId + '_rowid_'+i).length){
            //  console.log('sassddassdasdasd','#'+parentId + '_rowid_'+i);
             parentRowId  = '#'+parentId + '_rowid_'+i;
@@ -1650,7 +1650,7 @@ var tdEle = $(this).parent('td');
                 tempQuant = calculateTempQuantBasedOnDropDown(tempQuant,tempSelectValue);
                  sumQuantEffort = sumQuantEffort + (tempQuant*tempPerCompQuant/100);
                  sumEffort = sumEffort + parseInt(tempQuant); 
-console.log('tempQuant is',tempQuant,'tempPerCompQuant is',tempPerCompQuant,'tempSelectValue is',tempSelectValue);
+//console.log('tempQuant is',tempQuant,'tempPerCompQuant is',tempPerCompQuant,'tempSelectValue is',tempSelectValue);
       }
 
       /*********************Calculate sumQuantEffort and effortIndays*********************************/
@@ -1671,11 +1671,19 @@ console.log('tempQuant is',tempQuant,'tempPerCompQuant is',tempPerCompQuant,'tem
   /************************Perc Complete Insertion**********************/
  
          parentEle = $(parentRowId +' td')[7];
-        inputChild =  $(parentEle).children('input');
+        inputChild =  $(parentEle).children('input')[0];
          $(inputChild).val(parseInt(sumQuantEffort));
+
+        if(!$(inputChild).hasClass('disablePointer')){
+            //   alert('in disable');
      $(parentRowId+' .allTextAndNumberBoxes').focusout();
        /************************Perc Complete Insertion**********************/
+   }
 
+   else{
+    console.log('in else');
+    //alert('in else');
+   }
 
 
 }
@@ -1693,7 +1701,7 @@ var dropDownId =   '#' + individualIdTest + '_effType_' + parentIdTest;
    effortIndays[individualIdTest] = parseInt(tempQuant/workingHoursInADay);
 
   
-  console.log('all from here2',effortIndays[individualIdTest],individualIdTest);
+  //console.log('all from here2',effortIndays[individualIdTest],individualIdTest);
 
     /*********************************************************/
 
@@ -1702,7 +1710,7 @@ var dropDownId =   '#' + individualIdTest + '_effType_' + parentIdTest;
 
 
 /***************************************************************/
-console.log('all from here',effortIndays[parentIdTest],parentIdTest);
+//console.log('all from here',effortIndays[parentIdTest],parentIdTest);
       updateAllArr(tdEle,1);
 
 
@@ -1725,7 +1733,7 @@ $('.selectClassForJq').on('focus', function () {
 
   var tempSelectValue = $(this).val();
 
-  console.log('*************tempSelectValue***************',tempSelectValue);
+ // console.log('*************tempSelectValue***************',tempSelectValue);
  // alert(tempSelectValue);
 /*  console.log('tempSelectValue',tempSelectValue);
 */  
@@ -1751,9 +1759,12 @@ var tdEle = $(this).parent('td').parent('tr').attr('id');
 //updateAllArr(tdEle,1);
 var inBox = $(this).prev()[0];
 setTimeout(function(){
-  console.log('***********inBox********',inBox);
+
+  //console.log('***********inBox********',inBox);
   //$(inBox).focus();
+  console.log('inbox is',inBox);
   $(inBox).focusout();
+
   //updateAllArr(tdEle,1);
 
 },400);
