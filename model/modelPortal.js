@@ -1949,6 +1949,7 @@ updateHoliday: function(userId,roleId,retailerId,hid,h_name,h_date, callback) {
             values: [userId,roleId,retailerId,hid,h_name,h_date]
         };
         mysql(query, function(err, result) {
+            console.log("this is imp :  ",query,result);
             callback(err, result);
         });
 

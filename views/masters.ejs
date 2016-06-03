@@ -2078,7 +2078,6 @@ var items = $.unique( items );
     var i = 1;
     while(items[i]=='') i++;
     items = items.slice(i);
-   
  if(items.indexOf($('#ocName_'+id).val().trim())!=-1){
    alert('Error:This holiday already exists');                
     return false;
@@ -2124,8 +2123,20 @@ else{ //New holiday updated
                      }
                      if(data[0][0].flag==2){
                       alert("Holiday Already Exist!! ");
-                       $('#editHoli_'+id).addClass("hide"); 
-                        $('#holi_'+id).removeClass("hide");
+                      /* $('#editHoli_'+id).addClass("hide"); 
+                        $('#holi_'+id).removeClass("hide");*/
+                      return false;
+                     }
+                      if(data[0][0].flag==10){
+                      alert("Error:Holiday Name Exist!! ");
+                     /*  $('#editHoli_'+id).addClass("hide"); 
+                        $('#holi_'+id).removeClass("hide");*/
+                      return false;
+                     }
+                      if(data[0][0].flag==12){
+                      alert("Error:Holiday Date Exist!! ");
+                       /*$('#editHoli_'+id).addClass("hide"); 
+                        $('#holi_'+id).removeClass("hide");*/
                       return false;
                      }
                      if(data[0][0].flag==3)
