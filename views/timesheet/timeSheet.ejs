@@ -45,7 +45,7 @@
             var ftdy = 1;
             var weekdy =0;
             var monthly=0;
-            var workschedule=9;
+            var workschedule='<%=timeinfo[8][0].workinghours%>';
             var st1, ed1; // for timesheet header Mon,tue,wed....
 
             //  var arrayfrodrop=[];
@@ -65,6 +65,13 @@
             var sdate;
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             $(document).ready(function() {
+                
+              // alert("timesheet working hpurs----"+'<%=timeinfo[8][0].workinghours%>'+"---------"+'<%=timeinfo[8][0].schedule%>'+"------------"+'<%=timeinfo[8][0].timesheetSpan%>');
+                if('<%=timeinfo[8][0].schedule%>'==''||'<%=timeinfo[8][0].workinghours%>'==''||'<%=timeinfo[8][0].timesheetSpan%>'==''){
+                    alert("Fill the required informations Working Hours and Timsheet Span");
+                    window.location.href="/masters?timesheet=1";
+
+                }
 
                 $('.modulemenu').removeClass('active');
                 $('.portal-menu').addClass('hide');

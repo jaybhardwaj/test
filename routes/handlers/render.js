@@ -446,7 +446,7 @@ module.exports = {
 				console.log("master render-----------");
 			     var flag=req.flag==null?0:req.flag;
 			   res.render('masters',
-			   	{	myModules:req.session.modules,
+			   	{	timesheet1:req.timesheet,myModules:req.session.modules,
 			   		bugMaster:req.bugMaster,otherMaster:req.otherMaster,
 			   		bugMasterSubData:req.bugMasterSubData,
 			   		hideFlag:1,expenseMaster:req.resultExpensemaster[0],

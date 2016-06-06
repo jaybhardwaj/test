@@ -1872,21 +1872,23 @@ changeProjectWbs: function(req, res, next) {
 
     //----------------------------------ASSIGNMENT---------------------------------------
 getAssignment:  function(req, res, next) {
-
+            console.log(" i am in assignment model Portal.");
          modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId, function(err, resultAssignment) {
              if (err) {
-
+                    console.log(" this is error in assignment");
                  next(err);
                  return; 
              }
 
              else{
-
+                    console.log(" result is :---",resultAssignment);
                 req.allinfo1=resultAssignment;
+                
                 next();
              }
         
          });
+         console.log(" i am  ending assignment model Portal.");
      },
 
 createEditAssignment:  function(req, res, next) {
@@ -2914,6 +2916,12 @@ setaddStatuss: function(req, res, next) {
      },
     
      settingdata: function(req, res, next) {
+
+        var query = require('url').parse(req.url,true).query;
+        req.timesheet=query.timesheet;
+        if(query.timesheet == null){
+            req.timesheet=0;
+        }
         
          modelPortal.settingdata(req.session.userId,req.session.roleId, req.session.retailerId,function(err, result) {
              if (err) {
