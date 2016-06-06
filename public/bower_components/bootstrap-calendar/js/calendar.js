@@ -772,39 +772,50 @@ if(!String.prototype.formatNum) {
 			switch(this.options.view) {
 				case 'year':
 					to.start.setFullYear(this.options.position.start.getFullYear() + 1);
+					//alert(to.start.getFullYear());
+				//	$("#dateHeader").html(to.start.getFullYear());
 					break;
 				case 'month':
 					to.start.setMonth(this.options.position.start.getMonth() + 1);
+				//	$("#dateHeader").html(to.start.getMonthFormatted());
 					break;
 				case 'week':
 					to.start.setDate(this.options.position.start.getDate() + 7);
 					break;
 				case 'day':
 					to.start.setDate(this.options.position.start.getDate() + 1);
+				//	$("#dateHeader").html(to.start.getDateFormatted());
 					break;
 			}
 		} else if(where == 'prev') {
 			switch(this.options.view) {
 				case 'year':
 					to.start.setFullYear(this.options.position.start.getFullYear() - 1);
+					//$("#dateHeader").html(to.start.getFullYear());
 					break;
 				case 'month':
 					to.start.setMonth(this.options.position.start.getMonth() - 1);
+					//$("#dateHeader").html(to.start.getMonthFormatted());
 					break;
 				case 'week':
 					to.start.setDate(this.options.position.start.getDate() - 7);
+					//$("#dateHeader").html(to.start.getDateFormatted());
 					break;
 				case 'day':
 					to.start.setDate(this.options.position.start.getDate() - 1);
+					//$("#dateHeader").html(to.start.getDateFormatted());
 					break;
 			}
 		} else if(where == 'today') {
 			to.start.setTime(new Date().getTime());
+			//$("#dateHeader").html(new Date());
 		}
 		else {
 			$.error(this.locale.error_where.format(where))
 		}
+
 		this.options.day = to.start.getFullYear() + '-' + to.start.getMonthFormatted() + '-' + to.start.getDateFormatted();
+		//alert(this.options.day)
 		this.view();
 		if(_.isFunction(next)) {
 			next();
