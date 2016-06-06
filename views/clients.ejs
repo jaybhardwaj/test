@@ -89,7 +89,11 @@
 
 
 
-<div class="row" style="margin-top :2%">
+<div class="row" >
+
+<div style="margin-bottom:10px">
+          <span class="modal-title" style="padding-left:45%;margin-top:10px">List of Client Contact Persons</span>
+          </div>
 
              <table id="client-contact-table" class="table stripe cell-border hover">  
                  <thead>
@@ -267,13 +271,13 @@ if($("#ccontact").val().trim().length<=0 ||isNaN($("#ccontact").val()))
                                 success: function(pdetails) {
                                     acd=pdetails;
                                     console.log(pdetails)
-                                  if(pdetails[0].flag=='1')
+                                  if(pdetails[1][0].flag=='1')
                                     {
                                         alert('Contact Person information created successfully.');
                                           window.location.reload();
                                    }
                                    else
-                                    if(pdetails[0].flag=='2')
+                                    if(pdetails[1][0].flag=='2')
                                     {
                                         alert('Contact Person information updated successfully.');
                                           window.location.reload();
@@ -370,6 +374,9 @@ $(window).bind('resize', function () {
                 oTable.fnAdjustColumnSizing();
               } );
             $('.client-img').addClass('active');
+
+            //$("#client-table tr:first").click();
+            oTable.$('tr:first').click();
         });
 
         function addEditClient(flag,cid) {

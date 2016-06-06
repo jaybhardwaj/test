@@ -288,6 +288,7 @@ exportBug: function(userId, roleId,retailerid, callback){
             sql: 'call usp_bug_raiseBug(?,?,?)',
             values: [userId, roleId,retailerid]
         };
+
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -301,6 +302,7 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             values: [userId,project,status,assignedTo,priority,
         severity,technology,type,tclosure,title,description,targetpath,filename,origFname,detectedBy,cycle,retailerid]
         };
+         console.log(query)
         mysql(query, function(err, result) {
             callback(err, result); 
         });
