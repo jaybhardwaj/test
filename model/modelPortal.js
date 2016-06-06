@@ -93,6 +93,7 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             sql: 'call usp_retailerRegistration(?,?,?,?,?,?,?)',
             values: [companyName, emailId, password, firstName, lastName, contactNo, choosedModule]
         };
+        //console.log(query);
         mysql(query, function(err, result) {
             console.log(query,"-----error",err);
             callback(err, result);
@@ -171,7 +172,7 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             retailerId
             ]
         };
-
+        console.log(query);
         mysql(query, function(err, result) {
 
 

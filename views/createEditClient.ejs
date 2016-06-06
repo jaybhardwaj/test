@@ -24,7 +24,7 @@
                   $('#location').tagger({
                     baseURL: '../img/'
                   
-                  , fieldWidth: "11em"
+                  , fieldWidth: "12em"
                   });
 
                 $('.client-img').addClass('active');
@@ -50,7 +50,7 @@ sup {  color: red;  }
        
      
                         <% if(editflag==0){  %> <span class="modal-title" style="padding-left:45%">Create Client</span>
-                            <%} else { %> <span class="modal-title" style="padding-left:45%">Edit Client</span>< 
+                            <%} else { %> <span class="modal-title" style="padding-left:45%">Edit Client</span> 
                                 <%}%>
       <form action="/addEditClient" method="post" onsubmit="return validateForm()">             
                 <input type="text" class="hide" id='hiddenid' name="hiddenid" <%if((editflag==1)){%>value='<%=clientinfo[0].id%>'
@@ -92,15 +92,13 @@ sup {  color: red;  }
                                             <option value="<%=users[i].id%>" <%if(editflag==1&&clientinfo[0].clientAccountLead==users[i].id){%>selected<%}%> ><%=users[i].firstName%>
                                             </option>
                                             <%}%>
-                                        </select></td>
+                                        </select>
+            </td>
         </td>
+
     </tr>
-    <tr>
-        <td>
-            <td><label class="form-label">Client Code:</label></td>
-            <td><input type="text"   maxlength="45" class="form-text-box" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
-                                            <%}%> readonly /> </td>
-        </td>
+    <!-- <tr>
+        
         <td>
             <td><label class="form-label">Client Contact Person:<sup class="astrick">*</sup></label></td>
             <td><input type="text"   maxlength="25" class="form-text-box"  onkeypress="return specialCharacter(event)"  id="ccontactperson" placeholder="Client Name" name="ccontactperson" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPerson%>'<%}%> required/> </td>
@@ -118,9 +116,14 @@ sup {  color: red;  }
             <input     maxlength="11" class="form-text-box" id="clconphone" placeholder="Contact No." name="clconphone" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPhone%>'
                                             <%}%> /> 
                                             </td>
-        </td>
-    </tr> 
+        </td> 
+    </tr> -->
     <tr>
+        <td>
+            <td><label class="form-label">Client Code:</label></td>
+            <td><input type="text"   maxlength="45" class="form-text-box" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
+                                            <%}%> readonly /> </td>
+        </td>
         <td>
             <td><label class="form-label">Location:</label></td>
             <td> <select name="location" class="form-text-box" id="location"  >
@@ -139,10 +142,7 @@ sup {  color: red;  }
             <td><label class="form-label"></label></td>
             <td></td>
         </td>
-        <td>
-            <td><label class="form-label"></label></td>
-            <td></td>
-        </td>
+       
     </tr>   
     <tr>
             <td></td><td></td><td></td><td></td> 
