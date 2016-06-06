@@ -5,6 +5,11 @@
     <% include ./partials/head %>
     <% include ./partials/adminheader %>
 </head>
+<style type="text/css">
+.dataTables_filter, .dataTables_length {
+     display: none;
+    }
+    </style>
  <script>
  
 $(document).ready(function() {
@@ -22,6 +27,9 @@ $(document).ready(function() {
             "bLengthChange": false,"aoColumnDefs": [{  }],
             "order": []  
          });
+        $("#searchbox1").keyup(function() {
+        otable.fnFilter(this.value);
+      });
         otableNew = $("#data_tableUser").dataTable({
             "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
             "bDestroy": true,
@@ -31,6 +39,9 @@ $(document).ready(function() {
             "order": []         
             
          });
+        $("#searchbox2").keyup(function() {
+        otableNew.fnFilter(this.value);
+      });
 
         
      });
@@ -75,7 +86,8 @@ function selectDefaultModule(){
         <div class="row" style="padding-bottom:4%">
                 <div class="col-md-6" >
                 <div class="col-sm-12 table-responsive" style="margin-top:4%;">
-                    <table id="data_tableModule" class="table stripe cell-border hover" width="100%" style="text-align:center " >
+                <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 25%">
+                    <table id="data_tableModule" class="table stripe cell-border hover" width="100%" style="text-align:center;padding-top: 1% " >
                         <thead   >
                                 <th style="text-align:center">Module</th>
                                 <th style="text-align:center">No Of Users</th>
@@ -107,7 +119,8 @@ function selectDefaultModule(){
 
                 <div class="col-md-6"  >
                 <div class="col-sm-12 table-responsive" style="margin-top:4%;">
-                <table id="data_tableUser" class="table stripe cell-border hover" style="text-align:center"  width="100%">
+                <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox2" style="float:right;width: 25%">
+                <table id="data_tableUser" class="table stripe cell-border hover" style="text-align:center;padding-top: 1%"  width="100%">
                         <thead>
                                 <th style="text-align:center">UserName</th>
                                 <th style="text-align:center">Module Access</th>
