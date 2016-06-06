@@ -12,11 +12,19 @@ module.exports = {
         if(mgr_id==undefined){
             mgr_id='';
         }
-           var query = {
-            sql: 'call usp_getEmpData(?,?,?)',
-            values: [retId,emp_id,mgr_id]
-        };
-        
+        if(mgr_id==''){
+               var query = {
+                sql: 'call usp_getAllEmpData(?,?,?)',
+                values: [retId,emp_id,mgr_id]
+            };
+        }
+        else{
+               var query = {
+                sql: 'call usp_getEmpData(?,?,?)',
+                values: [retId,emp_id,mgr_id]
+            };
+        } 
+        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
             console.log(err,result);

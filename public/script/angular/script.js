@@ -1,4 +1,5 @@
-      var app = angular.module('visualApp',  []);
+
+var app = angular.module('visualApp',  []);
 app.controller('visualCtrl', function($scope, $http, $sce) {
 
   $scope.firstName  = "Hardik";
@@ -10,15 +11,15 @@ app.controller('visualCtrl', function($scope, $http, $sce) {
 
 
 //############### Get Root Manager ##############################
-  $http.get("http://localhost:4000/parse1/")
+ $http.get("/getEmpData?mgr_id=0")
+
   .then(function(response) {
 
-    $scope.rootManager =response.data;
-    console.log(response.data);
+    $scope.rootManager =response.data[0];
   });
 
 //############### Get All Employee Records #######################
-  $http.get("http://localhost:4000/json1/")
+   $http.get("/getEmpData/")
   .then(function(response) {
 
    $scope.employeeRecord =response.data[0];
@@ -56,136 +57,49 @@ nestedObjectForD3.id=-1;
 nestedObjectForD3.firstName="Employee";
 nestedObjectForD3.children=$scope.employeeRecord;
 
-//chartNode(nestedObjectForD3);
+chartNode(nestedObjectForD3);
 });
 
+//############ Main Function of D3 which is creating a chart ####################33#
+  var chartNode=function maker(json){
 
-      var margin = {top: 20, right: 120, bottom: 20, left: 120},
-      width = 960 - margin.right - margin.left,
-      height = 400 - margin.top - margin.bottom;
+    var margin = {top: 20, right: 120, bottom: 150, left: 120},
+    width = 960 - margin.right - margin.left,
+    height = 550 - margin.top - margin.bottom;
 
-      var i = 0,
-      duration = 750,
-      root;
+    var i = 0,
+    duration = 1250,
+    root;
 
-      var tree = d3.layout.tree()
-      .size([height, width]);
+    var tree = d3.layout.tree()
+    .size([height, width]);
 
-      var diagonal = d3.svg.diagonal()
-      .projection(function(d) { return [d.y, d.x]; });
+    var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
 
-      var svg = d3.select("#accordions").append("svg")
-      .attr("width", width + margin.right + margin.left)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var svg = d3.select("#accordions").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    root = json;
+    console.log(root.firstName);
+    root.x0 = height / 2;
+    root.y0 = 0;
 
-      var json ={
-        "name": "Emploee",
-        "children": [
-        {
-          "name": "Amit",
-          "children": [
-          {
-            "name": "Ankit",
-            "children": [
-            {"name": "Hardik", "size": 3938,"children": [
-            {"name": "Naveen", "size": 3938},
-            {"name": "Aanchal", "size": 743} ]
-          },
-          {"name": "Atul", "size": 3812},
-          {"name": "Avinash", "size": 3938,"children": [
-          {"name": "Deepak", "size": 3938},
-          {"name": "Jogendra", "size": 743},
-          {"name": "Jyoti", "size": 3938},
-          {"name": "Mayur", "size": 743},
-          {"name": "Saurav", "size": 3938},
-          {"name": "Shubham", "size": 743},
-          {"name": "Manu", "size": 3938},
-          {"name": "jay", "size": 743} ]
-        },
-        {"name": "Ashish", "size": 3938,"children": [
-        {"name": "Deepak", "size": 3938},
-        {"name": "Jogendra", "size": 743},
-        {"name": "Jyoti", "size": 3938},
-        {"name": "Mayur", "size": 743},
-        {"name": "Saurav", "size": 3938},
-        {"name": "Shubham", "size": 743},
-        {"name": "Manu", "size": 3938},
-        {"name": "jay", "size": 743},
-        {"name": "Deepak", "size": 3938},
-        {"name": "Jogendra", "size": 743},
-        {"name": "Jyoti", "size": 3938},
-        {"name": "Mayur", "size": 743},
-        {"name": "Saurav", "size": 3938},
-        {"name": "Shubham", "size": 743},
-        {"name": "Manu", "size": 3938}
-        
-        ]
+    function collapse(d) {
+      if (d.children) {
+        d._children = d.children;
+        d._children.forEach(collapse);
+        d.children = null;
       }
-      ]
-    },
-    {
-      "name": "Varun",
-      "children": [
-      {"name": "Apoorv", "size": 3534},
-      {"name": "Dinesh", "size": 5731},
-      {"name": "Benezir", "size": 7840},
-      {"name": "xxx", "size": 5914}
-      ]
     }
-    ]
-  },
-  {
-    "name": "Chetan",
-    "children": [
-    {
-      "name": "Faujan",
-      "children": [
-      {"name": "ABC", "size": 1302},
-      {"name": "DEF", "size": 24593},
-      {"name": "GHI", "size": 652},
-      {"name": "JKL", "size": 636},
-      {"name": "ABN", "size": 6703}
-      ]
-    },
-    {
-      "name": "Sandeep",
-      "children": [
-      {"name": "xyz", "size": 2138},
-      {"name": "x1x", "size": 3824},
-      {"name": "y1y", "size": 8435}
-      ]
-    },
-    {"name": "Divyesh", "size": 16540}
-    ]
-  }
-  ]
-};
 
+    root.children.forEach(collapse);
+    update(root);
 
-
-
-
-
-
-root = json;
-root.x0 = height / 2;
-root.y0 = 0;
-
-function collapse(d) {
-  if (d.children) {
-    d._children = d.children;
-    d._children.forEach(collapse);
-    d.children = null;
-  }
-}
-
-root.children.forEach(collapse);
-update(root);
-
-d3.select(self.frameElement).style("height", "800px");
+    d3.select(self.frameElement).style("height", "700px");
 
 function update(source) {
 
@@ -194,7 +108,7 @@ function update(source) {
   links = tree.links(nodes);
 
   // Normalize for fixed-depth.
-  nodes.forEach(function(d) { d.y = d.depth * 180; });
+  nodes.forEach(function(d) { d.y = d.depth * 100; });
 
   // Update the nodes…
   var node = svg.selectAll("g.node")
@@ -209,21 +123,16 @@ function update(source) {
   nodeEnter.append("circle")
   .attr("r", 1e-6)
   .style("fill", function(d) {
-    if(d._children){
-      console.log(d._children.length);
-    }
-    if(d._children && d._children.length>3){
-      console.log('coming here');
-      return d._children ? "red" : "#fff"; 
-    }
     return d._children ? "lightsteelblue" : "#fff"; 
-  });
+  })
+  .append("svg:title").text(function(d) {return "Current Tasks: " + d.isClient + 
+    "\nisBillable: " + d.isBillable;});
 
   nodeEnter.append("text")
   .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
   .attr("dy", ".35em")
   .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-  .text(function(d) { return d.name; })
+  .text(function(d) { return d.firstName; })
   .style("fill-opacity", 1e-6);
 
   // Transition nodes to their new position.
@@ -235,21 +144,37 @@ function update(source) {
   .attr("r", 4.5)
   .style("fill", function(d) { 
 
-    if(d._children && d._children.length<=4){
-      console.log('coming here');
-      return "orange"; 
+    $scope.totalEmployees
+
+    if(d._children){
+       var myDirectChildren = d._children.length; 
+       var effectivePercentage = (myDirectChildren/$scope.totalEmployees)*100
     }
-    if(d._children && d._children.length>4){
-      console.log('coming at yellow');
-      return "red"; 
-    }
-    else{
-      return "#fff"}});;
+    
+
+   if(d._children && effectivePercentage>20){
+    console.log('coming here');
+    return "#66FF33"; 
+   }
+  if(d._children && effectivePercentage<20 && effectivePercentage>10){
+    console.log('coming here');
+    return "#0099FF"; 
+   }
+   if(d._children && effectivePercentage<10 && effectivePercentage>5){
+    console.log('coming here');
+    return "#8DD3C7"; 
+   }
+   if(d._children && effectivePercentage<5 && effectivePercentage>0){
+    console.log('coming here');
+    return "#CCFF66"; 
+   }
+  else{
+    return "#fff"}});
   
        // return d._children ? "red" : "#fff"; });
 
-nodeUpdate.select("text")
-.style("fill-opacity", 1);
+       nodeUpdate.select("text")
+       .style("fill-opacity", 1);
 
   // Transition exiting nodes to the parent's new position.
   var nodeExit = node.exit().transition()
@@ -306,7 +231,6 @@ function click(d) {
     d._children = null;
   }
   update(d);
+ }
 }
-
-
 });

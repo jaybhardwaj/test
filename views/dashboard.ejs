@@ -3,29 +3,77 @@
 <html lang="en" ng-app="visualApp">
 
 <head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.11/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.11/angular.min.js"></script>
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
 	<% include ./partials/head %>
 	<style>
 
-		.node {
-			cursor: pointer;
+		 .node {
+      cursor: pointer;
+    }
+
+    .node circle {
+      fill: #fff;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+
+    .node text {
+      font: 10px sans-serif;
+    }
+
+    .link {
+      fill: none;
+      stroke: #707070;
+      stroke-width: 0.5px;
+    }
+		/*************** mylegend styling ******************/
+		.my-legend {
+			background-color: #CCFFFF   ;
+			position: absolute; bottom:0; left: 0px; 
 		}
 
-		.node circle {
-			fill: #fff;
-			stroke: steelblue;
-			stroke-width: 3px;
+		.my-legend .legend-title {
+			text-align: left;
+			margin-bottom: 7px;
+			font-weight: bold;
+			font-size: 90%;
+		}
+		.my-legend .legend-scale ul {
+			margin: 0;
+			margin-bottom: 5px;
+			padding: 0;
+			float: left;
+			list-style: none;
+		}
+		.my-legend .legend-scale ul li {
+			font-size: 70%;
+			list-style: none;
+			margin-left: 0;
+			line-height: 15px;
+			margin-bottom: 2px;
+		}
+		.my-legend ul.legend-labels li span {
+			display: block;
+			float: left;
+			height: 14px;
+			width: 25px;
+			margin-right: 5px;
+			margin-left: 0;
+			border: 1px solid #999;
+		}
+		.my-legend .legend-source {
+			font-size: 60%;
+			color: #999;
+			clear: both;
+		}
+		.my-legend a {
+			color: #777;
 		}
 
-		.node text {
-			font: 10px sans-serif;
-		}
-
-		.link {
-			fill: none;
-			stroke: #ccc;
-			stroke-width: 3.5px;
-		}
 
 	</style>
 
@@ -40,12 +88,25 @@
 	<div class="secondry-color"  id="accordions"  style="padding-bottom:2%;font-family: Merriweather,'Helvetica Neue',Arial,sans-serif"> 
 		<script src="//d3js.org/d3.v3.min.js"></script>
 		<script src="/script/angular/script.js"></script>
-		
-</div>
+		<div class='my-legend'>
+			<div class='legend-title'>Emp under direct supervision</div>
+			<div class='legend-scale'>
+				<ul class='legend-labels'>
+					<li><span style='background:#66FF33;'></span>More than 20%</li>
+					<li><span style='background:#0099FF;'></span>10% to 20%</li>
+					<li><span style='background:#8DD3C7;'></span>5% to 10%</li>
+					<li><span style='background:#CCFF66;'></span>0 to 5%</li>
+					<li><span style='background:#fff;'></span>0</li>
+					<li><h5><b>Total Employees : {{totalEmployees}}</b></h5></li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
 </body>
 
 <footer>
 	<% include ./partials/footer %>
 </footer>
 
-</html>		  
+</html>	
