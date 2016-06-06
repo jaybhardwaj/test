@@ -45,7 +45,13 @@
             var ftdy = 1;
             var weekdy =0;
             var monthly=0;
+           if('<%=timeinfo[8][0].workinghours%>'!='')
+           {
             var workschedule='<%=timeinfo[8][0].workinghours%>';
+          }else
+          {
+                var workschedule=9;
+          }
             var st1, ed1; // for timesheet header Mon,tue,wed....
 
             //  var arrayfrodrop=[];
@@ -66,11 +72,17 @@
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             $(document).ready(function() {
                 
-              // alert("timesheet working hpurs----"+'<%=timeinfo[8][0].workinghours%>'+"---------"+'<%=timeinfo[8][0].schedule%>'+"------------"+'<%=timeinfo[8][0].timesheetSpan%>');
-                if('<%=timeinfo[8][0].schedule%>'==''||'<%=timeinfo[8][0].workinghours%>'==''||'<%=timeinfo[8][0].timesheetSpan%>'==''){
+              
+                if(('<%=timeinfo[8][0].schedule%>'==''||'<%=timeinfo[8][0].workinghours%>'==''||'<%=timeinfo[8][0].timesheetSpan%>'=='') && '<%=timeinfo[3][0].isRetailer%>'!=''){
                     alert("Fill the required informations Working Hours and Timsheet Span");
                     window.location.href="/masters?timesheet=1";
 
+                }
+                else
+                {   
+                    if('<%=timeinfo[3][0].isRetailer%>'=='' && ('<%=timeinfo[8][0].schedule%>'==''||'<%=timeinfo[8][0].workinghours%>'==''||'<%=timeinfo[8][0].timesheetSpan%>'==''))
+                   { alert("Please Contact Admin");
+                      window.location.href="/bugHome";}
                 }
 
                 $('.modulemenu').removeClass('active');
@@ -836,6 +848,7 @@
                     }
                     alluser.push('||');
                 }
+               
                 for (var j = no_of_asgmnt; j < no_of_asgmnt + 1; j++) {
                     alluser.push('"#"');
                     alluser.push('"#"');
@@ -852,6 +865,7 @@
                 // +alert(alluser);
                 console.log("this is timesheet id" + tsid);
                 console.log("value of timesheet is ---" + temp);
+               
                 $.ajax({
                     url: 'submitTimesheetAssignment',
                     type: 'post',
@@ -1167,6 +1181,10 @@
 
     function DropdownUsers() {
         var dpusdata = $('#dropuserdata').val();
+         if(dpusdata==null){
+           
+            return false;
+            }
         //alert("user id is"+dpusdata);
         if ($('#dropuserdata').val() != 0)
             window.location.href = "/otherTimeSheet?id=" + dpusdata;
