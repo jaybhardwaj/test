@@ -206,8 +206,13 @@ $('.inrs').removeClass('hide');
 
  /*end*/
  function datepicker1(){
- document.getElementById("datebutton").focus();
- datepicher(); 
+
+   document.getElementById("datebutton").disabled=false;
+  $('#datebutton').focus();
+  datepicher(); 
+ // document.getElementById("datebutton").disabled=true;
+ //document.getElementById("datebutton").focus();
+ 
 }
 
 function datepickerforotherUser(){
@@ -252,8 +257,6 @@ function datepicher(){
         var selected = $(this).val();
        var date = new Date(selected);
     var newdate = new Date(date);
-
-    //newdate.setDate(newdate.getDate() + 15);
     if(newdate.getDate()<16){
     
      var dd =("0"+1).slice(-2);
@@ -539,7 +542,7 @@ function DeleteExpense(typeid,id,expclid){
  function selecthotelExpenseforweek() {
   
   date=$('#datebutton').val();
- 
+  alert(date);
 
             var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/ShowExpenseWeekBy';
             $.ajax({
@@ -555,7 +558,8 @@ function DeleteExpense(typeid,id,expclid){
 
             var  users =users1[0];
                       console.log(users1);
-                      showtotalExpense();
+                      //showtotalExpense();
+
                      // var user=users1[1][0].sum;
                      var ref = $('#data_table').DataTable();
                        
@@ -590,6 +594,9 @@ function DeleteExpense(typeid,id,expclid){
                                  }
                                    if(((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101))&&(users[i].Submitted==1)){
                                 log=log +"Rejected <a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-share' style='height:20px;color:red;font-size:15px;' title='ReSubmit' onclick='resubmittheExpenseforCopy("+users[i].expenseclaimId+")'></span></a></td>";
+                                 }
+                                  if(((users[i].ClaimedStatus==0)||(users[i].ClaimedStatus==0))&&(users[i].Submitted==0)){
+                                log=log +"Draft</td>";
                                  }
                               
                             
@@ -920,6 +927,7 @@ function newExpense(){
   $("#rasebutton").addClass('hide');
   //$('#dateTablebutton').addClass('hide');
  // submitbuttonDisable();
+ 
  $('#submitbutton').removeClass('hide'); 
    }
    else{
@@ -1309,13 +1317,13 @@ function expensedescription(expclaimId){
          toCheckExpenseSubmitOrNot();
          $('#raiseexp').removeClass('hide');
          $('#notvalid').addClass('hide');
-            
+          showtotalExpense();   
           }
             else{
               // $('#raiseexp').fadeTo("fast", .5).removeAttr("href");
                $('#raiseexp').addClass('hide');
          $('#notvalid').removeClass('hide'); 
-            
+           
             }
       }  
 
@@ -1329,18 +1337,20 @@ function expensedescription(expclaimId){
                 var y = d.getFullYear();
                 var currentdate= y +'-'+m+'-'+dd; 
                 
-        var dateforbfirst= new Date($('#datebutton').val());
+        var dateforbfirst= new Date($('#hiddendatebutton').val());
         dateforbfirst.setDate(dateforbfirst.getDate()-15);
-        var enddatefor=new Date($('#datebutton').val());;
+        var enddatefor=new Date($('#hiddendatebutton').val());;
        
         if((new Date(currentdate)>=dateforbfirst)&&(new Date(currentdate)<=enddatefor)){
+       
          toCheckExpenseSubmitOrNot();
                  $('#raiseexp').removeClass('hide');
          $('#notvalid').addClass('hide');
-      
+         showtotalExpense();
              
           }
             else{
+              
                $('#raiseexp').addClass('hide');
                       
          $('#notvalid').removeClass('hide');
@@ -2031,7 +2041,7 @@ function changeothercurrency(){
       <div class="col-md-4" id='dateTablebutton' style="height:29px;width:270px;background-color:white;margin-top:4px;border-radius: 25px;">
        <!-- <div class="" style="height:40px;width:50px">-->
             <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprev()'>
-              <input type="hidden" id="hiddendatebutton"><input type='text' id="datebutton" style="margin-top:3px;text-align: center;font-size:12px" class="shadow dateRangePicker"  value='' onchange="selecthotelExpenseforweek()" disable />
+              <input type="hidden" id="hiddendatebutton"><input disabled type='text' id="datebutton" style="margin-top:3px;text-align: center;font-size:12px" class="shadow dateRangePicker"  value='' onchange="selecthotelExpenseforweek()" disable />
             <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdate()'>
             <span class="glyphicon glyphicon-calendar" style="" height="28px" width="22px" title=" Expense" onclick='datepicker1()'></span>
        </div>
