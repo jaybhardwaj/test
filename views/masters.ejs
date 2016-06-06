@@ -74,7 +74,7 @@ thead tr th {
    left:45% !important; 
   }
   .overflowClass{
-  max-height: 234px; overflow-y: scroll
+  max-height: 234px; overflow-y: auto;
   }
   </style>
 <body >
@@ -186,11 +186,13 @@ thead tr th {
                           <td><%=bugMasterSubData[j].description1%></td>
                           <td  >
                             <%if(!bugMasterSubData[j].flag){%> 
-                              <span class="glyphicon glyphicon-pencil" title="click to edit"onClick="showEditBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"></span>
+                             
                               <%if(bugMasterSubData[j].isActive==1){%>
-                                <span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"></span>
+                                
+                                <span class="glyphicon glyphicon-ok" style="color:green" title="click to inActive" onClick="activeBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"></span>
+                                 <span class="glyphicon glyphicon-pencil" title="click to edit"onClick="showEditBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"style="padding-left:5px;"></span>
                               <%}else{%>
-                              <span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)"></span>
+                              <span class="glyphicon glyphicon-remove" title="click to Active" style="padding-left:5px;color:red" onClick="activeBugMaster(<%=bugMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)"></span>
                               <%}%>
                             <%}else{%>
                             <span class="glyphicon glyphicon-ban-circle" title="non editable"></span>
@@ -233,12 +235,13 @@ thead tr th {
                         <% for(var i=0;i<customrole.length;i++){%>                         
                         <tr id="role_<%=customrole[i].id%>"> 
                           <td><%=customrole[i].description%></td>
-                          <td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser(<%=customrole[i].id%>)"  data-toggle='modal' data-target='#viewrole' title="users assigned"></span>   <%if(customrole[i].Active==0){%>
-                           <span style='margin-left:5%;color:red;height:10px' class='glyphicon glyphicon-remove-sign 'title="click to active" onclick="docActiveInactive(<%=customrole[i].id%>,1)" ></span></a><span class="glyphicon glyphicon-pencil" title="click to edit" onclick="getrole(<%=customrole[i].id%>)"  style="margin-left:5%"></span> 
+                          <td>  <%if(customrole[i].Active==0){%>
+                           <span style='margin-left:5%;color:red;height:10px' class='glyphicon glyphicon-remove-sign 'title="click to active" onclick="docActiveInactive(<%=customrole[i].id%>,1)" ></span></a><!-- <span class="glyphicon glyphicon-pencil" title="click to edit" onclick="getrole(<%=customrole[i].id%>)"  style="margin-left:5%"></span>  -->
                         
                           <%}
                           else{%>
-                           <span style='margin-left:5%;color:green;height:10px' class='glyphicon glyphicon-ok 'title="click to  inactive" onclick="docActiveInactive(<%=customrole[i].id%>,0)"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick='getrole(<%=customrole[i].id%>)'></span>
+                          <span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser(<%=customrole[i].id%>)"  data-toggle='modal' data-target='#viewrole' title="users assigned"></span> 
+                           <span style='margin-left:5%;color:green;height:10px' class='glyphicon glyphicon-ok 'title="click to  inactive" onclick="docActiveInactive(<%=customrole[i].id%>,0)"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick='getrole(<%=customrole[i].id%>)'></span> 
                           
                              <%}%>
                           </td>
@@ -272,7 +275,7 @@ thead tr th {
                           <tr id="ind_<%=i%>"> 
                              <td id="indlabel_<%=i%>"><%=industry[0][i].values%></td>
                              <td>   <%if(industry[0][i].Active==0){%> 
-                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick="docsave('ind_'+<%=i%>,1)"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('ind_'+<%=i%>,4)"></span>
+                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick="docsave('ind_'+<%=i%>,1)"></span><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('ind_'+<%=i%>,4)"></span> -->
                               <%}
                               else{%>
                                <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('ind_'+<%=i%>,0)" ></span><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('ind_'+<%=i%>,4)"></span>
@@ -318,7 +321,7 @@ thead tr th {
                           <tr id="bus_<%=i%>"> 
                              <td id="buslabel_<%=i%>"><%=business[0][i].values%></td>
                              <td>   <%if(business[0][i].Active==0){%> 
-                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick="docsave('bus_'+<%=i%>,1)"></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick="docsave('bus_'+<%=i%>,4)"></span>
+                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick="docsave('bus_'+<%=i%>,1)"></span></a><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick="docsave('bus_'+<%=i%>,4)"></span> -->
                               <%}
                               else{%>
                                <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('bus_'+<%=i%>,0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit"  onclick="docsave('bus_'+<%=i%>,4)" ></span>
@@ -366,10 +369,10 @@ thead tr th {
                              <td id="doclabel_<%=i%>" ><%=document[0][i].values%></td>
                              <td>   <%if(document[0][i].Active==0){%> 
                               <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' 
-                              onclick="docsave('doc_'+<%=i%>,1)"></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('doc_'+<%=i%>,4)"></span>
+                              onclick="docsave('doc_'+<%=i%>,1)"title="click to active"></span></a><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('doc_'+<%=i%>,4)"></span> -->
                               <%}
                               else{%>
-                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('doc_'+<%=i%>,0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('doc_'+<%=i%>,4)" ></span>
+                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('doc_'+<%=i%>,0)" title="click to inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('doc_'+<%=i%>,4)" ></span>
                                  <%}%>
                               </td>
                           </tr>
@@ -416,10 +419,10 @@ thead tr th {
                              <td id="teclabel_<%=i%>"><%=technology[0][i].values%></td>
                              <td>   <%if(technology[0][i].Active==0){%> 
                               <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' 
-                              onclick="docsave('tec_'+<%=i%>,1)"></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('tec_'+<%=i%>,4)"></span>
+                              onclick="docsave('tec_'+<%=i%>,1)"title="click to active"></span></a><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('tec_'+<%=i%>,4)"></span> -->
                               <%}
                               else{%>
-                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('tec_'+<%=i%>,0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick="docsave('tec_'+<%=i%>,4)" ></span>
+                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('tec_'+<%=i%>,0)" title="click to inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick="docsave('tec_'+<%=i%>,4)" ></span>
                                  <%}%>
                               </td>
                           </tr>
@@ -586,7 +589,7 @@ thead tr th {
                                        <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick=assetStatus("at_<%=i%>",1,1,activeCheckFlag) title="click to Inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("at_<%=i%>",3,1,activeCheckFlag)></span>
                                     <%}
                                     else{%>
-                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("at_<%=i%>",2,1,activeCheckFlag) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("at_<%=i%>",3,activeCheckFlag)></span>
+                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("at_<%=i%>",2,1,activeCheckFlag) title="click to Inactive" ></span></a><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("at_<%=i%>",3,activeCheckFlag)></span> -->
                                         
                                     <%}%>
                                 </td>
@@ -664,7 +667,7 @@ thead tr th {
                                        
                                     <%}
                                     else{%>
-                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("bt_<%=i%>",2,2,activeCheckFlag) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("bt_<%=i%>",3,2,activeCheckFlag)></span>
+                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("bt_<%=i%>",2,2,activeCheckFlag) title="click to active" ></span><!-- </span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("bt_<%=i%>",3,2,activeCheckFlag)></span> -->
                                     <%}%>
                                 </td>
                           </tr>  
@@ -723,7 +726,7 @@ thead tr th {
                                       
                                     <%}
                                     else{%>
-                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("ct_<%=i%>",2,3,activeCheckFlag) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("ct_<%=i%>",3,3,activeCheckFlag)></span>
+                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("ct_<%=i%>",2,3,activeCheckFlag) title="click to active" ></span></a><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("ct_<%=i%>",3,3,activeCheckFlag)></span> -->
                                         
                                     <%}%>
                                 </td>
@@ -886,7 +889,7 @@ thead tr th {
                                        
                                     <%}
                                     else{%>
-                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("et_<%=i%>",2,6,activeCheckFlag) title="click to Inactive" ></span></a><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("et_<%=i%>",3,6,activeCheckFlag)></span>
+                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("et_<%=i%>",2,6,activeCheckFlag) title="click to active" ></span></a><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("et_<%=i%>",3,6,activeCheckFlag)></span> -->
                                     <%}%>
                                 </td>
                           </tr>  
@@ -1055,11 +1058,13 @@ thead tr th {
                           <%if(otherMaster[i].code==6){%><td><%=bugMasterSubData[j].currencyRate%></td><%}%>
                           <td>
                             <%if(!bugMasterSubData[j].flag){%> 
-                              <span class="glyphicon glyphicon-pencil" title="click to edit" onClick="showEditBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"></span>
+                            
                                <%if(bugMasterSubData[j].isActive==1){%>
-                                <span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)" title="click to InActive"></span>
+                                <span class="glyphicon glyphicon-ok" style="color:green" onClick="activeBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)" title="click to InActive"></span>
+                                 <span class="glyphicon glyphicon-pencil" title="click to edit" onClick="showEditBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,0)"style="padding-left:5px"></span>
                               <%}else{%>
                               <span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster(<%=otherMaster[i].code%>,<%=bugMasterSubData[j].id%>,1)" title="click to Activate"></span>
+
                               <%}%>
                             <%}else{%>
                             <span class="glyphicon glyphicon-ban-circle" title="non editable"></span>
@@ -1393,7 +1398,7 @@ thead tr th {
       {
         if(doc[0]==arr1[i])
         {
-                
+              
                 var labelid='#'+arr1[i]+'label_'+arr3[i];
               
               var divtext='#'+arr2[i]+'_'+doc[1];
@@ -1455,6 +1460,7 @@ thead tr th {
         {
                 
                 arr3[i]=arr3[i]+1;
+                 arr3[i]= parseInt($('#'+arr1[i]+'Table tr').length/2);
                  var tableid='#'+arr1[i]+'Table';
                  var add=tableid+'Add';
                  var rowid= arr1[i]+'_'+arr3[i];
@@ -1540,7 +1546,8 @@ thead tr th {
                   }
                   else
                   {
-                   var str1='<td id ="'+tempid+'">'+tempval+'</td><td><span style="color:red;height:10px" class="glyphicon glyphicon-remove-sign" onclick="docsave('+func+',1)" ></span></a><span style="margin-left:5%"class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('+func+',4)" ></span></td>';
+                    /*<span style="margin-left:5%"class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('+func+',4)" ></span>*/
+                   var str1='<td id ="'+tempid+'">'+tempval+'</td><td><span style="color:red;height:10px" class="glyphicon glyphicon-remove-sign" onclick="docsave('+func+',1)" ></span></a></td>';
                     $('#'+docid).html(str1);
                  }
                    
@@ -1606,7 +1613,8 @@ function addBugMaster(code){
              if(data[0][0].flag==0)
               {
                 alert('Created successfully.'); 
-              $('#bugTable_'+code).append('<tr id="bugEditTextBoxTr_'+data[1][0].id+'" class="hide"><td><input type="text"   id="bugEditData_'+data[1][0].id+'" maxlength="30" style="width:80px"  value="'+$('#bugMasterData_'+code).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+data[1][0].code+','+data[1][0].id+',1)"></span></td></tr><tr class="hide"><td> <input type="text" id="bugMasterActiveVal_'+data[1][0].id+'" value="1" maxlength="30" class="hide"></td></tr><tr id="bugEditLabelTr_'+data[1][0].id+'"><td>'+$('#bugMasterData_'+code).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" title="click to edit" onClick=showEditBugMaster('+data[1][0].code+','+data[1][0].id+',0)></span><span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster('+data[1][0].code+','+data[1][0].id+',0)"></span></td></tr>');
+              $('#bugTable_'+code).append('<tr id="bugEditTextBoxTr_'+data[1][0].id+'" class="hide"><td><input type="text"   id="bugEditData_'+data[1][0].id+'" maxlength="30" style="width:80px"  value="'+$('#bugMasterData_'+code).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+data[1][0].code+','+data[1][0].id+',1)"></span></td></tr><tr class="hide"><td> <input type="text" id="bugMasterActiveVal_'+data[1][0].id+'" value="1" maxlength="30" class="hide"></td></tr><tr id="bugEditLabelTr_'+data[1][0].id+'"><td>'
+                +$('#bugMasterData_'+code).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-ok" style="color:green" title="click to Inactive" onClick="activeBugMaster('+data[1][0].code+','+data[1][0].id+',0)"></span><span class="glyphicon glyphicon-pencil" title="click to edit" style="padding-left:5px"onClick=showEditBugMaster('+data[1][0].code+','+data[1][0].id+',0)></span></td></tr>');
                $('#bugMasterData_'+code).val('');
                $('#crate_'+code).val('')
               }
@@ -1669,14 +1677,13 @@ var act=$('#bugMasterActiveVal_'+id).val();
         },
     method: 'POST',    
     success: function(data) { 
-      console.log("swalke",data);
   if(code==6){
     insEdit ='<td><input  type="number" min="0"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="30" id="crate_'+id+'" value="'+$('#crate_'+id).val()+'"></td>'
     insLabel='<td>'+crate+'</td>';
   }
       var okIcon;
           if($('#bugMasterActiveVal_'+id).val()==1){
-            okIcon='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick="activeBugMaster('+code+','+id+',0)"></span>';
+            okIcon='<span class="glyphicon glyphicon-ok" style="color:green"tilte="click to InActive" onClick="activeBugMaster('+code+','+id+',0)"></span>';
           } 
           else{
             okIcon='<span class="glyphicon glyphicon-remove" style="padding-left:5px;color:red" onClick="activeBugMaster('+code+','+id+',1)"></span>';
@@ -1686,7 +1693,14 @@ var act=$('#bugMasterActiveVal_'+id).val();
           alert('Updated successfully.');  
             $('#bugEditTextBoxTr_'+id).html('<td><input type="text" maxlength="30" id="bugEditData_'+id+'" style="width:80px"  value="'+$('#bugEditData_'+id).val()+'"></td>'+insEdit+'<td><span class="glyphicon glyphicon-floppy-disk" onClick="showEditBugMaster('+code+','+id+',1)"></span></td>');
             $('#bugEditTextBoxTr_'+id).addClass("hide");
-            if(act!=3){$('#bugEditLabelTr_'+id).html('<td>'+$('#bugEditData_'+id).val()+'</td>'+insLabel+'<td><span class="glyphicon glyphicon-pencil" title="click to edit" onClick=showEditBugMaster('+code+','+id+',0)></span>'+okIcon+'</td>');
+            if(act!=3){
+               if($('#bugMasterActiveVal_'+id).val()==1){
+              $('#bugEditLabelTr_'+id).html('<td>'+$('#bugEditData_'+id).val()+'</td>'+insLabel+'<td>'+okIcon+'<span style="padding-left:5px"class="glyphicon glyphicon-pencil" title="click to edit" onClick=showEditBugMaster('+code+','+id+',0)></span></td>');
+            }
+            else{
+
+            $('#bugEditLabelTr_'+id).html('<td>'+$('#bugEditData_'+id).val()+'<td>'+okIcon+'</td>');
+            }
                
            }else{
             document.getElementById("bugTable_"+code).rows['bugEditLabelTr_'+id].cells.item(0).innerHTML =$('#bugEditData_'+id).val();
@@ -3002,17 +3016,21 @@ if(billa<0){
           if(flag==2){
               if(check==-2){
                 if(tableno==1){             
-                 document.getElementById("assetTable1").rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,1,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit"  onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>';
+                 document.getElementById("assetTable1").rows[rowid].cells.item(2).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,1,activeCheckFlag) title="click to Active">';
+                 /*</span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit"  onClick=assetStatus("'+rowid+'",3,1,activeCheckFlag)></span>*/
                 }
                 if(tableno==2){     
 
-                 document.getElementById("assetTable2").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+                 document.getElementById("assetTable2").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to Active">';
+                 /*</span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>*/
                 }
                 if(tableno==3){             
-                 document.getElementById("assetTable3").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>';
+                 document.getElementById("assetTable3").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,2,activeCheckFlag) title="click to Active"></span>';
+                 /*<span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,2,activeCheckFlag)></span>*/
                 }
                 if(tableno==6){             
-                 document.getElementById("assetTable6").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,6,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,6,activeCheckFlag)></span>';
+                 document.getElementById("assetTable6").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,6,activeCheckFlag) title="click to Active"></span>';
+                 /*<span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,6,activeCheckFlag)></span>*/
                 }
             }
             else{
