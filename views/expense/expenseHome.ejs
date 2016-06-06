@@ -12,7 +12,10 @@
                 </script>
  --> 
  <style>
-
+.dataTables_filter, .dataTables_length {
+     display: none;
+     margin-right:40px; 
+    }
  </style>
 </header>
 <script type="text/javascript">
@@ -28,7 +31,10 @@ newExpense();
 tootherfunction();
 //showstatus(); 
 // getdate();  
-$("#data_table").dataTable();
+var oTable=$("#data_table").dataTable();
+  $("#searchbox").keyup(function() {
+        oTable.fnFilter(this.value);
+      });
 $("#bugtable1").dataTable();
 
  jQuery('.dateRangePicker').datetimepicker({
@@ -264,7 +270,7 @@ function datepicher(){
     var y = newdate.getFullYear();
   }
     else{
-       var dd =("0"+16).slice(-2);
+       var dd =(""+16).slice(-2);
     var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
     var y = newdate.getFullYear();
     }
@@ -274,6 +280,7 @@ function datepicher(){
     document.getElementById('datebutton').value = someFormattedDate1.toString();
      $('#hiddendatebutton').val(someFormattedDate.toString());
     selecthotelExpenseforweek(); 
+    //document.getElementById("datebutton").disabled=true;
     });
 }
 function getdate() {
@@ -542,7 +549,7 @@ function DeleteExpense(typeid,id,expclid){
  function selecthotelExpenseforweek() {
   
   date=$('#datebutton').val();
-  alert(date);
+ // alert(date);
 
             var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/ShowExpenseWeekBy';
             $.ajax({
@@ -927,7 +934,7 @@ function newExpense(){
   $("#rasebutton").addClass('hide');
   //$('#dateTablebutton').addClass('hide');
  // submitbuttonDisable();
- 
+
  $('#submitbutton').removeClass('hide'); 
    }
    else{
@@ -2094,8 +2101,9 @@ function changeothercurrency(){
 <div id="showMessage" class="hide" style="height:px;width:200px;"><label id="showm" style="color:green;font-size:15px"></label></div>
 
 <div class="secondry-color" id="accordionsdata">
-
-    <table  id="data_table" class="table table-hover table-striped table-bordered rceDataTable" cellspacing="0" width="100%" >
+<div style="margin-top: 10px">
+<input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
+    <table style="margin-top: 10px" id="data_table" class="table table-hover table-striped table-bordered rceDataTable" cellspacing="0" width="100%" >
                 <!-- <thead>
                          <th>Expense Type</th>
                          <th>Trip/Assignment</th>
@@ -2202,6 +2210,7 @@ function changeothercurrency(){
                
                         </tbody>
                     </table>
+                    </div>
 </div>
 
 <div class="secondry-color hide" id="accordions">
@@ -2629,7 +2638,7 @@ function changeothercurrency(){
                             <label class="form-Label">Reason for Calling:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" maxlength="45"  class="form-text-box" id="callingreason" name="phoneReason"  required />
+                            <input style="margin-top: 7px" type="text" maxlength="45"  class="form-text-box" id="callingreason" name="phoneReason"  required />
                         </div>
 
                        
@@ -3023,7 +3032,7 @@ function changeothercurrency(){
                  <input type="hidden" id="blabelfood" value="0">
                 </div>
                 
-                <div class="col-md-12 a">
+                <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Expense Type:-</label>
                         </div>
@@ -3070,12 +3079,12 @@ function changeothercurrency(){
                 <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Expense Details for Food & Entertainment:-</b>
                 </div>
 
-                <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;">                    
+                <div class="col-md-12 a" style="margin-top:1px;">                    
                         <div class="col-md-4">
                             <label class="form-Label" >Reason for Fooding/entertainment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" maxlength="45"  class="form-text-box" id="foodre" name="foodReason"  required />
+                            <input style="margin-top: 7px" type="text" maxlength="45"  class="form-text-box" id="foodre" name="foodReason"  required />
                         </div>
                         </div>
 
@@ -3194,7 +3203,7 @@ function changeothercurrency(){
                             <label class="form-Label">Reason for Expense:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" maxlength="45"  class="form-text-box" id="otherreason" name="otherReason"  required />
+                            <input style="margin-top: 7px" type="text" maxlength="45"  class="form-text-box" id="otherreason" name="otherReason"  required />
                         </div>
                 </div>
                   

@@ -2438,7 +2438,6 @@ if(error){
                  next(errorRoles);
                  return;
              }
-
              res.json(result);
              next();
          });

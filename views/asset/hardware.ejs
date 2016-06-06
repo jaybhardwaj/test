@@ -86,7 +86,7 @@
            <td>
           <label for="invoiceAmt" class="form-Label">Invoice Amt. :<sup class="astrick">*</sup></label></td>
          <td>
-            <input name="invoiceAmt" class="form-text-box" id="invoiceAmt" placeholder="Invoice Amount" required>
+            <input type="number" name="invoiceAmt" class="form-text-box" id="invoiceAmt" placeholder="Invoice Amount" required>
           </td>
         </td>
        
@@ -160,7 +160,6 @@
                     <th style="width:25%;">Serial No.</th>
                     <th style="width:15%;">Brand</th>
                     <th style="width:15%">Warranty</th>
-                    <th style="width:15%">Size</th>
                     <th style="width:15%">Action</th>
                   </tr>
                 </thead>
@@ -192,7 +191,7 @@
       i=0;
      function addCompModal(){
        //getbrand();
-    var row = '<tr id="tr'+countAddCompModal+''+i+'"><td><select class = "form-text-box form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype.length;i++){%><option value="<%=htype[i].id%>"><%=htype[i].componentName%></option><%}%></select></td><td><input type = "text" class = "form-text-box form-control" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 form-text-box form-control" id="brand'+countAddCompModal+'"><%for(var i=0;i<brandtype.length;i++){%><option value="<%=brandtype[i].id%>"><%=brandtype[i].value%></option><%}%></select></td><td><input type = "text" class = "form-text-box form-control" id="war'+countAddCompModal+'"></td><td><input type = "text" class = "form-text-box form-control" id="size'+countAddCompModal+'"></td><td><span style="font-size:25px;color:red" class="glyphicon glyphicon-remove-circle" onclick="removeRow('+countAddCompModal+','+i+')"></span></td></tr>';
+    var row = '<tr id="tr'+countAddCompModal+''+i+'"><td><select class = "form-text-box form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype.length;i++){%><option value="<%=htype[i].id%>"><%=htype[i].componentName%></option><%}%></select></td><td><input type = "text" class = "form-text-box form-control" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 form-text-box form-control" id="brand'+countAddCompModal+'"><%for(var i=0;i<brandtype.length;i++){%><option value="<%=brandtype[i].id%>"><%=brandtype[i].value%></option><%}%></select></td><td><input type = "text" class = "form-text-box datetimepicker" id="war'+countAddCompModal+'"></td><td class="hide"><input type = "text" class = "form-text-box form-control" id="size'+countAddCompModal+'"></td><td><span style="font-size:25px;color:red" class="glyphicon glyphicon-remove-circle" onclick="removeRow('+countAddCompModal+','+i+')"></span></td></tr>';
          $('#addcompobody').append(row);
          
          countAddCompModal++;
@@ -313,7 +312,10 @@ function validatehardvare(){
     alert("Invoice Amount Missing!");    
     return false;
   }
-
+  else if($('#invoiceAmt').val()>0){
+    alert("Invoice Amount not valid!");    
+    return false; 
+  }
   else if($('#order').val().length<1||$.trim($("#order").val()) =="") 
   {
     alert("Placed order Missing!");    
@@ -324,6 +326,9 @@ function validatehardvare(){
   {
     alert("Delivery date Missing!");    
     return false;
+  }
+  else if(new Date($('#Deliverydate').val())<new Date($('#invoiceAmt').val())){
+    alert("Delivery date less then invoice date!");
   }
   else
     for(var i=0;i<document.getElementById('qty').value;i++){
@@ -407,7 +412,7 @@ function addcompo(){
            
           for(var dropdownValues=0;dropdownValues<result[1].length;dropdownValues++){
                  if(result[0][o].attId==result[1][dropdownValues].attId){
-              row=row+'<option value="'+result[1][dropdownValues].id+'">'+result[1][dropdownValues].value+'</option>';          
+              row=row+'<option value="'+result[1][dropdownValues].id+'">'+result[1][dropdownValues].value+'</option>';         
                  }
 
               }
@@ -426,7 +431,7 @@ function addcompo(){
              row=row+'<option value="'+result[2][dropdownValues].id+'">'+result[2][dropdownValues].value+'</option>';  
            }
           row = row + '</select></td><td><input'+
-        ' class="form-text-box" id="warranty'+i+'" type = "text"></td>';
+        ' class="form-text-box datetimepicker" id="warranty'+i+'" type = "text"></td>';
            row = row + '<td class="hide"><input'+
         ' class="single form-control warrClass" id="componentdata'+i+'" type = "hidden"></td>';
       /******************************************************************************/
@@ -463,8 +468,8 @@ function addcompo(){
           comps[i]=result[1][i].attribute;
          var mrow='<tr><td>'+result[1][i].attribute+'</td>'+
             '<td><input class="form-control empty" id="mserial'+i+'"></td>'+
-          '<td ><select class="form-text-box" id="mbrand'+i+'"><option value="q"selected'+
-          '>b</option></select></td><td><input type = "text" class="single form-control" id="mwarranty'+i+'"></td><td><select class="single" id="msize'+i+'"><option value="c" selected>c</option>'+
+          '<td ><select class="form-text-box " id="mbrand'+i+'"><option value="q"selected'+
+          '>b</option></select></td><td><input type = "text" class="single form-control" id="mwarranty'+i+'"></td><td ><select class="single" id="msize'+i+'"><option value="c" selected>c</option>'+
             '</select></td></tr>';
           $('#addcompobody').append(mrow);
           
