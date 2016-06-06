@@ -2,7 +2,7 @@
 <html lang="en">
 <% include ./partials/head %> 
         <% include ./partials/adminheader %> 
-<body> 
+<body style="overflow-x:hidden"> 
   
 <div class="row secondry-color" style="margin:0px;padding:0px; ">
  <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm">
@@ -11,6 +11,7 @@
           <input type="text" name="flaghide" class="hide" id="flaghide" value=0  />
           <input type="text" name="wbsidhide" class="hide" id="idhide" value=0  />
           <!-- <input type="text" name="wbsstatus" class="hide" value=1 id="wbsstatus1"> -->
+ 
   <div class="row" style="padding:3%;padding-top: 1%">
     <div class="panel-heading" id="panelHead1" role="button" style="background-color: #f05f40;text-align: center;color:#FFFFFF; height:40px;">
       <span style="color:white;font-size:18px; "><b>Create WBS</b></span>
@@ -39,128 +40,163 @@
       <div class="col-md-4">
         <select style="background-color:#FFFFFF;/* width: 247px; */margin-top:10px;margin-bottom:10px;" class="form-control" id="wbslocation" name="wbslocation">
                   <option disabled selected value=0> -- select a Location -- </option>
+ 
+
+<span class="modal-title" style="padding-left:45%;margin-top:1%">Add WBS Details</span>
+<div class="row" style="padding:3%;padding-top:1%;padding-bottom:1%">
+<table class="table" style="margin-bottom:0px">
+  <tr>
+    <td>
+      <td><label class="form-Label" style=" ">WBS Name :<sup>*</sup></label></td>
+      <td><input type="text" onfocusout="return allWbs();" onkeypress="return specialCharacter(event)" class="form-text-box" style=" " placeholder="-- Enter a WBS Name --" name="wbsname" id="wbsname" maxlength="25" onfocusout="myFunction(); checkprofield();" value=''></td>
+    </td>
+    <td>
+      <td><label class="form-Label" style=" ">WBS Code :</label> </td>
+      <td><input type="text" class="form-text-box" style=" " placeholder="WBS Code" name="wbscode" id="wbscode" maxlength="50" value='' readonly></td>
+    </td>
+    <td>
+      <td><label class="form-Label" style=" ">WBS Owner:</label></td>
+      <td>
+        <select style=" " class="form-text-box" id="wbsowner" name="wbsowner">
+               <option disabled selected>Select</option>
+                <% for(var i=0;i<owner.length;i++) {%>
+                <option value="<%=owner[i].id%>"><%=owner[i].name%></option>
+                <%}%>
+        </select>
+      </td>
+    </td>
+    <td>
+      <td> <label class="form-Label" style=" ">WBS Location:</label> </td>
+      <td><select style=" " class="form-text-box" id="wbslocation" name="wbslocation">
+                  <option disabled selected>Select</option>
+ 
                   <% for(var i=0;i<location.length;i++) {%>
                   <option value="<%=location[i].id%>"><%=location[i].location%></option>
                   <%}%>
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2"><label style="padding-top: 6px ">Planned Start Date: <sup>*</sup> </label> </div>
-      <div class="col-md-4">
-         <input type="text" class="form-control" id="datepicker" maxlength="25" placeholder="-- Select Planned Start Date --" readonly="true" style="cursor: pointer;background-color: rgb(255, 255, 255);  background-color:#FFFFFF;/* width: 247px; */" name="wbspsdate" value=''>
-      </div> 
-      <div class="col-md-2"> <label style=" padding-top: 6px">Planned End Date: <sup>*</sup> </label> </div>
-      <div class="col-md-4">
-        <input type="text" name="wbspedate" class="form-control" maxlength="25" placeholder="-- Select Planned End Date --" readonly="true" id="datepicker1" style="cursor: pointer;background-color: rgb(255, 255, 255);background-color:#FFFFFF; /* width: 247px; */" value=''>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2"> <label style="padding-top:20px">Actual Start Date</label> </div>
-      <div class="col-md-4">
-         <input type="text" class="form-control" id="datepicker2" maxlength="25" style="cursor: pointer;background-color: rgb(255, 255, 255);margin-top:10px; background-color:#FFFFFF;/* width: 247px; */" placeholder="-- Select Actual Start Date --" readonly="true" name="wbsasdate" value=''>
-      </div>
-      <div class="col-md-2"> <label style="padding-top:20px">Actual End Date </label></div>
-      <div class="col-md-4">
-                <input type="text" class="form-control" id="datepicker3" maxlength="25" style="cursor: pointer;background-color: rgb(255, 255, 255);margin-top:10px; background-color:#FFFFFF;/* width: 247px; */" placeholder="-- Select Actual End Date --" name="wbsaedate" readonly="true" value=''>
-      </div>
-    </div>
-   
-    <div class="row">
-      <div class="col-md-2"><label style="padding-top:20px;margin-top:-5px;">Estimate Effort:   </label></div>
-      <div class="col-md-4" style="padding-top: 10px">
-                  <div style="float:left;width:50%;margin-right:2px;">
-                      <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Enter Effort" class="form-control" style=" " name="wbseffort" id="wbseffort" maxlength="5" min="0">
+        </select></td>
+    </td>
+  </tr>
+    <tr> 
+    <td>
+      <td><label class="form-Label" style=" ">Planned Start Date: <sup>*</sup> </label> </td>
+      <td> <input type="text" class="form-text-box" id="datepicker" maxlength="25" placeholder="Select Planned Start Date" readonly="true" style="cursor: pointer; " name="wbspsdate" value=''></td>
+    </td>
+    <td>
+      <td> <label class="form-Label" style=" ">Planned End Date: <sup>*</sup> </label> </td>
+      <td><input type="text" name="wbspedate" class="form-text-box" maxlength="25" placeholder="Select Planned End Date" readonly="true" id="datepicker1" style="cursor: pointer; " value=''></td>
+    </td>
+    
+    <td>
+      <td> <label class="form-Label" style=" ">Actual Start Date:</label> </td>
+      <td><input type="text" class="form-text-box" id="datepicker2" maxlength="25" style="cursor: pointer;width: 102% " placeholder="Select Actual Start Date" readonly="true" name="wbsasdate" value=''></td>
+    </td>
+     <td>
+      <td><label class="form-Label" style=" ">Actual End Date: </label>  </td>
+      <td> <input type="text" class="form-text-box" id="datepicker3" maxlength="25" style="cursor: pointer;width: 102% " placeholder="Select Actual End Date" name="wbsaedate" readonly="true" value=''> </td>
+    </td>
+  </tr>
+    <tr>
+    <td>
+      <td> <label class="form-Label" style=" ">Estimate Effort:   </label> </td>
+      <td>  
+       <div style="float:left;width:46%; ">
+                      <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Enter Effort" class="form-text-box" style=" " name="wbseffort" id="wbseffort" maxlength="5" min="0">
                   </div>
                   <div style="float:left;width:49%; ">
-                      <select style="display:inline-block" id="wbseffort1" class="form-control" name="wbseffort1">
-                            <option value=0>Select Type</option>
+                      <select style="display:inline-block" id="wbseffort1" class="form-text-box" name="wbseffort1">
+                            <option value=0>Select</option>
                             <option value=1>Man-Hours</option>
                             <option value=2>Man-Days</option>
                             <option value=3>Man-Weeks</option>
                             <option value=4>Man-Months</option>
                        </select>
-                  </div>
-      </div>
-      <div class="col-md-2"><label style="padding-top:20px;margin-top:-5px;">Type:   </label></div>
-      <div class="col-md-4" style="padding-top: 10px">
-       <!--  <div style="float:left;width:50%; ">
-            <input class="form-control" placeholder="Enter Type" type="text" id="wbsType" name="wbsType" style="" min="0" maxlength="5">
-        </div> -->
-
-       
-            <select style="display:inline-block; " id="typeValue" class="form-control" name="typeValue">
+                  </div> 
+                  </td>
+    </td>
+    <td>
+      <td> <label class="form-Label" style=" ">Type:   </label></td>
+      <td>
+            <select style="display:inline-block; " id="typeValue" class="form-text-box" name="typeValue">
                 <option value=0>Select Type</option>
                 <option value=1>Fixed</option>
                 <option value=2>Time & Expence</option>
-                </select>
-        
-      </div>      
-    </div>
-     <div class="row">     
-      <div class="col-md-2"> <label style="padding-top:20px;margin-top:-5px;">Assign to All:   </label></div>
-      <div class="col-md-4" style="padding-top: 10px">
-          <select style="display:inline-block; " id="assign" class="form-control" name="assign">
-                <option value=0>-- Select Option --</option>
+                </select></td>
+    </td>
+    <td>
+      <td><label style=" " class="form-Label">Assign to All:   </label> </td>
+      <td> <select style="display:inline-block; " id="assign" class="form-text-box" name="assign">
+                <option value=0>Select</option>
                 <option value=1>Yes</option>
                 <option value=2 selected="true">No</option>
-              </select>
+              </select></td>
+    </td>
+    <td>
+      <td></td>
+      <td> 
+       <div class="col-md-2 hide">
+          <label class="form-Label" style=" ">WBS Status: <sup>*</sup></label>  
       </div>
-        <div class="col-md-2 hide">
-          <label style="padding-top:20px;margin-top:-5px;">WBS Status: <sup>*</sup></label>  
-      </div>
-      <div class="col-md-4 hide" style="padding-top: 10px">
+      <div class="col-md-4 hide" style=" ">
         <input type="text" name="wbsstatus" class="hide" value=1 id="wbsstatus1" style=" "> Active
         <input type="radio" name="wbsstatus" value=0 id="wbsstatus2" style=" "> Inactive
-      </div> 
-    </div>
-    <div class="row" style="text-align: center;margin-top:10px">
+      </div> </td>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td> <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+  </tr>
+</table>
+
+ <div class="row" style="text-align: center;">
      <a href="/projectDetails">
-        <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
+        <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn  " style="background-color: #f05f40 !important">
       </a> 
 
-    <input type="reset" value="Reset" name="reset" class="btn btn-primary" style="background-color: #f05f40 !important;">
+    <input type="reset" value="Reset" name="reset" class="btn  " style="background-color: #f05f40 !important;">
     <input type="submit" value="Submit" onclick="return checkfield();" name="submit" class="btn btn-primary" style="background-color: #f05f40 !important;">
     </div>
-  </div>
-</form>
-
- <div class="row" id="accordions" style="height:auto;padding:2%;margin-top: -60px">
-      <div class="col-md-6">
-            <div class="panel-heading" id="panelHead1" role="button" style="background-color: #f05f40;    color:#FFFFFF; height:40px;    margin-top: 15px;">
-                <span style="float:center; color:white;font-size:18px;padding-left:30%"><b>Project Details</b></span>
-            </div>
-            <div style=" ">
-                <div class="row">
-                    <div class="col-md-3"> <label style="line-height:25px !important;margin-top:10px;">Project Name:</label> </div>
-                    <div class="col-md-7"> <input type="text" class="form-control" style="margin-top:10px;" name="pname" id="idpname" maxlength="50" value='<%=project[0].projectTitle%>' disabled></div>
-                </div>
-
-                <div class="row a">
-                    <div class="col-md-3"> <label style="line-height:25px !important;margin-top:10px;">Project Code:</label> </div>
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" style="margin-top:10px;" name="pcode" id="pcode" maxlength="50" value='<%=project[0].pcode%>' disabled> </div>
-                </div>
-
-                <div class="row a">
-                    <div class="col-md-3"> <label style="line-height:25px !important;margin-top:10px;">Complexity:</label> </div>
-                    <div class="col-md-7"><input type="text" class="form-control" style="margin-top:10px;" name="pcomplexity" id="pcomplexity" maxlength="50" value='<%=project[0].pcomplexity%>' disabled></div>
-                </div>
-
-                <div class="row a" style="margin-top:10px;">
-                    <div class="col-md-3"> <label style="line-height:25px !important;margin-top:10px;">Location:</label> </div>
-                    <div class="col-md-7"> <input type="text" class="form-control" style="margin-top:3px;" name="plocation" id="plocation" maxlength="50" value='<%=project[0].location%>' disabled></div>
-                </div>
-            </div>
 </div>
-<div class="col-md-6">
-    <% if(wbs.length >0){ %> 
-                <div class="panel-heading" id="panelHead1" role="button" style="background-color: #f05f40;    color:#FFFFFF; height:40px;    margin-top: 15px;">
-                <span style="float:center; color:white;font-size:18px;padding-left:30%"><b>WBS Details</b></span>
-            </div> 
-                <br>
+</form>
+ 
+
+ <div class="row" id="accordions" style="height:auto; padding:2%">
+    <span class="modal-title" style="padding-left:45%;margin-top:1%">Project Details</span>
+    <table id="projTable" class="table">
+    <thead>
+      <th>Project Name</th>
+      <th>Project Code</th>
+      <th>Complexity</th>
+      <th>Location</th>
+    </thead>
+      <tr>
+        <td>
+          <%=project[0].projectTitle%> 
+        </td>
+        <td>
+          <%=project[0].pcode%> 
+        </td>
+        <td>
+           <%=project[0].pcomplexity%> 
+        </td>
+        <td>
+          <%=project[0].location%> 
+        </td>
+      </tr>
+    </table>
+ <% if(wbs.length >0){ %>  
+                <span class="modal-title" style="padding-left:45%;margin-top:1%">WBS Details</span> 
                 <div style="overflow-y:scroll; max-height:200px;">
-                    <table class="table stripe cell-border hover" id="bugtable" width=""> 
+                    <table class="table stripe cell-border hover" id="wbsTable" width=""> 
                         <thead> 
                             <tr> 
                                 <th>WBS Name</th>
@@ -193,9 +229,9 @@
                     </table>
                 </div>
                 <%}%>
-</div> 
- </div> 
+
 </div>
+ </div>
     <footer>
         <% include ./partials/footer %>
     </footer> 
@@ -209,7 +245,7 @@
         color: black;
     }
     
-    .tagger {
+/*    .tagger {
         border: -1px steelblue !important;
         background-color: #fff !important;
         cursor: text;
@@ -218,7 +254,7 @@
         padding: 10px 7px 3px 4px !important;
         min-height: 19px !important;
         display: table-cell !important;
-    }
+    }*/
     
     .wbsowner {
         margin-top: 10px;
@@ -246,8 +282,12 @@
             });
 
 
-            $("#wbsowner").tagger();
-            $("#wbslocation").tagger();
+            $("#wbsowner").tagger({
+              "fieldWidth":"12em"
+            });
+            $("#wbslocation").tagger({
+              "fieldWidth":"12em"
+            });
 
             $('#wbsstatus1').prop('checked', true);
             /*   $("input[name=pstatus][value=" + 1 + "]").prop('checked', true);*/
@@ -318,9 +358,18 @@
                 });
             }
 
+            otable=$("#projTable").dataTable({
+              'iDisplayLength': 10,
+                    "order": [],
+                    "bFilter": false,"bInfo": false,"bLengthChange": false});
+       
+        ostable = $('#wbsTable').dataTable({
+                    'iDisplayLength': 10,
+                    "order": [],
+                    "bFilter": false,"bInfo": false,"bLengthChange": false
+                });
 
-        });
-
+});
         function allWbs() {
             var abc = 1;
 

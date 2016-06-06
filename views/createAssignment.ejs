@@ -3,12 +3,9 @@
  <% include ./partials/adminheader %>
 <head> 
  <style type="text/css"> 
-
-  input[type=search] {
-    height: 29px !important;
-    border-radius: 5px !important;
-    border: 1px solid #669ECC !important;
-}
+  .dataTables_filter, .dataTables_length {
+     display: none;
+    }
 .glyphicon{
 color:black;
  width:auto;
@@ -107,7 +104,7 @@ color:black;
     <td>
       <td><label class="form-label">Start Date:<sup class="astrick">*</sup></label></td>
       <td>
-         <input type="text"  name="Edate" class="form-text-box datepicker" id="datepicker" style="margin-top: px; cursor: pointer; background-color: rgb(255, 255, 255);" onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%> required>
+         <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date"  id="datepicker" style="width: 86%; cursor: pointer; " onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%> required>
            
           
       </td>
@@ -115,22 +112,19 @@ color:black;
     <td>
       <td><label class="form-label">End Date:<sup class="astrick">*</sup></label></td>
       <td> 
-      <input type="text"  name="Edate" class="form-text-box datepicker" id="datepicker1" style="margin-top: px; cursor: pointer; background-color: rgb(255, 255, 255);" onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%> required>
+      <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date" id="datepicker1" style="width: 86%; cursor: pointer;  " onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%> required>
       </td>
     </td>
     <td>
       <td><label class="form-label"></label></td>
       <td></td>
     </td>
-    <td>
-      <td><label class="form-label"></label></td>
-      <td></td>
-    </td>
+   <td></td>
   </tr> 
   <tr>
             <td></td><td></td><td></td><td></td> 
            <td></td><td></td><td></td><td></td>
-              <td></td><td></td><td></td><td></td> 
+              <td></td><td></td>  
           </tr>
 </table>
  
@@ -223,7 +217,7 @@ color:black;
         
     </form>
 
-    <div class="secondry-color" id="accordions"  style=" "> 
+    <div  >  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;margin-bottom:10px;width: 13%">  
             <table class="table table-hover table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" id="wbstable">  
                  <thead>
                     <tr style="font-size:12px">
@@ -253,20 +247,22 @@ color:black;
 
 $(document).ready(function(){
 $("#asd").tagger({
-  'fieldWidth':"13em"
+  'fieldWidth':"18em"
 });
 $('#procode').tagger({
-   'fieldWidth':"13em"
+   'fieldWidth':"18em"
 });
 $('#wbs2').tagger({
-   'fieldWidth':"13em"
+   'fieldWidth':"18em"
 });
   $('.assignment-img').addClass('active');
    dtable=$("#wbstable").DataTable({
     'iDisplayLength':10,
     "bFilter": true
   });
-
+       $("#searchbox").keyup(function() {
+        dtable.fnFilter(this.value);
+      });
   
   console.log("going");
    $("#datepicker").datetimepicker({
