@@ -128,7 +128,7 @@
   </tr>
 </table>
 
- <div class="row" style="text-align: center;">
+ <div class="row" id="wbssubmit" style="text-align: center;">
      <a href="/projectDetails">
         <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn  " style="background-color: #f05f40 !important">
       </a> 
@@ -149,6 +149,8 @@
                             <input type="hidden" name="ascode" id="ascodeid" value=''> 
 
                             <input type="hidden" name="pid" id="pid" value=''> 
+
+                            <input type="hidden" name="retailer" id="retailer" value=''> 
 
                             <input type="hidden" name="wid" id="wid" value=''> 
    <span class="modal-title" style="padding-left: 44%;padding-bottom: 1%">Create Assingment</span>  
@@ -626,9 +628,11 @@
                 type: 'post',
                 data: {"wbshidden":$('#wbshidden').val(),"assign":$('#assign').val(),"flaghide":$('#flaghide').val(),"wbsidhide":$('#idhide').val(),"wbsname":$('#wbsname').val(),"wbscode":$('#wbscode').val(),"proname":$('#proname').val(), "wbsowner":$('#wbsowner').val(),"wbspsdate":$('#datepicker').val(),"wbspedate":$('#datepicker1').val(),"wbsasdate":$('#datepicker2').val(),"wbsaedate":$('#datepicker3').val(),"wbsstatus":$('#wbsstatus1').val(),"wbseffort":$('#wbseffort').val(),"wbseffort1":$('#wbseffort1').val(),"wbslocation":$('#wbslocation').val(),"typeValue":$('#typeValue').val()},
                 success: function(data) {
+
+                  $('#retailer').val(data[1][0].retailer);
                   
                   if(confirm("Do you want to create Assignment for WBS - "+$('#wbsname').val()+" ?") ){
-                      
+                        $('#wbssubmit').addClass('hide');
                         $('#pid').val(data[1][0].pid);
                         $('#wid').val(data[1][0].wid);
                         $('#asd').html('');
@@ -773,14 +777,13 @@ var endDt=document.getElementById("datepicker22").value;
             }
     console.log("----------------------------------");  
     
-var retailerid=84;
+
 var td= new Date();
   var dd=td.getDate();
   var mm=td.getMonth();
   mm=mm+1;
   var yr=td.getFullYear();
   st_ed_date=mm+"/"+dd+"/"+yr;
-
 
      $.ajax({        
                          url:'/submitAssignment',
@@ -795,7 +798,7 @@ var td= new Date();
                       "asdate":$('#datepicker21').val(),
                       "aedate":$('#datepicker22').val(),
                         "curdat":st_ed_date,
-                      "retailerid":retailerid
+                      "retailerid":$('#retailer').val()
                     },
 
                   success:function(data){

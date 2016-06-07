@@ -612,7 +612,7 @@
 
         <div class="row" id="OtherEmp" style=" padding-bottom:10px; width: ;  ">
             <div class="col-md-2" style="text-align:right"> View Other's Timesheet :</div>
-            <div class="col-md-2" style="text-align:center">
+            <div id="drop" class="col-md-2" style="text-align:center">
             
                 <select style="" class="form-text-box" id="dropuserdata" onchange="DropdownUsers()">
                  
@@ -694,6 +694,7 @@
         console.log("before abc in back", y, "---", mm, "-----", dd);
         abc(y, mm, dd);
         console.log("at end in abc");
+        getUserUnderSupervisor();
     }
 
     function getdateuser() {
@@ -744,6 +745,7 @@
         // alert("userId id id "+userId+"date for check"+checkdate);       
         checkUserTimesheet(userId, checkdate);
         abc(y, mm, dd);
+        getUserUnderSupervisor();
     }
 
     function disableHoliday() {
@@ -960,9 +962,6 @@
     }
 
     function getUserUnderSupervisor() {
-        //  arrayfrodrop[2]=checkdate;
-        //alert("for checking"+arrayfrodrop[0]);
-        // alert("hiii i amin getuserunder supervisor");
         $.ajax({
             url: 'getUserUnderSupervisor',
             type: 'post',
@@ -971,8 +970,10 @@
             },
             success: function(data) {
                 console.log(data);
-                $('#dropuserdata').html('');
-                $('#dropuserdata').append('<option  value=0>Select</option>');
+               // $('#dropuserdata').html('');
+             //alert("going for append in drop down list"+data[1].status+"and id is"+data[1].id+"an for second "+data[1].status+"and id is"+data[1].id);
+             $('#drop').html('');
+             /*   $('#dropuserdata').append('<option  value=0>Select</option>');
                 for (var i = 0; i < data.length; i++) {
                     if (for_status[data[i].status] != null) {
                         $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-' + for_status[data[i].status] + '</option>');
@@ -981,12 +982,29 @@
                         $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>');
                     }
 
+                }*/
+
+
+            var string='<select  class="form-text-box" id="dropuserdata" onchange="DropdownUsers()"><option  value=0>Select</option>';
+                 
+                for (var i = 0; i < data.length; i++) {
+                    if (for_status[data[i].status] != null) {
+                        var string=string + '<option value="'+data[i].id+'">'+data[i].firstName+'-'+for_status[data[i].status] + '</option>';
+
+                    } else {
+
+            var string=string+'<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>';
+                    }
+
                 }
+               string=string+'</select>';
+                console.log("string-----"+string);
+               $('#drop').html(string);
                 $("#dropuserdata").tagger({
                     "fieldWidth":"20em"
                 });
-
             }
+             
 
 
         });
