@@ -108,7 +108,7 @@
           <label class="form-Label" style=" ">WBS Status: <sup>*</sup></label>  
       </div>
       <div class="col-md-4 hide" style=" ">
-        <input type="text" name="wbsstatus" class="hide" value=1 id="wbsstatus1" style=" "> Active
+        <input type="text" name="wbsstatus" class="hide" value=1 id="wbsstatus1" selected style=" "> Active
         <input type="radio" name="wbsstatus" value=0 id="wbsstatus2" style=" "> Inactive
       </div> </td>
     </td>
@@ -197,7 +197,7 @@
    
        <center style="margin-bottom:1%"> 
 
-       <a href="/assignment">
+       <a href="/projectDetails">
           <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
           </a>
 
@@ -620,23 +620,25 @@
         function submitwbs() {
             alert('WBS added successfully'); 
 
+            $('#wbshidden').val(13);
             $.ajax({
                 url: '/addEditWbsDetails',
                 type: 'post',
-                data: {"assign":$('#assign').val(),"flaghide":$('#flaghide').val(),"wbsidhide":$('#wbsidhide').val(),"wbsname":$('#wbsname').val(),"wbscode":$('#wbscode').val(),"proname":$('#proname').val(), "wbsowner":$('#wbsowner').val(),"wbspsdate":$('#datepicker').val(),"wbspedate":$('#datepicker1').val(),"wbsasdate":$('#datepicker2').val(),"wbsaedate":$('#datepicker3').val(),"wbsstatus":$('input:radio[name=wbsstatus]:checked').val(),"wbseffort":$('#wbseffort').val(),"wbseffort1":$('#wbseffort1').val(),"wbslocation":$('#wbslocation').val(),"typeValue":$('#typeValue').val()},
+                data: {"wbshidden":$('#wbshidden').val(),"assign":$('#assign').val(),"flaghide":$('#flaghide').val(),"wbsidhide":$('#idhide').val(),"wbsname":$('#wbsname').val(),"wbscode":$('#wbscode').val(),"proname":$('#proname').val(), "wbsowner":$('#wbsowner').val(),"wbspsdate":$('#datepicker').val(),"wbspedate":$('#datepicker1').val(),"wbsasdate":$('#datepicker2').val(),"wbsaedate":$('#datepicker3').val(),"wbsstatus":$('#wbsstatus1').val(),"wbseffort":$('#wbseffort').val(),"wbseffort1":$('#wbseffort1').val(),"wbslocation":$('#wbslocation').val(),"typeValue":$('#typeValue').val()},
                 success: function(data) {
                   
                   if(confirm("Do you want to create Assignment for WBS - "+$('#wbsname').val()+" ?") ){
-                      $('#wbshidden').val(13);
+                      
                         $('#pid').val(data[1][0].pid);
                         $('#wid').val(data[1][0].wid);
-
-                          var string1="<select multiple='multiple' id=\"asd\"><option selected disabled value=0>Select Users</option>" ;
-                           for (var i = 0; i < data[2].length; i++){   
+                        $('#asd').html('');
+                        //console.log('user---',data[2])
+                          var string1="<select multiple='multiple' id=\"asd\"><option disabled selected value=0>Select Users</option>" ;
+                           for (var i = 0; i < data[2].length; i++){ // alert(data[2][i].id+' '+data[2][i].firstName) ;
                                 string1+="<option value="+data[2][i].id+">"+data[2][i].firstName+"</option>"  ;           
                                 }
                           string1+="</select>";
-
+                          console.log(string1);
                           $("#asdDiv").html(string1);
                           
                            $('#asd').tagger({
