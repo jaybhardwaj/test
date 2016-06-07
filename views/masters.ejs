@@ -275,10 +275,10 @@ thead tr th {
                           <tr id="ind_<%=i%>"> 
                              <td id="indlabel_<%=i%>"><%=industry[0][i].values%></td>
                              <td>   <%if(industry[0][i].Active==0){%> 
-                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick="docsave('ind_'+<%=i%>,1)"></span><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('ind_'+<%=i%>,4)"></span> -->
+                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'  title="click to Active" onclick="docsave('ind_'+<%=i%>,1)"></span><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('ind_'+<%=i%>,4)"></span> -->
                               <%}
                               else{%>
-                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('ind_'+<%=i%>,0)" ></span><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('ind_'+<%=i%>,4)"></span>
+                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('ind_'+<%=i%>,0)"  title="click to InActive" ></span><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('ind_'+<%=i%>,4)"></span>
                                  <%}%>
                               </td>
                           </tr>
@@ -321,10 +321,10 @@ thead tr th {
                           <tr id="bus_<%=i%>"> 
                              <td id="buslabel_<%=i%>"><%=business[0][i].values%></td>
                              <td>   <%if(business[0][i].Active==0){%> 
-                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick="docsave('bus_'+<%=i%>,1)"></span></a><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick="docsave('bus_'+<%=i%>,4)"></span> -->
+                              <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'  title="click to Active" onclick="docsave('bus_'+<%=i%>,1)"></span></a><!-- <span style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick="docsave('bus_'+<%=i%>,4)"></span> -->
                               <%}
                               else{%>
-                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick="docsave('bus_'+<%=i%>,0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit"  onclick="docsave('bus_'+<%=i%>,4)" ></span>
+                               <span style='color:green;height:10px' class='glyphicon glyphicon-ok'  title="click to InActive"  onclick="docsave('bus_'+<%=i%>,0)" ></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('bus_'+<%=i%>,4)" ></span>
                                  <%}%>
                               </td>
                           </tr>
@@ -441,7 +441,7 @@ thead tr th {
                       <table style="margin:5%">
                           <td><input type="text" id="tecTableAdd" maxlength="30" class="form-control" placeholder="@add Technology "></td>
                          
-                          <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('tec',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td></tr>
+                          <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('tec',3)" style="font-size:18px;padding-left:14px;padding-top:5px"title="click to add"></span></td></tr>
                       </table>
                       </center>
                       </div>
@@ -1547,13 +1547,13 @@ thead tr th {
                   else
                   {
                     /*<span style="margin-left:5%"class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('+func+',4)" ></span>*/
-                   var str1='<td id ="'+tempid+'">'+tempval+'</td><td><span style="color:red;height:10px" class="glyphicon glyphicon-remove-sign" onclick="docsave('+func+',1)" ></span></a></td>';
+                   var str1='<td id ="'+tempid+'">'+tempval+'</td><td><span style="color:red;height:10px" class="glyphicon glyphicon-remove-sign" title="click to Active" onclick="docsave('+func+',1)" ></span></a></td>';
                     $('#'+docid).html(str1);
                  }
                    
                 }
                 else{
-                        var str1='<td id ="'+tempid+'">'+tempval+'</td><td><span style="color:green;height:10px" class="glyphicon glyphicon-ok" onclick="docsave('+func+',0)" ></span></a><span style="margin-left:5%"class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('+func+',4)" ></span></td>';
+                        var str1='<td id ="'+tempid+'">'+tempval+'</td><td><span style="color:green;height:10px" class="glyphicon glyphicon-ok" onclick="docsave('+func+',0)" title="click to InActive" ></span></a><span style="margin-left:5%"class="glyphicon glyphicon-pencil" title="click to edit" onclick="docsave('+func+',4)" ></span></td>';
                     $('#'+docid).html(str1);
                   }
               }
@@ -1816,7 +1816,7 @@ function addrole(){
                             } else if (data[0][0].flag == 1) {
                                 alert('Custom Role added successfully');
                                 $('#cancel').click();
-                                $('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+data[1][0].id+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:green" class="glyphicon glyphicon-ok "></span><span class="glyphicon glyphicon-pencil" title="click to edit"  onclick="getrole('+data[1][0].id+')"   style="margin-left:5%"></span></td></tr>');
+                                $('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+data[1][0].id+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:green;margin-left:5%" class="glyphicon glyphicon-ok "></span><span class="glyphicon glyphicon-pencil" title="click to edit"  onclick="getrole('+data[1][0].id+')"   style="margin-left:5%"></span></td></tr>');
                               } else if (data[0][0].flag == 3) {
                                 alert('Custom Role is already exist.Please enter with different Custom Role.');
                             }else if(data[0][0].flag == 4){
