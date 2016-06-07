@@ -774,7 +774,7 @@ project=project?project:'';
 
      //---------------------------------------Document--------------------------------------------------
     verifyCustomRole: function(req,res,next){
-        console.log("in");
+        console.log("in    ",req.session.croleId);
            res.json(req.session.croleId);
        
     },
