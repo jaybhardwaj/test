@@ -6,9 +6,9 @@
 
 <style type="text/css">
 
-.show {
-
-}
+.dataTables_filter, .dataTables_length {
+     display: none;
+    }
 .color3{
     padding-left: 1%;
     padding-top: 2%;
@@ -17,25 +17,13 @@
     padding-bottom: 61%;
     padding-right: 1%;
 }
-#sidebar-wrapper2 {
-        overflow-x: hidden;
-    }
+.sol-current-selection {
+     padding: 0px 0; 
+}
     #my-select5 {
         width: 100%;
         height: 29px;
     }
-    
-    .modal {
-        overflow: hidden;
-        z-index: 1100;
-    }
-    
-    .modal-dialog {
-        margin-right: 0;
-        margin-left: 0;
-    }
-    
-  
     
     .glyphicon-folder-open {
         color: black;
@@ -70,16 +58,7 @@
         font-size: 12px;
     }
     
-    #sidebar-wrapper2 {
-        margin-top: 2%;
-        height: auto;
-        min-height: 668px;
-    }
-    
-    #sidebar-wrapper3 {
-        height: auto;
-               margin-top: 2%;
-                min-height: 668px;
+  
     }
     body {
             overflow-y: scroll;
@@ -110,13 +89,14 @@
 
 
   <% include ../partials/adminheader %>
-        <% include headerDoc.ejs %>
+  <% include headerDoc.ejs %>
+      
 <div class="se-pre-con"></div>        
 <body style="overflow-x:hidden"> 
 <div class="container-fluid">    
 <div class="row secondry-color" style="margin-top:2%">
 <div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
-    height:auto;padding:10px;min-height:751px">
+    height:auto;padding:10px;min-height:689px;">
 <div class="" style="padding-left: 7%;margin-top:-1%"><b> Search By :</b></div>
                 <div id="new111">
                     <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
@@ -217,8 +197,8 @@
                             <td>
                                 <%=files[0][i].uploadDate%>
                             </td>
-                            <td><a title="view details"><i  onclick="editModel(<%=files[0][i].id%>)" style="max-width: 25px" class="fa fa-search"></i></a>
-                                <a title="delete file"><img src="./img/DeleteRed.png" class =' delete' onclick="deleteFile(<%=files[0][i].id%>)" style="max-width: 15px" ></a>
+                            <td><a title="view details"><i  onclick="editModel(<%=files[0][i].id%>)" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>
+                                <span title="delete file" class ='glyphicon glyphicon-trash delete' onclick="deleteFile(<%=files[0][i].id%>)" style="max-width: 15px" ></span>
                             </td>
                         </tr>
 
@@ -231,15 +211,15 @@
     height:auto;">
             <div class="" style=""><b>File Upload (size limit :2mb)</b></div>
             <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" style="margin-left:-12%">
-                <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:7%;">
+                <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:4%;">
                     <input type="file" id="fileAttach" class="fileStyle form-control " name='attach' style="font-size:11px;height:30px" required>
                     <input type="number" name='currfolder' value='0' class="hide" id="currfolderId">
                 </div>
 
-                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:7%;">
-                    <input type="text" id="ftitle" maxlength="50" required name="title" placeholder=" File Title(Required)" style="width:100%">
+                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:4%;">
+                    <input type="text" id="ftitle" maxlength="50" required name="title" placeholder=" File Title(Required)" style="width:100%;">
                 </div>
-                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:7%;">
+                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:4%;">
                     <input type="text" id="fauthor" maxlength="30" equired name="authname" placeholder=" Author Name(Required)" style="width:100%">
                 </div>
                 <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:5%;">
@@ -250,7 +230,7 @@
                     <div class="row labelclass form-Label" ><b>Industry:<sup style="color:red;">*</sup></b></div>
                     <div class="form-Label">
                      <%if(industry[0].length>0){%><input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"></input><%}%>
-                        <select id="my-select1" multiple="multiple" required name="industry">
+                        <select id="my-select1"  multiple="multiple" required name="industry">
                            <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
                             <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
                             <%}}}%>
@@ -263,7 +243,7 @@
                     <div class="row labelclass form-Label" style=""><b>Business:<sup style="color:red;">*</sup></b></div>
                     <div class="form-Label">
                         <%if(business[0].length>0){%> <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>"></input>  <%}%>
-                        <select id="my-select2" multiple="multiple" required name="business">
+                        <select id="my-select2"  multiple="multiple" required name="business">
                             <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
                             <%}}}%>
@@ -275,7 +255,7 @@
 
                     <div class="form-Label">  <%if(document[0].length>0){%>
                         <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>"></input>   <%}%>
-                        <select id="my-select3" multiple="multiple" required name="doctype">
+                        <select id="my-select3"  multiple="multiple" required name="doctype">
                                          <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
                             <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
                             <%}}}%>
@@ -287,7 +267,7 @@
                     <div class="row labelclass form-Label" style=""><b>Technology :<sup style="color:red;">*</sup></b></div>
                     <div class="form-Label"><%if(technology[0].length>0){%>
                         <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"></input><%}%>
-                        <select id="my-select4" multiple="multiple" required name="newTec">
+                        <select id="my-select4"  multiple="multiple" required name="newTec">
                                              <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
                             <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
                             <%}}}%>
@@ -300,7 +280,7 @@
                     </div>
                     <div class="form-Label">
                         <input type="hidden" id="<%=restriction[0][0].id%>" required name="rLevelhide" value="<%=restriction[0][0].id%>"></input>
-                        <select id="my-select5" required name="rLevel" class="form-control form-Label" style="width: 100%;padding: 3px;">
+                        <select id="my-select5"required name="rLevel" class="form-control form-Label" style="width: 100%;padding: 3px;">
                              <%for(var i=0;i<restriction[0].length;i++){%>
                             <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                             <%}%>
@@ -322,13 +302,13 @@
    <div class="modal fade" id="tag1">
         <div class="modal-dialog">
 
-            <div class="modal-content" id="express2" style="position: inherit;width:110%;margin-left: 50%;">
-                <div class="modal-header" style="background-color:#f05f40; height:7%; ">
-                    <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>View Details</b></label></center>
-
+            <div class="modal-content" id="express2" style="">
+                <div class="modal-header" style="background-color:#f05f40; ">
+                    <center><label id="head4" class="modal-title" style="color:white;"><b>View Details</b></label></center>
+                     <button type="button" class="close" id='cancel' style="margin-top: -31px"aria-label="Close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body" style="height:500px">
-                    <div class="row a">
+                <div class="modal-body" style="width:auto">
+                    <div class="row ">
                         <div class="col-md-4">
                             <label style="line-height:42px !important;"> File Title:</label>
                         </div>
@@ -337,7 +317,7 @@
                         </div>
                     </div>
 
-                    <div class="row a">
+                    <div class="row">
                         <div class="col-md-4">
                             <label style="line-height:42px !important;"> Author Name:</label>
                         </div>
@@ -347,56 +327,60 @@
                     </div>
 
 
-                    <div class="row a">
+                    <div class="row ">
                         <div class="col-md-4">
                             <label style="line-height:42px !important;">Description :</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea rows="4" cols="10" name="descbox" id="desc" value=" " placeholder="Description" style="width:100%;margin-bottom:3%" readonly></textarea>
+                            <textarea name="descbox" id="desc" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
                         </div>
                     </div>
-                    <div class="row a">
+                    <div class="row">
                         <div class="col-md-4">
                             <label style="line-height:42px !important;">Industry :</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="label" maxlength="45" class="form-control" id="industry" value="" style="width:" name="fname" readonly />
+                             <textarea name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                            <!-- <input type="label" maxlength="45" class="form-control" id="industry" value="" style="width:" name="fname" readonly /> -->
 
                         </div>
                     </div>
-                    <div class="row a">
+                    <div class="row ">
                         <div class="col-md-4">
                             <label style="line-height:42px !important;">Business:</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" maxlength="45" class="form-control" id="business" value="" style="width:" name="fname" readonly/>
+                             <textarea name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                           <!--  <input type="textarea" maxlength="45" class="form-control" id="business" value="" style="width:" name="fname" readonly/> -->
 
                         </div>
                     </div>
 
-                    <div class="row a">
+                    <div class="row ">
                         <div class="col-md-4">
                             <label style="line-height:42px !important;">Document Type:</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" maxlength="45" class="form-control" id="docType" value="" style="width:" name="fname" readonly />
+                             <textarea name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                           <!--  <input type="text" maxlength="45" class="form-control" id="docType" value="" style="width:" name="fname" readonly /> -->
 
                         </div>
                     </div>
 
 
-                    <div class="row a">
+                    <div class="row ">
                         <div class="col-md-4">
                             <label style="line-height:42px !important;">Technology:</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" maxlength="45" class="form-control" id="tech1" value="" style="width:" name="fname" readonly/>
+                             <textarea name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                            <!-- <input type="text" maxlength="45" class="form-control" id="tech1" value="" style="width:" name="fname" readonly/> -->
 
 
                         </div>
                     </div>
 
-                    <div class="row a">
+                    <div class="row ">
                         <div class="col-md-4">
                             <label style="line-height:42px !important;">Restriction Lavel:</label>
                         </div>
@@ -405,7 +389,7 @@
 
                         </div>
                     </div>
-                    <div class="row a">
+                    <div class="row">
                         <center>
                             <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Close</button>
 
@@ -497,16 +481,13 @@
             $('#select3').searchableOptionList();
             $('#select4').searchableOptionList();
             $('#select5').searchableOptionList();
-
-
-
-            $('#my-select').searchableOptionList();
+           $('#my-select').searchableOptionList();
             $('#my-select1').searchableOptionList();
             $('#my-select2').searchableOptionList();
             $('#my-select3').searchableOptionList();
-            $('#my-select4').searchableOptionList();
-           
-
+             $('#my-select4').searchableOptionList();
+            
+        
             if (<%=roleid%> == 1) {
                /* $('#docTabName2').addClass('show');
                 $('#docTabNameR').addClass('show');
@@ -527,7 +508,7 @@
 
                 "iDisplayLength": 10,
                 "showNEntries": true,
-                "bFilter": true,
+                "bFilter": false,
                 "bLengthChange": true,
                 "aoColumnDefs": [{}],
                 "order": []
@@ -578,9 +559,7 @@
                     },
                     dataType: 'json',
                     success: function(tabledata) {
-                        console.log(rowid);
-                        console.log("otable :", otable);
-                        console.log(otable.fnDeleteRow(rowid));
+                       
                         otable.fnDeleteRow(rowid);
                     },
                     error: function() {
@@ -640,7 +619,7 @@
                             bgstr = 'style = "background-color:#ffffb3"';
 
                         }
-                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px" class="fa fa-search"></i></a><a title="delete file" ><img src="./img/DeleteRed.png" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
+                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a><a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
                     }
                     charstr += '</tbody>';
                     otable.dataTable().fnDestroy();
@@ -653,7 +632,7 @@
                         /*used to display no of element  on page load or relaod*/
                         "showNEntries": true,
                         /* for displaying showing 10 out of 50 entries at left bottom corner*/
-                        "bFilter": true,
+                        "bFilter": false,
                         /*dispalying search box at top right corner*/
                         "bLengthChange": true,
                         /*dispalying  show 10 out of 50 entries at top left corner*/
@@ -757,7 +736,6 @@
                     'searchbox': searchbox
                 },  
                 success: function(tabledata) {
-                    console.log(tabledata);
 
                     var charstr = "";
                     charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th> <th>Upload Date</th><th>Actio</th></thead><tbody>';
@@ -768,7 +746,7 @@
                             bgstr = 'style = "background-color:#ffffb3"';
 
                         }
-                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px" class="fa fa-search"></i></a><a title="delete file"><img src="./img/DeleteRed.png" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
+                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a><a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
                     }
                     charstr += '</tbody>';
                     otable.dataTable().fnDestroy();
@@ -784,7 +762,7 @@
                         /*used to display no of element  on page load or relaod*/
                         "showNEntries": true,
                         /* for displaying showing 10 out of 50 entries at left bottom corner*/
-                        "bFilter": true,
+                        "bFilter": false,
                         /*dispalying search box at top right corner*/
                         "bLengthChange": true,
                         /*dispalying  show 10 out of 50 entries at top left corner*/
