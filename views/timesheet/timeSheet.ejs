@@ -446,9 +446,9 @@
 
                                 a2 = a2 + '<td><input type="hidden" ';
                                 if (dy1 <= 15) {
-                                    a2 = a2 + 'id=' + (k - 1);
+                                    a2 = a2 + 'id=t_h' + (k - 1);
                                 } else {
-                                    a2 = a2 + 'id=' + (k - 16);
+                                    a2 = a2 + 'id=t_h' + (k - 16);
                                 }
 
                                 a2 = a2 + ' value="' + startdd + '" ><input id="wkd' + (k - 1) + '" type="text" style="width:60px; height:49px; text-align:center"; value=' + k + "-" + weekdays[weekday_value] + ' disabled></input></td>';
@@ -467,7 +467,7 @@
 
                                 a2 = a2 + '<td><input type="hidden" ';
 
-                                a2 = a2 + 'id=' + p;
+                                a2 = a2 + 'id=t_h' + p;
 
 
                                 a2 = a2 + ' value="' + st1 + '" ><input id="wkd' + p + '" type="text" style="width:60px; height:49px; text-align:center "; value=' + k + "-" + weekdays[weekday_value] + ' disabled></input></td>';
@@ -722,6 +722,7 @@
                 var dayy = new Date(go_for_day);
                 var weekd = dayy.getDay();
                 var dnd = dayy.getDate();
+
                 // alert("this uis date"+dnd);
                 if (tdayhour < workschedule) { 
                     if('<%=timeinfo[8][0].schedule%>'==1 || '<%=timeinfo[8][0].schedule%>'==''){
@@ -1012,14 +1013,16 @@
         var k = curr_wbsnm.length + 1;
         //console.log(k,"hi i am in disableHoliday");
         for (var i = 0; i < temp + 1; i++) {
-            var ddy = $('#' + i).val();
-            // console.log("date is "+ddy);
+            var ddy = $('#t_h' + i).val();
+            console.log("date is ",ddy,"   and id is  ",i);
             ddy = new Date(ddy);
             var weekdy = ddy.getDay();
+            //alert("id is"+'#' + i+"value is"+$('#' + i).val()+"date is "+ddy+"week days are"+weekdy);
             var date_other_format = ddy.getFullYear() + '-' + (ddy.getMonth() + 1) + '-' + ddy.getDate();
             if ('<%=timeinfo[8][0].schedule%>' == '') {
                 //alert("rthis is null");
                 if (weekdy == 0) {
+                    alert(" its for sunday");
                     satsun(i, k);
                 } else disholi(i, k, date_other_format);
             } else
