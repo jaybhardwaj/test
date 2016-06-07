@@ -178,7 +178,7 @@
                         </thead>
 
                         <tbody id="wbsstatus11" style="background-color: white;">
-                            <% for(var i=wbs.length-1;i>=0;i--) { %>
+                            <% for(var i=wbs.length-1;i>=0;i--) { console.log('gdgdrfgdsfrfgdsfsfsf---',i) %>
                                 <tr id="">
 
                                     <td>
@@ -531,6 +531,21 @@
             } else {
 
                 $('#wbshidden').val(3);
+
+                if(confirm("Do you want to create Assignment for WBS - "+$('#wbsname').val()+" ?") ){
+
+
+                  $.ajax({
+                url: '/addEditWbsDetails',
+                type: 'post',
+                data: {"assign":$('#assign').val(),"flaghide":$('#flaghide').val(),"wbsidhide":$('#wbsidhide').val(),"wbsname":$('#wbsname').val(),"wbscode":$('#wbscode').val(),"proname":$('#proname').val(), "wbsowner":$('#wbsowner').val(),"wbspsdate":$('#datepicker').val(),"wbspedate":$('#datepicker1').val(),"wbsasdate":$('#datepicker2').val(),"wbsaedate":$('#datepicker3').val(),"wbsstatus":$('input:radio[name=wbsstatus]:checked').val(),"wbseffort":$('#wbseffort').val(),"wbseffort1":$('#wbseffort1').val(),"wbslocation":$('#wbslocation').val(),"typeValue":$('#typeValue').val()},
+                success: function(data) {
+                   alert('success');
+                   console.log(data[0]);
+                }
+
+            });
+                }
 
             }
             return true;

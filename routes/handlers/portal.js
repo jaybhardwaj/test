@@ -1722,8 +1722,7 @@ var tab=req.body.tabDetail;
             pclient, ptech,presource,ccontact,
             req.body.pdescription, req.body.psdate,  req.body.pedate,  req.body.asdate,  req.body.aedate,
             req.body.pstatus,pcomplexity, plocation, req.body.pcommercialhead,
-            req.body.paccounthead, req.body.pmanager,
-             req.body.completed,req.body.isBillable,req.body.taxCode,req.body.poNumber,tab,
+            req.body.paccounthead, req.body.pmanager,req.body.isBillable,req.body.taxCode,req.body.poNumber,tab,
 
             req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {

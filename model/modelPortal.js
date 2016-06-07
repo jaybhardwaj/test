@@ -798,6 +798,7 @@ console.log(result);
             sql: 'call usp_projectWbs(?,?,?,?)',
             values: [pid,userId,roleId,retailerId,]
         };
+        console.log(query);
         mysql(query, function(err, result) {
 
             if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
@@ -810,14 +811,14 @@ console.log(result);
     projectAddEditDetailsWithFlag: function(pid,pname, pcode, ptype,pcat, pclient, ptech,presource,ccontact,
             pdescription, psdate,  pedate,  asdate,  aedate,
             pstatus,  pcomplexity,  plocation, pcommercialhead,
-            paccounthead, pmanager,completed,isBillable,taxCode,poNumber,
+            paccounthead, pmanager,isBillable,taxCode,poNumber,
             tab,userId,roleId,retailerId, callback) {
         var query = {
-            sql: 'call usp_addEditProWithFlag(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            sql: 'call usp_addEditProWithFlag(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [pid, pname, pcode, ptype,pcat, pclient, ptech,presource,ccontact,
             pdescription, psdate,  pedate,  asdate,  aedate,
             pstatus,  pcomplexity,  plocation, pcommercialhead,
-            paccounthead, pmanager,completed,isBillable,taxCode,poNumber,tab,
+            paccounthead, pmanager,isBillable,taxCode,poNumber,tab,
             userId,roleId,retailerId]
         };
         mysql(query, function(err, result) {
