@@ -693,6 +693,12 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         proname,wbsowner,wbspsdate,
         wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,
         wbslocation,typeVal,userId,roleId,retailerId, callback) {
+    if(!wbsowner){
+        wbsowner=null;
+    }
+    if(!wbslocation){
+        wbslocation=null;
+    }
         var query = {
             sql: 'call usp_addEditWbsDetails(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [assign,flaghide,wbsidhide,wbsname,wbscode,proname,wbsowner,wbspsdate,
@@ -1035,7 +1041,7 @@ getAllAssignment: function(userId,roleId,retailerId,callback) {
             
         };
 
-
+console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });

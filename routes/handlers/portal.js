@@ -1618,7 +1618,17 @@ addEditWbsDetails: function(req, res, next) {
              if (err) {
                  next(err);
              } else {
-                next();
+
+                if(req.wbshidden==13){
+
+                    res.json(result);
+                        
+                        }
+                        else{
+                            
+                            next();
+                        }
+
              }
          });
      },
@@ -1880,7 +1890,7 @@ getAssignment:  function(req, res, next) {
              }
 
              else{
-                    console.log(" result is :---",resultAssignment);
+                    //console.log(" result is :---",resultAssignment);
                 req.allinfo1=resultAssignment;
                 
                 next();
