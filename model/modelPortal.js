@@ -642,6 +642,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
             pstatus,  pcomplexity,  plocation, pcommercialhead,
             paccounthead, pmanager, pteamlead,userId,roleId,retailerId]
         };
+        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -652,6 +653,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
             sql: 'call usp_getAllWbs(?,?,?)',
             values: [userId,roleId,retailerId]
         };
+        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
