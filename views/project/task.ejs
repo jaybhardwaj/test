@@ -464,6 +464,7 @@ newArr[10] = effortIndays[individualId];
 $('#'+individualId+'_del_'+parentId).attr("onclick" , "deleteRow(this.id,1)");
 
 }
+console.log(newArr);
 var iValue = -1;
   for(var i = 0;i<updateArr.length;i++){
          if(updateArr[i][0]==individualId){
@@ -480,7 +481,7 @@ else{
   updateArr[iValue] = newArr; 
 }
 
-console.log(newArr);
+//console.log(newArr);
 
 
 
@@ -1004,7 +1005,7 @@ var sDateName          = $(stringForId).children('td')[4].innerHTML;//Start
 var eDateName          = $(stringForId).children('td')[5].innerHTML;//End
 var effortQuant        = $(stringForId).children('td')[6].innerHTML.match(/\d{1,9}/i)[0];
 var strForpercComplete  = $(stringForId).children('td')[7].innerHTML;
-console.log('strForpercComplete',strForpercComplete);
+//console.log('strForpercComplete',strForpercComplete);
 if(strForpercComplete!=''){
 var percCompleted      = strForpercComplete.slice(0, strForpercComplete.length-2);
 }
@@ -1038,7 +1039,7 @@ else depth = 2;
 var hideAddButtonClass = '';
 if(impResource!=''){
 var posForResource = optionStr.indexOf(impResource);
-console.log('Yo123',posForResource,impResource);
+//console.log('Yo123',posForResource,impResource);
     posForResource = posForResource - 4;
     var selectedString = ' selected = "true" ';
 var optionStr2 = [optionStr.slice(0, posForResource), selectedString, optionStr.slice(posForResource)].join('');
@@ -1122,7 +1123,7 @@ var strForHtml =  '<td></td><td class="task paddingtd"><img src="../img/project/
           decode = decode.replace(/"/g,'').replace(/'/g,'');
         $(tdIdForSelect).html(decode);
 
-        console.log(optionStr2);
+    //    console.log(optionStr2);
 
 
 
@@ -1167,7 +1168,7 @@ if(depth!=0||1){
   var tdchild = $('#'+ individualId + '_rowid_'+parentId + ' td')[6];
   tdchild   = $(tdchild).children('input')[0];
    //$(tdchild).val(0);
-   console.log('here is ',tdchild);
+  // console.log('here is ',tdchild);
   $(tdchild).attr('disabled',true);
   $(tdchild).addClass('disablePointer');
 
@@ -1175,7 +1176,7 @@ if(depth!=0||1){
   tdchild   = $(tdchild).next();
   tdchild   =  $(tdchild).children('input')[0];
 
-console.log('here is 2 ',tdchild);
+//console.log('here is 2 ',tdchild);
 
   //$(tdchild).val(0);
   $(tdchild).attr('disabled',true);
@@ -1603,15 +1604,37 @@ $('.selectEffEditAdd').addClass('selectClassForJq');
 $('.ddResources').addClass('ddResourcesForJq');
 
 $('.allTextAndNumberBoxes').focusout(function(){
-/**********focussout******************/
+
+var conditionFlag = ($(this).hasClass('disablePointer')&&dropDownFlagUsedInTask)
+
 var tdEle = $(this).parent('td');
      tdEle = $(tdEle).parent('tr');
      tdEle = $(tdEle).attr('id');
+     console.log('id is ',tdEle,'this is',this);
      var valtest =  tdEle.split('_');
     var parentIdTest = parseInt(valtest[2]);
     var individualIdTest = parseInt(valtest[0]);
+    /*****************************To check all validations to go further***************************************************/
+    var conditionFlag = ($(this).hasClass('disablePointer')&&dropDownFlagUsedInTask)
+    var currRowIdTd = '#' + individualIdTest +'_rowid_'+ parentIdTest +' td';
+    currRowIdTd      = $(currRowIdTd)[1];
+    conditionFlag    =   (conditionFlag&&$(currRowIdTd).hasClass('task'));
+console.log( 'disablePointer ',$(this).hasClass('disablePointer'),'dropDownFlagUsedInTask ',dropDownFlagUsedInTask,'currRowIdTd ',$(currRowIdTd).hasClass('task'),'conditionFlag ',conditionFlag);
+    updateAllArr(tdEle,1);
+ //debugger;
+
+/******************************************************************************/
 /***************************Parent Effort and hour Calculation************************************/
-      if(parentIdTest!=0){ 
+/*if(conditionFlag){
+console.log('in true');
+
+}*/
+
+
+      if(parentIdTest==0||conditionFlag){console.log('successfully returned');}
+
+      if(parentIdTest==0||conditionFlag) {return;}
+
         var value = tdEle.split('_');
        individualId = value[0];
        parentId     = value[2];
@@ -1632,6 +1655,7 @@ var tdEle = $(this).parent('td');
        // alert('Js Error ,Pls hire a more useful developer');
         return;
       }
+
 
       for(var i = 0;i<treeStructure[parentId].length;i++){
            var tempChildrenRowId = '#' +treeStructure[parentId][i] + '_rowid_' + parentId;
@@ -1673,20 +1697,41 @@ var tdEle = $(this).parent('td');
          parentEle = $(parentRowId +' td')[7];
         inputChild =  $(parentEle).children('input')[0];
          $(inputChild).val(parseInt(sumQuantEffort));
+    //  console.log('dropDownFlagUsedInTask here',dropDownFlagUsedInTask,$(inputChild).hasClass('disablePointer'));
 
-        if(!$(inputChild).hasClass('disablePointer')){
-            //   alert('in disable');
-     $(parentRowId+' .allTextAndNumberBoxes').focusout();
-       /************************Perc Complete Insertion**********************/
-   }
+                //   alert('in disable');
+    /* if(!dropDownFlagUsedInTask){
+           $(parentRowId+' .allTextAndNumberBoxes').focusout();
+       /****************************************************************
+                            }
+    
+               else{
+      console.log('dropDownFlagUsedInTask here',dropDownFlagUsedInTask,$(inputChild).hasClass('disablePointer'));
 
-   else{
-    console.log('in else');
-    //alert('in else');
-   }
+             if(!$(inputChild).hasClass('disablePointer')){
+                   $(parentRowId+' .allTextAndNumberBoxes')
+                   .focusout();
+
+              }
+
+       } */
 
 
-}
+      parentRowId  =   $(parentRowId+' td')[6];
+      parentRowId  =     $(parentRowId).children('input')[0];
+      $(parentRowId).focusout();
+     
+console.log('parent call fired',parentRowId);
+
+
+
+
+
+
+
+
+
+
 
 if(!treeStructure[individualIdTest].length){
 
@@ -1711,7 +1756,7 @@ var dropDownId =   '#' + individualIdTest + '_effType_' + parentIdTest;
 
 /***************************************************************/
 //console.log('all from here',effortIndays[parentIdTest],parentIdTest);
-      updateAllArr(tdEle,1);
+  
 
 
 
@@ -1719,54 +1764,70 @@ var dropDownId =   '#' + individualIdTest + '_effType_' + parentIdTest;
 
 
 var prevSelected = 0;
-
+var dropDownFlagUsedInTask = false;
 $('.selectClassForJq').on('focus', function () {
    
-/*   var parentId = 
-*/   prevSelected = $(this).val();
+   prevSelected = $(this).val();
 
     var prevEle = $(this).prev()[0];
-     //  $(prevEle).focus();
-       $(prevEle).focusout();
 
-}).change(function(){
 
-  var tempSelectValue = $(this).val();
-
- // console.log('*************tempSelectValue***************',tempSelectValue);
- // alert(tempSelectValue);
-/*  console.log('tempSelectValue',tempSelectValue);
-*/  
 var currentId = $(this).attr('id');
- // alert(currentId);
 
 var value  = currentId.split('_');
 var individualId = parseInt(value[0]);
 var parentId     = parseInt(value[2]);
 
+var currRowIdTd = '#' + individualId +'_rowid_'+ parentId +' td';
+    currRowIdTd      = $(currRowIdTd)[1];
+   var  conditionFlag    = $(currRowIdTd).hasClass('task');
+   if(conditionFlag) {dropDownFlagUsedInTask = true; }
+$(prevEle).focusout();
+
+}).change(function(){
+     // dropDownFlagUsedInTask = false;
+       var tempSelectValue = $(this).val();
+
+var currentId = $(this).attr('id');
+
+var value  = currentId.split('_');
+var individualId = parseInt(value[0]);
+var parentId     = parseInt(value[2]);
+   
+
+   var currRowIdTd = '#' + individualId +'_rowid_'+ parentId +' td';
+    currRowIdTd      = $(currRowIdTd)[1];
+   var  conditionFlag    = $(currRowIdTd).hasClass('task');
+   if(conditionFlag) {dropDownFlagUsedInTask = true; }
+
+
+
+
+
 if(treeStructure[individualId].length){
   var childRowId = '#'+treeStructure[individualId][0]+'_effType_'+individualId;
-  //alert(childRowId);
-  //childRowId = $(childRowId).prev();
   //$(childRowId).focus();
-  $(childRowId).focus();
-  childRowId = $(childRowId).prev();
+  childRowId = $(childRowId).prev()[0];
+  console.log('childRowId called',childRowId);
    $(childRowId).focusout();
-
 }
 
+
+
+
 var tdEle = $(this).parent('td').parent('tr').attr('id'); 
-//updateAllArr(tdEle,1);
 var inBox = $(this).prev()[0];
+
+
+
+
 setTimeout(function(){
 
-  //console.log('***********inBox********',inBox);
-  //$(inBox).focus();
-  console.log('inbox is',inBox);
+  //console.log('inBox in')
   $(inBox).focusout();
+    dropDownFlagUsedInTask = false;
 
   //updateAllArr(tdEle,1);
-
 },400);
 /*setTimeout(function(){
 

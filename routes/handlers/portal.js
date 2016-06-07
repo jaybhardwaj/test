@@ -4598,9 +4598,13 @@ modelPortal.projStatus(req.session.retailerId,function(err,result){
             }   
             else{
 
-
+                 console.log(result[1],'***********WAIT*************',result[0].length);
                   req.projectDetails = result[0];
-                   req.effProjectCalculations = getDateTime(result[1],result[0].length);
+                  var maxid = 1;
+                  if(result[0].length!=0){
+                          maxid =  result[0][result[0].length-1].id + 1;
+                  }
+                   req.effProjectCalculations = getDateTime(result[1],maxid);
                    console.log('***********',req.effProjectCalculations);
                 
                     next();
@@ -5341,10 +5345,7 @@ function blankentry(targetPath, req) {
 
 function getDateTime(timeStamp,dateTimeLength) {
     var originalArr = [[],[]];
-
-
-
-     for(var i = 0;i<2;i++){
+for(var i = 0;i<2;i++){
       for(var j =0;j<dateTimeLength+1;j++){
            originalArr[i].push(0);
 
@@ -5354,21 +5355,19 @@ function getDateTime(timeStamp,dateTimeLength) {
 
 for(var i=0;i<timeStamp.length;i++){
 
-    console.log('StartDate is ',timeStamp[i].startDate,'endDate is',timeStamp[i].endDate);
-    //if()
+    console.log('StartDate is ',timeStamp[i].startDate,'endDate is',timeStamp[i].endDate); 
 }
 
     /*****************Today date Calculation**************************/
-    var nowDateTime = new Date();
+      var nowDateTime = new Date();
  var nowDateTimeForEmptyStartEndDate = nowDateTime;
     var nowDateTimeArr = [];
     nowDateTimeArr[0] = nowDateTime.getDate();
     nowDateTimeArr[1] = nowDateTime.getMonth();
     nowDateTimeArr[2] = nowDateTime.getFullYear();
     nowDateTime = new Date(nowDateTimeArr[2], nowDateTimeArr[1], nowDateTimeArr[0]);
-    nowDateTime = nowDateTime.getTime();
-    var dateinDDMMYYFormat =  nowDateTimeArr[0] +'/' + (nowDateTimeArr[1] +1) + '/' + nowDateTimeArr[2]; 
-
+    nowDateTime = nowDateTime.getTime(); 
+    var dateinDDMMYYFormat = nowDateTimeArr[0] + '/' + (nowDateTimeArr[1] + 1) +'/' + nowDateTimeArr[2];  
 
 
 
@@ -5379,68 +5378,115 @@ for(var i=0;i<timeStamp.length;i++){
     var completeArr = setAllValuesInArray();
     var sumEff = 0;
 
-    for (var inc = 0; inc < timeStamp.length; inc++) { //if-else
 
-           if(inc!=timeStamp.length-1){
-        while (timeStamp[inc].project == timeStamp[inc+1].project) {
 
-           
-                // console.log('completeArr[compInc] is',completeArr[compInc],'timeStamp[inc].percCompleted is',timeStamp[inc].percCompleted,'effortInDays is',timeStamp[inc].percCompleted);
 
-            completeArr[compInc] = completeArr[compInc]+ (parseInt(timeStamp[inc].percCompleted) *parseInt(timeStamp[inc].effortInDays)) ;
-            sumEff = sumEff + parseInt(timeStamp[inc].effortInDays);
+/**insert here*/ 
+ for (var inc = 0; inc < timeStamp.length; inc++) { //if-else
+       if (inc != timeStamp.length - 1) {
+           while (timeStamp[inc].project == timeStamp[inc + 1].project) {
+            console.log('percCompleted',timeStamp[inc].percCompleted,isNaN(timeStamp[inc].percCompleted));
+               if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
+                console.log('in isnan',timeStamp[inc].percCompleted)
+                   timeStamp[inc].percCompleted = 0;
+         }
 
-     console.log('In while____ inc is', inc,'id is', timeStamp[inc].id,' completeArr['+compInc+'] is ',completeArr[compInc],'sumEff is',sumEff,'effort in days',timeStamp[inc].effortInDays);
+
+        console.log('effortInDays',timeStamp[inc].effortInDays,isNaN(timeStamp[inc].effortInDays));
+
+               if (isNaN(timeStamp[inc].effortInDays)||!timeStamp[inc].effortInDays) {
+                console.log('in isnan',timeStamp[inc].effortInDays);
+                timeStamp[inc].effortInDays = 0;
+
+               }
+
+
+               completeArr[compInc] = completeArr[compInc] + (parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInDays));
+               sumEff = sumEff + parseInt(timeStamp[inc].effortInDays);
+console.log('In while____ inc is', inc, 'id is', timeStamp[inc].id, ' completeArr[' + compInc + '] is ', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInDays, 'name is', timeStamp[inc].name);
+
+               inc++;
+               if (inc == timeStamp.length - 1) {
+                   break;
+               }
+
+
+
+           }
 
           
 
-            if (inc == timeStamp.length - 1) {
-                break;
-            }
-
-            inc++;
-
-}
-
-}
+       }
 
 
 
- if (inc != timeStamp.length - 1) {
-  sumEff = sumEff + timeStamp[inc].effortInDays;
- completeArr[compInc] = (completeArr[compInc]+ parseInt(timeStamp[inc].percCompleted)*parseInt(timeStamp[inc].effortInDays))/sumEff;
+       if (inc != timeStamp.length - 1) {
+           sumEff = sumEff + timeStamp[inc].effortInDays;
 
-if(isNaN(completeArr[compInc])){  console.log('In Nan if inc is',parseInt(timeStamp[inc].project));  completeArr[compInc] = 0; }
-console.log('In if inc is', inc, 'id is',timeStamp[inc].id,'completeArr['+compInc+'] is',completeArr[compInc],'sumEff is',sumEff,'effort in days',timeStamp[inc].effortInDays);
- originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
-        
-        compInc++;
-        sumEff = 0;
-     //   inc++;
-}
+                 if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
+                console.log('in isnan',timeStamp[inc].percCompleted)
+                   timeStamp[inc].percCompleted = 0;
+                }
+         if(isNaN(timeStamp[inc].effortInDays)||!timeStamp[inc].effortInDays) {
+                console.log('in isnan',timeStamp[inc].effortInDays);
+                timeStamp[inc].effortInDays = 0;
 
-else{
+               }
 
- completeArr[compInc] = completeArr[compInc]/sumEff;
+           completeArr[compInc] = (completeArr[compInc] + parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInDays)) / sumEff;
+
+           if (isNaN(completeArr[compInc])) {
+               console.log('In Nan if inc is', parseInt(timeStamp[inc].project));
+               completeArr[compInc] = 0;
+           }
+           console.log('In if inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInDays);
+           originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
+
+           compInc++;
+           sumEff = 0;
+           //   inc++;
+       } else {
+
+        sumEff = sumEff + timeStamp[inc].effortInDays;
+
+                 if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
+                console.log('in isnan',timeStamp[inc].percCompleted)
+                   timeStamp[inc].percCompleted = 0;
+                }
+         if(isNaN(timeStamp[inc].effortInDays)||!timeStamp[inc].effortInDays) {
+                console.log('in isnan',timeStamp[inc].effortInDays);
+                timeStamp[inc].effortInDays = 0;
+
+               }
+
+           completeArr[compInc] = (completeArr[compInc] + parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInDays)) / sumEff;
 
 
-if(isNaN(completeArr[compInc])){  console.log('In Nan else inc is',parseInt(timeStamp[inc].project));  completeArr[compInc] = 0; }
+           if (isNaN(completeArr[compInc])) {
+               console.log('In Nan else inc is', parseInt(timeStamp[inc].project));
+               completeArr[compInc] = 0;
+           }
 
 
 
-  originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
-console.log('In else inc is', inc, 'id is',timeStamp[inc].id,'completeArr['+compInc+'] is',completeArr[compInc],'sumEff is',sumEff,'effort in days',timeStamp[inc].effortInDays);
- inc++
-         
-}
+           originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
+           console.log('In else inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInDays);
+           inc++;
+
+
+       }
 
 
 
 
-    }
+   }
+
+ /******End*******/
 
 
-    for(var inc=0;inc<completeArr.length;inc++){
+
+
+for(var inc=0;inc<completeArr.length;inc++){
         if(isNaN(completeArr[inc])){
             completeArr[inc] = 0;
         }
@@ -5518,6 +5564,9 @@ originalArr[i][j] = Math.round(originalArr[i][j]*100)/100;
 }
 
 
+
+
+
 function getEffNumberOfDays(EndDateTime,StartDateTime){
 var EndDateTimeValue =  EndDateTime.split('/');
 var StartDateTimeValue = StartDateTime.split('/');
@@ -5548,11 +5597,13 @@ return (endDateTimeInTime - StartDateTimeInTime);
 
 
 
+
+
 function setAllValuesInArray(){
-    var arr = [];
+  var arr = [];
 for(var i = 0;i<100000;i++){
-    arr[i] = 0;
+  arr[i] = 0;
 }
-return arr;
+return arr
 }
 
