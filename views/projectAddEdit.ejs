@@ -690,25 +690,31 @@ function clientContactAccToClient(cid){//alert(cid);
                 type: 'post',
                 data: { "cid": cid},
                 success: function(data) {
-               console.log(data);
+  
+               $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
+               console.log('name id---<%=name.length%>','data id---',data[0].length);
 
-               $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
+                  var string1="<select multiple='multiple' id=\"ccontact\"><option value=0>Select a client contact person</option>" ;
+                  var temparr=[];
 
-
-                //  $('#ccontact').html('');
-                  var string1="<select multiple='multiple' id=\"ccontact\"><option value=0 >Select</option>" ;
-                  // $('#ccontact').append($("<option></option>").attr("value",0).text('Select a client contact person'));
                    for(var i =0;i<data[0].length;i++){   
-                //  $('#ccontact').append($("<option></option>").attr("value",data[0][i].id).text(data[0][i].Name));
-                        string1+="<option value="+data[0][i].id+" <%if(flag==1){for(var i=0;i<name.length;i++){%>";
+                
+                        string1+="<option value="+data[0][i].id+" <%if(flag==1){for(var j=0;j<name.length;j++){%>";
 
-                        if(data[0][i].id=='<%=name[i].ccmid%>'){
+                        console.log('name id---<%=name[j].ccmid%>','data id---',data[0][i].id);
+                        if(data[0][i].id=='<%=name[j].ccmid%>' && temparr.indexOf('<%=name[j].ccmid%>')<0){
+                          //console.log(i,'--j=<%=j%>');
                           string1+='selected';
+                          temparr.push('<%=name[j].ccmid%>');
+
                         }
 
                         string1+="<%}}%>>"+data[0][i].Name+"</option>"  ;           
                         }
               string1+="</select>";
+              console.log(string1);
+
+
 
               $("#contactDiv").html(string1);
                   
