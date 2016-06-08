@@ -84,7 +84,7 @@
 				<div style="padding-top:10px"  >
 						<label style="height:10px" >Project </label>
 						<div id="project" style="margin-left: -13px;" >
-							<input type="radio" name="projectis" checked="true" value="in">Is</input> <input type="radio" name="projectis" value="not in">Is Not</input>
+							<input type="radio" name="projectis" checked="true" value="in" id="prois">Is</input> <input type="radio" name="projectis" value="not in" id="proisnot">Is Not</input>
 						</div>
 					</div>
 					<div style="position:relative; left:20%"id="16">
@@ -92,8 +92,8 @@
 					<div style="padding-top:10px">
 						<label style="height:10px">Status </label>
 						<div id="status" style="margin-left: -13px;"> 
-							<input type="radio" name="statusis" checked="true" value="in">Is</input>
-							<input type="radio" name="statusis" value="not in">Is Not</input>
+							<input type="radio" name="statusis" checked="true" value="in" id="statusis">Is</input>
+							<input type="radio" name="statusis" value="not in" id="statusisnot">Is Not</input>
 						</div>
 					</div>
 					<div style="position:relative; left:20%"id="11">						
@@ -101,7 +101,7 @@
 					<div style="padding-top:10px" >
 						<label style="height:10px" >Priority </label>
 						<div id="priority" style="margin-left: -13px;">
-							<input type="radio" name="priorityis" checked="true" value="in">Is</input> <input type="radio" name="priorityis" value="not in">Is Not</input>
+							<input type="radio" name="priorityis" checked="true" value="in" id="priois">Is</input> <input type="radio" name="priorityis" value="not in" id="proisnot">Is Not</input>
 						</div>
 					</div>
 					<div style="position:relative; left:20%"id="12">
@@ -110,7 +110,7 @@
 					<div style="padding-top:10px">
 						<label style="height:10px">Severity</label>
 						<div id="severity" style="margin-left: -13px;">
-							<input type="radio" name="severityis" checked="true" value="in">Is</input> <input type="radio" name="severityis" value="not in">Is Not</input>
+							<input type="radio" name="severityis" checked="true" value="in" id="sevis">Is</input> <input type="radio" name="severityis" value="not in" id="sevisnot">Is Not</input>
 						</div>
 					</div>
 					<div style="position:relative; left:20%"id="13"> 
@@ -118,7 +118,7 @@
 					<div style="padding-top:10px">
 						<label style="height:10px">Assinged To</label>
 						<div id="assingedto" style="margin-left: -13px;">
-							<input type="radio" name="assingedtois" checked="true" value="in">Is</input> <input type="radio" name="assingedtois" value="not in">Is Not</input>
+							<input type="radio" name="assingedtois" checked="true" value="in" id="assis">Is</input> <input type="radio" name="assingedtois" value="not in" id="assisnot">Is Not</input>
 						</div>
 					</div>
 					<div style="position:relative; left:20%"id="14">
@@ -127,7 +127,7 @@
 					<div style="padding-top:10px">
 						<label style="height:10px">Technology</label>
 						<div id="technology" style="margin-left: -13px;">
-							<input type="radio" name="technologyis" checked="true" value="in">Is</input> <input type="radio" name="technologyis" value="not in">Is Not</input>
+							<input type="radio" name="technologyis" checked="true" value="in" id="techis">Is</input> <input type="radio" name="technologyis" value="not in" id="techisnot">Is Not</input>
 						</div>
 					</div>
 					<div style="position:relative; left:20%"id="15">
@@ -147,7 +147,7 @@
 	<span class="modal-title" style="padding-left:46%">Bug Details</span> 	
 	
 	<input class="form-text-box" type="text" placeholder="Bug Id" id="searchbox" style="margin-top: 5px;margin-bottom: 5px;float:right;width: 13%;"> 
-	 <label style="float:right;padding-top:1%" class="form-Label">Search using Bug Id:</label>
+	 <label style="float:right;padding-top:1%;padding-right:3px" class="form-Label">Search using Bug Id : </label>
 		 <!-- 
 		<button class="btn btn-info" onclick="exportBug()"style="margin-left:92.5%;margin-top:1%;">Export</button> -->
 
@@ -275,8 +275,8 @@
 				 	<!-- 	<div class="row">
 							<div class="col-md-1"style ="padding-left:2%;padding-bottom:0.5%;font-size:14px;color:#f05f40;"><b>Description:</b></div>
 						</div> -->
-				<textarea style="float:left;width:101%"  maxlength="1200" id='description' class='form-control'></textarea>
-						(max. 1200 characters)
+				<textarea style="float:left;width:101%"  maxlength="12000" id='description' class='form-control'></textarea>
+						
 					</div>
 					<div id="menu1" style="margin-left:-2%;width:103%" class="tab-pane fade">
 						<div id="overview" style="margin-bottom:1%;margin-top:10px"></div>
@@ -311,16 +311,22 @@
           
 function checkedBox(){
 var array = [];
+var radio=[];
     $('.checkl  option:selected').each(function() {
         array.push($(this).attr("id"));
     });
-    $("#allSelected").val(array); 
+  
+    $('.checkl  :radio:checked').each(function() {
+       radio.push($(this).attr("id")); 
+    });
+    
+    array.push.apply(array,radio); 
+	    $("#allSelected").val(array); 
 	return true;
 }
 
  	$(document).ready(function(){ 
  		      otable = $("#data_table").DataTable({
-                
                  'iDisplayLength': 5,
                 "order":[],
                 "bDestroy": true, 
@@ -328,34 +334,33 @@ var array = [];
                 "bSort":false
                 
             });
- 		               $("#searchbox").keyup(function() {
+ 		$("#searchbox").keyup(function() {
         otable.search(this.value).draw();
 
       }); 
  		 otable.$('tr:first').click();
-
  		$('.se-pre-con').fadeOut('slow'); 
 		$('#download').removeClass("hide");
 		$('#downloadL').removeClass("hide");
 
 		var newArr="<%=showSelect%>".split(",");
-	//	console.log("previously selected values",newArr);
-		/*for(var s=0;s<newArr.length;s++){
-			console.log(".checkl option[id='"+newArr[s]+"']");
-			$(".checkl option[id='"+newArr[s]+"']").prop("selected",true);
-			//$("#"+newArr[s]).attr("selected",true);
-		}*/
+	  
+		$("input:radio").each(function () {
+			var currid=$(this).attr("id");
+			if(newArr.indexOf(currid)!=-1){
+				$(this).attr("checked",true);
+			}
+		});
 
 var str='<select name="project" id="projects" multiple="" style="width:100%;margin-top:10px;">';
-					 	<%console.log(project); for(var i=0;i<project.length;i++) { %>
+					 	<% for(var i=0;i<project.length;i++) { %>
 					 		var selectpro='';
 					 		if(newArr.indexOf("pro_<%=project[i].id%>")!=-1){ 
 					 			selectpro="selected";
 					 		}
 					 	str=str+'<option id="pro_<%=project[i].id%>" '+selectpro+' value="<%=project[i].id%>"><%=project[i].projectTitle%></option>';
 						<%}%> 
-str=str+'</select>'; 
-console.log('str for project-----',str);
+str=str+'</select>';  
  		$("#16").append(str); 
 		var str='<select name="status" id="statuss" multiple="" style="width:100%;margin-top:10px;">';
 					 	<% for(var i=0;i<status.length;i++) { %>
@@ -415,36 +420,30 @@ str=str+'</select>';
  		$('.select-vbug').css('cursor', 'pointer');
 
 		 //$( "#resizable" ).resizable(); 
-		 $('#projects').change(function() {
-        	console.log($(this).val());
+		 $('#projects').change(function() { 
         }).multipleSelect({
             width: '75%'
         }); 
-		$('#statuss').change(function() {
-        	console.log($(this).val());
+		$('#statuss').change(function() { 
         }).multipleSelect({
             width: '75%'
         });
 
-		$('#prioritys').change(function() {
-            console.log($(this).val());
+		$('#prioritys').change(function() { 
         }).multipleSelect({
             width: '75%'
         });
 
-        $('#severitys').change(function() {
-            console.log($(this).val());
+        $('#severitys').change(function() { 
         }).multipleSelect({
             width: '75%'
         });
 
-        $('#assingedtos').change(function() {
-            console.log($(this).val());
+        $('#assingedtos').change(function() { 
         }).multipleSelect({
             width: '75%'
         });
-        $('#technologys').change(function() {
-            console.log($(this).val());
+        $('#technologys').change(function() { 
         }).multipleSelect({
             width: '75%'
         });
@@ -489,8 +488,7 @@ str=str+'</select>';
     });	 
 	
   	//.........................Re Show  comment on comment button click................................
-  	function showcomment(data) {				
-		console.log("show comment data",data);
+  	function showcomment(data) {				 
 		$('#comment').html(''); 
 		$('#commCount').html(data[0].length);
 		var com='';
@@ -525,8 +523,7 @@ str=str+'</select>';
 				dataType: 'JSON',
 				success:function(data){
 					if(data.length>0)
-					{
-						console.log("-------comment data-----",data);
+					{ 
 						showcomment(data);
 					}
 				},
@@ -553,10 +550,7 @@ str=str+'</select>';
 			data: {"bugid":bid},
 			url: '/bugDetails',
 			method: 'post',
-			success: function(data) {	
-				console.log("--------bug details----",data[0][0]);
-				//console.log(data[1]);
-				// $('#title').html($("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+			success: function(data) {	 
 				$('#title').html($("<label>"+data[0][0].bugTitle+"</label>"));
 				tinyMCE.activeEditor.setContent(data[0][0].bugDescription);
 				if(!data[0][0].enddate){
@@ -581,15 +575,13 @@ str=str+'</select>';
 					var str=data[1][i].createdDate.toString();
 				   com=   com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin-top:2%;margin-bottom:1%'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left:1%;'>By : "+data[1][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;max-height:100px; word-wrap: break-word;background-color:#C7DEFE;'>"+data[1][i].comments+"</div><br><div style='width:100%'></div></div>";
 				}  
-				$('#comment').html(com);
-					 ////  console.log(com);
+				$('#comment').html(com); 
 				$('#attachment').html('');
 				$('#attCount').html(data[2].length);
 			  var att='';
 					  
 			  for(var i=(data[2].length)-1;i>=0;i--)
-				{ 
-					console.log(data[2][i])
+				{  
 				  att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px'><a href='/attach/"+data[2][i].fileName+"' download><div style='padding-left:10px;float:center'>"
 					+data[2][i].orignalFileName+"</div></a><br><div style='color:grey;font-size:10px'>Added by:"
 					+data[2][i].firstName+" On:"
@@ -648,16 +640,7 @@ $(".btndesc").removeClass('hide');
 if(type=='effectiveEndDate')
    {   
    	var date=new Date(e.value);
-   	var todayDate=new Date();
-/*   	console.log(new Date());
-   	console.log(date);*/
-/*	if(date<=todayDate){
-		alert("The end date cannot be less than Today!");
-			//showdetails(bugid);
-		//window.location.reload();
-		return false;
-		}*/
-
+   	var todayDate=new Date(); 
 	var up ={
 		data: {"bugid":bugid,"value":e.value,"colname":type},
 			url: '/updatebugdetails',
@@ -674,8 +657,7 @@ if(type=='effectiveEndDate')
 }
 
 	  	if ( e.value == null || e.value == ""|| e.value.trim().length < 1) {
-	  		alert("Please enter a valid title for bug!");
-	  		console.log($('#hiddentitle'+id).val());
+	  		alert("Please enter a valid title for bug!"); 
 	  		$('#bugtitle'+id).val($('#hiddentitle'+id).val());
 	  	} else 
 	  	{	
@@ -696,14 +678,13 @@ if(type=='effectiveEndDate')
  		/*var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin   + '/buguser' +'/updatebugdetails';*/
  		var bugid=$("#bugidhidden").val();
 
- 		  var ds=tinyMCE.activeEditor.getContent();
- 				console.log(ds);
+ 		  var ds=tinyMCE.activeEditor.getContent(); 
  			if(ds.trim().length<=0){
  				alert("Description can not be left blank");
  				return false;
  			}
- 			if(ds.trim().length>1200){
- 				alert('Description length should not be more than 1200 characters');
+ 			if(ds.trim().length>12000){
+ 				alert('Description length should not be more than 12000 characters');
  				return false;
  			}
  
@@ -716,7 +697,7 @@ if(type=='effectiveEndDate')
 			alert("Bug description updated succesfully!");		
 			},
 			error: function() {	
-			console.log("Error! Please select a bug to update description.");		
+			alert("Error! Please select a bug to update description.");		
 			},
 			dataType: 'JSON',
 		});
@@ -732,8 +713,7 @@ $.ajax({
 url: url,
 method: 'POST',
 data : {},
-success: function(bugData) {
-	console.log('bugdata',bugData)
+success: function(bugData) { 
 bugData.unshift(header);
 alasql("SELECT * INTO CSV('bug_Report.csv') FROM ?",[bugData]);
 /*$(".se-pre-con").fadeOut("slow");
