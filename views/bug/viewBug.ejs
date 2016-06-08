@@ -143,10 +143,11 @@
  <label href="javascript:void(0);" class="slider-arrow show" style="float:left">Filter &laquo;</label>
 
  <!--------------------------------------Main Page content------------------------------>
- <div class="row" style="padding:2%;padding-top:0px;padding-bottom:0px">
+ <div class="row" style="padding:2%;padding-top:5px;padding-bottom:0px">
 	<span class="modal-title" style="padding-left:46%">Bug Details</span> 	
-<input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="margin-top: 5px;margin-bottom: 5px;float:right;width: 13%;"> 
-	 
+	
+	<input class="form-text-box" type="text" placeholder="Bug Id" id="searchbox" style="margin-top: 5px;margin-bottom: 5px;float:right;width: 13%;"> 
+	 <label style="float:right;padding-top:1%" class="form-Label">Search using Bug Id:</label>
 		 <!-- 
 		<button class="btn btn-info" onclick="exportBug()"style="margin-left:92.5%;margin-top:1%;">Export</button> -->
 
@@ -330,14 +331,15 @@ var array = [];
  		               $("#searchbox").keyup(function() {
         otable.search(this.value).draw();
 
-      });
+      }); 
+ 		 otable.$('tr:first').click();
 
  		$('.se-pre-con').fadeOut('slow'); 
 		$('#download').removeClass("hide");
 		$('#downloadL').removeClass("hide");
 
 		var newArr="<%=showSelect%>".split(",");
-		console.log("previously selected values",newArr);
+	//	console.log("previously selected values",newArr);
 		/*for(var s=0;s<newArr.length;s++){
 			console.log(".checkl option[id='"+newArr[s]+"']");
 			$(".checkl option[id='"+newArr[s]+"']").prop("selected",true);
@@ -557,7 +559,9 @@ str=str+'</select>';
 				// $('#title').html($("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
 				$('#title').html($("<label>"+data[0][0].bugTitle+"</label>"));
 				tinyMCE.activeEditor.setContent(data[0][0].bugDescription);
-
+				if(!data[0][0].enddate){
+					data[0][0].enddate="No End Date Assinged"
+				}
 
 				$('#overview').html($("   <br>  Project Title   : <label>"+data[0][0].projectTitle+"</label>"));
 				$('#overview').append($(" <br>  Assinged To  : <label>"+data[0][0].firstName+"</label>"));
@@ -567,7 +571,7 @@ str=str+'</select>';
 				$('#overview').append($("<br>  Detected By  : <label>"+data[0][0].detectedByName+"</label>"));
 				$('#overview').append($("<br>  Created Date  : <label>"+data[0][0].createdDate+"</label>"));
 				$('#overview').append($("<br>  Start Date  : <label>"+data[0][0].startdate+"</label>"));
-				$('#overview').append($("<br>  End Date  : <label>"+data[0][0].enddate+"</label>"));
+				$('#overview').append($("<br>  Tentative Clouser  : <label>"+data[0][0].enddate+"</label>"));
 				
 				$('#comment').html('');
 				$('#commCount').html(data[1].length);

@@ -64,7 +64,7 @@ width:24% !important;
     <% include ./partials/adminheader %>
   </div>
   <div class="container-fluid user-list secondry-color" style=" ">
-    <div class="modal-header">
+    <div  style="margin-top:1%">
       <span class="modal-title" style="margin-left:42%"><%if(flag==0){%>Add Project Details<%} else{%>Edit Project Details.<%}%></span> </div>
       <main>
         
@@ -89,8 +89,9 @@ width:24% !important;
             </td>
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Client: <sup>*</sup></label></td>
-              <td><select  class="form-text-box" style=""  name="pclient" id ="pclient" onchange="getSelectedOptions($('#pclient :selected').val())"> 
-              <option value='0' selected>Select a client</option>
+              <td>
+              <select  class="form-text-box" style=""  name="pclient" id ="pclient" onchange="getSelectedOptions($('#pclient :selected').val())"> 
+              <option value='0' disabled selected>Select</option>
                   <% for(var i=0;i<client.length;i++) {%>
                 <option value="<%=client[i].id%>"><%=client[i].clientName%></option>
                  <%}%>
@@ -107,25 +108,15 @@ width:24% !important;
               </div>
               </td>
 
-              </td>
-<!-- 
-
-  <script type="text/javascript">
-
-   $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected", false);
-</script>
-           -->
-
-
-
-            
+              </td> 
           </tr>
           <tr>
 
           <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Technology: <sup>*</sup></label></td>
-              <td><select multiple="multiple" class="form-text-box" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Project Technology..."> 
-              <option  value='0' selected>select  Technology</option>
+              <td style="width:110px"><label style="padding:2%;color: #524A4A;font-size: 11px">Technology: <sup>*</sup></label></td>
+              <td>
+              <select multiple="multiple" class="form-text-box" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Project Technology..."> 
+              <option  value='0' disabled selected>Select</option>
                 <% for(var i=0;i<tech.length;i++) {%>
                 <option value="<%=tech[i].id%>"><%=tech[i].description1%></option>
                       <%}%>
@@ -135,16 +126,17 @@ width:24% !important;
 
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Planned Start Date: <sup>*</sup></label></td>
-              <td> <input type="text" maxlength="20" placeholder="Select Date" readonly="true" class= "form-text-box" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>></td>
+              <td> <input type="text" maxlength="20" placeholder="Select Date"   class= "form-text-box" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>></td>
             </td>
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Planned End Date: <sup>*</sup></label></td>
-              <td><input type="text" style="width:100%"  maxlength="20" placeholder="Select Date" name="pedate"readonly="true" class="form-text-box" id ="datepicker1" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> ></td>
+              <td><input type="text" style="width:100%"  maxlength="20" placeholder="Select Date" name="pedate"  class="form-text-box" id ="datepicker1" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> ></td>
             </td>
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Complexity: </label></td>
-              <td><select style="" class="form-text-box" id ="pcomplexity" name="pcomplexity" >
-                <option  value='0' selected>select complexity</option>
+              <td>
+              <select style="" class="form-text-box" id ="pcomplexity" name="pcomplexity" >
+                <option  value='0' disabled selected>Select</option>
                 <option  value='simple'<%if(flag==1&&name[0].pcomplexity=='simple'){%>selected<%}%> > simple </option>
                 <option  value='medium'<%if(flag==1&&name[0].pcomplexity=='medium'){%>selected<%}%> > medium </option>
                 <option  value='complex'<%if(flag==1&&name[0].pcomplexity=='complex'){%>selected<%}%>> complex </option>
@@ -157,7 +149,7 @@ width:24% !important;
           <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px"> Location:</label></td>
               <td><select class="form-text-box" id ="plocation" name="plocation" >
-                <option value='0' selected>Select location</option>
+                <option value='0' disabled selected >Select</option>
                   <% for(var i=0;i<location.length;i++) {%>
                 <option value="<%=location[i].id%>"<%if(flag==1&&name[0].locid==location[i].id){%>selected<%}%> ><%=location[i].location%></option>
                   <%}%>
@@ -167,7 +159,7 @@ width:24% !important;
 
           <td>
             <td><label style="padding:2%;color: #524A4A;font-size: 11px" >Description:</label></td>
-            <td>  <textarea placeholder="Enter Project Description" id="DescriptionID" style="margin-top:-1%;max-height: 60px;width: 144px;height:60px" class="form-text-box" row=2 name="pdescription" maxlength="250" onkeypress="return specialchar2(event)" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
+            <td>  <textarea placeholder="Enter Project Description" id="DescriptionID" style="margin-top:-1%;max-height: 60px;width: 144px;height:60px;resize:none" class="form-text-box" row=2 name="pdescription" maxlength="250" onkeypress="return specialchar2(event)" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
               
           </td>
           <td>
@@ -303,17 +295,17 @@ width:24% !important;
           <tr>
             <td>
               <td style="width: 100px"><label   style="padding:2%;color: #524A4A;font-size: 11px">Actual Start Date :</label></td>
-              <td><input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-text-box" id="datepicker2" style="margin-top:2%;background-color:white;cursor: pointer;background-color: rgb(255, 255, 255);" name="asdate" <%if(flag==1){%>value='<%=name[0].actualStartDate%>' <%}%> >
+              <td><input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-text-box" id="datepicker2" style="margin-top:2%;background-color:white; background-color: rgb(255, 255, 255);" name="asdate" <%if(flag==1){%>value='<%=name[0].actualStartDate%>' <%}%> >
              </td>
             </td>
             <td>
               <td style="width: 100px"><label  style="padding:2%;color: #524A4A;font-size: 11px">Actual End Date :</label></td>
-              <td> <input type="text"  maxlength="20" placeholder=" -- Select Actual End Date" class= "form-text-box" id="datepicker3" style="background-color:white;margin-top:2%;cursor: pointer;background-color: rgb(255, 255, 255);" name="aedate" <%if(flag==1){%>value='<%=name[0].actualEndDate%>' <%}%>></td>
+              <td> <input type="text"  maxlength="20" placeholder=" -- Select Actual End Date" class= "form-text-box" id="datepicker3" style="background-color:white;margin-top:2%; background-color: rgb(255, 255, 255);" name="aedate" <%if(flag==1){%>value='<%=name[0].actualEndDate%>' <%}%>></td>
             </td>
             <td>
               <td style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Comercial Head</label></td>
               <td><select style="" class="form-text-box" id="pcommercialhead" name="pcommercialhead" >
-                <option   value='0' >select a head</option>
+                <option   value='0' disabled selected>Select</option>
                 <% for(var i=0;i<teamlead.length;i++) {%>
                 <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].commercialHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
                   <%}%> 
@@ -332,7 +324,7 @@ width:24% !important;
               <%}}%>
               <script type="text/javascript">
    $("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
-   $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
+   $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){ %>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
 </script>
 
               </td>
@@ -342,7 +334,7 @@ width:24% !important;
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Account Lead:</label></td>
               <td> <select class="form-text-box" id="paccounthead" name="paccounthead" >
-                <option value='0' >select lead</option>
+                <option value='0' selected disabled >Select</option>
                 <% for(var i=0;i<teamlead.length;i++) {%>
                 <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].accountHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
         <%}%> </select>
@@ -351,7 +343,7 @@ width:24% !important;
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Manager:</label></td>
               <td> <select class="form-text-box" id ="pmanager" name="pmanager" >
-                <option value='0' > select a manager </option>
+                <option value='0' selected disabled>Select</option>
                 <% for(var i=0;i<manager.length;i++) {%>
                 <option value="<%=manager[i].id%>"<%if(flag==1&&name[0].manager==manager[i].id){%>selected<%}%> ><%=manager[i].name%></option>
                <%}%>
@@ -475,7 +467,7 @@ width:24% !important;
               <input type="radio" name="ptype"  value= 2  id = "ptype2" required  style="margin-top:3%;"  > Time -->
 
               <select style="width:120%" id="ptype1" class="form-text-box" name="ptype">
-                  <option disabled selected value=0>Select Project Type</option>
+                  <option disabled selected value=0>Select</option>
               <% for(var i=0;i<allPtype.length;i++) {%>
               <option value="<%=allPtype[i].id%>"><%=allPtype[i].description1%></option>
               <%}%>
@@ -498,7 +490,7 @@ width:24% !important;
 
             <td>
               <td><label style="padding:8%;color: #524A4A;font-size: 11px;width:107px;margin-top:-4%">Tax Code:</label></td>
-              <td> <input type="text" placeholder=" -- Enter Tax Code -- "  class= "form-text-box" id="taxCode" style="margin-top:%;" name="taxCode"  maxlength="20"  <%if(flag==1){%>value='<%=name[0].taxCode%>' <%}%>>
+              <td> <input type="text" placeholder="Enter Tax Code"  class= "form-text-box" id="taxCode" style="margin-top:%;" name="taxCode"  maxlength="20"  <%if(flag==1){%>value='<%=name[0].taxCode%>' <%}%>>
               </td>
             </td>
             <td>
@@ -513,7 +505,7 @@ width:24% !important;
               <td><label style="padding:4%;color: #524A4A;font-size: 11px;width:107px">Project Category:</label></td>
               <td>
               <select style="" id="pcat" class="form-text-box" name="pcat">
-                  <option selected disabled value=0>Select a Category</option>
+                  <option selected disabled value=0>Select</option>
               <% for(var i=0;i<allPcat.length;i++) {%>
               <option value="<%=allPcat[i].id%>"><%=allPcat[i].description1%></option>
               <%}%>
@@ -698,13 +690,13 @@ function clientContactAccToClient(cid){//alert(cid);
                 type: 'post',
                 data: { "cid": cid},
                 success: function(data) {
-               
+               console.log(data);
 
-               $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
+               $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
 
 
                 //  $('#ccontact').html('');
-                  var string1="<select multiple='multiple' id=\"ccontact\"><option value=0>Select a client contact person</option>" ;
+                  var string1="<select multiple='multiple' id=\"ccontact\"><option value=0 >Select</option>" ;
                   // $('#ccontact').append($("<option></option>").attr("value",0).text('Select a client contact person'));
                    for(var i =0;i<data[0].length;i++){   
                 //  $('#ccontact').append($("<option></option>").attr("value",data[0][i].id).text(data[0][i].Name));
