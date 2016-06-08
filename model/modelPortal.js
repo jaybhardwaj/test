@@ -1383,11 +1383,12 @@ getType:function(tid,retailerid,callback){
         callback(err,result);
     });
   },
-  getUnassigned:function(atid,acid,callback){
+  getUnassigned:function(atid,acid,userid,retailerid,callback){
     var q={
-        sql:'call usp_ast_getUnassigned(?,?)',
-        values:[atid,acid]
+        sql:'call usp_ast_getUnassigned(?,?,?,?)',
+        values:[atid,acid,userid,retailerid]
     };
+    console.log("cgi   ",q);
     mysql(q,function(err,result){
         callback(err,result);
     }); 
@@ -1464,6 +1465,7 @@ getAssignedAssets:function(atid,uid,callback){
         sql:'call usp_ast_getAssignedAsset(?,?)',
         values:[uid,atid]
     };
+    console.log("ss---- ",q);
 mysql(q,function(err,result){
         callback(err,result);
     });

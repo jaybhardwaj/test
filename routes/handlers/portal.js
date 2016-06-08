@@ -194,10 +194,37 @@ var locationId = [],
                      req.session.hrRole=result[0][0].hrRole; 
                      req.session.documentalert=0;
                      req.session.loginIdUser=result[0][0].lastinsert; 
+                     req.session.defaultModule = result[0][0].defaultModuleId;
                      req.session.modules=result[1].map(function(v){
                         return v.id;
-                     });        
+                     }); 
+                     if(req.session.isRetailer)       
                      res.redirect('/mailServerInfo');
+                     else{
+                       if(req.session.defaultModule==1){
+                            res.redirect('/mailServerInfo');
+                       }else if(req.session.defaultModule==1){
+                            res.redirect('/bugHome');
+                       }
+                       else if(req.session.defaultModule==2){
+                            res.redirect('/timesheet');
+                       }
+                       else if(req.session.defaultModule==3){
+                            res.redirect('/expense');
+                       }
+                       else if(req.session.defaultModule==4){
+                            res.redirect('/asset');
+                       }
+                       else if(req.session.defaultModule==5){
+                            res.redirect('/task');
+                       }
+                       else if(req.session.defaultModule==6){
+                            res.redirect('/document');
+                       }
+                       else if(req.session.defaultModule==7){
+                            res.redirect('/rms');
+                       }
+                     }                  
                  }
              });
      },
@@ -2402,7 +2429,7 @@ getViewHardware:function(req,res,next){
             });
     },
 getUnassigned:function(req,res,next){
-        modelPortal.getUnassigned(req.body.atid,req.body.acid,function(error,resultUnassigned){
+        modelPortal.getUnassigned(req.body.atid,req.body.acid,req.session.userId,req.session.retailerId,function(error,resultUnassigned){
            if(error){
               next(error);
             return;}

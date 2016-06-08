@@ -53,9 +53,11 @@ var salt = bcrypt.genSaltSync(3);
                      req.session.modules=result[1].map(function(v){
                         return v.id;
                      });
-                     res.json('1');
+                     var newFlag=[1,req.session.defaultModule];
+                     res.json(newFlag);
                  } else {
-                     res.json('0');
+                     var newFlag=[0,0];
+                     res.json(newFlag);
                  }
              }
          });

@@ -129,7 +129,7 @@
             </td>
             <td>
               <td><label class="form-Label">Contact Number: </label></td>
-              <td><input type="text" maxlength="10"  class="form-text-box" id="contact-number" name="contact-number" placeholder="Contact Number" /></td>
+              <td><input type="number" maxlength="10"  class="form-text-box" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="contact-number" name="contact-number" placeholder="Contact Number" /></td>
             </td>
           </tr>
           <tr>
@@ -633,7 +633,7 @@ function getDefaultModule(){
 
     function showHod(){
       
-      if($('#hrRole').val()==3){        
+      if($('#hrRole').val()==3){
          $('#hodList').show();                
         }
         else{                  
@@ -664,16 +664,19 @@ function getDefaultModule(){
              var userEmail=$('#emailId').val().trim();
              var validUserEmail=userEmail.substring(userEmail.indexOf('@')+1);
              if($("#first-name").val().trim()=='') {
-                if(pressButton==2 || pressButton==4 || pressButton==3){alert("Please Enter User Basic Information first!!!");
+                if(pressButton==2 || pressButton==4 || pressButton==3){
+                  alert("In Basic details: first-name required !");
                     return false;
                 }
-                alert('First Name is required');
+                alert('First Name is required !');
                 return false;
             }
             if ($("#last-name").val().trim() == '') {
 
-              if(pressButton==2 || pressButton==4|| pressButton==3){alert("Please Enter User Basic Information first!!!");
-            return false;}
+              if(pressButton==2 || pressButton==4|| pressButton==3){
+                alert("In Basic details: last-name required !");
+                  return false;
+                }
                 alert('Last Name is required');
                 return false;
             }
@@ -683,8 +686,8 @@ function getDefaultModule(){
 
             if ($("#emailId").val().trim() == '' || !(re.test($("#emailId").val()))) {
 
-              if(pressButton==2 || pressButton==4|| pressButton==3){
-                    alert("Please Enter User Basic Information first!!!");
+              if(pressButton==2 || pressButton==4|| pressButton==3 ){
+                    alert("In Basic details: Valid email id is required !");
                     return false;
               }
               alert('Valid email id is required.');
@@ -692,41 +695,48 @@ function getDefaultModule(){
 
             }
              if (validEmailAccRetailer != validUserEmail) {
-                alert('Email Id Should be of type @'+validEmailAccRetailer);
-                return false;
+                  if(pressButton==2 || pressButton==4|| pressButton==3 ){
+                    alert("In Basic details: Valid email id is required !");
+                    return false;
+                  }
+                  else{ 
+                    alert('Email Id Should be of type @'+validEmailAccRetailer);
+                    return false;
+                }
             }
 
 
             var cno=$('#contact-number').val();
             if( ($('#contact-number').val().trim()!='') &&(cno.length<10||cno.length>12||isNaN(cno)||cno.trim().length<1)) 
-            {   if(pressButton==2 || pressButton==4|| pressButton==3){alert("Please Enter User Basic Information first!!!");
+            {   if(pressButton==2 || pressButton==4|| pressButton==3){
+              alert("In Basic details:Enter valid Contact number !");
             return false;}
                 alert("Enter valid Contact number!");    
               return false;
             }
             if ($("#ecode").val().trim() == '') {
-              if(pressButton==2 || pressButton==4|| pressButton==3){alert("Please Enter User Basic Information first!!!");
-            return false;}
-                alert('Employee code is required');
+              if(pressButton==2 || pressButton==4|| pressButton==3){
+                alert("In Basic details:Employee code is required !");
+                 return false;
+              }else{
+                alert('Employee code is required !');
                 return false;
+              }  
             }
-            if(/^[a-zA-Z0-9- -]*$/.test($("#ecode").val().trim()) == false)
-             {     
-                    alert('Your Employee Code contains illegal characters.');
-                    return false;
-                 }
+           
            var str= $("#ecode").val().trim();     
            var Exp = /((^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i;
 
              if(!$('#modules').val())
             {
-              if(pressButton==2 || pressButton==4|| pressButton==3){alert("Please Enter User Basic Information first!!!");
-            return false;}
-              alert('Please select Modules!');
+              if(pressButton==2 || pressButton==4|| pressButton==3){
+                alert("In Basic details:Please select Modules !");
+            return false;
+          }
+              alert('Please select Modules !');
               return false;
             }
            check=checkFinal();
-           console.log('check '+check  );
            if(($("#hdnId").val()==0)&&(check)){
               if(pressButton==1){addUser(1);}
               else {return true;}
@@ -772,7 +782,7 @@ function getDefaultModule(){
           pressButton=4;  
           subFlag=0;
           var abc=validBasicInfo();
-          if((abc)&&(check)&&($('#modules').val().indexOf("3")>=0)){
+          if((abc)&&(check)){
               if($("#expense").val()=='1' && $("#inNum").val()==''){
                 alert('Error:Expense limit is required');
                 return false;
