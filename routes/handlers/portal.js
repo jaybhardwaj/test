@@ -1210,32 +1210,26 @@ attachDocFile: function(req,res,next){
 
 tableSearchBox: function(req,res,next){
 
-
-
 req.body.searchbox = req.body.searchbox.replace(/ +/g,' ');
-
    modelPortal.tableSearchBox((req.body.nb ||' '),(req.body.nd || ' '),(req.body.ni ||' '),(req.body.nt || ' '),(req.body.nr || ' '),req.body.searchbox.trim(),req.session.roleId,req.session.croleId,req.session.retailerId,function(err,resultSearchFile){
         if(err){
             next(err);
             return ;
        }
-    
 
-
-       var idarr = [];
+var idarr = [];
 resultSearchFile[0].forEach(function(element,index){
        idarr.push(element.id);
 
 });
 
+  if(resultSearchFile.length==3){
         resultSearchFile[1].forEach(function(element,index){
-
-           if(idarr.indexOf(element.id)==-1){
-              resultSearchFile[0].push(element);
-       
-        }
+              if(idarr.indexOf(element.id)==-1){
+                  resultSearchFile[0].push(element);
+       }
    });
-
+}
        res.json(resultSearchFile[0]);
        //next();
     }
