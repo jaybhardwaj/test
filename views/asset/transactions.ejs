@@ -5,6 +5,20 @@
 
     <% include assetheader %>
 
+
+<style>
+.tagger {
+    width: 120% !important;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    cursor: text;
+    font-family: sans-serif;
+    font-size: 10pt;
+    min-height: 19px;
+    display: inline-block;
+    min-width:100% !important 
+}
+</style>
 </head>
   <html lang="en">
   <body>
@@ -12,24 +26,29 @@
       <div class="row" style="padding-top: 1%">
          <span class="modal-title" style="padding-left:45%;">Assign/Unassign</span>
       </div>
-      <div class="row" style="float: left;width: 400px">
-     <div class="col-md-4"> Select User : </div>
-      <div class="col-md-8"><select id="selector" class="form-text-box"  onchange="getData(1)" >
+    
+      <div class=""   id="tab1" style="padding-top:3%"> 
+      <table class="table" >
+        <tr>
+        <td>
+            <td>
+              <label class="form-Label">Select User :</label>
+            </td>
+            <td>
+              <select id="usersId" class="form-text-box"  onchange="getData(1)" >
             <option disabled value="0"selected="">select</option>
               <%for(var i=0;i<users.length;i++){%><option value='<%=users[i].id%>'><%=users[i].Name%></option>
               <%}%>
-          </select></div>
-      </div>
-
-      <div class="hide"   id="tab1" style="padding-top:3%"> 
-      <table class="table" >
-        <tr>
+          </select>
+            </td>
+          </td>
           <td>
             <td>
               <label class="form-Label">Hardware Type:</label>
             </td>
             <td>
               <select id="hw" type="dropdown"class="form-text-box" onchange="getList('1',this.value)">
+
                 </select>
             </td>
           </td>
@@ -38,7 +57,7 @@
           </td>
           <td>
             <select id="com" class="form-text-box show">
-                </select>
+            </select>
           </td>
 
           <td>
@@ -72,11 +91,10 @@
               </thead>
               <tbody id="bodyi">
                 </tbody>
-         </table>
+      </table>
         
            
    </div>    
-              <!-- <button>Unassign</button> -->
        
         </div>
  
@@ -131,6 +149,14 @@
       $(".a").click(function () { 
         $(this).fadeTo("fast", .5).removeAttr("href"); 
       });   
+
+  $('#usersId').tagger({
+        baseURL: '../img/'
+      , tabindexOffset: 400
+      , fieldWidth: null
+
+      });
+
     });
     
     $("#acc").editableSelect({
@@ -161,61 +187,7 @@
           }
         }
       });
-      $("#com").editableSelect({
-        onSelect:function(elem){
-          alert('onselect');
-         /*console.log(elem);
-          console.log($("#hw option:selected").text());
-          var count=0;
-          var check=false;
-          $("#bodyi tr").each(function(i,row){
-            count++;
-            $(this).find('td').each(function(k,val){
-              console.log(k);console.log(val);
-              var flag=false;
-              if(k=='1'){
-                if($("#hw option:selected").text()==val.text()){
-                  flag=true;
-                  check=true;
-                }
-              }
-              if(flag==true){
-                if(k=='2'){
-                  val.text(elem[0].value);
-                }
-              }
-            });
-          });
-          if(check==false){
-            console.log('elsecheck')
-            var row='<tr><td>'+ ++count+'</td><td>'+
-            $("#hw option:selected").text()+'</td><td>'+
-                elem[0].value+'</td><td><input class="datetimepicker"></input>'+
-                '<td><button>Deassign</button></td>';
-                $('#bodyi').append(row);
-            }*/
-        }
-      });
-     /* $("#selector").editableSelect({
-        function selectEmp(elem){
-        /*$('li').removeClass('disabled'); 
-          $("#as").click(function () { 
-            $(this).fadeIn("fast").attr("href", "#tab1"); 
-          });
-          userid=elem[0].value;
-         // console.log(elem[0].value); 
-          $.ajax({
-            url: "/getUserInfoAsset",
-            method:'post',
-            data: {qids: elem[0].value},
-            dataType: 'json',
-            success: function(result){
-              //console.log(result);
-            }
-          });
-        }
-      });*/
-
+    
 
 
 
@@ -234,7 +206,7 @@ var count=0;
 
     }
      function getData(tid){
-      var uid=$("#selector").val();
+      var uid=$("#usersId").val();
       userid=uid;
         $('#saveb').removeClass('hide');
         $('#bodyi').html('');
@@ -245,7 +217,7 @@ var count=0;
           data: {atid:tid,uid:uid},
           dataType: 'json',
           success: function(result){
-             $("#tab1").removeClass("hide");
+            console.log("-- -- -  -- dd --- - - ",result);
             for(var i=0;i<result[0].length;i++){
               var row='<tr><td>'+ ++count+'</td><td>'+result[0][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[0][i].ACID+'></td><td>'+
                   result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:70px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span><span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+result[0][i].Id+')"></span>';
@@ -265,7 +237,6 @@ var count=0;
               $('#bodyi').append(row);
             }
             for(var i=0;i<result[1].length;i++){
-              //alert(result[1].length);
               var row='<tr><td>'+ ++count+'</td><td>'+result[1][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[1][i].ACID+'></td><td>'+result[1][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[1][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[1][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[1][i].assignDate).toString()).slice(0,10)+'"></input><td>';
                  if(result[1][i].assign==1){
                    row=row+'<span id="assignapp'+count+'" style="margin-left:70px; color:red; " class=" glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
@@ -284,10 +255,8 @@ var count=0;
             }
           }
         });
-        console.log('else--------');
         if(tid=='1'){ 
-          console.log('ifajax');
-          console.log(tid);
+         
           $.ajax({
             url: "/getTransComp",
             method:'post',
@@ -299,12 +268,10 @@ var count=0;
               var data=JSON.stringify(result[0]);
               var options = $("#hw");
               options.empty();
-
+              options.append('<option val="0">select</option>');
               $.each(JSON.parse(data), function() {
-                console.log(data);
                 options.append($("<option />").val(this['id']).text(this['componentName']));
               });
-              $('#hw').val(JSON.parse(data)[0].id).trigger('change');        
               var option = $("#ac");
               option.empty();
               option.append($("<option />").val('0').text('select'));
@@ -327,27 +294,25 @@ var count=0;
       }
 
       function getList(tid,value){
-       // console.log( 'jai ho shri ram' ,tid,value);
         $.ajax({
           url: "/getTransUnassigned",
           method:'post',
           data: {atid:tid,acid:value},
           dataType: 'json',
           success: function(result){
-           // console.log('jai maa',result);
-            //alert(result);
+         
             var data=JSON.stringify(result[0]);
             var options = $("#com");
             options.empty();
+             options.append($("<option />").val('0').text('select'));
             $.each(JSON.parse(data), function() {
-             // console.log(this['id']);
               options.append($("<option />").val(this['id']).text(this['tagNo']));
             });
-            $('#com').editableSelect({
+           /* $('#com').editableSelect({
               onSelect:function(elem){
-                //console.log('rana',elem[0].value);console.log($(this)[0].value);
+               
                 var tag=$(this)[0].value;
-                //console.log('jai ho',$("#hw option:selected").text());
+           
                 var count=0;
                 var check=false;
                 $("#bodyi tr").each(function(i,row){
@@ -360,8 +325,7 @@ var count=0;
                         check=true;
                       }
                     }
-                    console.log('flaggg'+flag);
-                    console.log('checkkkkkkk'+check);
+               
                     if(flag==true){
                       if(k=='2'){
                         $(this).html(tag);
@@ -379,7 +343,7 @@ var count=0;
                   });
                 }
               }
-            });
+            });*/
           }
         });
       } 
