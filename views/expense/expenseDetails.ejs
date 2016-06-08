@@ -27,7 +27,13 @@ $('.otherexp-img-add').addClass('active');
 
 //showstatus(); 
 // getdate(); 
-showexpensDetailsofuser(); 
+  $('#datebuttonuser').datepicker({
+                    onSelect: function(dateText, inst) {
+                        datepicherforUser();
+                        document.getElementById("datebuttonuser").disabled=true;
+                    }
+                });
+ 
 
 $("#bugtable1").dataTable();
 
@@ -147,6 +153,7 @@ var formatted_date = function(date){
        /*
          var week_end_date =formatted_date(new Date());hiddendatebuttonuser // limit current week date range upto current day.
        */
+       showexpensDetailsofuser();
  
 });
 
@@ -164,8 +171,9 @@ var formatted_date = function(date){
 }
 
 function datepickerforotherUser(){
+  document.getElementById("datebuttonuser").disabled=false;
  document.getElementById("datebuttonuser").focus();
- datepicherforUser(); 
+  
 }
  /*function for open attachment form*/
 
@@ -177,9 +185,8 @@ $('#claimeid').val(id);
 /*end*/
 /*date function in javascript*/
 function datepicherforUser(){
-   $(".dateRangePicker").on("change",function(){
-        var selected = $(this).val();
-        var date = new Date(selected);
+  
+        var date = $('#datebuttonuser').val();
     var newdate = new Date(date);
 
     //newdate.setDate(newdate.getDate() + 15);
@@ -190,15 +197,17 @@ function datepicherforUser(){
     var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
     var y = newdate.getFullYear();}
     else{
-      var dd=("0"+16)
+      var dd=(""+16)
     var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
     var y = newdate.getFullYear();
     }
 
     var someFormattedDate = dd + '-' + mm + '-' + y;
+     var someFormattedDate1 = y + '-' + mm + '-' + dd;
     document.getElementById('datebuttonuser').value = someFormattedDate.toString();
+     document.getElementById('hiddendatebuttonuser').value = someFormattedDate1.toString();
     showexpensDetailsofuser();
-      });
+    
       }
 function datepicher(){
    $(".dateRangePicker").on("change",function(){
@@ -388,7 +397,6 @@ showexpensDetailsofuser()
          $('#accordionsdata').addClass('hide');
             var userId = $('#selectstatus').val();
             var date1=$('#datebuttonuser').val();
-            //alert(userId);
             var flag=1;
             if (flag == 1) {
                 return ($.ajax({
@@ -482,9 +490,125 @@ showexpensDetailsofuser()
             }));
         }
         } 
+function expensedescription(expclaimId){
+ // alert('agshdfga');
+        //date=$('#datebutton').val();
+        $('#myModalexp').modal('show');
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/ShowExpenseByapprover';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                   expclaimId:expclaimId,
+                    
+               },
+                dataType: 'json',
+                success: function(users1) {
+       //alert(users1[0].length);
 
+            var  users =users1[0];
+                      console.log(users1);
+                    
+                      var user=users1[1][0].sum;
+                            //alert("hhdasghdfsasa"+user);
+                            $('#totalExpenseforuser').val(user);
+                               if (users.length == 0) {
+                             //$("#orderbody").empty();
+                             $("tbody").empty();
+                             $('tbody').append('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');
+                            // var table = $('#data_table').DataTable();
+ 
+                            //  table.clear().draw();
+                            //$('#data_table').dataTable().fnDestroy();
+                          // window.location.reload();
+                             }
+                        if (users.length > 0) {
+                          // $("#tablebody").html('');
+                            log='';
+                          console.log('bshdhggdvhewdvhgjogi',users1[0].length);
+                            var log = "<thead><tr style='font-size:10px' >" + "<th>Expense Type</th>" + "<th>Trip/Assignment</th>" + "<th>From Date</th>" + "<th>To Date</th>" + "<th>Total Amount</th><th>Action</th></tr></thead><tbody id='tablebody' >";
+                            for (var i = 0; i < users.length; i++) {
+                            // claimid=claimid+users[i].expenseclaimId+",";
+                              
+                                log = log + "<tr style='height:10px;color:grey;font-size:10px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].WBSName + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
+                                if(users[i].anyFile!=undefined){
+                                log = log + "<a href='/attach/"+users[i].anyFile+"'Download style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-download-alt' style='color:red;height:10px'   title ='download Attachmenet' ></span></a></td>";
+                                       }
+                            
+                            log = log + "</tr>";}
+                            log=log+"</tbody>";
+
+
+                            $("#bugtable1").dataTable().fnDestroy();
+                                     $("#bugtable1").html('');
+
+                            $("#bugtable1").html(log);
+                             $("#bugtable1").dataTable({
+                                "bLengthChange": true,
+                "paging": true,
+                "binfo" : false , 
+                 "bDestroy": true ,  
+
+                "aoColumnDefs": [{
+                    "bSortable": false,
+                    "aTargets": [-1]
+                }],
+                "autoWidth": false,
+                "columns": [{
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }]
+                       });  
+                      
+                        }
+                    
+                }
+            });
+        
+        } 
 
 /*end function dateVarify*/
+
+  function showCommentandRemark(ids) {
+  
+   
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/showremarkandcomment';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    ids:ids,
+                   
+                },
+                success: function(data) {
+                 $('#showcomment').html('');
+                  $('#myModalshowcomment').modal('show');
+                  if(data[0][0].anyFile==''){
+                  $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                  }else{
+                    $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[0][0].anyFile+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");}
+                    if(data[1].length>0){
+                    for (var i = 0; i < data[1].length; i++) {
+                       if(data[1][i].remark==''){
+                   $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                  }else{
+                    $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[1][i].remark+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                  }
+                    }
+                  }
+                }
+                });
+                
+                }
  
 </script>
       <style>
@@ -504,7 +628,7 @@ showexpensDetailsofuser()
         <div class="col-md-4 " id="datetablediv" style="height:29px;width:270px;background-color:white;margin-top:5px;border-radius: 25px;">
        <!-- <div class="" style="height:40px;width:50px">-->
             <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuser()'>
-              <input type="hidden" id="hiddendatebuttonuser"><input type='text' id="datebuttonuser" style="margin-top:3px;text-align: center;font-size:12px" class="shadow dateRangePicker"  value=''/ onchange=" showexpensDetailsofuser()">
+              <input type="hidden" id="hiddendatebuttonuser"><input disabled="disable" type='text' id="datebuttonuser" style="margin-top:3px;text-align: center;font-size:12px" class="shadow "  value=''/ onchange=" showexpensDetailsofuser()">
             
             <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateuser()'>
              <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUser()'></span>
@@ -537,6 +661,61 @@ showexpensDetailsofuser()
                     
 </div>
 
+
+<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+       <div class="modal fade" id="myModalexp" role="dialog" style="margin-left:;">
+
+            <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                         <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+
+                </div>
+            
+       <div class="secondry-color" id="accordions1">
+
+        <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable1">
+            <thead>
+                         <th style='font-size:12px;background-color:grey;color:white'>Expense Type</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>Trip/Assignment</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>From</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>To</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>Amount(INR)</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>Action</th>
+               </thead> 
+         </table>
+    </div>
+
+         </div>
+     </div>
+                   
+</form>
+
+
+<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+       <div class="modal fade" id="myModalshowcomment" role="dialog" style="border-style: solid;
+    border-color:black;">
+
+            <div style="height:auto;width:300px;margin-left:500px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+            <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>Comments</b></label>
+                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                </div>
+         
+          <div class="col-md-12" id='showcomment' style="margin-bottom: 10px">
+         
+          </div>
+          <div style='width:10px'><span style="width:10px"></span></div>
+         </div>
+     </div>
+                   
+</form>
 
 </body>
 </html>

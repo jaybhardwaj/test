@@ -196,7 +196,10 @@
          
          countAddCompModal++;
          i++
-
+          jQuery('.datetimepicker').datetimepicker({
+  timepicker:false,
+  format:'Y-m-d'
+  });
      }
 
 
@@ -312,7 +315,7 @@ function validatehardvare(){
     alert("Invoice Amount Missing!");    
     return false;
   }
-  else if($('#invoiceAmt').val()>0){
+  else if($('#invoiceAmt').val()<0){
     alert("Invoice Amount not valid!");    
     return false; 
   }
@@ -329,6 +332,7 @@ function validatehardvare(){
   }
   else if(new Date($('#Deliverydate').val())<new Date($('#invoiceAmt').val())){
     alert("Delivery date less then invoice date!");
+     return false;
   }
   else
     for(var i=0;i<document.getElementById('qty').value;i++){
@@ -431,10 +435,15 @@ function addcompo(){
              row=row+'<option value="'+result[2][dropdownValues].id+'">'+result[2][dropdownValues].value+'</option>';  
            }
           row = row + '</select></td><td><input'+
-        ' class="form-text-box datetimepicker" id="warranty'+i+'" type = "text"></td>';
+        ' class="form-text-box datetimepicker1" id="warranty'+i+'" type = "text"></td>';
            row = row + '<td class="hide"><input'+
         ' class="single form-control warrClass" id="componentdata'+i+'" type = "hidden"></td>';
       /******************************************************************************/
+
+            jQuery('.datetimepicker1').datetimepicker({
+             timepicker:false,
+              format:'Y-m-d'
+              });
 
 
 
@@ -478,6 +487,7 @@ function addcompo(){
           $('.single').selectpicker({width:90});
                 
          }
+
 
       });
        

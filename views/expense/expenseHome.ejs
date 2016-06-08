@@ -35,7 +35,24 @@ var oTable=$("#data_table").dataTable();
   $("#searchbox").keyup(function() {
         oTable.fnFilter(this.value);
       });
-$("#bugtable1").dataTable();
+var otable=$("#bugtable1").dataTable();
+ $("#searchbox").keyup(function() {
+        otable.fnFilter(this.value);
+      });
+
+  $('#datebutton').datepicker({
+                    onSelect: function(dateText, inst) {
+                        datepicher2();
+                        document.getElementById("datebutton").disabled=true;
+                    }
+                });
+
+    $('#datebuttonuser').datepicker({
+                    onSelect: function(dateText, inst) {
+                        datepicherforUser();
+                        document.getElementById("datebuttonuser").disabled=true;
+                    }
+                });
 
  jQuery('.dateRangePicker').datetimepicker({
                             i18n: {
@@ -215,29 +232,31 @@ $('.inrs').removeClass('hide');
 
    document.getElementById("datebutton").disabled=false;
   $('#datebutton').focus();
-  datepicher(); 
+ // datepicher(); 
+// datepicher2();
  // document.getElementById("datebutton").disabled=true;
  //document.getElementById("datebutton").focus();
  
 }
 
 function datepickerforotherUser(){
+  document.getElementById("datebuttonuser").disabled=false;
  document.getElementById("datebuttonuser").focus();
- datepicherforUser(); 
+  
 }
  /*function for open attachment form*/
 
 function showAttechmentmodel(id){
  // alert("submit attechment");
+  $('#attachment').trigger("reset");
 $('#claimeid').val(id);
  $("#myModal10").modal('show'); 
 }
 /*end*/
 /*date function in javascript*/
 function datepicherforUser(){
-   $(".dateRangePicker").on("change",function(){
-        var selected = $(this).val();
-        var date = new Date(selected);
+  
+        var date = $('#datebuttonuser').val();
     var newdate = new Date(date);
 
     //newdate.setDate(newdate.getDate() + 15);
@@ -248,21 +267,39 @@ function datepicherforUser(){
     var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
     var y = newdate.getFullYear();}
     else{
-      var dd=("0"+16)
+      var dd=(""+16)
     var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
     var y = newdate.getFullYear();
     }
 
     var someFormattedDate = dd + '-' + mm + '-' + y;
+     var someFormattedDate1 = y + '-' + mm + '-' + dd;
     document.getElementById('datebuttonuser').value = someFormattedDate.toString();
+     document.getElementById('hiddendatebuttonuser').value = someFormattedDate1.toString();
     showexpensDetailsofuser();
-      });
+    
       }
-function datepicher(){
-   $(".dateRangePicker").on("change",function(){
+
+       /* $('#datepicherbutton').on('click', function() {
+                    document.getElementById("submitdate").disabled=false;
+                    $('#datebutton').focus();
+                    document.getElementById("submitdate").disabled=true;
+                });*/
+
+ /*  $('.dateRangePicker').datepicker({
+                    onclick: function(dateText, inst) {
+                      
+                      datepicher2();
+                    }
+                });*/     
+function datepicher2(){
+  //alert('ram');
+ /* $(".dateRangePicker").on("change",function(){
         var selected = $(this).val();
-       var date = new Date(selected);
+       var date = new Date(selected);*/
+       var date=$('#datebutton').val();
     var newdate = new Date(date);
+   
     if(newdate.getDate()<16){
     
      var dd =("0"+1).slice(-2);
@@ -280,8 +317,8 @@ function datepicher(){
     document.getElementById('datebutton').value = someFormattedDate1.toString();
      $('#hiddendatebutton').val(someFormattedDate.toString());
     selecthotelExpenseforweek(); 
-    //document.getElementById("datebutton").disabled=true;
-    });
+   // document.getElementById("datebutton").disabled=true;
+    
 }
 function getdate() {
   //alert('dashgfdhsd');
@@ -434,12 +471,12 @@ $('.inrs').addClass('hide');
   if(expenseType==1){
     $('#hotel').trigger("reset");
     $("#myModal1").modal('show');
-    $("#tfornightDate").val($("#datebutton").val());
+    $("#hfornightDate").val($("#datebutton").val());
   }
   if(expenseType==2){
     $('#travelf').trigger("reset");
     $("#myModal2").modal('show');
-    $("#hfornightDate").val($("#datebutton").val());
+    $("#tfornightDate").val($("#datebutton").val());
   }
   if(expenseType==4){
     $('#phonef').trigger("reset");
@@ -539,7 +576,7 @@ function DeleteExpense(typeid,id,expclid){
                     expclid:expclid
                 },
                 success: function(data) {
-                window.location.reload();
+               selecthotelExpenseforweek();
                 },
                 dataType: 'JSON',
             });
@@ -575,39 +612,47 @@ function DeleteExpense(typeid,id,expclid){
                              log = "<thead><tr style='font-size:12px' >" + "<th>Expense Type</th>" + "<th>Trip/Assignment</th>" + "<th>From Date</th>" + "<th>To Date</th>" + "<th>Total Amount</th><th >Action</th><th>Status</th></tr></thead><tbody id='tablebody2' >";
                             for (var i = 0; i < users.length; i++) {
                             // claimid=claimid+users[i].expenseclaimId+",";
-                              
-                                log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].tripAssignment + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
-                                   if(users[i].Submitted==0){
-                                 log=log+ "<a  style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a1'  class='glyphicon glyphicon-trash' style='color:red;height:10px' onclick='DeleteExpense("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' data-target='#myModal1' title ='Delete Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px' onclick='selecthotelExpense("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' title ='Edit Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a3'  class='glyphicon glyphicon-file' style='color:red;height:10px'  onclick='showAttechmentmodel("+users[i].id+");' title ='Attach Document' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a5' class='glyphicon glyphicon-copy' style='color:red;height:10px' onclick='selecthotelExpenseforCopy("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' title ='Copy Expense' ></span><input type='hidden' value="+users[i].expenseclaimId+" name='claimidforuser' id='ipn'></td>";
+                              if(users[i].flag!=1){
+                                log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id=" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].tripAssignment + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
+                                   if((users[i].ClaimedStatus==0)||(users[i].ClaimedStatus==101)){
+                                    showtotalExpense();
+                                 log=log+ "<a  style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a1'  class='glyphicon glyphicon-trash' style='color:red;height:10px' onclick='DeleteExpense("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' data-target='#myModal1' title ='Delete Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px' onclick='selecthotelExpense("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' title ='Edit Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a3'  class='glyphicon glyphicon-file' style='color:red;height:10px'  onclick='showAttechmentmodel("+users[i].id+");' title ='Attach Document' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a5' class='glyphicon glyphicon-copy' style='color:red;height:10px' onclick='selecthotelExpenseforCopy("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' title ='Copy Expense' ></span><input type='hidden' value="+users[i].expenseclaimId+" name='claimidforuser' id='ipn'>";
+                                  if(users[i].anyFile!=undefined){
+                                log = log + "<a href='/attach/"+users[i].anyFile+"'Download style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-download-alt' style='color:red;height:10px'   title ='download Attachmenet' ></span></a>";}
+                                log=log+"</td>";
                                  }
                                  if(users[i].anyFile!=undefined){
                                 log = log + "<a href='/attach/"+users[i].anyFile+"'Download style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-download-alt' style='color:red;height:10px'   title ='download Attachmenet' ></span></a>";}
                                 if(users[i].Submitted==1){
                                  log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-comment' style='color:blue;height:15px' onclick='showCommentandRemark("+users[i].expenseclaimId+")'   title ='comment' ></span></a>";}
                                  if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
-                                    log=log+"<a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-adjust' style='height:15px;color:red;font-size:10px;' onclick='resubmittheExpense("+users[i].expenseclaimId+")'  title ='ReSubmit'></span></a></td>";}
+                                   /* log=log+"<a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-adjust' style='height:15px;color:red;font-size:10px;' onclick='resubmittheExpense("+users[i].expenseclaimId+")'  title ='ReSubmit'></span></a></td>";*/}
                                      log=log+"</td><td>";
                                  if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
                               log=log +"Pending..</td>";
+
                                  }
                                    if((users[i].ClaimedStatus==111)&&(users[i].Submitted==1)){
                                log=log + "Approved by supervisor</td>";
                                  }
                                    if((users[i].ClaimedStatus<10)&&(users[i].ClaimedStatus>0)&&(users[i].Submitted==1)){
+                                    showtotalExpense1();
                                 log=log +"Approved by manager<span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Level'>"+users[i].ClaimedStatus+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
+                                    showtotalExpense1();
                                 log=log +"Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
                                  }
-                                   if(((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101))&&(users[i].Submitted==1)){
-                                log=log +"Rejected <a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-share' style='height:20px;color:red;font-size:15px;' title='ReSubmit' onclick='resubmittheExpenseforCopy("+users[i].expenseclaimId+")'></span></a></td>";
+                                   if(((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101))){
+                                    
+                                log=log +"Rejected</td>";
                                  }
                                   if(((users[i].ClaimedStatus==0)||(users[i].ClaimedStatus==0))&&(users[i].Submitted==0)){
                                 log=log +"Draft</td>";
                                  }
                               
                             
-                            log = log + "</tr>";}
+                            log = log + "</tr>";}}
                             log=log+"</tbody>";
 
 
@@ -669,6 +714,7 @@ function DeleteExpense(typeid,id,expclid){
                 da=data[1][0];  
                 data=data[0][0];
                   if(typeid==1){
+            $("#hfornightDate").val($("#datebutton").val());       
              $('#blabelhotel').val(da.minimumBillableMandetory);
               $('#Maxhotel').val(da.maximumBillableMandetory);
                $('#trip1').val(data.tripAssignment);
@@ -685,6 +731,7 @@ function DeleteExpense(typeid,id,expclid){
                                      showexpensDetailsforedit(typeid); 
                         }
                         if(typeid==2){
+            $("#tfornightDate").val($("#datebutton").val());              
             $('#blabelTravel').val(da.minimumBillableMandetory);
               $('#MaxTravel').val(da.maximumBillableMandetory);
                  $('#traveltrip').val(data.tripassignment);
@@ -701,6 +748,7 @@ function DeleteExpense(typeid,id,expclid){
                          showexpensDetailsforedit(typeid);          
                         }
                         if(typeid==3){
+             $("#ffornightDate").val($("#datebutton").val());             
               $('#blabelfood').val(da.minimumBillableMandetory);
                 $('#Maxfood').val(da.maximumBillableMandetory);
                  $('#foodtrip').val(data.tripassignment);
@@ -713,6 +761,7 @@ function DeleteExpense(typeid,id,expclid){
                          showexpensDetailsforedit(typeid);          
                         }
                         if(typeid>6){
+                          $("#ofornightDate").val($("#datebutton").val());
                            $('#otherlavel').html('');
                            $('#otherlavel').append(da.description);
                       $('#blabelother').val(da.minimumBillableMandetory);
@@ -728,6 +777,7 @@ function DeleteExpense(typeid,id,expclid){
                          showexpensDetailsforedit(typeid);          
                         }
                         if(typeid==4){
+              $("#phfornightDate").val($("#datebutton").val());             
               $('#blabelPhone').val(da.minimumBillableMandetory);
                $('#MaxPhone').val(da.maximumBillableMandetory);          
                  $('#phonetrip').val(data.tripassignment);
@@ -740,6 +790,7 @@ function DeleteExpense(typeid,id,expclid){
                          showexpensDetailsforedit(typeid);          
                         }
                         if(typeid==5){
+               $("#rsfornightDate").val($("#datebutton").val());           
                $('#blabelrsd').val(da.minimumBillableMandetory);
                 $('#Maxrsd').val(da.maximumBillableMandetory);         
                  $('#rsdtrip').val(data.tripassignment);
@@ -757,6 +808,7 @@ function DeleteExpense(typeid,id,expclid){
                         } 
 
                         if(typeid==6){
+              $("#defornightDate").val($("#datebutton").val());            
                $('#blabeldiem').val(da.minimumBillableMandetory);
                 $('#Maxdiem').val(da.maximumBillableMandetory);
                  $('#pertrip').val(data.tripassignment);
@@ -938,9 +990,7 @@ function newExpense(){
  $('#submitbutton').removeClass('hide'); 
    }
    else{
-    $('#explabel').addClass('hide');
-    $('#typeEx').addClass('hide');
-     $('#submitbutton').addClass('hide');
+   
    }
  } 
 
@@ -961,9 +1011,15 @@ function newExpense(){
  }
 
  function showtotalExpense(){
+   $('#explabel').removeClass('hide');
+    $('#typeEx').removeClass('hide');
+     $('#totalandaddEX').removeClass('hide');
+
+ }
+  function showtotalExpense1(){
    $('#explabel').addClass('hide');
     $('#typeEx').addClass('hide');
-     $('#totalandaddEX').removeClass('hide');
+     $('#submitbutton').addClass('hide');
 
  }
 
@@ -1008,7 +1064,7 @@ function expensedescription(expclaimId){
 
             var  users =users1[0];
                       console.log(users1);
-                      showtotalExpense();
+                     
                       var user=users1[1][0].sum;
                             //alert("hhdasghdfsasa"+user);
                             $('#totalExpenseforuser').val(user);
@@ -1082,6 +1138,10 @@ function expensedescription(expclaimId){
          $('#datetablediv').removeClass('hide');
          $('#accordions').removeClass('hide');
          $('#accordionsdata').addClass('hide');
+         $('#totalandaddEX').removeClass('hide');
+         $('#explabel').addClass('hide');
+         $('#typeEx').addClass('hide');
+         $('#submitbutton').addClass('hide');
             var userId = $('#typeExp').val();
             var date1=$('#datebuttonuser').val();
             //alert(userId);
@@ -1099,7 +1159,7 @@ function expensedescription(expclaimId){
                     success: function(users1) {
                       var  users =users1[0];
                       console.log(users1);
-                      showtotalExpense();
+                    //  showtotalExpense1();
                       
                            var log='';
                          
@@ -1315,21 +1375,31 @@ function expensedescription(expclaimId){
                 var y = d.getFullYear();
                 var currentdate= y +'-'+m+'-'+dd; 
                // alert(currentdate);
-        var dateforbfirst= new Date($('#datebutton').val());
+        var dateforbfirst= new Date($('#hiddendatebutton').val());
         dateforbfirst.setDate(dateforbfirst.getDate()+15);
 
-        var enddatefor=new Date($('#datebutton').val());
+        var enddatefor=new Date($('#hiddendatebutton').val());
         enddatefor.setDate(enddatefor.getDate()+30);
-        if((new Date(currentdate)>=dateforbfirst)&&(new Date(currentdate)<=enddatefor)){
-         toCheckExpenseSubmitOrNot();
-         $('#raiseexp').removeClass('hide');
-         $('#notvalid').addClass('hide');
-          showtotalExpense();   
+        //((new Date(currentdate)>=dateforbfirst)&&
+         if((new Date(currentdate)>=dateforbfirst)&&(new Date(currentdate)<=enddatefor)){
+         $('#submitbutton').removeClass('hide');
+         $('#explabel').removeClass('hide');
+         $('#typeEx').removeClass('hide');
+       }
+        else if(new Date(currentdate)<=enddatefor){
+         // alert(enddatefor);
+         //toCheckExpenseSubmitOrNot();
+        
+         $('#explabel').removeClass('hide');
+    $('#typeEx').removeClass('hide');
+     $('#submitbutton').addClass('hide');
+         // showtotalExpense();   
           }
             else{
-              // $('#raiseexp').fadeTo("fast", .5).removeAttr("href");
-               $('#raiseexp').addClass('hide');
-         $('#notvalid').removeClass('hide'); 
+               $('#explabel').addClass('hide');
+               $('#typeEx').addClass('hide');
+               $('#submitbutton').addClass('hide');
+              
            
             }
       }  
@@ -1347,16 +1417,26 @@ function expensedescription(expclaimId){
         var dateforbfirst= new Date($('#hiddendatebutton').val());
         dateforbfirst.setDate(dateforbfirst.getDate()-15);
         var enddatefor=new Date($('#hiddendatebutton').val());;
+       //(new Date(currentdate)<=dateforbfirst)&&
+       if((new Date(currentdate)>=dateforbfirst)&&(new Date(currentdate)<=enddatefor)){
+         $('#submitbutton').removeClass('hide');
+       }
+       else if(new Date(currentdate)<=enddatefor){
        
-        if((new Date(currentdate)>=dateforbfirst)&&(new Date(currentdate)<=enddatefor)){
-       
-         toCheckExpenseSubmitOrNot();
+        // toCheckExpenseSubmitOrNot();
                  $('#raiseexp').removeClass('hide');
          $('#notvalid').addClass('hide');
-         showtotalExpense();
+         //showtotalExpense();
+                    $('#explabel').removeClass('hide');
+    $('#typeEx').removeClass('hide');
+     $('#submitbutton').addClass('hide');
              
           }
             else{
+
+               $('#explabel').addClass('hide');
+    $('#typeEx').addClass('hide');
+     $('#submitbutton').addClass('hide');
               
                $('#raiseexp').addClass('hide');
                       
@@ -1377,21 +1457,20 @@ function expensedescription(expclaimId){
                  
                 success: function(data) {
 
-              if(data[0].flag==1) { 
-           
-           // $('#raiseexp').fadeTo("fast", 0).removeAttr("href");
-           $('#raiseexp').addClass('hide');
-           
-            $('#notvalid').removeClass('hide');
+              if((data[0].flag==1)&&(data[0].status1>0)&&(data[0].status1!=101)) { 
+               $('#explabel').addClass('hide');
+               $('#typeEx').addClass('hide');
+               $('#submitbutton').addClass('hide');
                }
                else{
-              $('#notvalid').addClass('hide');
-              $('#raiseexp').removeClass('hide');
+               $('#explabel').removeClass('hide');
+               $('#typeEx').removeClass('hide');
+               $('#submitbutton').removeClass('hide');
             
                }   
                 }
                 });
-          }      
+              }      
 
    function toChecktheDate(){
             var wbsId=$('#trip1').val();
@@ -1520,6 +1599,8 @@ function expensedescription(expclaimId){
                         alert("uploaded file format is invalid! \n valid formats: pdf,doc,docx.xls,xlsx,jpeg,png,csv");
                         return false;
                         }
+                        else
+                          UploadSheet();
     }       
 
     function toChecktheDatersd(){
@@ -1752,11 +1833,12 @@ function submitExpense() {
                 },
                 success: function(data) {
                     $('#submitedbutton').val('Submitted');
-                     //$('#submitedbutton').disabled=true;
                      document.getElementById("submitedbutton").disabled = true;
 
                      alert("Expense submitted successfully.");
-                      window.location.href ='/expense';
+                     selecthotelExpenseforweek();
+                      $('.dismiss').click();
+                     
                 }
                 });
                 }
@@ -1927,6 +2009,549 @@ function changefirstdateother(){
  document.getElementById("otherToDate").focus(); 
 }
 
+
+function UploadSheet(){
+    //var data1=$('#fupUploadSheet').val();
+    var data1 = new FormData($('#attachment')[0]);
+    var files = $("#attachfile").val();
+      var id1=$("#claimeid").val();
+    data1.append('id',id1);
+  
+    $.ajax({
+        url:'/fileAttechment',
+        method: 'POST',
+        data:data1,
+        contentType: false, 
+        processData: false,
+      success: function(data) {
+        // window.location.reload();
+        alert("File uploaded successfully!");
+        $('.dismiss').click();
+       selecthotelExpenseforweek();
+      },
+      dataType: 'JSON',
+    });
+  }
+
+function validateforhotel(){
+  if($('#trip1').val().length<1||$.trim($("#trip1").val()) =="") 
+  {
+    alert("Trip/Assignment is Missing!");    
+    return false;
+  }
+
+  else if($('#from').val().length<1||$.trim($("#from").val()) =="") 
+  {
+    alert("From Date Missing!");    
+    return false;
+  }
+
+  else if($('#to').val().length<1||$.trim($("#to").val()) =="") 
+  {
+    alert("To date Missing!");    
+    return false;
+  }
+
+  else if($('#hotelname').val().length<1||$.trim($("#hotelname").val()) =="") 
+  {
+    alert("Hotel Name Missing!");    
+    return false;
+  }
+   else if($('#hreason').val().length<1||$.trim($("#hreason").val()) =="") 
+  {
+    alert("Hotel reason Missing!");    
+    return false;
+  }
+  else if(($('#hrate').val()<1)&&($.trim($("#hrate").val() ==""))){
+    alert("Rate per day Missing!");    
+    return false; 
+  }
+  else if($('#htotalday').val()<1&&$.trim($("#htotalday").val()) =="") 
+  {
+    alert("Total Days Missing!");    
+    return false;
+  }
+
+  else if($('#hotelcu').val().length<1||$.trim($("#hotelcu").val()) =="") 
+  {
+    alert("Currency Missing!");    
+    return false;
+  }
+    else if($('#htex').val().length<1||$.trim($("#htex").val()) =="") 
+  {
+    alert("Total Expense Missing!");    
+    return false;
+  }
+  else
+ adddatahotel();
+return true;
+ 
+  
+}
+
+function validatefortravel(){
+  if($('#traveltrip').val().length<1||$.trim($("#traveltrip").val()) =="") 
+  {
+    alert("Trip/Assignment is Missing!");    
+    return false;
+  }
+
+  else if($('#fromdatefortravel').val().length<1||$.trim($("#fromdatefortravel").val()) =="") 
+  {
+    alert("From Date Missing!");    
+    return false;
+  }
+
+  else if($('#tofortravel').val().length<1||$.trim($("#tofortravel").val()) =="") 
+  {
+    alert("To date Missing!");    
+    return false;
+  }
+
+  else if($('#traveltype').val().length<1||$.trim($("#traveltype").val()) =="") 
+  {
+    alert("Travel Type Missing!");    
+    return false;
+  }
+   else if($('#travelre').val().length<1||$.trim($("#travelre").val()) =="") 
+  {
+    alert("Travel reason Missing!");    
+    return false;
+  }
+  else if(($('#travelrate').val()<1)&&($.trim($("#travelrate").val() ==""))){
+    alert("Rate per day Missing!");    
+    return false; 
+  }
+  else if($('#traveltday').val()<1&&$.trim($("#traveltday").val()) =="") 
+  {
+    alert("Total Days Missing!");    
+    return false;
+  }
+
+  else if($('#travelc').val().length<1||$.trim($("#travelc").val()) =="") 
+  {
+    alert("Currency Missing!");    
+    return false;
+  }
+    else if($('#travelex').val().length<1||$.trim($("#travelex").val()) =="") 
+  {
+    alert("Total Expense Missing!");    
+    return false;
+  }
+  else
+ adddatatravel();
+return true;
+ 
+  
+}
+
+function validateforrsd(){
+  if($('#rsdtrip').val().length<1||$.trim($("#rsdtrip").val()) =="") 
+  {
+    alert("Trip/Assignment is Missing!");    
+    return false;
+  }
+
+  else if($('#fromdateforrfd').val().length<1||$.trim($("#fromdateforrfd").val()) =="") 
+  {
+    alert("From Date Missing!");    
+    return false;
+  }
+
+  else if($('#todateforrfd').val().length<1||$.trim($("#todateforrfd").val()) =="") 
+  {
+    alert("To date Missing!");    
+    return false;
+  }
+
+  else if($('#rfdtypeof').val().length<1||$.trim($("#rfdtypeof").val()) =="") 
+  {
+    alert("Type of vehicle Missing!");    
+    return false;
+  }
+   else if($('#rfdreason').val().length<1||$.trim($("#rfdreason").val()) =="") 
+  {
+    alert("Reason for Travel Missing!");    
+    return false;
+  }
+  else if(($('#rfdper').val()<1)&&($.trim($("#rfdper").val() ==""))){
+    alert("Per Km Rate Missing!");    
+    return false; 
+  }
+  else if($('#rfdtotalkm').val()<1&&$.trim($("#rfdtotalkm").val()) =="") 
+  {
+    alert("Total km Travel Missing!");    
+    return false;
+  }
+
+  else if($('#rfdcu').val().length<1||$.trim($("#rfdcu").val()) =="") 
+  {
+    alert("Currency Missing!");    
+    return false;
+  }
+    else if($('#rfdext').val().length<1||$.trim($("#rfdext").val()) =="") 
+  {
+    alert("Total Expense Missing!");    
+    return false;
+  }
+  else
+ adddatarsd();
+return true;
+ 
+  
+}
+
+function validatefordeim(){
+  if($('#pertrip').val().length<1||$.trim($("#pertrip").val()) =="") 
+  {
+    alert("Trip/Assignment is Missing!");    
+    return false;
+  }
+
+  else if($('#fromdateperdiem').val().length<1||$.trim($("#fromdateperdiem").val()) =="") 
+  {
+    alert("From Date Missing!");    
+    return false;
+  }
+
+  else if($('#todateperdiem').val().length<1||$.trim($("#todateperdiem").val()) =="") 
+  {
+    alert("To date Missing!");    
+    return false;
+  }
+
+  else if($('#diemhotelname').val().length<1||$.trim($("#diemhotelname").val()) =="") 
+  {
+    alert("Hotel Name Missing!");    
+    return false;
+  }
+   else if($('#diemreasonstay').val().length<1||$.trim($("#diemreasonstay").val()) =="") 
+  {
+    alert("Reason for Stay Missing!");    
+    return false;
+  }
+  else if(($('#diemrate1').val()<1)&&($.trim($("#diemrate1").val() ==""))){
+    alert("Per Diem Rate Missing!");    
+    return false; 
+  }
+  else if($('#diemday1').val()<1&&$.trim($("#diemday1").val()) =="") 
+  {
+    alert("Total Days Missing!");    
+    return false;
+  }
+
+  else if($('#diemcu').val().length<1||$.trim($("#diemcu").val()) =="") 
+  {
+    alert("Currency Missing!");    
+    return false;
+  }
+    else if($('#diemtotal1').val().length<1||$.trim($("#diemtotal1").val()) =="") 
+  {
+    alert("Total Expense Missing!");    
+    return false;
+  }
+  else
+ adddataperdiem();
+return true;
+ 
+  
+}
+
+function validateforfood(){
+  if($('#foodtrip').val().length<1||$.trim($("#foodtrip").val()) =="") 
+  {
+    alert("Trip/Assignment is Missing!");    
+    return false;
+  }
+
+  else if($('#fromfood').val().length<1||$.trim($("#fromfood").val()) =="") 
+  {
+    alert("From Date Missing!");    
+    return false;
+  }
+
+  else if($('#tofood').val().length<1||$.trim($("#tofood").val()) =="") 
+  {
+    alert("To date Missing!");    
+    return false;
+  }
+
+   else if($('#foodre').val().length<1||$.trim($("#foodre").val()) =="") 
+  {
+    alert("Reason for Fooding/entertainment Missing!");    
+    return false;
+  }
+ 
+
+  else if($('#foodcu1').val().length<1||$.trim($("#foodcu1").val()) =="") 
+  {
+    alert("Currency Missing!");    
+    return false;
+  }
+    else if($('#foodex1').val().length<1||$.trim($("#foodex1").val()) =="") 
+  {
+    alert("Total Expense Missing!");    
+    return false;
+  }
+  else
+ adddatafood();
+return true;
+ 
+  
+}
+
+function validateforphone(){
+  if($('#phonetrip').val().length<1||$.trim($("#phonetrip").val()) =="") 
+  {
+    alert("Trip/Assignment is Missing!");    
+    return false;
+  }
+
+  else if($('#fromdateforphone').val().length<1||$.trim($("#fromdateforphone").val()) =="") 
+  {
+    alert("From Date Missing!");    
+    return false;
+  }
+
+  else if($('#todateforphone').val().length<1||$.trim($("#todateforphone").val()) =="") 
+  {
+    alert("To date Missing!");    
+    return false;
+  }
+
+   else if($('#callingreason').val().length<1||$.trim($("#callingreason").val()) =="") 
+  {
+    alert("Reason for Calling Missing!");    
+    return false;
+  }
+ 
+
+  else if($('#callingc').val().length<1||$.trim($("#callingc").val()) =="") 
+  {
+    alert("Currency Missing!");    
+    return false;
+  }
+    else if($('#callingex').val().length<1||$.trim($("#callingex").val()) =="") 
+  {
+    alert("Total Expense Missing!");    
+    return false;
+  }
+  else
+ adddataphone();
+return true;
+ 
+  
+}
+
+
+function validateforother(){
+  if($('#othertrip').val().length<1||$.trim($("#othertrip").val()) =="") 
+  {
+    alert("Trip/Assignment is Missing!");    
+    return false;
+  }
+
+  else if($('#fromother').val().length<1||$.trim($("#fromother").val()) =="") 
+  {
+    alert("From Date Missing!");    
+    return false;
+  }
+
+  else if($('#otherToDate').val().length<1||$.trim($("#otherToDate").val()) =="") 
+  {
+    alert("To date Missing!");    
+    return false;
+  }
+
+   else if($('#otherreason').val().length<1||$.trim($("#otherreason").val()) =="") 
+  {
+    alert("Expense Reason Missing!");    
+    return false;
+  }
+ 
+
+  else if($('#othercu1').val().length<1||$.trim($("#othercu1").val()) =="") 
+  {
+    alert("Currency Missing!");    
+    return false;
+  }
+    else if($('#otherex1').val().length<1||$.trim($("#otherex1").val()) =="") 
+  {
+    alert("Total Expense Missing!");    
+    return false;
+  }
+  else
+ adddataother();
+return true;
+ 
+  
+}
+
+
+function adddatahotel(){
+  var data=$("#hotel").serializeArray();
+   var data1 = {};
+        for(s in data){
+            data1[data[s]['name']] = data[s]['value'];
+        }
+       var data2=JSON.stringify(data1);  
+
+ var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/insertExpense?expid=1';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    data:data2
+                },
+                success: function(data) {
+                    
+                      $('.dismiss').click();
+                     selecthotelExpenseforweek();
+
+                }
+                });
+}
+
+function adddatatravel(){
+  var data=$("#travelf").serializeArray();
+   var data1 = {};
+        for(s in data){
+            data1[data[s]['name']] = data[s]['value'];
+        }
+       var data2=JSON.stringify(data1);  
+
+ var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/insertExpense?expid=2';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    data:data2
+                },
+                success: function(data) {
+                
+                  $('.dismiss').click();
+                     selecthotelExpenseforweek();
+                }
+                });
+}
+
+function adddatafood(){
+  var data=$("#foodf").serializeArray();
+   var data1 = {};
+        for(s in data){
+            data1[data[s]['name']] = data[s]['value'];
+        }
+       var data2=JSON.stringify(data1);  
+
+ var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/insertExpense?expid=3';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    data:data2
+                },
+                success: function(data) {
+                   
+                    $('.dismiss').click();
+                     selecthotelExpenseforweek();
+                }
+                });
+}
+
+
+
+function adddataphone(){
+  var data=$("#phonef").serializeArray();
+   var data1 = {};
+        for(s in data){
+            data1[data[s]['name']] = data[s]['value'];
+        }
+       var data2=JSON.stringify(data1);  
+
+ var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/insertExpense?expid=4';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    data:data2
+                },
+                success: function(data) {
+                   
+                     $('.dismiss').click();
+                     selecthotelExpenseforweek();
+                }
+                });
+}
+
+function adddatarsd(){
+  var data=$("#rsdf").serializeArray();
+   var data1 = {};
+        for(s in data){
+            data1[data[s]['name']] = data[s]['value'];
+        }
+       var data2=JSON.stringify(data1);  
+
+ var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/insertExpense?expid=5';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    data:data2
+                },
+                success: function(data) {
+                  
+                    $('.dismiss').click();
+                     selecthotelExpenseforweek();
+                }
+                });
+}
+
+function adddataperdiem(){
+  var data=$("#deamf").serializeArray();
+   var data1 = {};
+        for(s in data){
+            data1[data[s]['name']] = data[s]['value'];
+        }
+       var data2=JSON.stringify(data1);  
+
+ var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/insertExpense?expid=6';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    data:data2
+                },
+                success: function(data) {
+               
+                   $('.dismiss').click();
+                     selecthotelExpenseforweek();
+                }
+                });
+}
+
+function adddataother(){
+  var data=$("#otherf").serializeArray();
+   var data1 = {};
+        for(s in data){
+            data1[data[s]['name']] = data[s]['value'];
+        }
+       var data2=JSON.stringify(data1);  
+
+ var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +  '/insertExpense?expid=7';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    data:data2
+                },
+                success: function(data) {
+                
+                   $('.dismiss').click();
+                     selecthotelExpenseforweek();
+                }
+                });
+}
+
 function changeCurrency(){
   if($( "#hotelcu option:selected" ).attr('acualvalue')!=0){
   var a =$('#hrate').val();
@@ -2048,12 +2673,12 @@ function changeothercurrency(){
       <div class="col-md-4" id='dateTablebutton' style="height:29px;width:270px;background-color:white;margin-top:4px;border-radius: 25px;">
        <!-- <div class="" style="height:40px;width:50px">-->
             <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprev()'>
-              <input type="hidden" id="hiddendatebutton"><input disabled type='text' id="datebutton" style="margin-top:3px;text-align: center;font-size:12px" class="shadow dateRangePicker"  value='' onchange="selecthotelExpenseforweek()" disable />
+              <input type="hidden" id="hiddendatebutton"><input disabled type='text' id="datebutton" style="margin-top:3px;text-align: center;font-size:12px" class="shadow"  value='' onchange="selecthotelExpenseforweek()" disable />
             <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdate()'>
-            <span class="glyphicon glyphicon-calendar" style="" height="28px" width="22px" title=" Expense" onclick='datepicker1()'></span>
+            <span class="glyphicon glyphicon-calendar" id='datepicherbutton' height="28px" width="22px" title=" Expense" onclick='datepicker1()'></span>
        </div>
        <div class='col-md-3'></div>
-       <div class="col-md-1" id='rasebutton' style="float:right;"><table><tr><td><a id='raiseexp' href="/expensenew?expin=0"><img class="imageInc" src="../img/bug/addbug.png" class="shadow" style=" margin-left: 23px;" height="25px" title="Raise Expense" width="25px"></a><span id='notvalid' class='glyphicon glyphicon-exclamation-sign' onclick='thisAlert()' style='margin-left: 23px;font-size:25px;color:red;' title="you can not raise expense for this fortnight"></span></td></tr><tr><td><span id='raise' style='font-size:10px;color:white;'>Raise Expense</span></td></tr></table>
+       <div class="col-md-1 hide " id='rasebutton' style="float:right;"><table><tr><td><a id='raiseexp' href="/expensenew?expin=0"><img class="imageInc" src="../img/bug/addbug.png" class="shadow" style=" margin-left: 23px;" height="25px" title="Raise Expense" width="25px"></a><span id='notvalid' class='glyphicon glyphicon-exclamation-sign' onclick='thisAlert()' style='margin-left: 23px;font-size:25px;color:red;' title="you can not raise expense for this fortnight"></span></td></tr><tr><td><span id='raise' style='font-size:10px;color:white;'>Raise Expense</span></td></tr></table>
        </div>                
 </div>
 
@@ -2085,7 +2710,7 @@ function changeothercurrency(){
         <div class="col-md-4 hide" id="datetablediv" style="height:29px;width:270px;background-color:white;margin-top:5px;border-radius: 25px;">
        <!-- <div class="" style="height:40px;width:50px">-->
             <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuser()'>
-              <input type="hidden" id="hiddendatebuttonuser"><input type='text' id="datebuttonuser" style="margin-top:3px;text-align: center;font-size:12px" class="shadow dateRangePicker"  value=''/ onchange=" showexpensDetailsofuser()">
+              <input type="hidden" id="hiddendatebuttonuser"><input disabled="disable" type='text' id="datebuttonuser" style="margin-top:3px;text-align: center;font-size:12px" class="shadow "  value=''/ onchange=" showexpensDetailsofuser()">
             
             <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateuser()'>
              <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUser()'></span>
@@ -2132,7 +2757,7 @@ function changeothercurrency(){
                         <tbody id="orderbody">
                         <%strforclaimid="";%>
                         <%if(expenseDetails!=undefined){%>          
-                          <% for(var i=0;i<expenseDetails.length;i++) { %>
+                          <% for(var i=0;i<expenseDetails.length;i++) { if(expenseDetails[i].flag!= 1) {%>
                              <% strforclaimid=strforclaimid+ expenseDetails[i].expenseclaimedId+",";
 
                              %>
@@ -2198,7 +2823,7 @@ function changeothercurrency(){
                                  <%  if((expenseDetails[i].ClaimedStatus==100)&&(expenseDetails[i].Submitted==1)){%>
                                Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>
                                   <% }%>
-                                   <%if(((expenseDetails[i].ClaimedStatus==10)||(expenseDetails[i].ClaimedStatus==101))&&(expenseDetails[i].Submitted==1)){%>
+                                   <%if(((expenseDetails[i].ClaimedStatus==10)||(expenseDetails[i].ClaimedStatus==101))){%>
                                    Rejected
                                   
                                </td>
@@ -2206,7 +2831,7 @@ function changeothercurrency(){
                                        </td>
 
                                 </tr> 
-                                <% }} %> 
+                                <% }}} %> 
                
                         </tbody>
                     </table>
@@ -2214,7 +2839,7 @@ function changeothercurrency(){
 </div>
 
 <div class="secondry-color hide" id="accordions">
-
+   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
         <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable">
             
          </table>
@@ -2252,9 +2877,9 @@ function changeothercurrency(){
        <!--hr style="max-width:100%;margin-top:2.9%;border-color:##f05f40"-->              
 </div>
 
-<!-- Form for Hotel Expense Jogendra Singh-->
+<!-- Form for Hotel Expense Jogendra Singhaction="/insertExpense123?expid=1"-->
 
-<form action="/insertExpense?expid=1" method="post" id='hotel' >
+<form  method="post" id='hotel' >
     <div class="modal fade" id="myModal1" role="dialog" style="margin-left:;">
         <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
             <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
@@ -2393,8 +3018,8 @@ function changeothercurrency(){
                     
                  <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
-                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="button" onclick="validateforhotel()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
                         </center>
                  </div>
             </div>
@@ -2403,9 +3028,9 @@ function changeothercurrency(){
 </form>
 
 <!--end Hotel Expense Form-->
-<!--form for Travel Expense-->
+<!--form for Travel Expense action="/insertExpense?expid=2"-->
 
- <form action="/insertExpense?expid=2" method="post" id='travelf'>
+ <form  method="post" id='travelf'>
         <div class="modal fade" id="myModal2" role="dialog" style="margin-left:;">
    
             <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
@@ -2557,8 +3182,8 @@ function changeothercurrency(){
 
                 <div id="footer" class="modal-footer" style="border-top:0px;">
                     <center>
-                          <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default " style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                          <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="button"  onclick="validatefortravel()" class="btn btn-default " style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
                     </center>
                 </div>
             </div>
@@ -2567,9 +3192,9 @@ function changeothercurrency(){
 </form>
 
 <!--end Travel Expense Form-->
-<!--form for Phone Expense-->
+<!--form for Phone Expense  action="/insertExpense?expid=4"-->
 
-<form action="/insertExpense?expid=4" method="post" id='phonef'>
+<form  method="post" id='phonef'>
       <div class="modal fade" id="myModal3" role="dialog" style="margin-left:;">
             <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
 
@@ -2678,8 +3303,8 @@ function changeothercurrency(){
 
                     <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
-                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="button" onclick="validateforphone()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
                         </center>
                     </div>
                 </div>
@@ -2840,8 +3465,8 @@ function changeothercurrency(){
 
                     <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
-                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="button" onclick="validateforrsd()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
                         </center>
                     </div>
                </div>
@@ -2850,9 +3475,9 @@ function changeothercurrency(){
 </form>
 
  <!--end Reimbursement for Self-driven Vehicle Expense Form-->
-<!--form for Per Diem  Expense--> 
+<!--form for Per Diem  Expense  action="/insertExpense?expid=6"--> 
 
-<form action="/insertExpense?expid=6" method="post" id='deamf'>
+<form  method="post" id='deamf'>
         <div class="modal fade" id="myModal5" role="dialog" style="margin-left:;">
 
             <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
@@ -3000,8 +3625,8 @@ function changeothercurrency(){
                    </div>
                    <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
-                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="button" onclick="validatefordeim()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
                         </center>
                     </div>
                </div>
@@ -3010,9 +3635,9 @@ function changeothercurrency(){
 </form>
 
 <!--end Per Diem Expense Form-->
-<!--form for Food/Entertainment  Expense-->
+<!--form for Food/Entertainment action="/insertExpense?expid=3"  Expense-->
 
-<form action="/insertExpense?expid=3" method="post" id='foodf'>
+<form  method="post" id='foodf'>
 
       <div class="modal fade" id="myModal6" role="dialog" style="margin-left:;">
 
@@ -3119,8 +3744,8 @@ function changeothercurrency(){
                </div>
                     <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
-                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="button" onclick="validateforfood()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
                         </center>
                     </div>
                </div>
@@ -3130,9 +3755,9 @@ function changeothercurrency(){
 
 
 <!--end Food/Entertainment Expense Form-->
-<!--form for other Expense-->
+<!--form for other Expense  action="/insertExpense?expid=7"-->
 
-<form action="/insertExpense?expid=7" method="post" id='otherf'>
+<form  method="post" id='otherf'>
 
       <div class="modal fade" id="myModal7" role="dialog" style="margin-left:;">
 
@@ -3240,8 +3865,8 @@ function changeothercurrency(){
 
                      <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
-                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="button" onclick="validateforother()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" >Add</button>
                         </center>
                     </div>
                </div>
@@ -3252,7 +3877,7 @@ function changeothercurrency(){
 <!--end Food/Entertainment Expense Form-->
 <!--form for Document Attachment Expense-->
 
-<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+<form action="/fileAttechment" id="attachment" method="post" name="rbug" enctype="multipart/form-data">
        <div class="modal fade" id="myModal10" role="dialog" style="margin-left:;">
 
             <div style="height:auto;width:500px;margin-left:400px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
@@ -3277,8 +3902,8 @@ function changeothercurrency(){
 
             <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
-                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="return tocheckAttachment()">Submit</button>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="button" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="return tocheckAttachment()">Submit</button>
                         </center>
             </div>
          </div>
@@ -3508,7 +4133,7 @@ function changeothercurrency(){
             <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
                     <center>
                         <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>Comment</b></label>
-                        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                        <span  data-dismiss="modal"  class="dismiss glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
                     </center>
                 </div>
           <input type="hidden" id="comentexpid1" name="expcomment">
