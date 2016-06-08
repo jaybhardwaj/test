@@ -3317,7 +3317,13 @@ addUser: function(req, res, next) {
         if(err){
             next(err)
         }else{
-            
+
+            console.log('sssssssssssssssssssss----------',result[1]);
+            if(result[1].length==0){
+                result[1]=[{status:0}];
+            }
+
+            console.log(result);
             res.json(result);
         }
        });

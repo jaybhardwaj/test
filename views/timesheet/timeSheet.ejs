@@ -8,6 +8,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <style>
+        .text-hover:hover{
+            background-color: #ffb3b3;
+        }
             input[type=number]::-webkit-inner-spin-button,
             input[type=number]::-webkit-outer-spin-button {
                 -webkit-appearance: none;
@@ -103,7 +106,7 @@
                 });
               
 
-                console.log("this is ready function");
+                //console.log("this is ready function");
                 curr = new Date();
                 var s = curr.toString();
                 //  alert("current date is-"+curr);
@@ -156,7 +159,7 @@
                         for (var i = 0; i < curr_wbsnm.length + 1; i++) { //alert("hiiii"+temp);
                             for (var l = 0; l < data[0].length; l++) {
 
-                                if (data[0][l].timeAssignmentId == $('#id' + i).val()) {
+                                if (data[0][l].timeAssignmentId == $('#id_asmt' + i).val()) {
                                     // alert("assignment id from backend is ---------"+data[0][l].timeAssignmentId+"----assignmnetid from front _end----"+$('#id'+i).val());
 
                                     // alert("i="+i);
@@ -165,12 +168,12 @@
                                         var days = alldays[j];
 
                                         if (data[0][l][days] != 0) {
-                                            $('#id' + j + i).val(data[0][l][days]);
+                                            $('#id' + j+'_'+ i).val(data[0][l][days]);
                                         } else {
-                                            $('#id' + j + i).val();
+                                            $('#id' + j+'_'+ i).val();
                                         }
                                         if (j == temp + 1)
-                                            $('#id' + j + i).val(data[0][l].total);
+                                            $('#id' + j+'_'+ i).val(data[0][l].total);
                                     }
 
                                 }
@@ -185,7 +188,7 @@
                             document.getElementById('timestatus').innerHTML = for_status[data[1][0].status];
                         }
                         // document.getElementById('timestatus').innerHTML=for_status[];
-                        console.log("in success end");
+                        //console.log("in success end");
                     }
 
                 });
@@ -442,7 +445,7 @@
                                 startdd = new Date(year1, mon1 - 1, k);
                                 var current_date = startdd;
                                 var weekday_value = current_date.getDay();
-                                console.log("days", startdd);
+                                //console.log("days", startdd);
 
                                 a2 = a2 + '<td><input type="hidden" ';
                                 if (dy1 <= 15) {
@@ -486,25 +489,25 @@
                         a = a + '';
                      
                         if (i == 0 && j < no_of_asgmnt /*&& j>0*/ ) {
-                            b = b + '<td style="max-width:200px;"><input type="hidden" id="id' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px;text-align:center;background-color:#d0eaf0" value="' + curr_wbsnm[j] + '" disabled></input></td>';
+                            b = b + '<td style="max-width:200px;"><input type="hidden" id="id_asmt' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px;text-align:center;background-color:#d0eaf0" value="' + curr_wbsnm[j] + '" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt) {
-                            b = b + '<td style="max-width:200px;font-weight:700"><input type="hidden" id="id' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></input></td>';
+                            b = b + '<td style="max-width:200px;font-weight:700"><input type="hidden" id="id_asmt' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt + 1) {
                             b = b + '<td style="max-width:200px;font-weight:700"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Work Schedules" disabled></input></td>'
                         }
                         if (i < 31 && j == no_of_asgmnt + 1) {
-                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
+                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '_' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
                         } else
                         if (i < 31 && j == no_of_asgmnt) {
                          // alert("value =0")
-                            a = a + ' <td><input disabled id="id' + i + '' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center;" onkeypress="return isNumber(event)"></input> </td>'
+                            a = a + ' <td><input disabled id="id' + i + '_' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center;" onkeypress="return isNumber(event)"></input> </td>'
                         } else
                         if (i == temp + 1) {
-                            a = a + '<td><input id="id' + i + '' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center;  ;font-weight:700" value="0" onkeypress="return isNumber(event)"></input> </td> '
+                            a = a + '<td><input id="id' + i + '_' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center;  ;font-weight:700" value="0" onkeypress="return isNumber(event)"></input> </td> '
                         } else {
-                            a = a + '<td><input  id="id' + i + '' + j + '" type="number"  class="abc numeric clearAllfield"  style="width:60px; text-align:center; " value="" onfocusout="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
+                            a = a + '<td><input  id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value="" onfocusout="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
                         }
 
                     }
@@ -521,7 +524,7 @@
             function isNumber(evt) {
 
     evt = (evt) ? evt : window.event;
-    console.log(evt)
+    //console.log(evt)
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !=46  ) {
         return false;
@@ -644,25 +647,25 @@
         var k = 0;
         for (var i = 0; i < no_of_asgmnt; i++) {
             var value = 0;
-            var val = $('#id' + a + i).val();
 
-            console.log("i--",i,"----a------",a);
-            console.log("$('#id' + a + i)-------",$('#id' + a + i));
-            console.log("val-------",$('#id' + a + i).val());
+            var val = $('#id' + a+'_'+ i).val();
+          
             if (val != "") {
-                value = parseFloat($('#id' + a + i).val());
+                value = parseFloat($('#id' + a+'_'+ i).val());
             } else {
                 var abc = 0;
             }
             k = k + value;
             if (k > 24.0) {
-                alert("time should not exceed than 24 hours ");
-                $('#id' + a + b).val(0);
-                sum(a, b);
+                //console.log('k--',k);
+                alert("time should not exceed than 24 hours and value of k is"+k);
+                $('#id' + a+'_'+ b).val(0);
+                //sum(a, b);
                 return false;
             }
         }
-        $('#id' + a + i).val(k);
+        //console.log("value in summision of all hours is----",k);
+        $('#id' + a+'_'+ i).val(k);
         //  alert('value  is ------'+$('#id'+a+i).val());
     }
     <!----------------------------------- FUNCTION FOR SUBMITTING ALL VALUES  -------------------------------------->
@@ -693,10 +696,10 @@
             //    alert("jjjjjjjjjjjj");
             k1 = 0;
             for (var i = 0; i < temp + 1; i++) {
-                if ($('#id' + i + p).val() != "")
-                    k1 = k1 + parseInt($('#id' + i + p).val());
+                if ($('#id' + i+'_'+ p).val() != "")
+                    k1 = k1 + parseInt($('#id' + i+'_'+ p).val());
             }
-            $('#id' + i + p).val(k1);
+            $('#id' + i+'_'+ p).val(k1);
             //     alert("---------------");
 
         }
@@ -704,24 +707,24 @@
         /* -------------------------------------------  validation ------------------------------------------------- */
 
         if (flag == 2) {
-            var r = $('#id' + i + (p - 1)).val();
-            var r2 = $('#id' + i + p).val();
-            console.log("================", r, "***************", r2);
+            var r = $('#id' + i+'_'+ (p - 1)).val();
+            var r2 = $('#id' + i+'_'+ p).val();
+            //console.log("================", r, "***************", r2);
 
             for (var i = 0; i < temp + 1; i++) {
                 var tdayhour = 0;
                 for (var j = 0; j < no_of_asgmnt; j++) {
-                    var val = $('#id' + i + j).val();
+                    var val = $('#id' + i+'_'+ j).val();
 
                     if (val != "") {
-                        console.log("wertyjcv gcvkxgcgz", val);
+                        //console.log("wertyjcv gcvkxgcgz", val);
                         val = parseInt(val);
                         tdayhour = tdayhour + val;
                     }
                 }
 
                 tdayhour = parseInt(tdayhour);
-                console.log('tdayhour-------' + tdayhour);
+                //console.log('tdayhour-------' + tdayhour);
                 var go_for_day = $('#t_h' + i).val();
                 var dayy = new Date(go_for_day);
                 var weekd = dayy.getDay();
@@ -814,14 +817,14 @@
             },
             success: function(data) {
 
-                console.log('b', data[0].i);
+                //console.log('b', data[0].i);
 
                 var alluser = [];
                 var assignments = [];
                 var wbsids = [];
                 var wbsname = [];
                 for (var j = 0; j < no_of_asgmnt; j++) {
-                    console.log(j);
+                    //console.log(j);
                     var tsid = data[0].i;
                     /* if(j==0) 
                      { 
@@ -843,7 +846,7 @@
                     alluser.push(tsid);
                     /* }*/
                     for (var i = 0; i < temp + 2; i++) {
-                        var colmid = i + "" + j;
+                        var colmid = i + "_" + j;
                         //alert("column id ---"+colmid);
                         if ($('#id' + colmid).val() != 0)
                             var user = $('#id' + colmid).val();
@@ -860,7 +863,7 @@
                     alluser.push(tsid);
                     for (var i = 0; i < temp + 2; i++) {
 
-                        var user = $('#id' + i + j).val();
+                        var user = $('#id' + i+'_'+ j).val();
                         alluser.push(user);
                     }
                 }
@@ -868,8 +871,8 @@
                 while (alluser.indexOf('|,') != -1)
                     alluser = alluser.replace(',||,', '||');
                 // +alert(alluser);
-                console.log("this is timesheet id" + tsid);
-                console.log("value of timesheet is ---" + temp);
+                //console.log("this is timesheet id" + tsid);
+                //console.log("value of timesheet is ---" + temp);
                
                 $.ajax({
                     url: 'submitTimesheetAssignment',
@@ -882,7 +885,12 @@
                     success: function(data) {
 
                         console.log("b");
-
+               /*         if (status == 2)
+            alert("Data Submitted Successfully");
+        else
+            if(status==1)
+            alert("Data Saved Succesfully");
+*/
                     }
 
 
@@ -945,9 +953,9 @@
         var datefortimes = new Date(eddate2);
         checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
         // checkUserTimesheet(userId,checkdate);
-        console.log("before abc in back", y, "---", mm, "-----", dd);
+        //console.log("before abc in back", y, "---", mm, "-----", dd);
         abc(y, mm, dd);
-        // console.log("at end in abc");
+        // //console.log("at end in abc");
         // alert(" End of  getdateprev date function");
     }
 
@@ -1015,10 +1023,10 @@
     function disableHoliday() {
         //alert(" i main disable holiday ");
         var k = curr_wbsnm.length + 1;
-        //console.log(k,"hi i am in disableHoliday");
+        ////console.log(k,"hi i am in disableHoliday");
         for (var i = 0; i < temp + 1; i++) {
             var ddy = $('#t_h' + i).val();
-            console.log("date is ",ddy,"   and id is  ",i);
+            //console.log("date is ",ddy,"   and id is  ",i);
             ddy = new Date(ddy);
             var weekdy = ddy.getDay();
             //alert("id is"+'#' + i+"value is"+$('#' + i).val()+"date is "+ddy+"week days are"+weekdy);
@@ -1076,26 +1084,28 @@
         }
         var s = 0;
         for (var i = 0; i < temp + 1; i++) {
-            s = s + parseInt($('#id' + i + k).val());
+            s = s + parseInt($('#id'+i+'_'+k).val());
+            //console.log("value in #id",  i ,'', k," is", $('#id'+i+'_'+k).val());
         };
-        $('#id' + i + k).val(s);
+        //console.log("sum is ",s);
+        $('#id'+i+'_'+k).val(s);
         //  alert(" end of  disable holiday ");
     }
 
     function satsun(i, k) {
         for (var j = 0; j < curr_wbsnm.length; j++) {
-            console.log('hhhhhhhhhhhhhhhhhhhh');
+            //console.log('hhhhhhhhhhhhhhhhhhhh');
            // var hol = 'holiday';
             //var str = "my holiday";
             var abc = curr_wbsnm[j];
             //abc = abc.toLowerCase();
-           // console.log('Do we found something?', Boolean(abc.match(hol)));
+           // //console.log('Do we found something?', Boolean(abc.match(hol)));
             //if(j==0)
             if (abc=='Holiday') { //var q=document.getElementById("#id01").value;
-                console.log("this is sunday or saturday");
-                document.getElementById("id" + i + j).disabled = true;
-                document.getElementById("id" + i + k).value = 0;
-                document.getElementById("id" + i + j).style.backgroundColor = "#7E7E9E";
+                //console.log("this is sunday or saturday");
+                document.getElementById("id" + i+"_"+ j).disabled = true;
+                document.getElementById("id" + i+"_"+ k).value = 0;
+                document.getElementById("id" + i+"_"+ j).style.backgroundColor = "#7E7E9E";
             }
         }
     }
@@ -1107,20 +1117,20 @@
         var holidy = new Date('<%=timeinfo[4][k1].holidaydate%>');
         var date_other_format_2 = holidy.getFullYear() + '-' + (holidy.getMonth() + 1) + '-' + holidy.getDate();
         if (date_other_format == date_other_format_2) {
-            console.log("ddy is an holiday", date_other_format_2);
+            //console.log("ddy is an holiday", date_other_format_2);
             for (var j = 0; j < no_of_asgmnt; j++) {
                // var hol = 'holiday';
                 var abc = curr_wbsnm[j];
                // abc = abc.toLowerCase();
-               // console.log("iiiiiiiiiiiiiiiiiiiiiii");
-              //  console.log('Do we found something?', Boolean(abc.match(hol)));
+               // //console.log("iiiiiiiiiiiiiiiiiiiiiii");
+              //  //console.log('Do we found something?', Boolean(abc.match(hol)));
                 if (abc=='Holiday') {
-                    console.log("oooooooooooooooooooooo-----", abc);
+                    //console.log("oooooooooooooooooooooo-----", abc);
                     var p = k - 1;
-                    document.getElementById("id" + i + j).disabled = true;
-                    document.getElementById("id" + i + j).value = workschedule;
-                    document.getElementById("id" + i + (k - 1)).value = workschedule;
-                    document.getElementById("id" + i + k).value = workschedule;
+                    document.getElementById("id" + i+"_"+ j).disabled = true;
+                    document.getElementById("id" + i+"_"+ j).value = workschedule;
+                    document.getElementById("id" + i+"_"+ (k - 1)).value = workschedule;
+                    document.getElementById("id" + i+"_"+ j).value = workschedule;
                 }
             }
         }
@@ -1134,12 +1144,12 @@
          for(var i = 0; i <= temp + 1; i++){
               if (i < 31 && j == no_of_asgmnt)
                         {
-                        document.getElementById("id" + i + j).value = 0;
+                        document.getElementById("id" +"_"+i + j).value = 0;
                         }
                          else
                         if (i == temp + 1) 
                         {
-                         document.getElementById("id" + i + j).value = 0;   
+                         document.getElementById("id" + i+"_"+ j).value = 0;   
                         }
 
     }
@@ -1164,7 +1174,7 @@
                 "cdate": checkdate
             },
             success: function(data) {
-                console.log(data);
+                //console.log(data);
 
                 $('#dropuserdata').append('<option  value=0>Select</option>');
                 for (var i = 0; i < data.length; i++) {
@@ -1200,7 +1210,7 @@
 
       function allowholiday(i,dnd){
 
-//console.log("dsdsds",$('#wkd' + i).val(),"sdsdsd",$('#wkd' + (i + 15)).val())
+////console.log("dsdsds",$('#wkd' + i).val(),"sdsdsd",$('#wkd' + (i + 15)).val())
                     if (parseInt(dnd) < 16) {
                             alert("Total Hours on "+ $('#wkd' + i).val() + " is less then "+workschedule+" hours");
                             document.getElementById('timestatus').innerHTML = "Active";

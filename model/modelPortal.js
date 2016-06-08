@@ -2159,6 +2159,8 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
           sql:'call usp_time_checkUserTimesheet(?,?)',
           values:[userId,tdate]
         };
+
+        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });

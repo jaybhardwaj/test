@@ -8,6 +8,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <style>
+         .text-hover:hover{
+            background-color: #ffb3b3;
+        }
+         
             input[type=number]::-webkit-inner-spin-button,
             input[type=number]::-webkit-outer-spin-button {
                 -webkit-appearance: none;
@@ -78,7 +82,7 @@
                     document.getElementById("submitdate").disabled=true;
                 });
               
-                console.log("this is ready function");
+                //console.log("this is ready function");
                 curr = new Date();
                 var s = curr.toString();
                 a = curr.getDate();
@@ -104,7 +108,7 @@
 
 
             function checkUserTimesheet(userId, tdate) {
-                console.log("inside check");
+                //console.log("inside check");
                 $.ajax({
                     url: 'checkUserTimesheet',
                     type: 'post',
@@ -131,7 +135,7 @@
                         for (var i = 0; i < curr_wbsnm.length + 1; i++) { //alert("hiiii"+temp);
                             for (var l = 0; l < data[0].length; l++) {
 
-                                if (data[0][l].timeAssignmentId == $('#id' + i).val()) {
+                                if (data[0][l].timeAssignmentId == $('#id_asmt' + i).val()) {
                                     // alert("assignment id from backend is ---------"+data[0][l].timeAssignmentId+"----assignmnetid from front _end----"+$('#id'+i).val());
 
                                     // alert("i="+i);
@@ -140,12 +144,12 @@
                                         var days = alldays[j];
 
                                         if (data[0][l][days] != 0) {
-                                            $('#id' + j + i).val(data[0][l][days]);
+                                            $('#id' + j+'_'+ i).val(data[0][l][days]);
                                         } else {
-                                            $('#id' + j + i).val();
+                                            $('#id' + j+'_'+ i).val();
                                         }
                                         if (j == temp + 1)
-                                            $('#id' + j + i).val(data[0][l].total);
+                                            $('#id' + j+'_'+ i).val(data[0][l].total);
                                     }
 
                                 }
@@ -192,11 +196,11 @@
                         }
 
 
-                        console.log("in success end");
+                        //console.log("in success end");
                     }
 
                 });
-                console.log("out of check");
+                //console.log("out of check");
 
             }
 
@@ -444,7 +448,7 @@
                                 startdd = new Date(year1, mon1 - 1, k);
                                 var current_date = startdd;
                                 var weekday_value = current_date.getDay();
-                                console.log("days", startdd);
+                                //console.log("days", startdd);
 
                                 a2 = a2 + '<td><input type="hidden" ';
                                 if (dy1 <= 15) {
@@ -493,24 +497,24 @@
                            a=a+'<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id'+j+'" value="@" ><input type="text"  style="width:200px;  text-align:left;   background-color: rgba(125, 51, 61, 0);color: rgb(254, 254, 254); " value="holiday"  disabled></input></td>'
                          }*/
                         if (i == 0 && j < no_of_asgmnt) {
-                            b = b + '<td style="max-width:200px; background-color:#d0eaf0;"><input type="hidden" id="id' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px; background-color:#d0eaf0; text-align: center;  " value="' + curr_wbsnm[j] + '" disabled></input></td>';
+                            b = b + '<td style="max-width:200px; background-color:#d0eaf0;"><input type="hidden" id="id_asmt' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px; background-color:#d0eaf0; text-align: center;  " value="' + curr_wbsnm[j] + '" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt) {
-                            b = b + '<td style="max-width:200px"><input type="hidden" id="id' + j + '" value="#" ><input  type="text"  style="width:200px;font-weight:700;text-align: center;" value="Total Hours" disabled></input></td>';
+                            b = b + '<td style="max-width:200px"><input type="hidden" id="id_asmt' + j + '" value="#" ><input  type="text"  style="width:200px;font-weight:700;text-align: center;" value="Total Hours" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt + 1) {
                             b = b + '<td style="max-width:200px"><input  type="text"  style="width:200px; color: #000000;text-align: center;font-weight:700;" value="Work Schedules" disabled></input></td>'
                         }
                         if (i < 31 && j == no_of_asgmnt + 1) {
-                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
+                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '_' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
                         } else
                         if (i < 31 && j == no_of_asgmnt) {
-                            a = a + ' <td> <input disabled id="id' + i + '' + j + '" value="0"  type="text" style="width:60px; text-align:center;"></input> </td>'
+                            a = a + ' <td> <input disabled id="id' + i + '_' + j + '" value="0"  type="text" style="width:60px; text-align:center;"></input> </td>'
                         } else
                         if (i == temp + 1) {
-                            a = a + '<td><input id="id' + i + '' + j + '" disabled type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" ></input> </td> '
+                            a = a + '<td><input id="id' + i + '_' + j + '" disabled type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" ></input> </td> '
                         } else {
-                            a = a + '<td><input id="id' + i + '' + j + '" type="number" readonly="true" class="abc numeric clearAllfield"  style="width:60px; text-align:center;" value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
+                            a = a + '<td><input id="id' + i + '_' + j + '" type="number" readonly="true" class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center;" value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
                         }
 
                     }
@@ -691,9 +695,9 @@
         var datefortimes = new Date(eddate2);
         checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
         checkUserTimesheet(userId, checkdate);
-        console.log("before abc in back", y, "---", mm, "-----", dd);
+        //console.log("before abc in back", y, "---", mm, "-----", dd);
         abc(y, mm, dd);
-        console.log("at end in abc");
+        //console.log("at end in abc");
         getUserUnderSupervisor();
     }
 
@@ -751,10 +755,10 @@
     function disableHoliday() {
         //alert(" i main disable holiday ");
         var k = curr_wbsnm.length + 1;
-        //console.log(k,"hi i am in disableHoliday");
+        ////console.log(k,"hi i am in disableHoliday");
         for (var i = 0; i < temp + 1; i++) {
             var ddy = $('#t_h' + i).val();
-            // console.log("date is "+ddy);
+            // //console.log("date is "+ddy);
             ddy = new Date(ddy);
             var weekdy = ddy.getDay();
             var date_other_format = ddy.getFullYear() + '-' + (ddy.getMonth() + 1) + '-' + ddy.getDate();
@@ -809,26 +813,26 @@
         }
         var s = 0;
         for (var i = 0; i < temp + 1; i++) {
-            s = s + parseInt($('#id' + i + k).val());
+            s = s + parseInt($('#id' + i+'_'+ k).val());
         };
-        $('#id' + i + k).val(s);
+        $('#id' + i+'_'+ k).val(s);
         //  alert(" end of  disable holiday ");
     }
 
     function satsun(i, k) {
         for (var j = 0; j < curr_wbsnm.length; j++) {
-            console.log('hhhhhhhhhhhhhhhhhhhh');
+            //console.log('hhhhhhhhhhhhhhhhhhhh');
           //  var hol = 'Holiday';
             //var str = "my holiday";
             var abc = curr_wbsnm[j];
            // abc = abc.toLowerCase();
-           // console.log('Do we found something?', Boolean(abc.match(hol)));
+           // //console.log('Do we found something?', Boolean(abc.match(hol)));
             //if(j==0)
             if (abc=='Holiday') { //var q=document.getElementById("#id01").value;
-                console.log("this is sunday or saturday");
-                document.getElementById("id" + i + j).disabled = true;
-                document.getElementById("id" + i + k).value = 0;
-                document.getElementById("id" + i + j).style.backgroundColor = "#7E7E9E";
+                //console.log("this is sunday or saturday");
+                document.getElementById("id" + i+'_'+ j).disabled = true;
+                document.getElementById("id" + i+'_'+ k).value = 0;
+                document.getElementById("id" + i+'_'+ j).style.backgroundColor = "#7E7E9E";
             }
         }
     }
@@ -840,18 +844,18 @@
         var holidy = new Date('<%=timeinfo[4][k1].holidaydate%>');
         var date_other_format_2 = holidy.getFullYear() + '-' + (holidy.getMonth() + 1) + '-' + holidy.getDate();
         if (date_other_format == date_other_format_2) {
-            console.log("ddy is an holiday", date_other_format_2);
+            //console.log("ddy is an holiday", date_other_format_2);
             for (var j = 0; j < no_of_asgmnt; j++) {
               //  var hol = 'Holiday';
                 var abc = curr_wbsnm[j];
               //  abc = abc.toLowerCase();
-              //  console.log('Do we found something?', Boolean(abc.match(hol)));
+              //  //console.log('Do we found something?', Boolean(abc.match(hol)));
                 if (abc=='Holiday') {
                     var p = k - 1;
-                    document.getElementById("id" + i + j).disabled = true;
-                    document.getElementById("id" + i + j).value = workschedule;
-                    document.getElementById("id" + i + (k - 1)).value = workschedule;
-                    document.getElementById("id" + i + k).value = workschedule;
+                    document.getElementById("id" + i+"_"+ j).disabled = true;
+                    document.getElementById("id" + i+"_"+ j).value = workschedule;
+                    document.getElementById("id" + i+"_"+ (k - 1)).value = workschedule;
+                    document.getElementById("id" + i+"_"+ k).value = workschedule;
                 }
             }
         }
@@ -895,7 +899,7 @@
                 },
                 success: function(data) {
                     alert("Response have been submited Successfuly");
-                    console.log("--------------------werwerwe------------------");
+                    //console.log("--------------------werwerwe------------------");
                     document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
                     if ((data[0][0].status == 3) && (<%=roleid%> == 1)) {
                         $('#Approved').addClass('hide');
@@ -910,7 +914,7 @@
                         $('#Rejected').addClass('hide');
                         $('#Approved').removeClass('hide');
                     }
-                    console.log("kkkkkk");
+                    //console.log("kkkkkk");
                     getUserUnderSupervisor();
                 }
 
@@ -940,7 +944,7 @@
                 },
                 success: function(data) {
                     alert("Response have been submited Successfuly");
-                    console.log("--------------------werwerwe------------------");
+                    //console.log("--------------------werwerwe------------------");
                     document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
                     if (data[0][0].status == 3) {
                         $('#Approved').addClass('hide');
@@ -950,7 +954,7 @@
                         $('#Rejected').addClass('hide');
                         $('#Approved').addClass('hide');
                     }
-                    console.log("kkkkkk");
+                    //console.log("kkkkkk");
                     getUserUnderSupervisor();
                 }
 
@@ -969,7 +973,7 @@
                 "cdate": checkdate
             },
             success: function(data) {
-                console.log(data);
+                //console.log(data);
                // $('#dropuserdata').html('');
              //alert("going for append in drop down list"+data[1].status+"and id is"+data[1].id+"an for second "+data[1].status+"and id is"+data[1].id);
              $('#drop').html('');
@@ -998,7 +1002,7 @@
 
                 }
                string=string+'</select>';
-                console.log("string-----"+string);
+                //console.log("string-----"+string);
                $('#drop').html(string);
                 $("#dropuserdata").tagger({
                     "fieldWidth":"20em"
