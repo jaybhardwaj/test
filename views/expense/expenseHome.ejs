@@ -31,14 +31,18 @@ newExpense();
 tootherfunction();
 //showstatus(); 
 // getdate();  
-var oTable=$("#data_table").dataTable();
-  $("#searchbox").keyup(function() {
-        oTable.fnFilter(this.value);
+$("#data_table").dataTable();
+  $("#searchbox").keyup(function() {    
+        $("#data_table").dataTable().fnFilter(this.value);
       });
-var otable=$("#bugtable1").dataTable();
- $("#searchbox").keyup(function() {
-        otable.fnFilter(this.value);
+ $("#bugtable1").dataTable();
+ $("#searchbox1").keyup(function() {
+        $("#bugtable1").dataTable().fnFilter(this.value);
       });
+/* $("#bugtable").dataTable();
+ $("#searchbox1").keyup(function() {
+        $("#bugtable").dataTable().fnFilter(this.value);
+      });*/
 
   $('#datebutton').datepicker({
                     onSelect: function(dateText, inst) {
@@ -89,7 +93,7 @@ var otable=$("#bugtable1").dataTable();
                                 }
                             },
                             timepicker: false,
-                            format: 'Y-m-d'
+                            format: 'd-m-Y'
                         });
 
  /*for DataTable*/
@@ -123,6 +127,9 @@ var otable=$("#bugtable1").dataTable();
                     "width": "10%"
                 }]
             });
+            $("#searchbox").keyup(function() {    
+        $("#data_table").dataTable().fnFilter(this.value);
+      });
 
 });
 /*date function*/
@@ -199,6 +206,15 @@ var formatted_date = function(date){
 
  /*end*/
  /*function for open the form for edit the expense*/
+
+ function getFormattedDate(date) {
+  var year = date.getFullYear();
+  var month = (1 + date.getMonth()).toString();
+  month = month.length > 1 ? month : '0' + month;
+  var day = date.getDate().toString();
+  day = day.length > 1 ? day : '0' + day;
+  return year + '/' + month + '/' + day;
+}
 
  function showexpensDetailsforedit(id){
 $('.inrs').removeClass('hide');
@@ -606,6 +622,9 @@ function DeleteExpense(typeid,id,expclid){
 
                      // var user=users1[1][0].sum;
                      var ref = $('#data_table').DataTable();
+                       $("#searchbox").keyup(function() {    
+        $("#data_table").dataTable().fnFilter(this.value);
+      });
                        
                            var log='';
                           console.log('bshdhggdvhewdvhgjogi',users1[0].length);
@@ -686,7 +705,11 @@ function DeleteExpense(typeid,id,expclid){
                 },{
                     "width": "10%"
                 }]
-                       });  
+                       }); 
+
+                         $("#searchbox").keyup(function() {    
+        $("#data_table").dataTable().fnFilter(this.value);
+      }); 
                       
                         }
                     
@@ -1124,6 +1147,9 @@ function expensedescription(expclaimId){
                     "width": "10%"
                 }]
                        });  
+                               $("#searchbox1").keyup(function() {    
+        $("#data_table1").dataTable().fnFilter(this.value);
+      });
                       
                         }
                     
@@ -1235,7 +1261,9 @@ function expensedescription(expclaimId){
                     "width": "15%"
                 }]
                        });  
-                      
+                        $("#searchbox1").keyup(function() {    
+        $("#bugtable").dataTable().fnFilter(this.value);
+      });
                         
                     }
                 
@@ -1892,12 +1920,17 @@ function getdate1(){
 }
 /*function to varify the date*/
 function dateVarifyofHotel(){
-  if(new Date($('#from').val())<=new Date($('#to').val())){
-    var diffDays = Math.round(Math.abs(new Date($('#from').val()).getTime() -new Date($('#to').val()).getTime()));
+  var from = $('#from').val().split("-");
+var f = new Date(from[2], from[1] - 1, from[0]);
+var to = $('#to').val().split("-");
+var t = new Date(to[2], to[1] - 1, to[0]);
+  if(new Date(f)<=new Date(t)){
+    var diffDays = Math.round(Math.abs(new Date(f).getTime() -new Date(t).getTime()));
     var days = diffDays/86400000;
     //alert(days);
     //toChecktheDate();
       $('#htotalday').val(days+1);
+      changeCurrency();
 return true;;
   }else{
     if(($('#from').val()!='')&&($('#to').val()!='')){
@@ -1908,10 +1941,15 @@ return false;
 }
 
 function dateVarifyofTravel(){
-  if(new Date($('#fromdatefortravel').val())<=new Date($('#tofortravel').val())){
-    var diffDays = Math.round(Math.abs(new Date($('#fromdatefortravel').val()).getTime() - new Date($('#tofortravel').val()).getTime()));
+var from = $('#fromdatefortravel').val().split("-");
+var f = new Date(from[2], from[1] - 1, from[0]);
+var to = $('#tofortravel').val().split("-");
+var t = new Date(to[2], to[1] - 1, to[0]);
+  if(new Date(f)<=new Date(t)){
+    var diffDays = Math.round(Math.abs(new Date(f).getTime() - new Date(t).getTime()));
     var days = diffDays/86400000;
       $('#traveltday').val(days+1);
+      changeCurrencyforTravel();
 return true;;
   }else{
     if(($('#fromdatefortravel').val()!='')&&($('#tofortravel').val()!='')){
@@ -1922,7 +1960,11 @@ return false;
 }
 
 function dateVarifyofFood(){
-  if(new Date($('#fromfood').val())<=new Date($('#tofood').val())){
+  var from = $('#fromfood').val().split("-");
+var f = new Date(from[2], from[1] - 1, from[0]);
+var to = $('#tofood').val().split("-");
+var t = new Date(to[2], to[1] - 1, to[0]);
+  if(new Date(f)<=new Date(t)){
 return true;;
   }else{
     if(($('#fromfood').val()!='')&&($('#tofood').val()!='')){
@@ -1932,7 +1974,11 @@ return false;
   }
 }
 function dateVarifyofPhone(){
-  if(new Date($('#fromdateforphone').val())<=new Date($('#todateforphone').val())){
+  var from = $('#fromdateforphone').val().split("-");
+var f = new Date(from[2], from[1] - 1, from[0]);
+var to = $('#todateforphone').val().split("-");
+var t = new Date(to[2], to[1] - 1, to[0]);
+  if(new Date(f)<=new Date(t)){
 return true;;
   }else{
 
@@ -1944,7 +1990,11 @@ return false;
 }
 
 function dateVarifyofRsd(){
-  if(new Date($('#fromdateforrfd').val())<=new Date($('#todateforrfd').val())){
+  var from = $('#fromdateforrfd').val().split("-");
+var f = new Date(from[2], from[1] - 1, from[0]);
+var to = $('#todateforrfd').val().split("-");
+var t = new Date(to[2], to[1] - 1, to[0]);
+  if(new Date(f)<=new Date(t)){
     
 return true;;
   }else{
@@ -1956,11 +2006,16 @@ return false;
 }
 
 function dateVarifyofPerdiem(){
-  if(new Date($('#fromdateperdiem').val())<=new Date($('#todateperdiem').val())){
-    var diffDays = Math.round(Math.abs(new Date($('#fromdateperdiem').val()).getTime() - new Date($('#todateperdiem').val()).getTime()));
+  var from = $('#fromdateperdiem').val().split("-");
+var f = new Date(from[2], from[1] - 1, from[0]);
+var to = $('#todateperdiem').val().split("-");
+var t = new Date(to[2], to[1] - 1, to[0]);
+  if(new Date(f)<=new Date(t)){
+    var diffDays = Math.round(Math.abs(new Date(f).getTime() - new Date(t).getTime()));
     var days = diffDays/86400000;
     //alert(days);
       $('#diemday1').val(days+1);
+      changeCurrencyforDiem();
 return true;;
   }else{
     if(($('#fromdateperdiem').val()!='')&&($('#todateperdiem').val()!='')){
@@ -1971,7 +2026,11 @@ return false;
 }
 
 function dateVarifyofOther(){
-  if(new Date($('#fromother').val())<=new Date($('#otherToDate').val())){
+  var from = $('#fromother').val().split("-");
+var f = new Date(from[2], from[1] - 1, from[0]);
+var to = $('#otherToDate').val().split("-");
+var t = new Date(to[2], to[1] - 1, to[0]);
+  if(new Date(f)<=new Date(t)){
 return true;;
   }else{
     if(($('#otherToDate').val()!='')&&($('#fromother').val()!='')){
@@ -2062,8 +2121,12 @@ function validateforhotel(){
     alert("Hotel reason Missing!");    
     return false;
   }
-  else if(($('#hrate').val()<1)&&($.trim($("#hrate").val() ==""))){
+  else if($("#hrate").val() ==""){
     alert("Rate per day Missing!");    
+    return false; 
+  }
+  else if($('#hrate').val()<1){
+    alert("Please Enter Positive Value in  Rate per day ");    
     return false; 
   }
   else if($('#htotalday').val()<1&&$.trim($("#htotalday").val()) =="") 
@@ -2082,11 +2145,12 @@ function validateforhotel(){
     alert("Total Expense Missing!");    
     return false;
   }
-  else
+  else{
+    if(dateVarifyofHotel()==true){
  adddatahotel();
 return true;
  
-  
+ }} 
 }
 
 function validatefortravel(){
@@ -2118,13 +2182,18 @@ function validatefortravel(){
     alert("Travel reason Missing!");    
     return false;
   }
-  else if(($('#travelrate').val()<1)&&($.trim($("#travelrate").val() ==""))){
+  else if($("#travelrate").val() ==""){
     alert("Rate per day Missing!");    
     return false; 
   }
-  else if($('#traveltday').val()<1&&$.trim($("#traveltday").val()) =="") 
+
+   else if($("#travelrate").val()<1){
+    alert("Please Enter Positive Value in  Rate per day!");    
+    return false; 
+  }
+  else if($('#traveltday').val()=='') 
   {
-    alert("Total Days Missing!");    
+    alert("Total Days Missing ! ");    
     return false;
   }
 
@@ -2138,11 +2207,12 @@ function validatefortravel(){
     alert("Total Expense Missing!");    
     return false;
   }
-  else
+  else{
+  if(dateVarifyofTravel()==true){  
  adddatatravel();
 return true;
- 
-  
+ }
+ } 
 }
 
 function validateforrsd(){
@@ -2174,16 +2244,24 @@ function validateforrsd(){
     alert("Reason for Travel Missing!");    
     return false;
   }
-  else if(($('#rfdper').val()<1)&&($.trim($("#rfdper").val() ==""))){
+  else if($("#rfdper").val() ==""){
     alert("Per Km Rate Missing!");    
     return false; 
   }
-  else if($('#rfdtotalkm').val()<1&&$.trim($("#rfdtotalkm").val()) =="") 
+   else if($('#rfdper').val()<1){
+    alert("Please Enter Positive Value in Per Km Rate!");    
+    return false; 
+  }
+  else if($("#rfdtotalkm").val() =="") 
   {
     alert("Total km Travel Missing!");    
     return false;
   }
-
+   else if($('#rfdtotalkm').val()<1) 
+  {
+    alert("Please Enter Positive Value in Total km Travel!");    
+    return false;
+  }
   else if($('#rfdcu').val().length<1||$.trim($("#rfdcu").val()) =="") 
   {
     alert("Currency Missing!");    
@@ -2194,11 +2272,12 @@ function validateforrsd(){
     alert("Total Expense Missing!");    
     return false;
   }
-  else
+  else {
+    if(dateVarifyofRsd()==true){
  adddatarsd();
 return true;
  
-  
+  }}
 }
 
 function validatefordeim(){
@@ -2230,10 +2309,15 @@ function validatefordeim(){
     alert("Reason for Stay Missing!");    
     return false;
   }
-  else if(($('#diemrate1').val()<1)&&($.trim($("#diemrate1").val() ==""))){
-    alert("Per Diem Rate Missing!");    
+  else if($("#diemrate1").val() ==""){
+    alert("Per Diem Rate Missing!");   
     return false; 
   }
+    else if($('#diemrate1').val()<1){
+    alert("Please Enter Positive Value in Per Diem Rate!");    
+    return false; 
+  }
+
   else if($('#diemday1').val()<1&&$.trim($("#diemday1").val()) =="") 
   {
     alert("Total Days Missing!");    
@@ -2250,10 +2334,11 @@ function validatefordeim(){
     alert("Total Expense Missing!");    
     return false;
   }
-  else
+  else {
+    if(dateVarifyofPerdiem()==true){
  adddataperdiem();
 return true;
- 
+ }}
   
 }
 
@@ -2288,15 +2373,22 @@ function validateforfood(){
     alert("Currency Missing!");    
     return false;
   }
-    else if($('#foodex1').val().length<1||$.trim($("#foodex1").val()) =="") 
+    else if($("#foodex1").val() =="") 
   {
     alert("Total Expense Missing!");    
     return false;
   }
-  else
+
+     else if($('#foodex1').val()<1) 
+  {
+    alert("Please Enter Positive Value in Total Expense!");    
+    return false;
+  }
+  else {
+    if(dateVarifyofFood()==true){
  adddatafood();
 return true;
- 
+ }}
   
 }
 
@@ -2331,15 +2423,22 @@ function validateforphone(){
     alert("Currency Missing!");    
     return false;
   }
-    else if($('#callingex').val().length<1||$.trim($("#callingex").val()) =="") 
+    else if($("#callingex").val() =="") 
   {
     alert("Total Expense Missing!");    
     return false;
   }
-  else
+
+     else if($('#callingex').val()<1) 
+  {
+    alert("Please Enter Positive Value in Total Expense!");    
+    return false;
+  }
+  else {
+    if(dateVarifyofPhone()==true){
  adddataphone();
 return true;
- 
+ }}
   
 }
 
@@ -2375,15 +2474,21 @@ function validateforother(){
     alert("Currency Missing!");    
     return false;
   }
-    else if($('#otherex1').val().length<1||$.trim($("#otherex1").val()) =="") 
+    else if($("#otherex1").val() =="") 
   {
     alert("Total Expense Missing!");    
     return false;
   }
-  else
+     else if($('#otherex1').val()<1) 
+  {
+    alert("Please Enter Positive Value in Total Expense!");    
+    return false;
+  }
+  else{
+    if(dateVarifyofOther()==true){
  adddataother();
 return true;
- 
+ }}
   
 }
 
@@ -2839,7 +2944,7 @@ function changeothercurrency(){
 </div>
 
 <div class="secondry-color hide" id="accordions">
-   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
+   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
         <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable">
             
          </table>
@@ -2981,7 +3086,7 @@ function changeothercurrency(){
                             <label class="form-Label">Total Days:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                       </div>
                       <div class="col-md-4">
-                            <input type="number" min="1" maxlength="45"  class="form-text-box" id="htotalday" for="hotelTotalDay" name="hotelTotalDay" onblur="changeCurrency()"  required/>
+                            <input  type="number" min="1" maxlength="45"  class="form-text-box" id="htotalday" for="hotelTotalDay" name="hotelTotalDay" onblur="changeCurrency()"  required/>
                       </div>
                     </div>
                 </div>
@@ -3010,7 +3115,7 @@ function changeothercurrency(){
                             <input type="hidden" name="hotelexpensetypeid" value="1">
                         </div>
                         <div class="col-md-4">
-                            <input type="number" min="1" step="any" maxlength="45"  class="form-text-box" id="htex" name="htex"  required/>
+                            <input  type="number" min="1" step="any" maxlength="45"  class="form-text-box" id="htex" name="htex"  required/>
                             <span  class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                         </div>
                         </div>
