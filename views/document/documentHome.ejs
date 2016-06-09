@@ -176,6 +176,7 @@
                     <th>File Name</th>
                     <th>File Title</th>
                     <th>Author</th>
+                     <th>Uploaded By</th>
                     <th>Upload Date</th>
                     <th>Action</th>
 
@@ -193,6 +194,9 @@
                             </td>
                             <td>
                                 <%=files[0][i].author%>
+                            </td>
+                            <td>
+                                <%=files[0][i].userName%>
                             </td>
                             <td>
                                 <%=files[0][i].uploadDate%>
@@ -610,7 +614,7 @@
                 dataType: 'json',
                 success: function(tabledata) {
                     var charstr = "";
-                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th> <th>Upload Date</th><th>Action</th></thead><tbody>';
+                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Action</th></thead><tbody>';
                     for (var i = tabledata.length - 1; i >= 0; i--) {
                         var bgstr = '';
                         if (tabledata[i].color == 'yellow') {
@@ -618,7 +622,7 @@
                             bgstr = 'style = "background-color:#ffffb3"';
 
                         }
-                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a><a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
+                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a><a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
                     }
                     charstr += '</tbody>';
                     otable.dataTable().fnDestroy();
