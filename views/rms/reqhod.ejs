@@ -318,8 +318,8 @@
                 </ul>
                 <div class="tab-content">
                     <div id="jd" class="tab-pane fade in active" style="margin-top:2%;">
-                        <textarea class="ckeditor" name="Description" row="3" id="Description" maxlength="2000" placeholder="JobDescription"></textarea>
-                        (max. 2000 characters.)
+                        <textarea class="ckeditor" name="Description" row="3" id="Description" maxlength="4000" placeholder="JobDescription"></textarea>
+                        (max. 4000 characters.)
                     </div>
                     <div id="history" class="tab-pane fade" style="height:100px;overflow-y:scroll;margin-top:2%"> 
                         <table id="historyTable" style="font-size:12px; ;">
@@ -428,20 +428,16 @@
 
     <!--PAGE CONTENT ENDS-->
 <%include menu1.ejs%>
-<% include ../partials/footer %> 
- 
-  
- 
+<% include ../partials/footer %>   
             <script type="text/javascript">
                 var str1;var flage;
                     tinymce.init({
                         selector: '#Description',
                         menubar:false
-                    }); 
-                   
+                    });  
                function validateForm() { 
                         if(!$('#jobTitle').val().trim().length){
-                        alert("Please fill Job Title");
+                        alert("Please fill Job Title!");
                         return false;
                     }
                  /*    var strLocation = '#location_'+$('#locationId').val()
@@ -449,15 +445,15 @@
                            console.log($('#minsal').val() + '      ' + $('#maxsal').val());
 
                     if(!$('#yox').val().trim().length){
-                        alert("Please fill Experience");
+                        alert("Please fill Experience!");
                         return false;
                     }
                     if ($('#minsal').val()-$('#maxsal').val()>0) {
-                        alert("Minimum Salary must be less than Maximum Salary");
+                        alert("Minimum Salary must be less than Maximum Salary!");
                         return false;
                     }
                     if ($('#skillsId').val() == null) {
-                        alert('Please select a skill');
+                        alert('Please select a skill!');
                         return false;
                     }
                   /*    if($('#jobType').val()<1){
@@ -472,11 +468,11 @@
                         decode = decode.replace(re, '');
                         decode = decode.trim();
                         if (decode == '') {
-                            alert('Please fill in some description');
+                            alert('Please fill in some description!');
                             return false;
                         }
-                        if (decode.length > 2000) {
-                            alert('Description can not be more than 2000 characters');
+                        if (decode.length > 4000) {
+                            alert('Description can not be more than 4000 characters!');
                             return false;
                         }  
                          
@@ -489,7 +485,7 @@
                             arstr2[4] = $('#nop').val();
                             var str2 = arstr2.toString();   
                             if (str1 == str2) {
-                                alert('You cannot create duplicate JD.')
+                                alert('You cannot create duplicate JD!')
                                 return false;
                             } 
                         }
@@ -710,10 +706,10 @@
                             minDate:todate
                         });
                     if (<%=flag==1%>) {
-                        alert('Requisition created');
+                        alert('Requisition created!');
                     }
                     if (<%=flag==0%>) {
-                        alert('Requisition edited');
+                        alert('Requisition edited!');
                     }
                 });
             </script>

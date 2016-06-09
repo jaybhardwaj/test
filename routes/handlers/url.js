@@ -967,6 +967,16 @@ hr:function(req,res,next){
 			res.redirect('/portal');
 		}
 	},
+	
+	updateStatusReqViaMail:function(req,res,next){  
+		  req.body.jdid=req.query.jdid;
+		  req.body.flag=req.query.flag;
+		  req.session.hrRole=req.query.role;
+		  req.isMail=true;
+		  req.page="success";
+		  console.log("url  updateStatusReqViaMail",req.body.jdid,req.body.flag,req.session.hrRole);
+		next(); 
+	},
 
 	//---------------------------------------Project----------------------------------------------
 	task:function(req,res,next){
