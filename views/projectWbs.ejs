@@ -635,8 +635,8 @@
                   console.log(data[3]);
 
                   $('#retailer').val(data[1][0].retailer);
-                  
-                  if(confirm("Do you want to create Assignment for WBS - "+$('#wbsname').val()+" ?") ){
+                  if(data[1][0].wid !=0){
+                    if(confirm("Do you want to create Assignment for WBS - "+$('#wbsname').val()+" ?") ){
                         $('#wbssubmit').addClass('hide');
                         $('#pid').val(data[1][0].pid);
                         $('#wid').val(data[1][0].wid);
@@ -675,18 +675,23 @@
 
                           $('#assignmentDiv').removeClass('hide');
                       }
-                      else{
-                         var r = confirm("Do you want to create more WBS ?"); 
-                        if (r == false) {  
-                            window.location.href="/projectDetails";
-                            
-                        }
-                        else{
-                          window.location.href="/projectWbs?pid="+$('#proname').val();
-                        }
-                      }
+                  }
 
-                }
+                  else{
+                    alert('Assignments for users in Project created Successfully');
+                  }
+
+                   var r = confirm("Do you want to create more WBS ?"); 
+                  if (r == false) {  
+                      window.location.href="/projectDetails";
+                      
+                  }
+                  else{
+                    window.location.href="/projectWbs?pid="+$('#proname').val();
+                  }
+                      
+
+              }
 
             });
 
