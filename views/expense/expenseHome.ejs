@@ -26,6 +26,7 @@ $(document).ready(function() {
 $('.exphome-img').addClass('active');
 toCheckExpenseSubmitOrNot();
 hidethebuttons();
+//hidesubmitshowedit();
 role(); 
 newExpense();
 tootherfunction();
@@ -633,7 +634,7 @@ function DeleteExpense(typeid,id,expclid){
                             // claimid=claimid+users[i].expenseclaimId+",";
                               if(users[i].flag!=1){
                                 log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id=" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].tripAssignment + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
-                                   if((users[i].ClaimedStatus==0)||(users[i].ClaimedStatus==101)){
+                                   if(((users[i].ClaimedStatus==0)||(users[i].ClaimedStatus==101))&&(users[i].Submitted==0)){
                                     showtotalExpense();
                                  log=log+ "<a  style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a1'  class='glyphicon glyphicon-trash' style='color:red;height:10px' onclick='DeleteExpense("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' data-target='#myModal1' title ='Delete Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px' onclick='selecthotelExpense("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' title ='Edit Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a3'  class='glyphicon glyphicon-file' style='color:red;height:10px'  onclick='showAttechmentmodel("+users[i].id+");' title ='Attach Document' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a5' class='glyphicon glyphicon-copy' style='color:red;height:10px' onclick='selecthotelExpenseforCopy("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' title ='Copy Expense' ></span><input type='hidden' value="+users[i].expenseclaimId+" name='claimidforuser' id='ipn'>";
                                   if(users[i].anyFile!=undefined){
@@ -649,7 +650,8 @@ function DeleteExpense(typeid,id,expclid){
                                      log=log+"</td><td>";
                                  if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
                               log=log +"Pending..</td>";
-
+                                 hidesubmitshowedit();
+                                 $('#resubmitExpenseid').val(users[i].expenseclaimId);
                                  }
                                    if((users[i].ClaimedStatus==111)&&(users[i].Submitted==1)){
                                log=log + "Approved by supervisor</td>";
@@ -1379,7 +1381,8 @@ function expensedescription(expclaimId){
                 success: function(data) {
                   if(data.length!=undefined){
                  for(var i=0;i<data.length-1;i++){
-              $('#'.concat(data[i][0].flagbill)).css('background-color', 'yellow');
+             // $('#'.concat(data[i][0].flagbill)).css('background-color', 'yellow');
+             $('#'.concat(data[i][0].flagbill)).addClass('active-row');
                }
              alert("Bill Attachment mandatory for highlighted expense");
                }
@@ -1392,6 +1395,31 @@ function expensedescription(expclaimId){
                 }
                 });
                 }
+
+     
+        function checkFinancemanager() {
+                    //alert('hassfsagsfahj');
+          //var Id=$('#typeEx').val();
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkFinancemanager';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  
+                success: function(data) {
+                  if(data[0].flag1==0){
+                 alert('hfgdhfgsdf jdfghsf');   
+                  return false;
+                 }
+               else{
+                
+                checkExpense($('#ipn').val()); 
+                 return true;
+               }
+                  
+                }
+                });
+                }
+
 
       function toChekRasieExpenseOrNotforNext() {
 
@@ -1410,6 +1438,7 @@ function expensedescription(expclaimId){
         enddatefor.setDate(enddatefor.getDate()+30);
         //((new Date(currentdate)>=dateforbfirst)&&
          if((new Date(currentdate)>=dateforbfirst)&&(new Date(currentdate)<=enddatefor)){
+          $('#submitbut').addClass('hide');
          $('#submitbutton').removeClass('hide');
          $('#explabel').removeClass('hide');
          $('#typeEx').removeClass('hide');
@@ -1417,13 +1446,14 @@ function expensedescription(expclaimId){
         else if(new Date(currentdate)<=enddatefor){
          // alert(enddatefor);
          //toCheckExpenseSubmitOrNot();
-        
+        $('#submitbut').addClass('hide');
          $('#explabel').removeClass('hide');
     $('#typeEx').removeClass('hide');
      $('#submitbutton').addClass('hide');
          // showtotalExpense();   
           }
             else{
+              $('#submitbut').addClass('hide');
                $('#explabel').addClass('hide');
                $('#typeEx').addClass('hide');
                $('#submitbutton').addClass('hide');
@@ -1448,9 +1478,10 @@ function expensedescription(expclaimId){
        //(new Date(currentdate)<=dateforbfirst)&&
        if((new Date(currentdate)>=dateforbfirst)&&(new Date(currentdate)<=enddatefor)){
          $('#submitbutton').removeClass('hide');
+         $('#submitbut').addClass('hide');
        }
        else if(new Date(currentdate)<=enddatefor){
-       
+       $('#submitbut').addClass('hide');
         // toCheckExpenseSubmitOrNot();
                  $('#raiseexp').removeClass('hide');
          $('#notvalid').addClass('hide');
@@ -1461,7 +1492,7 @@ function expensedescription(expclaimId){
              
           }
             else{
-
+             $('#submitbut').addClass('hide');
                $('#explabel').addClass('hide');
     $('#typeEx').addClass('hide');
      $('#submitbutton').addClass('hide');
@@ -1475,7 +1506,14 @@ function expensedescription(expclaimId){
 
       function thisAlert(){
         alert('you can not raise expense for this fortnight'); 
-      }       
+      } 
+
+      function hidesubmitshowedit(){
+         $('#explabel').addClass('hide');
+               $('#typeEx').addClass('hide');
+               $('#submitbutton').addClass('hide');
+               $('#submitbut').removeClass('hide');
+      }      
 
      function toCheckExpenseSubmitOrNot(){
                 var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/checkExpenseSubmitOrNot';
@@ -1489,12 +1527,31 @@ function expensedescription(expclaimId){
                $('#explabel').addClass('hide');
                $('#typeEx').addClass('hide');
                $('#submitbutton').addClass('hide');
+               $('#submitbut').addClass('hide');
+               if(data[0].submit==1){
+                 $('#submitbut').removeClass('hide');
+                  $('#explabel').addClass('hide');
+               $('#typeEx').addClass('hide');
+               $('#submitbutton').addClass('hide');
+               }
+               else{
+                $('#submitbut').addClass('hide');
+               }
                }
                else{
                $('#explabel').removeClass('hide');
                $('#typeEx').removeClass('hide');
                $('#submitbutton').removeClass('hide');
-            
+               $('#submitbut').addClass('hide');
+                 if(data[0].submit==1){
+                   $('#explabel').addClass('hide');
+               $('#typeEx').addClass('hide');
+               $('#submitbutton').addClass('hide');
+                 $('#submitbut').removeClass('hide');
+               }
+               else{
+                $('#submitbut').addClass('hide');
+               }
                }   
                 }
                 });
@@ -1807,9 +1864,11 @@ function expensedescription(expclaimId){
 function submitExpense() {
    if($('#ipn').val()==undefined){
     alert('please add the expense');
-   } else{
-    checkExpense($('#ipn').val());
-
+   }
+else{
+  
+  checkFinancemanager();
+ 
 }
 }
 
@@ -1861,10 +1920,11 @@ function submitExpense() {
                 },
                 success: function(data) {
                     $('#submitedbutton').val('Submitted');
-                     document.getElementById("submitedbutton").disabled = true;
+                     //document.getElementById("submitedbutton").disabled = true;
 
                      alert("Expense submitted successfully.");
                      selecthotelExpenseforweek();
+                     //document.getElementById("submit11").disabled = false;
                       $('.dismiss').click();
                      
                 }
@@ -1883,6 +1943,7 @@ function resubmittheExpenseforCopy(expclaimId) {
                 },
                 success: function(data) {
                      // window.location.href ='/expensenew';
+                      selecthotelExpenseforweek();
                 }
                 });
 
@@ -1898,7 +1959,9 @@ function resubmittheExpenseforCopy(expclaimId) {
                     expclaimId:expclaimId
                 },
                 success: function(data) {
-                      window.location.href ='/expensenew';
+                  $('#submitbut').addClass('hide');
+                  $('#submitbutton').removeClass('hide');   
+                  selecthotelExpenseforweek();
                 }
                 });
 
@@ -2977,7 +3040,7 @@ function changeothercurrency(){
        </div>  
        <div id='submitbuttonresub' class="col-md-1 hide" style="float:right;"><a href="/expensenew?expin=0"><input type='button' id="submit" class="form-control" style="margin-top:3px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="" value='Resubmit'></a>
        </div> 
-       <div id='submitbuttonforresubmit' class="col-md-1 hide" style="float:right;"><a href="/expensenew?expin=0"><input type='button' id="submit" class="form-control" style="margin-top:3px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="resubmittheExpense()" value='Edit&Add'></a>
+       <div id='submitbut' class="col-md-1 hide" style="float:right;"><button type='button' id="submit11" class="form-control" style="margin-top:3px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="resubmittheExpense()" value='Edit&Add'>Edit/Add</button>
        </div> 
        <!--hr style="max-width:100%;margin-top:2.9%;border-color:##f05f40"-->              
 </div>
@@ -3005,7 +3068,7 @@ function changeothercurrency(){
                         <label class="form-Label">Expense Type:-</label>
                      </div>
                      <div class="col-md-3">
-                          <label class="form-Label">Hotel</label>
+                          <label class="form-Label" style="margin-bottom:10px;">Hotel</label>
                      </div>
                      <div class="col-md-2 fieldgroup">
                           <label class="form-Label">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
@@ -3158,7 +3221,7 @@ function changeothercurrency(){
                          <label class="form-Label">Expense Type:-</label>
                     </div>
                     <div class="col-md-4">
-                          <label class="form-Label">Travel</label>
+                          <label class="form-Label" style="padding-top:5px;">Travel</label>
                     </div>
                     <div class="col-md-2">
                           <label class="form-Label">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
@@ -3321,7 +3384,7 @@ function changeothercurrency(){
                             <label class="form-Label">Expense Type:-</label>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-Label">Phone</label>
+                            <label class="form-Label" style="padding-top:5px;">Phone</label>
                         </div>
                         <input type="hidden" name="travelexpensetypeid" value="4">
                         <div class="col-md-2">
@@ -3364,7 +3427,7 @@ function changeothercurrency(){
                    </div>
 
                    <div class="col-md-12 a">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label class="form-Label">Reason for Calling:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
@@ -3444,7 +3507,7 @@ function changeothercurrency(){
                             <label class="form-Label">Expense Type:-</label>
                          </div>
                          <div class="col-md-4">
-                            <label class="form-Label">Reimbursement for Self-driven Vehicle</label>
+                            <label class="form-Label" style="padding-top:5px;">Reimbursement for Self-driven Vehicle</label>
                          </div>
                          <div class="col-md-2">
                             <label class="form-Label">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
@@ -3606,7 +3669,7 @@ function changeothercurrency(){
                             <label class="form-Label">Expense Type:-</label>
                          </div>
                          <div class="col-md-4">
-                            <label class="form-Label">Per Diem</label>
+                            <label class="form-Label" style="padding-top:5px;">Per Diem</label>
                          </div>
                          <div class="col-md-2">
                             <label class="form-Label">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
@@ -3767,7 +3830,7 @@ function changeothercurrency(){
                             <label class="form-Label">Expense Type:-</label>
                         </div>
                          <div class="col-md-4">
-                            <label class="form-Label">Food/Entertainment</label>
+                            <label class="form-Label" style="padding-top:5px;">Food/Entertainment</label>
                         </div>
                         <div class="col-md-2">
                             <label class="form-Label">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
@@ -3810,7 +3873,7 @@ function changeothercurrency(){
                 </div>
 
                 <div class="col-md-12 a" style="margin-top:1px;">                    
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-Label" >Reason for Fooding/entertainment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
@@ -3887,7 +3950,7 @@ function changeothercurrency(){
                             <label class="form-Label">Expense Type:-</label>
                       </div>
                       <div class="col-md-4">
-                            <label id='otherlavel' class="form-Label">Other</label>
+                            <label id='otherlavel' class="form-Label" style="padding-top:5px;">Other</label>
                       </div>
                       <div class="col-md-2">
                             <label class="form-Label">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
@@ -3929,7 +3992,7 @@ function changeothercurrency(){
                 </div>
 
                 <div class="col-md-12 a">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label class="form-Label">Reason for Expense:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">

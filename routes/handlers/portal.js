@@ -2909,6 +2909,17 @@ insertExpense: function(req, res, next) {
          });
      },
 
+       checkFinancemanager: function(req, res, next) {
+         modelPortal.tocheckFinancemanager(req.session.retailerId, function(errorRoles, result) {
+             if (errorRoles) {
+                 next(errorRoles);
+                 return;
+             }
+             res.json(result[0]);
+             next();
+         });
+     },
+
 
       reSubmitExpenseforCopy: function(req, res, next) {
          modelPortal.toReSubmitExpenseforCopy(req.body.expclaimId, function(errorRoles, result) {

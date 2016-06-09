@@ -1852,6 +1852,16 @@ mysql(q,function(err,result){
         });
     },
 
+    tocheckFinancemanager: function(retailerid,callback) {
+        var query = {
+            sql: 'call Ex_tocheckFinancemanager(?)',
+            values:[retailerid]
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
+
      toReSubmitExpenseforCopy: function(cid,callback) {
         var query = {
             sql: 'call Ex_toCopyTheExpense(?)',
