@@ -4332,7 +4332,7 @@ addUser: function(req, res, next) {
                 //console.log("there is an error",err);
             }   
             else{
-                    res.json(result[0]);
+                    res.json(result);
                 }    
 
 
