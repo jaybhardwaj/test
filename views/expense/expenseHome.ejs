@@ -619,6 +619,7 @@ function DeleteExpense(typeid,id,expclid){
 
             var  users =users1[0];
                       console.log(users1);
+
                       //showtotalExpense();
 
                      // var user=users1[1][0].sum;
@@ -631,6 +632,7 @@ function DeleteExpense(typeid,id,expclid){
                           console.log('bshdhggdvhewdvhgjogi',users1[0].length);
                              log = "<thead><tr style='font-size:12px' >" + "<th>Expense Type</th>" + "<th>Trip/Assignment</th>" + "<th>From Date</th>" + "<th>To Date</th>" + "<th>Total Amount</th><th >Action</th><th>Status</th></tr></thead><tbody id='tablebody2' >";
                             for (var i = 0; i < users.length; i++) {
+                              // $('#resubmitExpenseid').val("+users[i].expenseclaimId+"');
                             // claimid=claimid+users[i].expenseclaimId+",";
                               if(users[i].flag!=1){
                                 log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id=" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].tripAssignment + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
@@ -649,9 +651,9 @@ function DeleteExpense(typeid,id,expclid){
                                    /* log=log+"<a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-adjust' style='height:15px;color:red;font-size:10px;' onclick='resubmittheExpense("+users[i].expenseclaimId+")'  title ='ReSubmit'></span></a></td>";*/}
                                      log=log+"</td><td>";
                                  if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
-                              log=log +"Pending..</td>";
+                              log=log +"Pending..<input type='hidden' id='resubmitExpenseid' value='"+users[i].expenseclaimId+"'></td>";
                                  hidesubmitshowedit();
-                                 $('#resubmitExpenseid').val(users[i].expenseclaimId);
+                                 
                                  }
                                    if((users[i].ClaimedStatus==111)&&(users[i].Submitted==1)){
                                log=log + "Approved by supervisor</td>";
@@ -1811,13 +1813,13 @@ function expensedescription(expclaimId){
 
             function toCheckthelengthforReason(){
         
-           if($('#comment').val().length<500)
+            if($('#comment').val()==''){
+            alert('Please fill the reason for reject the Expense');
+           }
+            else if($('#comment').val().length<500)
            {
             rejecttheExpense(0);
              return  true;
-           }
-           else if($('#comment').val()==''){
-            alert('Please fill the reason for reject the Expense');
            }
             else{
                 alert('Please write only 500 letters in the reason box');
@@ -1847,7 +1849,7 @@ function expensedescription(expclaimId){
                    // $('#appbuton').append('d');
                      $('#appbutton').val('Submitted');
                      //$('#submitedbutton').disabled=true;
-                     document.getElementById("appbutton").disabled = true;
+                     //document.getElementById("appbutton").disabled = true;
                      //$('#appbuton').disable();
                      alert("Expense approved successfully.");
                      $('#a'.concat(claimarray)).addClass('hide');
@@ -1919,13 +1921,15 @@ else{
                     comments:comments
                 },
                 success: function(data) {
-                    $('#submitedbutton').val('Submitted');
+                   // $('#submitedbutton').val('Submit');
                      //document.getElementById("submitedbutton").disabled = true;
 
                      alert("Expense submitted successfully.");
                      selecthotelExpenseforweek();
                      //document.getElementById("submit11").disabled = false;
                       $('.dismiss').click();
+                       $('#submitbutton').addClass('hide');
+                 $('#submitbut').removeClass('hide');
                      
                 }
                 });
@@ -1969,7 +1973,7 @@ function resubmittheExpenseforCopy(expclaimId) {
 
   function submitbuttonDisable(){
      $('#submitedbutton').val('Submitted');
-                     document.getElementById("submitedbutton").disabled = true;
+                    // document.getElementById("submitedbutton").disabled = true;
                       $('#submitedbutton').removeClass('hide');
 
   } 
