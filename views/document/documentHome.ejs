@@ -296,7 +296,7 @@
 
 
                 <div class="col-md-6 col-md-offset-4 " id="lastfiveuploads6" style="margin-top:5%;">
-                    <button type="submit" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()">Submit</button>
+                    <input type="submit" id="" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()"></input>
                 </div>
       </form>
   
@@ -408,6 +408,10 @@
 </body>
  
     <script>
+   $('form#formID').submit(function(e){
+    $(this).find('input[type=submit]').prop('disabled', true);
+});
+
    var  validType=['exe','html','ejs'];
         function validation() {
             var input, file;
@@ -469,7 +473,11 @@
             if (res == null) {
                 alert("Please select any Restriction Type!");
                 return false;
-            } else return true;
+            } else
+            {
+/*            $('#document_submit').attr('disabled',true);
+*/             return true;
+            }
         }
 
       
