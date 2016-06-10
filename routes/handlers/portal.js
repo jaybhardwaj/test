@@ -3312,7 +3312,7 @@ addUser: function(req, res, next) {
             next(err)
         }else{
 
-            console.log('sssssssssssssssssssss----------',result[1]);
+            //console.log('sssssssssssssssssssss----------',result[1]);
             if(result[1].length==0){
                 result[1]=[{status:0}];
             }
@@ -3336,22 +3336,51 @@ addUser: function(req, res, next) {
 
      },
       otherTimeSheet: function(req,res,next){
-        var query = require('url').parse(req.url,true).query;
-        var usid=query.id;
-         req.userid=usid;
-       modelPortal.otherTimeSheet(usid,req.session.retailerId,function(err,result){
+
+        /*var query = require('url').parse(req.url, true).query;
+        var usid = query.id;
+
+
+        console.log(" i am in rtal");*/
+
+         req.userid=req.session.timeshhetuserid;
+        // console.log(" i am in model portal...........",req.userid);
+       /*modelPortal.otherTimeSheet(req.userid,req.session.retailerId,function(err,result){
         if(err){
             next(err)
         }else{
              req.timeinfo = result;
             
             
-
+              console.log("Going for rendering",result);
             next();
         }
-       });
+       });*/
 
      },
+
+     otherTimeSheet_setPage: function(req,res,next){
+        //console.log(" i am in  post rtal");
+        req.session.timeshhetuserid=req.body.id;
+            modelPortal.otherTimeSheet(req.session.timeshhetuserid,req.session.retailerId,function(err,result){
+        if(err){
+            next(err)
+        }else{
+             req.session.timeinfo = result;
+            
+            
+              //console.log("Going for rendering",result);
+           res.json(1);
+           // next();
+        }
+       });
+            //next();
+           // res.redirect('/otherTimeSheet');
+        
+
+     },
+
+
  ApprovedOrReject: function(req,res,next){
         
        modelPortal.ApprovedOrReject(req.body.appOrRejBy,req.body.status,req.body.id,req.body.ardate,req.body.appOrRejReason,req.session.retailerId,req.body.userEmail,function(err,result){

@@ -697,7 +697,7 @@
             k1 = 0;
             for (var i = 0; i < temp + 1; i++) {
                 if ($('#id' + i+'_'+ p).val() != "")
-                    k1 = k1 + parseInt($('#id' + i+'_'+ p).val());
+                    k1 = k1 + parseFloat($('#id' + i+'_'+ p).val());
             }
             $('#id' + i+'_'+ p).val(k1);
             //     alert("---------------");
@@ -1084,11 +1084,12 @@
         }
         var s = 0;
         for (var i = 0; i < temp + 1; i++) {
-            s = s + parseInt($('#id'+i+'_'+k).val());
-            //console.log("value in #id",  i ,'', k," is", $('#id'+i+'_'+k).val());
+            s = s + parseFloat($('#id'+i+'_'+k).val());
+            console.log("value in #id",  i ,'', k," is", $('#id'+i+'_'+k).val());
         };
-        //console.log("sum is ",s);
+        //console.log("TOTAL ------sum is ",s);
         $('#id'+i+'_'+k).val(s);
+        // console.log("TOTAL ------sum is ",s,"VALUE OF id",i,"_",k," is ",$('#id'+i+'_'+k).val(s));
         //  alert(" end of  disable holiday ");
     }
 
@@ -1196,7 +1197,7 @@
         });
     }
 
-    function DropdownUsers() {
+  /*  function DropdownUsers() {
         var dpusdata = $('#dropuserdata').val();
          if(dpusdata==null){
            
@@ -1205,6 +1206,30 @@
         //alert("user id is"+dpusdata);
         if ($('#dropuserdata').val() != 0)
             window.location.href = "/otherTimeSheet?id=" + dpusdata;
+        //alert("hiiiiiiiiiiiii");
+    }*/
+      function DropdownUsers() {
+        var dpusdata = $('#dropuserdata').val();
+         if(dpusdata==null){
+           
+            return false;
+            }
+        //alert("user id is"+dpusdata);
+        if ($('#dropuserdata').val() != 0){
+             $.ajax({
+                    url: '/otherTimeSheet_setPage',
+                    type: 'post',
+                    data: {
+                        "id": dpusdata,
+                        
+                    },
+                    success:function(data){
+                          
+                          window.location.href = "/otherTimeSheet";
+                    }
+                });
+        }
+           // window.location.href = "/otherTimeSheet?id=" + dpusdata;
         //alert("hiiiiiiiiiiiii");
     }
 

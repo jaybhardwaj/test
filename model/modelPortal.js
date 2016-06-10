@@ -2186,10 +2186,14 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
         });
       },
       otherTimeSheet: function(userId,retailerId,callback){
+
+        //console.log('gwerfgwrfwerfwefwrfwarf',userId,'------',retailerId);
          var query={
           sql:'call usp_time_getTime(?,?)',
           values:[userId,retailerId]
         };
+
+        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });

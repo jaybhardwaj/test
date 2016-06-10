@@ -588,6 +588,7 @@ if(req.session.modules.indexOf(config.Time)>=0)
 	}
 	},
 	otherTimeSheet: function(req,res,next){
+		//console.log('timesheet in url.js');
 		if(req.session.modules.indexOf(config.Time)>=0)
 		 	{
       req.page='otherTimeSheet';

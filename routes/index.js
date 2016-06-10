@@ -152,7 +152,11 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
      app.post('/submitTimesheetAssignment',portal.submitTimesheetAssignment);
       app.post('/checkUserTimesheet',portal.checkUserTimesheet);
        app.post('/getUserUnderSupervisor',portal.getUserUnderSupervisor);
-       app.get('/otherTimeSheet',url.otherTimeSheet,portal.otherTimeSheet,render.redirect);
+       app.get('/otherTimeSheet',url.otherTimeSheet,render.redirect);
+
+       app.post('/otherTimeSheet_setPage',portal.otherTimeSheet_setPage);
+
+
        app.post('/ApprovedOrReject',portal.ApprovedOrReject);
           app.post('/SubmitRejectReason',portal.SubmitRejectReason);
 

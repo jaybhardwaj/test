@@ -496,7 +496,8 @@ module.exports = {
 			     break;
 			     case 'otherTimeSheet':
                 
-			     res.render('timesheet/timeSheetOther',{myModules:req.session.modules,hideFlag:0,timeinfo:req.timeinfo,data:req.data,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+			     res.render('timesheet/timeSheetOther',{myModules:req.session.modules,hideFlag:0,timeinfo:req.session.timeinfo,data:req.data,id:req.session.timeshhetuserid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+			    
 			     break;
 
 

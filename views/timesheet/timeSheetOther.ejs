@@ -813,7 +813,7 @@
         }
         var s = 0;
         for (var i = 0; i < temp + 1; i++) {
-            s = s + parseInt($('#id' + i+'_'+ k).val());
+            s = s + parseFloat($('#id' + i+'_'+ k).val());
         };
         $('#id' + i+'_'+ k).val(s);
         //  alert(" end of  disable holiday ");
@@ -872,7 +872,7 @@
 
     }
 
-    function DropdownUsers() {
+ /*   function DropdownUsers() {
         var dpusdata = $('#dropuserdata').val();
         //alert("user id is"+dpusdata);
         if(dpusdata==null){
@@ -881,7 +881,33 @@
         if ($('#dropuserdata').val() != 0) {
             window.location.href = "/otherTimeSheet?id=" + dpusdata;
         } //alert("hiiiiiiiiiiiii");
+    }*/
+
+    function DropdownUsers() {
+        var dpusdata = $('#dropuserdata').val();
+         if(dpusdata==null){
+           
+            return false;
+            }
+        //alert("user id is"+dpusdata);
+        if ($('#dropuserdata').val() != 0){
+             $.ajax({
+                    url: '/otherTimeSheet_setPage',
+                    type: 'post',
+                    data: {
+                        "id": dpusdata,
+                        
+                    },
+                    success:function(data){
+                          
+                          window.location.href = "/otherTimeSheet";
+                    }
+                });
+        }
+           // window.location.href = "/otherTimeSheet?id=" + dpusdata;
+        //alert("hiiiiiiiiiiiii");
     }
+
 
     function ApporReject(ARstatus) {
         // alert("hi i am in ARstatus");
