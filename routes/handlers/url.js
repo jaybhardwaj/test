@@ -847,7 +847,7 @@ hr:function(req,res,next){
 		else{	
 			req.page="error";
 		}
-
+console.log(req.page)
 	    next();
 	}
 	else{

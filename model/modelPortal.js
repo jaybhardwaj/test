@@ -2247,9 +2247,9 @@ getHrRole:function(userId,roleId,retailerId,callback){
         sql: 'call dataForOpenRequistion(?,?,?,?,?,?)',
         values: [data,grid,time,hrRole,userId,retailerId]
         }
-        //console.log("hey query 1 ",q);
+        console.log("hey query 1 ",q);
         mysql(q, function(err, result) {
-            //console.log("-----------",err);
+            console.log("-----------",err);
               callback(err, result);
         });
     },

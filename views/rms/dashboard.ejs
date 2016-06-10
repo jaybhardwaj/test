@@ -201,6 +201,27 @@ ajaxcall(0,1,1);
      } );
 
 var data=[];
+
+        function o2arr(data2){
+        var info=[];
+        var j=1; 
+        console.log(data2);
+        for(var i=0;i<data2.length;i++){
+          console.log("inloop");
+          console.log(data2[i]);
+         data2[i].jdid=j;
+         j++;
+          info.push($.map(data2[i],function(k,v){
+          if(k==null){
+          return '-';
+          }
+          else
+          return k;
+          }));
+        }
+console.log(info);
+return info;
+}
   
   function ajaxcall(grid,type,time){
     var type1=type;
@@ -266,16 +287,15 @@ if(grid==4){
 }
 if(type==2 || type==4)
 type=1;
-
+console.log('aaaaaaaaaa',type,'bbbbbbbbbbb',grid,'cccccccccccc',time)
   $.ajax({
       url: '/dashboardData',
       type: 'post',
       data:{"data":type,"grid":grid,"time":time},
       success: function(result) { 
-        console.log(time);
-       console.log(result);
-        if(result.length==5){
-          
+        console.log('time',time);
+       console.log('result',result);
+       /* if(result.length==5){
           for(var i=0;i<result.length;i++){
             data[i]=result[i];
 
@@ -285,28 +305,16 @@ type=1;
           console.log('elseif');
           data[grid-1]=result[0];
           console.log(data[grid-1]);
-        }
-        function o2arr(data){
-        var info=[];
-        var j=1; 
-        console.log(data);
-        for(var i=0;i<data.length;i++){
-          console.log("inloop");
-          console.log(data[i]);
-         data[i].jdid=j;
-         j++;
-          info.push($.map(data[i],function(k,v){
-          if(k==null){
-          return '-';
+        }*/
+
+        for(var i=0;i<result.length;i++){
+            data[i]=result[i];
+
           }
-          else
-          return k;
-          }));
-        }
-console.log(info);
-return info;
-}
+
       if(grid==0 || grid==1){
+
+         console.log('elseif',data[0]);
           otable=$('#openreqstate').DataTable( {
           data:o2arr(data[0]), 
           columns:  [
@@ -411,7 +419,7 @@ $('#overpipe').html('');
 
         }
         /*console.log('dfgh');*/
-        } 
+} 
 });
   }
  

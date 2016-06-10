@@ -3445,13 +3445,19 @@ addUser: function(req, res, next) {
 
      dashboardData:function(req,res,next){
            countFiles[req.session.userId] = 10000;
-           console.log('kaisan ho');
+           console.log('kaisan ho',req.body);
    totalFiles[req.session.userId] = 0;
   parsing[req.session.userId] = false; 
         modelPortal.dashboardData(req.body.data,req.body.grid,req.body.time,req.session.hrRole,req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
-            if(err){ 
-                  }
-            else{ 
+
+
+            if(err){
+                //console.log("error ");
+            }
+            else{
+                console.log("successfull f",result);
+                console.log("result length f",result.length);
+
                 res.json(result);
             }
         });
