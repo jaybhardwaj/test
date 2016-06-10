@@ -3570,18 +3570,18 @@ addUser: function(req, res, next) {
             }
         }   
        }
-            });
+      });
 
     },
     updateStatusReq:function(req,res,next){ 
-        console.log("portal  updateStatusReq ",req.body.jdid,req.body.flag,req.session.hrRole);
+       // console.log("portal  updateStatusReq ",req.body.jdid,req.body.flag,req.session.hrRole);
         modelPortal.updateStatusReq(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.flag,req.body.jdid,req.body.approve,function(err,result){
             if(err){
                console.log("there is an error",err);
             }   
             else{
-                console.log("modal portal update status req", req.body,req.approve,req.session);
+                console.log("modal portal update status req",req.body.flag,recEmail,result[0][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,req.approve);
                  var recEmail = [];
                         for(var i =0;i<result[2].length;i++){
                                 recEmail.push(result[2][i].userEmail);

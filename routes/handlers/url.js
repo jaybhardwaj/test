@@ -973,6 +973,12 @@ console.log(req.page)
 		  req.body.jdid=req.query.jdid;
 		  req.body.flag=req.query.flag;
 		  req.session.hrRole=req.query.role;
+		  if(req.session.hrRole==5){
+		  	req.body.approve="hod";	
+		  }
+		  else{
+		  	req.body.approve="approver";	
+		  } 
 		  req.isMail=true;
 		  req.page="success";
 		  console.log("url  updateStatusReqViaMail",req.body.jdid,req.body.flag,req.session.hrRole);
