@@ -321,6 +321,9 @@ app.post('/changeProjectWbs', portal.changeProjectWbs,render.redirect);
 
 app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.redirect);
 
+  app.post('/wbsAssignmentInProjectWbs',portal.wbsAssignmentInProjectWbs,render.redirect);
+
+
 	//---------------------------------------ASSIGNMENT---------------------------------------
 
 	app.get('/assignment',url.setpageAssignment, portal.getAssignment,render.redirect);

@@ -712,6 +712,50 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         });
     },
 
+    wbsAssignmentInProjectWbs: function(assign,flaghide,wbsidhide,wbsname,wbscode,
+        proname,wbsowner,wbspsdate,
+        wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,
+        wbslocation,typeVal,
+            flag,
+            assignmentId,
+            procode,
+            wbs,
+            user,
+            status,
+            asdate,
+            aedate,
+            curdat,
+            userId,roleId,retailerId, callback) {
+    if(!wbsowner){
+        wbsowner=null;
+    }
+    if(!wbslocation){
+        wbslocation=null;
+    }
+        var query = {
+            sql: 'call usp_wbsAssignmentInProjectWbs(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [assign,flaghide,wbsidhide,wbsname,wbscode,proname,wbsowner,wbspsdate,
+        wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,wbslocation,typeVal,
+            flag,
+            assignmentId,
+            procode,
+            wbs,
+            user,
+            status,
+            asdate,
+            aedate,
+            curdat,
+            userId,roleId,retailerId]
+        };
+        console.log(query)
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
+
+
+
+
     projectAddEdit: function(pid,flag,userId,roleId,retailerId, callback) {
         var abc;
         var query = {

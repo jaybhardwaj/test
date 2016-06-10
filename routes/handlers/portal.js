@@ -1654,6 +1654,48 @@ addEditWbsDetails: function(req, res, next) {
          });
      },
 
+     wbsAssignmentInProjectWbs: function(req, res, next) {
+    console.log('grfswsfff---------',req.body);
+    //console.log('proname---',req.body.proname);
+        req.proname=req.body.proname;
+    
+        req.wbshidden=req.body.wbshidden;
+
+           modelPortal.wbsAssignmentInProjectWbs(req.body.assign,req.body.flaghide,req.body.wbsidhide,req.body.wbsname,req.body.wbscode,
+            req.body.proname,
+        req.body.wbsowner,req.body.wbspsdate,
+        req.body.wbspedate,req.body.wbsasdate,req.body.wbsaedate,req.body.wbsstatus,req.body.wbseffort,req.body.wbseffort1,
+        req.body.wbslocation,req.body.typeValue,
+            req.body.flag1,
+            req.body.assignmentId,
+            req.body.procode,
+            req.body.wbs,
+            req.body.user,
+            req.body.status,
+            req.body.asdate,
+            req.body.aedate,
+             req.body.curdat,
+             req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+
+                //if(req.wbshidden==13){
+
+                    res.json(result);
+                        
+                       /* }
+                        else{
+                            
+                            next();
+                        }*/
+
+             }
+         });
+     },
+
      projectAddEdit: function(req, res, next) {
        
            modelPortal.projectAddEdit(req.pid,req.flag,req.session.userId,req.session.roleId,req.session.retailerId,

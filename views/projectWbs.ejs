@@ -5,8 +5,8 @@
 <body style="overflow-x:hidden"> 
   
 <div class="row secondry-color" style="margin:0px;padding:0px;padding-top: 1% ">
-<!--  <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm">
- -->           <input type="text" name="wbshidden" class="hide" id="wbshidden" value=2 />
+ <!-- <form method="post" action="/wbsAssignmentInProjectWbs" method="post" class="login-form" id="form1" name="myForm"> -->
+           <input type="text" name="wbshidden" class="hide" id="wbshidden" value=2 />
           <input type="text" name="proname" class="hide" id="proname" value='<%=project[0].id%>' />
           <input type="text" name="flaghide" class="hide" id="flaghide" value=0  />
           <input type="text" name="wbsidhide" class="hide" id="idhide" value=0  />
@@ -96,9 +96,9 @@
     <td>
       <td><label style=" " class="form-Label">Assign to All:   </label> </td>
       <td> <select style=" width:103%" id="assign" class="form-text-box" name="assign">
-                <option disabled selected  value=0>Select</option>
+                <option disabled selected  value=2>Select</option>
                 <option value=1>Yes</option>
-                <option value=2 selected="true">No</option>
+                <option value=0 selected="true">No</option>
               </select></td>
     </td>
     <td>
@@ -128,32 +128,16 @@
   </tr>
 </table>
 
- <div class="row" id="wbssubmit" style="text-align: center;">
-     <a href="/projectDetails">
-        <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn  " style="background-color: #f05f40 !important">
-      </a> 
-
-    <input type="reset" value="Reset" name="reset" class="btn  " style="background-color: #f05f40 !important;">
-    <input type="submit" value="Submit" onclick="return checkfield();" name="submit" class="btn btn-primary" style="background-color: #f05f40 !important;">
-    </div>
-</div>
-<!-- </form> -->
- 
+<div id="assignmentDiv" class="">
+  <input type="hidden" name="flag" id="hid">
 
 
-
- <div id="assignmentDiv" class="hide">
-  
-  <form id="addassignform"  method="post" onsubmit="" name="client" >
-                          <input type="hidden" name="flag" id="hid">
                             <input type="hidden" name="ascode" id="ascodeid" value=''> 
-
                             <input type="hidden" name="pid" id="pid" value=''> 
-
                             <input type="hidden" name="retailer" id="retailer" value=''> 
-
                             <input type="hidden" name="wid" id="wid" value=''> 
-   <span class="modal-title" style="padding-left: 44%;padding-bottom: 1%">Create Assingment</span>  
+
+   <span class="modal-title" style="padding-left: 44%;padding-bottom: 1%">Assingment Details</span>  
     <input type="hidden" value=""id='pcount'name='pcount'> 
     <table class="table">
   <tr>
@@ -161,9 +145,17 @@
     <td>
       <td><label class="form-label" style="margin-top: 2%;">User:<sup class="astrick">*</sup></label></td>
       <td id="asdDiv">
-       <select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important"> 
-       
+       <select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important">
+                <option disabled value=0>Select</option>
+
+                <% for(var i=0;i<allUser1.length;i++) {%>
+                <option value="<%=allUser1[i].id%>"><%=allUser1[i].firstName%></option>
+                <%}%>
+             
+
+
        </select>
+
         </td>
     </td>
     <td>
@@ -196,23 +188,18 @@
  
 </table>
 
-   
-       <center style="margin-bottom:1%"> 
-
-       <a href="/projectDetails">
-          <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
-          </a>
-
-          <input type="button" value="Submit" onclick="submitdata();" name="submit" class="btn btn-primary" style="background-color: #f05f40 !important;">
         
-
-        </center>
-        
-    </form>
 </div>
 
+ <div class="row" id="wbssubmit" style="text-align: center;">
+     <a href="/projectDetails">
+        <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn  " style="background-color: #f05f40 !important">
+      </a> 
 
-
+    <input type="submit" value="Submit" onclick="return checkfield();" name="submit" class="btn btn-primary" style="background-color: #f05f40 !important;">
+    </div>
+</div>
+<!-- </form> -->
 
 
 
@@ -223,7 +210,8 @@
     <thead>
       <th>Project Name</th>
       <th>Project Code</th>
-      <th>Complexity</th>
+      <th>Planned Start Date</th>
+       <th>Planned End Date</th>
       <th>Location</th>
     </thead>
       <tr>
@@ -234,8 +222,12 @@
           <%=project[0].pcode%> 
         </td>
         <td>
-           <%=project[0].pcomplexity%> 
+           <%=project[0].plannedStartDate%> 
         </td>
+        <td>
+           <%=project[0].plannedEndDate%> 
+        </td>
+        
         <td>
           <%=project[0].location%> 
         </td>
@@ -249,6 +241,8 @@
                             <tr> 
                                 <th>WBS Name</th>
                                 <th>WBS Code</th>
+                                <th>Planned Start Date</th>
+                                <th>Planned End Date</th>
                                 <th>WBS Owner</th>
                                 <th>WBS Location</th>
                             </tr>
@@ -263,6 +257,12 @@
                                     </td>
                                     <td>
                                         <%=wbs[i].WBSCode%>
+                                    </td>
+                                    <td>
+                                        <%=wbs[i].wplannedStartDate%>
+                                    </td>
+                                    <td>
+                                        <%=wbs[i].wplannedEndDate%>
                                     </td>
                                     <td>
                                         <%=wbs[i].firstName%>
@@ -332,7 +332,15 @@
 
 
     <script type="text/javascript">
+
+    var alluser=[];
+
+
         $(document).ready(function() {
+
+          $("#asd").tagger({
+            'fieldWidth':"18em"
+          });
 
             $('#datepicker').click(function() {
                 if ($('#proname').val() < 1) {
@@ -422,6 +430,23 @@
                 });
             }
 
+            $("#datepicker21").datetimepicker({
+                    timepicker: false,
+                    format: 'm/d/y',
+                    scrollMouse: false,
+                    scrollInput: false,
+                            minDate: date,
+                            maxDate: date1
+                });
+            $("#datepicker22").datetimepicker({
+                    timepicker: false,
+                    format: 'm/d/y',
+                    scrollMouse: false,
+                    scrollInput: false,
+                            minDate: date,
+                            maxDate: date1
+                });
+
             otable=$("#projTable").dataTable({
               'iDisplayLength': 10,
                     "order": [],
@@ -433,10 +458,101 @@
                     "bFilter": false,"bInfo": false,"bLengthChange": false
                 });
 
-        $("#asd").tagger({
-  'fieldWidth':"18em"
-});
+        
 
+
+$('#wid').val(0);
+$('#retailer').val('<%=prid[0].retid%>');
+$('#pid').val('<%=prid[0].pid%>');
+
+
+
+$('#assign').on('change',function(){
+              if( $(this).val()==="1"){
+                $('#assignmentDiv').addClass('hide');
+                alluser="";
+              } 
+              else
+              {
+                $("#assignmentDiv").removeClass("hide");
+               }
+            });
+
+
+/*
+$(function(){
+   $('#datepicker').datetimepicker({
+      onSelect: function (dateText, inst) {
+         alert('select!');
+      }
+   });
+});*/
+/*$(function(){
+   $('#datepicker').datetimepicker({
+      onSelect: function (dateText, inst) {
+         alert('select!');
+         // Remember to fire the change event...
+        
+      }
+   });
+});*/
+
+
+            $('#datepicker').on('change',function(){
+
+
+                      var text = $('#datepicker').val();
+                    var date = new Date(text);
+                    var text1 = $('#datepicker1').val();
+                    var date1 = new Date(text1);
+
+                    //alert(date+' '+date1);
+
+                      $("#datepicker21").datetimepicker({
+                            timepicker: false,
+                            format: 'm/d/y',
+                            scrollMouse: false,
+                            scrollInput: false,
+                            minDate: date,
+                            maxDate: date1
+                        });
+                    $("#datepicker22").datetimepicker({
+                            timepicker: false,
+                            format: 'm/d/y',
+                            scrollMouse: false,
+                            scrollInput: false,
+                            minDate: date,
+                            maxDate: date1
+                        });
+            });
+
+            $('#datepicker1').on('change',function(){
+
+
+                      var text = $('#datepicker').val();
+                    var date = new Date(text);
+                    var text1 = $('#datepicker1').val();
+                    var date1 = new Date(text1);
+
+                    //alert(date+' '+date1);
+
+                      $("#datepicker21").datetimepicker({
+                            timepicker: false,
+                            format: 'm/d/y',
+                            scrollMouse: false,
+                            scrollInput: false,
+                            minDate: date,
+                            maxDate: date1
+                        });
+                    $("#datepicker22").datetimepicker({
+                            timepicker: false,
+                            format: 'm/d/y',
+                            scrollMouse: false,
+                            scrollInput: false,
+                            minDate: date,
+                            maxDate: date1
+                        });
+            });
 });
         function allWbs() {
             var abc = 1;
@@ -608,95 +724,129 @@
                     return false;
                 }
             }
-            /*var wbsType = $('#wbsType').val();
-            var typeValue = $('#typeValue').val();*/
-      /*      if (wbsType != '') {
-                if (typeValue == 0) {
-                    alert('Please Select Type');
-                    return false;
-                }
-            }*/
+            
+            if($('#assign').val()!= 1){
+
+                         if($('#datepicker21').val()==null)
+                       { alert("Please select Assignment Start Date"); 
+                        return false;  }
+                       if($('#datepicker22').val()==null)
+                       { alert("Please select Assignment End Date"); 
+                        return false;  }
+
+                      var r = document.getElementsByName("astatus")
+                      var c = -1;
+                      for(var i=0; i < r.length; i++){
+                       if(r[i].checked) {
+                        c = i; 
+                                       }
+                          }
+                     if (c == -1)
+                      { alert("please select status"); 
+                       return false;}
+
+
+                         if($('#asd').val()==null)
+                       { alert("Please select Users for Assignment"); 
+                        return false;  }
+
+                        var psdate = $('#datepicker').datepicker("getDate"); var text = $('#datepicker21').val();
+                              var pedate = $('#datepicker1').datepicker("getDate");var text1 = $('#datepicker22').val();
+                            
+                              if(text != '')
+                              { 
+                                if (text1 != '')
+                                {
+                                      if(text>text1){
+                                          alert('Assignment End Date can not be less than Assignment Start Date');
+                                          return false;
+                                                     }
+                                }
+                              else
+                              {
+                                alert('Please Select Assignment End Date');
+                                 return false;
+                              }
+                             }
+                            else
+                            {
+                              alert('Please Select Assignment Start Date');
+                              return false;
+                            }
+                            if(text1==''){
+                                alert('Please Select Assignment End Date');
+                                return false;
+                              }
+         }
+            //return true;
             submitwbs();
         }
 
         function submitwbs() {
             alert('WBS added successfully'); 
 
-            $('#wbshidden').val(13);
+            var td= new Date();
+            var dd=td.getDate();
+            var mm=td.getMonth();
+            mm=mm+1;
+            var yr=td.getFullYear();
+            st_ed_date=mm+"/"+dd+"/"+yr;
+
+            //var alluser=[];
+            var startDt=document.getElementById("datepicker21").value;
+            var endDt=document.getElementById("datepicker22").value;
+
+
+            var s = document.getElementById("asd");
+          //  alert("length of s is"+s.options.length);
+            for (var i = 0; i < s.options.length; i++) {
+                 if (s.options[i].selected == true) {
+                   var user = s.options[i].value;
+                   alluser.push(user);
+                   
+                 }
+                
+            } 
+
+            //console.log('user----',alluser);
+
+            //$('#wbshidden').val(13);
             $.ajax({
-                url: '/addEditWbsDetails',
+                url: '/wbsAssignmentInProjectWbs',
                 type: 'post',
-                data: {"wbshidden":$('#wbshidden').val(),"assign":$('#assign').val(),"flaghide":$('#flaghide').val(),"wbsidhide":$('#idhide').val(),"wbsname":$('#wbsname').val(),"wbscode":$('#wbscode').val(),"proname":$('#proname').val(), "wbsowner":$('#wbsowner').val(),"wbspsdate":$('#datepicker').val(),"wbspedate":$('#datepicker1').val(),"wbsasdate":$('#datepicker2').val(),"wbsaedate":$('#datepicker3').val(),"wbsstatus":$('#wbsstatus1').val(),"wbseffort":$('#wbseffort').val(),"wbseffort1":$('#wbseffort1').val(),"wbslocation":$('#wbslocation').val(),"typeValue":$('#typeValue').val()},
+                data: {"wbshidden":$('#wbshidden').val(),"assign":$('#assign').val(),"flaghide":$('#flaghide').val(),"wbsidhide":$('#idhide').val(),"wbsname":$('#wbsname').val(),"wbscode":$('#wbscode').val(),"proname":$('#proname').val(), "wbsowner":$('#wbsowner').val(),"wbspsdate":$('#datepicker').val(),"wbspedate":$('#datepicker1').val(),"wbsasdate":$('#datepicker2').val(),"wbsaedate":$('#datepicker3').val(),"wbsstatus":$('#wbsstatus1').val(),"wbseffort":$('#wbseffort').val(),"wbseffort1":$('#wbseffort1').val(),"wbslocation":$('#wbslocation').val(),"typeValue":$('#typeValue').val(),
+                      "flag1":0,
+                      "assignmentId":0,
+                      "procode":$('#pid').val(),
+                      "wbs":$('#wid').val(),
+                      "user":alluser.toString(),
+                      "status":$("input[type='radio'][name='astatus']:checked").val(),
+                      "asdate":$('#datepicker21').val(),
+                      "aedate":$('#datepicker22').val(),
+                        "curdat":st_ed_date,
+                      "retailerid":$('#retailer').val()},
                 success: function(data) {
 
-                  console.log(data[0]);
-                  console.log(data[1]);
-                  console.log(data[2]);
-                  console.log(data[3]);
-
-                  $('#retailer').val(data[1][0].retailer);
-                  if(data[1][0].wid !=0){
-                    if(confirm("Do you want to create Assignment for WBS - "+$('#wbsname').val()+" ?") ){
-                        $('#wbssubmit').addClass('hide');
-                        $('#pid').val(data[1][0].pid);
-                        $('#wid').val(data[1][0].wid);
-                        $('#asd').html('');
-                        //console.log('user---',data[2])
-                          var string1="<select multiple='multiple' id=\"asd\"><option disabled value=0>Select</option>" ;
-                           for (var i = 0; i < data[2].length; i++){ // alert(data[2][i].id+' '+data[2][i].firstName) ;
-                                string1+="<option value="+data[2][i].id+">"+data[2][i].firstName+"</option>"  ;           
-                                }
-                          string1+="</select>";
-                          console.log(string1);
-                          $("#asdDiv").html(string1);
-                          
-                           $('#asd').tagger({
-                            "fieldWidth":"18em"
-                              }); 
-
-                          var date=new Date(data[3][0].wplannedStartDate);
-                          var date1=new Date(data[3][0].wplannedEndDate);
+                  console.log('aa----',data[0]);
+                  console.log('bb----',data[1]);
 
 
-                          $("#datepicker21").datetimepicker({
-                                       timepicker:false,
-                                       format:"m/d/y",
-                                       scrollMouse: false,
-                                       scrollInput: false,minDate:date,maxDate:date1
-                          });
-
-                          $("#datepicker22").datetimepicker({
-                                       timepicker:false,
-                                       format:"m/d/y",
-                                       scrollMouse: false,
-                                       scrollInput: false,minDate:date,maxDate:date1
-                          });
-
-
-                          $('#assignmentDiv').removeClass('hide');
-                      }
-                  }
-
-                  else{
-                    alert('Assignments for users in Project created Successfully');
-                  }
-
-                   var r = confirm("Do you want to create more WBS ?"); 
-                  if (r == false) {  
-                      window.location.href="/projectDetails";
-                      
-                  }
-                  else{
-                    window.location.href="/projectWbs?pid="+$('#proname').val();
-                  }
-                      
+                  var r = confirm("Do you want to create more WBS ?"); 
+                        if (r == false) {  
+                            window.location.href="/projectDetails";
+                            
+                        }
+                        else{
+                          window.location.href="/projectWbs?pid="+$('#proname').val();
+                        }
+                    
 
               }
 
             });
 
 
-            return false;
+            //return false;
         }
 
         function specialCharacter(evt) {
@@ -708,124 +858,6 @@
             }
             return true;
         }
-
-
-
-
-
-
-
-
-        function submitdata(){
-
-
-          var alluser=[];
-    var startDt=document.getElementById("datepicker21").value;
-var endDt=document.getElementById("datepicker22").value;
-
-
-    var s = document.getElementById("asd");
-  //  alert("length of s is"+s.options.length);
-    for (var i = 0; i < s.options.length; i++) {
-         if (s.options[i].selected == true) {
-           var user = s.options[i].value;
-           alluser.push(user);
-           
-         }
-        
-    } 
-
-       if($('#datepicker21').val()==null)
-     { alert("Please select a StartDate"); 
-      return false;  }
-     if($('#datepicker22').val()==null)
-     { alert("Please select a EndDate"); 
-      return false;  }
-
-    var r = document.getElementsByName("astatus")
-    var c = -1;
-    for(var i=0; i < r.length; i++){
-     if(r[i].checked) {
-      c = i; 
-                     }
-        }
-   if (c == -1)
-    { alert("please select status"); 
-     return false;}
-
-
-       if($('#asd').val()==null)
-     { alert("Please select Users"); 
-      return false;  }
-
-      var psdate = $('#datepicker').datepicker("getDate"); var text = $('#datepicker21').val();
-            var pedate = $('#datepicker1').datepicker("getDate");var text1 = $('#datepicker22').val();
-          
-            if(text != '')
-            { 
-              if (text1 != '')
-              {
-                    if(text>text1){
-                        alert('Assignment End Date can not be less than Assignment Start Date');
-                        return false;
-                                   }
-              }
-            else
-            {
-              alert('Please Select Assignment End Date');
-               return false;
-            }
-           }
-          else
-          {
-            alert('Please Select Assignment Start Date');
-            return false;
-          }
-          if(text1==''){
-              alert('Please Select Assignment End Date');
-              return false;
-            }
-    console.log("----------------------------------");  
-    
-
-var td= new Date();
-  var dd=td.getDate();
-  var mm=td.getMonth();
-  mm=mm+1;
-  var yr=td.getFullYear();
-  st_ed_date=mm+"/"+dd+"/"+yr;
-
-     $.ajax({        
-                         url:'/submitAssignment',
-                    type:'post',
-                    data:{
-                      "flag":0,
-                      "assignmentId":0,
-                      "procode":$('#pid').val(),
-                      "wbs":$('#wid').val(),
-                      "user":alluser.toString(),
-                      "status":$("input[type='radio'][name='astatus']:checked").val(),
-                      "asdate":$('#datepicker21').val(),
-                      "aedate":$('#datepicker22').val(),
-                        "curdat":st_ed_date,
-                      "retailerid":$('#retailer').val()
-                    },
-
-                  success:function(data){
-
-                      alert('Assignment Added Successfully');
-
-                            var r = confirm("Do you want to create more WBS ?"); 
-                        if (r == false) {  
-                            window.location.href="/projectDetails";
-                            
-                        }
-                        else{
-                          window.location.href="/projectWbs?pid="+$('#proname').val();
-                        }
-                    }
-                  });
-}
 
 
 

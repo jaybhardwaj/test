@@ -269,7 +269,7 @@ module.exports = {
 
 				case 'projectWbs' :
 			
-				res.render('projectWbs',{allUser1:req.projectWbs[5],allWbs:req.projectWbs[4],myModules:req.session.modules,hideFlag:1,project:req.projectWbs[0],wbs:req.projectWbs[1],
+				res.render('projectWbs',{prid:req.projectWbs[6],allUser1:req.projectWbs[5],allWbs:req.projectWbs[4],myModules:req.session.modules,hideFlag:1,project:req.projectWbs[0],wbs:req.projectWbs[1],
 					location:req.projectWbs[2],owner:req.projectWbs[3],
 					roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
