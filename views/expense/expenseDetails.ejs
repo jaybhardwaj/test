@@ -426,20 +426,46 @@ showexpensDetailsofuser()
 
                             
                                   log+="</td><td>";
-                               if((users[i].ClaimedStatus==0)&&(users[i].Status==0)&&(users[i].Submitted==1)){
+                               if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
                               log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending..</span></td>";
                                  }
-                                  if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Status==0)&&(users[i].Submitted==1)){
+                                  if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
                               log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending..</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
                                  }
 
                                    if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)&&(users[i].Status==1)){
-                                    //hidetheButton(users[i].expenseclaimId);
-                                     //$('#a'.concat(users[i].expenseclaimId)).addClass('hide');
-                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by manager</span></td>";
+
+                                    var tempname='';
+                                    if(users[i].ClaimedStatus==1){
+                                      tempname=parseInt(users[i].ClaimedStatus)+1 ;
+                                      tempname+='nd';
+                                    }
+                                    if(users[i].ClaimedStatus==3){
+                                     tempname=parseInt(users[i].ClaimedStatus)+1 ;
+                                       tempname+='rd';
+                                    }
+                                    else if(users[i].ClaimedStatus>3){
+                                      tempname=parseInt(users[i].ClaimedStatus)+1 ;
+                                       tempname+='th';
+                                    }
+                                   
+                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on "+tempname+" Level</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus>1)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by manager</span></td>";
+                                    var tempname='';
+                                    if(users[i].ClaimedStatus==1){
+                                      tempname=parseInt(users[i].ClaimedStatus)+1 ;
+                                      tempname+='nd';
+                                    }
+                                    if(users[i].ClaimedStatus==3){
+                                     tempname=parseInt(users[i].ClaimedStatus)+1 ;
+                                       tempname+='rd';
+                                    }
+                                    else if(users[i].ClaimedStatus>3){
+                                      tempname=parseInt(users[i].ClaimedStatus)+1 ;
+                                       tempname+='th';
+                                    }
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on "+tempname+" Level</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
                                 log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by finance</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
@@ -447,7 +473,7 @@ showexpensDetailsofuser()
                                    if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)){
                                 log=log +"<span style='padding-left:20px;height:20px;font-size:10px;'>Rejected</span></td>";
                                  }
-                                     if(users[i].Status==100){
+                                     if(users[i].ClaimedStatus==101){
                                 log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected</span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
                                  }
                             

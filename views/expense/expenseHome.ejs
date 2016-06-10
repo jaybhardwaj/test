@@ -1170,6 +1170,7 @@ function expensedescription(expclaimId){
          $('#totalandaddEX').removeClass('hide');
          $('#explabel').addClass('hide');
          $('#typeEx').addClass('hide');
+         $('#submitbut').addClass('hide');
          $('#submitbutton').addClass('hide');
             var userId = $('#typeExp').val();
             var date1=$('#datebuttonuser').val();
@@ -1220,11 +1221,11 @@ function expensedescription(expclaimId){
                                       tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                       tempname+='nd';
                                     }
-                                    if(users[i].ClaimedStatus==3){
+                                    if(users[i].ClaimedStatus==2){
                                      tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                        tempname+='rd';
                                     }
-                                    else if(users[i].ClaimedStatus>3){
+                                    else if(users[i].ClaimedStatus>2){
                                       tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                        tempname+='th';
                                     }
@@ -1238,11 +1239,11 @@ function expensedescription(expclaimId){
                                       tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                       tempname+='nd';
                                     }
-                                    if(users[i].ClaimedStatus==3){
+                                    if(users[i].ClaimedStatus==2){
                                      tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                        tempname+='rd';
                                     }
-                                    else if(users[i].ClaimedStatus>3){
+                                    else if(users[i].ClaimedStatus>2){
                                       tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                        tempname+='th';
                                     }
@@ -1389,6 +1390,7 @@ function expensedescription(expclaimId){
                      $('#c'.concat(transId)).html('');
                       $('#c'.concat(transId)).append('Rejected');
                       $( "#typeExp option:selected" ).text().replace("pending", "Rejected");
+                      $('.dismiss1').click();
                      resubmittheExpenseforCopy(claimarray);
                 }
                 });
@@ -1556,7 +1558,7 @@ function expensedescription(expclaimId){
                $('#submitbutton').addClass('hide');
                $('#submitbut').addClass('hide');
                if(data[0].submit==1){
-                 $('#submitbut').removeClass('hide');
+                 $('#submitbut').addClass('hide');
                   $('#explabel').addClass('hide');
                $('#typeEx').addClass('hide');
                $('#submitbutton').addClass('hide');
@@ -1570,7 +1572,7 @@ function expensedescription(expclaimId){
                $('#typeEx').removeClass('hide');
                $('#submitbutton').removeClass('hide');
                $('#submitbut').addClass('hide');
-                 if(data[0].submit==1){
+                 if((data[0].submit==1)&&(data[0].status1!=101)){
                    $('#explabel').addClass('hide');
                $('#typeEx').addClass('hide');
                $('#submitbutton').addClass('hide');
@@ -1838,13 +1840,15 @@ function expensedescription(expclaimId){
 
             function toCheckthelengthforReason(){
         
-           if($('#comment').val().length<500)
+          
+           if($('#comment').val()==''){
+            alert('Please fill the reason for reject the Expense');
+            return false;
+           }
+            else if($('#comment').val().length<500)
            {
             rejecttheExpense(0);
              return  true;
-           }
-           else if($('#comment').val()==''){
-            alert('Please fill the reason for reject the Expense');
            }
             else{
                 alert('Please write only 500 letters in the reason box');
@@ -2886,17 +2890,23 @@ function changeothercurrency(){
               <select class="form-control" id='typeExp' name="client" style="margin-top:5px;margin-bottom:5px;height:29px; background-color:#23527c;color:white; font-size:12px;float:right" onchange="showexpensDetailsofuser()">
                       <option value=0>--Select--</option>                              
                        <%for(var i=bilableusers.length-1;i>=0;i--)
-                        {   var y;
+                        {   var y,w;
                           if(bilableusers[i].Status==0){
-                          for(var k=0;k<bilableusers.length;k++){
-                           y= bilableusers[i].id;} %> 
+                         
+                           y= bilableusers[i].id; %> 
                       <option value="<%=bilableusers[i].id%>">
-                        <%=bilableusers[i].firstName%> (pending)
+                        <%=bilableusers[i].firstName%> (Pending)
                       </option>
-                        <%} else  { 
-                        if(y != bilableusers[i].id) { %> 
+                        <%} if(bilableusers[i].Status==1)  { 
+                    
+                        if(y != bilableusers[i].id) {  w= bilableusers[i].id; %> 
                         <option value="<%=bilableusers[i].id%>">
-                        <%=bilableusers[i].firstName%> (approved)
+                        <%=bilableusers[i].firstName%> (Approved)
+                      </option>
+                      <%} }if(bilableusers[i].Status==100){ 
+                        if((y != bilableusers[i].id)&&(w != bilableusers[i].id)) { %> 
+                        <option value="<%=bilableusers[i].id%>">
+                        <%=bilableusers[i].firstName%> (Rejected)
                       </option>
                       <%}}}%>                                
                </select>
@@ -4278,8 +4288,8 @@ function changeothercurrency(){
 
             <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
-                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                             <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="toCheckthelengthforReason();">Submit</button>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="dismiss1 btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                             <button type="button" class=" btn btn-default"  style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="toCheckthelengthforReason();">Submit</button>
                         </center>
             </div>
          </div>
