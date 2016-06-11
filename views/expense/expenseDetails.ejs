@@ -419,7 +419,7 @@ showexpensDetailsofuser()
                             for (var i = 0; i < users.length; i++) {
                              claimid=claimid+users[i].expenseclaimedId+",";
                               
-                                log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].firstName + "' id='l" + users[i].firstName + "'>" + "<td >" + users[i].firstName +  "</td>"  + "<td >" + users[i].toDate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
+                                log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].firstName + "' id='l" + users[i].firstName + "'>" + "<td >" + users[i].firstName +  "</td>"  + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].todate + "</td><td>" + users[i].totalExpense + "</td><td >";
                                 
                                 log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-list-alt' style='color:black;height:10px' onclick='expensedescription("+users[i].expenseclaimId+")'   title ='description' ></span></a>";
                                  log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" +  + " id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-comment' style='color:blue;height:15px' onclick='showCommentandRemark("+users[i].expenseclaimId+")'   title ='comment' ></span></a>";
@@ -471,7 +471,7 @@ showexpensDetailsofuser()
                                 log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by finance</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
                                  }
                                    if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)){
-                                log=log +"<span style='padding-left:20px;height:20px;font-size:10px;'>Rejected</span></td>";
+                                log=log +"<span style='height:20px;font-size:10px;'>Rejected</span></td>";
                                  }
                                      if(users[i].ClaimedStatus==101){
                                 log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected</span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
@@ -594,7 +594,9 @@ function expensedescription(expclaimId){
                     "width": "10%"
                 }]
                        });  
-                      
+                                        $("#searchbox1").keyup(function() {    
+        $("#bugtable1").dataTable().fnFilter(this.value);
+      });     
                         }
                     
                 }
@@ -702,7 +704,7 @@ function expensedescription(expclaimId){
                 </div>
             
        <div class="secondry-color" id="accordions1">
-
+        <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
         <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable1">
             <thead>
                          <th style='font-size:12px;background-color:grey;color:white'>Expense Type</th>
