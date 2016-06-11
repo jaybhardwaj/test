@@ -44,10 +44,27 @@
             var curr_wbsnm = [];
             var curr_asgnmnt_id = [];
             var curr_wbs_id = [];
+            
 
-            var ftdy = 1;
-            var weekdy =0;
+
+            if('<%=timeinfo[8][0].timesheetSpan%>'==1 || '<%=timeinfo[8][0].timesheetSpan%>'=='')
+            {
+            var ftdy =1;
+            var weekdy = 0;
             var monthly=0;
+            }
+            else
+             if('<%=timeinfo[8][0].timesheetSpan%>'==0)
+            {var ftdy =0;
+            var weekdy = 1;
+            var monthly=0;
+             }
+            else
+            {
+            var ftdy =0;
+            var weekdy = 0;
+            var monthly=1;
+            }
            if('<%=timeinfo[8][0].workinghours%>'!='')
            {
             var workschedule='<%=timeinfo[8][0].workinghours%>';
@@ -58,6 +75,7 @@
             var st1, ed1; // for timesheet header Mon,tue,wed....
 
             //  var arrayfrodrop=[];
+            var save_not_submit;
             var initial = 0;
             var temp; //var for no, of days going to submitted
             var userId;
@@ -506,7 +524,13 @@
                         } else
                         if (i == temp + 1) {
                             a = a + '<td><input id="id' + i + '_' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center;  ;font-weight:700" value="0" onkeypress="return isNumber(event)"></input> </td> '
-                        } else {
+                        } else 
+                        /*if(curr_wbsnm[j]=='Holiday')
+                        {
+                           a = a + '<td><input  readonly id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value=""   onkeypress="return isNumber(event)"></input> </td> '
+                        }
+                          else*/
+                        {
                             a = a + '<td><input  id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value="" onfocusout="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
                         }
 
@@ -586,7 +610,7 @@
                     <button style="font-size:10px; height: 26px; width: 165px;" type="button" class="btn btn-primary" onClick="showDiv()">Other Employee's Details </button>
                     <%}%> -->
                 <% if(timeinfo[9][0].timeApproval==1 || roleid==1) {%>
-                    <button style="font-size:10px; height: 26px; width: 165px;float:right;margin-top:1px" type="button" class="btn " onClick="showDiv()">Other Employee's Details </button>
+                    <button style="font-size:10px; height: 26px; width: 165px;float:right;margin-top:1px" type="button" class="btn " onClick="showDiv()">Approve Timesheet </button>
                     <%}%>
 
             </div>
@@ -718,13 +742,13 @@
 
                     if (val != "") {
                         //console.log("wertyjcv gcvkxgcgz", val);
-                        val = parseInt(val);
+                        val = parseFloat(val);
                         tdayhour = tdayhour + val;
                     }
                 }
 
-                tdayhour = parseInt(tdayhour);
-                //console.log('tdayhour-------' + tdayhour);
+                tdayhour = parseFloat(tdayhour);
+                console.log('tdayhour-------' + tdayhour);
                 var go_for_day = $('#t_h' + i).val();
                 var dayy = new Date(go_for_day);
                 var weekd = dayy.getDay();
@@ -737,6 +761,7 @@
                      if(allowholiday(i,dnd))
                      {
                         status=1;
+                         save_not_submit=1;
                         break;
                      }
                     }}
@@ -745,6 +770,7 @@
                       if(allowholiday(i,dnd))
                       {
                         status=1;
+                        save_not_submit=1;
                         break;
                       }
                     }}
@@ -753,13 +779,15 @@
                       if(allowholiday(i,dnd))
                       { 
                         status=1;
+                        save_not_submit=1;
                         break;
                       }
                     }}
                     if('<%=timeinfo[8][0].schedule%>'==4){
                     if (!(weekd == 0 || weekd == 6)) {
                       if(allowholiday(i,dnd))
-                      {  status=1;
+                      { status=1;
+                        save_not_submit=1;
                         break;   
                       }
                     }}
@@ -817,7 +845,7 @@
             },
             success: function(data) {
 
-                //console.log('b', data[0].i);
+                console.log('b', data[0].i);
 
                 var alluser = [];
                 var assignments = [];
@@ -900,11 +928,12 @@
         if (status == 2)
             alert("Data Submitted Successfully");
         else
-            if(status==1)
-            alert("Data Saved Succesfully");
+            if(save_not_submit!=1){
+            alert("Data Saved Succesfully");}
     }
 
     function getdateprev() {
+        //Totalsum(1);
         // alert(" inside getdateprev date function");
         $('#savetimesheet').removeClass('hide');
         $('#resettimesheet').removeClass('hide');
@@ -960,6 +989,7 @@
     }
 
     function getdateuser() {
+       // Totalsum(1);
         // alert(" inside forward date function");
         $('#savetimesheet').removeClass('hide');
         $('#resettimesheet').removeClass('hide');
@@ -1016,6 +1046,7 @@
         checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
         // alert("userId id id "+userId+"date for check"+checkdate);       
         //   checkUserTimesheet(userId,checkdate);
+
         abc(y, mm, dd);
         // alert(" end of forward date function");
     }
@@ -1035,7 +1066,7 @@
                 //alert("rthis is null");
                 if (weekdy == 0) {
                     //alert(" its for sunday");
-                    satsun(i, k);
+                    satsun(i, k,ddy);
                 } else disholi(i, k, date_other_format);
             } else
             if ('<%=timeinfo[8][0].schedule%>' == 4) {
@@ -1043,7 +1074,7 @@
 
                 if (weekdy == 0 || weekdy == 6) {
 
-                    satsun(i, k);
+                    satsun(i, k,ddy);
 
                 } else
                     disholi(i, k, date_other_format);
@@ -1053,7 +1084,7 @@
 
                 if (weekdy == 6) {
 
-                    satsun(i, k);
+                    satsun(i, k,ddy);
 
                 } else
                     disholi(i, k, date_other_format);
@@ -1063,7 +1094,7 @@
 
                 if (weekdy == 0) {
 
-                    satsun(i, k);
+                    satsun(i, k,ddy);
 
                 } else
                     disholi(i, k, date_other_format);
@@ -1073,7 +1104,7 @@
 
                 if (weekdy == 0 || weekdy == 6) {
 
-                    satsun(i, k);
+                    satsun(i, k,ddy);
 
                 } else
                     disholi(i, k, date_other_format);
@@ -1087,13 +1118,13 @@
             s = s + parseFloat($('#id'+i+'_'+k).val());
             console.log("value in #id",  i ,'', k," is", $('#id'+i+'_'+k).val());
         };
-        //console.log("TOTAL ------sum is ",s);
+        console.log("TOTAL ------sum is ",s);
         $('#id'+i+'_'+k).val(s);
         // console.log("TOTAL ------sum is ",s,"VALUE OF id",i,"_",k," is ",$('#id'+i+'_'+k).val(s));
         //  alert(" end of  disable holiday ");
     }
 
-    function satsun(i, k) {
+    function satsun(i, k,ddy) {
         for (var j = 0; j < curr_wbsnm.length; j++) {
             //console.log('hhhhhhhhhhhhhhhhhhhh');
            // var hol = 'holiday';
@@ -1103,11 +1134,19 @@
            // //console.log('Do we found something?', Boolean(abc.match(hol)));
             //if(j==0)
             if (abc=='Holiday') { //var q=document.getElementById("#id01").value;
-                //console.log("this is sunday or saturday");
-                document.getElementById("id" + i+"_"+ j).disabled = true;
+                console.log("this is sunday or saturday and i is ",i);
                 document.getElementById("id" + i+"_"+ k).value = 0;
-                document.getElementById("id" + i+"_"+ j).style.backgroundColor = "#7E7E9E";
+                document.getElementById("id" + i+"_"+ curr_wbsnm.length).style.color = "rgb(10, 199, 80)";
+                document.getElementById("id" + i+"_"+ (curr_wbsnm.length+1)).style.color = "rgb(10, 199, 80)";
+               if(ddy.getDate()<15){
+                 document.getElementById("wkd" + i).style.color = "rgb(10, 199, 80)";
+                 }
+             else{
+                  document.getElementById("wkd" + (i+15)).style.color = "rgb(10, 199, 80)";
+                }
             }
+            //document.getElementById("wkd" + i).style.backgroundColor = "#7E7E9E";
+            //document.getElementById("id" + i+"_"+ j+1).style.backgroundColor = "#7E7E9E";
         }
     }
 
@@ -1241,12 +1280,18 @@
                             document.getElementById('timestatus').innerHTML = "Active";
                             return 1;
                         } else {
-                            alert("Total Hours on " +$('#wkd' + (i + 15)).val() + " is less then "+workschedule+" hours");
+                            if(weekdy==1){
+                            alert("Total Hours on "+$('#wkd'+i).val()+ " is less then "+workschedule+" hours");
+                                 
+                            }
+                            else
+                            {alert("Total Hours on "+$('#wkd'+(i + 15)).val()+ " is less then "+workschedule+" hours");}
                             document.getElementById('timestatus').innerHTML = "Active";
                             return 1;
-                        }
+                        
                        
             }
+        }
 
 </script>
 <% include ../partials/footer %>

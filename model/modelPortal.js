@@ -2194,6 +2194,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             approvedOrRejectedDate,
             rejectionReason]
         };
+        console.log(" in submit timesheet");
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2204,6 +2205,8 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
           sql:'call usp_time_submitTimesheetAssignment(?,?,?)',
           values:[alluser,allcolumn,timesheetid]
         };
+
+        console.log("submitting hours ",query);
         mysql(query, function(err, result) {
             callback(err, result);
         });

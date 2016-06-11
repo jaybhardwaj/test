@@ -37,9 +37,24 @@
 
             var workschedule='<%=timeinfo[8][0].workinghours%>';
 
+             if('<%=timeinfo[8][0].timesheetSpan%>'==0)
+            {var ftdy =0;
+            var weekdy = 1;
+            var monthly=0;
+             }
+            else
+            if('<%=timeinfo[8][0].timesheetSpan%>'==1)
+            {
             var ftdy =1;
             var weekdy = 0;
             var monthly=0;
+            }
+            else
+            {
+            var ftdy =0;
+            var weekdy = 0;
+            var monthly=1;
+            }
 
             var st1, ed1;
             var initial = 0;
@@ -513,7 +528,12 @@
                         } else
                         if (i == temp + 1) {
                             a = a + '<td><input id="id' + i + '_' + j + '" disabled type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" ></input> </td> '
-                        } else {
+                        } else 
+                        /*if(curr_wbsnm[j]=='Holiday')
+                        {
+                           a = a + '<td><input  readonly id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value=""   onkeypress="return isNumber(event)"></input> </td> '
+                        }
+                          else*/{
                             a = a + '<td><input id="id' + i + '_' + j + '" type="number" readonly="true" class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center;" value="" onKeyUp="sum(' + i + ',' + j + ')"></input> </td> '
                         }
 
@@ -765,7 +785,7 @@
             if ('<%=timeinfo[8][0].schedule%>' == '') {
                 //alert("rthis is null");
                 if (weekdy == 6) {
-                    satsun(i, k);
+                    satsun(i, k,ddy);
                 } else disholi(i, k, date_other_format);
             } else
             if ('<%=timeinfo[8][0].schedule%>' == 4) {
@@ -773,7 +793,7 @@
 
                 if (weekdy == 0 || weekdy == 6) {
 
-                    satsun(i, k);
+                    satsun(i, k,ddy);
 
                 } else
                     disholi(i, k, date_other_format);
@@ -783,7 +803,7 @@
 
                 if (weekdy == 6) {
 
-                    satsun(i, k);
+                    satsun(i, k,ddy);
 
                 } else
                     disholi(i, k, date_other_format);
@@ -793,7 +813,7 @@
 
                 if (weekdy == 0) {
 
-                    satsun(i, k);
+                    satsun(i, k,ddy);
 
                 } else
                     disholi(i, k, date_other_format);
@@ -803,7 +823,7 @@
 
                 if (weekdy == 0 || weekdy == 6) {
 
-                    satsun(i, k);
+                    satsun(i, k,ddy);
 
                 } else
                     disholi(i, k, date_other_format);
@@ -819,24 +839,31 @@
         //  alert(" end of  disable holiday ");
     }
 
-    function satsun(i, k) {
+    function satsun(i, k,ddy) {
         for (var j = 0; j < curr_wbsnm.length; j++) {
             //console.log('hhhhhhhhhhhhhhhhhhhh');
-          //  var hol = 'Holiday';
+           // var hol = 'holiday';
             //var str = "my holiday";
             var abc = curr_wbsnm[j];
-           // abc = abc.toLowerCase();
+            //abc = abc.toLowerCase();
            // //console.log('Do we found something?', Boolean(abc.match(hol)));
             //if(j==0)
             if (abc=='Holiday') { //var q=document.getElementById("#id01").value;
-                //console.log("this is sunday or saturday");
-                document.getElementById("id" + i+'_'+ j).disabled = true;
-                document.getElementById("id" + i+'_'+ k).value = 0;
-                document.getElementById("id" + i+'_'+ j).style.backgroundColor = "#7E7E9E";
+                console.log("this is sunday or saturday and i is ",i);
+                document.getElementById("id" + i+"_"+ k).value = 0;
+                document.getElementById("id" + i+"_"+ curr_wbsnm.length).style.color = "rgb(10, 199, 80)";
+                document.getElementById("id" + i+"_"+ (curr_wbsnm.length+1)).style.color = "rgb(10, 199, 80)";
+               if(ddy.getDate()<15){
+                 document.getElementById("wkd" + i).style.color = "rgb(10, 199, 80)";
+                 }
+             else{
+                  document.getElementById("wkd" + (i+15)).style.color = "rgb(10, 199, 80)";
+                }
             }
+            //document.getElementById("wkd" + i).style.backgroundColor = "#7E7E9E";
+            //document.getElementById("id" + i+"_"+ j+1).style.backgroundColor = "#7E7E9E";
         }
     }
-
     function disholi(i, k, date_other_format) {
         <% for (var k1 = 0; k1 < timeinfo[4].length; k1++) {%>
         var holidy = '';
