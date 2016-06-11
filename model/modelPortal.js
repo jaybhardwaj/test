@@ -314,6 +314,7 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             values: [bugid]
         };
         mysql(query, function(err, result) {
+            console.log("bug details",result);
           callback(err,result);            
         });
     }, 
@@ -338,6 +339,7 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             sql: 'call usp_bug_addComment(?,?,?,?)',
             values: [bugid,comment,retailerId,userId]
         };
+        console.log(query);
         mysql(query, function(err, result) {
             if(err){
             }
@@ -364,6 +366,20 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             else{
           callback(err,result);            
       }
+        });
+    },
+   deleteBugAttach: function(aatachId,userId,retailerId,callback){
+        var query = {
+            sql: 'call usp_deleteBugAttach(?)',
+            values: [aatachId]
+        };
+        console.log(query);
+        mysql(query, function(err, result) {
+            if(err){
+            }
+            else{
+          callback(err,result);            
+            }
         });
     },
      getAlltech: function(projectId, callback){

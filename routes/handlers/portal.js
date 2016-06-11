@@ -642,11 +642,20 @@ if(req.body.colname == 'assingedToUserId'){
               
                  next(errorActivity);
                  return;
-             }            
-            req.resultAddAttachment=resultAddAttachment[0];
-           
+             }     
+             console.log("after attachment",resultAddAttachment);       
+            req.resultAddAttachment=resultAddAttachment[0]; 
             next();
                   });
+    },
+     deleteBugAttach: function(req, res, next) {   
+        modelPortal.deleteBugAttach( req.body.aatachId,req.session.userId,req.session.retailerId, function(error,result) {
+              if (error) { 
+                 next(error);
+                 return;
+             }      
+            res.json(result);
+        });
     },
     getAlltech: function(req, res, next) {                       
         modelPortal.getAlltech(req.body.projectId, function(errorActivity,resultAllTech) {

@@ -162,8 +162,8 @@
                     <th>Severity</th>
                     <th>Technology</th>
                     <th>Assinged To</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    <th>Created Date</th>
+                    <th>Closure Date</th>
                 </thead>	
                 <tbody id="bugDetails">
                  <% var c=0;
@@ -242,7 +242,9 @@
                             	<%=bug[j].startdate%>
                             </td>
                             <td>
+ 
                             	<input class="datepicker select-vbug11"  id='end+<%=j%>' onchange="updatebugdetails(<%=bug[j].id%>,this,'effectiveEndDate',this.id,'<%=bug[j].enddate%>')" style="border:none;" value="<%=bug[j].enddate%>">
+ 
                             </td>
                         </tr>
 
@@ -252,7 +254,7 @@
         </div>
 		
 
-		<div class="row secondry-color" style="width:100%;padding-left:2.2%;padding-top:5px;padding-bottom:1%;">
+		<div class="row secondry-color" style="width:98%;margin-left:1%;padding-top:5px;padding-bottom:1%;">
 			<div class="col-md-12" style=" height:auto;width:100%;padding-right:0px;padding-left:0px" >
 				<ul class="nav nav-tabs" style="background-color:none;font-size:13px">
 					<li class="active"><a data-toggle="tab" href="#home">Description</a></li>
@@ -263,7 +265,7 @@
 				<div class="tab-content" >
 
 					<input type="hidden" name="bugidhidden" id="bugidhidden" value=""/>
-					<div style="margin-left:-2%;width:103%" id="home" class="tab-pane fade in active">	
+					<div style="margin-left:-1%;width:102%" id="home" class="tab-pane fade in active">	
 					 	<div class="row" style="margin-top:10px">
 				    		<div class="col-md-1" style ="padding-left:2%;padding-top:5px;color:#f05f40;"><b>Title:</b></div>
 							<div class="col-md-9"id="title" style="padding-top:5px;font-size:12px"></div>
@@ -278,17 +280,17 @@
 				<textarea style="float:left;width:101%"  maxlength="12000" id='description' class='form-control'></textarea>
 						
 					</div>
-					<div id="menu1" style="margin-left:-2%;width:103%" class="tab-pane fade">
+					<div id="menu1" style="margin-left:-1%;width:102%" class="tab-pane fade">
 						<div id="overview" style="margin-bottom:1%;margin-top:10px"></div>
 					</div>
-					<div id="menu2" style="margin-left:-2%;width:103%" class="tab-pane fade">
+					<div id="menu2" style="margin-left:-1%;width:102%" class="tab-pane fade">
 					<div >
-						<textarea maxlength="200" name='commenttext' style="margin-top:10px" id='commenttext' class='form-control' rows=4 placeholder='Write your comment here ...'></textarea>
-						<input type='button' value='Add Comment' id="commentd" style='background-color:#0066ff;color:white;margin-top:1%;' onclick='addcomment()'>
+						<textarea maxlength="200" name='commenttext' style="margin-top:10px;resize:none" id='commenttext' class='form-control' rows=4 placeholder='Write your comment here ...'></textarea>
+						<input type='button' class="btn" value='Add Comment' id="commentd" style='margin-top:1%;' onclick='addcomment()'>
 						<div id="comment" style="overflow-y:auto;height:145px !important"></div>
 					</div>
 					</div>
-					<div id="menu3" style="margin-left:-2%;width:103%" class="tab-pane fade">
+					<div id="menu3" style="margin-left:-1%;width:102%" class="tab-pane fade">
 						<div class="" style="margin-top:20px;margin-bottom:50px">
 							<label class="" style="font-size:14px;color:#f05f40;margin-left:1.5%;">Upload File </label>
 					  		<form  id="form123" method="post" style="margin-left:1%;" enctype="multipart/form-data" name="comment">
@@ -306,8 +308,9 @@
 	<%include ../partials/footer.ejs%>
 </html>
 
-<script>
+<script> 
         $('body').on('focus',".select-vbug11", function(){
+ 
  $(this).datetimepicker({
                  timepicker: false,
                 format: 'm/d/y',
@@ -494,36 +497,59 @@ str=str+'</select>';
     });	 
 	
   	//.........................Re Show  comment on comment button click................................
-  	function showcomment(data) {				 
+  	function showcomment(data) {
+  	console.log("recent comment added :",data)	;
 		$('#comment').html(''); 
 		$('#commCount').html(data[0].length);
 		var com='';
 		for(var i=(data[0].length)-1;i>=0;i--) {
 			//alert(data[0][i].createdDate);
 			var str=data[0][i].createdDate.toString();
-			com=com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin-top:2%;margin-bottom:1%;'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left1%;'> By : "+data[0][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;background-color:#C7DEFE;max-height:100px; word-wrap: break-word;'>"+data[0][i].comments+"</div><br><div style='width:100%'></div></div>";
+			com=com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%;'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left1%;'> By : "+data[0][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;background-color:#C7DEFE;max-height:100px; word-wrap: break-word;'>"+data[0][i].comments+"</div><br><div style='width:100%'></div></div>";
 		}
 		$('#comment').html(com);
 	}
 		
 	function showattachment(data) {	
 	  	var att='';
-			$('#attCount').html(data.length);
+			$('#attCount').html(data.length); 
 		for(var i=(data.length)-1;i>=0;i--){ 
-			att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px'><a href='"+data[i].orignalFilePath+"' download><div style='padding-left:10px;float:center'>"+data[i].orignalFileName+"</div></a><br><div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+data[i].createdDate+"</div></div>"
+			var deleteBtn=''
+			  if(data[i].userId=='<%=userid%>' || '<%=roleid%>'==1)
+				{
+					deleteBtn="<span class='glyphicon glyphicon-trash' style='float:right;margin:6px' title='Delete' onclick='deleteAttach("+data[i].id+")'></span>";
+				}
+			att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px' id='"+data[i].id+"'><a href='"+data[i].orignalFilePath+"' download><div style='padding-left:10px;float:center'>"+data[i].orignalFileName+"</div></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+data[i].createdDate+"</div></div>"
 		}
 		$('#attachment').html(att);
 	}
+	function deleteAttach(attid){  
+		if(confirm("You Want to delete this attachment?")){
+		$.ajax({
+			data: {"aatachId":attid},
+			url: '/deleteBugAttach',
+			method: 'post',
+			success: function(data) {
+				$("#"+attid).html('');
+				$("#"+attid).attr("class",'');
+				$("#"+attid).attr("style",'');
+				alert("Attachment deleted Successfuly!");
+				var count=$('#attCount').text();
+				$('#attCount').html(count-1);
+			}
+		});
+	}
+	}
 
 //.............save/add comment to database......................			
-  	function addcomment() {
-  		 
+  	function addcomment() { 		 
  		//var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin   + '/buguser' +'/addcomment';
 		if (!$.trim($("#commenttext").val())){
 			alert("please enter valid comment");
 			return false;
 		} else
-		{	var comm={data: {comment:$('#commenttext').val(),bugid:$("#bugidhidden").val()},
+		{	var comm={
+				data: {comment:$('#commenttext').val(),bugid:$("#bugidhidden").val()},
 				url: '/addComment',
 				method: 'POST',
 				dataType: 'JSON',
@@ -556,40 +582,57 @@ str=str+'</select>';
 			data: {"bugid":bid},
 			url: '/bugDetails',
 			method: 'post',
-			success: function(data) {	 
+			success: function(data) {
+			console.log("bug info:",data);	 
 				$('#title').html($("<label>"+data[0][0].bugTitle+"</label>"));
 				tinyMCE.activeEditor.setContent(data[0][0].bugDescription);
-				if(!data[0][0].enddate){
+				/*if(!data[0][0].enddate){
 					data[0][0].enddate="No End Date Assinged"
 				}
+				if(!data[0][0].CycleNo){
+					data[0][0].CycleNo="No Cycle";
+				}*/
 
 				$('#overview').html($("   <br>  Project Title   : <label>"+data[0][0].projectTitle+"</label>"));
 				$('#overview').append($(" <br>  Assinged To  : <label>"+data[0][0].firstName+"</label>"));
 				$('#overview').append($(" <br>  Technology  : <label>"+data[0][0].technology+"</label>"));
 				$('#overview').append($(" <br>  Bug Status  : <label>"+data[0][0].statusName+"</label>"));
+				if(data[0][0].CycleNo){
 				$('#overview').append($("<br>  Cycle : <label>"+data[0][0].CycleNo+"</label>"));
+			}
+				if(data[0][0].bugType){
+				$('#overview').append($("<br>  Bug Type : <label>"+data[0][0].bugType+"</label>"));
+			}
+				if(data[0][0].detectedByName){
 				$('#overview').append($("<br>  Detected By  : <label>"+data[0][0].detectedByName+"</label>"));
+			}
 				$('#overview').append($("<br>  Created Date  : <label>"+data[0][0].createdDate+"</label>"));
-				$('#overview').append($("<br>  Start Date  : <label>"+data[0][0].startdate+"</label>"));
+		 if(data[0][0].enddate){
 				$('#overview').append($("<br>  Tentative Clouser  : <label>"+data[0][0].enddate+"</label>"));
-				
+				}
 				$('#comment').html('');
 				$('#commCount').html(data[1].length);
 				var com='';
 
 				for(var i=(data[1].length)-1;i>=0;i--) { 
 					var str=data[1][i].createdDate.toString();
-				   com=   com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin-top:2%;margin-bottom:1%'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left:1%;'>By : "+data[1][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;max-height:100px; word-wrap: break-word;background-color:#C7DEFE;'>"+data[1][i].comments+"</div><br><div style='width:100%'></div></div>";
+				   com=   com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left:1%;'>By : "+data[1][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;max-height:100px; word-wrap: break-word;background-color:#C7DEFE;'>"+data[1][i].comments+"</div><br><div style='width:100%'></div></div>";
 				}  
 				$('#comment').html(com); 
 				$('#attachment').html('');
 				$('#attCount').html(data[2].length);
 			  var att='';
+			 
 					  
 			  for(var i=(data[2].length)-1;i>=0;i--)
 				{  
-				  att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px'><a href='/attach/"+data[2][i].fileName+"' download><div style='padding-left:10px;float:center'>"
-					+data[2][i].orignalFileName+"</div></a><br><div style='color:grey;font-size:10px'>Added by:"
+					 var deleteBtn=''
+			  if(data[0][0].createdBy=='<%=userid%>' || '<%=roleid%>'==1)
+				{
+					deleteBtn="<span class='glyphicon glyphicon-trash' style='float:right;margin:6px' title='Delete' onclick='deleteAttach("+data[2][i].id+")'></span>";
+				}
+				  att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px' id='"+data[2][i].id+"'><a href='/attach/"+data[2][i].fileName+"' download><div style='padding-left:10px;float:center'>"
+					+data[2][i].orignalFileName+"</div></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"
 					+data[2][i].firstName+" On:"
 					+data[2][i].createdDate+"</div></div>";
 
@@ -618,6 +661,15 @@ $(".btndesc").removeClass('hide');
 	// ............attechment start........................
 	function UploadSheet(){
 		//var data1=$('#fupUploadSheet').val();
+		var input, file;
+            input = document.getElementById('fupUploadSheet');
+            file = input.files[0];
+             if(file.size>2097152){
+                 alert("Error:File limit is 2 mb");
+                 return false ;
+            } 
+
+
 		var data1 = new FormData($('#form123')[0]);
 		var files = $("#fupUploadSheet").val();
     	var id1=$("#bugidhidden").val();
@@ -630,7 +682,7 @@ $(".btndesc").removeClass('hide');
     		contentType: false, 
    			processData: false,
 			success: function(data) {
-				// window.location.reload();
+				console.log("after upload :",data);
 				alert("File uploaded successfully!");
 				showattachment(data);
 			},
