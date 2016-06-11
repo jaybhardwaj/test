@@ -17,6 +17,7 @@ margin-bottom: 5%;
         body {
             overflow-x: hidden;
         }
+
     </style>
     <!-- bootstrap files includeede in header.js file -->
     <!-- datatable files includeede here -->
@@ -65,6 +66,62 @@ margin-bottom: 5%;
       });
 
      });
+     function editModel(id1) {
+            console.log(id1);
+            $.ajax({
+                url: '/viewFileDetails',
+                type: 'post',
+                data: {
+                    "id": id1
+                },
+                success: function(data) {
+
+                    console.log("sucessssss", data);
+                    document.getElementById("title1").value = data[0][0].title;
+                    document.getElementById("authname").value = data[0][0].author;
+                    document.getElementById("desc").value = data[0][0].description;
+                    document.getElementById("rest").value = data[0][0].restriction;
+                    var temp = "";
+                    for (var i = 0; i < data[1].length; i++) {
+                        temp += data[1][i].doctype + ' , ';
+                    }
+                    document.getElementById("docType").value = temp.slice(0, -2);
+                    temp = "";
+                    for (var i = 0; i < data[2].length; i++) {
+                        temp += data[2][i].industry + ' , ';
+                    }
+                    document.getElementById("industry").value = temp.slice(0, -2);
+                    temp = "";
+                    for (var i = 0; i < data[3].length; i++) {
+                        temp += data[3][i].business + ' , ';
+                    }
+                    document.getElementById("business").value = temp.slice(0, -2);
+                    temp = "";
+                    for (var i = 0; i < data[4].length; i++) {
+                        temp += data[4][i].technology + ' , ';
+                    }
+                    document.getElementById("tech1").value = temp.slice(0, -2);
+
+                    temp = "";
+                    for (var i = 0; i < data[5].length; i++) {
+                        temp += data[5][i].restriction + ' , ';
+                    }
+                    document.getElementById("rest").value = temp.slice(0, -2);
+
+                    /* alert($('tech1').val());*/
+
+                }
+            });
+            $('#tag1').modal('show');
+            /*$('.modal-backdrop.fade').css({
+               'background-color':'rgba(0,0,0,0)'       
+            });
+              $("#tag1").draggable({
+                   handle: ".modal-header"
+               });*/
+
+
+        }
     </script>
 
 <div>
@@ -82,16 +139,17 @@ margin-bottom: 5%;
                                 <th>File Name</th>
                                 <th>File Title</th>
                                 <th>Author</th>
+                                <th>Uploaded By</th>
                                 <th>Date</th>
                                 <th>Description</th>
-                                
+                                 <th>Action</th>
                          </thead>
                         <tbody id="orderbody">
                             <%for(var i=files[0].length-1;i>=0;i--) {%>
                                 <tr class="" id = 'row_<%=files[0][i].id%>'>
                                     <td><a download href="./attach/<%=files[0][i].fpath%>"> <%=files[0][i].name%></a></td>
-                                    <td><%=files[0][i].title%></td><td><%=files[0][i].author%></td><td><%=files[0][i].uploadDate%>
-                                    </td><td><%=files[0][i].description%></td>
+                                    <td><%=files[0][i].title%></td><td><%=files[0][i].author%></td><td><%=files[0][i].userName%></td><td><%=files[0][i].uploadDate%>
+                                    </td><td><%=files[0][i].description%></td><td><a title="view details"><i  onclick="editModel(<%=files[0][i].id%>)" style="max-width: 25px;" class="glyphicon glyphicon-search"></i></a></td>
                                    
                                 </tr>
                             <%}%>
@@ -99,6 +157,106 @@ margin-bottom: 5%;
                     </table>
               </div>
         </div>
+  </body>
+  <div class="modal fade" id="tag1">
+        <div class="modal-dialog">
+
+            <div class="modal-content" id="express2" style="">
+                <div class="modal-header" style="background-color:#f05f40; ">
+                    <center><label id="head4" class="modal-title" style="color:white;"><b>View Details</b></label></center>
+                     <button type="button" class="close" id='cancel' style="margin-top: -31px"aria-label="Close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="width:auto">
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label style="line-height:42px !important;"> File Title:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea  id="title1" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label style="line-height:42px !important;"> Author Name:</label>
+                        </div>
+                        <div class="col-md-8">
+                       <textarea  id="authname" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label style="line-height:42px !important;">Description :</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea name="descbox" id="desc"  placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label style="line-height:42px !important;">Industry :</label>
+                        </div>
+                        <div class="col-md-8">
+                             <textarea name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                           
+
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label style="line-height:42px !important;">Business:</label>
+                        </div>
+                        <div class="col-md-8">
+                             <textarea name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                           
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label style="line-height:42px !important;">Document Type:</label>
+                        </div>
+                        <div class="col-md-8">
+                             <textarea name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                          
+                        </div>
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label style="line-height:42px !important;">Technology:</label>
+                        </div>
+                        <div class="col-md-8">
+                             <textarea name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                           
+
+
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label style="line-height:42px !important;">Restriction Lavel:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea   id="rest" value="" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/>
+                        </textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <center>
+                            <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Close</button>
+
+                        </center>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>      
 <footer>
         <% include ../partials/footer %>
     </footer>

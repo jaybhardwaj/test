@@ -810,9 +810,21 @@ project=project?project:'';
 
      //---------------------------------------Document--------------------------------------------------
     verifyCustomRole: function(req,res,next){
-        console.log("in    ",req.session.croleId);
-           res.json(req.session.croleId);
-       
+        modelPortal.verifyCustomRole(req.session.userId,function(error,result){
+            if(error){
+                next(error);
+                    return;
+            }
+            console.log(result[0][0]);
+            req.session.croleId=result[0][0].crole_id ;
+            if(req.session.croleId==null){
+                console.log("yippee");
+
+                res.json(0);
+            }
+            else
+                 res.json(1);
+       });
     },
     setdocalert:function(req,res,next){
         console.log("in");
@@ -4766,12 +4778,13 @@ modelPortal.getAllTreeForProjStatus(req.body.proId,function(err,result){
  //-------------------------------------SEPERATE FUNCTION-------------------------------------->
 
  function  parseAll(textLowerCase,req,strname,next){
+    
 var parsedData ;
 var largeArr = [];
 var conjunctionArr = ['if','and','the','is','because','on','to','in','from','of','above','be','would','for','each','at','under','by','been','no','my','upon','been','it0','will','there','that','this'];
 for(var i =0;i<textLowerCase.length;i++){
 
-if(largeArr.indexOf(textLowerCase[i])==-1&&conjunctionArr.indexOf(textLowerCase[i])==-1&&textLowerCase[i].length>1){
+if(largeArr.indexOf(textLowerCase[i])==-1&&conjunctionArr.indexOf(textLowerCase[i])==-1&&(textLowerCase[i].length>1)&&(isNaN(textLowerCase[i]))){
 
 largeArr.push(textLowerCase[i]);
 

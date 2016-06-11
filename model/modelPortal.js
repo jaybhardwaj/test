@@ -87,7 +87,17 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
 
 
 
-
+    verifyCustomRole:function(uid,callback) {
+        var query = {
+            sql: 'call usp_verifyCustomRole(?)',
+            values: [uid]
+        };
+        //console.log(query);
+        mysql(query, function(err, result) {
+            console.log(query,"-----error",err);
+            callback(err, result);
+        });
+    },
     retailerRegistration: function(companyName, emailId, password, firstName, lastName, contactNo, choosedModule, callback) {
         var query = {
             sql: 'call usp_retailerRegistration(?,?,?,?,?,?,?)',

@@ -1203,7 +1203,7 @@ thead tr th {
                       </div>
                     </div>
             </div>
-            <div id='roleActive'class="col-md-12 a ">
+           <!--  <div id='roleActive'class="col-md-12 a ">
                 <div class="col-md-4"><label style="line-height:42px !important;">Active:</label></div>
                 <div class="col-md-8">
                   <select class="form-control " style="margin-top:10px;margin-left:13%;width:87%" id='RoleEdit' name="active" onchange=" " style="width:100%;">
@@ -1211,7 +1211,7 @@ thead tr th {
                     <option value="1" selected>Yes</option>
                   </select>
                 </div>    
-              </div>          
+              </div>           -->
                 <center>
                             <button id='cancel' type="reset" data-dismiss="modal"  class="btn">Cancel</button>
                              <button id=''   class="btn" onclick="docValidation()">Submit</button>
@@ -1816,7 +1816,7 @@ function addrole(){
                             } else if (data[0][0].flag == 1) {
                                 alert('Custom Role added successfully');
                                 $('#cancel').click();
-                                $('#cstRoleTable').append('<tr id="#role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+data[1][0].id+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:green;margin-left:5%" class="glyphicon glyphicon-ok "></span><span class="glyphicon glyphicon-pencil" title="click to edit"  onclick="getrole('+data[1][0].id+')"   style="margin-left:5%"></span></td></tr>');
+                                $('#cstRoleTable').append('<tr id="role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+data[1][0].id+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:green;margin-left:5%" title="click to inActive"  class="glyphicon glyphicon-ok "onclick="docActiveInactive('+data[1][0].id+',0)"></span><span class="glyphicon glyphicon-pencil" title="click to edit"  onclick="getrole('+data[1][0].id+')"   style="margin-left:5%"></span></td></tr>');
                               } else if (data[0][0].flag == 3) {
                                 alert('Custom Role is already exist.Please enter with different Custom Role.');
                             }else if(data[0][0].flag == 4){
@@ -3237,7 +3237,7 @@ if(billa<0){
               if(result[0][0].resultflag==-2){
                     alert("updated Successfully");
                     if(flag==0){
-                            document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='<span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+croleid+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:red;margin-left:10px;height:10px" class="glyphicon glyphicon-remove "title="click to active"onclick="docActiveInactive('+croleid+',1)"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+croleid+')"style="margin-left:10px"title="click to edit"></span>';
+                            document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='</span><span style="color:red;margin-left:10px;height:10px" class="glyphicon glyphicon-remove-sign "title="click to active"onclick="docActiveInactive('+croleid+',1)"></span>';
                     }
                     else{
                        document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='<span class="glyphicon glyphicon-user"style="height:10px"onclick="viewroleUser('+croleid+')"data-toggle="modal" data-target="#viewrole" title="users assigned"></span><span style="color:green;margin-left:10px;height:10px" class="glyphicon glyphicon-ok "title="click to inactive" onclick="docActiveInactive('+croleid+',0)"></span><span class="glyphicon glyphicon-pencil" onclick="getrole('+croleid+')" title="click to edit" style="margin-left:10px"></span>';

@@ -2,17 +2,16 @@
 
 module.exports = {
 	mysqlconfig: {
-		host: '192.168.1.56', 
-		user: 'root',
-		password : 'root',
+		host: '139.162.47.185',
+		user: 'polestarportal',
+		password : 'portal@123',
 		port : 3306,
 		database:'portal'
 	},
 	mailconfig: {
 		service: 'Gmail',
 		user: 'support@polestarllp.com',
-		password:'Polestar@123',
-		port:257
+		password:'Polestar@123'
 	},
 
 	flagUsed:{
@@ -26,18 +25,15 @@ module.exports = {
 	,
 	url:
 	{
-
-		url:'http://192.168.1.54'
-
+		url:'http://192.168.1.142:8986'
 	},
 	modules:
 	{
 		Bug:1,
 		Time:2,
-		Expense:3,		
+		Expense:3,
 		Asset:4,
 		Project:5,
-		Document:6,
-		RMS:7
+		Document:6
 	}
 }

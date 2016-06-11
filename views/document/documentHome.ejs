@@ -169,20 +169,24 @@
                     
                 </div>
 </div>
-<div class="col-md-6" >
-        <div class="">
-            <table id="data_table" class="table" cellspacing="0"  style="">
+<div class="col-md-6">
+        <div style="overflow-x:auto;">
+
+            <table id="data_table" class="table" cellspacing="0"  style="max-width:100%">
                 <thead>
                     <th>File Name</th>
                     <th>File Title</th>
                     <th>Author</th>
                      <th>Uploaded By</th>
                     <th>Upload Date</th>
+                    <%if(roleid!=1){%><th>Status</th><%}%>
                     <th>Action</th>
-
+                    
                 </thead>
                 <tbody id="orderbody">
-                    <%for(var i=files[0].length-1;i>=0;i--) {%>
+                
+                    <%for(var i=0;i<=files[0].length-1;i++) {%>
+
                         <tr class="" id='row_<%=files[0][i].id%>'>
                             <td>
                                 <a download href="./attach/<%=files[0][i].fpath%>">
@@ -201,6 +205,19 @@
                             <td>
                                 <%=files[0][i].uploadDate%>
                             </td>
+                             <%if(roleid!=1){
+
+                                if(files[0][i].isConfirmed==-1 )
+                                    var statusvar="pending " ;
+                                 if(files[0][i].isConfirmed==1 )
+                                    var statusvar="approved" ;    
+
+                                %>
+
+                                 <td>
+                                    <%=statusvar%>
+                                </td>
+                            <%}%>
                             <td><a title="view details"><i  onclick="editModel(<%=files[0][i].id%>)" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>
                                 <a title="delete file" class ='glyphicon glyphicon-trash delete' onclick="deleteFile(<%=files[0][i].id%>)" style="max-width: 15px" ></a>
                             </td>
@@ -300,10 +317,13 @@
                 </div>
       </form>
   
+    </div>
 </div>
+  
 </div>
+</body>
 
-   <div class="modal fade" id="tag1">
+<div class="modal fade" id="tag1">
         <div class="modal-dialog">
 
             <div class="modal-content" id="express2" style="">
@@ -317,7 +337,7 @@
                             <label style="line-height:42px !important;"> File Title:</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="label" maxlength="45" class="form-control" id="title1" style="width:" name="fname" readonly/>
+                            <textarea  id="title1" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/></textarea>
                         </div>
                     </div>
 
@@ -326,7 +346,7 @@
                             <label style="line-height:42px !important;"> Author Name:</label>
                         </div>
                         <div class="col-md-8">
-                       <input type="label" maxlength="45" class="form-control" id="authname" style="width:" name="fname" readonly />
+                       <textarea  id="authname" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/></textarea>
                         </div>
                     </div>
 
@@ -336,7 +356,7 @@
                             <label style="line-height:42px !important;">Description :</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea name="descbox" id="desc" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                            <textarea name="descbox" id="desc"  placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -345,7 +365,7 @@
                         </div>
                         <div class="col-md-8">
                              <textarea name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
-                            <!-- <input type="label" maxlength="45" class="form-control" id="industry" value="" style="width:" name="fname" readonly /> -->
+                           
 
                         </div>
                     </div>
@@ -355,8 +375,7 @@
                         </div>
                         <div class="col-md-8">
                              <textarea name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
-                           <!--  <input type="textarea" maxlength="45" class="form-control" id="business" value="" style="width:" name="fname" readonly/> -->
-
+                           
                         </div>
                     </div>
 
@@ -366,8 +385,7 @@
                         </div>
                         <div class="col-md-8">
                              <textarea name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
-                           <!--  <input type="text" maxlength="45" class="form-control" id="docType" value="" style="width:" name="fname" readonly /> -->
-
+                          
                         </div>
                     </div>
 
@@ -378,7 +396,7 @@
                         </div>
                         <div class="col-md-8">
                              <textarea name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
-                            <!-- <input type="text" maxlength="45" class="form-control" id="tech1" value="" style="width:" name="fname" readonly/> -->
+                           
 
 
                         </div>
@@ -389,8 +407,8 @@
                             <label style="line-height:42px !important;">Restriction Lavel:</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" maxlength="45" class="form-control" id="rest" value="" style="width:" name="fname" readonly/>
-
+                            <textarea   id="rest" value="" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/>
+                        </textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -404,10 +422,9 @@
             </div>
         </div>
     </div>
-</div>
-</body>
+
  
-    <script>
+<script>
    $('form#formID').submit(function(e){
     $(this).find('input[type=submit]').prop('disabled', true);
 });
@@ -507,6 +524,7 @@
                 $('#docTabR').addClass('show');*/
 
             } else {
+
                 $('.delete').addClass('hide');
                 $('#docTabName2').addClass('hide');
                 $('#docTab2').addClass('hide');
@@ -623,7 +641,7 @@
                 success: function(tabledata) {
                     var charstr = "";
                     charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Action</th></thead><tbody>';
-                    for (var i = tabledata.length - 1; i >= 0; i--) {
+                    for (var i = 0; i <= tabledata.length - 1; i++) {
                         var bgstr = '';
                         if (tabledata[i].color == 'yellow') {
 
