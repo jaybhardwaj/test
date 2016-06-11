@@ -2721,8 +2721,8 @@ if(error){
                  return;
              }
 
-             res.json('suceess');
-             next();
+             res.json(result[0][0].flag2);
+            console.log(result[0][0].flag2);
          });
      },
 

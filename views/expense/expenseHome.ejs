@@ -649,17 +649,17 @@ function DeleteExpense(typeid,id,expclid){
                                    /* log=log+"<a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-adjust' style='height:15px;color:red;font-size:10px;' onclick='resubmittheExpense("+users[i].expenseclaimId+")'  title ='ReSubmit'></span></a></td>";*/}
                                      log=log+"</td><td>";
                                  if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
-                              log=log +"Pending..</td>";
+                              log=log +"<input type='hidden' id='resubmitExpenseid' value='"+users[i].expenseclaimId+"'>Pending on Mr. '"+users1[2][0].firstName+"'</td>";
                                  hidesubmitshowedit();
                                  $('#resubmitExpenseid').val(users[i].expenseclaimId);
                                  }
                                    if((users[i].ClaimedStatus==111)&&(users[i].Submitted==1)){
                                log=log + "Approved by supervisor</td>";
                                  }
-                                   if((users[i].ClaimedStatus<10)&&(users[i].ClaimedStatus>0)&&(users[i].Submitted==1)){
+                                   if((users[i].ClaimedStatus<100)&&(users[i].ClaimedStatus>0)&&(users[i].Submitted==1)){
                                     showtotalExpense1();
 
-                                log=log +"Approved by manager<span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Level'>"+users[i].ClaimedStatus+"</span></td>";
+                                log=log +"Pending on Mr. "+users1[2][0].firstName+"<span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Level "+users[i].ClaimedStatus+"  Approved By Mr. "+users1[3][0].firstName+"'>"+users[i].ClaimedStatus+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
                                     showtotalExpense1();
@@ -1151,7 +1151,7 @@ function expensedescription(expclaimId){
                 }]
                        });  
                                $("#searchbox1").keyup(function() {    
-        $("#data_table1").dataTable().fnFilter(this.value);
+        $("#bugtable1").dataTable().fnFilter(this.value);
       });
                       
                         }
@@ -1231,7 +1231,7 @@ function expensedescription(expclaimId){
                                     }
                                     //hidetheButton(users[i].expenseclaimId);
                                      //$('#a'.concat(users[i].expenseclaimId)).addClass('hide');
-                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on "+tempname+" Level</span></td>";
+                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on Mr. "+users1[2][i].firstName+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus>1)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
                                       var tempname ;
@@ -1247,16 +1247,16 @@ function expensedescription(expclaimId){
                                       tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                        tempname+='th';
                                     }
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on "+tempname+" Level</span></td>";
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on Mr. "+users1[2][i].firstName+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
                                 log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by finance</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
                                  }
                                    if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)){
-                                log=log +"<span style='height:20px;font-size:10px;'>Rejected</span></td>";
+                                log=log +"<span style='height:20px;font-size:10px;'>Rejected By "+users1[1][i].firstName+"</span></td>";
                                  }
                                      if(users[i].Status==100){
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected</span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected By "+users1[1][i].firstName+"</span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
                                  }
                             
                             log = log + "</tr>";}
@@ -1950,7 +1950,7 @@ else{
                     comments:comments
                 },
                 success: function(data) {
-                    $('#submitedbutton').val('Submitted');
+                   // $('#submitedbutton').val('Submitted');
                      //document.getElementById("submitedbutton").disabled = true;
 
                      alert("Expense submitted successfully.");
@@ -1990,6 +1990,10 @@ function resubmittheExpenseforCopy(expclaimId) {
                     expclaimId:expclaimId
                 },
                 success: function(data) {
+                  if(data==0){
+                    alert(data);
+                    alert("Expense can not be edit because expense allready approved");
+                  }
                   $('#submitbut').addClass('hide');
                   $('#submitbutton').removeClass('hide');   
                   selecthotelExpenseforweek();
@@ -3019,8 +3023,8 @@ function changeothercurrency(){
                                    <% if((expenseDetails[i].ClaimedStatus==0)&&(expenseDetails[i].Submitted==0)){%>
                               Draft</td>
                                   <% }%>
-                                   <%if((expenseDetails[i].ClaimedStatus<10)&&(expenseDetails[i].ClaimedStatus>0)&&(expenseDetails[i].Submitted==1)){%>
-                              Approved by Manager<span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on  <%=expenseDetails[i].ClaimedStatus%> Level'><%=expenseDetails[i].ClaimedStatus%></span></td>
+                                   <%if((expenseDetails[i].ClaimedStatus<100)&&(expenseDetails[i].ClaimedStatus>0)&&(expenseDetails[i].Submitted==1)){%>
+                              Pending on <%=penddinguser[0].firstName%> <span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on  <%=expenseDetails[i].ClaimedStatus%> Level approved by <%=approveBy[0].firstName%>'><%=expenseDetails[i].ClaimedStatus%></span></td>
                                   <% }%>
                                   <% if((expenseDetails[i].ClaimedStatus==11)&&(expenseDetails[i].Submitted==1)){%>
                                     Approved by manager</td>
@@ -4101,7 +4105,7 @@ function changeothercurrency(){
                         </div>
               <div class="col-md-4"><label style="font-size:10px;">Attach Files</label>   
               </div>
-            <div class="col-md-4"><input id="attachfile" type="file" name="comment-upload" class="upload" />
+            <div class="col-md-4"><input id="attachfile" type="file" name="comment-upload" class="upload" style="width: 250px;" />
             </div>
         </div>
 
