@@ -4295,6 +4295,7 @@ addUser: function(req, res, next) {
                 //console.log("there is an error",err);
             }   
             else{
+                console.log("portal getreleventState result:",result);
                      res.json(result);
                 } 
         });

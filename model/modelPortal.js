@@ -2524,6 +2524,7 @@ getHrRole:function(userId,roleId,retailerId,callback){
         sql: "call usp_addTag(?,?,?)",
             values: [tId,selectedtag,uId]
         }
+        console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                
@@ -2718,8 +2719,9 @@ getHrRole:function(userId,roleId,retailerId,callback){
           sql: "call getreleventState(?,?)",
         values: [jdid,cid]
         };
-        //console.log(q);
+        console.log(q);
         mysql(q, function(err, result) {
+            console.log("get relevent state :",result);
             if (err) {
                 //console.log(err);
             }

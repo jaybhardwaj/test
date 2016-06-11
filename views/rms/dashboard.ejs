@@ -205,10 +205,10 @@ var data=[];
         function o2arr(data2){
         var info=[];
         var j=1; 
-        console.log(data2);
+       // console.log(data2);
         for(var i=0;i<data2.length;i++){
-          console.log("inloop");
-          console.log(data2[i]);
+      //    console.log("inloop");
+      //    console.log(data2[i]);
          data2[i].jdid=j;
          j++;
           info.push($.map(data2[i],function(k,v){
@@ -219,15 +219,15 @@ var data=[];
           return k;
           }));
         }
-console.log(info);
+//console.log(info);
 return info;
 }
   
   function ajaxcall(grid,type,time){
     var type1=type;
-console.log('grid'+ grid);
-console.log('type'+type);
- console.log(time);
+//console.log('grid'+ grid);
+//console.log('type'+type);
+ //console.log(time);
     if(type==0 || type==2 || type==3 || type==4)
 {
   if(grid==1)
@@ -276,7 +276,7 @@ if(grid==4){
     else{
      /* alert("els");*/
       otable3.destroy();
-      console.log("sle");
+      //console.log("sle");
     }
 
   }
@@ -287,15 +287,15 @@ if(grid==4){
 }
 if(type==2 || type==4)
 type=1;
-console.log('aaaaaaaaaa',type,'bbbbbbbbbbb',grid,'cccccccccccc',time)
+//console.log('aaaaaaaaaa',type,'bbbbbbbbbbb',grid,'cccccccccccc',time)
   $.ajax({
       url: '/dashboardData',
       type: 'post',
       data:{"data":type,"grid":grid,"time":time},
       success: function(result) { 
-        console.log('time',time);
+    ///    console.log('time',time);
        console.log('result',result);
-       /* if(result.length==5){
+     /*   if(result.length==5){
           for(var i=0;i<result.length;i++){
             data[i]=result[i];
 
@@ -305,16 +305,15 @@ console.log('aaaaaaaaaa',type,'bbbbbbbbbbb',grid,'cccccccccccc',time)
           console.log('elseif');
           data[grid-1]=result[0];
           console.log(data[grid-1]);
-        }*/
+        } */
 
         for(var i=0;i<result.length;i++){
             data[i]=result[i];
-
           }
 
       if(grid==0 || grid==1){
 
-         console.log('elseif',data[0]);
+    //     console.log('elseif',data[0]);
           otable=$('#openreqstate').DataTable( {
           data:o2arr(data[0]), 
           columns:  [
@@ -336,7 +335,7 @@ console.log('aaaaaaaaaa',type,'bbbbbbbbbbb',grid,'cccccccccccc',time)
         if(grid==0 || grid==2){
         
          otable1=$('#intpipe').DataTable( {
-        data: o2arr(data[1]),
+         data: o2arr(data[1]),
         columns: [
             { title: "#" },
             { title: "JD Title" },
@@ -379,7 +378,7 @@ if(typeof(otable4) !='undefined')
 /*$('#overpipe').html('');
 }*/
 /*alert("emit");*/
-console.log('otable33333333');
+//console.log('otable33333333');
  otable3=$('#overpipe').DataTable( {
         data:o2arr(data[3]),
         columns: [
@@ -393,11 +392,11 @@ console.log('otable33333333');
          "order": [[ 2, "desc" ]]
     } );
  /*alert('mit');*/
-        console.log('nowat');
+       // console.log('nowat');
         /*otable3.draw(); */
         }
         if(time==0){
-          console.log('4');
+       //   console.log('4');
      /* if(type1==4){
           otable3.destroy();
 $('#overpipe').html('');
@@ -414,9 +413,7 @@ $('#overpipe').html('');
          "searching": false,
          "pagingType": "full",
          "order": [[ 2, "desc" ]]
-    } );
-
-
+    } ); 
         }
         /*console.log('dfgh');*/
 } 

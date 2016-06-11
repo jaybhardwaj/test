@@ -475,10 +475,11 @@
                                 "cid": $('#cdtidint').val()
                             },
                             success: function(data) {
-                                console.log(data);
+                                console.log("all data state: ",data);
                                 $('#schstate').html('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data[0].length; i++) {
                                   if(data[0][i].id!=1){
+                                    console.log("state name :",data[0][i].stateName);
                                     $('#schstate').append("<option value='" + data[0][i].id + "'>" + data[0][i].stateName + "</option>");
                                   }
                                 }
@@ -790,8 +791,8 @@
                     function scheduleInfo(id) {
                       getreleventState();
                       
-                       $("#schstate option[value=6]").hide();
-                       $("#schstate option[value=5]").hide();
+                    /*    $("#schstate option[value=6]").hide();
+                       $("#schstate option[value=5]").hide();*/
 
                         $("#showhistorydiv").hide();
                         $.ajax({
@@ -823,10 +824,6 @@
                                 for (var i = 0; i < data[3].length; i++) {
                                     $('#mode').append("<option value='" + data[3][i].id + "''>" + data[3][i].mode + "</option>");
                                 }
-
-
-
-
                                 //--------------------History Table...............................................
                                 $('#historytable').html('');
                                 var t = 0;
@@ -883,10 +880,11 @@
                                           $("#schedulediv").removeClass("hide");
                                         }
                                         
-                                       if(data[5][t].stateId==4){ 
+                                      /*  if(data[5][t].stateId==4){ 
+                                        alert();
                                            $("#schstate option[value=6]").show();
                                           $("#schstate option[value=5]").show();
-                                        }
+                                        } */
 
                                      
                                         $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + deleteString + '</div><div style="font-size:10px">By- ' + data[5][t].firstName + '</div><div style="font-size:10px">On -' + date + '</div></div></td>');
@@ -917,7 +915,7 @@
 
 
 
-                                $('#schtaggedJd').val(data[0][0].jdID);
+                                //$('#schtaggedJd').val(data[0][0].jdID);
                                // $("#schtaggedJd").trigger("chosen:updated");
                                 $('#schtaggedJd').addClass('used');
                                 
@@ -949,9 +947,6 @@
                                 "selecttag": $('#selecttag').val()
                             },
                             success: function(data) {
-
-
-                                currentjd
                                 console.log("Data afet tag", data);
                                 getAllTag($('#tcid').val());
                                 if (data[0][0].count == 1) {
@@ -1520,26 +1515,5 @@ var id = e.options[e.selectedIndex].value;*/
                         display: inline;
                     }
                 </style>
-                <!-- <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.css" rel="stylesheet" media="screen">
-                <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js"></script> -->
-                <!-- <script type="text/javascript" src="/javascripts/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="/javascripts/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
- -->
-                <script type="text/javascript">
-                    /*    $('#intdatetime').datetimepicker({
-                            //language:  'fr',
-                            weekStart: 1,
-                            todayBtn:  1,
-                            autoclose: 1,
-                        todayHighlight: 1,
-                        startView: 2,
-                        forceParse: 0,
-                            showMeridian: 1
-                        });*/
-                   /* var todate=new Date();
-                    $('#intdatetime').datetimepicker({
-                       minDate:todate
-                    });*/
-                </script>
-
+         
                 </body>
