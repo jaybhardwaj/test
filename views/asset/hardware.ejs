@@ -46,7 +46,7 @@
      <table class="table"><tr><td><td>
           <label for="typel" class="form-Label">Type :<sup class="astrick">*</sup></label></td>
          <td>
-            <select id="typel" type="dropdown" name="htype" class="form-text-box" value="" >  <option disabled value="0"selected="">Select a value</option>
+            <select id="typel" type="dropdown" name="htype" class="form-text-box" value=""  onchange="changeType()" >  <option disabled value="0"selected="">Select a value</option>
               <%for(var i=0;i<htype.length;i++){%>
               <option value="<%=htype[i].id%>"><%=htype[i].componentName%></option>
                 <%}%>
@@ -108,7 +108,7 @@
    </table>
     </div>
     <div class="form-group">
-      <div class=" col-md-12 table-responsive">
+      <div id="tableQuantity" class=" hide col-md-12 table-responsive">
 <!-- <h3>Specifications</h3> -->
 <!-- <input type="button" onclick="addRow()" value="ADD"> -->
         <table class="table hide" style="overflow:scroll;width:100%;">
@@ -190,15 +190,22 @@
       var componentArray=[];
       i=0;
      function addCompModal(){
+      //alert($('#typel').val());
        //getbrand();
-    var row = '<tr id="tr'+countAddCompModal+''+i+'"><td><select class = "form-text-box form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype.length;i++){%><option value="<%=htype[i].id%>"><%=htype[i].componentName%></option><%}%></select></td><td><input type = "text" class = "form-text-box form-control" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 form-text-box form-control" id="brand'+countAddCompModal+'"><%for(var i=0;i<brandtype.length;i++){%><option value="<%=brandtype[i].id%>"><%=brandtype[i].value%></option><%}%></select></td><td><input type = "text" class = "form-text-box datetimepicker" id="war'+countAddCompModal+'"></td><td class="hide"><input type = "text" class = "form-text-box form-control" id="size'+countAddCompModal+'"></td><td><span style="font-size:25px;color:red" class="glyphicon glyphicon-remove-circle" onclick="removeRow('+countAddCompModal+','+i+')"></span></td></tr>';
+    var row = '<tr id="tr'+countAddCompModal+''+i+'"><td><select class = "form-text-box form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype.length;i++){%>';
+    if($('#typel').val() != "<%=htype[i].id%>"){
+        row+='<option value="<%=htype[i].id%>"><%=htype[i].componentName%></option>';
+      } 
+    row+='<%}%></select></td><td><input type = "text" class = "form-text-box form-control" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 form-text-box form-control" id="brand'+countAddCompModal+'"><%for(var i=0;i<brandtype.length;i++){%><option value="<%=brandtype[i].id%>"><%=brandtype[i].value%></option><%}%></select></td><td><input type = "text" class = "form-text-box datetimepicker" id="war'+countAddCompModal+'"></td><td class="hide"><input type = "text" class = "form-text-box form-control" id="size'+countAddCompModal+'"></td><td><span style="font-size:25px;color:red" class="glyphicon glyphicon-remove-circle" onclick="removeRow('+countAddCompModal+','+i+')"></span></td></tr>';
          $('#addcompobody').append(row);
          
          countAddCompModal++;
          i++
+
+         var date=new Date($('#Deliverydate').val());
           jQuery('.datetimepicker').datetimepicker({
   timepicker:false,
-  format:'Y-m-d'
+  format:'Y-m-d', minDate:date
   });
      }
 
@@ -255,6 +262,17 @@
       }
     } 
   }
+
+
+  function changeType(){
+    $('#tableQuantity').addClass('hide');
+    quantity=$('#qty').val();
+    if(quantity != 0){
+     addcompo(quantity);
+    }
+  }
+
+
  
 function showmodal(el){
   alert(el);
@@ -330,7 +348,7 @@ function validatehardvare(){
     alert("Delivery date Missing!");    
     return false;
   }
-  else if(new Date($('#Deliverydate').val())<new Date($('#invoiceAmt').val())){
+  else if(new Date($('#Deliverydate').val())<new Date($('#Invoicedate').val())){
     alert("Delivery date less then invoice date!");
      return false;
   }
@@ -344,6 +362,23 @@ function validatehardvare(){
       alert('Warranty Missing!');
       return false;
     }
+    else if(new Date($('#warranty'.concat(i)).val())<new Date($('#Deliverydate').val())  ){
+      j=i+1;
+      alert("Warranty date at row "+j+" cannot be less then invoice date!");
+      return false;
+    }
+    var abc=0;
+    for(var j=0;j<document.getElementById('qty').value;j++){
+      if(i != j){
+        if($('#serial'.concat(i)).val() == $('#serial'.concat(j)).val()){ abc++; }
+      }
+    }
+
+    if(abc!=0){
+      alert('Serial number of two components cannot be same.');
+      return false;
+    }
+
     else if(i==((document.getElementById('qty').value)-1)){
      parsealldata(); 
     }
@@ -351,181 +386,180 @@ function validatehardvare(){
   
 }
 
-function addcompo(){
-  
-  var typ = document.getElementById('typel');
-  var selectedValue = typ.options[typ.selectedIndex].value;
-  if (selectedValue == "0")
-    {
-    alert("Please select a type");console.log("intype");
-    return false;
+
+function addcompo() {
+    $('#tableQuantity').removeClass('hide');
+    var typ = document.getElementById('typel');
+    var selectedValue = typ.options[typ.selectedIndex].value;
+    if (selectedValue == "0") {
+        alert("Please select a type");
+        console.log("intype");
+        return false;
     }
-    if($('#qty').val().length<1||$.trim($("#qty").val()) <1)
-    {
-    alert("Please enter valid Quantity!");
-    return false;
-     }
-//..............................validation commented for  testing................................
+    if ($('#qty').val().length < 1 || $.trim($("#qty").val()) < 1) {
+        alert("Please enter valid Quantity!");
+        return false;
+    }
+    //..............................validation commented for  testing................................
 
 
-   //else if($('#invoiceNo').val().length<1||$.trim($("#idpname").val()) =="")){}
+    //else if($('#invoiceNo').val().length<1||$.trim($("#idpname").val()) =="")){}
 
-    
-  //$("#qty").blur(function() {
-       qty=document.getElementById('qty').value;
-      /*var rem_qty=document.getElementById('rem_qty').value;*/
-      
-      if(qty>20){
+
+    //$("#qty").blur(function() {
+    qty = document.getElementById('qty').value;
+    /*var rem_qty=document.getElementById('rem_qty').value;*/
+
+    if (qty > 20) {
         alert("Quantity cannot exceed 20!");
-        document.getElementById('qty').value='';
-      } else{
+        document.getElementById('qty').value = '';
+    } else {
         console.log(selectedValue);
-      $.ajax({
-        url:'/getAttr',
-        method:'post',
-                data:{acid:selectedValue},
-                dataType:'json',
-                success:function(result){
-                  
-                  $('#headi').empty();
-                  var head='<tr ><th>#</th><th >Serial No.</th>';
-                  allAttIds = [];
-                  for(var i=0;i<result[0].length;i++){
-                    console.log('head'+i)
-                    head=head+'<th>'+result[0][i].attribute+'</th>';
-                  allAttIds.push(result[0][i].attId);
-                  }
-                  allAttIds1=allAttIds;
-                  //alert(allAttIds1);
-                  //allAttIds.push(0);
-        /********************Important next line*************************/
-            head=head+'<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty</th><th class = "">Components</th></tr>';
-            $('#headi').append(head);
-            $('#bodyi').empty();
-        arr.length=qty;
-        col=result[0].length;
-       attlength = col;
-        for(var i=0;i<qty;i++){
-          var k=i
-          var row='<tr><td>'+ ++k +'</td><td><input class="form-text-box"'+
-          ' id="serial'+i+'"></td>';
-          for(var o=0;o<result[0].length;o++){
+        $.ajax({
+            url: '/getAttr',
+            method: 'post',
+            data: {
+                acid: selectedValue
+            },
+            dataType: 'json',
+            success: function(result) {
 
-           row=row+'<td><select class="form-text-box" id="'+i+o+'">';
+                $('#headi').empty();
+                var head = '<tr ><th>#</th><th >Serial No.</th>';
+                allAttIds = [];
+                for (var i = 0; i < result[0].length; i++) {
+                    console.log('head' + i)
+                    head = head + '<th>' + result[0][i].attribute + '</th>';
+                    allAttIds.push(result[0][i].attId);
+                }
+                allAttIds1 = allAttIds;
+                //alert(allAttIds1);
+                //allAttIds.push(0);
+                /********************Important next line*************************/
+                head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty</th><th class = "">Components</th></tr>';
+                $('#headi').append(head);
+                $('#bodyi').empty();
+                arr.length = qty;
+                col = result[0].length;
+                attlength = col;
+                for (var i = 0; i < qty; i++) {
+                    var k = i
+                    var row = '<tr><td>' + ++k + '</td><td><input class="form-text-box"' +
+                        ' id="serial' + i + '"></td>';
+                    for (var o = 0; o < result[0].length; o++) {
 
-           
-          for(var dropdownValues=0;dropdownValues<result[1].length;dropdownValues++){
-                 if(result[0][o].attId==result[1][dropdownValues].attId){
-              row=row+'<option value="'+result[1][dropdownValues].id+'">'+result[1][dropdownValues].value+'</option>';         
-                 }
-
-              }
-              row = row + '</select></td>';
-          
-          }
-
-    /*******************Code by Mayur for brandname and warranty***************************/
-         // var k = 0;while(result[1][k++].attId!=0);
-         // k--;
+                        row = row + '<td><select class="form-text-box" id="' + i + o + '">';
 
 
-              row=row+'<td><select class="form-text-box" id="brand'+i+'">';
-            
-           for(var dropdownValues=0;dropdownValues<result[2].length;dropdownValues++){
-             row=row+'<option value="'+result[2][dropdownValues].id+'">'+result[2][dropdownValues].value+'</option>';  
-           }
-          row = row + '</select></td><td><input'+
-        ' class="form-text-box datetimepicker1" id="warranty'+i+'" type = "text"></td>';
-           row = row + '<td class="hide"><input'+
-        ' class="single form-control warrClass" id="componentdata'+i+'" type = "hidden"></td>';
-      /******************************************************************************/
+                        for (var dropdownValues = 0; dropdownValues < result[1].length; dropdownValues++) {
+                            if (result[0][o].attId == result[1][dropdownValues].attId) {
+                                row = row + '<option value="' + result[1][dropdownValues].id + '">' + result[1][dropdownValues].value + '</option>';
+                            }
 
-            jQuery('.datetimepicker1').datetimepicker({
-             timepicker:false,
-              format:'Y-m-d'
-              });
+                        }
+                        row = row + '</select></td>';
 
-
-
-            row = row + '<td class = "">'+'<input class="btn btn-danger"type="button"data-toggle="modal"'+' value="Add"data-target="#addModal"'+'style="background-color:#f05f40;color:white;" id="'+i+'"'+
-            ' onclick="saveId('+i+')">'+
-            '</td></tr>';
-
-          addId(i);
-          $('#bodyi').append(row);
                     }
 
-          
-          $('table').removeClass('hide');
-          arr[i]={
-                    specification:null,
-                    brand:null,
-                    serial:null,warranty:null,
-                    component:{},
-                    saved:false
+                    /*******************Code by Mayur for brandname and warranty***************************/
+                    // var k = 0;while(result[1][k++].attId!=0);
+                    // k--;
+
+
+                    row = row + '<td><select class="form-text-box" id="brand' + i + '">';
+
+                    for (var dropdownValues = 0; dropdownValues < result[2].length; dropdownValues++) {
+                        row = row + '<option value="' + result[2][dropdownValues].id + '">' + result[2][dropdownValues].value + '</option>';
+                    }
+                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker1" id="warranty' + i + '" type = "text"></td>';
+                    row = row + '<td class="hide"><input' + ' class="single form-control warrClass" id="componentdata' + i + '" type = "hidden"></td>';
+                    /******************************************************************************/
+
+
+                    row = row + '<td class = "">' + '<input class="btn btn-danger"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
+
+                    addId(i);
+                    $('#bodyi').append(row);
+                }
+                //var date=new Date($('#Deliverydate').val()); alert(date);
+                jQuery('.datetimepicker1').datetimepicker({
+                    timepicker: false,
+                    format: 'Y-m-d'
+                });
+
+
+                $('table').removeClass('hide');
+                arr[i] = {
+                    specification: null,
+                    brand: null,
+                    serial: null,
+                    warranty: null,
+                    component: {},
+                    saved: false
                 };
-        
 
 
 
 
+                $('#addcompobody').empty();
 
-        $('#addcompobody').empty();
+                for (var i = 0; i < 0; i++) {
 
-          for(var i=0;i<0;i++){
-          
-          comps[i]=result[1][i].attribute;
-         var mrow='<tr><td>'+result[1][i].attribute+'</td>'+
-            '<td><input class="form-control empty" id="mserial'+i+'"></td>'+
-          '<td ><select class="form-text-box " id="mbrand'+i+'"><option value="q"selected'+
-          '>b</option></select></td><td><input type = "text" class="single form-control" id="mwarranty'+i+'"></td><td ><select class="single" id="msize'+i+'"><option value="c" selected>c</option>'+
-            '</select></td></tr>';
-          $('#addcompobody').append(mrow);
-          
-          }
+                    comps[i] = result[1][i].attribute;
+                    var mrow = '<tr><td>' + result[1][i].attribute + '</td>' +
+                        '<td><input class="form-control empty" id="mserial' + i + '"></td>' +
+                        '<td ><select class="form-text-box " id="mbrand' + i + '"><option value="q"selected' +
+                        '>b</option></select></td><td><input type = "text" class="single form-text-box datetimepicker1" id="mwarranty' + i + '"></td><td ><select class="single" id="msize' + i + '"><option value="c" selected>c</option>' +
+                        '</select></td></tr>';
+                    $('#addcompobody').append(mrow);
 
-          $('.single').selectpicker({width:90});
-                
-         }
+                }
+
+                $('.single').selectpicker({
+                    width: 90
+                });
+
+            }
 
 
-      });
-       
+        });
+
 
         $('.com').selectpicker({
-        
-          onChange: function(option, checked, select) {
-            console.log($(option).val());console.log($(option).attr('id'));
-            if(checked){
-              if($(option).val()=='monitor'){
-                $('.modal-body').html('');
-                console.log('monitors'+$(option).val());
-                var size='<label for="size">Size</label><input id="size" name>'
-                $('.modal-body').append(size);
-              }
-              $('#hide1').val($(option).attr('id'));
-              console.log($(option).attr('id'));
-              console.log($('#hide1').val());
-              $('.modal-title').html($(option).val());
-              if(arr[$('#hide1').val()].component.hasOwnProperty($(option).val())){
-                $('#serial').val(arr[$('#hide1').val()].component[$(option).val()].serial);
-                $('#brand').val(arr[$('#hide1').val()].component[$(option).val()].brand);
-              }
-              /*arr[$('#hide1').val()].component[el.value].serial*/
-              $('#myModal').show('toggle');
+
+            onChange: function(option, checked, select) {
+                console.log($(option).val());
+                console.log($(option).attr('id'));
+                if (checked) {
+                    if ($(option).val() == 'monitor') {
+                        $('.modal-body').html('');
+                        console.log('monitors' + $(option).val());
+                        var size = '<label for="size">Size</label><input id="size" name>'
+                        $('.modal-body').append(size);
+                    }
+                    $('#hide1').val($(option).attr('id'));
+                    console.log($(option).attr('id'));
+                    console.log($('#hide1').val());
+                    $('.modal-title').html($(option).val());
+                    if (arr[$('#hide1').val()].component.hasOwnProperty($(option).val())) {
+                        $('#serial').val(arr[$('#hide1').val()].component[$(option).val()].serial);
+                        $('#brand').val(arr[$('#hide1').val()].component[$(option).val()].brand);
+                    }
+                    /*arr[$('#hide1').val()].component[el.value].serial*/
+                    $('#myModal').show('toggle');
+                }
             }
-          }
         });
-        
-        
+
+
         $('#next').hide();
         $('#cancel').removeClass('hide');
         $('#cancel').addClass('show');
         $('#submit').removeClass('hide');
         $('#submit').addClass('show');
-      }
+    }
 
-   // });
+    // });
 }
  function addId(ids){
   $('#serids').val(ids);

@@ -1421,6 +1421,7 @@ getType:function(tid,retailerid,callback){
         sql:'call usp_ast_getComponentType(?,?)',
         values:[tid,retailerid]
     };
+    console.log(q);
     mysql(q,function(err,result){
         callback(err,result);
     });
