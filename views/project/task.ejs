@@ -88,6 +88,15 @@ padding-left: 81px;
       border: 0px;
       }
 
+      .isEmptyTextBoxValidation{
+ 
+    border-width: 2px!important;
+    background-color: rgba(255, 0, 0, 0.33)!important;
+    border-color: #FF0000!important;
+    border-style: solid!important;
+        
+        }
+
 
 
  /***********************************Mayur CSS ends here********************************************/
@@ -125,8 +134,8 @@ th {
     background-color: white;
 
   }
-  input[type='text']{border: 0px!important;}
-
+/*  input[type='text']{border: 0px!important;}
+*/
 input[type="number"] {
     position: relative;
     margin: 0 0 1rem;
@@ -296,6 +305,8 @@ for(var i=0;i<idarr[num].length;i++){
             hideAddButtonClass = '';
             
          }
+
+
                       
          Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="phase bold1"><img src="../img/project/minus.png" id = '+idarr[num][i]+'_sign_'+num+' onclick = "collapseExpand(this.id,1)" class="minus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+idarr[num][i]+'_add_'+num+'  class="shadow phaseImg  " onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'    height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS bold1">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td class = "bold1">'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
        }
@@ -343,12 +354,16 @@ return ;
 }
 
 
+ var newno = parseInt(version) + 1;
+
 
 
 
 
 %>
 <script type="text/javascript">
+var remarks = '';
+var projectAndVersions = '<%=projectAndVersions%>';
 var tempEffortInDays;
 var effortIndays = [];
 var optionStr         = '<%=optionStr%>';
@@ -370,6 +385,9 @@ for(var i = 0;i<holidayArr.length;i++){
 holidayArrDateTime[0]    = parseInt(holidayArrDateTime[0]);
 holidayArrDateTime[1]    = parseInt(holidayArrDateTime[1]) -1;
 holidayArrDateTime[2]    = parseInt(holidayArrDateTime[2]);
+if(holidayArrDateTime[2].length==2){
+  holidayArrDateTime[2] = '20'+ holidayArrDateTime[2];
+}
  holidayArrDateTime = new Date(holidayArrDateTime[2], holidayArrDateTime[1], holidayArrDateTime[0]); 
  holidayArrDateTime = holidayArrDateTime.getTime();
 holidayArrGetTime.push(holidayArrDateTime);
@@ -383,7 +401,9 @@ var effortArr = ['','Hrs','Days','Weeks','Months','Years'];
 var ultimateEndId = parseInt('<%=ultimateEndId%>');
 ultimateEndId++;
 var presentIdsArr = [];
-var projectId = parseInt('<%=prId%>') ; 
+var projectId = parseInt('<%=prId%>') ;
+var version = parseInt('<%=version%>'); 
+var tempProjectId = projectId;
 var treeStructure = [];
 var counterForAjax = 0, ajaxFailureFlag = true;
 var counterForRecursionAjax = 0 ;
@@ -442,6 +462,11 @@ newArr[6] = parentId ;
 
 
 
+
+
+
+
+
 if(isActiveFl==1){
 var newArr = [];
 newArr[0] = individualId;
@@ -455,15 +480,20 @@ else newArr[4] = 0;
 newArr[5] =  $(stringForSelect)[0].value;//Effort Type
 newArr[6] = parentId ;
 newArr[7] = isActiveFl;
-newArr[8] =  $(stringForId)[4].value; 
-newArr[9] = $(stringForSelect)[1].value;//Effort Type
-newArr[10] = effortIndays[individualId];
+if( $(stringForId)[4].value!=''){
+newArr[8] = $(stringForId)[4].value;//Perc Complete
+}
+else newArr[8] = 0;
+newArr[9] = $(stringForSelect)[1].value;//Resource Type
 
+newArr[10]  = calculateTempQuantBasedOnDropDown(newArr[4],newArr[5]);
 
 
 $('#'+individualId+'_del_'+parentId).attr("onclick" , "deleteRow(this.id,1)");
 
 }
+
+
 console.log(newArr);
 var iValue = -1;
   for(var i = 0;i<updateArr.length;i++){
@@ -507,26 +537,76 @@ initializeJquery();
   $('.se-pre-con').fadeOut('slow');
     var decode =  $('#tbody123').html('<%=Tree%>').text();
      $('#tbody123').html(decode);
+       var submitFlagForFunc = parseInt('<%=submitted%>');
 
-     if(parseInt('<%=submitted%>')){  hideAllOnSubmit()}
-     var index;
-     $('select option').each(function(i){
+//alert(<%=isManagerFlag%>);
+
+     if(submitFlagForFunc==1||submitFlagForFunc==2){ setTimeout(function(){/* hideAllOnSubmit();*/},3000);}
+    if(submitFlagForFunc==2){   $('#statusSub').html('Accepted')}
+      if(submitFlagForFunc==3){   $('#statusSub').html('Rejected')}
+     if(submitFlagForFunc==3&&<%=isManagerFlag%>){   setTimeout(function(){/*hideAllOnSubmit();*/},3000);
+      $('#statusSub').html('Rejected')}
+  
+     var index1,index2;
+     $('#proSel option').each(function(i){
       if($(this).val()==projectId){
-        index = i;
+        index1 = i;
       }
      });
 
 
+      $('#verSel option').each(function(i){
+      if($(this).val()==version){
+        index2 = i;
+      }
+     });
 
-     var selectJq1 = $('select option');
-     var selectJq2=  selectJq1[index] ;
+
+     
+
+
+
+     var selectJq1 = $('#proSel option');
+     var selectJq2=  selectJq1[index1] ;
      //console.log('here is ',selectJq2);
      $(selectJq2).attr('selected',true);
+       selectJq1 =  $('#verSel option')[index2];
+       $(selectJq1).attr('selected',true);
+
+
 
 
      $('#proSel').change(function(){
          var val = $('#proSel').val();
-           var str = '/task?flag='+val;
+      tempProjectId = val;
+      var foundFlag = false;
+
+        var str = '/task?flag='+tempProjectId+'&&versionFlag='+1;
+           window.location.href = str;
+     for(var i = 0;i<projectAndVersions.length;i++){
+        if(tempProjectId==projectAndVersions[i].project){
+          foundFlag = true;
+         
+          var str = '/task?flag='+tempProjectId+'&&versionFlag='+1;
+           window.location.href = str;
+         
+          
+        
+
+        
+        
+        }
+ 
+     }
+             
+           /*var str = '/task?flag='+val;
+           window.location.href = str;*/
+   });
+
+    $('#verSel').change(function(){
+
+           var val = $('#verSel').val();
+           var str = '/task?flag='+projectId+'&&versionFlag='+val;
            window.location.href = str;
    });
 
@@ -538,8 +618,34 @@ initializeJquery();
      });
 
 
+
+     if(<%=isManagerFlag%>){
+          $('#saveId').html('Approve');
+          $('#submitId').html('Reject');
+          $('#saveId').attr('onclick','approvethis(1,0)');
+          $('#submitId').attr('onclick','approvethis(0,0)');
+
+    }
+
+
+
    
 });
+
+
+
+function makeMoreRow(newlength){
+var str = '', k;
+  for(var i =1;i<=newlength;i++){
+str =   str + '<option value = '+i+'>'+i+'</option>';
+  k = i;
+  }
+  k++;
+  str = str + '<option value = '+k+'>--Create new Version</option>';
+
+$('#verSel').html(str);
+
+}
  function collapseExpand(id,flag){
 
       //console.log('ts here',treeStructure[4]);
@@ -656,6 +762,7 @@ lastChildId = treeStructure[lastChildId][treeStructure[lastChildId].length-1];
 }
      
 }
+
 
 var hideAddButtonClass = '';
 
@@ -853,7 +960,8 @@ updateAllArr(rowId,1);
                     url: '/emptyProj',
                     type: 'post',
                     data :{
-                      'projectid':projectId
+                      'projectid':projectId,
+                      'version' :version
                         },
                     success: function(data) {
                       console.log('sucess');
@@ -921,14 +1029,118 @@ return count;
     }
 
 
-    function savethis(submitFlag,joinFlag){
 
-      if(submitFlag&&joinFlag){
+
+
+function approvethis(approveFlag,modalBoxAcceptFlag){
+
+
+var submitFlagnew;
+
+$('#rejectModal').modal('show');
+
+
+
+
+if(approveFlag==0){
+
+  submitFlagnew = 3;
+  $('#rejectModal').modal('show');
+  if(!modalBoxAcceptFlag){
+
+    return;
+
+  }
+
+
+}
+
+if(approveFlag==1){
+
+if(!confirm('Are you sure,you want to confirm this project')){
+  return;
+}
+
+submitFlagnew = 2;
+}
+
+
+updateArr = [];
+
+  $('.se-pre-con').fadeIn('slow');
+
+
+
+        $.ajax({
+                     url: '/saveTask',
+                    type: 'post',
+                    data :{
+                      'updateQ':updateArr,
+                   'submitFlag':submitFlagnew,
+                   'projectId':projectId,
+                    'version' :version,
+                     'remarks': remarks
+
+                     },
+                    success: function(data) {
+               
+                     if(approveFlag){
+                      alert('Project approved successfully');
+                      $('#statusSub').html('Approved');
+                                    }
+
+                      else{
+                            alert('Project has been rejected');
+                            $('#statusSub').html('Rejected');
+                          }
+
+                    $('.se-pre-con').fadeOut('slow');
+
+                    },
+                    error:function(data){
+                      alert('db error');
+                 $('.se-pre-con').fadeOut('slow');
+                    updateArr = [];
+                     }
+               });
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function savethis(submitFlag,joinFlag){
+
+
+if(submitFlag==1){
+
+  if(validationForSubmit()==false){
+      return;
+     }
+
+
+}
+      if(submitFlag==1&&joinFlag){
          if(!confirm('Once saved,Changes cannot be done.Are you sure?')){
           return;
          }
 
       }
+
+
+
+
    if(joinFlag){
 for(var i = 0;i<updateArr.length;i++){
   updateArr[i] = updateArr[i].join('$@$');
@@ -952,18 +1164,17 @@ return;
      return;
          }
        
-
-
-
-
-    $.ajax({
+        $.ajax({
                      url: '/saveTask',
                     type: 'post',
                     data :{
                       'updateQ':updateArr,
                    'submitFlag':submitFlag,
-                   'projectId' :projectId
-                        },
+                   'projectId':projectId,
+                    'version' :version,
+                    'remarks': remarks
+
+                     },
                     success: function(data) {
                       console.log('sucess');
                   $('.se-pre-con').fadeOut('slow');
@@ -982,6 +1193,55 @@ return;
                });
 
 
+
+
+
+
+      }
+
+      function validationForSubmit(){
+var returnFalseFlag = false;
+     /*    var trArr = $('#tbody123 tr');
+        console.log('trArr is',trArr,trArr[3]);
+*/
+      var trArr = $('#tbody123 tr');
+        console.log('trArr is',trArr);
+       for(var i = 0;i<trArr.length;i++){
+         var currTr = trArr[i];
+         var tdArr = $(currTr).children('td');
+         console.log('tdArr is',tdArr,tdArr[3]);
+      for(var k = 0;k<tdArr.length;k++){
+      if(k==1||k==4||k==5){
+        var inpChild = $(tdArr[k]).children('input')[0];
+        if($(inpChild).val()==''){
+          returnFalseFlag = true;
+          $(inpChild).addClass('isEmptyTextBoxValidation');
+
+        }
+      }
+
+
+      if(k==9){
+               var selChild = $(tdArr[k]).children('select')[0];
+               if($(selChild).val()=='0'){
+                   returnFalseFlag = true;
+                  $(selChild).addClass('isEmptyTextBoxValidation');
+               }
+
+
+      }
+
+      }
+       
+       }
+
+       if(returnFalseFlag){
+        alert('Please fill all fields');
+        return false;
+       }
+       else{
+        return true;
+       }
 
 
 
@@ -1150,13 +1410,15 @@ $(".datePicker").datepicker({
     duration: "slow",
     beforeShow: findParentDate,
     onSelect: function(selected, evnt) {
-        //console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
+      console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
         var endDateFlag = checkNature($(this).attr('id'));
          startDateEndDateValidation(endDateFlag,$(this));
          var parentRowId =  $(this).parent('td')
             parentRowId  =  $(parentRowId).parent('tr');
             parentRowId  = $(parentRowId).attr('id');
             updateAllArr(parentRowId,1);
+         $(this).removeClass('isEmptyTextBoxValidation');
+
 
          }
 
@@ -1396,14 +1658,24 @@ function hideAllOnSubmit() {
 
     $('.shadow').each(function() {
 
-        if (!$(this).hasClass('donthide')) {
+        if(!$(this).hasClass('donthide')) {
             $(this).hide();
-        }
+          }
 
     });
 
     $('#statusSub').html('Submitted');
     $('th div').css('font-size', '12px');
+
+/****DevCode*/
+
+    $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq').attr('disabled','disabled');
+    $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq').addClass('disablePointer');
+    console.log($('.allTextAndNumberBoxes'));
+    $('th').css('padding-top','7px');
+    $('th').css('padding-bottom','7px');
+/****DevCode*/
+
 }
 
 function deleteRow(rowId, editFlag) {
@@ -1580,13 +1852,14 @@ $(".datePicker").datepicker({
     duration: "slow",
     beforeShow: findParentDate,
     onSelect: function(selected, evnt) {
-        //console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
+       // console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
         var endDateFlag = checkNature($(this).attr('id'));
          startDateEndDateValidation(endDateFlag,$(this));
          var parentRowId =  $(this).parent('td')
             parentRowId  =  $(parentRowId).parent('tr');
             parentRowId  = $(parentRowId).attr('id');
             updateAllArr(parentRowId,1);
+            $(this).removeClass('isEmptyTextBoxValidation');
 
          }
 
@@ -1605,6 +1878,11 @@ $('.ddResources').addClass('ddResourcesForJq');
 
 $('.allTextAndNumberBoxes').focusout(function(){
 
+  if($(this).val()!=''){
+    $(this).removeClass('isEmptyTextBoxValidation');
+
+  }
+
 var conditionFlag = ($(this).hasClass('disablePointer')&&dropDownFlagUsedInTask)
 
 var tdEle = $(this).parent('td');
@@ -1620,6 +1898,7 @@ var tdEle = $(this).parent('td');
     currRowIdTd      = $(currRowIdTd)[1];
     conditionFlag    =   (conditionFlag&&$(currRowIdTd).hasClass('task'));
 console.log( 'disablePointer ',$(this).hasClass('disablePointer'),'dropDownFlagUsedInTask ',dropDownFlagUsedInTask,'currRowIdTd ',$(currRowIdTd).hasClass('task'),'conditionFlag ',conditionFlag);
+    
     updateAllArr(tdEle,1);
  //debugger;
 
@@ -1649,8 +1928,32 @@ console.log('in true');
             break;
         }
        }
-     //  alert('parentRowId'+parentRowId); 
 
+
+
+
+
+var tempSelectValueOfCurrentId = $('#'+individualId+'_effType_'+parentId).val();
+var tempQuantValueOfCurrentId = $('#'+individualId+'_effType_'+parentId).prev()[0];
+    tempQuantValueOfCurrentId = $(tempQuantValueOfCurrentId).val(); 
+
+if(calculateEndFlag){
+
+      var currRowIdTd2 = '#' + individualIdTest +'_rowid_'+ parentIdTest +' td';
+       startDateNow =   $(currRowIdTd2)[4];
+       startDateNow =  $(startDateNow).children('input')[0];
+       startDateNow =  $(startDateNow).val();
+       endDateNow   =   $(currRowIdTd2)[5];
+       endDateNow    =   $(endDateNow).children('input')[0];
+
+/********************************Dev Code MAyur***************************************/
+
+       var noOfHours = calculateTempQuantBasedOnDropDown(tempQuantValueOfCurrentId,tempSelectValueOfCurrentId);
+         var endDateStr = endDateCalculation(startDateNow,effInHours);
+         $(endDateNow).val(endDateStr);
+/***********************************************************************/
+     //  alert('parentRowId'+parentRowId); 
+}
       if(parentRowId==-1){
        // alert('Js Error ,Pls hire a more useful developer');
         return;
@@ -1745,12 +2048,8 @@ var dropDownId =   '#' + individualIdTest + '_effType_' + parentIdTest;
 
    effortIndays[individualIdTest] = parseInt(tempQuant/workingHoursInADay);
 
-  
   //console.log('all from here2',effortIndays[individualIdTest],individualIdTest);
-
-    /*********************************************************/
-
-
+ /*********************************************************/
 }
 
 
@@ -1786,6 +2085,7 @@ $(prevEle).focusout();
 
 }).change(function(){
      // dropDownFlagUsedInTask = false;
+
        var tempSelectValue = $(this).val();
 
 var currentId = $(this).attr('id');
@@ -1869,6 +2169,11 @@ $('.ddResourcesForJq').change(function(){
   var tdEle = $(this).parent('td');
      tdEle = $(tdEle).parent('tr');
      tdEle = $(tdEle).attr('id'); 
+
+     if($(this).val()!='0'){
+    $(this).removeClass('isEmptyTextBoxValidation');
+
+  }
 
 updateAllArr(tdEle,1);
 
@@ -1979,7 +2284,7 @@ function calculateTempQuantBasedOnDropDown(tempQuant,tempSelectValue){
 tempChildrenRowId2 = '';
 
 
-return parseInt(tempQuant);
+return Math.ceil(tempQuant);
 
 
 }
@@ -2125,30 +2430,60 @@ if(d.length ==1){
 <div class="row" style="margin-left: 0px;padding-left: 2%;margin-right: 0px;padding-bottom: 2%;overflow:none ">
   <div  style="padding-top: 17px;padding-bottom: 4px;" class = 'col-md-12'>
   <!--  <label>Select Project</label> -->
-  <div class = 'col-md-2'>
+
+   <div class = 'col-md-2 hide' style = 'width:15%;margin-left: -2%;'>
+   Created By:<b style = 'margin-left:4%'>Mayur</b>       
+    </div>
+
+
+  <div class = 'col-md-2' style = 'width: 11%;'>
       Status : <b id = 'statusSub'>Draft</b>       
     </div>
     <div class = 'col-md-1'>
     <span>Project :</span>
   </div>
-      <div class = 'col-md-4'>
+      <div class = 'col-md-3' style = ' margin-left: -3%;'>
 
-    <select class="form-control" style="width: 300px;margin-top: -1%;" id ='proSel'>
+    <select class="form-control" style="width: 300px;margin-top: -2%;" id ='proSel'>
       <%for(var i = 0;i<projectDetails.length;i++){%>
       <option value = '<%=projectDetails[i].id%>'><%=projectDetails[i].projectTitle%></option>
       <%}%>
     </select>
     </div>
 
-    <div class = 'col-md-2'><b>Start Date :</b> <%=prStartDate%></div>
-    <div class = 'col-md-2'><b>End Date :</b> <%=prEndDate%></div>
+<!--- Dev Code-->
+ 
+ <div class = 'col-md-1'>
+    <span style = 'margin-left:14%;'>Version :</span>
+  </div>
+      <div class = 'col-md-1' style = ' margin-left: -2%;'>
+
+    <select class="form-control" style="width: 90px;margin-top: -10%;" id ='verSel'>
+        <%for(var i = 0;i<verArr.length;i++){%>
+      <option value = '<%=verArr[i]%>'><%=verArr[i]%></option>
+      <%}if(verArr.length<version){%>
+      <option value = '<%=version%>'><%=version%></option>
+
+             <%}%>
+    <option value = '<%=newno%>'>--Create new Version</option>
+    </select>
+    </div>
+
+<!-- Dev Code-->
+
+
+
+
+
+    <div class = 'col-md-2 ' style ='margin-left: 2%;width:15%;' >Start Date :<b><%=prStartDate%></b> </div>
+    <div class = 'col-md-2' style = 'width: 14%;margin-left: -2%;'>End Date :<b><%=prEndDate%></b></div>
 
   </div>
   <div class="col-md-12" id="taskBox" style="/*height: 440px;max-height:440px;*/margin-top: 5px;margin-right: 1%;border: #f05f40 solid;background-color: white;padding-bottom: 2%;">
     
-    <div class="addTask">
+    <div class="addTask" style = 'position: relative;overflow-x: scroll;'>
   
-        <table border = '3' style = "width:100%" id = "projTable">
+        <table border = '3' style = "width:134%" id = "projTable">
              <col width="40">
                        <col width="10">
                        <col width="10">
@@ -2259,8 +2594,8 @@ if(d.length ==1){
     </div>   
   </div>
   <!--  <div style = ''> -->
-   <button type="button" class="btn btn-success" style=" margin-bottom: -6%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:85%;" onclick="savethis(0,1)">Save</button>
-    <button type="button" class="btn btn-success" style=" margin-bottom: -1%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:91%;" onclick="savethis(1,1)">Submit</button>
+   <button type="button" class="btn btn-success" id = 'saveId' style=" margin-bottom: -6%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:85%;" onclick="savethis(0,1)">Save</button>
+    <button type="button" class="btn btn-success"  id = 'submitId'  style=" margin-bottom: -1%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:91%;" onclick="savethis(1,1)">Submit</button>
 <!--     <div>
  --></body>
 </div>
@@ -2271,7 +2606,7 @@ if(d.length ==1){
  
 
    <!------------------------------editTask/addSubTask---------------------------->
-        <div class="modal fade" id="taskModal" style="height:auto">
+        <div class="modal fade" id="rejectModal" style="height:auto">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content" id="express2">

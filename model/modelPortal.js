@@ -3183,11 +3183,11 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             }
         });         
     }
-     ,task : function (flag,retailerId,callback){
+     ,task : function (flag,retailerId,versionFlag,userId,callback){
 
        var q ={
-          sql: 'call usp_proj_getAllTree(?,?)',
-        values: [flag,retailerId]
+          sql: 'call usp_proj_getAllTree(?,?,?,?)',
+        values: [flag,retailerId,versionFlag,userId]
        
         };
  
@@ -3202,11 +3202,11 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             }
         });         
     }, 
-    emptyProj : function (projectId,callback){
+    emptyProj : function (projectId,version,callback){
 
        var q ={
-          sql: 'call usp_proj_makeEmptyTree(?)',
-        values: [projectId]
+          sql: 'call usp_proj_makeEmptyTree(?,?)',
+        values: [projectId,version]
        
         };
         mysql(q, function(err, result) {
@@ -3220,11 +3220,11 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             }
         });         
     },
-    saveTask : function (updateQ,submitFlag,prId,callback){
+    saveTask : function (proId,version,updateQ,submitFlag,remarks,userId,callback){
 
        var q ={
-          sql: 'call usp_proj_updateInsert(?,?,?)',
-        values: [prId,updateQ,submitFlag]
+          sql: 'call usp_proj_updateInsert(?,?,?,?,?,?)',
+        values: [proId,version,updateQ,submitFlag,userId,remarks]
        
         };
         mysql(q, function(err, result) {
@@ -3232,7 +3232,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                 console.log(err,q);
             }
             else {
-            console.log(q,result);
+         //   console.log(q,result);
           
                callback(err,result);
             }
@@ -3263,7 +3263,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
      projStatus :function(retailerId,callback){
     
     var q ={
-          sql: 'call usp_getProjStat(?)',
+          sql: 'call usp_proj_getProjStat(?)',
         values: [retailerId]
         };
         mysql(q, function(err, result) {

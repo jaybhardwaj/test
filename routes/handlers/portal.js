@@ -4654,11 +4654,17 @@ console.log('sendMailClient',req.body)
     task :function(req,res,next){
         var query = require('url').parse(req.url, true).query;
         var flag = query.flag;
+        var versionFlag = query.versionFlag;
         if(flag==undefined){
             flag = -1;
         }
+        if(versionFlag==undefined){
+            versionFlag = 1;
+        }
         console.log('flag is',flag);
-     modelPortal.task(flag,req.session.retailerId,function(err,result){
+        console.log('retailerId is',req.session.retailerId,'userId is',req.session.userId);
+
+     modelPortal.task(flag,req.session.retailerId,versionFlag,req.session.userId,function(err,result){
             if(err){
                 console.log("there is an error",err);
             }   
@@ -4671,6 +4677,27 @@ console.log('sendMailClient',req.body)
             req.projectDetails= result[3];
             req.prId          = result[1][0].prId; 
             req.Resources     =  result[4];
+            req.versionFlag   =  versionFlag;
+
+            if(!!result[5].version){
+                req.versionArr = result[5].version.split(',');
+            }
+            else{
+                req.versionArr = [1];
+                versionFlag  =  1;
+               }
+
+            req.projectAndVersions = result[6];
+            if(result[7].length){
+               req.isManagerFlag = true;
+                 
+
+                                }
+
+                           else{
+
+                                req.isManagerFlag = false;
+                                }                   
             for(var i = 0;i<req.projectDetails.length;i++){
                 if(req.prId==req.projectDetails[i].id){
                     req.prStartDate = req.projectDetails[i].plannedStartDate;
@@ -4706,7 +4733,7 @@ console.log('sendMailClient',req.body)
 
    emptyProj :function(req,res,next){
       
-modelPortal.emptyProj(req.body.projectid,function(err,result){
+modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
             if(err){
                 console.log("there is an error",err);
             }   
@@ -4717,7 +4744,7 @@ modelPortal.emptyProj(req.body.projectid,function(err,result){
         });
    },
   saveTask :function(req,res,next){
-      modelPortal.saveTask(req.body.updateQ,req.body.submitFlag,req.body.projectId,function(err,result){
+      modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.session.userId,function(err,result){
             if(err){
                 console.log("there is an error",err);
             }   
@@ -4732,20 +4759,37 @@ modelPortal.emptyProj(req.body.projectid,function(err,result){
 
 
 projStatus :function(req,res,next){
-    console.log(req.session.retailerId);
+//console.log(req.session.retailerId);
 modelPortal.projStatus(req.session.retailerId,function(err,result){
             if(err){
              console.log("there is an error",err);
             }   
             else{
 
-                 console.log(result[1],'***********WAIT*************',result[0].length);
+            req.session.holidayArr = ['21/07/2016','27/07/2016','10/08/2016','18/08/2016'];
+        req.session.workingHoursInADay = 9;
+            req.session.holidayArrDate = [];
+
+for(var i = 0;i<req.session.holidayArr.length;i++){
+  var holidayArrDateTime = req.session.holidayArr[i].split('/');
+holidayArrDateTime[0]    = parseInt(holidayArrDateTime[0]);
+holidayArrDateTime[1]    = parseInt(holidayArrDateTime[1]) -1;
+holidayArrDateTime[2]    = parseInt(holidayArrDateTime[2]);
+if(holidayArrDateTime[2].length==2){
+  holidayArrDateTime[2] = '20'+ holidayArrDateTime[2];
+}
+ holidayArrDateTime = new Date(holidayArrDateTime[2], holidayArrDateTime[1], holidayArrDateTime[0]); 
+req.session.holidayArrDate.push(holidayArrDateTime);
+
+}
+ console.log(result[1],'***********WAIT*************',result[0].length);
                   req.projectDetails = result[0];
                   var maxid = 1;
                   if(result[0].length!=0){
                           maxid =  result[0][result[0].length-1].id + 1;
                   }
                    req.effProjectCalculations = getDateTime(result[1],maxid);
+                   req.hoursArrProj           =  addSum(result[2]); 
                    console.log('***********',req.effProjectCalculations);
                 
                     next();
@@ -4838,7 +4882,86 @@ else{
 }
 
 
+/*
 
+***************Scrap due to unclear requirements***********************************
+
+
+
+
+
+function getTimeHours(arrForWbs){
+
+var projNew =0;
+var diff =  -1;
+
+
+for(var i = 0;i<arrForWbs.length;i++){
+    projNew = arrForWbs[i].projectId;
+     while(projNew==arrForWbs[i].projectId){
+    var wplannedStartDate = arrForWbs[i].wplannedStartDate.split('/');
+    if(wplannedStartDate.length==0){
+        diff = 0;
+    }
+    else{
+    if(wplannedStartDate[2].length==2){
+        wplannedStartDate[2] = '20' + wplannedStartDate[2];
+    } 
+   arrForWbs[i].wplannedStartDate = new Date(wplannedStartDate[2],parseInt(wplannedStartDate[0])-1,wplannedStartDate[1]);
+    }
+
+
+
+
+    var wplannedEndDate = arrForWbs[i].wplannedEndDate.split('/');
+
+if(wplannedEndDate.length==0){
+        diff = 0;
+    }
+    else{
+    if(wplannedEndDate[2].length==2){
+        wplannedEndDate[2] = '20' + wplannedEndDate[2];
+    } 
+   arrForWbs[i].wplannedEndDate = new Date(wplannedEndDate[2],parseInt(wplannedEndDate[0])-1,wplannedEndDate[1]);
+ }
+
+/**************************
+nowDateTime
+    nowDateTimeArr[1] = nowDateTime.getMonth();
+    nowDateTimeArr[2] = nowDateTime.getFullYear();
+
+
+
+
+
+/*****************************
+while(arrForWbs[i].wplannedStartDate== arrForWbs[i].wplannedEndDate){
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+   i++;
+}
+//diff = -1;         
+
+}
+
+
+
+
+
+
+}*/
 
 function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
     var longnumber = '' ;
@@ -5534,18 +5657,18 @@ for(var i=0;i<timeStamp.length;i++){
          }
 
 
-        console.log('effortInDays',timeStamp[inc].effortInDays,isNaN(timeStamp[inc].effortInDays));
+        console.log('effortInHrs',timeStamp[inc].effortInHrs,isNaN(timeStamp[inc].effortInHrs));
 
-               if (isNaN(timeStamp[inc].effortInDays)||!timeStamp[inc].effortInDays) {
-                console.log('in isnan',timeStamp[inc].effortInDays);
-                timeStamp[inc].effortInDays = 0;
+               if (isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
+                console.log('in isnan',timeStamp[inc].effortInHrs);
+                timeStamp[inc].effortInHrs = 0;
 
                }
 
 
-               completeArr[compInc] = completeArr[compInc] + (parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInDays));
-               sumEff = sumEff + parseInt(timeStamp[inc].effortInDays);
-console.log('In while____ inc is', inc, 'id is', timeStamp[inc].id, ' completeArr[' + compInc + '] is ', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInDays, 'name is', timeStamp[inc].name);
+               completeArr[compInc] = completeArr[compInc] + (parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInHrs));
+               sumEff = sumEff + parseInt(timeStamp[inc].effortInHrs);
+console.log('In while____ inc is', inc, 'id is', timeStamp[inc].id, ' completeArr[' + compInc + '] is ', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs, 'name is', timeStamp[inc].name);
 
                inc++;
                if (inc == timeStamp.length - 1) {
@@ -5563,25 +5686,25 @@ console.log('In while____ inc is', inc, 'id is', timeStamp[inc].id, ' completeAr
 
 
        if (inc != timeStamp.length - 1) {
-           sumEff = sumEff + timeStamp[inc].effortInDays;
+           sumEff = sumEff + timeStamp[inc].effortInHrs;
 
                  if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
                 console.log('in isnan',timeStamp[inc].percCompleted)
                    timeStamp[inc].percCompleted = 0;
                 }
-         if(isNaN(timeStamp[inc].effortInDays)||!timeStamp[inc].effortInDays) {
-                console.log('in isnan',timeStamp[inc].effortInDays);
-                timeStamp[inc].effortInDays = 0;
+         if(isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
+                console.log('in isnan',timeStamp[inc].effortInHrs);
+                timeStamp[inc].effortInHrs = 0;
 
                }
 
-           completeArr[compInc] = (completeArr[compInc] + parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInDays)) / sumEff;
+           completeArr[compInc] = (completeArr[compInc] + parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInHrs)) / sumEff;
 
            if (isNaN(completeArr[compInc])) {
                console.log('In Nan if inc is', parseInt(timeStamp[inc].project));
                completeArr[compInc] = 0;
            }
-           console.log('In if inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInDays);
+           console.log('In if inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs);
            originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
 
            compInc++;
@@ -5589,19 +5712,19 @@ console.log('In while____ inc is', inc, 'id is', timeStamp[inc].id, ' completeAr
            //   inc++;
        } else {
 
-        sumEff = sumEff + timeStamp[inc].effortInDays;
+        sumEff = sumEff + timeStamp[inc].effortInHrs;
 
                  if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
                 console.log('in isnan',timeStamp[inc].percCompleted)
                    timeStamp[inc].percCompleted = 0;
                 }
-         if(isNaN(timeStamp[inc].effortInDays)||!timeStamp[inc].effortInDays) {
-                console.log('in isnan',timeStamp[inc].effortInDays);
-                timeStamp[inc].effortInDays = 0;
+         if(isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
+                console.log('in isnan',timeStamp[inc].effortInHrs);
+                timeStamp[inc].effortInHrs = 0;
 
                }
 
-           completeArr[compInc] = (completeArr[compInc] + parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInDays)) / sumEff;
+           completeArr[compInc] = (completeArr[compInc] + parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInHrs)) / sumEff;
 
 
            if (isNaN(completeArr[compInc])) {
@@ -5612,7 +5735,7 @@ console.log('In while____ inc is', inc, 'id is', timeStamp[inc].id, ' completeAr
 
 
            originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
-           console.log('In else inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInDays);
+           console.log('In else inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs);
            inc++;
 
 
@@ -5692,7 +5815,7 @@ for(var j = 0;j<originalArr[i].length;j++){
     originalArr[i][j]  = 100;
 }
 
-originalArr[i][j] = Math.round(originalArr[i][j]*100)/100;
+originalArr[i][j] = Math.round(originalArr[i][j]);
 
 }
 
@@ -5742,6 +5865,8 @@ return (endDateTimeInTime - StartDateTimeInTime);
 
 
 function setAllValuesInArray(){
+
+
   var arr = [];
 for(var i = 0;i<100000;i++){
   arr[i] = 0;
@@ -5749,3 +5874,68 @@ for(var i = 0;i<100000;i++){
 return arr
 }
 
+
+   function addSum(projTreeArr){
+       var proj = setAllValuesInArray();
+var projNew;
+    for(var i = 0;i<projTreeArr.length;i++){
+    projNew = projTreeArr[i].project;
+     while(projNew==projTreeArr[i].project){
+    proj[projNew] =  proj[projNew] + projTreeArr[i].effortInHrs;
+    i++;
+    if(i==projTreeArr.length){
+    break;
+    }
+  }
+
+
+
+       }
+
+return proj;
+       }
+
+
+
+
+
+
+
+function  calculateHoliday(date){
+
+ req.session.saturdayOffFlag = 1
+
+
+ var weekEnds =[0];
+ var m = date.getMonth();
+    var d = date.getDate();
+    var y = date.getFullYear();
+    var day = date.getDay();
+
+  if(req.session.saturdayOffFlag==1){
+  weekEnds = [0,6]
+
+     }
+     else if(req.session.saturdayOffFlag ==0){
+       weekEnds = [0];
+     }
+ 
+
+
+
+
+if(req.session.holidayArrDate.indexOf(date)!=-1){
+    return false;
+
+}
+    else if(weekEnds.indexOf(day)!=-1){
+              return false;
+    }
+
+  else {
+        return true;
+      }
+
+
+
+}
