@@ -3574,7 +3574,7 @@ addUser: function(req, res, next) {
                 flag = 0;id = 0;
             }
             var skills = '';
-            if(req.body.YearsOfExp=='')
+           /* if(req.body.YearsOfExp=='')
             {
                 req.body.YearsOfExp = 0;
             }
@@ -3595,7 +3595,7 @@ addUser: function(req, res, next) {
             if(req.body.Location=='')
             {
                 req.body.Location = 0;
-            }
+            }*/
 
             if(req.body.skills != undefined){
                 if(req.body.skills.length!=0){
@@ -3625,8 +3625,7 @@ addUser: function(req, res, next) {
          req.body.Location =req.body.locationName;
 
          if(req.session.hrRole==3){            //hm
-         console.log("flag : HM has created",flag,'^^^^^',recEmail ,'0',skills,req.session.hrRole,req.session.userId);
-             if(flag==0){ 
+          if(flag==0){ 
               mailTemplates.hrMailer(0,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
             res.redirect('/allrequisitions?flag=1');
               }
@@ -3637,8 +3636,7 @@ addUser: function(req, res, next) {
             } 
          }
         else if(req.session.hrRole==5){         //hod
-              console.log("flag : HOD has created",flag,'^^^^^',recEmail ,'0',skills,req.session.hrRole,req.session.userId);
-            if(flag==0){            
+             if(flag==0){            
            mailTemplates.hrMailer(flag,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
                 res.redirect('/reqHod?flag=1');
             }
@@ -3740,7 +3738,7 @@ addUser: function(req, res, next) {
                     }   
                     else{
                         
-                     res.json('success');
+                     res.json(result);
                     }    
 
             });

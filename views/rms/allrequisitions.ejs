@@ -207,8 +207,8 @@
                     <div class="col-md-4">
                     <label class="form-Label">Skills:<sup class="astrick">*</sup></label>
                     </div>
-                    <div class="col-md-8">
-                    <select max-size="1" multiple class="form-text-box " style="max-height:9%;overflow-y:auto;width:100%" id='skillsId' name="skills">
+                    <div class="col-md-8" id="skillLabel">
+                    <select max-size="1" multiple class="form-text-box addDisable " style="max-height:9%;overflow-y:auto;width:100%" id='skillsId' name="skills">
                           
                             <%for(var i = 0 ;i<skills.length;i++){%>
                                 <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>"><%=skills[i].skills%></option>
@@ -280,7 +280,8 @@
                     <label class="form-Label">Priority :</label>
                     </div>
                     <div class="col-md-8">
-                     <select name="mailPriority" class="form-text-box addUsed " id="priority" style="width:100%;"  > 
+                     <select name="mailPriority" class="form-text-box addUsed " id="priority" style="width:100%;"  >
+                            <option id="0" selected>select</option>
                             <%for(var i = 0 ;i<priority.length;i++){%>
                                 <option id="priority_<%=priority[i].id%>" value="<%=priority[i].id%>">
                                     <%=priority[i].priority%>
@@ -460,10 +461,10 @@
                             arstr2[3] = $('#yox').val();
                             arstr2[4] = $('#nop').val();
                             var str2 = arstr2.toString();   
-                            if (str1 == str2) {
+                          /*  if (str1 == str2) {
                                 alert('You cannot create duplicate JD!')
                                 return false;
-                            } 
+                            } */
                         }
                         $('.addDisable').attr('disabled', false);   
                         // $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
@@ -586,6 +587,7 @@
                                     //free to edit
                                     $('.addUsed').addClass("used");
                                     $('.addDisable').attr('disabled', false); 
+                                    
                                    // $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
 
                                 }
@@ -594,6 +596,7 @@
                                     if (con == 0) { // show everything and edit everything
                                         $('.addUsed').addClass("used");
                                         $('.addDisable').attr('disabled', false);  
+                                   
                                       //  $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
                                     }
                                     if (con == 2 || con == 1) {
@@ -601,6 +604,12 @@
                                         
                                         $('.addUsed').addClass("used");
                                         $('.addDisable').attr('disabled', true);
+                                        var arr = [];
+                                            for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
+                                                arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skillName;
+                                            }
+                                            $('#skillLabel').html(arr.toString());
+                                      
                                         $(".addDisable").css("color", "grey");
                                        // $(".chosen-select").prop('disabled', true).trigger('chosen:updated');
                                     }
@@ -633,12 +642,18 @@
                                 'id': newId
                             },
                             method: 'post',
-                            success: function() {
+                            success: function(data) {
+                                console.log("while delete :",data);
+                                if(data[0][0].flag){
                                 var newstr = '#row_' + idnew;
                                 console.log(newDataTable);
                                 var row = $(newstr);
                                 newDataTable.fnDeleteRow(row);
                                 alert('Requisition Deleted!');
+                            }
+                            else{
+                                alert("Already Approved. You can not delete!");
+                            }
                             }
                         });
                     }
@@ -687,21 +702,21 @@
                             var str4 = '#pencil_' + k;
                             console.log($(str).html());
                             if ($(str).html() == 0) {
-                                $(str).html('<i class="glyphicon glyphicon-option-horizontal" style="color:grey" title = "pending for 1st level approval"></i>');
+                                $(str).html('<i class="fa fa-ellipsis-h" style="color:grey" title = "pending for 1st level approval"></i>');
                             }
                             if ($(str).html() == 1) {
-                                $(str).html('<i class="glyphicon glyphicon-option-horizontal" style="color:black" title = "pending for 2nd level approval"></i>');
+                                $(str).html('<i class="fa fa-ellipsis-h" style="color:black" title = "pending for 2nd level approval"></i>');
 
                                 //$(str4).addClass('hide');
                                 $(str2).addClass('hide');
                             }
                             if ($(str).html() == 2) {
-                                $(str).html('<i class="glyphicon glyphicon-ok" style="color:green" title = "Approved"></i>');
+                                $(str).html('<i class="fa fa-check" style="color:green" title = "Approved"></i>');
 
                                 $(str2).addClass('hide');
                             }
                             if ($(str).html() == -1 || $(str).html() == -2) {
-                                $(str).html('<i class="glyphicon glyphicon-remove" style = "color:red" title = "Rejected"></i>');
+                                $(str).html('<i class="fa fa-times" style = "color:red" title = "Rejected"></i>');
                                 $(str3).addClass('hide');
                                 $(str4).addClass('hide');
                                 $(str2).addClass('hide');

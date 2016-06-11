@@ -528,7 +528,7 @@ module.exports = {
                 priority: req.hodResult[6],
                 role: req.session.hrRole,
                 Name: req.session.Name,
-                flag: flag,
+                flag: req.flag,
                 myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule

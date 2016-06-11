@@ -873,6 +873,7 @@ console.log(req.page)
 	},
 	reqHod:function(req,res,next){
 		 if(req.session.modules.indexOf(config.RMS)>=0){
+		 	req.flag=req.query.flag
 			req.page="reqHod";
 			next();
 		}

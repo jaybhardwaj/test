@@ -3,7 +3,10 @@
 
     <title>All Requisition</title>
 <style>
-
+.disabled1
+{
+    display: none !important;
+}
     .dataTables_filter {
      display: none;
     }
@@ -201,13 +204,14 @@
                     <div class="col-md-4">
                     <label class="form-Label">Skills:<sup class="astrick">*</sup></label>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8" >
                     <select max-size="1" multiple class="form-text-box " style="max-height:9%;overflow-y:auto;width:100%" id='skillsId' name="skills">
                             
                             <%for(var i = 0 ;i<skills.length;i++){%>
                                 <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>"><%=skills[i].skills%></option>
                                 <%}%>
                         </select>
+                        <label id="skillLabel" class="hide"></label>
                     </div>        
                 </div>
             </div> 
@@ -275,7 +279,7 @@
                     </div>
                     <div class="col-md-8">
                      <select name="mailPriority" class="form-text-box addUsed " id="priority" style="width:100%;"  >
-
+                     <option>select</option>
                             <%for(var i = 0 ;i<priority.length;i++){%>
                                 <option id="priority_<%=priority[i].id%>" value="<%=priority[i].id%>">
                                     <%=priority[i].priority%>
@@ -389,26 +393,26 @@
                                         <%}%>
                         </td>
                         <%if(pdetails[i].isConfirmed==2){%>
-                            <td><i class="glyphicon glyphicon-ok" style="font-size:130%;color:green" title="Approved"></i></td>
+                            <td><i class="fa fa-check" style="font-size:130%;color:green" title="Approved"></i></td>
                             <td>
                                 <span><i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i></span><span style="padding-right:5px;padding-left:5px"><i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit">
                                 </td>
                                 <%}else if(pdetails[i].isConfirmed==-1||pdetails[i].isConfirmed==-2){%>
-                                    <td><i class="glyphicon glyphicon-remove" style="font-size:130%;color:red" title="Rejected"></i></td>
+                                    <td><i class="fa fa-times" style="font-size:130%;color:red" title="Rejected"></i></td>
                                     <td></td>
                                 <%}else if(pdetails[i].isConfirmed==1){%>
-                                <td><i class="glyphicon glyphicon-option-horizontal" style="font-size:130%;color:black" title="Pending for 2nd Level of approval"></i>
+                                <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:black" title="Pending for 2nd Level of approval"></i>
                                 </td>
                                     <td>
                                          <span><i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i></span><span style="padding-right:5px;padding-left:5px"><i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit">
                                     </td>    
                                 <%}else if(pdetails[i].isConfirmed==0){ %>
                                     <%if(pdetails[i].createdBy==id){  %>
-                                        <td><i class="glyphicon glyphicon-option-horizontal" style="font-size:130%;color:black" title="Pending for 2nd Level of approval"></i>
+                                        <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:black" title="Pending for 2nd Level of approval"></i>
                                         </td>
                                         <td><span><i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i></span><span style="padding-right:5px;padding-left:5px"><i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit"></i></span><span><i class="glyphicon glyphicon-delete" id = "trash_<%=i%>" style = "color:gray;margin:2%;" title = "Delete" onclick = "delteRequisition(this.id)"></i></span></td>
                             <%}else{%>
-                                <td><i class="glyphicon glyphicon-option-horizontal" style="font-size:130%;color:grey" title="Pending for your approval"></i></td>
+                                <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:grey" title="Pending for your approval"></i></td>
                                 <td>
                                     <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove" onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i>
                                     <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i>
@@ -484,10 +488,10 @@
                             arstr2[3] = $('#yox').val();
                             arstr2[4] = $('#nop').val();
                             var str2 = arstr2.toString();   
-                            if (str1 == str2) {
+                          /*  if (str1 == str2) {
                                 alert('You cannot create duplicate JD!')
                                 return false;
-                            } 
+                            } */
                         }
                         $('.addDisable').attr('disabled', false);   
                          $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
@@ -611,24 +615,38 @@
                                 if (flag == "copy") {
                                     //free to edit
                                     $('.addUsed').addClass("used");
-                                    $('.addDisable').attr('disabled', false); 
-                                    $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
+                                    $('.addDisable').attr('disabled', false);  
+                                    $(".tagger").removeClass("disabled1");
 
                                 }
                                 if (flag == "edit") {
                                     
                                     if (con == 0) { // show everything and edit everything
                                         $('.addUsed').addClass("used");
-                                        $('.addDisable').attr('disabled', false);  
-                                        $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
+                                        $('.addDisable').attr('disabled', false); 
+                                        $('#skillsId').removeClass("hide"); 
+                                         $(".tagger").removeClass("disabled1");
                                     }
                                     if (con == 2 || con == 1) {
                                         //partial editing is allowed
                                         
                                         $('.addUsed').addClass("used");
                                         $('.addDisable').attr('disabled', true);
-                                        $(".addDisable").css("color", "grey");
-                                        $(".chosen-select").prop('disabled', true).trigger('chosen:updated');
+                                        $('#skillsId').removeClass("hide");
+                                        $(".addDisable").css("color", "grey"); 
+                                        var arr = [];
+                                    for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
+                                        arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skillName;
+                                    }
+                                    $('#skillLabel').html(arr.toString());
+                                    
+                                     $('#skillsId').tagger({
+                                       fielddisplay:"none"
+                                        }).css("display","none"); 
+
+                                        $(".tagger").addClass("disabled1");
+                                    //$('#skillsId').addClass("hide");
+                                    $('#skillLabel').removeClass("hide");
                                     }
                                 }
                             }
@@ -685,7 +703,7 @@
                 });
 
                 $(document).ready(function() {
-
+ $('.allReq-img').addClass("active");
                        var todate=new Date();
                         jQuery('#expiresOn').datetimepicker({
                             i18n: {
