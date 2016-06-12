@@ -649,7 +649,7 @@ function DeleteExpense(typeid,id,expclid){
                                    /* log=log+"<a> <span id='c"+users[i].expenseclaimId+"' class='glyphicon glyphicon-adjust' style='height:15px;color:red;font-size:10px;' onclick='resubmittheExpense("+users[i].expenseclaimId+")'  title ='ReSubmit'></span></a></td>";*/}
                                      log=log+"</td><td>";
                                  if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
-                              log=log +"<input type='hidden' id='resubmitExpenseid' value='"+users[i].expenseclaimId+"'>Pending on Mr. '"+users1[2][0].firstName+"'</td>";
+                              log=log +"<input type='hidden' id='resubmitExpenseid' value='"+users[i].expenseclaimId+"'>Pending on Mr. <i style='color:blue'>"+users1[2][0].firstName+"</i></td>";
                                  hidesubmitshowedit();
                                  $('#resubmitExpenseid').val(users[i].expenseclaimId);
                                  }
@@ -659,7 +659,7 @@ function DeleteExpense(typeid,id,expclid){
                                    if((users[i].ClaimedStatus<100)&&(users[i].ClaimedStatus>0)&&(users[i].Submitted==1)){
                                     showtotalExpense1();
 
-                                log=log +"Pending on Mr. "+users1[2][0].firstName+"<span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Level "+users[i].ClaimedStatus+"  Approved By Mr. "+users1[3][0].firstName+"'>"+users[i].ClaimedStatus+"</span></td>";
+                                log=log +"Pending on Mr. <i style='color:blue'> "+users1[2][0].firstName+"</i><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:10px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Level "+users[i].ClaimedStatus+"  Approved By Mr. "+users1[3][0].firstName+"'>"+users[i].ClaimedStatus+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
                                     showtotalExpense1();
@@ -1210,7 +1210,7 @@ function expensedescription(expclaimId){
                                if((users[i].ClaimedStatus==0)&&(users[i].Status==0)&&(users[i].Submitted==1)){
                               log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending..</span></td>";
                                  }
-                                  if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Status==0)&&(users[i].Submitted==1)){
+                                  if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<100)&&(users[i].Status==0)&&(users[i].Submitted==1)){
                                     
                               log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending..</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Level '>"+users[i].ClaimedStatus+"</span></td>";
                                  }
@@ -1231,7 +1231,7 @@ function expensedescription(expclaimId){
                                     }
                                     //hidetheButton(users[i].expenseclaimId);
                                      //$('#a'.concat(users[i].expenseclaimId)).addClass('hide');
-                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on Mr. "+users1[2][i].firstName+"</span></td>";
+                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on Mr. <i style='color:blue'> "+users1[2][i].firstName+"</i></span></td>";
                                  }
                                    if((users[i].ClaimedStatus>1)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
                                       var tempname ;
@@ -1253,10 +1253,10 @@ function expensedescription(expclaimId){
                                 log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by finance</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
                                  }
                                    if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)){
-                                log=log +"<span style='height:20px;font-size:10px;'>Rejected By "+users1[1][i].firstName+"</span></td>";
+                                log=log +"<span style='height:20px;font-size:10px;'>Rejected By <i style='color:blue'>"+users1[1][i].firstName+"</i></span></td>";
                                  }
                                      if(users[i].Status==100){
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected By "+users1[1][i].firstName+"</span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected By <i style='color:blue'>"+users1[1][i].firstName+"</i></span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
                                  }
                             
                             log = log + "</tr>";}
@@ -2280,7 +2280,7 @@ function validatefortravel(){
     alert("Travel reason Missing!");    
     return false;
   }
-  else if($("#travelrate").val() ==""){
+ /* else if($("#travelrate").val() ==""){
     alert("Rate per day Missing!");    
     return false; 
   }
@@ -2293,7 +2293,7 @@ function validatefortravel(){
   {
     alert("Total Days Missing ! ");    
     return false;
-  }
+  }*/
 
   else if($('#travelc').val().length<1||$.trim($("#travelc").val()) =="") 
   {
@@ -3111,7 +3111,7 @@ function changeothercurrency(){
                         <label class="form-Label">Expense Type:-</label>
                      </div>
                      <div class="col-md-3">
-                          <label class="form-Label" style="margin-bottom:10px;">Hotel</label>
+                          <label class="form-Label" style="">Hotel</label>
                      </div>
                      <div class="col-md-2 fieldgroup">
                           <label class="form-Label">Trip/Assignment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
@@ -3145,8 +3145,7 @@ function changeothercurrency(){
                      </div>
                 </div>
           <div id="hotel" class="">
-                <div class="col-md-12 a"  style="margin-top:20px;margin-bottam:20px;"><b style="color:#f05f40;">Expense Details for Hotel :-</b>
-                </div>
+                
                 <div class="col-md-12 a" style="margin-top:20px;margin-bottam:20px;">
                      <div class="col-md-2">
                           <label class="form-Label">Hotel Name:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
@@ -3196,9 +3195,8 @@ function changeothercurrency(){
                       </div>
                     </div>
                 </div>
-                <div class="col-md-12 a"  style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Total Expense :-</b>
-                </div>
-                <div id="d1" class="col-md-12 a ">
+               
+                <div id="d1" class="col-md-12 a " style="margin-top:20px;margin-bottam:20px;">
                      <div class="col-md-2">
                             <label class="form-Label">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                      </div>
@@ -3304,9 +3302,8 @@ function changeothercurrency(){
                 </div>
 
             <div id="travel" class="">
-                <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Expense Details for Travel:-</b>
-                </div>
-                <div class="col-md-12 a">
+                
+                <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;">
                     <div class="col-md-2">
                           <label class="form-Label">Travel Type:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
@@ -3335,9 +3332,9 @@ function changeothercurrency(){
                             class="form-text-box" id="travelre" name="travelReason"  required />
                     </div>
                </div>
-               <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;">
+               <div class="col-md-12 a" style="margin-top:10px;">
                     <div class="col-md-2">
-                          <label class="form-Label">Rate Per Day:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
+                          <label class="form-Label">Rate Per Day:<span Style="font-size:10px;margin-bottom:10px; color:red"></span></label>
                     </div>
                     <div class="col-md-4">
                           <input type="number" min="1" maxlength="45"  class="form-text-box" id="travelrate" name="TravelRatePerDay" onblur="changeCurrencyforTravel()" required/>
@@ -3353,15 +3350,14 @@ function changeothercurrency(){
 
                <div class="col-md-12 a"-->                      
                     <div class="col-md-2">
-                          <label class="form-Label">Total Days:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
+                          <label class="form-Label">Total Days:<span Style="font-size:10px;margin-bottom:10px; color:red"></span></label>
                     </div>
                     <div class="col-md-4">
-                          <input type="number" min="1" maxlength="45"  class="form-text-box" id="traveltday" name="travelTotalDay" onblur="changeCurrencyforTravel()" readonly required/>
+                          <input type="number" min="1" maxlength="45"  class="form-text-box" id="traveltday" name="travelTotalDay" onblur="changeCurrencyforTravel()"  required/>
                     </div>
                </div>
 
-               <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
-               </div>
+              
 
                <div id="d1" class="col-md-12 a " style="margin-top:20px;margin-down:20px;">
                     <div class="col-md-2">
@@ -3466,10 +3462,9 @@ function changeothercurrency(){
                     </div>
                    
             <div id="phone" class="">
-                   <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Expense Details for Phone :-</b>
-                   </div>
+                   
 
-                   <div class="col-md-12 a">
+                   <div class="col-md-12 a"  style="margin-top:20px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Reason for Calling:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -3481,10 +3476,9 @@ function changeothercurrency(){
                    </div>
             </div>
                  
-                   <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Total Expense :-</b>
-                   </div>
+                   
 
-                   <div id="d1" class="col-md-12 a ">
+                   <div id="d1" class="col-md-12 a "  style="margin-top:20px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -3588,11 +3582,9 @@ function changeothercurrency(){
                     </div>
 
                <div id="rfd" class="">
-                   <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;">
-                        <b style="color:#f05f40;">Expense Details for Reimbursement for Self-driven Vehicle :-</b>
-                   </div>
+                  
 
-                   <div class="col-md-12 a">
+                   <div class="col-md-12 a"  style="margin-top:20px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Type of vehicle:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -3618,7 +3610,7 @@ function changeothercurrency(){
                         </div>
                     </div>
 
-                    <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;">
+                    <div class="col-md-12 a" style="margin-top:10px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Per Km Rate :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -3643,10 +3635,9 @@ function changeothercurrency(){
                         </div>                    
                     </div>
 
-                    <div class="col-md-12 a" ><b style="color:#f05f40;">Total Expense :-</b>
-                    </div>
+                   
 
-                    <div id="d1" class="col-md-12 a " style="margin-top:20px;margin-down:20px;">
+                    <div id="d1" class="col-md-12 a " style="margin-top:10px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -3751,9 +3742,11 @@ function changeothercurrency(){
                     </div>
                         
             <div id="diem" class="">
-                    <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Expense Details for Per Diem :-</b></div>
+                   
 
-                    <div class="col-md-12 a">
+                       
+                        
+                    <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Hotel Name:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -3806,10 +3799,10 @@ function changeothercurrency(){
                         </div>                    
                    </div>
                    
-                   <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Total Expense :-</b>
+                  
                    </div>
 
-                   <div id="d1" class="col-md-12 a ">
+                   <div id="d1" class="col-md-12 a " style="margin-top:20px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -3912,11 +3905,9 @@ function changeothercurrency(){
                      
             <div id="food" class="">
 
-                <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Expense Details for Food & Entertainment:-</b>
-                </div>
 
                 <div class="col-md-12 a" style="margin-top:1px;">                    
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-Label" >Reason for Fooding/entertainment:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
@@ -3924,10 +3915,7 @@ function changeothercurrency(){
                         </div>
                         </div>
 
-               <div class="col-md-12 a"><b style="color:#f05f40;">Total Expense :-</b>
-               </div>
-
-               <div id="d1" class="col-md-12 a ">
+               <div id="d1" class="col-md-12 a " style="margin-top:20px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -4031,10 +4019,8 @@ function changeothercurrency(){
                 </div>               
 
             <div id="other" class="">
-                <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Expense Details for Others :-</b>
-                </div>
 
-                <div class="col-md-12 a">
+                <div class="col-md-12 a" style="margin-top:15px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Reason for Expense:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -4043,10 +4029,8 @@ function changeothercurrency(){
                         </div>
                 </div>
                   
-                <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;"><b style="color:#f05f40;">Total Expense :-</b>
-                </div>
 
-                <div id="d1" class="col-md-12 a " style="margin-top:20px;margin-down:20px;">
+                <div id="d1" class="col-md-12 a " style="margin-top:19px;margin-down:20px;">
                         <div class="col-md-2">
                             <label class="form-Label">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
