@@ -3776,7 +3776,7 @@ addUser: function(req, res, next) {
                         //console.log("there is an error",err);
                     }   
                     else{
-                        
+                        console.log(result[0]);
                      res.json(result[0]);
                     }    
 
@@ -3961,7 +3961,7 @@ addUser: function(req, res, next) {
 
     },
  
-    upload_resume:function(req,res,next){
+upload_resume:function(req,res,next){
         res.redirect('/upload');
         req.session.flag = true;
         req.session.emailArr = [];
@@ -4531,7 +4531,7 @@ console.log('sendMailClient',req.body)
         });
     },
     interviewData:function(req,res,next){
-        console.log("interview date-------------", req.body);
+       // console.log("interview date-------------", req.body);
         var filename;
         var targetPath;
         var fname;

@@ -589,6 +589,7 @@
                             url: '/viewCandidate',
                             type: 'post',
                             success: function(data) {
+                              console.log("view all candidate",data[9]);
                                 var info = [];
                                 var c = 1;
                                 var cddid;
@@ -600,10 +601,11 @@
                                     var skl = data[i].skills;
                                     if (data[i].stateName == null || data[i].stateName == 0) {
                                         data[i].stateName = "Not Yet Tagged";
+                                        sicon = '';
                                     }
                                     if (data[i].statusName == null || data[i].statusName == 0) {
                                         data[i].statusName = 'Not Yet Tagged';
-                                        sicon = '';
+                                        
                                     }
                                     if (data[i].location == null) {
                                         data[i].location = "--";
@@ -774,10 +776,10 @@
                             return false;
                         } else {
                           if($('#schstate').val() == 5){
-                            alert("Job Offerd Successfuly!");
+                            alert("State Update Successfuly!");
                           }
                           else if($('#schstate').val() == 6){
-                            alert("Joining Offerd Successfuly!");
+                            alert("State Updated Successfuly!");
                           }
                           else{
                             alert("Interview Scheduled");
@@ -1014,7 +1016,7 @@
                             },
                             success: function(data) {
                              
-                                console.log("tag data", data);
+                                console.log("tag data", data[0].length,",",data[3].length);
                                 $('#tcid').val(data[2][0].id);
 
                                 $('#cdtname').html(data[2][0].name);
@@ -1039,12 +1041,12 @@
                                     obj.title = data[0][i].title + "<span onclick='removetag(" + data[2][0].id + "," + data[0][i].tagId + ")'  class='glyphicon glyphicon-trash' style='color:#06394A;float:right; height:10px'title ='Remove Tag' >";
                                     obj.state = data[3][i].stateName;
                                     obj.status = data[3][i].statusName;
-                                    console.log("OBJ", obj);
+                                  //  console.log("OBJ", obj);
 
                                     info.push($.map(obj, function(k, v) {
                                         return k;
                                     }));
-                                    console.log("INFO", info);
+                                    //console.log("INFO", info);
                                 }
                                 if (table1 != '') {
                                     table1.destroy();
@@ -1098,8 +1100,8 @@
                                 "tagid": tagid
                             },
                             success: function(data) {
-                                console.log("delete data      -----", data);
-                                console.log("delete ", data[0]);
+                             //   console.log("delete data      -----", data);
+                              //  console.log("delete ", data[0]);
                                 getAllTag(cdid);
                                 if (data[0] == 1)
                                     alert("Tagging removed Successfuly!");
@@ -1122,7 +1124,7 @@ var id = e.options[e.selectedIndex].value;*/
                                 "id": id
                             },
                             success: function(data) {
-                                console.log("data for managers", data);
+                              //  console.log("data for managers", data);
                                 $('#selecttag').html('');
                                 $('#selecttag').append('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data.length; i++) {
@@ -1144,7 +1146,7 @@ var id = e.options[e.selectedIndex].value;*/
                                 "id": id
                             },
                             success: function(data) {
-                                console.log("data after manager selection :", data);
+                              //  console.log("data after manager selection :", data);
                                 $('#qselecttag').html('');
                                 $('#qselecttag').append('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data.length; i++) {
@@ -1231,7 +1233,7 @@ var id = e.options[e.selectedIndex].value;*/
 
                     function GetData() {
                         var str = $('#gsearch').val();
-                        console.log("Search String: ", str);
+                       // console.log("Search String: ", str);
                         var req11 = ")&(";
                         var req12 = ")|(";
                         var req21 = "&",
@@ -1248,7 +1250,7 @@ var id = e.options[e.selectedIndex].value;*/
 
 
                         var count = 0;
-                        console.log("Orignal String:", str);
+                        //console.log("Orignal String:", str);
                         //alert(str.split(req11).length);
 
                         if (str.trim().length != 0) {

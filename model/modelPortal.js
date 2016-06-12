@@ -2765,7 +2765,7 @@ getHrRole:function(userId,roleId,retailerId,callback){
           sql: "call usp_addQuickTag(?,?,?)",
         values: [jdid, cid,userId]
         };
-        //console.log(q);
+         console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
@@ -2933,12 +2933,12 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
 
     interviewData : function (userId,roleId,retailerId,id,rating,status,time,remarks,stateId,cdtid,modeid,rounds,filename,jdid,callback){
        var q ={
-         sql: "call usp_interviewedData(?,?,?,?,?,?,?,?,?,?,?,?)",
+         sql: "call usp_interviewedData(?,?,?,?,?,?,?,?,?,?,?,?,?)",
         values: [id,rating,status,time,remarks,userId,stateId,
-            cdtid,modeid,rounds,filename,jdid]
+            cdtid,modeid,rounds,filename,jdid,retailerId]
        
         };
- 
+ console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
@@ -2954,12 +2954,13 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [id,cid,userId]
        
         };
-        //console.log(q);
+        console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                 //console.log(err);
             }
             else {
+                console.log(result);
             callback(err,result);
             }
         });         
