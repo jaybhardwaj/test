@@ -36,46 +36,38 @@ a:hover{
   color:white;
 }
 </style>
-<div class="secondry-color" style="overflow-x:hidden">
-  <div style="padding-top:5%;margin-left:4%;margin-right:1%;margin-top:1%;margin-bottom:7%">
-<div class="container">
-<div class="row">
-<div id="hm">
-
-<div class="page-header ">
-
-    <div class="pull-right form-inline" style="margin-top: 0px;">
-
-      <div class="btn-group">
-        <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
-        <button class="btn" data-calendar-nav="today">Today</button>
-        <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
+<div class="secondry-color" style="overflow-x:hidden;padding-top:3%">  
+  <div id="hm" class="row" style="padding-right:7%;padding-left:3%;padding-top:10px"> 
+      <span id="dateHeader"></span>
+      <div class="pull-right  " style="margin-top: 0px;"> 
+        <div class="btn-group">
+          <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
+          <button class="btn" data-calendar-nav="today">Today</button>
+          <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-warning" data-calendar-view="year">Year</button>
+          <button class="btn btn-warning active" data-calendar-view="month">Month</button>
+          <button class="btn btn-warning" data-calendar-view="week">Week</button>
+          <button class="btn btn-warning" data-calendar-view="day">Day</button>
+        </div>
       </div>
-      <div class="btn-group">
-        <button class="btn btn-warning" data-calendar-view="year">Year</button>
-        <button class="btn btn-warning active" data-calendar-view="month">Month</button>
-        <button class="btn btn-warning" data-calendar-view="week">Week</button>
-        <button class="btn btn-warning" data-calendar-view="day">Day</button>
-      </div>
-    </div>
-    
-    <small></small>
-  </div>
-  <h3 id="dateHeader"></h3>
+      
+      <small></small>
+   </div>
+   <div class="row" style="padding:3%;padding-left:6%;padding-top:0px"> 
     <div class="span9">
       <div id="calendar"></div>
-    </div>
-
-</div>
-</div>
-</div>
-</div>
-</div>
+    </div> 
+  </div>
+ </div>
 <%include menu1.ejs%>
 <%include footer1.ejs%>
      <script type="text/javascript">
    $(document).ready(function(){
+   
 
+$("#dateHeader").html( new Date());
     $.ajax({
 
         url: '/interviewerInfo',
@@ -99,13 +91,11 @@ else{
       info.push({"id": "293","url":"/interviewFeedback?id="+data[0][i].id+"&cid="+data[0][i].cid+"&flag="+flag,"title":data[0][i].name+" -- "+data[0][i].title+" -- "+data[0][i].stateName+" -Round-"+data[0][i].rounds,"class": data[0][i].isDone==0?"event-success":"","start":mili,"end":mili});
     }
  
-            calendar = $("#calendar").calendar(
- 
+            calendar = $("#calendar").calendar( 
             {  
             language: 'en-GB',
             tmpl_path: "/bower_components/bootstrap-calendar/tmpls/",
-            events_source:  info
-                    
+            events_source:  info 
             });
            }
    }); 
@@ -114,19 +104,16 @@ else{
       $('.btn-group button[data-calendar-nav]').each(function() {
     var $this = $(this);
     $this.click(function() {
-        calendar.navigate($(this).data('calendar-nav'));
-        
-        //console.log(calendar.navigate.start);
-         //console.log("Data for this nav: ",calendar.navigate());
+        calendar.navigate($(this).data('calendar-nav')); 
+        calendar.getTitle($(this).data('calendar-nav'));
     });
 });
 
 $('.btn-group button[data-calendar-view]').each(function() {
     var $this = $(this);
     $this.click(function() {
-        calendar.view($this.data('calendar-view'));
-       // console.log("Data for this canlender: ",calendar.view());
-
+        calendar.view($this.data('calendar-view')); 
+        calendar.getTitle($this.data('calendar-view')); 
     });
 });
 

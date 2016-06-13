@@ -3789,7 +3789,7 @@ addUser: function(req, res, next) {
                         //console.log("there is an error",err);
                     }   
                     else{
-                        console.log(result[0]);
+                    
                      res.json(result[0]);
                     }    
 
@@ -4133,7 +4133,7 @@ upload_resume:function(req,res,next){
                                 /*  if(exet=="rtf")
                                   {
                                     namearr.pop();
-                                    namefile = namearr.join(".") + ".docx";
+                                    namefile = namearr.join(".") + exet;
                                     var newpath2='./public/attach/'+ffname+'/'+namefile;
                                     fs.renameSync(newpath,newpath2);
 

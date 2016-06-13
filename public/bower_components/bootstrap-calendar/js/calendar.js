@@ -773,48 +773,49 @@ if(!String.prototype.formatNum) {
 				case 'year':
 					to.start.setFullYear(this.options.position.start.getFullYear() + 1);
 					//alert(to.start.getFullYear());
-				//	$("#dateHeader").html(to.start.getFullYear());
+					$("#dateHeader").html(to.start.getFullYear());
 					break;
 				case 'month':
 					to.start.setMonth(this.options.position.start.getMonth() + 1);
-				//	$("#dateHeader").html(to.start.getMonthFormatted());
+					$("#dateHeader").html(to.start.getMonthFormatted());
 					break;
 				case 'week':
 					to.start.setDate(this.options.position.start.getDate() + 7);
 					break;
 				case 'day':
 					to.start.setDate(this.options.position.start.getDate() + 1);
-				//	$("#dateHeader").html(to.start.getDateFormatted());
+					$("#dateHeader").html(to.start.getDateFormatted());
 					break;
 			}
 		} else if(where == 'prev') {
 			switch(this.options.view) {
 				case 'year':
 					to.start.setFullYear(this.options.position.start.getFullYear() - 1);
-					//$("#dateHeader").html(to.start.getFullYear());
+					$("#dateHeader").html(to.start.getFullYear());
 					break;
 				case 'month':
 					to.start.setMonth(this.options.position.start.getMonth() - 1);
-					//$("#dateHeader").html(to.start.getMonthFormatted());
+					$("#dateHeader").html(to.start.getMonthFormatted());
 					break;
 				case 'week':
 					to.start.setDate(this.options.position.start.getDate() - 7);
-					//$("#dateHeader").html(to.start.getDateFormatted());
+					$("#dateHeader").html(to.start.getDateFormatted());
 					break;
 				case 'day':
 					to.start.setDate(this.options.position.start.getDate() - 1);
-					//$("#dateHeader").html(to.start.getDateFormatted());
+					$("#dateHeader").html(to.start.getDateFormatted());
 					break;
 			}
 		} else if(where == 'today') {
 			to.start.setTime(new Date().getTime());
-			//$("#dateHeader").html(new Date());
+			 $("#dateHeader").html(to.start.getDateFormatted());
 		}
 		else {
 			$.error(this.locale.error_where.format(where))
 		}
 
 		this.options.day = to.start.getFullYear() + '-' + to.start.getMonthFormatted() + '-' + to.start.getDateFormatted();
+		$("#dateHeader").html(this.options.day);
 		//alert(this.options.day)
 		this.view();
 		if(_.isFunction(next)) {
@@ -875,15 +876,19 @@ if(!String.prototype.formatNum) {
 		var p = this.options.position.start;
 		switch(this.options.view) {
 			case 'year':
+				$("#dateHeader").html(this.locale.title_year.format(p.getFullYear()));
 				return this.locale.title_year.format(p.getFullYear());
 				break;
 			case 'month':
+				$("#dateHeader").html(this.locale.title_month.format(this.locale['m' + p.getMonth()], p.getFullYear()));
 				return this.locale.title_month.format(this.locale['m' + p.getMonth()], p.getFullYear());
 				break;
 			case 'week':
+				$("#dateHeader").html(this.locale.title_week.format(p.getWeek(getExtentedOption(this, 'week_numbers_iso_8601')), p.getFullYear()));
 				return this.locale.title_week.format(p.getWeek(getExtentedOption(this, 'week_numbers_iso_8601')), p.getFullYear());
 				break;
 			case 'day':
+				$("#dateHeader").html(this.locale.title_day.format(this.locale['d' + p.getDay()], p.getDate(), this.locale['m' + p.getMonth()], p.getFullYear()));
 				return this.locale.title_day.format(this.locale['d' + p.getDay()], p.getDate(), this.locale['m' + p.getMonth()], p.getFullYear());
 				break;
 		}

@@ -81,7 +81,7 @@
        $(".close").click(function(){
         $('#jddetail').modal("hide");
 });
-
+ 
         function reqData(id, flag, con) {
                         $.ajax({
                         url: '/reqData',
@@ -180,7 +180,10 @@
                         newDataTable = $("#openreqstate1").dataTable({ 
                             "bFilter": true,
                             "pageLength": 10,
-                            "bLengthChange": false
+                            "bLengthChange": false,
+                            "columnDefs": [
+							    { "width": "40%", "targets": 1 }
+							  ]
                         });
                            $("#searchbox").keyup(function() {
                         newDataTable.fnFilter(this.value);
@@ -218,7 +221,8 @@
                                        else{
                                         ch=ch+'<td id = "assign1_' + pdetails[i].id + '"><span class="glyphicon glyphicon-option-horizontal"></span></td>';
                                        }
-                                       ch=ch+'<td>' + pdetails[i].adminHrfirstName + '</td><td ><i class="glyphicon glyphicon-pencil ' + hide + '" style = "font-size:130%;color:#555555"  title = "Edit" id = "edit_' + pdetails[i].id + '_' + i + '" onclick = "showmodal(this.id)"></i></td><td class = "hide" id = "user_' + pdetails[i].id + '">' + pdetails[i].assignedTo + '</td></tr>';
+                                       hrUser="<%for(var i = 0 ;i<userInfo.length;i++){%><option value='<%=userInfo[i].id%>' <%if(userInfo[i].id=="+pdetails[i].assignedTo+"){selected}%> id='option_<%=userInfo[i].id%>'><%=userInfo[i].firstName%></option><%}%>"
+                                       ch=ch+'<td>' + pdetails[i].adminHrfirstName + '</td><td ><select class="' + hide + '"  id = "edit_' + pdetails[i].id+'_'+i+'" onchange="saveRecruter(this.id,'+pdetails[i].id+')"><option value="0">select</option>'+hrUser+'</select></td><td class = "hide" id = "user_' + pdetails[i].id + '">' + pdetails[i].assignedTo + '</td></tr>';
                                     }
 
 
@@ -251,7 +255,7 @@
                         });
                     });
 
-                    function showmodal(id) {
+                /*    function showmodal(id) {
                         $('#selecttag').val(-1);
                         $('#reqDetailsId').modal('toggle');
                         var value = id.split('_');
@@ -267,14 +271,14 @@
                     function clearall() {
                         $('#reqDetailsId').modal('toggle');
 
-                    }
+                    }*/
 
 
-                    function savehrm() {
-                        var selected = parseInt($('#selecttag').val());
+                    function saveRecruter(id,reqId) {
+                        var selected = parseInt($('#'+id).val());
 
-                        if (selected == -1) return;
-                        clearall()
+                        if (selected == 0) return;
+                      
                         $.ajax({
 
                             url: 'savehrm',
@@ -284,18 +288,14 @@
                             },
                             method: 'post',
                             success: function() {
-                                var str = '#assign1_' + reqId;
-                              
-                                
-                                    alert('Requisition assigned');
-                                
-                                var str2 = '#option_' + selected;
+                                var str = '#assign_' + reqId; 
+                                   alert('Requisition assigned'); 
+                                var str2 = '#option_' + selected; 
                                 $(str).html($(str2).html());
-                                var str3 = '#con_' + rownumber;
-                                $(str3).html('<i class="glyphicon glyphicon-ok" style = "color:green" title = "Assigned"></i>');
-
+                             /*   var str3 = '#con_' + rownumber;
+                                $(str3).html('<i class="glyphicon glyphicon-ok" style = "color:green" title = "Assigned"></i>');*/
                                 var str4 = '#user_' + reqId;
-                                $(str4).html(selected);
+                                $(str4).html(selected); 
                             }
                         });
 
@@ -474,36 +474,4 @@
 
 
 
-
-     <!----------------------Assign HR modal Box-------------------------->
-
-      <div class="modal fade" id="reqDetailsId">
-                    <div class="modal-dialog">
-                        <div class="modal-content" id="bodymodal">
-                            <div class="modal-header" style="background-color:#f05f40;">
-                                <center>
-                                    <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;">Select Recruiter
-                                    </h4>
-                                </center>
-                                <button type="button" class="close" data-dismiss="modal" onclick="clearall()" style="margin-top:-32px">&times;</button>
-                            </div> 
-                            <div style="width:100%;padding-top: 2%;padding-bottom: 2%">
-                                <select id="selecttag" class="form-text-box" style="color:black;width:96%;margin-bottom:2%;margin-left:2%" name="selecttag">
-                                    <option id="noneselectedId" value="-1">--Select--</option>
-                                    <%for(var i = 0 ;i<userInfo.length;i++){%>
-                                        <option value="<%=userInfo[i].id%>" id="option_<%=userInfo[i].id%>">
-                                            <%=userInfo[i].firstName%>
-                                        </option>
-                                        <%}%>
-                                </select>
-
-                                <center>
-                                    <button class="button bt-small" type=""   onclick="savehrm()" value="Save">Save</button>
-                                    <center>
-                            </div>
-
-
-
-                        </div>
-                    </div>
-                </div>
+ 
