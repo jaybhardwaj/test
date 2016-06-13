@@ -92,7 +92,7 @@ app.post('/getTransDetails',url.setpageTransAssigned,portal.getAssignedAssets,re
 app.post('/getUserInfoAsset',url.setpageTrans,portal.getUser,render.redirect);
 app.get('/viewFurniture',url.setpageviewFurniture,portal.getViewFurniture,render.redirect);
 app.get('/viewStationary',url.setpageviewStationary,portal.getViewStationary,render.redirect);
-app.get('/addFurniture1',url.setpageaddFurniture,render.redirect);
+app.get('/addFurniture1',url.setpageaddFurniture,portal.addFurniture1,render.redirect);
 app.post('/addFurniture',url.setpageviewFurniture,portal.addFurniture,portal.getViewFurniture,render.redirect)
 app.get('/addStationary',url.setpageAddStation,render.redirect);
 app.post('/addStationary',url.setpageviewStationary,portal.addStation,portal.getViewStationary,render.redirect)

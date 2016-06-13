@@ -2163,6 +2163,18 @@ getViewHardware:function(req,res,next){
             next();
         });
     },
+    addFurniture1: function(req, res, next) {
+        console.log(" i ma in potal.js for addFurniture1");
+     modelPortal.addFurniture1(req.session.firstname,req.session.roleid,req.session.retailerId,function(error, result){
+            if(error){
+                next(error);
+                return;
+            }
+            req.brandName=result;
+            console.log("brand name and vemndor name",result);
+            next();
+        });
+    },
     addFurniture: function(req, res, next) { 
         modelPortal.addFurniture('null',req.body.order,
             req.body.no,
@@ -2176,6 +2188,7 @@ getViewHardware:function(req,res,next){
                 } else 
                 {
                     req.resultFurniture=result;
+                    console.log(" after adding furniture infoprmation",resultFurniture);
                     next();
                 }
          });

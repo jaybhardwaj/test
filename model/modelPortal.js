@@ -1146,6 +1146,16 @@ getFurniture: function(firstName,roleId,retailerid,callback){
     });
   },
 
+addFurniture1: function(firstName,roleId,retailerid,callback){
+    console.log(" i am in add furniture model portal..");
+    var q={ 
+      sql:'call usp_ast_getBrand_Vendor(?)',
+      values: [retailerid]
+    };
+    mysql(q,function(err,result){
+      callback(err, result);
+    });
+  },
 
 addFurniture: function(acid,order,no,Deliverydate, vendor,invoiceNo,Invoicedate, invoiceAmt, typel, uprice, color,brand, flag,assettype,userId, callback) {
     var query = {
@@ -1158,6 +1168,7 @@ addFurniture: function(acid,order,no,Deliverydate, vendor,invoiceNo,Invoicedate,
         uprice,color,
         brand,'1',assettype,userId]
     };
+    console.log(" add furniture data  ",query);
     mysql(query, function(err, result) {
         callback(err, result);
     });
