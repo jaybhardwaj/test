@@ -4678,9 +4678,9 @@ console.log('sendMailClient',req.body)
             req.prId          = result[1][0].prId; 
             req.Resources     =  result[4];
             req.versionFlag   =  versionFlag;
-
-            if(!!result[5].version){
-                req.versionArr = result[5].version.split(',');
+            if(!!result[5][0].version){
+                req.versionArr = result[5][0].version.split(',');
+                console.log('version Arr is',req.versionArr);
             }
             else{
                 req.versionArr = [1];
@@ -4729,6 +4729,8 @@ console.log('sendMailClient',req.body)
                         next();
                 } 
         });
+                        
+
    },
 
    emptyProj :function(req,res,next){
@@ -4817,6 +4819,19 @@ modelPortal.getAllTreeForProjStatus(req.body.proId,function(err,result){
             } 
         });
 
+
+
+},
+insNewVer :function(req,res,next){
+
+modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.session.userId,function(err,result){
+            if(err){
+             console.log("there is an error",err);
+                    }   
+            else{
+                 res.json('success');
+                } 
+        });
 
 
 }

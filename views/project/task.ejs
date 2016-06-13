@@ -221,7 +221,7 @@ var projectDetails = [{
                 'id' :1,
       'projectTitle' :'Time1' }];
 /******************Mayur pls remove**********************/
-
+  var newVersionToBeCreated  = verArr.length + 1; 
 
 var marginleftarr = [];
     marginleftarr[1] = 43;
@@ -362,6 +362,10 @@ return ;
 
 %>
 <script type="text/javascript">
+var calculateEndFlag = false; 
+var someThingUpdated = 0
+var submitted =  parseInt('<%=submitted%>');
+var newVersionToBeCreated = parseInt('<%=newVersionToBeCreated%>');
 var remarks = '';
 var projectAndVersions = '<%=projectAndVersions%>';
 var tempEffortInDays;
@@ -528,7 +532,7 @@ currenteffType                 = 0;
 presentIdsArr.push(<%=treeComponent[i].id%>);
 <%}%>
 
-
+var isManagerFlag = parseInt('<%=isManagerFlag%>');
 
 $(document).ready(function(){
 initializeJquery();
@@ -538,13 +542,14 @@ initializeJquery();
     var decode =  $('#tbody123').html('<%=Tree%>').text();
      $('#tbody123').html(decode);
        var submitFlagForFunc = parseInt('<%=submitted%>');
+      
 
 //alert(<%=isManagerFlag%>);
 
-     if(submitFlagForFunc==1||submitFlagForFunc==2){ setTimeout(function(){/* hideAllOnSubmit();*/},3000);}
+     if(submitFlagForFunc==1){ setTimeout(function(){ hideAllOnSubmit();},400);}
     if(submitFlagForFunc==2){   $('#statusSub').html('Accepted')}
       if(submitFlagForFunc==3){   $('#statusSub').html('Rejected')}
-     if(submitFlagForFunc==3&&<%=isManagerFlag%>){   setTimeout(function(){/*hideAllOnSubmit();*/},3000);
+     if(submitFlagForFunc==3&&<%=isManagerFlag%>){   setTimeout(function(){hideAllOnSubmit();},400);
       $('#statusSub').html('Rejected')}
   
      var index1,index2;
@@ -1032,6 +1037,73 @@ return count;
 
 
 
+    function createNewVersion(submitFlag){
+
+  updateArr = [];
+var trArr = $('#tbody123 tr');
+for(var i =0;i<trArr.length;i++){
+
+  var tdArr = $(trArr[i]).children('td')[1];
+       
+     console.log('trArr is',trArr[i],'tdArr is',tdArr);
+    var tdEle =  $(tdArr).children('input')[0];
+    $(tdEle).focusout();
+  }
+
+
+version = version + 1;
+for(var i = 0;i<updateArr.length;i++){
+  updateArr[i] = updateArr[i].join('$@$');
+  }
+  updateArr = updateArr.join('||');
+   
+
+debugger;
+
+
+    $('.se-pre-con').fadeIn('slow');
+
+$.ajax({
+         url: '/insNewVer',
+         type: 'post',
+         data :{
+               'updateQ':updateArr,
+              'submitFlag':submitFlag,
+              'projectId':projectId,
+               'version' :newVersionToBeCreated,
+               'remarks': remarks
+               },
+            success: function(data){
+              someThingUpdated = 0;
+              console.log('sucess');
+            $('.se-pre-con').fadeOut('slow');
+              alert('New version created');
+           updateArr = [];
+
+          $('#verSel select').each(function(){
+            $(this).removeAttr('selected');
+        });
+          var newStrToAppend = '<option value = "'+newVersionToBeCreated+'">'+newVersionToBeCreated+'</option>';
+          $('#verSel').append(newStrToAppend);
+          var verLen = $('#verSel option').length;
+          var verSelEle = $('#verSel option')[verLen-1];
+          console.log('verSelEle is',verSelEle);
+          $(verSelEle).attr('selected','selected');
+          window.location.href = '/task?flag='+projectId+'&&versionFlag='+newVersionToBeCreated;
+                
+                 },
+               error:function(data){
+                 $('.se-pre-con').fadeOut('slow');
+                    updateArr = [];
+                     }
+               });
+
+}
+
+
+
+
+
 function approvethis(approveFlag,modalBoxAcceptFlag){
 
 
@@ -1085,6 +1157,7 @@ updateArr = [];
                     success: function(data) {
                
                      if(approveFlag){
+                      someThingUpdated = 1;
                       alert('Project approved successfully');
                       $('#statusSub').html('Approved');
                                     }
@@ -1121,7 +1194,11 @@ updateArr = [];
 
 
 function savethis(submitFlag,joinFlag){
+var returnFlag = (submitted==1);
 
+if(returnFlag){
+  return;
+}
 
 if(submitFlag==1){
 
@@ -1131,7 +1208,34 @@ if(submitFlag==1){
 
 
 }
-      if(submitFlag==1&&joinFlag){
+
+   if((submitted == 2)&&(submitFlag==1||submitFlag==0)){
+
+   if(someThingUpdated){
+     var englishString = ''
+      if(submitFlag) englishString = 'submit';
+      else englishString = 'create';
+
+      if(!confirm('You are about to '+englishString+' new version '+newVersionToBeCreated+'.Are you sure?')){
+                     return;
+           }
+               
+        createNewVersion(submitFlag);
+            return;
+                 }
+
+      else{
+          alert('This version has already been submitted');
+          return;
+
+          }
+
+
+                 }
+
+
+
+      else if(submitFlag==1&&joinFlag){
          if(!confirm('Once saved,Changes cannot be done.Are you sure?')){
           return;
          }
@@ -1181,6 +1285,7 @@ return;
                   counterForRecursionAjax = 0;
                   updateArr = [];
                   if(submitFlag){
+                    alert('form has been submitted');
                     hideAllOnSubmit();
                   }
 
@@ -1201,15 +1306,13 @@ return;
 
       function validationForSubmit(){
 var returnFalseFlag = false;
-     /*    var trArr = $('#tbody123 tr');
-        console.log('trArr is',trArr,trArr[3]);
-*/
+
       var trArr = $('#tbody123 tr');
-        console.log('trArr is',trArr);
+        //console.log('trArr is',trArr);
        for(var i = 0;i<trArr.length;i++){
          var currTr = trArr[i];
          var tdArr = $(currTr).children('td');
-         console.log('tdArr is',tdArr,tdArr[3]);
+        // console.log('tdArr is',tdArr,tdArr[3]);
       for(var k = 0;k<tdArr.length;k++){
       if(k==1||k==4||k==5){
         var inpChild = $(tdArr[k]).children('input')[0];
@@ -1410,6 +1513,7 @@ $(".datePicker").datepicker({
     duration: "slow",
     beforeShow: findParentDate,
     onSelect: function(selected, evnt) {
+      someThingUpdated = 1
       console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
         var endDateFlag = checkNature($(this).attr('id'));
          startDateEndDateValidation(endDateFlag,$(this));
@@ -1654,7 +1758,9 @@ function findParentDate(inputTextBox, par2) {
 //console.log('startDateInDatePicker is ', startDateInDatePicker, 'endDateInDatePicker is ', endDateInDatePicker);
 }
 
-function hideAllOnSubmit() {
+function hideAllOnSubmit(){
+
+
 
     $('.shadow').each(function() {
 
@@ -1663,8 +1769,18 @@ function hideAllOnSubmit() {
           }
 
     });
-
+    if(submitted==1&&!isManagerFlag){
     $('#statusSub').html('Submitted');
+     $('#submitId').attr('disabled','disabled');
+     $('#saveId').attr('disabled','disabled');
+
+     }
+     else if(submitted ==2){
+      $('#statusSub').html('Accepted');
+    }
+    else if(submitted ==3){
+     $('#statusSub').html('Rejected'); 
+    }
     $('th div').css('font-size', '12px');
 
 /****DevCode*/
@@ -1852,6 +1968,7 @@ $(".datePicker").datepicker({
     duration: "slow",
     beforeShow: findParentDate,
     onSelect: function(selected, evnt) {
+      someThingUpdated = 1;
        // console.log('selected is', selected, 'this.id is ', $(this).attr('id'), ' evnt is ', evnt);
         var endDateFlag = checkNature($(this).attr('id'));
          startDateEndDateValidation(endDateFlag,$(this));
@@ -1877,7 +1994,7 @@ $('.selectEffEditAdd').addClass('selectClassForJq');
 $('.ddResources').addClass('ddResourcesForJq');
 
 $('.allTextAndNumberBoxes').focusout(function(){
-
+  someThingUpdated = 1
   if($(this).val()!=''){
     $(this).removeClass('isEmptyTextBoxValidation');
 
@@ -1897,7 +2014,7 @@ var tdEle = $(this).parent('td');
     var currRowIdTd = '#' + individualIdTest +'_rowid_'+ parentIdTest +' td';
     currRowIdTd      = $(currRowIdTd)[1];
     conditionFlag    =   (conditionFlag&&$(currRowIdTd).hasClass('task'));
-console.log( 'disablePointer ',$(this).hasClass('disablePointer'),'dropDownFlagUsedInTask ',dropDownFlagUsedInTask,'currRowIdTd ',$(currRowIdTd).hasClass('task'),'conditionFlag ',conditionFlag);
+/*console.log( 'disablePointer ',$(this).hasClass('disablePointer'),'dropDownFlagUsedInTask ',dropDownFlagUsedInTask,'currRowIdTd ',$(currRowIdTd).hasClass('task'),'conditionFlag ',conditionFlag);*/
     
     updateAllArr(tdEle,1);
  //debugger;
@@ -2024,7 +2141,7 @@ if(calculateEndFlag){
       parentRowId  =     $(parentRowId).children('input')[0];
       $(parentRowId).focusout();
      
-console.log('parent call fired',parentRowId);
+///console.log('parent call fired',parentRowId);
 
 
 
@@ -2085,7 +2202,7 @@ $(prevEle).focusout();
 
 }).change(function(){
      // dropDownFlagUsedInTask = false;
-
+someThingUpdated = 0;
        var tempSelectValue = $(this).val();
 
 var currentId = $(this).attr('id');
@@ -2108,7 +2225,7 @@ if(treeStructure[individualId].length){
   var childRowId = '#'+treeStructure[individualId][0]+'_effType_'+individualId;
   //$(childRowId).focus();
   childRowId = $(childRowId).prev()[0];
-  console.log('childRowId called',childRowId);
+  //console.log('childRowId called',childRowId);
    $(childRowId).focusout();
 }
 
@@ -2304,6 +2421,7 @@ return Math.ceil(tempQuant);
 function initializeJqueryUnderConstruction(){           
 var dropDownSelectValue,effortQuant,endDateTimeForEffort = [];;
 $('.textBoxEffEditAddJq').focusout(function(){
+  someThingUpdated = 1;
        if(startDateInDatePicker=='') return;
     var startDateTimeForEffort = startDateInDatePicker.split('/');
              
@@ -2428,7 +2546,7 @@ if(d.length ==1){
 
 
 <div class="row" style="margin-left: 0px;padding-left: 2%;margin-right: 0px;padding-bottom: 2%;overflow:none ">
-  <div  style="padding-top: 17px;padding-bottom: 4px;" class = 'col-md-12'>
+  <div  style="padding-top: 17px;padding-bottom: 4px;width: 122%" class = 'col-md-12' >
   <!--  <label>Select Project</label> -->
 
    <div class = 'col-md-2 hide' style = 'width:15%;margin-left: -2%;'>
@@ -2461,11 +2579,8 @@ if(d.length ==1){
     <select class="form-control" style="width: 90px;margin-top: -10%;" id ='verSel'>
         <%for(var i = 0;i<verArr.length;i++){%>
       <option value = '<%=verArr[i]%>'><%=verArr[i]%></option>
-      <%}if(verArr.length<version){%>
-      <option value = '<%=version%>'><%=version%></option>
-
-             <%}%>
-    <option value = '<%=newno%>'>--Create new Version</option>
+      <%}%>
+   
     </select>
     </div>
 

@@ -3294,6 +3294,24 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
            callback(err,result);
           }
         });         
+    },
+     insNewVer : function (proId,version,updateQ,submitFlag,remarks,userId,callback){
+
+       var q ={
+          sql: 'call usp_proj_insertNewVersion(?,?,?,?,?,?)',
+        values: [proId,version,updateQ,submitFlag,userId,remarks]
+           };
+
+        mysql(q, function(err, result) {
+            console.log(q);
+            if (err) {
+                console.log(err,q);
+            }
+            else {
+
+              callback(err,result);
+                 }
+        });         
     }
 
 
