@@ -1543,11 +1543,12 @@ mysql(q,function(err,result){
         callback(err);
     });
 },
-getAssignedAssets:function(atid,uid,callback){
+getAssignedAssets:function(atid,uid,flag,callback){
  var q={
-        sql:'call usp_ast_getAssignedAsset(?,?)',
-        values:[uid,atid]
+        sql:'call usp_ast_getAssignedAsset(?,?,?)',
+        values:[uid,atid,flag]
     };
+    console.log(q)
     console.log("ss---- ",q);
 mysql(q,function(err,result){
         callback(err,result);
