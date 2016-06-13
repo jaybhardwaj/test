@@ -704,6 +704,22 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 
 	},
+
+	setpageviewSoftwareDetails: function(req,res,next){
+
+		if(req.session.modules.indexOf(config.Asset)>=0)
+		 	{
+     	
+		req.page='viewSoftwareDetails';
+		next();
+  }
+  else
+	{
+			res.redirect('/portal')
+	}
+
+
+	},
 	
 	//new 4 hardware
 	setpageViewHardware:function(req,res,next){

@@ -330,6 +330,10 @@ module.exports = {
 					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 
+				case 'viewSoftwareDetails':
+				res.redirect('viewSoftware');
+				break;
+
 			case 'addFurniture' :
 				res.render('asset/addFurniture',{myModules:req.session.modules,hideFlag:0,
 					roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,

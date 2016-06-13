@@ -106,7 +106,7 @@ app.post('/updateFurniture',url.setUpdate,portal.updateFurniture,render.redirect
 app.post('/updateStationary',url.setUpdatestat,portal.updateStation,render.redirect);
 app.get('/viewSoftware',url.setpageviewSoftware,portal.getViewSoftware,render.redirect);
 app.get('/addSoftware',url.setpageaddSoftware,portal.getComp,render.redirect);//new 4 dynamic
-app.post('/addSoftware',url.setpageviewSoftware,portal.addSoftware,portal.getViewSoftware,render.redirect)
+app.post('/submitSoftwareDetails',url.setpageviewSoftwareDetails,portal.addSoftware,portal.getViewSoftware,render.redirect)
 app.post('/updateSoftware',url.setUpdateSoft,portal.updateSoft,render.redirect);
 app.post('/getTransComp',url.setpageTransUnassigned,portal.getAtt,render.redirect);
 app.post('/getTransUnassigned',url.setpageTransUnassigned,portal.getUnassigned,render.redirect);

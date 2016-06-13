@@ -12,7 +12,7 @@
   <div class="row">   
      <span class="modal-title" style="padding-left:47%;">Add Software</span>
   </div>
-  <form class="form-horizontal" style="margin:1%; " action="/addSoftware" method="post">
+  <form class="form-horizontal" style="margin:1%; " action="/submitSoftwareDetails" method="post">
     <div class="row">
       <table class="table">
       <tr><td><td>
@@ -181,12 +181,35 @@ $('#test5').click(function(){
         alert("Licence start date is Missing!");    
         return false;
       }
+
+      if(new Date($('#pdate').val())<new Date($('#Invoicedate').val())){
+            alert("purchase date cannot be less then invoice date!");
+             return false;
+          }
+
+
       if(us.length<1||isNaN(us)||us.trim().length<0) 
       { 
         alert("Enter valid number of Users!");    
         return false;
       }
+
+      if($('#edate').val().length>0||$.trim($("#edate").val()) !=""){
+          if(new Date($('#edate').val())<new Date($('#pdate').val())){
+            alert("Expiry date cannot be less then purchase date!");
+             return false;
+          }
+      }
+
+      if(new Date($('#edate').val())<new Date($('#Invoicedate').val())){
+            alert("Expiry date cannot be less then invoice date!");
+             return false;
+          }
+
+
     }
+
+    alert("Software successfully added!");
   }
 
 </script>

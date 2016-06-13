@@ -159,7 +159,11 @@
       $("#name").val(data[0][0].name);
       $("#typel").val(data[0][0].softType);
       $("#vendor").val(data[0][0].vendor);
-      $("#Invoicedate").val(data[0][0].invoiceDate);
+
+      var d=new Date(data[0][0].invoiceDate);
+
+
+      $("#Invoicedate").val(d);
       $("#textarea").val(data[0][0].description);
       //alert(data[0][0].licenceKey);
       if(data[0][0].licenceKey !=null)
@@ -182,9 +186,7 @@
   $(document).ready(function(){
     
        $('.asset-img').addClass('active');
-    <%if(flag==1){%>
-      alert("Software successfully added!");
-    <%}%>
+    
    var oTable= $("#softtable").dataTable({
       "bLengthChange": false,
       "binfo":false
@@ -202,18 +204,22 @@
 
   
 
-  function validate(){    
+  function validate(){ 
     var us=$('#users').val();
+
+    if($('#name').val().length<1||$.trim($("#name").val()) =="") 
+    {
+      alert("Name is Missing!");    
+      return false;
+    }
+
+
     if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
     {
       alert("Vendor is Missing!");    
       return false;
     }
-    if($('#typel').val().length<1||$.trim($("#typel").val()) =="") 
-    {
-      alert("Name is Missing!");    
-      return false;
-    }
+    
     if($('#Invoicedate').val().length<1||$.trim($("#Invoicedate").val()) =="") 
     {
       alert("Invoice date is Missing!");    
@@ -233,21 +239,39 @@
           alert("Licence key is Missing!");    
           return false;
         }
+
+         if(us.length<1||isNaN(us)||us.trim().length<0) 
+        { //alert(us);
+          alert("Enter valid number of Users!");    
+          return false;
+        }
+
+
         if($('#pdate').val().length<1||$.trim($("#pdate").val()) =="") 
         {
           alert("Licence purchase date is Missing!");    
           return false;
         }
-        if(us.length<1||isNaN(us)||us.trim().length<0) 
-        { alert(us);
-          alert("Enter valid number of Users!");    
-          return false;
-        }
+       
         if($('#edate').val().length<1||$.trim($("#edate").val()) =="") 
         {
           alert("Licence Expiry date is Missing!");    
           return false;
         }
+
+         if($('#edate').val().length>0||$.trim($("#edate").val()) !=""){
+          if(new Date($('#edate').val())<new Date($('#pdate').val())){
+            alert("Expiry date cannot be less then purchase date!");
+             return false;
+          }
+        }
+
+        if(new Date($('#edate').val())<new Date($('#Invoicedate').val())){
+            alert("Expiry date cannot be less then invoice date!");
+             return false;
+          }
+
+          
       }
     //alert($('#Invoicedate').val());
       $.ajax({
