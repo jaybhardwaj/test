@@ -2716,8 +2716,8 @@ getHrRole:function(userId,roleId,retailerId,callback){
     },
     getReleventTag : function (userId,roleId,retailerId,id,callback){
        var q ={
-          sql: "call usp_getReleventTag(?)",
-        values: [id]
+          sql: "call usp_getReleventTag(?,?)",
+        values: [id,userId]
         };
         //console.log(q);
         mysql(q, function(err, result) {
