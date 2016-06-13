@@ -76,6 +76,12 @@ thead tr th {
   .overflowClass{
   max-height: 234px; overflow-y: auto;
   }
+  .modal-header .close {
+    /* color: #3C3535; */
+    margin-top: -6px;
+    /* margin-left: -7px; */
+    margin-left: -6%;
+}
   </style>
 <body >
  <div class="container-fluid secondry-color" style="min-height:400px" >
@@ -917,8 +923,67 @@ thead tr th {
                   
                   </div>
                 </div>
+      </div> 
+      
+       <div  class="row" style="margin-top:1%;margin-left:">
+                 <div style="margin-left:14%;border-radius: 25px;border:2px solid #f05f40;padding-bottom:1%;text-align:center;width: 83%;">
+                  <div onclick="showHide(27)"> 
+                    <a id="anchor" class="anchor" href="#assetVendor" data-toggle="collapse">
+                   <div class="row">
+                    <div class="row" style="padding-top:1%">
+                        <label>Vendor</label> <i style="float:right;margin-right: 6%;" class="glyphicon glyphicon-resize-full"></i>
+                 
+                 </div>   
+                  </a>
+                </div>
+                  <div id="assetVendor" class="collapse ">
+                    <div class="overflowClass">
+                      <table style="width:100%;text-align:center" id="assetTable7" class="table  stripe hover cell-border" >
+                     <!--  <thead>   -->
+                        <tr>
+                        <th style="text-align:center">Name</th>
+                        <th style="text-align:center">Action</th>
+                        </tr>
+                     <!--   </thead> -->
+                       <tbody>                         
+                        <%for(var i=0;i<=assetType[7].length-1;i++){%> 
+                          <tr id="ft_<%=i%>">
+                                <td id="<%=assetType[7][i].id%>"><%=assetType[7][i].name%></td>
+                                  <td>  <%if(assetType[7][i].active==1){%> 
+                                        <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onclick=assetStatus("ft_<%=i%>",1,7,activeCheckFlag) title="click to Inactive"></span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("ft_<%=i%>",3,7,activeCheckFlag)></span>
+                                       
+                                    <%}
+                                    else{%>
+                                        <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onclick=assetStatus("ft_<%=i%>",2,7,activeCheckFlag) title="click to active" ></span></a>
+                                    <%}%>
+                                </td>
+                          </tr>  
+                          <tr id="fth_<%=i%>" class="hide">
+                            <td>
+                              <input type="text" id="ft_text_<%=i%>" maxlength="30" value="<%=assetType[7][i].name%>">
+                            </td>
+                            <td>
+                            <span class="glyphicon glyphicon-floppy-disk" onClick="saveAssetTable1('ft_<%=i%>',5,getSaveStatus)"></span>
+                            </td>
+                          
+                        <%}%>
+                        </tr>
+                        </tbody> 
+                      </table>
+                     </div>  
+                      <table style="" class="table">
+                              <tr>
+                                <td><input type="text" id="VendorName" class="form-control" maxlength="30" placeholder="@ Vendor Name"style="width:78%"></td>
+                                
+                                <td> <span class="glyphicon glyphicon-plus-sign" onClick=" return insertComponent(7,insertCheckFlag)" style="margin-left:-200%;font-size:18px;padding-top:7px;"></span></td>
+                                                  
+                              </tr>
+                      </table>               
+                  
+                  </div>
+                </div>
               </div> 
- 
+
      </section>
           </div>
           <div id="Expense" class="hide">
@@ -1115,10 +1180,7 @@ thead tr th {
                </div>
 
 
-                <!-- <div class="modal-titlebox" >
-                     <span id="head4" >Roles</span>
-                     <button type="button" class="close" id='cancel' type="reset" data-dismiss="modal"style="margin-right: 2px;margin-top:-6px">&times;</button> 
-                </div>   -->           
+                    
             <div class="hide">
                <div class="col-md-5">
                <label style="line-height:42px !important;">Role ID:<sup>*</sup></label>
@@ -1192,7 +1254,7 @@ thead tr th {
               </div>
              <div class="col-md-12 a">
                 <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Restriction Level:<sup style="color:red">*</sup></label></div>
-                  <div class="col-md-7">
+                  <div class="col-md-7"style="margin-bottom: 4%;">
                <input type="hidden"id="<%=restriction[0].id%>" maxlength="30"  required name="rLevelhide"value="<%=restriction[0].id%>">
                 <div id="rr">  
                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectRR" required name="res_name">
@@ -1203,20 +1265,14 @@ thead tr th {
                       </div>
                     </div>
             </div>
-           <!--  <div id='roleActive'class="col-md-12 a ">
-                <div class="col-md-4"><label style="line-height:42px !important;">Active:</label></div>
-                <div class="col-md-8">
-                  <select class="form-control " style="margin-top:10px;margin-left:13%;width:87%" id='RoleEdit' name="active" onchange=" " style="width:100%;">
-                    <option value="0">No</option>
-                    <option value="1" selected>Yes</option>
-                  </select>
-                </div>    
-              </div>           -->
+           <div class="modal-footer">
                 <center>
-                            <button id='cancel' type="reset" data-dismiss="modal"  class="btn">Cancel</button>
+                         <button id='cancel' type="reset" data-dismiss="modal"  class="btn">Cancel</button>
                              <button id=''   class="btn" onclick="docValidation()">Submit</button>
+               
                 </center>
-         
+
+         </div>
             </div>
             </div>
 </div>
@@ -1310,7 +1366,7 @@ thead tr th {
     $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
     });
     
-    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#demo10','#demo11','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping','#assetBrand','#timestdiv','#tanother'];
+    var collapseId=['#demo1','#demo2','#demo3','#demo5','#demo9','#cstrolesdiv','#inddiv','#busdiv','#docdiv','#tecdiv','#exp1','#exp2','#exp3','#demo4','#demo6','#demo7','#demo8','#demo10','#demo11','#assetComponent','#assetAttribute','#assetValue','#assetAttributeValueMapping','#assetComponentAttributeMapping','#assetBrand','#timestdiv','#tanother','#assetVendor'];
       
       function showHide(temp){
        /* if(temp==5){
@@ -2618,6 +2674,34 @@ if(billa<0){
           }
 
       }
+      else if(checking==7){
+       
+       
+          if($("#VendorName").val().trim()==''){
+            alert("Error:Vendor Name Name cannot be blank");
+            return false;
+          }
+          
+          else{
+              $.ajax({
+                  url: 'addeditBrandName',
+                  type: 'post',
+                  data:{
+                      "brandName":$("#VendorName").val(),
+                      "brandId":"",
+                      "flag":3
+                  },
+                  dataType :'json',              
+                  success: function (data){ 
+                     callback(checking,data[0][0].resultflag,data[0][0].generatedId);
+                  },
+                  error: function(){
+                   window.location.href="/masters" ;
+                  }
+              });
+          }
+
+      }
     } 
     
     function insertCheckFlag(checking,flag,generatedId){
@@ -2836,7 +2920,43 @@ if(billa<0){
 
             }
             
-        }      
+        }     
+         else if(checking==7){
+            if(flag!=-2){
+            alert("Already Exist!");
+            return ;
+            }
+            else{ 
+              var table = document.getElementById("assetTable7"); 
+              var rowCount = $('#assetTable7 tr').length;
+              var row = table.insertRow(rowCount);
+              var rowid='ft_'+(parseInt(rowCount/2));
+              $(row).attr('id',rowid);
+              var cell1 = row.insertCell(0);
+              var cell3 = row.insertCell(1);
+              var selText;
+              cell1.innerHTML = $('#VendorName').val();
+              cell3.innerHTML='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,7,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,7,activeCheckFlag)></span>';
+              document.getElementById("assetTable7").rows[rowid].cells.item(0).id=generatedId ;
+
+              var hiderow = table.insertRow(rowCount+1);
+              var rowhid='fth_'+(parseInt(rowCount/2));     
+              var hidecell1 = hiderow.insertCell(0);
+              var hidecell3 = hiderow.insertCell(1);
+              $(hiderow).attr('id',rowhid);
+              $(hiderow).attr('class','hide');
+              var compo=$("#attrName").html();
+              var textid='ft_text_'+(parseInt(rowCount/2));
+             
+              hidecell1.innerHTML ='<input type="text" id="'+textid+'" maxlength="30"  value="'+$('#VendorName').val()+'" />';
+              hidecell3.innerHTML='<span class="glyphicon glyphicon-floppy-disk" onClick=saveAssetTable1("'+rowid+'",5,getSaveStatus)></span>';
+
+              $("#VendorName").val('');
+              alert("Added Successfully!");
+
+            }
+            
+        } 
     }
 
     var check=0;
@@ -2906,14 +3026,18 @@ if(billa<0){
                
               });
         }
-        else if(tableno==4){
+        else if(tableno==4||tableno==5){
+               if(tableno==4)
+                  flag1=2;
+               else 
+                flag1=4;    
               $.ajax({
                   url: 'addeditBrandName',
                   type: 'post',
                   data:{
                       "brandName":$('#'+textid).val().trim(),
                       "brandId":compOldName,
-                      "flag":2
+                      "flag":flag1
                   },
                   dataType :'json',              
                   success: function (data){ 
@@ -2924,7 +3048,8 @@ if(billa<0){
                    window.location.href="/masters" ;
                   }
               });
-          }    
+          } 
+
          
     }
 
@@ -2951,6 +3076,9 @@ if(billa<0){
             }
              else if(tableno==6){
                  document.getElementById("assetTable6").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
+            }
+            else if(tableno==5){
+                       document.getElementById("assetTable7").rows[rowid].cells.item(0).innerHTML =$('#'+textid).val();
             }
             $("#"+rowhid).addClass('hide');
             $("#"+rowid).removeClass('hide');
@@ -3035,7 +3163,11 @@ if(billa<0){
                 }
                 if(tableno==6){             
                  document.getElementById("assetTable6").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,6,activeCheckFlag) title="click to Active"></span>';
-                 /*<span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,6,activeCheckFlag)></span>*/
+                 
+                }
+                if(tableno==7){             
+                 document.getElementById("assetTable7").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-remove-sign" style="padding-left:5px;color:red" onClick=assetStatus("'+rowid+'",2,7,activeCheckFlag) title="click to Active"></span>';
+                 
                 }
             }
             else{
@@ -3066,6 +3198,9 @@ if(billa<0){
             }
             else if(tableno==6){  
               document.getElementById("assetTable6").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,6,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,6,activeCheckFlag)></span>';
+            }
+             else if(tableno==7){  
+              document.getElementById("assetTable7").rows[rowid].cells.item(1).innerHTML ='<span class="glyphicon glyphicon-ok" style="padding-left:5px;color:green" onClick=assetStatus("'+rowid+'",1,7,activeCheckFlag) title="click to InActive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick=assetStatus("'+rowid+'",3,7,activeCheckFlag)></span>';
             }
         }
          
@@ -3205,10 +3340,10 @@ if(billa<0){
                 console.log('==============',info);
                  table= $('#roletable').DataTable({
                  "iDisplayLength": 10, /*used to display no of element  on page load or relaod*/
-                 "showNEntries": true, /* for displaying showing 10 out of 50 entries at left bottom corner*/
-                 "bFilter": true,        /*dispalying search box at top right corner*/
-                 "bLengthChange": true,
-                 "searching": true,
+                 "showNEntries": false, /* for displaying showing 10 out of 50 entries at left bottom corner*/
+                 "bFilter": false,        /*dispalying search box at top right corner*/
+                 "bLengthChange": false,
+                 "searching": false,
                  "bDestroy" : true,
                  data:info,
                  columns: [

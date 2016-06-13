@@ -1461,6 +1461,7 @@ getType:function(tid,retailerid,callback){
         sql:'call usp_ast_getTypeAndSubtype(?,?,?,?)',
         values:[userId,roleId,retailerId,flag]
     };
+    console.log(q);
       mysql(q,function(err,result){
         callback(err,result);
     });
