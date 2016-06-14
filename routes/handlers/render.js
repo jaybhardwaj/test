@@ -463,7 +463,7 @@ module.exports = {
             //new by palak
                 case 'ajaxHw' :
 				res.json(req.resultAttribute);
-				break;
+				break; 
 			case 'hardware' : 
 				res.render('asset/hardware',{
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,
@@ -472,7 +472,7 @@ module.exports = {
 					brandtype:req.resultType[1],user:req.session.firstName,
 					roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover});
- 
+
 				break;
  			case 'transAss':
  				res.json(req.resultAssigned);
@@ -511,8 +511,10 @@ module.exports = {
 				break;
 
                 case 'expenseOther' :
+
 				res.render('expense/expenseHome',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:1});
+					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:1,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9]});
+
 				break;     
 
 				case 'expensemaster' :

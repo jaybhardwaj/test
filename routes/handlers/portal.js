@@ -2782,9 +2782,9 @@ if(error){
              }
 
             res.json(result[0]);
-           /* if(result[0][0].ng==1){
-            mailTemplates.rejectExpense(result[1][0].emailid,reason,function(error, resultMail){});    
-            }*/
+            if(result[0][0].ng==1){
+            mailTemplates.submitExpense(result[1][0].emailid,result[2][0].name10,function(error, resultMail){});    
+            }
             
          });
      },
@@ -2832,8 +2832,10 @@ if(error){
                  return;
              }
 
-            res.json('suceess');
-             next();
+            res.json(result);
+                      console.log(result[0][0].emailid);
+                     mailTemplates.submitExpenseandapprove(result[0][0].emailid,result[1][0].name10,req.session.firstName,function(error, resultMail){});
+
          });
      },
 

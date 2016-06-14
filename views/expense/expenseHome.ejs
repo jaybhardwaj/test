@@ -492,26 +492,31 @@ $('.inrs').addClass('hide');
     $('#hotel').trigger("reset");
     $("#myModal1").modal('show');
     $("#hfornightDate").val($("#datebutton").val());
+    $("#typeEx").val(0);
   }
   if(expenseType==2){
     $('#travelf').trigger("reset");
     $("#myModal2").modal('show');
     $("#tfornightDate").val($("#datebutton").val());
+     $("#typeEx").val(0);
   }
   if(expenseType==4){
     $('#phonef').trigger("reset");
    $("#myModal3").modal('show');
    $("#phfornightDate").val($("#datebutton").val());
+    $("#typeEx").val(0);
   }
   if(expenseType==5){
     $('#rsdf').trigger("reset");
    $("#myModal4").modal('show');
    $("#rsfornightDate").val($("#datebutton").val());
+    $("#typeEx").val(0);
   }
   if(expenseType==3){
     $('#foodf').trigger("reset");
    $("#myModal6").modal('show');
    $("#ffornightDate").val($("#datebutton").val());
+    $("#typeEx").val(0);
   }
   if(expenseType==6){
     $('#deamf').trigger("reset");
@@ -526,6 +531,7 @@ $('.inrs').addClass('hide');
   $('#otherlavel').append($( "#typeEx option:selected" ).text());
   $('#anyotherex').val($('#typeEx').val());
   $("#ofornightDate").val($("#datebutton").val());
+   $("#typeEx").val(0);
   }
  }
 
@@ -637,7 +643,7 @@ function DeleteExpense(typeid,id,expclid){
                             // claimid=claimid+users[i].expenseclaimId+",";
                               if(users[i].flag!=1){
                                 log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id=" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].tripAssignment + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
-                                   if(((users[i].ClaimedStatus==0)||(users[i].ClaimedStatus==101))&&((users[i].Submitted==0)||(users[i].flag==2))){
+                                   if(((users[i].ClaimedStatus>0)||(users[i].ClaimedStatus==0)||(users[i].ClaimedStatus==101))&&((users[i].Submitted==0)||(users[i].flag==2))){
                                     showtotalExpense();
                                  log=log+ "<a  style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a1'  class='glyphicon glyphicon-trash' style='color:red;height:10px' onclick='DeleteExpense("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' data-target='#myModal1' title ='Delete Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px' onclick='selecthotelExpense("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' title ='Edit Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a3'  class='glyphicon glyphicon-file' style='color:red;height:10px'  onclick='showAttechmentmodel("+users[i].id+");' title ='Attach Bill' ></span><a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a5' class='glyphicon glyphicon-copy' style='color:red;height:10px' onclick='selecthotelExpenseforCopy("+users[i].expenseType+','+users[i].expId+','+users[i].expenseclaimId+");' title ='Copy Expense' ></span><input type='hidden' value="+users[i].expenseclaimId+" name='claimidforuser' id='ipn'>";
                                   if(users[i].anyFile!=undefined){
@@ -1247,7 +1253,7 @@ function expensedescription(expclaimId){
                                     }
                                     //hidetheButton(users[i].expenseclaimId);
                                      //$('#a'.concat(users[i].expenseclaimId)).addClass('hide');
-                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on Mr. <i style='color:#23527c'> "+users1[2][i].firstName+"</i></span></td>";
+                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending on Mr. <i style='color:#23527c'> "+users1[2][i].firstName+"</i></span></td>";
                                  }
                                    if((users[i].ClaimedStatus>1)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
                                       var tempname ;
@@ -1263,7 +1269,7 @@ function expensedescription(expclaimId){
                                       tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                        tempname+='th';
                                     }
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on Mr. "+users1[2][i].firstName+"</span></td>";
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending on Mr. "+users1[2][i].firstName+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
                                 log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by finance</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
@@ -1978,7 +1984,7 @@ else{
                    // $('#submitedbutton').val('Submitted');
                      //document.getElementById("submitedbutton").disabled = true;
                   if(data[0].ng==0){
-                    alert('Data can not be updated because Expense already approved so your added Expense add on next fortnight');
+                    alert('Data can not be submitted because Expense already approved, your added Expenses will be moved to next fortnight');
                     selecthotelExpenseforweek();
                      //document.getElementById("submit11").disabled = false;
                       $('.dismiss').click();
@@ -2021,14 +2027,14 @@ function resubmittheExpenseforCopy(expclaimId) {
                 },
                 success: function(data) {
                   if(data==0){
-                    alert(data);
+                   
                     alert("Expense can not be edited because expense already approved");
                   }
                   $('#submitbut').addClass('hide');
-                  $('#explabel').removeClass('hide');
+                  /*$('#explabel').removeClass('hide');
                $('#typeEx').removeClass('hide');
-               $('#submitbutton').removeClass('hide');   
-                 // selecthotelExpenseforweek();
+               $('#submitbutton').removeClass('hide'); */  
+                  selecthotelExpenseforweek();
                 }
                 });
 
@@ -2831,7 +2837,7 @@ function changeCurrencyforTravel(){
   if($( "#travelc option:selected" ).attr('acualvalue')!=0){
   var c=$('#travelrate').val();
    var d=$('#traveltday').val();
- var totalbill= $( "#travelc option:selected" ).attr('acualvalue')*c*d;
+ var totalbill= $( "#travelc option:selected" ).attr('acualvalue')*1*$('#travelex').val();
  $('#travelex').val(totalbill);
  $('.inrs').removeClass('hide');
 }
@@ -2899,6 +2905,11 @@ function changeCurrencyforOther(){
 
 function changephonecurrency(){
 $('#callingex').val('0');
+$('.inrs').addClass('hide');
+}
+
+function changetravelcurrency(){
+$('#travelex').val('0');
 $('.inrs').addClass('hide');
 }
 
@@ -2993,7 +3004,7 @@ function changeothercurrency(){
 <div id="showMessage" class="hide" style="height:px;width:200px;"><label id="showm" style="color:green;font-size:15px"></label></div>
 
 <div class="secondry-color" id="accordionsdata">
-<div style="margin-top: 10px">
+<div style="margin-top: 10px;margin-left: 10px;margin-right: 10px">
 <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
     <table style="margin-top: 10px" id="data_table" class="table table-hover table-striped table-bordered rceDataTable" cellspacing="0" width="100%" >
                 <!-- <thead>
@@ -3106,10 +3117,12 @@ function changeothercurrency(){
 </div>
 
 <div class="secondry-color hide" id="accordions">
+<div style="margin-left: 10px;margin-right: 10px">
    <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
         <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable">
             
          </table>
+         </div>
     </div>
 <div id="totalandaddEX1" class="hide col-md-12 a" style="background-color:rgba(51, 60, 125, 0.62);height:36px; 
     border-bottom:solid #f05f40;"></div>
@@ -3119,8 +3132,8 @@ function changeothercurrency(){
               <label id='explabel' style="line-height:20px !important;color:white;margin-left:40px;margin-top: 8px;font-size: 12px">Select Expense Type:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
         </div>
         <div class="col-md-3">
-              <select class="form-text-box" style="margin-top:4px;margin-bottom:3px;  float:left;width:200px;" id='typeEx' name="client" onclick="showexpensDetails()">
-                      <option value=0>------Select------</option>                              
+              <select class="form-text-box" style="margin-top:4px;margin-bottom:3px;  float:left;width:200px;" id='typeEx' name="client" onchange="showexpensDetails()">
+                      <option value='0'>------Select------</option>                              
                         <%for(var i=0;i<expenseType.length;i++)
                         {%>
                       <option  value="<%=expenseType[i].id%>">
@@ -3421,7 +3434,7 @@ function changeothercurrency(){
                           <label class="form-Label">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-4">
-                          <select class="form-text-box"  id='travelc' name="travelCurrency"  onchange="changeCurrencyforTravel()" required/>
+                          <select class="form-text-box"  id='travelc' name="travelCurrency"  onchange="changetravelcurrency()" required/>
                                   <option value="" acualvalue='0'>
                                          --Select--
                                   </option>
@@ -3439,7 +3452,7 @@ function changeothercurrency(){
                           <label class="form-Label">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                     </div>
                     <div class="col-md-4">
-                          <input type="number" min="1" step="any" maxlength="45" readonly class="form-text-box" id="travelex" name="travelex" onchange="changeCurrencyforTravel()"   required/>
+                          <input type="number" min="1" step="any" maxlength="45"  class="form-text-box" id="travelex" name="travelex" onchange="changeCurrencyforTravel()"   required/>
                           <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                     </div>                       
                 </div>
@@ -4285,6 +4298,7 @@ function changeothercurrency(){
                 </div>
             
        <div class="secondry-color" id="accordions1">
+       <div style="margin-left: 10px;margin-right: 10px">
         <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
         <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable1">
             <thead>
@@ -4297,7 +4311,7 @@ function changeothercurrency(){
                </thead> 
          </table>
     </div>
-
+ </div>
          </div>
      </div>
                    
