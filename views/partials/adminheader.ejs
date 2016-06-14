@@ -71,12 +71,20 @@
                         <a class="imageInc" href="/logout"><img src="/img/logout.png" id="logout" width="25px" height="25px" style=" margin-top:-2px "/></a>
                     </li> 
                     <li style=" float:right"title="Change Password">
-                        <a data-toggle='modal'data-target='#changepass'>
+                        <a data-toggle='modal' data-target='#changepass'>
                     <img class="imageInc" src="/img/change.png"  id="changepassimg" width="25px" height="25px" style="margin-top:-5px;float:right;"/>
                     </a>
                     </li>
                     <li class="modulemenu">
-                    <a><label class="header-title"style="color:#f04050; ">Hi, <%= user%> </label></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                      <label class="header-title "style="color:#f04050; ">Hi, <%= user%> </label>
+                      <span class="caret"></span>
+                      </a>
+                      <%if(!isRetailer){%>
+                      <ul class="dropdown-menu"> 
+                        <li><a style="cursor:pointer" data-toggle="modal" data-target="#changeSuper">Change Supervisor</a></li>
+                      </ul>
+                      <%}%>
                     </li>   
         </ul>
 
@@ -202,6 +210,45 @@
 </div>
 
     <hr id="hr" style="max-width:100%">
+
+
+<div class="modal fade" id="changeSuper" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content" id="express2">
+                <div class="modal-header" style="background-color:#f05f40;">
+                <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px">&times;</button>
+                    <center>
+                    <label id="head4" class="modal-title" style="color:white;"> Change Supervisor</label>
+                    </center>
+
+                </div> 
+                <div class="modal-body">
+                    <div class="col-md-12 a">
+                        <div class="col-md-4">
+                            <label class="form-Label">Choose Supervisor :</label>
+                        </div>
+                        <div class="col-md-8">
+                             <select class="form-text-box" id="chngSuper">
+                             <option value="0">select</option>
+                             <%for(var i=0;i<allSuperVisors.length;i++){ console.log("my supervisor",mySupervisor);%>
+                              <option value="<%=allSuperVisors[i].id%>" <%if(allSuperVisors[i].id == mySupervisor) {%> selected <%}%> ><%=allSuperVisors[i].name%> <%=mySupervisor%></option>
+                              <%}%>
+                             </select>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="modal-footer" style="border-top:0px;padding:0px">
+                        <center style="padding-top:6%">
+                            <button id="cancel" type="reset" data-dismiss="modal" class="btn  "  >Cancel</button>
+                            <a  onclick="return saveSupervisor()" class="btn ">Submit</a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <!-- <%if((roleid==1)&&(hideFlag==1)){%> 
  <table style="width:70%;margin-top:-12px">
       <tr  align="center">
@@ -249,7 +296,7 @@
             <!-- Modal content-->
             <div class="modal-content" id="express2">
                 <div class="modal-header" style="background-color:#f05f40;">
-                    <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Change Password</b></label></center>
+                    <center><label id="head4" class="modal-title" style="color:white; "> Change Password </label></center>
                 </div>
                 <div id="err" class="col-lg-6 col-sm-offset-3"></div>
                 <div class="modal-body">
@@ -278,10 +325,10 @@
                         </div>
                     </div>
                    <br/>
-                    <div class="modal-footer" style="border-top:0px;">
-                        <center>
-                            <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <a  onclick="return changePassword()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Submit</a>
+                    <div class="modal-footer" style="border-top:0px;padding:0px;padding-top:5px">
+                        <center style="padding-top:2%">
+                            <button id="cancel" type="reset" data-dismiss="modal" class="btn  "  >Cancel</button>
+                            <a  onclick="return changePassword()" class="btn "  >Submit</a>
                         </center>
                     </div>
                 </div>
@@ -297,6 +344,9 @@
         if (jQuery.inArray(el, myModules) == -1) difference.push(el);
     });
      $(document).ready(function() {
+      $("#chngSuper").tagger({
+        "fieldWidth":"24em"
+      });
                     $('#cancel').click(function(){       
                     $('#newpass').val('');
                     $('#confpass').val('');
@@ -349,6 +399,24 @@
                 window.location.reload();
             },
             dataType: 'JSON',
+        });
+     }
+     function saveSupervisor(){
+      alert($("#chngSuper").val());
+      if(!parseInt($("#chngSuper").val())){
+        alert("select a Supervisor!");
+        return false;
+      }
+        $.ajax({
+            url:'/changeSupervisor',
+            type: 'post',
+            data: { 
+                "supervisorId": $("#chngSuper").val()
+                 },
+            success: function(data) { 
+               alert("Supervisor changed successfully!"); 
+               $("#changeSuper").hide();
+            } 
         });
      }
     function verifyCustomRole(){

@@ -5,6 +5,7 @@ var randomString = require('../lib/common').generateRandomString;
  
  
 module.exports = {
+
      getEmpData:function(retId,emp_id,mgr_id,callback){
         if(emp_id==undefined){
             emp_id='';
@@ -66,16 +67,23 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             callback(err, result);
         });
     },
+   changeSupervisor:function(userId,retialerId,supervisorId,callback) {
+        var query = {
+            sql: 'call usp_changeSupervisor(?,?,?)',
+            values: [userId,retialerId,supervisorId]
+        };
+        console.log(query);
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
      validateUser: function(emailid, callback) {
         
-        var dec=emailid.split('|');
-
+        var dec=emailid.split('|'); 
          var dec1=String.fromCharCode(dec[0]);
             for(var i=1;i<dec.length-1;i++){
                 dec1=dec1+ String.fromCharCode(dec[i]);
-            }
-
-        
+            } 
         var query = {
             sql: 'call usp_verifyUserViaEmail(?)',
             values: [dec1]
@@ -2441,7 +2449,7 @@ getHrRole:function(userId,roleId,retailerId,callback){
                sql: 'call usp_deleteReq(?)',
                 values: [id]
          }
-         //console.log("lollllll",q);
+         console.log("lollllll",q);
          mysql(q, function(err, result) {
                     callback(err, result);
          });

@@ -234,6 +234,7 @@ app.post('/insNewVer',portal.insNewVer);
     //app.post('/addStatuss',portal.setaddStatuss);
 	app.post('/settingdata',portal.settingdata);
 	app.post('/getothermaster',portal.getothermaster);
+  app.post('/changeSupervisor',portal.changeSupervisor)
 	
 <!------ srv-------->
 	 app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,

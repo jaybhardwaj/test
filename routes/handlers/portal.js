@@ -174,7 +174,9 @@ var locationId = [],
                             configEmail.password= result[2][0].domailUserName,
                             configEmail.port= result[2][0].domailUserName;  
                            } 
-
+//console.log(result);
+                     req.session.allSupervisors=result[3];
+                     req.session.mySupervisor=result[4][0].managerid;
                      req.session.firstName = result[0][0].firstName;
                      req.session.userName = result[0][0].userEmail;
                      req.session.password = result[0][0].userPassword;
@@ -269,9 +271,18 @@ var locationId = [],
                     
             }
 
-         });
-        
+         }); 
     },
+    changeSupervisor : function(req, res, next) { 
+                modelPortal.changeSupervisor( req.session.userId,req.session.retailerId ,
+                    req.body.supervisorId,function(err, result) {
+                     if (err) { 
+                         next(err);
+                         return;
+                     }   
+                     res.json(result); 
+         });
+     },
  getClient: function(req, res, next) {
   
          modelPortal.getAllClient(req.clientid, req.session.roleId, req.session.retailerId,req.statusflag, function(err, resultClient) {
@@ -3831,7 +3842,7 @@ addUser: function(req, res, next) {
                     next();
                      }
                      else{
-                        res.json(''); 
+                        res.json(result); 
                 } 
             }
         });

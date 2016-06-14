@@ -302,9 +302,14 @@ function updateStatusReq(flag,jdid){
                 'flag':flag
             },
             method: 'post',
-            success: function(nill) {
-              //  alert("Change");
-                location.reload();
+            success: function(data) {
+                if(data[2][0].flag==0){
+                                alert("This Requisition is already deleted!")
+                            }  
+                            else{
+                               alert("Requisition Approved successfuly!") 
+                                location.reload();
+                            } 
             }
             });
 }
@@ -317,6 +322,7 @@ function updateStatusReq(flag,jdid){
                             "bLengthChange": false ,
                             "bSort":true,
                             "aaSorting": [[ 5, "desc" ]]  ,
+                            "columns":[{width:"20%"}]
                             
                         });    
                  
