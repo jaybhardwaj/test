@@ -1530,6 +1530,7 @@ mysql(q,function(err,result){
         sql:'call usp_ast_assetAssignment(?,?,?,?,?,?)',
         values:[aflag,uid,tid,lid,cid,adate]
     };
+    console.log(q);
 mysql(q,function(err,result){
         callback(err,result);
     });

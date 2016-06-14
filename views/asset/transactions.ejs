@@ -236,6 +236,13 @@ var count=0;
                   }
               $('#bodyi').append(row);
             }
+
+            jQuery('.date').datetimepicker({
+                    timepicker:false,
+                    format:'Y-m-d'
+                  });
+
+
             for(var i=0;i<result[1].length;i++){
               var row='<tr><td>'+ ++count+'</td><td>'+result[1][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[1][i].ACID+'></td><td>'+result[1][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[1][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[1][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[1][i].assignDate).toString()).slice(0,10)+'"></input><td>';
                  if(result[1][i].assign==1){
@@ -253,6 +260,13 @@ var count=0;
                   }
               $('#bodyi').append(row);
             }
+
+            jQuery('.date').datetimepicker({
+                    timepicker:false,
+                    format:'Y-m-d'
+                  });
+
+            
           }
         });
         if(tid=='1'){ 
@@ -306,13 +320,7 @@ var count=0;
             options.empty();
              options.append($("<option />").val('0').text('select'));
             $.each(JSON.parse(data), function() {
-
-              if(this['tagNo'] != null){
-                options.append($("<option />").val(this['id']).text(this['tagNo']));
-              }
-
-
-              //options.append($("<option />").val(this['id']).text(this['tagNo']));
+              options.append($("<option />").val(this['id']).text(this['tagNo']));
             });
          $('#com').editableSelect({
 
@@ -365,9 +373,7 @@ var count=0;
             options.empty();
             $.each(JSON.parse(data), function() {
               //console.log(data);
-              if(this['tagNo'] != null){
-                options.append($("<option />").val(this['id']).text(this['tagNo']).attr('value1',this['id']));
-              }
+              options.append($("<option />").val(this['id']).text(this['tagNo']).attr('value1',this['id']));
             });
           var a;
           $('#acc').editableSelect({
