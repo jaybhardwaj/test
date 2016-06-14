@@ -22,31 +22,37 @@
         <label for="typel" class="form-Label">Name:<sup class="astrick">*</sup></label></td>
             <td>
               
-               <input type="text" id="typel" class="form-text-box" maxlength="50" name="typel" placeholder="name">
+               <input type="text" id="typel" class="form-text-box" maxlength="30" name="typel" placeholder="name">
             </td>
           </td>
         <td><td>
           <label for="no" class="form-Label">Quantity: <sup class="astrick">*</sup></label></td>
          <td>
            
-             <input name="no" class="form-text-box" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
+             <input name="no" class="form-text-box" type="number" min="1" maxLength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
           </td>
         </td>
         <td><td>
           <label for="vendor" class="form-Label">Vendor: <sup class="astrick">*</sup></label></td>
         <td>
             
-             <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
+             <!-- <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
               <option value='0' disabled selected>Select</option>
                 <option value='vendor' >vendor</option>
-              </select> 
+              </select> --> 
+              <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
+              <option value='0' disabled selected>Select</option>
+               <% for(i=0;i<brand_vendor[1].length;i++){%>
+                <option value="<%=brand_vendor[1][i].id%>"><%=brand_vendor[1][i].name%></option>
+                <%}%>
+              </select>
            </td>
         </td>
      <td><td>
           <label for="invoiceNo" class="form-Label">Invoice No. <sup class="astrick">*</sup></label></td>
          <td>
             
-            <input type="text" maxlength="40" name="invoiceNo" class="form-text-box" id="invoiceNo" placeholder="Invoice No.">
+            <input type="text" maxlength="30" name="invoiceNo" class="form-text-box" id="invoiceNo" placeholder="Invoice No.">
           </td>
         </td></tr><tr>
         <td><td>
@@ -145,6 +151,11 @@ jQuery('.date').datetimepicker({
       alert("Delivery date is Missing!");    
       return false;
     }
+      if(new Date($('#Invoicedate').val())>new Date($('#Deliverydate').val()))
+              {
+                alert("Invoicedate Date is greater than Deliverydate Date");
+                return false;
+            }
     
   }
 </script>

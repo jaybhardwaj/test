@@ -94,7 +94,7 @@ app.get('/viewFurniture',url.setpageviewFurniture,portal.getViewFurniture,render
 app.get('/viewStationary',url.setpageviewStationary,portal.getViewStationary,render.redirect);
 app.get('/addFurniture1',url.setpageaddFurniture,portal.addFurniture1,render.redirect);
 app.post('/addFurniture',url.setpageviewFurniture,portal.addFurniture,portal.getViewFurniture,render.redirect)
-app.get('/addStationary',url.setpageAddStation,render.redirect);
+app.get('/addStationary',url.setpageAddStation,portal.addFurniture1,render.redirect);
 app.post('/addStationary',url.setpageviewStationary,portal.addStation,portal.getViewStationary,render.redirect)
 app.get('/viewHardware',url.setpageViewHardware,portal.getViewHardware,portal.getComp,render.redirect);//new4hardware
 app.post('/getEditHardware',url.editHardware,portal.editHardware,render.redirect);//new4hard

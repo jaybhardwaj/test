@@ -25,7 +25,7 @@
        <td><td>
           <label for="no" class="form-Label">Quantity: <sup class="astrick">*</sup></label></td>
          <td>
-            <input name="no" class="form-text-box" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">  
+            <input name="no" class="form-text-box" type="number" min="1" maxLength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">  
           </td>
         </td>
       <td><td>
@@ -91,7 +91,7 @@
       <td><td>
         <label for="uprice" class="form-Label">Unit Price: <sup class="astrick">*</sup></label>
         </td><td>
-          <input name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-text-box" id="uprice"   placeholder="Unit Price">
+          <input type="text" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-text-box" id="uprice"   placeholder="Unit Price">
         </td>
       </td>
       <td></td>
@@ -169,11 +169,23 @@ jQuery('.date').datetimepicker({
       alert("Delivery date is Missing!");    
       return false;
     }
+
+     if(new Date($('#Invoicedate').val())>new Date($('#Deliverydate').val()))
+              {
+                alert("Invoicedate Date is greater than Deliverydate Date");
+                return false;
+            }
+
+
     if(up.length<2||isNaN(up)||up.trim().length<1) 
     {
       alert("Enter valid Unit Price!");    
       return false;
     }
-    
+              
+             
+
+
+         
   }
 </script>

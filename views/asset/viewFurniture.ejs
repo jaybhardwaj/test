@@ -101,7 +101,9 @@
                 <!-- <input type="text" maxlength="50"  class="form-text-box" id="vendor" name="vendor"/> -->
                 <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
               <option value='0' disabled selected>Select</option>
-                <option value='vendor' >vendor</option>
+                <% for(i=0;i<stype[2].length;i++){%>
+                <option value="<%=stype[2][i].id%>"><%=stype[2][i].name%></option>
+                <%}%>
               </select>
               </td>
             </td></tr><tr>
@@ -160,9 +162,9 @@
                 
                 <select  class="form-text-box" style=""  name="brand" id ="brand" onchange=""> 
               <option value='0' disabled selected>Select</option>
-               
-                <option value="brand">brand_vendor</option>
-                
+               <% for(i=0;i<stype[1].length;i++){%>
+                <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
+                <%}%>
               </select>
               </td>
             </td>
@@ -192,6 +194,7 @@ $(document).ready(function(){
         
   <%if(flag==1){%>
       alert("Furniture successfully added!");
+      window.location.href='/viewFurniture';
     <%}%>
   var oTable=$("#furtable").dataTable({
     "bLengthChange": false,
@@ -298,6 +301,12 @@ var inamount=$('#invoiceAmt').val();
       alert("Enter valid Unit Price!");    
       return false;
     }
+    
+              if(new Date($('#Invoicedate').val())>new Date($('#Deliverydate').val()))
+              {
+                alert("Invoicedate Date is greater than Deliverydate Date");
+                return false;
+            }
   $.ajax({
     url: '/updateFurniture',
     method: 'POST',

@@ -91,7 +91,13 @@
            <td><td>
                 <label  class="form-Label" >Vendor: *</label>
               </td><td>
-                <input type="text" maxlength="50"  class="form-text-box" id="vendor" name="vendor"/>
+               <!--  <input type="text" maxlength="50"  class="form-text-box" id="vendor" name="vendor"/> -->
+               <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
+              <option value='0' disabled selected>Select</option>
+                <% for(i=0;i<stype[1].length;i++){%>
+                <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
+                <%}%>
+              </select>
               </td>
             </td></tr><tr>
           <td><td>
@@ -108,14 +114,15 @@
             <td><td>
                 <label  class="form-Label" >Invoice Number: *</label>
               </td><td>
-                <input type="text" maxlength="10"  class="form-text-box" id="invoiceNo" name="invoiceNo" />
+                <input type="text" maxlength="30"  class="form-text-box" id="invoiceNo" name="invoiceNo" />
               </td>
               </td></tr><tr>
             <td><td>
                 <label  class="form-Label" >Invoice Amount: *</label>
               </td>
              <td>
-                <input type="text" maxlength="11"  class="form-text-box" id="invoiceAmt" name="invoiceAmt" />
+               <!--  <input type="text" maxlength="11"  class="form-text-box" id="invoiceAmt" name="invoiceAmt" /> -->
+                <input type="number" maxLength="12"  name="invoiceAmt" class="form-text-box" id="invoiceAmt"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
               </td>
             </td>
            <td><td>
@@ -168,7 +175,9 @@ $(document).ready(function(){
      $('.asset-img').addClass('active');
   <%if(flag==1){%>
   alert("Stationary successfully added!");
+  window.location.href='/viewStationary';
   <%}%>
+
    var oTable= $("#stationtable").dataTable({
     "bLengthChange": false,
     "binfo":false
@@ -242,6 +251,13 @@ function validate(){
       alert("Delivery date is Missing!");    
       return false;
     }
+
+    
+              if(new Date($('#Invoicedate').val())>new Date($('#Deliverydate').val()))
+              {
+                alert("Invoicedate Date is greater than Deliverydate Date");
+                return false;
+            }
       
   //alert($('#Invoicedate').val());
   $.ajax({

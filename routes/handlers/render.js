@@ -354,7 +354,7 @@ module.exports = {
 				res.json(req.resultdelete);
 				break;
 			case 'addStationary':
-				res.render('asset/addStationary',{myModules:req.session.modules,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/addStationary',{myModules:req.session.modules,brand_vendor:req.brandName,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 				//new 4 dynamic software
 			case 'addSoftware':

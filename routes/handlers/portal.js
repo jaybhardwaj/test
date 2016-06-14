@@ -2064,6 +2064,7 @@ changeAssignmentStatus: function(req, res, next) {
                 return;
             }
             req.resultFurniture=resultFurniture;
+            console.log("data in view furniture is",resultFurniture);
             next();
         });
     },
@@ -2188,7 +2189,7 @@ getViewHardware:function(req,res,next){
                 } else 
                 {
                     req.resultFurniture=result;
-                    console.log(" after adding furniture infoprmation",resultFurniture);
+                    console.log(" after adding furniture infoprmation",req.resultFurniture);
                     next();
                 }
          });
@@ -2401,6 +2402,7 @@ getViewHardware:function(req,res,next){
           return;
         }
         req.resultStationary=resultStationary;
+        console.log("i am in view stationary page for .....",resultStationary);
         next();
       });
     },
