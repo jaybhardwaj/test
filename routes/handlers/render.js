@@ -306,7 +306,7 @@ module.exports = {
 
 			// new for hardware
 			case 'viewHardware':
-				res.render('asset/viewHardware',{myModules:req.session.modules,hideFlag:0, htype:req.resultHardware[0],ctype:req.resultHardware[1],brandtype:req.resultHardware[2],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover})
+				res.render('asset/viewHardware',{ vendor:req.resultHardware[3],myModules:req.session.modules,hideFlag:0, htype:req.resultHardware[0],ctype:req.resultHardware[1],brandtype:req.resultHardware[2],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover})
 		
 				break;
 			case 'viewFurniture' :
