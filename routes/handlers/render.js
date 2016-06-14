@@ -368,14 +368,11 @@ module.exports = {
 				break;
 			case 'viewSoftware':
 				res.render('asset/viewSoftware',{
-<<<<<<< Updated upstream
-					myModules:req.session.modules,hideFlag:0,flag:req.body.flag,stype:req.resultSoftware,
-					logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,
-=======
+ 
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,flag:req.body.flag,stype:req.resultSoftware,
 					logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleid,
->>>>>>> Stashed changes
+ 
 					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 
@@ -394,12 +391,10 @@ module.exports = {
 				res.json(req.resultUsers[0]);
 				break;
 			case 'transactions' :
-<<<<<<< Updated upstream
-				res.render('asset/transactions',{assignedHome:req.resultAssignedHome,myModules:req.session.modules,hideFlag:0,
-=======
-				res.render('asset/transactions',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,
->>>>>>> Stashed changes
+ 
+				res.render('asset/transactions',{
+					assignedHome:req.resultAssignedHome,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:0, 
 					users:req.resultUsers[0],roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover})
@@ -409,12 +404,12 @@ module.exports = {
 				res.json(req.resultdelete);
 				break;
 			case 'addStationary':
-<<<<<<< Updated upstream
-				res.render('asset/addStationary',{myModules:req.session.modules,brand_vendor:req.brandName,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
-=======
-				res.render('asset/addStationary',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+ 
+				res.render('asset/addStationary',{
+					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,
+					mySupervisor:req.session.mySupervisor,brand_vendor:req.brandName,
 					isRetailer:req.session.isRetailer,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
->>>>>>> Stashed changes
+ 
 				break;
 				//new 4 dynamic software
 			case 'addSoftware':
@@ -469,12 +464,15 @@ module.exports = {
 				res.json(req.resultAttribute);
 				break;
 			case 'hardware' :
-<<<<<<< Updated upstream
-				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType,brandtype:req.resultType[1],user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
-=======
-				res.render('asset/hardware',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,htype:req.resultType[0],brandtype:req.resultType[1],user:req.session.firstName,roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
->>>>>>> Stashed changes
+ 
+				res.render('asset/hardware',{
+					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,
+					mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:0,htype:req.resultType[0],
+					brandtype:req.resultType[1],user:req.session.firstName,
+					roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover});
+ 
 				break;
  			case 'transAss':
  				res.json(req.resultAssigned);
