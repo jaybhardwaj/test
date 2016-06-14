@@ -306,7 +306,13 @@ var count=0;
             options.empty();
              options.append($("<option />").val('0').text('select'));
             $.each(JSON.parse(data), function() {
-              options.append($("<option />").val(this['id']).text(this['tagNo']));
+
+              if(this['tagNo'] != null){
+                options.append($("<option />").val(this['id']).text(this['tagNo']));
+              }
+
+
+              //options.append($("<option />").val(this['id']).text(this['tagNo']));
             });
          $('#com').editableSelect({
 
@@ -359,7 +365,9 @@ var count=0;
             options.empty();
             $.each(JSON.parse(data), function() {
               //console.log(data);
-              options.append($("<option />").val(this['id']).text(this['tagNo']).attr('value1',this['id']));
+              if(this['tagNo'] != null){
+                options.append($("<option />").val(this['id']).text(this['tagNo']).attr('value1',this['id']));
+              }
             });
           var a;
           $('#acc').editableSelect({

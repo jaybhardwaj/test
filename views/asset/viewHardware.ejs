@@ -41,11 +41,12 @@
           <td><%=htype[i].componentName%></td>
           <td><%=htype[i].quantity%></td>
           <td><%=htype[i].vendor%></td>
-          <td><%=((htype[i].invoiceDate).toString()).slice(3,16)%></td>
+         <!--  <td><%=((htype[i].invoiceDate).toString()).slice(3,16)%></td> -->
+          <td><%=htype[i].invoiceDate%></td>
           <td><%=htype[i].invoiceNo%></td>
           <td><%=htype[i].invoiceAmt%></td>   
           <td><%=htype[i].purchaseOrder%></td>
-          <td><%=((htype[i].deliveryDate).toString()).slice(3,16)%></td>
+          <td><%=htype[i].deliveryDate%></td>
           <td>
             <a data-toggle='modal' data-target='#editHardware' onclick="edit(<%=htype[i].id%>)">
               <span class='glyphicon glyphicon-pencil' style='color:green;height:10px;'  title ='Edit'></span>
@@ -516,7 +517,7 @@ function edit(id){
     method:'POST',
     data: {'id':id},
     success: function(data) { 
-      console.log("edit info----------------",data[0][0].componentName);
+      console.log("edit info----------------",data[0]);
       $("#type").val(data[0][0].ACID);
       $("#type1").val(data[0][0].componentName);
       $("#qty").val(data[0][0].quantity);
@@ -597,7 +598,7 @@ function getlinedtata(){
              row=row+'<option value="'+result[2][dropdownValues].id+'">'+result[2][dropdownValues].value+'</option>';  
            }
           row = row + '</select></td><td><input'+
-        ' class="form-text-box  warrClass" id="warranty'+i+'" type = "text"></td>';
+        ' class="form-text-box  warrClass datetimepicker1" style="width:100%" id="warranty'+i+'" type = "text"></td>';
            row = row + '<td class="hide"><input'+
         ' class="form-text-box warrClass" id="componentdata'+i+'" type = "hidden"></td>';
         row = row + '<td class="hide"><input'+
@@ -613,6 +614,11 @@ function getlinedtata(){
          // addId(i);
           $('#bodyi').append(row);
                     }
+
+                    jQuery('.datetimepicker1').datetimepicker({
+                    timepicker: false,
+                    format: 'Y-m-d'
+                });
 
           
           $('#table1').removeClass('hide');
@@ -841,6 +847,11 @@ function validatehardvare(){
     alert("Delivery date Missing!");    
     return false;
   }
+  else if(new Date($('#Deliverydate').val())<new Date($('#Invoicedate').val())){
+    alert("Delivery date cannot be less then invoice date!");
+     return false;
+  }
+
   else
     for(var i=0;i<document.getElementById('qty').value;i++){
     if($('#serial'.concat(i)).val()==''){
@@ -851,6 +862,25 @@ function validatehardvare(){
       alert('Warranty Missing!');
       return false;
     }
+
+    else if(new Date($('#warranty'.concat(i)).val())<new Date($('#Deliverydate').val())  ){
+      j=i+1;
+      alert("Warranty date at row "+j+" cannot be less then Delivery date!");
+      return false;
+    }
+    var abc=0;
+    for(var j=0;j<document.getElementById('qty').value;j++){
+      if(i != j){
+        if($('#serial'.concat(i)).val() == $('#serial'.concat(j)).val()){ abc++; }
+      }
+    }
+
+    if(abc!=0){
+      alert('Serial number of two components cannot be same.');
+      return false;
+    }
+
+
     else if(i==((document.getElementById('qty').value)-1)){
      parsealldata(); 
     }
@@ -862,10 +892,21 @@ function validatehardvare(){
   function addCompModal()
   {
     
-    var row = '<tr><td><select class = "form-text-box" id="compo'+countAddCompModal+'"><%for(var i=0;i<ctype.length;i++){%><option value="<%=ctype[i].id%>"><%=ctype[i].componentName%></option><%}%></select></td><td><input type = "text" class = "form-text-box" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 form-text-box" style="width:170px"  id="brand1'+countAddCompModal+'"><%for(var i=0;i<brandtype.length;i++){%><option value="<%=brandtype[i].id%>"><%=brandtype[i].value%></option><%}%></select></td><td><input type = "text" class = "form-text-box" id="war'+countAddCompModal+'"></td><td><input type = "text" class = "form-text-box" id="size'+countAddCompModal+'"></td></tr><input type="hidden" id="sublineid'+countAddCompModal+'" value="0">';
+    var row = '<tr><td><select class = "form-text-box" id="compo'+countAddCompModal+'"><%for(var i=0;i<ctype.length;i++){%>';
+      if($('#type').val() != "<%=ctype[i].id%>"){
+    row+='<option value="<%=ctype[i].id%>"><%=ctype[i].componentName%></option>';
+      }
+
+    row+='<%}%></select></td><td><input type = "text" class = "form-text-box" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 form-text-box" style="width:170px"  id="brand1'+countAddCompModal+'"><%for(var i=0;i<brandtype.length;i++){%><option value="<%=brandtype[i].id%>"><%=brandtype[i].value%></option><%}%></select></td><td><input type = "text" class = "form-text-box datetimepicker11" id="war'+countAddCompModal+'"></td><td><input type = "text" class = "form-text-box" id="size'+countAddCompModal+'"></td></tr><input type="hidden" id="sublineid'+countAddCompModal+'" value="0">';
      $('#addcompobody').append(row);
    
          countAddCompModal++;
+
+         var date=new Date($('#Deliverydate').val());
+          jQuery('.datetimepicker11').datetimepicker({
+  timepicker:false,
+  format:'Y-m-d', minDate:date
+  });
 
   }
 
