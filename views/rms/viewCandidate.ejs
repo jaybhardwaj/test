@@ -366,7 +366,8 @@
                                             </td>
                                             <td>
                                               <label id="dateLable">Date & Time<sup class="astrick">*</sup></label>
-                                                 <input size="16" type="text" class="form-text-box" value="2012-06-15 14:45" style="width:95%" readonly name="intdatetime" id="intdatetime">
+                                              <input id="defaultDate" class="hide" name="">
+                                                 <input size="16" type="text" class="form-text-box" value="" style="width:95%" readonly name="intdatetime" id="intdatetime">
                                                     
                                             </td>
 
@@ -759,7 +760,9 @@
                             return false;
                           }
                         }
-                        if ($('#intdatetime').val() == '') {
+                        var d1=new Date($('#intdatetime').val());
+                        var d2=new Date($("#defaultDate").val());
+                        if ($('#intdatetime').val() == ''||d1<d2) {
                             alert("Choose a Date and time for interview");
                             return false;
                         }
@@ -814,8 +817,8 @@
                                 $('#taggedInMulJd').html(strName);
                                 $('#cdtidint').val(data[0][0].candidateID);
                                 $('#schtaggedJd').html('<option  value="0">-select-</option>');
-                                for (var i = 0; i < data[0].length; i++) {
-                                    $('#schtaggedJd').append("<option value='" + data[0][i].jdID + "''>" + data[0][i].title + "</option>");
+                                for (var i = 0; i < data[6].length; i++) {
+                                    $('#schtaggedJd').append("<option value='" + data[6][i].jdID + "''>" + data[6][i].title + "</option>");
                                 }
 
                                 $('#interviewer').html('<option  value="0">-select-</option>');
@@ -897,7 +900,8 @@
                                 lastDate=new Date(lastDate);
                                 if(data[5].length){
                                   todate=lastDate;
-                                } 
+                                }
+                                $("#defaultDate").val(todate);
                                 $('#intdatetime').datetimepicker({
                                    minDate:todate
                                 }); 
@@ -986,7 +990,7 @@
                     }
                     table1 = '';
 
-                    function getAllTag(id) {
+                    function getAllTag(id) { 
                         //$("#tagmorediv").hide();
                         // $("#schedulediv").hide();
                         console.log(id);
@@ -997,8 +1001,8 @@
                                 "id": id
                             },
                             success: function(data) {
-                             
-                                console.log("tag data", data[0].length,",",data[3].length);
+                          
+                                console.log("tag data", data[0] ,",",data[3] );
                                 $('#tcid').val(data[2][0].id);
 
                                 $('#cdtname').html(data[2][0].name);
@@ -1020,7 +1024,12 @@
                                     //data[0][i].sno=c++;
                                     var obj = {};
                                     obj.sno = c++;
-                                    obj.title = data[0][i].title + "<span onclick='removetag(" + data[2][0].id + "," + data[0][i].tagId + ")'  class='glyphicon glyphicon-trash' style='color:#06394A;float:right; height:10px'title ='Remove Tag' >";
+                                    deletebtn='';
+                                     if((data[0][i].assignedTo==<%=uid%>)||(data[0][i].adminHr==<%=uid%>)){
+                                      
+                                    deletebtn="<span onclick='removetag(" + data[2][0].id + "," + data[0][i].tagId + ")'  class='glyphicon glyphicon-trash' style='color:#06394A;float:right; height:10px'title ='Remove Tag' >";
+                                  } 
+                                    obj.title = data[0][i].title + deletebtn;
                                     obj.state = data[3][i].stateName;
                                     obj.status = data[3][i].statusName;
                                   //  console.log("OBJ", obj);

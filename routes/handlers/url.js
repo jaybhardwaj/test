@@ -909,6 +909,7 @@ console.log(req.page)
 	},
 	viewCandidate:function(req,res,next){
 		 if(req.session.modules.indexOf(config.RMS)>=0){
+		 	
 		req.page="viewCandidate";
 		next();
 	}

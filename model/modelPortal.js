@@ -2486,11 +2486,12 @@ getHrRole:function(userId,roleId,retailerId,callback){
             sql: "call usp_getAllTag(?,?)",
             values: [id,retailerId]
         }
+        //console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                //console.log(err);
+                 console.log(err);
             } else {
-                //console.log("query---  ",q,"---rsult----",result);
+                 console.log("query---  ",q,"---rsult----",result);
                 callback(err,result);
             }
         });         
@@ -2806,8 +2807,8 @@ getHrRole:function(userId,roleId,retailerId,callback){
 
 getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
        var q ={
-        sql: "call usp_scheduleIntInfo(?,?)",
-        values: [cid,retailerId]
+        sql: "call usp_scheduleIntInfo(?,?,?)",
+        values: [cid,retailerId,userId]
        
         };
         //console.log(q);

@@ -556,7 +556,7 @@ module.exports = {
 	                location: req.viewCandidate[2],
 	                role: req.session.hrRole,
 	                Name: '',
-	                myModules:req.session.modules,hideFlag:0,id:req.userid,user:req.session.firstName,
+	                myModules:req.session.modules,hideFlag:0,uid:req.session.userId,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
             });
