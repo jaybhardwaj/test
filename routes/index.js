@@ -145,7 +145,7 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
     app.get('/expenseother',url.setOtherExpense,portal.getExpense,portal.getRole,render.redirect); 
     app.post('/expenseAdmin', portal.selectByExpenseAdmin,portal.getRole);
     app.post('/checkFinancemanager', portal.checkFinancemanager,portal.getRole);
-
+    app.post('/getBillableUsers', portal.getBillableUsers,portal.getRole);
 
    //---------------------------------TimeSheet-----------------------------------------
 	app.get('/timesheet',url.fillTimeSheet,portal.getTimeSheetData,render.redirect);

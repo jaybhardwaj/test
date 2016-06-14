@@ -1594,6 +1594,16 @@ mysql(q,function(err,result){
         });
     },
 
+      togetBillableUsers: function(userid,fordate,callback) {
+        var query = {
+            sql: 'call Ex_getExpensebillableusers(?,?)',
+            values: [userid,fordate]
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
+
      getExpenseWeekBy: function(userid,date,callback) {
         var query = {
             sql: 'call Ex_getExpenseTypeweekBy(?,?)',

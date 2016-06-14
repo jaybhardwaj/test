@@ -2770,8 +2770,11 @@ if(error){
                  return;
              }
 
-            res.json('suceess');
-             next();
+            res.json(result[0]);
+           /* if(result[0][0].ng==1){
+            mailTemplates.rejectExpense(result[1][0].emailid,reason,function(error, resultMail){});    
+            }*/
+            
          });
      },
 
@@ -2872,6 +2875,19 @@ if(error){
 
              res.json(result[0][0].flag2);
             //console.log(result[0][0].flag2);
+         });
+     },
+
+      getBillableUsers: function(req, res, next) {
+
+         modelPortal.togetBillableUsers(req.session.userId,req.body.fortnightDate, function(errorRoles, result) {
+             if (errorRoles) {
+                 next(errorRoles);
+                 return;
+             }
+
+             res.json(result[0]);
+            console.log(result[0]);
          });
      },
 

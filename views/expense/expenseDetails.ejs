@@ -426,14 +426,18 @@ showexpensDetailsofuser()
 
                             
                                   log+="</td><td>";
-                               if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)){
-                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending..</span></td>";
-                                 }
-                                  if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
-                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending..</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
+                                     if((users[i].ClaimedStatus>0)&&(users[i].Submitted==1)&&(users[i].status==1)){
+                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved By Mr. <i style='color:#23527c'>"+users[i].firstName1+"</i></span></td>";
                                  }
 
-                                   if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)&&(users[i].Status==1)){
+                               if((users[i].ClaimedStatus==0)&&(users[i].Submitted==1)&&(users[i].status==0)){
+                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending on Mr. <i style='color:#23527c'>"+users[i].firstName1+"</i></span></td>";
+                                 }
+                                  if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)&&(users[i].Status==1)){
+                              log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending on Mr. <i style='color:#23527c'> "+users[i].firstName1+"</i></span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
+                                 }
+
+                                   if((users[i].ClaimedStatus>0)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)&&(users[i].status==0)){
 
                                     var tempname='';
                                     if(users[i].ClaimedStatus==1){
@@ -449,9 +453,9 @@ showexpensDetailsofuser()
                                        tempname+='th';
                                     }
                                    
-                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on "+tempname+" Level</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
+                               log=log + "<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on <i style='color:#23527c'>"+users[i].firstName1+" </i></span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
                                  }
-                                   if((users[i].ClaimedStatus>1)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)){
+                                   if((users[i].ClaimedStatus>1)&&(users[i].ClaimedStatus<10)&&(users[i].Submitted==1)&&(users[i].status==0)){
                                     var tempname='';
                                     if(users[i].ClaimedStatus==1){
                                       tempname=parseInt(users[i].ClaimedStatus)+1 ;
@@ -465,16 +469,16 @@ showexpensDetailsofuser()
                                       tempname=parseInt(users[i].ClaimedStatus)+1 ;
                                        tempname+='th';
                                     }
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on "+tempname+" Level</span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pendding on Mr. <i style='color:#23527c'> "+users[i].firstName1+"</i></span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by finance</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by Mr. "+users[i].firstName1+"</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved By Mr. <i style='color:#23527c'> "+users[i].firstName1+"</i>'></span></td>";
                                  }
                                    if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)){
-                                log=log +"<span style='height:20px;font-size:10px;'>Rejected</span></td>";
+                                log=log +"<span style='height:20px;font-size:10px;'>Rejected by Mr. <i style='color:#23527c'> "+users[i].firstName1+"</i></span></td>";
                                  }
                                      if(users[i].ClaimedStatus==101){
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected</span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Rejected by Mr. <i style='color:#23527c'> "+users[i].firstName+"</i></span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
                                  }
                             
                             log = log + "</tr>";}
@@ -697,7 +701,7 @@ function expensedescription(expclaimId){
 
             <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
                     <center>
-                        <label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Expense Details</b></label>
+                        <label id="head4" class="modal-title" style="color:white;font-size:12px;"><b>Expense Details</b></label>
                          <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
                     </center>
 
@@ -731,7 +735,7 @@ function expensedescription(expclaimId){
 
             <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
                     <center>
-                        <label id="head4" class="modal-title" style="color:white;font-size:15px;"><b>Comments</b></label>
+                        <label id="head4" class="modal-title" style="color:white;font-size:12px;"><b>Comments</b></label>
                         <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
                     </center>
                 </div>
