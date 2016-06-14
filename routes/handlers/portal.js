@@ -2516,7 +2516,7 @@ if(error){
         });
 },
 getAssignedAssets:function(req,res,next){
-modelPortal.getAssignedAssets(req.body.atid,req.body.uid,function(error,resultAssigned){
+modelPortal.getAssignedAssets(req.body.atid,req.body.uid,req.body.flag,function(error,resultAssigned){
 if(error){
               next(error);
             return;}
