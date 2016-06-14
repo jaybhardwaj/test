@@ -48,13 +48,13 @@
           <td><%=htype[i].purchaseOrder%></td>
           <td><%=htype[i].deliveryDate%></td>
           <td>
-            <a data-toggle='modal' data-target='#editHardware' onclick="edit(<%=htype[i].id%>)">
-              <span class='glyphicon glyphicon-pencil' style='color:green;height:10px;'  title ='Edit'></span>
+            <a data-toggle='modal' data-target='#editHardware' onclick="showInfo(<%=htype[i].id%>,0)">
+              <span class='glyphicon glyphicon-pencil' style='color:green;margin: 3px'  title ='Edit'></span>
             </a>
-             <a data-toggle='modal' data-target='#editHardware1' onclick="description(<%=htype[i].id%>)">
-              <span class='glyphicon glyphicon-list' style='color:green;height:10px;'  title ='Description'></span>
+             <a data-toggle='modal' data-target='#editHardware' onclick="showInfo(<%=htype[i].id%>,1)">
+              <span class='glyphicon glyphicon-list' style='color:green;margin: 3px'  title ='Description'></span>
             </a>
-            <a onclick="del(<%=htype[i].id%>)" type="button"><span class='glyphicon glyphicon-trash' style='color:red;height:10px;'title='Delete'></span>
+            <a onclick="del(<%=htype[i].id%>)" type="button"><span class='glyphicon glyphicon-trash' style='color:red;margin: 3px'title='Delete'></span>
             </a>
           </td>
         </tr>
@@ -90,49 +90,60 @@
         <div id="err" class="col-lg-6 col-sm-offset-3"></div>
           <div class="modal-body">
            <table class="table"><tr><td><td>
-                <label class="form-Label" >Hardware Type: *</label></td>
+                <label class="form-Label" >Hardware Type: </label><sup class="astrick">*</sup></td>
              <td>
-                <input type="text" id="type1"   name="type1"  class="form-text-box" value="" disabled>
-               <input type="hidden" id="type"   name="type"  class="form-control" value="" disabled>             
+                <input type="text" id="type1"   name="type1"  class="form-text-box textBox" value="" disabled>
+               <input type="hidden" id="type"   name="type"  class="form-control" value="" disabled>  
+               <label id="ltype" class="form-Label labelans hide"></label>           
               </td></td><td><td>
-                <label class="form-Label" >Quantity: *</label></td>
+                <label class="form-Label" >Quantity: </label><sup class="astrick">*</sup></td>
              <td>
-                <input type="number" maxlength="2"  class="form-text-box" id="qty" name="qty" onchange="addline()" />
+                <input type="number" maxlength="2"  class="form-text-box textBox" id="qty" name="qty" onchange="addline()" />
+                <label id="lqty" class="form-Label labelans hide"></label> 
               </td></td><td><td>
-                <label class="form-Label">Vendor: *</label></td>
-            <td>
-               <!--  <input type="text" maxlength="50"  class="form-text-box" id="vendor" name="vendor"/> -->
-
-               <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
+                <label class="form-Label">Vendor: </label><sup class="astrick">*</sup></td>
+            <td> 
+               <select  class="form-text-box textBox" style=""  name="vendor" id ="vendor" onchange=""> 
               <option value='0' disabled selected>Select</option>
                <% for(i=0;i<vendor.length;i++){%>
                 <option value="<%=vendor[i].id%>"><%=vendor[i].name%></option>
                 <%}%>
               </select>
-
+              <label id="lvendor" class="form-Label labelans hide"></label> 
 
              </td></td></tr><tr><td><td>
-                <label class="form-Label">Invoice Number: *</label>
+                <label class="form-Label">Invoice Number: </label><sup class="astrick">*</sup>
               </td><td>
-                <input type="text" maxlength="10"  class="form-text-box" id="invoiceNo" name="invoiceNo" />
+                <input type="text" maxlength="10"  class="form-text-box textBox" id="invoiceNo" name="invoiceNo" />
+                <label id="linvoiceNo" class="form-Label labelans hide"></label>
                 </td></td><td><td>
-                <label class="form-Label">Invoice Date: *</label>
+
+                <label class="form-Label">Invoice Date: </label><sup class="astrick">*</sup>
              </td><td>
-                <input type="text" class="form-text-box date"id="Invoicedate" name="Invoicedate" />
+
+                <input type="text" class="form-text-box date textBox" id="Invoicedate" name="Invoicedate" />
+                   <label id="lInvoicedate" class="form-Label labelans hide"></label>
              </td></td><td><td>
-                <label class="form-Label">Invoice Amount: *</label>
+
+                <label class="form-Label">Invoice Amount: </label><sup class="astrick">*</sup>
               </td><td>
-                <input type="text" maxlength="11"  class="form-text-box" id="invoiceAmt" name="invoiceAmt" />
+                <input type="text" maxlength="11"  class="form-text-box textBox" id="invoiceAmt" name="invoiceAmt" />
+                   <label id="linvoiceAmt" class="form-Label labelans hide"></label>
               </td></td></tr><tr><td><td>
-                <label class="form-Label">Purchased Order: *</label>
+
+                <label class="form-Label">Purchased Order: </label><sup class="astrick">*</sup>
              </td><td>
-                <input type="text" maxlength="50"  class="form-text-box" id="order" name="order" />
+                <input type="text" maxlength="50"  class="form-text-box textBox" id="order" name="order" />
+                   <label id="lorder" class="form-Label labelans hide"></label>
             </td></td><td><td>
-             <input type="hidden" maxlength="50"   id="headerId"  />
-           
-                <label class="form-Label">Delivery Date: *</label>
+
+
+             <input type="hidden" maxlength="50"   id="headerId"  /> 
+
+                <label class="form-Label">Delivery Date: </label><sup class="astrick">*</sup>
            </td><td>
-                <input type="text " class="form-text-box date" id="Deliverydate"name="Deliverydate" />
+                <input type="text " class="form-text-box date textBox" id="Deliverydate"name="Deliverydate" />
+                   <label id="lDeliverydate" class="form-Label labelans hide"></label>
             </td></td></tr></table>
             
              <div class="form-group">
@@ -149,8 +160,8 @@
             <div class="modal-footer"style="border-top:0px;">
               <center>
               <input type="text" class="hide" value="" id="hdnId" name="hdnId">
-                <button id="cancel"type="reset"data-dismiss="modal"class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                <input type="submit"   onclick="return validatehardvare()"class="btn btn-default"style="margin-top:10px;background-color:#f05f40;color:black;padding-top:4px; width:100px;height:30px;color:white" value="Submit">
+                <button id="cancel"type="reset"data-dismiss="modal" class="btn">Cancel</button>
+                <input type="submit"   onclick="return validatehardvare()" class="btn" value="Submit">
               </center>
             </div>
           </div>
@@ -517,7 +528,7 @@ function description(id){
   });
 }
 
-function edit(id){
+function showInfo(id,flag){
   
   $("#hdnId").val('');
   //alert(id);
@@ -537,6 +548,28 @@ function edit(id){
       $("#invoiceNo").val(data[0][0].invoiceNo);
       $("#Deliverydate").val(data[0][0].deliveryDate);
       $("#hdnId").val(data[0][0].id);
+
+    
+      $("#ltype").html(data[0][0].componentName);
+      $("#lqty").html(data[0][0].quantity);
+      $("#lvendor").html(data[0][0].vendor);
+      $("#linvoiceAmt").html(data[0][0].invoiceAmt);
+      $("#lorder").html(data[0][0].purchaseOrder);
+      $("#lInvoicedate").html(data[0][0].invoiceDate);
+      $("#linvoiceNo").html(data[0][0].invoiceNo);
+      $("#lDeliverydate").html(data[0][0].deliveryDate);
+if(flag){ 
+  alert(flag);
+  $(".labelans").removeClass("hide");
+  $(".textBox").addClass("hide");
+  $(".chnBtn").val("View Components");
+}
+else{ 
+  alert(flag);
+  $(".labelans").addClass("hide");
+  $(".textBox").removeClass("hide");
+   $(".chnBtn").val("Edit Components");
+}
       getlinedtata();
       getlineValue(id);
     }
@@ -613,10 +646,7 @@ function getlinedtata(){
         row = row + '<td class="hide"><input'+
         ' class="single form-text-box warrClass" id="id'+i+'" type = "hidden" value="0"></td>';
       /******************************************************************************/
-
-
-
-            row = row + '<td class = "">'+'<input class="btn btn-danger"type="button"data-toggle="modal"'+' value="EDIT"data-target="#addModal"'+'style="background-color:#f05f40;color:white;height:20px;font-size:12px" id="'+i+'"'+
+            row = row + '<td class = "">'+'<input class="btn chnBtn" type="button" data-toggle="modal"'+'  value="Edit" data-target="#addModal"'+'  id="'+i+'"'+
             ' onclick="getsubline('+i+')">'+
             '</td></tr>';
 

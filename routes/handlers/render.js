@@ -342,7 +342,8 @@ module.exports = {
 			case 'viewHardware':
  
 				res.render('asset/viewHardware',{
-					vendor:req.resultHardware[3],myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,
+					vendor:req.resultHardware[3],myModules:req.session.modules,
+					allSuperVisors:req.session.allSupervisors,
 					mySupervisor:req.session.mySupervisor,isRetailer:req.session.isRetailer,
 					hideFlag:0, htype:req.resultHardware[0],ctype:req.resultHardware[1],
 					brandtype:req.resultHardware[2],roleid:req.session.roleId,logo:req.session.logo,
@@ -463,12 +464,11 @@ module.exports = {
                 case 'ajaxHw' :
 				res.json(req.resultAttribute);
 				break;
-			case 'hardware' :
- 
+			case 'hardware' : 
 				res.render('asset/hardware',{
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,
 					mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,htype:req.resultType[0],
+					isRetailer:req.session.isRetailer,hideFlag:0,htype:req.resultType,
 					brandtype:req.resultType[1],user:req.session.firstName,
 					roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover});
