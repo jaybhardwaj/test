@@ -780,18 +780,18 @@
             var ddy = $('#t_h' + i).val();
             // //console.log("date is "+ddy);
             ddy = new Date(ddy);
-            var weekdy = ddy.getDay();
+            var weekday = ddy.getDay();
             var date_other_format = ddy.getFullYear() + '-' + (ddy.getMonth() + 1) + '-' + ddy.getDate();
             if ('<%=timeinfo[8][0].schedule%>' == '') {
                 //alert("rthis is null");
-                if (weekdy == 6) {
+                if (weekday == 6) {
                     satsun(i, k,ddy);
                 } else disholi(i, k, date_other_format);
             } else
             if ('<%=timeinfo[8][0].schedule%>' == 4) {
 
 
-                if (weekdy == 0 || weekdy == 6) {
+                if (weekday == 0 || weekday == 6) {
 
                     satsun(i, k,ddy);
 
@@ -801,7 +801,7 @@
             if ('<%=timeinfo[8][0].schedule%>' == 1) {
 
 
-                if (weekdy == 6) {
+                if (weekday == 6) {
 
                     satsun(i, k,ddy);
 
@@ -821,7 +821,7 @@
             if ('<%=timeinfo[8][0].schedule%>' == 3) {
 
 
-                if (weekdy == 0 || weekdy == 6) {
+                if (weekday == 0 || weekday == 6) {
 
                     satsun(i, k,ddy);
 
@@ -853,12 +853,27 @@
                 document.getElementById("id" + i+"_"+ k).value = 0;
                 document.getElementById("id" + i+"_"+ curr_wbsnm.length).style.color = "rgb(10, 199, 80)";
                 document.getElementById("id" + i+"_"+ (curr_wbsnm.length+1)).style.color = "rgb(10, 199, 80)";
-               if(ddy.getDate()<15){
+              /* if(ddy.getDate()<15){
+                 document.getElementById("wkd" + i).style.color = "rgb(10, 199, 80)";
+                 }
+             else{
+                  document.getElementById("wkd" + (i+15)).style.color = "rgb(10, 199, 80)";
+                }*/
+
+
+                 if(ftdy==1){
+               if(ddy.getDate()<=15){
                  document.getElementById("wkd" + i).style.color = "rgb(10, 199, 80)";
                  }
              else{
                   document.getElementById("wkd" + (i+15)).style.color = "rgb(10, 199, 80)";
                 }
+            }
+
+            if(weekdy==1){
+                //alert(" in week day");
+                document.getElementById("wkd" + i).style.color = "rgb(10, 199, 80)";
+            }
             }
             //document.getElementById("wkd" + i).style.backgroundColor = "#7E7E9E";
             //document.getElementById("id" + i+"_"+ j+1).style.backgroundColor = "#7E7E9E";
