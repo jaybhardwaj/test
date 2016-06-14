@@ -24,8 +24,8 @@
   <body>
 
   <div class="container-fluid user-list secondry-color" style=" ">
-      <input id="tab1" class="tabradio" type="radio" name="tabs" checked> <label for="tab1">Assign</label>
-      <input id="tab2" class="tabradio" type="radio" name="tabs"  > <label for="tab2">Un-Assign</label>
+      <input id="tab1" class="tabradio" type="radio" name="tabs" checked> <label for="tab1">Assigned</label>
+      <input id="tab2" class="tabradio" type="radio" name="tabs"  > <label for="tab2">Un-Assigned</label>
 
       <section id="content1">
         <div class="container-fluid secondry-color" style="margin-top:0%;min-height: 400px">
@@ -343,7 +343,7 @@ var count=0;
         $('#saveb').removeClass('hide');
         $('#bodyi').html('');
         count=0;
-        //alert("tid--"+tid+"--uid--"+uid);
+       // alert("tid--"+tid+"--uid--"+uid);
         $.ajax({
           url: "/getTransDetails",
           method:'post',
@@ -353,16 +353,19 @@ var count=0;
             console.log("-- -- -  -- dd --- - - ",result);
             for(var i=0;i<result[0].length;i++){
               var row='<tr><td>'+ ++count+'</td><td>'+result[0][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[0][i].ACID+'></td><td>'+
-                  result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:70px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span><span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+result[0][i].Id+')"></span>';
+                  result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:70px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+result[0][i].Id+')"></span>';
+                 // alert(result[0][i].assign);
                   if(result[0][i].assign==1){
                    
-                  row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>'
+                  //row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
+                  row=row+'';
                   
                     $('#assignreg'+count).removeClass('hide');
                     $("#assignapp"+count).addClass('hide');
                   row=row+'<td id="assign'+count+'">assigned</td>';  
                   }else{
-                      row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
+                      //row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
+                      row=row+'';
                      $('#assignapp'+count).removeClass('hide');
                      $('#assignreg'+count).addClass('hide');
                    row=row+'<td class="hide">0'+'</td><td id="assign'+count+'">unassigned</td>'; 
@@ -379,7 +382,8 @@ var count=0;
                     $("#assignapp"+count).addClass('hide');
                   row=row+'<td id="assign'+count+'">assigned</td>';  
                   }else{
-                   row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
+                   //row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
+                   row=row+'';
                      $('#assignapp'+count).removeClass('hide');
                      $('#assignreg'+count).addClass('hide');
                    row=row+'<td class="hide">0'+'</td><td id="assign'+count+'">unassigned</td>'; 
@@ -443,7 +447,7 @@ var count=0;
             console.log("-- -- -  -- dd --- - - ",result);
             for(var i=0;i<result[0].length;i++){
               var row='<tr><td>'+ ++count+'</td><td>'+result[0][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[0][i].ACID+'></td><td>'+
-                  result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:70px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span><span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+result[0][i].Id+')"></span>';
+                  result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+result[0][i].Id+')"></span>';
                   if(result[0][i].assign==1){
                    
                   row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>'
@@ -462,7 +466,8 @@ var count=0;
             for(var i=0;i<result[1].length;i++){
               var row='<tr><td>'+ ++count+'</td><td>'+result[1][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[1][i].ACID+'></td><td>'+result[1][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[1][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[1][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[1][i].assignDate).toString()).slice(0,10)+'"></input><td>';
                  if(result[1][i].assign==1){
-                   row=row+'<span id="assignapp'+count+'" style="margin-left:70px; color:red; " class=" glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
+                   //row=row+'<span id="assignapp'+count+'" style="margin-left:70px; color:red; " class=" glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
+                   row=row+'';
                 
                   
                     $('#assignreg'+count).removeClass('hide');
@@ -519,6 +524,7 @@ var count=0;
       }
 
       function getList(tid,value){
+        //alert(tid+' '+value);
         $.ajax({
           url: "/getTransUnassigned",
           method:'post',
