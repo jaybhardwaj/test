@@ -789,7 +789,7 @@ setpageTrans: function(req,res,next){
         req.userid=req.body.qids;
         next();
     },
-setpageTransactions:     function(req,res,next){
+setpageTransactions: function(req,res,next){
 
 
 if(req.session.modules.indexOf(config.Asset)>=0)

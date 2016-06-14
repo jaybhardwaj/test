@@ -406,7 +406,7 @@ module.exports = {
 				res.json(req.resultAttribute);
 				break;
 			case 'hardware' :
-				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType[0],brandtype:req.resultType[1],user:req.session.firstName,roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType,brandtype:req.resultType[1],user:req.session.firstName,roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
  			case 'transAss':
  				res.json(req.resultAssigned);

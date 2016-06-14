@@ -47,8 +47,8 @@
           <label for="typel" class="form-Label">Type :<sup class="astrick">*</sup></label></td>
          <td>
             <select id="typel" type="dropdown" name="htype" class="form-text-box" value=""  onchange="changeType()" >  <option disabled value="0"selected="">Select a value</option>
-              <%for(var i=0;i<htype.length;i++){%>
-              <option value="<%=htype[i].id%>"><%=htype[i].componentName%></option>
+              <%for(var i=0;i<htype[0].length;i++){%>
+              <option value="<%=htype[0][i].id%>"><%=htype[0][i].componentName%></option>
                 <%}%>
             </select>
           </td>
@@ -64,7 +64,13 @@
        <td>
           <label for="vendor" class=" form-Label">Vendor :<sup class="astrick">*</sup></label></td>
           <td>
-            <input name="vendor"class="form-text-box" id="vendor" placeholder="Vendor" required>
+            
+             <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
+              <option value='0' disabled selected>Select</option>
+               <% for(i=0;i<htype[2].length;i++){%>
+                <option value="<%=htype[2][i].id%>"><%=htype[2][i].name%></option>
+                <%}%>
+              </select>
           </td>
        </td>
       <td>
@@ -192,9 +198,9 @@
      function addCompModal(){
       //alert($('#typel').val());
        //getbrand();
-    var row = '<tr id="tr'+countAddCompModal+''+i+'"><td><select class = "form-text-box form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype.length;i++){%>';
-    if($('#typel').val() != "<%=htype[i].id%>"){
-        row+='<option value="<%=htype[i].id%>"><%=htype[i].componentName%></option>';
+    var row = '<tr id="tr'+countAddCompModal+''+i+'"><td><select class = "form-text-box form-control" id="compo'+countAddCompModal+'"><%for(var i=0;i<htype[0].length;i++){%>';
+    if($('#typel').val() != "<%=htype[0][i].id%>"){
+        row+='<option value="<%=htype[0][i].id%>"><%=htype[0][i].componentName%></option>';
       } 
     row+='<%}%></select></td><td><input type = "text" class = "form-text-box form-control" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 form-text-box form-control" id="brand'+countAddCompModal+'"><%for(var i=0;i<brandtype.length;i++){%><option value="<%=brandtype[i].id%>"><%=brandtype[i].value%></option><%}%></select></td><td><input type = "text" class = "form-text-box datetimepicker" id="war'+countAddCompModal+'"></td><td class="hide"><input type = "text" class = "form-text-box form-control" id="size'+countAddCompModal+'"></td><td><span style="font-size:25px;color:red" class="glyphicon glyphicon-remove-circle" onclick="removeRow('+countAddCompModal+','+i+')"></span></td></tr>';
          $('#addcompobody').append(row);
