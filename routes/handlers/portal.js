@@ -2524,6 +2524,19 @@ if(error){
             next(); 
 });
 },
+
+getAssignedAssetsHome:function(req,res,next){
+modelPortal.getAssignedAssetsHome(req.session.userId,req.session.retailerId,function(error,resultAssigned){
+if(error){
+              next(error);
+            return;}
+            req.resultAssignedHome=resultAssigned;
+            console.log(resultAssigned);
+            next(); 
+});
+},
+
+
 //--------------------------------------asset end---------------------------------
     //---------------------------------Expense------------------------------------------
    getExpenseWeekBy: function(req, res, next) {
@@ -3177,6 +3190,7 @@ updateHoliday: function(req,res,next){
                  return;
              }
              req.resultUsers = resultUsers;
+             console.log(" user transaction information is:",resultUsers);
              next();
          });
      },

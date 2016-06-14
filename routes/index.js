@@ -74,7 +74,7 @@ app.post('/blockUser',portal.blockUser);
     //app.get('/Documenterror',url.Documenterror,render.redirect);
   
 //------------------------------------------Asset-------------------------------		
-app.get('/asset',url.setpageTransactions,portal.getUser,render.redirect);
+app.get('/asset',url.setpageTransactions,portal.getUser,portal.getAssignedAssetsHome,render.redirect);
 app.get('/assignSoftware',url.setpageAssignSoftware,portal.getComp,render.redirect);//new4assignsoft
 app.get('/hardware',url.setpageHardware,portal.getComp,render.redirect);
 app.post('/addHardware',url.setpageHardware,portal.addHardware,portal.getComp,render.redirect);

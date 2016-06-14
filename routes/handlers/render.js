@@ -320,13 +320,13 @@ module.exports = {
 				res.render('asset/viewStationary',{
 					myModules:req.session.modules,hideFlag:0,flag:req.body.flag,
 					stype:req.resultStationary,logo:req.session.logo,user:req.session.firstName,
-					roleid:req.session.roleid,defaultModule:req.session.defaultModule,
+					roleid:req.session.roleId,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover});
 				break;
 			case 'viewSoftware':
 				res.render('asset/viewSoftware',{
 					myModules:req.session.modules,hideFlag:0,flag:req.body.flag,stype:req.resultSoftware,
-					logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleid,
+					logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,
 					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 
@@ -344,7 +344,7 @@ module.exports = {
 				res.json(req.resultUsers[0]);
 				break;
 			case 'transactions' :
-				res.render('asset/transactions',{myModules:req.session.modules,hideFlag:0,
+				res.render('asset/transactions',{assignedHome:req.resultAssignedHome,myModules:req.session.modules,hideFlag:0,
 					users:req.resultUsers[0],roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover})
@@ -406,7 +406,7 @@ module.exports = {
 				res.json(req.resultAttribute);
 				break;
 			case 'hardware' :
-				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType,brandtype:req.resultType[1],user:req.session.firstName,roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/hardware',{myModules:req.session.modules,hideFlag:0,htype:req.resultType,brandtype:req.resultType[1],user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
  			case 'transAss':
  				res.json(req.resultAssigned);

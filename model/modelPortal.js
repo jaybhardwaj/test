@@ -1557,6 +1557,18 @@ mysql(q,function(err,result){
 
 },
 
+getAssignedAssetsHome:function(uid,rid,callback){
+ var q={
+        sql:'call usp_ast_getAssignedAssetHome(?,?)',
+        values:[uid,rid]
+    };
+    console.log(q)
+    console.log("ss---- ",q);
+mysql(q,function(err,result){
+        callback(err,result);
+    });
+
+},
 
 getsubComponent:function(lineId,callback){
  var q={
