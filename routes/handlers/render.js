@@ -195,7 +195,7 @@ module.exports = {
 			
           		console.log("llll;;;;;;;");	
             	res.render('document/documentHome',{flag:flag,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,users:req.resultUsers[0],files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,alert:req.session.documentalert});
+					isRetailer:req.session.isRetailer,hideFlag:0,files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,alert:req.session.documentalert});
 			    break;
 
 			case 'Documenterror' :
