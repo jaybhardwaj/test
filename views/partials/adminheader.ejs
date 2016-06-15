@@ -70,21 +70,24 @@
                     <li style=" float:right ;" title="Logout">
                         <a class="imageInc" href="/logout"><img src="/img/logout.png" id="logout" width="25px" height="25px" style=" margin-top:-2px "/></a>
                     </li> 
-                    <li style=" float:right"title="Change Password">
+                    <!-- <li style=" float:right"title="Change Password">
                         <a data-toggle='modal' data-target='#changepass'>
                     <img class="imageInc" src="/img/change.png"  id="changepassimg" width="25px" height="25px" style="margin-top:-5px;float:right;"/>
                     </a>
-                    </li>
+                    </li> -->
                     <li class="modulemenu">
                     <a class="dropdown-toggle" data-toggle="dropdown">
                       <label class="header-title "style="color:#f04050; ">Hi, <%= user%> </label>
                       <span class="caret"></span>
                       </a>
-                      <%if(!isRetailer){%>
-                      <ul class="dropdown-menu"> 
-                        <li><a style="cursor:pointer" data-toggle="modal" data-target="#changeSuper">Change Supervisor</a></li>
+                      
+                      <ul class="dropdown-menu" style="text-align:center"> 
+                      <% if(!parseInt(isRetailer)){ %>
+                        <li><a style="cursor:pointer;font-size:12px" data-toggle="modal" data-target="#changeSuper"><i class="fa fa-user-secret" style="float:left;margin-top:3px;margin-left:-9px" aria-hidden="true"></i>Change Supervisor</a></li>
+                        <%}%>
+                        <li><a data-toggle='modal' data-target='#changepass' style="cursor:pointer;font-size:12px"><i class="fa fa-key" style="float:left;margin-top:3px;margin-left:-9px" aria-hidden="true"></i>Change Password</a></li>
                       </ul>
-                      <%}%>
+                       
                     </li>   
         </ul>
 
@@ -93,7 +96,7 @@
     
 </nav>
   
-<div   class="sub-header">
+<div   class="sub-header ">
    <!--      <hr style="max-width:100%"> -->
        <%if((roleid==1)&&(hideFlag==1)){%>
         <table class="portal-menu" style="width:70%">
@@ -249,54 +252,14 @@
             </div>
         </div>
     </div>
-<!-- <%if((roleid==1)&&(hideFlag==1)){%> 
- <table style="width:70%;margin-top:-12px">
-      <tr  align="center">
-                             <%if(roleid==1){%>
-                                <td class="master1-img"><span  class="fa fa-sort-desc"></span></td>
-                                <%}%>
-                            <%if(roleid==1){%>
-                           <td class="user1-img"> <span class="fa fa-sort-desc"></span></td>
-                            <%}%>
-                            <%if(roleid==1){%>
-                            <td class="client1-img"> <span class="fa fa-sort-desc"></span></td>
-                            <%}%>
-                            <%if(roleid==1){%>
-                            <td class="project1-img"> <span class="fa fa-sort-desc"></span></td>
-                            <%}%>
-                            <%if(roleid==1){%>
-                            <td class="wbs1-img"> <span class="fa fa-sort-desc"></span></td>
-                            <%}%>
-                           
-                           
-                              <%if(roleid==1){%>
-                            <td class="assignment1-img"><span class="fa fa-sort-desc"></span></td>
-                            <%}%>
-                             <%if(roleid==1){%>
-                            <td class="profile1-img"><span class="fa fa-sort-desc"></span></td>
-                            <%}%>
-                          
-                            <%if(roleid==1){%>
-                            <td class="mail1-img"><span class="fa fa-sort-desc"></span></td>
-                            <%}%>
-                            <%if(roleid==1){%>
-                             <td class="report1-img"><span class="fa fa-sort-desc"></span></td> 
-                            <%}%>
-                            
-            </tr>
- </table>
-
-<%}%>
-
- -->
-
+ 
 <center>
 <div class="modal fade" id="changepass" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content" id="express2">
                 <div class="modal-header" style="background-color:#f05f40;">
-                    <center><label id="head4" class="modal-title" style="color:white; "> Change Password </label></center>
+                   <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px">&times;</button> <center><label id="head4" class="modal-title" style="color:white; "> Change Password </label></center>
                 </div>
                 <div id="err" class="col-lg-6 col-sm-offset-3"></div>
                 <div class="modal-body">

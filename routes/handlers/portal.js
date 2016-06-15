@@ -279,7 +279,8 @@ var locationId = [],
                      if (err) { 
                          next(err);
                          return;
-                     }   
+                     }  
+                     req.session.mySupervisor= req.body.supervisorId;
                      res.json(result); 
          });
      },
