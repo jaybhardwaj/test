@@ -1249,7 +1249,7 @@ attachDocFile: function(req,res,next){
                                       
                                           parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
 
-                                                  next();
+                                                
                                     });
                                
                                 processor.on('error', function(err) {
@@ -1270,11 +1270,11 @@ attachDocFile: function(req,res,next){
                                     req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
                                     req.body.rLevelhide,parsedData,function(err,result){
                                                  if(err){
-                                                  // next(err);
+                                                 
                                                     return;
                                                 }
                                                 else{
-                                                //next(); 
+                                                
                                                   }
                                       });
 
