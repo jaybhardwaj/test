@@ -2834,9 +2834,10 @@ if(error){
              }
 
             res.json(result);
+            if(status!=0){
                       console.log(result[0][0].emailid);
                      mailTemplates.submitExpenseandapprove(result[0][0].emailid,result[1][0].name10,req.session.firstName,function(error, resultMail){});
-
+               }
          });
      },
 
