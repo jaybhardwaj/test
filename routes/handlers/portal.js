@@ -25,6 +25,9 @@ var config = {
     }
  
 }
+var office2pdf = require('office2pdf'),
+ generatePdf = office2pdf.generatePdf;
+var NodeOffice = require("nodeoffice/lib/node-office");
 var options = {
     type: 'text' // extract the actual text in the pdf file 
 };  
@@ -51,7 +54,11 @@ var locationId = [],
    totalFiles = [],
   parsing = [],done =0;
 
- var ppt = require('ppt');
+ var PPT = require('ppt');
+
+var unoconv=require('uno-ext');
+
+
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -821,14 +828,15 @@ project=project?project:'';
                 next(error);
                     return;
             }
-            //console.log(result[0][0]);
             req.session.croleId=result[0][0].crole_id ;
             if(req.session.croleId==null){
 
                 res.json(0);
             }
-            else
+            else{
+               
                res.json(1);
+           }
 
        });
     },
@@ -1128,10 +1136,7 @@ attachDocFile: function(req,res,next){
         var now = Date.now();
         var exet = fname.split('.');
         var exe = exet[exet.length - 1];
-        if(exe=="ppsx"||exe=="ppt"){
-            //console.log("inside");
-            exe='pdf';
-        }
+       
         var tempPath = req.file.path,
             targetPath = path.resolve('./public/attach/' +exet[0] + '_' +now+'.' + exe);
          
@@ -1142,6 +1147,8 @@ attachDocFile: function(req,res,next){
                        res.redirect('/breakdown');
                 }
                 else{
+                                console.log("-- - - - - -                      ",targetPath);   
+                         
                               if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx'){
 
                                     textract.fromFileWithPath(targetPath, config, function(error, text) {
@@ -1187,30 +1194,22 @@ attachDocFile: function(req,res,next){
                                      
                                     });
                             }
+
                         else if(exe.toLowerCase() == 'zip'){
-                        //console.log(0,req.file.path);
                         var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
                         var folderpath='./public/attach/' + exet[0] + '_' + now ;
-                        //console.log(targetPath);
                         var foldername=exet[0] + '_' + now;
-                        //console.log(targetPath);
                         var zip = new AdmZip(targetPath);
-                        //console.log(1);
                          zip.extractAllTo( path.join(__dirname, '../../public/attach/' + exet[0] + '_' + now), false);
-                         //console.log(2);
                         var zipEntries = zip.getEntries();
                         zipEntries.forEach(function(zipEntry){
                           var namefile = zipEntry["name"];
+                          console.log("file name : - ",namefile);
                           var namearr = namefile.split('.');
-                          //console.log("fuc   ",namefile);
                           var now = Date.now();
                           var exe = namearr[namearr.length - 1];
                           var newpath = folderpath + '/' + namefile;
-                          //console.log("puc     :",exe);
                           if(exe == 'doc' || exe == 'docx'){
-                            //console.log("bhai     ---    ",newpath);
-
-
                             textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                         if (error) {
@@ -1223,7 +1222,7 @@ attachDocFile: function(req,res,next){
                                  
                                               
                                             parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
-                                                             next();
+                                                        
 
                                             } 
                                         }
@@ -1231,32 +1230,10 @@ attachDocFile: function(req,res,next){
 
 
 
-                                /*textract.fromFileWithPath(newpath,config, function(error, text){
-                                        if (error) {
-                                           blankentry(newpath, req);
-                                        }
-                                        else{
-                                            if (typeof text != undefined) {
-                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
-                                                textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
-                                                text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
-                                                var textarr = text.split('\n');
-                                                textarr.forEach(function(element,index){
-                                                    textarr[index] = element.concat(' EOL');
-
-                                                });
-                                                 //console.log("madam may i");   
-                                               parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
-                                            } 
-                                            else {
-                                            }
-
-                                        }
-                                });*/
+                               
 
 
                             } else if(exe == 'pdf') {
-                                //console.log("yep");
                                 var processor = pdf_extract(newpath, options, function(err) {
                                     if (err) {
                                     }
@@ -1274,23 +1251,7 @@ attachDocFile: function(req,res,next){
 
                                                   next();
                                     });
-                                /*processor.on('complete', function(data){
-                                    var text = '';
-                                    for (var i = 0; i < data.text_pages.length; i++) {
-                                        text = text.concat(data.text_pages[i]);
-                                    }
-                                    var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
-                                    textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
-                                    text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
-                                    var textarr = text.split('\n');
-                                    textarr.forEach(function(element, index) {
-                                      
-                                    });
-                                   
-                                    parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
-
-
-                                });*/
+                               
                                 processor.on('error', function(err) {
                                     blankentry(newpath, req);
                                 });
@@ -1309,17 +1270,19 @@ attachDocFile: function(req,res,next){
                                     req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
                                     req.body.rLevelhide,parsedData,function(err,result){
                                                  if(err){
-                                                   next(err);
+                                                  // next(err);
                                                     return;
                                                 }
                                                 else{
-                                                next(); 
+                                                //next(); 
                                                   }
                                       });
 
                             }
                           });  
                         }                      
+                        
+                                     
                             else{
                                     var industry=req.body.industry==null? '':req.body.industry.toString();
                                     var business=req.body.business==null? '':req.body.business.toString();
