@@ -4836,18 +4836,31 @@ upload_resume:function(req,res,next){
             if(result[7].length){
                req.isManagerFlag = true;
                  
-
-                                }
+         }
 
                            else{
 
                                 req.isManagerFlag = false;
-                                }                   
+                                }  
+
+
+                  
+                req.submittedProject = result[8];
+                req.submittedVersion = result[9];
+
+         if(req.submittedVersion.length==0){
+              req.submittedVersion  = [];
+         }
+
+         if(req.submittedProject.length==0){
+            req.submittedProject = [];
+         }
+         console.log('projectDetails is ',req.projectDetails);
             for(var i = 0;i<req.projectDetails.length;i++){
                 if(req.prId==req.projectDetails[i].id){
-                    req.prStartDate = req.projectDetails[i].plannedStartDate;
-                    req.prEndDate   = req.projectDetails[i].plannedEndDate;
-                    //console.log('prStartDate',req.prStartDate,'prEndDate',req.prEndDate);
+                    req.prStartDate = req.projectDetails[i].newPlannedStartDate;
+                    req.prEndDate   = req.projectDetails[i].newPlannedEndDate;
+                    console.log('prStartDate',req.prStartDate,'prEndDate',req.prEndDate);
                      if(req.prStartDate){
                         var temp = '';
                         req.prStartDate = req.prStartDate.split('/');
@@ -4856,6 +4869,7 @@ upload_resume:function(req,res,next){
                         req.prStartDate[1] = temp;
                         req.prStartDate = req.prStartDate.join('/');
                         }
+                        console.log('req endDate is',req.prEndDate);
                        if(req.prEndDate){
                          req.prEndDate = req.prEndDate.split('/');
                          temp = req.prEndDate[0];
@@ -6013,6 +6027,9 @@ originalArr[i][j] = Math.round(originalArr[i][j]);
 
 
 function getEffNumberOfDays(EndDateTime,StartDateTime){
+    if(!EndDateTime||!StartDateTimeInTime){
+        return 0;
+    }
 var EndDateTimeValue =  EndDateTime.split('/');
 var StartDateTimeValue = StartDateTime.split('/');
 if(EndDateTimeValue.length<3||StartDateTimeValue.length<3){
