@@ -1,8 +1,9 @@
-<html lang="en">
 
-<head>
+<!DOCTYPE html>
+<html lang="en">
     <% include ../partials/head %>
 
+<title>Document Management</title>
 
 <style type="text/css">
 
@@ -78,21 +79,11 @@
 }
 </style>
 
-
-
-
-<title>Document Management</title>
-
-
-
-</head>
-
-
   <% include ../partials/adminheader %>
   <% include headerDoc.ejs %>
       
 <div class="se-pre-con"></div>        
-<body style="overflow-x:hidden"> 
+ 
 <div class="container-fluid">    
 <div class="row secondry-color" style="padding:2%">
 <div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
@@ -174,6 +165,7 @@
 
             <table id="data_table" class="table" cellspacing="0"  style="max-width:100%">
                 <thead>
+                <tr>
                     <th>File Name</th>
                     <th>File Title</th>
                     <th>Author</th>
@@ -181,7 +173,7 @@
                     <th>Upload Date</th>
                     <%if(roleid!=1){%><th>Status</th><%}%>
                     <th>Action</th>
-                    
+                    </tr>
                 </thead>
                 <tbody id="orderbody">
                 
@@ -250,7 +242,7 @@
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="row labelclass form-Label" ><b>Industry:<sup style="color:red;">*</sup></b></div>
                     <div class="form-Label">
-                     <%if(industry[0].length>0){%><input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"></input><%}%>
+                     <%if(industry[0].length>0){%><input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"><%}%>
                         <select id="my-select1"  multiple="multiple" required name="industry">
                            <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
                             <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
@@ -263,7 +255,7 @@
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="row labelclass form-Label" style=""><b>Business:<sup style="color:red;">*</sup></b></div>
                     <div class="form-Label">
-                        <%if(business[0].length>0){%> <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>"></input>  <%}%>
+                        <%if(business[0].length>0){%> <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>">  <%}%>
                         <select id="my-select2"  multiple="multiple" required name="business">
                             <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
@@ -275,7 +267,7 @@
                     <div class="row labelclass form-Label" style=""><b>Document type:<sup style="color:red;">*</sup></b></div>
 
                     <div class="form-Label">  <%if(document[0].length>0){%>
-                        <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>"></input>   <%}%>
+                        <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>">   <%}%>
                         <select id="my-select3"  multiple="multiple" required name="doctype">
                                          <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
                             <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
@@ -287,7 +279,7 @@
                 <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
                     <div class="row labelclass form-Label" style=""><b>Technology :<sup style="color:red;">*</sup></b></div>
                     <div class="form-Label"><%if(technology[0].length>0){%>
-                        <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"></input><%}%>
+                        <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"><%}%>
                         <select id="my-select4"  multiple="multiple" required name="newTec">
                                              <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
                             <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
@@ -300,8 +292,8 @@
                         <b>Restriction Level:<sup style="color:red;">*</sup></b>
                     </div>
                     <div class="form-Label">
-                        <input type="hidden" id="<%=restriction[0][0].id%>" required name="rLevelhide" value="<%=restriction[0][0].id%>"></input>
-                        <select id="my-select5"required name="rLevel" class="form-control form-Label" style="width: 100%;padding: 3px;">
+                        <input type="hidden" id="<%=restriction[0][0].id%>" required name="rLevelhide" value="<%=restriction[0][0].id%>">
+                        <select id="my-select5" required name="rLevel" class="form-control form-Label" style="width: 100%;padding: 3px;">
                              <%for(var i=0;i<restriction[0].length;i++){%>
                             <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                             <%}%>
@@ -313,7 +305,7 @@
 
 
                 <div class="col-md-6 col-md-offset-4 " id="lastfiveuploads6" style="margin-top:5%;">
-                    <input type="submit" id="" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()"></input>
+                    <input type="submit" id="" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()">
                 </div>
       </form>
   
@@ -321,7 +313,7 @@
 </div>
   
 </div>
-</body>
+
 
 <div class="modal fade" id="tag1">
         <div class="modal-dialog">
@@ -329,7 +321,7 @@
             <div class="modal-content" id="express2" style="">
                 <div class="modal-header" style="background-color:#f05f40; ">
                     <center><label id="head4" class="modal-title" style="color:white;"><b>View Details</b></label></center>
-                     <button type="button" class="close" id='cancel' style="margin-top: -31px"aria-label="Close" data-dismiss="modal">&times;</button>
+                     <button type="button" class="close" id='cancel' style="margin-top: -31px" aria-label="Close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body" style="width:auto">
                     <div class="row ">
@@ -337,7 +329,7 @@
                             <label style="line-height:42px !important;"> File Title:</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea  id="title1" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/></textarea>
+                            <textarea  id="title1" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly></textarea>
                         </div>
                     </div>
 
@@ -346,7 +338,7 @@
                             <label style="line-height:42px !important;"> Author Name:</label>
                         </div>
                         <div class="col-md-8">
-                       <textarea  id="authname" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/></textarea>
+                       <textarea  id="authname" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly></textarea>
                         </div>
                     </div>
 
@@ -356,7 +348,7 @@
                             <label style="line-height:42px !important;">Description :</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea name="descbox" id="desc"  placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                            <textarea name="descbox" id="desc"  placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -364,7 +356,7 @@
                             <label style="line-height:42px !important;">Industry :</label>
                         </div>
                         <div class="col-md-8">
-                             <textarea name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                             <textarea name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
                            
 
                         </div>
@@ -374,7 +366,7 @@
                             <label style="line-height:42px !important;">Business:</label>
                         </div>
                         <div class="col-md-8">
-                             <textarea name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                             <textarea name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
                            
                         </div>
                     </div>
@@ -384,7 +376,7 @@
                             <label style="line-height:42px !important;">Document Type:</label>
                         </div>
                         <div class="col-md-8">
-                             <textarea name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                             <textarea name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
                           
                         </div>
                     </div>
@@ -395,7 +387,7 @@
                             <label style="line-height:42px !important;">Technology:</label>
                         </div>
                         <div class="col-md-8">
-                             <textarea name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly></textarea>
+                             <textarea name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
                            
 
 
@@ -407,7 +399,7 @@
                             <label style="line-height:42px !important;">Restriction Lavel:</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea   id="rest" value="" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly/>
+                            <textarea   id="rest" value="" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly>
                         </textarea>
                         </div>
                     </div>
@@ -814,3 +806,6 @@
     </script>
 
 <% include ../partials/footer %>
+
+</body>
+</html>
