@@ -4196,6 +4196,47 @@ upload_resume:function(req,res,next){
 
                     }
 
+                    else if (exe.toLowerCase() =='pptx') {
+                         parsing[req.session.userId] = true;
+                       totalFiles[req.session.userId] = 1;
+                        var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
+                           ////console.log('targetPath is',targetPath);
+                        fs.rename(tempPath, targetPath, function(err) {
+                            //                    res.redirect('/upload');
+                         var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
+                            textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function(error, text) {
+
+                                if (error) {
+                                    blankentry(newpath, req);
+                                    ////console.log(error);
+
+                                } else {
+                                    if (typeof text != undefined) {
+                                        //////console.log(text);
+                                        var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
+                                        textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
+                                        //  ////console.log(textLowerCase);
+                                        text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
+                                        var textarr = text.split('\n');
+                                        textarr.forEach(function(element, index) {
+                                            textarr[index] = element.concat(' EOL');
+
+                                        });
+
+
+                                        parseAllHr(textLowerCase, textarr, newpath, req);
+
+                                    } else {
+                                        ////console.log('file cannot be parsed');
+                                    }
+
+
+                                }
+                            });
+
+                        });
+
+                    }
 
                     if (exe.toLowerCase() == 'pdf') {
                     parsing[req.session.userId] = true;
