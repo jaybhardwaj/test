@@ -4,17 +4,6 @@
 <head>
 <style>
 
-/*   .tagger {
-    border: 2px steelblue !important;
-    background-color: #fff !important;
-    cursor: text;
-    font-family: sans-serif;
-    font-size: 10pt !important;
-   /* padding: 10px 7px 3px 4px !important; 
-    min-height: 19px !important;
-    display: table-cell !important;
-}
-*/
 .marginAlign{
   margin-top: 2%;
 }
@@ -182,97 +171,7 @@ width:24% !important;
         </tr>
         </table>
 
-<!-- 
 
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"><label>Project Name: <sup>*</sup></label> </div>
-            <div class="col-md-7" style="margin-top:10px;"><input type="text"   placeholder=" -- Enter Project Name -- " class="form-text-box" style="" name="pname" id ="idpname" maxlength="20" onfocusout=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>' <%}%> required></div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Project Code:</label> </div>
-              <div class="col-md-7" style="margin-top:10px;"> 
-                <input type="text" class="form-text-box" placeholder=" -- Project Code -- " name="pcode" id ="pcode" onkeypress="return specialchar(event)" <%if(flag==1){%>value='<%=name[0].pcode%>' <%}%> required readonly> 
-              </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5" style=""> <label>Client: <sup>*</sup></label> </div>
-            <div class="col-md-7 " style="margin-top:10px;">
-              <select  class="form-text-box" style="" data-placeholder="Choose Clients..." name="pclient" id ="pclient"> 
-              <option  value='0' selected> -- select a Client -- </option>
-                  <% for(var i=0;i<client.length;i++) {%>
-                <option value="<%=client[i].id%>"><%=client[i].clientName%></option>
-                 <%}%>
-              </select> 
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5" style=""> <label >Project Technology: <sup>*</sup></label> </div>
-            <div class="col-md-7 " style="margin-top:10px;"> 
-              <select multiple="multiple" class="form-text-box" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Project Technology..."> 
-              <option  value='0' selected> -- select project Technology -- </option>
-                <% for(var i=0;i<tech.length;i++) {%>
-                <option value="<%=tech[i].id%>"><%=tech[i].description1%></option>
-                      <%}%>
-              </select> 
-            </div>
-          </div>                  
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Planned Start Date: <sup>*</sup></label> </div>
-            <div class="col-md-7"> <input type="text" maxlength="20" placeholder=" -- Select Planned Start Date -- " readonly="true" class= "form-text-box" id="datepicker" style="background-color:white;margin-top:3%;cursor: pointer;background-color: rgb(255, 255, 255);" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>> </div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Planned End Date: <sup>*</sup></label> </div>
-            <div class="col-md-7">  
-              <input type="text"  maxlength="20" placeholder=" -- Select Planned End Date -- " name="pedate"readonly="true" class="form-text-box" id ="datepicker1" style="background-color:white;margin-top:3%;cursor: pointer;background-color: rgb(255, 255, 255);" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> > 
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label style="">Complexity: </label> </div>
-            <div class="col-md-7 " style="margin-top:10px;">
-              <select style="" class="form-text-box" id ="pcomplexity" name="pcomplexity" >
-                <option  value='0' selected> -- select project complexity -- </option>
-                <option  value='simple'<%if(flag==1&&name[0].pcomplexity=='simple'){%>selected<%}%> > simple </option>
-                <option  value='medium'<%if(flag==1&&name[0].pcomplexity=='medium'){%>selected<%}%> > medium </option>
-                <option  value='complex'<%if(flag==1&&name[0].pcomplexity=='complex'){%>selected<%}%>> complex </option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Location: </label> </div>
-            <div class="col-md-7 " style="margin-top:10px;"> 
-              <select class="form-text-box" id ="plocation" name="plocation" >
-                <option value='0' selected> -- Select a location -- </option>
-                  <% for(var i=0;i<location.length;i++) {%>
-                <option value="<%=location[i].id%>"<%if(flag==1&&name[0].locid==location[i].id){%>selected<%}%> ><%=location[i].location%></option>
-                  <%}%>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5" style=""> <label >Description: </label> </div>
-            <div class="col-md-7 " style="margin-top:10px;"> 
-              <textarea placeholder=" -- Enter Project Description -- " id="DescriptionID" style="margin-top:-1%;max-height: 60px;max-width: 100%;" class="form-text-box" row=2 name="pdescription" maxlength="250" onkeypress="return specialchar2(event)"
-               <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"  style=""> <label >Status:</label> </div>
-            <div class="col-md-7 "  style="margin-top:10px;">  
-
-              <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checkded="true"> Active
-              <input type="radio" name="pstatus"  value= 0  id = "pstatus2" required  style="margin-top:3%;"> Inactive
-            </div>
-          </div>
-        </div> -->
 <script>
   $("#pclient").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].cname%>",<%}}%>]).prop("selected", false);
   $("#ptech").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].technologyId%>",<%}}%>]).prop("selected", false);
@@ -351,11 +250,6 @@ width:24% !important;
               </select>
               </td>
             </td>
-            <!-- <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Complete(%):</label></td>
-              <td><input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="__%" name="completed" id="completed" class= "form-text-box" onfocusout="return completed();" style="margin-top:1.5%;"  min="1" max="100"  maxlength="3" > 
-              </td>
-            </td> -->
             <td>
               <td><label class="form-label"></label></td>
               <td></td>
@@ -367,76 +261,7 @@ width:24% !important;
               <td></td><td></td><td></td><td></td> 
           </tr>
         </table> 
-        <!-- <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Actual Start Date: </label> </div>
-            <div class="col-md-7"> <input type="text"  maxlength="20" placeholder=" -- Select Actual Start Date -- "  class= "form-text-box" id="datepicker2" style="margin-top:2%;background-color:white;cursor: pointer;background-color: rgb(255, 255, 255);" name="asdate" <%if(flag==1){%>value='<%=name[0].actualStartDate%>' <%}%> > </div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Actual End Date: </label> </div>
-            <div class="col-md-7"> 
-             <input type="text"  maxlength="20" placeholder=" -- Select Actual End Date -- " class= "form-text-box" id="datepicker3" style="background-color:white;margin-top:2%;cursor: pointer;background-color: rgb(255, 255, 255);" name="aedate" <%if(flag==1){%>value='<%=name[0].actualEndDate%>' <%}%>></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Commercial Head: </label> </div>
-            <div class="col-md-7 marginAlign" style="">
-              <select style="" class="form-text-box" id="pcommercialhead" name="pcommercialhead" >
-                <option   value='0' > -- select a commercial head -- </option>
-                <% for(var i=0;i<teamlead.length;i++) {%>
-                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].commercialHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
-                  <%}%> 
-              </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Resource: <sup>*</sup></label> </div>
-            <div class="col-md-7 marginAlign" style=""> 
-
-              <select multiple="multiple" class="form-text-box" style="margin-top:3%;width:100%;"  name="presource" id ="presource" maxlength="50">
-                <% for(var i=0;i<resource.length;i++) {%>
-                <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
-                <%}%>
-              </select>
-<script type="text/javascript">
-   $("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
-</script>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Account Head : </label> </div>
-            <div class="col-md-7 marginAlign" > 
-              <select class="form-text-box" id="paccounthead" name="paccounthead" >
-                <option value='0' > -- select an account head -- </option>
-                <% for(var i=0;i<teamlead.length;i++) {%>
-                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].accountHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
-        <%}%> </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Manager : </label> </div>
-            <div class="col-md-7 marginAlign"  >
-
-              <select class="form-text-box" id ="pmanager" name="pmanager" >
-                <option value='0' > -- select a manager  -- </option>
-                <% for(var i=0;i<manager.length;i++) {%>
-                <option value="<%=manager[i].id%>"<%if(flag==1&&name[0].manager==manager[i].id){%>selected<%}%> ><%=manager[i].name%></option>
-               <%}%>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Completed(%):</label> </div>
-            <div class="col-md-7 marginAlign"> <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="__%" name="completed" id="completed" class= "form-text-box" onfocusout="return completed();" style="margin-top:1.5%;"  min="1" max="100"  maxlength="3" >  </div>
-          </div>
-        </div>
-        <br/> -->
-   
+       
           <center style="margin-bottom: 1%">
           <a href="/projectDetails">
           <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
@@ -463,10 +288,6 @@ width:24% !important;
             <td>
               <td><label style="padding:4%;color: #524A4A;font-size: 11px;width:107px">Project Type:</label></td>
               <td>
-                <!-- <input type="radio" name="ptype"  value= 1  id = "ptype1" required  style="margin-top:3%;"  > Time & Expense
-             &nbsp;&nbsp;&nbsp;
-              <input type="radio" name="ptype"  value= 2  id = "ptype2" required  style="margin-top:3%;"  > Time -->
-
               <select style="width:145%" id="ptype1" class="form-text-box" name="ptype">
                   <option disabled selected value=0>Select</option>
               <% for(var i=0;i<allPtype.length;i++) {%>
@@ -475,19 +296,6 @@ width:24% !important;
                 </select>
               </td>
             </td>
-
-            <!-- <td>
-              <td><label style="padding:4%;color: #524A4A;font-size: 11px">Project Category:</label></td>
-              <td>
-              <select style="" id="pcat" class="form-text-box" name="pcat">
-                  <option disabled selected value=0>Select a Project Category</option>
-              <% for(var i=0;i<allPcat.length;i++) {%>
-              <option value="<%=allPcat[i].id%>"><%=allPcat[i].description1%></option>
-              <%}%>
-                </select>
-              </td>
-            </td> -->
-
 
             <td>
               <td><label style="padding:8%;color: #524A4A;font-size: 11px;width:107px;margin-top:-4%">Tax Code:</label></td>
@@ -520,37 +328,6 @@ width:24% !important;
               <td></td><td></td><td></td><td></td> 
           </tr>
         </table>
-<!-- 
-
-
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Billable: </label> </div>
-            <div class="col-md-7" style="margin-top: 12px;">  
-              <input type="radio" name="isBillable"  value= 1  id = "isBillable1" required  style="margin-top:3%;"> Yes
-              <input type="radio" name="isBillable"  value= 0  id = "isBillable2" required  style="margin-top:3%;"> No
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Project Type: </label> </div>
-            <div class="col-md-7" style="margin-top: 3%;"> <input type="radio" name="ptype"  value= 1  id = "ptype1" required  style="margin-top:3%;"  > Time & Expense
-             &nbsp;&nbsp;&nbsp;
-              <input type="radio" name="ptype"  value= 2  id = "ptype2" required  style="margin-top:3%;"  > Time
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >Tax Code :</label> </div>
-            <div class="col-md-7">  <input type="text" placeholder=" -- Enter Tax Code -- "  class= "form-text-box" id="taxCode" style="margin-top:3%;" name="taxCode"  maxlength="20"  <%if(flag==1){%>value='<%=name[0].taxCode%>' <%}%>></div>
-          </div>
-          <div class="col-md-6">
-            <div class="col-md-5"> <label >PO Number :</label> </div>
-              <div class="col-md-7">
-              <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "10" min = "1" max = "99999" placeholder=" -- Enter PO Number -- "class= "form-text-box" id="poNumber" style="margin-top:3%;" name="poNumber" <%if(flag==1){%>value='<%=name[0].poNumber%>'<%}%> ></div>
-            </div>
-          </div> -->
-        
 
             <center style="padding-bottom: 1%">
             <a href="/projectDetails">
@@ -579,10 +356,6 @@ width:24% !important;
   var pressButton=0;
   var abcd=0;
     $(document).ready(function() {
-
-
-
-            /* $("#idpname").focus(); */
 
       $('#pclient').tagger({
         "fieldWidth":"13em"
@@ -681,11 +454,7 @@ getSelectedOptions($('#pclient').val());
        alert('1');
     }); 
 
-
-function getSelectedOptions(cid) {//alert(cid); 
- clientContactAccToClient(cid);
-}
-function clientContactAccToClient(cid){//alert(cid);
+function getSelectedOptions(cid){//alert(cid);
   $.ajax({
                 url: '/clientContactAccToClient',
                 type: 'post',
@@ -837,37 +606,6 @@ function clientContactAccToClient(cid){//alert(cid);
               }
             }
 
-
-
-      /*var text = $('#datepicker').val();
-        var comp = text.split('/');
-        var m = parseInt(comp[0], 10);
-        var d = parseInt(comp[1], 10);
-        var y = parseInt(comp[2], 10);
-        var date = new Date(y,m-1,d);
-        if(text != ''){
-          if (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d) {
-             } 
-             else {
-               alert('Invalid  Planned Start Date');
-                return false;
-              }
-            }*/
-            /*var text = $('#datepicker1').val();
-             var comp = text.split('/');
-             var m = parseInt(comp[0], 10);
-             var d = parseInt(comp[1], 10);
-             var y = parseInt(comp[2], 10);
-             var date = new Date(y,m-1,d);
-             if(text != ''){
-               if(date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d) 
-               {
-                } else {
-                  alert('Invalid  Planned End Date');
-                   return false;
-                 }
-             }
-*/
              /*var psdate = $('#datepicker').datepicker("getDate");*/ var text = $('#datepicker').val();
               /*var pedate = $('#datepicker1').datepicker("getDate");*/var text1 = $('#datepicker1').val();
               var psdate=new Date(text); var pedate=new Date(text1); 
@@ -922,39 +660,12 @@ function clientContactAccToClient(cid){//alert(cid);
                alert('Invalid  Actual End Date');
                 return false;
             } }
-              /*var psdate = $('#datepicker').datepicker("getDate");*/ var text = $('#datepicker').val();
-              /*var pedate = $('#datepicker1').datepicker("getDate");*/var text1 = $('#datepicker1').val();
-              /*var asdate = $('#datepicker2').datepicker("getDate");*/var text2 = $('#datepicker2').val();
-            /*var aedate = $('#datepicker3').datepicker("getDate");*/var text3 = $('#datepicker3').val();
+             var text = $('#datepicker').val();
+             var text1 = $('#datepicker1').val();
+             var text2 = $('#datepicker2').val();
+             var text3 = $('#datepicker3').val();
 
             var psdate=new Date(text); var pedate=new Date(text1); var asdate=new Date(text2); var aedate=new Date(text3);
-
-            /*if(text1 != ''){ 
-              if (text != ''){
-                if(psdate>pedate){
-                  alert('Planned End Date can not be less than Planned Start Date');
-                  return false;
-                }
-              }
-              else{
-                alert('Please Select Planned Start Date');
-                 return false;
-              }
-            }*/
-/*
-            if(text == ''){
-              alert('Please Select Planned Start Date');
-              return false;
-            }
-            if(text1 == ''){
-              alert('Please Select Planned End Date');
-              return false;
-            }
-            if(psdate>pedate){
-                  alert('Planned End Date can not be less than Planned Start Date');
-                  return false;
-                }
-*/
 
             if(text3 != ''){  if (text2 != ''){
               if(asdate>aedate){
@@ -995,37 +706,13 @@ function clientContactAccToClient(cid){//alert(cid);
             function validFinanceInfo(){
               var abc=validBugInfo();
               if(abc){
-
-
-                /*if($("#poNumber").val() != ''){
-
-                if ( $.isNumeric( $("#poNumber").val() ) ) {
-=======
-               /* if ( $.isNumeric( $("#poNumber").val() ) ) {
->>>>>>> Stashed changes
-                    // It is a number
-                    return true;
-                } else {
-                    // It isnt a number
-                      alert('poNumber field should have a numeric value.');
-                    return false;
-                }
-<<<<<<< Updated upstream
-              }*/
-
-
-             //$('#tabDetail').val(3);
-                //addedit=1;
-                //alert('hidden id in validFinanceInfo---'+$('#hdnId').val());
                 abcd=1;
                 if($('#hdnId').val() == 0){
-                //addedit=0;
               }
               else{
                 addedit=1;
               }
               tabDisable=3;
-              //alert('tabDisable in validFinanceInfo1---'+tabDisable);
               if(pressButton==3){addProject();}
               else{return true;}
             }
@@ -1068,14 +755,6 @@ function clientContactAccToClient(cid){//alert(cid);
                 success: function(data) {
                   console.log('success',data);
                  $("#pid").val(data[0][0].lid); 
-                    //alert('addedit---'+addedit)  ;                   
-                  /*if(addedit == 1){
-                    alert("Project updated successfully.");
-                  }
-                   else if(addedit==0){
-                    alert("Project added successfully.");
-                   }*/
-
                    if(data[0][0].flag == 1){
                     alert("Project added successfully.");
                   }
@@ -1090,22 +769,6 @@ function clientContactAccToClient(cid){//alert(cid);
                       window.location.href = "/projectDetails";
                     }
 
-
-                   //alert('tabDisable---'+tabDisable);
-                   //alert('hidden id ---'+$('#hdnId').val());
-                  /*if(tabDisable==3 && $('#hdnId').val()==0) {
-                    var r = confirm("Do you want to create WBS ?");
-                    if (r == true) {
-                      window.location.href = "/projectWbs?pid="+data[0][0].lid;
-                    } else {
-                      window.location.href = "/projectDetails";
-                    }
-                  }
-                  else{
-                    if(tabDisable==3){
-                      window.location.href = "/projectDetails";
-                    }
-                  }*/
                 },
                 dataType: 'JSON',
               });
