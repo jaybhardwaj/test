@@ -385,9 +385,11 @@ var endDt=document.getElementById("datepicker1").value;
        if($('#asd').val()==null)
      { alert("Please select Users"); 
       return false;  }
-
-      var psdate = $('#datepicker').datepicker("getDate"); var text = $('#datepicker').val();
-            var pedate = $('#datepicker1').datepicker("getDate");var text1 = $('#datepicker1').val();
+      
+      var text = $('#datepicker').val();
+      var text1 = $('#datepicker1').val();
+     /* var psdate = $('#datepicker').datepicker("getDate"); 
+            var pedate = $('#datepicker1').datepicker("getDate");
           
             if(text != '')
             { 
@@ -413,7 +415,11 @@ var endDt=document.getElementById("datepicker1").value;
               alert('Please Select Assignment End Date');
               return false;
             }
-    console.log("----------------------------------");  
+    console.log("----------------------------------");*/  
+
+    if(text==''){alert("Please Select Assignment Start Date"); return false;}
+      if(text1==''){alert("Please Select Assignment End Date"); return false;}
+      if(new Date(text)>new Date(text1)){alert('Assignment End Date can not be less than Assignment Start Date');return false;}
     
 var retailerid=<%=retailerId%>;
 var td= new Date();
