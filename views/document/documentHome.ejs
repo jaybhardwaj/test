@@ -83,7 +83,10 @@
   <% include headerDoc.ejs %>
       
 <div class="se-pre-con"></div>        
- 
+ <div class='progressWrapper' style='float: left; width: 100%'>
+    <div class='progress' style='float: left; width: 0%; color: red'></div>
+    <div class='progressText' style='float: left;'></div>
+</div>
 <div class="container-fluid">    
 <div class="row secondry-color" style="padding:2%">
 <div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
@@ -419,9 +422,10 @@
 <script>
    $('form#formID').submit(function(e){
     $(this).find('input[type=submit]').prop('disabled', true);
+    $('.se-pre-con').fadeIn('slow');
 });
 
-   var  validType=['exe','html','ejs'];
+   var  validType=['exe'];
         function validation() {
             var input, file;
             input = document.getElementById('fileAttach');
@@ -445,8 +449,8 @@
                 alert("Error:exe , html , ejs file cannot be uploaded!");
                 return false;
             }
-            if(file.size>20097152){
-                 alert("Error:File limit is 2 mb");
+            if(file.size>20971520){
+                 alert("Error:File limit is 20 mb");
                  return false ;
             }    
             if (fname == "") {

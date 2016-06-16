@@ -100,9 +100,8 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             sql: 'call usp_verifyCustomRole(?)',
             values: [uid]
         };
-        //console.log(query);
+      
         mysql(query, function(err, result) {
-            console.log(query,"-----error",err);
             callback(err, result);
         });
     },
@@ -587,10 +586,7 @@ deleteFileByIdPermanentely:function(userId,roleId,retailerId,status,status1,call
             values: [userId,retailerId,strname,currfolder,fname,descbox,authname,industry,business,title,doctype,tec,
                           roleId,restriction,industryhide,businesshide,doctypehide,newTechide,rLevelhide,parsedData]
         };
-   //  console.log(parsedData);
-// console.log("chu  ",parsedData.length);
         mysql(query,function(err,result){
-         console.log(result)
             callback(err, result);
      });
 },
