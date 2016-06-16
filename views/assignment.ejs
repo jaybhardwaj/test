@@ -295,6 +295,11 @@ $('#wbsDiv').removeClass('hide');
                   var log='',log1='';
                   var sdate='',edate='';
                    for (var i = 0; i < data[0].length ; i++) {
+
+                      if(data[0][i].actualStartDate=='00/00/00'){data[0][i].actualStartDate='';}
+                      if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
+
+
                       log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows1" onclick="highlight('+data[0][i].id+',0,1)" id="projectRow_'+data[0][i].id+'"><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true"  value="'+data[0][i].projectTitle+'" id="pname_'+data[0][i].id+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true"  id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true" id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input style="cursor: pointer;border:0px"   type="text" readonly="true"  id="asdate_'+data[0][i].id+'" value="'+data[0][i].actualStartDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input style="cursor: pointer;border:0px"   type="text" readonly="true"  id="aedate_'+data[0][i].id+'" value="'+data[0][i].actualEndDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td></tr>';
 
                       $('body').on('focus',"#psdate_"+data[0][i].id, function(){
@@ -349,7 +354,8 @@ $('#wbsDiv').removeClass('hide');
                       var date = new Date(sdate);
                             var date1 = new Date(edate);
 
-
+                            if(data[1][i].wactualStartDate=='00/00/00'){data[1][i].wactualStartDate='';}
+                      if(data[1][i].wactualEndDate=='00/00/00'){data[1][i].wactualEndDate='';}
 
                        log1 = log1 + '<tr  id="wbsrow_'+data[1][i].WBSId+'" class="rows2" onclick="highlight(0,'+data[1][i].WBSId+',2)"   style=height:20px;color:grey;font-size:12px ><td><input type="text"  style="cursor: pointer;border:0px"  readonly="true"  id="wbsname_'+data[1][i].WBSId+'" value="' + data[1][i].WBSName + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td><td><input type="text"  style="cursor: pointer;border:0px"  readonly="true" style="border:0px" class="wpsdate" id="wpsdate_'+data[1][i].WBSId+'"  value="' + data[1][i].wplannedStartDate + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td><td><input type="text" style="cursor: pointer;border:0px"    class="wpedate"  readonly="true"  id="wpedate_'+data[1][i].WBSId+'" style="border:0px" value="' + data[1][i].wplannedEndDate + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td><td><input type="text"  style="cursor: pointer;border:0px"  id="wasdate_'+data[1][i].WBSId+'"  readonly="true"  class="wasdate"  style="border:0px"  value="' + data[1][i].wactualStartDate + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td><td><input type="text" style="cursor: pointer;border:0px"   id="waedate_'+data[1][i].WBSId+'" class="waedate"  readonly="true"   style="border:0px"  value="' + data[1][i].wactualEndDate + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td></tr>';
 
@@ -436,8 +442,8 @@ function highlight(pid,wbsid,flag){
 
     var sdate = new Date(psdate);
                 var edate = new Date(pedate);
-                var asdate = new Date(asdate);
-                var aedate = new Date(aedate);
+                var pasdate = new Date(asdate);
+                var paedate = new Date(aedate);
                 //alert(pname);
                  /*if (pname.val().trim().length == 0 ||  pname == '') {
                     alert("Please Enter Project Name First");
@@ -450,8 +456,8 @@ function highlight(pid,wbsid,flag){
                     return false;
                 }
 
-                if (waedate != '') {
-                    if (wasdate != '') {
+                if (paedate != '') {
+                    if (pasdate != '') {
                         if (asdate > aedate) {
                             alert('Actual End Date can not be less than Actual Start Date');
                             return false;

@@ -148,6 +148,9 @@ function setValidation(id,date,date1,flag){//alert(flag)
                       var edate=data[0][i].plannedEndDate;
                       var date = new Date(sdate);
                       var date1 = new Date(edate);
+
+                      if(data[0][i].wactualStartDate=='00/00/00'){data[0][i].wactualStartDate='';}
+                      if(data[0][i].wactualEndDate=='00/00/00'){data[0][i].wactualEndDate='';}
                       //alert(date+' '+date1)
                           log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows" id="abc_'+data[0][i].WBSId+'" onclick="getProjectAssignment('+data[0][i].WBSId+');"><td><input type="text" style="cursor: pointer;pointer-events:none;border:0px"   id="wbsname_'+data[0][i].WBSId+'" value="'+data[0][i].WBSName+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td><input style="cursor: pointer;border:0px"   type="text"  readonly="true" id="wpsdate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="wpedate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" readonly="true"  id="wasdate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"   value="'+data[0][i].wactualStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="waedate_'+data[0][i].WBSId+'" value="'+data[0][i].wactualEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td>';
 
@@ -290,6 +293,11 @@ function getProjectAssignment(wbsid){
                 success: function(data) {
                    var log='',log1='';
                    for (var i = 0; i < data[0].length ; i++) {
+
+                    if(data[0][i].actualStartDate=='00/00/00'){data[0][i].actualStartDate='';}
+                      if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
+
+
                       log=log+ '<tr style=height:20px;color:grey;font-size:12px; onclick="highlight('+data[0][i].id+',0,1)" class="rows1"  id="projectRow_'+data[0][i].id+'"><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   value="'+data[0][i].projectTitle+'" id="pname_'+data[0][i].id+'" onchange="changeProjectAssignment('+data[0][i].id+',0,0,2);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="changeProjectAssignment('+data[0][i].id+',0,0,2);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="changeProjectAssignment('+data[0][i].id+',0,0,2);"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].id+'" style="cursor: pointer;border:0px"   value="'+data[0][i].actualStartDate+'" onchange="changeProjectAssignment('+data[0][i].id+',0,0,2);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="aedate_'+data[0][i].id+'" value="'+data[0][i].actualEndDate+'" onchange="changeProjectAssignment('+data[0][i].id+',0,0,2);"></td></tr>';
 
                       //setValidation(data[0][i].id,date,date1,2);
@@ -443,8 +451,8 @@ function highlight(pid,aid,flag){
  }
  function checkAssignment(asid){
                 asname=$('#asname_'+asid).val();
-               asdate=$('#asdate_'+asid).val();
-               aedate=$('#aedate_'+asid).val();
+               asdate=$('#assigndate_'+asid).val();
+               aedate=$('#assignedate_'+asid).val();
                 var sdate = new Date(asdate);
                 var edate = new Date(aedate);
                 //alert(sdate+' '+edate);
@@ -471,8 +479,8 @@ function highlight(pid,aid,flag){
 
     var sdate = new Date(psdate);
                 var edate = new Date(pedate);
-                var asdate = new Date(asdate);
-                var aedate = new Date(aedate);
+                var pasdate = new Date(asdate);
+                var paedate = new Date(aedate);
 
                  /*if (pname.val().trim().length == 0 ||  pname == '') {
                     alert("Please Enter Project Name First");
@@ -485,8 +493,8 @@ function highlight(pid,aid,flag){
                     return false;
                 }
 
-                if (waedate != '') {
-                    if (wasdate != '') {
+                if (paedate != '') {
+                    if (pasdate != '') {
                         if (asdate > aedate) {
                             alert('Actual End Date can not be less than Actual Start Date');
                             return false;
