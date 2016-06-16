@@ -4,8 +4,7 @@ var mysql = require('../lib/mysql').executeQuery;
 var randomString = require('../lib/common').generateRandomString;
  
  
-module.exports = {
-
+module.exports = { 
      getEmpData:function(retId,emp_id,mgr_id,callback){
         if(emp_id==undefined){
             emp_id='';
@@ -1140,13 +1139,23 @@ changeAssignmentStatus: function(flag,assignmentId,callback) {
     },
 
     //------------------------------------------Asset-------------------------------
-
+inventory: function(type,userId,retailerid,callback){
+    var q={ 
+      sql:'call usp_ast_viewInventory(?,?,?)',
+      values: [type,userId,retailerid]
+    };
+    console.log(q);
+    mysql(q,function(err,result){
+      callback(err, result);
+    });
+  },
 
 getFurniture: function(firstName,roleId,retailerid,callback){
     var q={ 
       sql:'call usp_ast_viewStationary(?,?)',
       values: ['1',retailerid]
     };
+    console.log(q);
     mysql(q,function(err,result){
       callback(err, result);
     });
@@ -2838,6 +2847,22 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
        var q ={
         sql: "call usp_scheduleIntInfo(?,?,?)",
         values: [cid,retailerId,userId]
+       
+        };
+        //console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+                //console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+    deletehistory : function (userId,retailerId,id,callback){
+       var q ={
+        sql: "call usp_rms_deletehistory(?)",
+        values: [id]
        
         };
         //console.log(q);

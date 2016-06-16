@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+.dataTables_filter, .dataTables_length {
+     display: none;
+    }
+.glyphicon-ok-circle{
+  color:green!important;
+ }
+</style>
+	<head>
+
+	     <% include ../partials/head %>
+	       <% include assetheader %>
+	       <% include ../partials/adminheader %>
+	</head>
+
+	<body>
+		 <!--  <div class="se-pre-con"></div>  --> 
+		<div class="secondry-color">
+			<div style="padding:2%;padding-top:1%">
+			<span class="modal-title" style="padding-left:37%">Inventory Details</span>
+               <select style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px"class="form-text-box" id='active' name="active" onchange="viewInventType()">
+               <option value="-1">All</option> 
+                <% for(var i=0;i<assetType.length;i++){ %>
+                  <option value="<%=assetType[i].id%>"><%=assetType[i].type%></option>
+                  <%}%>       
+              </select>   
+               <span id="download" class="glyphicon glyphicon-download" onclick="exportInventory('inventory')" style="margin-left:354px;cursor: pointer;font-size:19px" title="Download Inventory Details" > </span> 
+               <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
+				<table  class="table stripe cell-border hover"  id="inventTable">
+					<thead>
+						<th>S.No.</th>
+						<th>Type Name</th>
+						<th>Quantity</th>
+						<th># Assigned</th>
+						<th># UnAssigned</th>
+					</thead>
+					<tbody id="inventTableData">
+					<%var sno=0;console.log("td ->",tableData);for(i=0;i<tableData.length;i++){%>
+						<tr>
+						<td><%=sno++%></td>
+						<td><%=tableData[i].componentName%></td>
+						<td><%=tableData[i].compcount%></td>
+						<td><%=tableData[i].assigned%></td>
+						<td><%=tableData[i].unassigned%></td>
+						</tr>
+						<%}%>
+					</tbody> 
+				</table>
+			</div>
+		</div>
+	</body>
+	<footer>
+	        <% include ../partials/footer %>
+	</footer>
+</html>
+    <script src="http://alasql.org/console/alasql.min.js"></script>
+<script>
+var otable='';
+  $(document).ready(function() {
+            $('.inv-img').addClass('active');
+
+         otable= $('#inventTable').dataTable({ 'iDisplayLength': 10,
+            "order":[],
+            "bDestroy": true, 
+            "info":false});
+        
+        $("#searchbox").keyup(function() {
+        otable.fnFilter(this.value);
+      });
+        
+        $("#searchbox").keyup(function() {
+        otable.fnFilter(this.value);
+      });
+        });
+
+     function exportInventory()
+		{
+			  var status=$("#active").val(); 
+			  $(".se-pre-con").fadeIn("slow");
+			var header=['Type Name','Quantity','Assigned','UnAssigned'];
+
+			var url ='/exportToCsv';
+			$.ajax({
+			url: url,
+			method: 'POST',
+			data : {"type":'inventory','status':status},
+			success: function(data) {
+			    
+			data.unshift(header);
+			alasql("SELECT * INTO CSV('inventory.csv') FROM ?",[data]);
+			 $(".se-pre-con").fadeOut("slow");
+			/*$("#btnDownloadbug").prop('disabled', false);----/*/
+			},
+			dataType: 'JSON',
+			});   
+
+			$(".se-pre-con").fadeOut("slow");
+		} 
+	function viewInventType(){
+         $.ajax({
+                url: '/inventory',
+                type: 'post',
+                data: { "type": $('#active').val() },
+                success: function(data) { 
+                    var log='';
+                    for(var i=0;i<data.length;i++){ 
+
+                    log=log+"<tr><td>"+i+"</td>"+"<td>"+data[i].componentName+"</td>"+"<td>"+data[i].compcount+"</td>"+"<td>"+data[i].assigned+"</td>"+"<td>"+data[i].unassigned+"</td>"+"</tr>";
+                        	console.log(log);
+                  }
+                 otable.fnDestroy();
+                $('#inventTableData').html(log);
+                otable=$('#inventTable').dataTable({
+                	"order":[],
+		            "bDestroy": true, 
+		            "info":false
+                } ); 
+                }
+          
+            });
+}
+ 
+
+ </script>

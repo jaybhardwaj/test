@@ -73,8 +73,10 @@ app.post('/blockUser',portal.blockUser);
      app.get('/verifyCustomRole',portal.verifyCustomRole);
     //app.get('/Documenterror',url.Documenterror,render.redirect);
   
-//------------------------------------------Asset-------------------------------		
-app.get('/asset',url.setpageTransactions,portal.getUser,portal.getAssignedAssetsHome,render.redirect);
+//------------------------------------------Asset-------------------------------
+app.get('/inventory',url.inventory,portal.inventory,render.redirect);
+app.post('/inventory',portal.inventoryAjax);
+app.get('/transaction',url.setpageTransactions,portal.getUser,portal.getAssignedAssetsHome,render.redirect);
 app.get('/assignSoftware',url.setpageAssignSoftware,portal.getComp,render.redirect);//new4assignsoft
 app.get('/hardware',url.setpageHardware,portal.getComp,render.redirect);
 app.post('/addHardware',url.setpageHardware,portal.addHardware,portal.getComp,render.redirect);
@@ -197,6 +199,7 @@ app.post("/getreleventState",portal.getreleventState);
 app.post("/addQuickTag",portal.addQuickTag);
 app.post('/getallmanager',portal.getallmanager);
 app.post('/getscheduleInfo',portal.getscheduleInfo);
+app.post('/deletehistory',portal.deletehistory);
 app.post('/scheduleInterview',url.scheduleInterview,portal.scheduleInterview,render.redirect);
 app.post('/addTag',portal.addTag);
 app.post('/savehrm',portal.saveHrm);

@@ -602,7 +602,19 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 
 //------------------------------------------Asset-------------------------------
-	
+	inventory:function(req,res,next){
+		console.log("in url inven");
+		if(req.session.modules.indexOf(config.Asset)>=0)
+		 	{
+		       req.page='viewInventory';
+		   	   next();
+		  }
+		  else
+			{
+					res.redirect('/portal')
+			}
+	},
+
 	setpageviewFurniture: function(req,res,next){
 
 		if(req.session.modules.indexOf(config.Asset)>=0)

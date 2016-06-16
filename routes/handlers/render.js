@@ -338,9 +338,21 @@ module.exports = {
 
 				//------------------------------------------Asset-------------------------------
 
+			case 'viewInventory':
+			console.log("in render inven");
+				res.render('asset/inventory',{
+					myModules:req.session.modules,
+					allSuperVisors:req.session.allSupervisors,
+					mySupervisor:req.session.mySupervisor,isRetailer:req.session.isRetailer,
+					hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,
+					user:req.session.firstName,defaultModule:req.session.defaultModule,
+					assetType:req.assetType,tableData:req.tableData
+				})
+				break;
+
 			// new for hardware
-			case 'viewHardware':
- 
+
+			case 'viewHardware': 
 				res.render('asset/viewHardware',{
 					vendor:req.resultHardware[3],myModules:req.session.modules,
 					allSuperVisors:req.session.allSupervisors,

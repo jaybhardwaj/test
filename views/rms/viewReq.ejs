@@ -90,6 +90,7 @@
                         },
                         method: 'post',
                         success: function(data) {
+
                                 var flage = flag;
                                 var ide = id;
                                 var cities = JSON.parse(JSON.stringify(data.result[0]));
@@ -100,7 +101,7 @@
                                 var dviewinfo = JSON.parse(JSON.stringify(data.result[9]));
                                 var prio = JSON.parse(JSON.stringify(data.result[4]));
                                 var arstr = [];
-
+console.log("-----------",dviewinfo[0].location);
                                  if (con == 7) {
                                     $('#ModalHeading').html("Requisition Details");
                                   
@@ -111,7 +112,7 @@
                                     $('#drec').html(dviewinfo[0].recruiter);
                                     $('#dexpiresOn').html(dviewinfo[0].expireDate);
                                     $('#dyox').html(dviewinfo[0].Experience)
-                                    $("#dbrowsers").html(dviewinfo[0].designation);
+                                    $("#ddesig").html(dviewinfo[0].designation);
                                     $('#dpriority').html(dviewinfo[0].priority);
                                     $("#dlocation").html(dviewinfo[0].location);
                                     $("#djobType").html(dviewinfo[0].type);
@@ -219,7 +220,7 @@
                                         if(pdetails[i].assignedTofirstName!=null){
                                        ch=ch+ '<td id = "assign_' + pdetails[i].id + '">' + pdetails[i].assignedTofirstName + '</td>';}
                                        else{
-                                        ch=ch+'<td id = "assign1_' + pdetails[i].id + '"><span class="glyphicon glyphicon-option-horizontal"></span></td>';
+                                        ch=ch+'<td id = "assign_' + pdetails[i].id + '"><span class="fa fa-ellipsis-h"></span></td>';
                                        }
                                        hrUser="<%for(var i = 0 ;i<userInfo.length;i++){%><option value='<%=userInfo[i].id%>' <%if(userInfo[i].id=="+pdetails[i].assignedTo+"){selected}%> id='option_<%=userInfo[i].id%>'><%=userInfo[i].firstName%></option><%}%>"
                                        ch=ch+'<td>' + pdetails[i].adminHrfirstName + '</td><td ><select class="' + hide + '"  id = "edit_' + pdetails[i].id+'_'+i+'" onchange="saveRecruter(this.id,'+pdetails[i].id+')"><option value="0">select</option>'+hrUser+'</select></td><td class = "hide" id = "user_' + pdetails[i].id + '">' + pdetails[i].assignedTo + '</td></tr>';
@@ -375,7 +376,7 @@
                             </td>
                             <td>
                                 <td><label class="form-Label">Designation :</label></td>
-                                <td><label class="detailLabelContent" style=" " id="dlocation"></label></td>
+                                <td><label class="detailLabelContent" style=" " id="ddesig"></label></td>
                             </td>
                         </tr>
                          <tr>

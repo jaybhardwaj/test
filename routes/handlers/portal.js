@@ -221,7 +221,7 @@ var locationId = [],
                             res.redirect('/expense');
                        }
                        else if(req.session.defaultModule==4){
-                            res.redirect('/asset');
+                            res.redirect('/inventory');
                        }
                        else if(req.session.defaultModule==5){
                             res.redirect('/task');
@@ -2180,7 +2180,33 @@ changeAssignmentStatus: function(req, res, next) {
 
      //------------------------------------------Asset----------------------------------------------
      
-
+    inventory:function(req,res,next){ 
+        req.type=-1;
+           modelPortal.inventory(req.type,req.session.userId,req.session.retailerId,
+            function(error, result){
+            if(error){
+              next(error);
+                return;
+            }
+            req.assetType=result[0];
+            req.tableData=result[1];
+            console.log("data in view furniture is get \n",result);
+            next();
+        }); 
+    },
+     inventoryAjax:function(req,res,next){ 
+           modelPortal.inventory(req.body.type,req.session.userId,req.session.retailerId,
+            function(error, result){
+            if(error){
+              next(error);
+                return;
+            }
+            req.assetType=result[0];
+            req.tableData=result[1];
+            console.log("data in view furniture is post\n",result);
+            res.json(result[1]);
+        }); 
+    },
      getViewFurniture:function(req, res, next){
       modelPortal.getFurniture(req.session.firstname,req.session.roleid,req.session.retailerId,function(error, resultFurniture){
             if(error){
@@ -4574,8 +4600,21 @@ upload_resume:function(req,res,next){
                 }  
         });
     },
+      deletehistory:function(req,res,next){
+        ////console.log("addQuickTag portal");
+        modelPortal.deletehistory(req.session.userId,
+            req.session.retailerId,req.body.id,
+           function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+                     res.json(result);
+                }  
+        });
+    },
       scheduleInterview:function(req,res,next){
-        ////console.log(req.body);
+ 
         modelPortal.scheduleInterview(req.body.cdtidint,
                 req.body.schtaggedJd,
                 req.body.intdatetime,
@@ -4732,7 +4771,7 @@ upload_resume:function(req,res,next){
         });
     },
     interviewData:function(req,res,next){
-       // ////console.log("interview date-------------", req.body);
+ 
         var filename;
         var targetPath;
         var fname;
