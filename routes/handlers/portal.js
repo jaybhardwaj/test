@@ -1226,7 +1226,7 @@ attachDocFile: function(req,res,next){
                             textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                         if (error) {
-                                         
+                                         console.log("doc",error);
 
                                         } else {
                                             if (typeof text != undefined) {
@@ -1251,7 +1251,8 @@ attachDocFile: function(req,res,next){
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function( error, text ) {
 
                                         if (error) {
-                                         
+                                             console.log("pptx   ",error);
+
 
                                         } else {
                                             if (typeof text != undefined) {
@@ -1274,6 +1275,7 @@ attachDocFile: function(req,res,next){
                             }else if(exe == 'pdf') {
                                 var processor = pdf_extract(newpath, options, function(err) {
                                     if (err) {
+                                         console.log("pdf   ",error);
                                     }
                                 });
                                  processor.on('complete', function(data) {
@@ -1318,6 +1320,7 @@ attachDocFile: function(req,res,next){
 
                             }
                           });  
+                            next();
                         }                      
                         
                                      
