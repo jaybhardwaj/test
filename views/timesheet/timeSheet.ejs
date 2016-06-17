@@ -531,7 +531,7 @@
                         }
                           else*/
                         {
-                            a = a + '<td><input  id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value="" onkeyup="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
+                            a = a + '<td><input  id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value="" onfocusout="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
                         }
 
                     }
@@ -844,6 +844,11 @@
 
                 console.log('b', data[0].i);
 
+                if(data[0].i==6){
+                    alert(" You have already submitted TimeSheet");
+                    return false;
+                }
+
                 var alluser = [];
                 var assignments = [];
                 var wbsids = [];
@@ -898,7 +903,7 @@
                 // +alert(alluser);
                 //console.log("this is timesheet id" + tsid);
                 //console.log("value of timesheet is ---" + temp);
-               
+
                 $.ajax({
                     url: 'submitTimesheetAssignment',
                     type: 'post',
@@ -910,23 +915,21 @@
                     success: function(data) {
 
                         console.log("b");
-               /*         if (status == 2)
+                        if (status == 2)
             alert("Data Submitted Successfully");
-        else
-            if(status==1)
-            alert("Data Saved Succesfully");
-*/
+        else {if(save_not_submit!=1){
+            alert("Data Saved Succesfully");} }
                     }
 
 
                 });
             }
         });
-        if (status == 2)
+        /*if (status == 2)
             alert("Data Submitted Successfully");
         else
             if(save_not_submit!=1){
-            alert("Data Saved Succesfully");}
+            alert("Data Saved Succesfully");}*/
     }
 
     function getdateprev() {

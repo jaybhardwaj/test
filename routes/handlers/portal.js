@@ -52,11 +52,9 @@ var locationId = [],
    totalFiles = [],
   parsing = [],done =0;
 
+ var PPT = require('ppt');
 
-
-
-
-
+var unoconv=require('uno-ext');
 
 
 
@@ -1151,26 +1149,30 @@ attachDocFile: function(req,res,next){
                        res.redirect('/breakdown');
                 }
                 else{
-                              
-                            if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx' || exe.toLowerCase() == 'txt' || exe.toLowerCase() == 'rtf' ||exe.toLowerCase() == 'csv' ){
+                                console.log("-- - - - - -                      ",targetPath);   
+                         
+                              if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx'){
 
-                                textract.fromFileWithPath(targetPath, config, function(error, text) {
+                                    textract.fromFileWithPath(targetPath, config, function(error, text) {
 
-                                    if (error) {
-                                     
+                                        if (error) {
+                                         
 
-                                    } else {
-                                        if (typeof text != undefined) {
-                                          
-                                            var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
-                                            parseAll(textLowerCase,req,strname,1,next);
-                                                         next();
+                                        } else {
+                                            if (typeof text != undefined) {
+                                              
+                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
+                                 
+                                              
+                                             parseAll(textLowerCase,req,strname,1,next);
+                                                             next();
 
-                                        } 
-                                    }
-                                });
+                                            } 
+                                        }
+                                    });
                             }
                             else if (exe.toLowerCase() == 'pdf') { 
+                                                    //console.log("ppt start");           
                                     var processor = pdf_extract(targetPath, options, function(err) {
                                         if (err) {
                                            
@@ -1179,7 +1181,7 @@ attachDocFile: function(req,res,next){
                                     processor.on('complete', function(data) {
                                        
                                         var text = '';
-                                        for (var i = 0,len=data.text_pages.length; i < len; i++) {
+                                        for (var i = 0; i < data.text_pages.length; i++) {
                                             text = text.concat(data.text_pages[i]);
                                         }
                                      
@@ -1193,23 +1195,8 @@ attachDocFile: function(req,res,next){
 
                                      
                                     });
-                        }
-                        else if(exe.toLowerCase() == 'pptx'){
-                            textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",targetPath, function( error, text ) {
-                              if (error) {
-                                     
+                            }
 
-                                    } else {
-                                        if (typeof text != undefined) {
-                                          
-                                            var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
-                                            parseAll(textLowerCase,req,strname,1,next);
-                                                         next();
-
-                                        } 
-                                    }
-                              });
-                        }
                         else if(exe.toLowerCase() == 'zip'){
                         var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
                         var folderpath='./public/attach/' + exet[0] + '_' + now ;
@@ -1227,7 +1214,11 @@ attachDocFile: function(req,res,next){
                             textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                         if (error) {
+<<<<<<< Updated upstream
                                          //console.log("doc",error);
+=======
+                                         
+>>>>>>> Stashed changes
 
                                         } else {
                                             if (typeof text != undefined) {
@@ -1247,6 +1238,7 @@ attachDocFile: function(req,res,next){
                                
 
 
+<<<<<<< Updated upstream
                             } 
                             else if(exe == 'pptx'){
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function( error, text ) {
@@ -1272,6 +1264,11 @@ attachDocFile: function(req,res,next){
                                 var processor = pdf_extract(newpath, options, function(err) {
                                     if (err) {
                                          //console.log("pdf   ",error);
+=======
+                            } else if(exe == 'pdf') {
+                                var processor = pdf_extract(newpath, options, function(err) {
+                                    if (err) {
+>>>>>>> Stashed changes
                                     }
                                 });
                                  processor.on('complete', function(data) {
@@ -1319,7 +1316,6 @@ attachDocFile: function(req,res,next){
 
                             }
                           });  
-                            next();
                         }                      
                         
                                      
@@ -3579,6 +3575,9 @@ addUser: function(req, res, next) {
                          if(err){
                                  next(err)
                                   }
+                                  else{
+                                    res.json(result);
+                                  }
                                   
        });
 
@@ -4182,7 +4181,7 @@ upload_resume:function(req,res,next){
                 if (err) {}//////console.log(err)
                 else {
 
-                    if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx' || exe.toLowerCase() == 'rtf') {
+                    if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx') {
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
@@ -4224,6 +4223,7 @@ upload_resume:function(req,res,next){
 
                     }
 
+<<<<<<< Updated upstream
                     else if (exe.toLowerCase() =='pptx') {
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
@@ -4265,6 +4265,8 @@ upload_resume:function(req,res,next){
                         });
 
                     }
+=======
+>>>>>>> Stashed changes
 
                     if (exe.toLowerCase() == 'pdf') {
                     parsing[req.session.userId] = true;
@@ -4343,7 +4345,7 @@ upload_resume:function(req,res,next){
 
                             //         parseResume(req,newpath);
 
-                            if (exet == 'doc' || exet == 'docx' || exet == 'rtf') {
+                            if (exet == 'doc' || exet == 'docx') {
                                 /*  if(exet=="rtf")
                                   {
                                     namearr.pop();
@@ -5097,10 +5099,15 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
  function  parseAll(textLowerCase,req,strname,temp,next){
 var parsedData ;
 var largeArr = [];
+<<<<<<< Updated upstream
 var conjunctionArr = ['if','and','the','is','because','on','to','in','from','of','above','be','would','for','each','at','under','by','been','no','my','upon','been','it0','will','there','that','this','has','have','had','up','with','own','are','any','may','about','used','can','into','as','not','we','or','than','also','using','see','its','more','such','what','us','there','so','them','Your','just','our','why','but','am','//','>=','<=','over','per','#1','#2','#3','#4','#5','#6','etc)','recent','due','(the','an','out','here'];
+=======
+var conjunctionArr = ['if','and','the','is','because','on','to','in','from','of','above','be','would','for','each','at','under','by','been','no','my','upon','been','it0','will','there','that','this'];
+>>>>>>> Stashed changes
 
 for(var i =0,len=textLowerCase.length;i<len;i++){
 if((largeArr.indexOf(textLowerCase[i])<0)&&(conjunctionArr.indexOf(textLowerCase[i])<0)&&(textLowerCase[i].length>1)&&(isNaN(textLowerCase[i]))){
+    //console.log("munni",textLowerCase.length);
             largeArr.push(textLowerCase[i]);
 
 }
