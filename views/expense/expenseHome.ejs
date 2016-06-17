@@ -1881,51 +1881,32 @@
                                     $('#typeExp').html(" ");
                                     var row = '';
                                     row = row + '<option value="0">-select-</option>';
-                                    var j = 0;
-                                    var users = [];
-                                    var k = 0;
-                                    var users1 = [];
+                                    var j = 0;                                
+                                    var k = 0;                                  
                                     for (var i = data.length-1; i >= 0; i--) {
 
                                         if (data[i].Status == 0) {
-                                            j++;
-                                            users[j] = data[i].id;
-                                            row = row + '<option value=' + data[i].id + '>' + data[i].firstName + '(Pending)</option>'
+                                            j = data[i].id;
+                                            row = row + '<option value=' + data[i].id + '>' + data[i].firstName + '(Pending)</option>';
                                         } else if (data[i].Status == 1) {
-                                            if (users.length > 0) {
-                                                for (var n = 0; n < users.length; n++) {
-                                                    if (data[i].id != users[n]) {
-                                                        alert(data[i].id);
-                                                        k++;
-                                                        users1[k] = data[i].id;
+                                            if (data[i].id != j) {
+                                                        k = data[i].id;
                                                         row = row + '<option value=' + data[i].id + '>' + data[i].firstName + '(Approved)</option>';
                                                     }
                                                 }
-                                            } else {
-                                                row = row + '<option value=' + data[i].id + '>' + data[i].firstName + '(Approved)</option>';
-                                            }
-                                        } else {
-                                            if (users.length > 0) {
-                                                for (var n = 0; n < users.length; n++) {
-                                                    if (data[i].id != users[n]) {
-                                                        if (users.length > 0) {
-                                                            for (var m = 0; m < users1.length; m++) {
-                                                                if (data[i].id != users1[m]) {
-                                                                    row = row + '<option value=' + data[i].id + '>' + data[i].firstName + '(Rejected)</option>';
+                                          
+                                         else {
+                                           
+                                                    if (data[i].id != j) {
+                                                        if (data[i].id != k) {                                                                     row = row + '<option value=' + data[i].id + '>' + data[i].firstName + '(Rejected)</option>';
                                                                 }
                                                               
                                                             }
 
-                                                        } else {
-                                                            row = row + '<option value=' + data[i].id + '>' + data[i].firstName + '(Rejected)</option>';
-                                                        }
                                                     }
-                                                }
-                                            } else{
-                                                row = row + '<option value=' + data[i].id + '>' + data[i].firstName + '(Rejected)</option>';
-                                        }
+                                       
                                     }
-                                }
+                                
                                 $('#typeExp').append(row);
 
                             }
