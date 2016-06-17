@@ -545,71 +545,7 @@
 
             }
 
-            /*var convertDate = function(usDate) {
-              usDate=usDate.toString();
-  var dateParts = usDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  return dateParts[3] + "-" + dateParts[1] + "-" + dateParts[2];
-}
-
-function format1(date) {
-  date = new Date(date);
-
-  var day = ('0' + date.getDate()).slice(-2);
-  var month = ('0' + (date.getMonth() + 1)).slice(-2);
-  var year = date.getFullYear();
-
-  return year + '-' + month + '-' + day;
-}
-
-format = function date2str(x, y) {
-    var z = {
-        M: x.getMonth() + 1,
-        d: x.getDate(),
-        h: x.getHours(),
-        m: x.getMinutes(),
-        s: x.getSeconds()
-    };
-    y = y.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
-        return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-2)
-    });
-
-    return y.replace(/(y+)/g, function(v) {
-        return x.getFullYear().toString().slice(-v.length)
-    });
-}
-
-
-
-function format(date) {
-  date = new Date(date);
-
-  var day = ('0' + date.getDate()).slice(-2);
-  var month = ('0' + (date.getMonth() + 1)).slice(-2);
-  var year = date.getFullYear();
-
-  return year + '-' + month + '-' + day;
-}
-
-*/
-
-
-                function formatDate(date) {
-                  date1=date.getFullYear();
-                 if (date1 < 1970) {
-                              date.setFullYear(date1 + 100);
-                          } 
-
-                    var d = new Date(date),
-                        month = '' + (d.getMonth() + 1),
-                        day = '' + d.getDate(),
-                        year = d.getFullYear();
-                       
-                    if (month.length < 2) month = '0' + month;
-                    if (day.length < 2) day = '0' + day;
-
-                    return [year, month, day].join('-');
-                }
-
+                
 
             function getAllWbs(pid) {
                 $("#datepicker").datetimepicker("destroy");
@@ -665,45 +601,15 @@ function format(date) {
                             $('#datepicker').val(data[1][0].plannedStartDate);
                             $('#datepicker1').val(data[1][0].plannedEndDate);
                             var text = $('#datepicker').val();
-                            var date2 = new Date(text);
+                            var date = new Date(text);
                             var text1 = $('#datepicker1').val();
-                            var date12 = new Date(text1);
+                            var date1 = new Date(text1);
 
-                            //var inDate = "12/06/2013";
-                            //var date = convertDate(date2);
-                            //var date1 = convertDate(date12);
-                            //var date=date2.format("yyyy/mm/dd");
-                            //var date1=date12.format("yyyy/mm/dd");
 
-                            //var date=format(new Date(date2), 'yyyy-MM-dd');
-                            //var date1=format(new Date(date12), 'yyyy-MM-dd');
-
-                            //var date2 = Date.parse(date2);
-                            //var date12 = Date.parse(date12);
-
-                            //var date = format(date2);
-                            //var date1 = format(date12);
-
-                            /*var d = new Date(date2);
-                            date = [
-                              d.getFullYear(),
-                              ('0' + (d.getMonth() + 1)).slice(-2),
-                              ('0' + d.getDate()).slice(-2)
-                            ].join('-');
-*/
-                              //var date = new Date('2015-09-21');
-                              /*var date = new Date('06/08/16');
-                              alert(date.getFullYear()+1);
-                              alert(date.getMonth());
-                              alert(date.getDate ());*/
-
-                            var date = formatDate(date2);
-                            var date1 = formatDate(date12);
-                            date=new Date(date);
-                            date1=new Date(date1);
-
-                            /*var date = new Date(date2);
-                            var date1 = new Date(date12);*/
+                            var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
 
                             console.log('text----',text);
                             console.log('text1----',text1);
@@ -748,6 +654,13 @@ function format(date) {
                             var text1 = data[1][0].plannedEndDate;
                             var date = new Date(text);
                             var date1 = new Date(text1);
+
+                            var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
+
+                            
                             $("#datepicker").datetimepicker({
                                 timepicker: false,
                                 minDate: date,
@@ -774,6 +687,27 @@ function format(date) {
 
 
             }
+
+
+            function formatDate(date) {
+                  date1=date.getFullYear();
+                 if (date1 < 1970) {
+                              date.setFullYear(date1 + 100);
+                          } 
+
+                    var d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+                       
+                    if (month.length < 2) month = '0' + month;
+                    if (day.length < 2) day = '0' + day;
+
+                    return [year, month, day].join('-');
+                }
+
+
+
 
             function specialCharacter(evt) {
                 var charCode = (evt.which) ? evt.which : event.keyCode

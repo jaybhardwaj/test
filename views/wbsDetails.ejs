@@ -62,6 +62,25 @@ $(document).ready(function() {
  wbsStatus();
 });
 
+function formatDate(date) {
+                  date1=date.getFullYear();
+                 if (date1 < 1970) {
+                              date.setFullYear(date1 + 100);
+                          } 
+
+                    var d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+                       
+                    if (month.length < 2) month = '0' + month;
+                    if (day.length < 2) day = '0' + day;
+
+                    return [year, month, day].join('-');
+                }
+
+
+
 function setValidation(id,date,date1,flag){//alert(flag)
   if(flag==1){
 
@@ -148,6 +167,10 @@ function setValidation(id,date,date1,flag){//alert(flag)
                       var edate=data[0][i].plannedEndDate;
                       var date = new Date(sdate);
                       var date1 = new Date(edate);
+                            var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
 
                       if(data[0][i].wactualStartDate=='00/00/00'){data[0][i].wactualStartDate='';}
                       if(data[0][i].wactualEndDate=='00/00/00'){data[0][i].wactualEndDate='';}
@@ -155,47 +178,6 @@ function setValidation(id,date,date1,flag){//alert(flag)
                           log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows" id="abc_'+data[0][i].WBSId+'" onclick="getProjectAssignment('+data[0][i].WBSId+');"><td><input type="text" style="cursor: pointer;pointer-events:none;border:0px"   id="wbsname_'+data[0][i].WBSId+'" value="'+data[0][i].WBSName+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td><input style="cursor: pointer;border:0px"   type="text"  readonly="true" id="wpsdate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="wpedate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" readonly="true"  id="wasdate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"   value="'+data[0][i].wactualStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="waedate_'+data[0][i].WBSId+'" value="'+data[0][i].wactualEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td>';
 
                             setValidation(data[0][i].WBSId,date,date1,1);
-
-                          /*$('body').on('focus',"#wpsdate_"+data[0][i].WBSId, function(){
-                              $(this).datetimepicker({
-                                    timepicker: false,
-                                    format: 'm/d/y',
-                                    scrollMouse: false,
-                                    scrollInput: false,
-                                    minDate: date,
-                                    maxDate: date1
-                                   });
-                          });
-                          $('body').on('focus',"#wpedate_"+data[0][i].WBSId, function(){
-                              $(this).datetimepicker({
-                                    timepicker: false,
-                                    format: 'm/d/y',
-                                    scrollMouse: false,
-                                    scrollInput: false,
-                                    minDate: date,
-                                    maxDate: date1
-                                   });
-                          });
-                          $('body').on('focus',"#wasdate_"+data[0][i].WBSId, function(){
-                              $(this).datetimepicker({
-                                    timepicker: false,
-                                    format: 'm/d/y',
-                                    scrollMouse: false,
-                                    scrollInput: false,
-                                    minDate: date,
-                                    maxDate: date1
-                                   });
-                          });
-                          $('body').on('focus',"#waedate_"+data[0][i].WBSId, function(){
-                              $(this).datetimepicker({
-                                    timepicker: false,
-                                    format: 'm/d/y',
-                                    scrollMouse: false,
-                                    scrollInput: false,
-                                    minDate: date,
-                                    maxDate: date1
-                                   });
-                          });*/
 
 
 if(data[0][i].projectTitle!='DummyProject'){
@@ -356,6 +338,10 @@ function getProjectAssignment(wbsid){
                       var edate=data[1][i].wplannedEndDate;
                       var date = new Date(sdate);
                             var date1 = new Date(edate);
+                            var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
 
                             //alert(sdate+' '+edate)
                        log1=log1+ '<tr style=height:20px;color:grey;font-size:12px; onclick="highlight(0,'+data[1][i].id+',2)" class="rows2"  id="assignmentRow_'+data[1][i].id+'"><td><input type="text"  readonly="true" style="cursor: pointer;border:0px"   value="'+data[1][i].projectTitle+'"></td><td><input type="text"  readonly="true" style="cursor: pointer;border:0px"   value="'+data[1][i].WBSName+'" id="assignname_'+data[1][i].id+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="assigndate_'+data[1][i].id+'" value="'+data[1][i].AssignmentDate+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="assignedate_'+data[1][i].id+'" value="'+data[1][i].AssignmentEndDate+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td></tr>';

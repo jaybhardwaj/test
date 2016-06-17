@@ -399,6 +399,13 @@
             var date = new Date(text);
             var text1 = $('#datepicker1').val();
             var date1 = new Date(text1);
+
+                            var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
+
+
             if (text != '' && text1 != '') {
                 $("#datepicker").datetimepicker({
                     timepicker: false,
@@ -507,6 +514,13 @@ $(function(){
                     var date = new Date(text);
                     var text1 = $('#datepicker1').val();
                     var date1 = new Date(text1);
+
+                    var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
+
+                            
 
                     //alert(date+' '+date1);
                     $("#datepicker21").val(text);
@@ -811,6 +825,27 @@ $(function(){
 
             //return false;
         }
+
+
+        function formatDate(date) {
+                  date1=date.getFullYear();
+                 if (date1 < 1970) {
+                              date.setFullYear(date1 + 100);
+                          } 
+
+                    var d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+                       
+                    if (month.length < 2) month = '0' + month;
+                    if (day.length < 2) day = '0' + day;
+
+                    return [year, month, day].join('-');
+                }
+
+
+
 
         function specialCharacter(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode

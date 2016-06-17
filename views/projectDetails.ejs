@@ -92,6 +92,25 @@ function checkactive(st){
     }
 }
 
+function formatDate(date) {
+                  date1=date.getFullYear();
+                 if (date1 < 1970) {
+                              date.setFullYear(date1 + 100);
+                          } 
+
+                    var d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+                       
+                    if (month.length < 2) month = '0' + month;
+                    if (day.length < 2) day = '0' + day;
+
+                    return [year, month, day].join('-');
+                }
+
+
+
  function projectStatus(st){
     
  
@@ -247,6 +266,11 @@ $(".active-row").removeClass('hide');
                       var date = new Date(sdate);
                             var date1 = new Date(edate);
 
+                            var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
+
                             if(data[0][i].wactualStartDate=='00/00/00'){data[0][i].wactualStartDate='';}
                       if(data[0][i].wactualEndDate=='00/00/00'){data[0][i].wactualEndDate='';}
 
@@ -335,6 +359,11 @@ $('#wbsTable').dataTable();
                       var edate=data[0][i].wplannedEndDate;
                       var date = new Date(sdate);
                             var date1 = new Date(edate);
+
+                            var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
 
                             
                             log = log + '<tr  id="assignmentrow_'+data[0][i].id+'" onclick="abc('+data[0][i].id+');" class="rows2" style=height:20px;color:grey;font-size:12px><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" value="' + data[0][i].projectTitle + '"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" id="asname_'+data[0][i].WBSId+'" value="' + data[0][i].WBSName + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td><td><input type="text" readonly="true"  id="aasdate_'+data[0][i].WBSId+'"  style="cursor: pointer;border:0px"  value="' + data[0][i].AssignmentDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td><td><input type="text" readonly="true"  id="aaedate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"    value="' + data[0][i].AssignmentEndDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td></tr>';
