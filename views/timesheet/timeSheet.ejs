@@ -531,7 +531,7 @@
                         }
                           else*/
                         {
-                            a = a + '<td><input  id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value="" onfocusout="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
+                            a = a + '<td><input  id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield "  style="width:60px; text-align:center; " value="" onblur="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
                         }
 
                     }
@@ -807,7 +807,7 @@
 
 
 
-
+/*
         if (status == 2) {
 
             $('#savetimesheet').addClass('hide');
@@ -823,7 +823,7 @@
             document.getElementById("submitTimes").value = "Submit";
             document.getElementById("submitTimes").disabled = false;
             document.getElementById('timestatus').innerHTML = for_status[status];
-        }
+        }*/
         $.ajax({
             url: 'submitTimesheet',
             type: 'post',
@@ -919,7 +919,27 @@
             alert("Data Submitted Successfully");
         else {if(save_not_submit!=1){
             alert("Data Saved Succesfully");} }
+            
+        if (status == 2) {
+
+            $('#savetimesheet').addClass('hide');
+            $('#resettimesheet').addClass('hide');
+            document.getElementById("submitTimes").value = "Submitted";
+            document.getElementById("submitTimes").disabled = true;
+            document.getElementById('timestatus').innerHTML = for_status[status];
+
+        } else {
+            $('#savetimesheet').removeClass('hide');
+            $('#resettimesheet').removeClass('hide');
+
+            document.getElementById("submitTimes").value = "Submit";
+            document.getElementById("submitTimes").disabled = false;
+            document.getElementById('timestatus').innerHTML = for_status[status];
+        }
                     }
+
+                  
+
 
 
                 });
