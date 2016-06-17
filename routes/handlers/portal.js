@@ -1214,11 +1214,7 @@ attachDocFile: function(req,res,next){
                             textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                         if (error) {
-<<<<<<< Updated upstream
-                                         //console.log("doc",error);
-=======
-                                         
->>>>>>> Stashed changes
+
 
                                         } else {
                                             if (typeof text != undefined) {
