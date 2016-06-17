@@ -45,9 +45,7 @@
 .dataTables_filter, .dataTables_length {
      display: none;
     }
-.form-text-box {
-  width: 100px;
-}
+ 
 </style>
 </head>
   <html lang="en">
@@ -61,61 +59,65 @@
          <span class="modal-title" style="padding-left:45%;">Assign/Unassign</span>
       </div> -->
 
-   <table class="table" >
-        <tr>
-        <td>
-            <td>
-              <label class="form-Label"><label style="color: #f05f40">1).</label> Select User :</label>
-            </td>
-            <td>
-              <select id="usersId" class="form-text-box"  onchange="getData(1,1)" >
+   <div class="row" >
+        
+        <div class="col-md-2">
+             
+        <label class="form-Label">Select User :</label>
+          <select id="usersId" class="form-text-box"  onchange="getData(1,1)" >
             <option disabled value="0"selected="">select</option>
               <%for(var i=0;i<users.length;i++){%><option value='<%=users[i].id%>'><%=users[i].Name%></option>
               <%}%>
           </select>
-            </td>
-          </td>
-          <td>
-            <td>
-              <label class="form-Label"><label style="color: #f05f40">2a).</label> Hardware Type:</label>
-            </td>
-            <td>
-              <select id="hw" type="dropdown"class="form-text-box" onchange="getList('1',this.value)">
-
+      </div>
+      <div class="col-md-2"> 
+                    <label class="form-Label">Type:</label>
+             
+            <select id="chooseType" class="form-text-box" onchange="chooseType()">
+              <option value="-1">Select</option>
+              <option value="0">Hardware</option>
+              <option value="1">Software</option>
+            </select> 
+      </div>
+      <div id="hardwareList" class="hide col-md-2">
+      <label class="form-Label">Hardware List:</label>
+            <select id="hw" type="dropdown" class="form-text-box" onchange="getList('1',this.value)"> 
                 </select>
-            </td>
-          </td>
-          <td>
-            <label class="form-Label"><label style="color: #f05f40">3a).</label> Service Tag:</label>
-          </td>
-          <td>
-            <select id="com" class="form-text-box show">
+      </div>
+         <div id="softwareList" class="hide col-md-2">
+         <label class="form-Label">Software List:</label>
+            <select id="ac" type="dropdown" class="form-text-box" onchange="getAcc(this.value)"></select>
+          </div>
+          <div id="hardwareTag" class="hide col-md-2">
+            <label class="form-Label">Hardware Tag:</label>
+            <select id="hdwTagOption" class="form-text-box " onchange="assignHdwr()">
+            <option value="0">Select</option>
             </select>
-          </td>
-
-          <td>
+          </div>
+          <div id="softwareLic" class="hide col-md-2">
+          <label class="form-Label">Software Licence:</label>
+           <select id="acc" class="form-text-box " onchange="">
+                </select>
+          </div>
+          <input type="submit" class="btn" value="Assign" style="margin-top:2.5%" onclick="">
+      </div>
          
-        </tr>
-        <tr>
+             <!--  <tr>
         <td colspan="4"></td>
            <td>
             <label class="form-Label"><label style="color: #f05f40">2b).</label> Software Type:</label>
           </td>
-          <td>
-            <select id="ac" type="dropdown" class="form-text-box" onchange="getAcc(this.value)"></select>
+          
           </td>
+         <td>
+            <label class="form-Label"><label style="color: #f05f40">3a).</label> Service Tag:</label>
           </td>
-        
           <td>
             <label class="form-Label"><label style="color: #f05f40">3b).</label> Licence Key:</label>
           </td>
-          <td>
-           <select id="acc" class="form-text-box show" onchange="">
-                </select>
-          </td>
-        </tr>
-      </table>
-      <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
+          
+        </tr> -->
+       <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
        <table class=" table-striped  table-hover " id="adTable" style="padding-top: 10px">
               <thead id="headi">
                 
@@ -231,7 +233,37 @@
     <% include ../partials/footer %>
   </footer>
   <script>
+  function assignHdwr(){
 
+  }
+  function assignSftwr(){
+
+  }
+function chooseType(){
+ // alert($("#usersId").val());
+  if(!$("#usersId").val()){ 
+    alert("Select a User!");
+    $("#chooseType").val(-1);
+    return false;
+  }
+  var at=$("#chooseType").val();
+  
+  if(at=="0"){
+    //alert(at);
+    $("#hardwareList").removeClass("hide");
+    $("#softwareList").addClass("hide");
+  }
+  else if(at=="1"){
+    //alert(at);
+    $("#hardwareList").addClass("hide");
+    $("#softwareList").removeClass("hide");
+  }
+  else{
+   // alert(at);
+     $("#hardwareList").addClass("hide");
+    $("#softwareList").addClass("hide");
+  }
+}
     
     $("#acc").editableSelect({
       onSelect:function(elem){
@@ -280,7 +312,7 @@ var count=0;
 
     }
      function getData(tid,flag1){
-
+ 
       if(flag1==1){
         var uid=$("#usersId").val();
       userid=uid;
@@ -344,7 +376,7 @@ var count=0;
             data: {atid:tid},
             dataType: 'json',
             success: function(result){
-              console.log(result);
+              console.log("show hrd",result);
               var qwer=JSON.stringify(result[1]);
               var data=JSON.stringify(result[0]);
               var options = $("#hw");
@@ -469,13 +501,25 @@ var count=0;
 
       function getList(tid,value){
         //alert(tid+' '+value);
+        $("#hardwareTag").removeClass("hide");
+        $("#softwareLic").addClass("hide");
+
         $.ajax({
           url: "/getTransUnassigned",
           method:'post',
           data: {atid:tid,acid:value},
           dataType: 'json',
           success: function(result){
-         
+            console.log("tags",result);
+
+            for(var i=0;i<result[0].length;i++){
+              $("#hdwTagOption").append("<option value='"+result[0][i].id+"''>"+result[0][i].tagNo+"</option>")
+            }
+        /*    $("#hdwTagOption").tagger({
+              "fieldWidth":"20em"
+            });*/
+
+   /*       
             var data=JSON.stringify(result[0]);
             var options = $("#com");
             options.empty();
@@ -483,7 +527,7 @@ var count=0;
             $.each(JSON.parse(data), function() {
               options.append($("<option />").val(this['id']).text(this['tagNo']));
             });
-         $('#com').editableSelect({
+        $('#com').editableSelect({
 
               onSelect:function(elem){
                 var tag=$(this)[0].value;
@@ -516,21 +560,26 @@ var count=0;
                   });
                 }
               }
-            });
+            });*/
           }
         });
       } 
       function getAcc(value){
         //alert(value);
+         $("#hardwareTag").addClass("hide");
+        $("#softwareLic").removeClass("hide");
         $.ajax({
           url: "/getAccUnassigned",
           method:'post',
           data: {cid:value},
           dataType: 'json',
           success: function(result){
+
+            console.log("software licenced :",result);
+
             //console.log(result);
            // alert(result);
-            var data=JSON.stringify(result[0]);
+       /*     var data=JSON.stringify(result[0]);
             var options = $("#acc");
             options.empty();
             $.each(JSON.parse(data), function() {
@@ -581,7 +630,7 @@ var count=0;
               }
             }
           });
-        }
+*/        }
       }); 
     }
 
