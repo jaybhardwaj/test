@@ -227,8 +227,8 @@ module.exports = {
 
 			case 'attachDocFile' :
 				req.session.documentalert=1;
-				console.log("in upload done")
-			    res.redirect('/document');
+				res.redirect('/document');
+
 			    break;
 			
 		    case 'filterFiledata' :

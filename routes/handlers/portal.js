@@ -54,7 +54,7 @@ var locationId = [],
 
  var PPT = require('ppt');
 
-var unoconv=require('uno-ext');
+
 
 
 
@@ -1149,7 +1149,7 @@ attachDocFile: function(req,res,next){
                        res.redirect('/breakdown');
                 }
                 else{
-                                console.log("-- - - - - -                      ",targetPath);   
+                              
                          
                               if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx'){
 
@@ -1307,6 +1307,7 @@ attachDocFile: function(req,res,next){
 
                             }
                           });  
+                            next();
                         }                      
                         
                                      
