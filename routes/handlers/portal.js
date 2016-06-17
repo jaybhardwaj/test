@@ -4214,7 +4214,7 @@ upload_resume:function(req,res,next){
 
                     }
 
-<<<<<<< Updated upstream
+
                     else if (exe.toLowerCase() =='pptx') {
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
@@ -4256,8 +4256,7 @@ upload_resume:function(req,res,next){
                         });
 
                     }
-=======
->>>>>>> Stashed changes
+
 
                     if (exe.toLowerCase() == 'pdf') {
                     parsing[req.session.userId] = true;
@@ -5090,11 +5089,9 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
  function  parseAll(textLowerCase,req,strname,temp,next){
 var parsedData ;
 var largeArr = [];
-<<<<<<< Updated upstream
+
 var conjunctionArr = ['if','and','the','is','because','on','to','in','from','of','above','be','would','for','each','at','under','by','been','no','my','upon','been','it0','will','there','that','this','has','have','had','up','with','own','are','any','may','about','used','can','into','as','not','we','or','than','also','using','see','its','more','such','what','us','there','so','them','Your','just','our','why','but','am','//','>=','<=','over','per','#1','#2','#3','#4','#5','#6','etc)','recent','due','(the','an','out','here'];
-=======
-var conjunctionArr = ['if','and','the','is','because','on','to','in','from','of','above','be','would','for','each','at','under','by','been','no','my','upon','been','it0','will','there','that','this'];
->>>>>>> Stashed changes
+
 
 for(var i =0,len=textLowerCase.length;i<len;i++){
 if((largeArr.indexOf(textLowerCase[i])<0)&&(conjunctionArr.indexOf(textLowerCase[i])<0)&&(textLowerCase[i].length>1)&&(isNaN(textLowerCase[i]))){
