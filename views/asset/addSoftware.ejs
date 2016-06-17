@@ -1,222 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-     <% include ../partials/head %>
-       <% include assetheader %>
-       <% include ../partials/adminheader %>
+    <% include ../partials/head %>
+        <% include assetheader %>
+            <% include ../partials/adminheader %>
 </head>
 
 <body style="overflow-x:hidden">
-   
-<div style="padding-top:1%; padding-bottom:1%; " class="secondry-color">
-  <div class="row">   
-     <span class="modal-title" style="padding-left:47%;">Add Software</span>
-  </div>
-  <form class="form-horizontal" style="margin:1%; " action="/submitSoftwareDetails" method="post">
-    <div class="row">
-      <table class="table">
-      <tr><td><td>
-          <label for="typel" class="form-Label">Software Type: <sup class="astrick">*</sup></label></td>
-         <td>
-            <select id="typel" type="dropdown" name="stype"class="form-text-box" >
+
+    <div style="padding-top:1%; padding-bottom:1%; " class="secondry-color">
+        <div class="row">
+            <span class="modal-title" style="padding-left:47%;">Add Software</span>
+        </div>
+        <form class="form-horizontal" style="margin:1%; " action="/submitSoftwareDetails" method="post">
+            <div class="row">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <td>
+                                <label for="typel" class="form-Label">Software Type: <sup class="astrick">*</sup></label></td>
+                            <td>
+                                <select id="typel" type="dropdown" name="stype" class="form-text-box">
               <option disabled value="0"selected="">Select a value</option>
                 <%console.log(stype,"----------stype--------");for(var i=0;i<stype[0].length;i++){%>
               <option value="<%=stype[0][i].id%>"><%=stype[0][i].componentName%></option>
                 <%}%>
             </select>
-          </td>
-        </td>
-        <td>
-        <td>
-          <label for="vendor" class="form-Label">Vendor: <sup class="astrick">*</sup></label></td>
-         <td>
-            <!-- <input name="vendor" placeholder="enter vendor name" class="form-text-box" id="vendor"> -->
+                            </td>
+                        </td>
+                        <td>
+                            <td>
+                                <label for="vendor" class="form-Label">Vendor: <sup class="astrick">*</sup></label></td>
+                            <td>
+                                <!-- <input name="vendor" placeholder="enter vendor name" class="form-text-box" id="vendor"> -->
 
-            <select id="vendor" type="dropdown" name="vendor"class="form-text-box" >
+                                <select id="vendor" type="dropdown" name="vendor" class="form-text-box">
               <option disabled value="0"selected="">Select a value</option>
                 <%for(var i=0;i<stype[2].length;i++){%>
               <option value="<%=stype[2][i].id%>"><%=stype[2][i].name%></option>
                 <%}%>
             </select>
-          </td>
-          </td>
-        <td>
-        <td>
-          <label class="form-Label" for="test5">Licence Required:</label></td>
-          <td>
-            <input type="checkbox" name='test5'id="test5"   />
-          </td>
-     </td></tr><tr>
-     <td>
-     <td>
-      
-          <label for="name" class="form-Label">Name: <sup class="astrick">*</sup></label></td>
-          <td>
-            <input name="name" type="text" placeholder="software name" class="form-text-box" id="name">
-          </td>
-        </td>
-       
-         <td>
-         <td>
-          <label for="date" class="form-Label">Invoice Date: <sup class="astrick">*</sup></label></td>
-         <td>
-            <input name="Invoicedate" placeholder="Enter date" class="form-text-box date" id="Invoicedate"></td>
-          </td>
-        <td>
-        <td>
-          <label for="no" class="form-Label">Description: <sup class="astrick">*</sup></label></td>
-         <td>
-            <textarea id='textarea' placeholder="description of software" name="des" style="resize: none;" class="form-text-box"></textarea>
-          </td>
-        </td>
-        </tr>
-        </table>
-      </div>
-  
-    <div class="row hide"id="lic">
-     <table class="table">
- 
-        <tr><td><td>
-          <label for="key" class="form-Label">Licence Key: <sup class="astrick">*</sup> </label></td>
- 
-          <td style="width:20%">
-            <input type="text" name="key" placeholder="licence key" class="form-text-box" id="key"></td>
-          </td>
-        <td>
-        <td style="width: 11%">
- 
-          <label for="pdate" class="form-Label">Purchase Date:<sup class="astrick">*</sup></label></td>
+                            </td>
+                        </td>
+                        <td>
+                            <td>
+                                <label class="form-Label" for="test5">Licence Required:</label></td>
+                            <td>
+                                <input type="checkbox" name='test5' id="test5" />
+                            </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <td>
 
-          <td style="width:20%">
-            <input name="pdate" class="form-text-box date" placeholder="Enter date" id="pdate"></td>
-          </td>
-        <td>
-        <td>
-          <label for="users" class="form-Label">#users: <sup class="astrick">*</sup></label></td>
-          <td>
-            <input type="number" name="users" placeholder="no. of users" class="form-text-box" id="users" style="width: 85%;margin-left: 16%">
-          </td>
-        </td>
-        </tr><tr>
-        <td>
-        <td>
-          <label for="edate" class="form-Label">Expiry Date:</label></td>
-        <td>
-            <input name="edate" placeholder="Enter date" class="form-text-box date" id="edate">
-          </td>
-        </td>
-      </tr>
-      <tr>
-        <td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td>
-      </tr>
-      </table>
-   </div>
-    <input type='text' class='hide'name ='flag'value="1">
-    <div class="form-group">
-      <div class="col-md-6 col-md-offset-5">
-        <a href="/viewSoftware"type="button"class="btn btn-default">Cancel</a>
-        <button type="submit" onclick="return validate()" class="btn btn-primary">Submit</button>
-      </div>
+                                <label for="name" class="form-Label">Name: <sup class="astrick">*</sup></label></td>
+                            <td>
+                                <input name="name" type="text" placeholder="software name" class="form-text-box" id="name">
+                            </td>
+                        </td>
+
+                        <td>
+                            <td>
+                                <label for="date" class="form-Label">Invoice Date: <sup class="astrick">*</sup></label></td>
+                            <td>
+                                <input name="Invoicedate" placeholder="Enter date" class="form-text-box date" id="Invoicedate"></td>
+                        </td>
+                        <td>
+                            <td>
+                                <label for="no" class="form-Label">Description: <sup class="astrick">*</sup></label></td>
+                            <td>
+                                <textarea id='textarea' placeholder="description of software" name="des" style="resize: none;" class="form-text-box"></textarea>
+                            </td>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="row hide" id="lic">
+                <table class="table">
+
+                    <tr>
+                        <td>
+                            <td style="width: 11%">
+                                <label for="users" class="form-Label">#users: <sup class="astrick">*</sup></label></td>
+                            <td style="width: 20%">
+                                <input type="number" name="users" max="20" min="1" placeholder="no. of users" class="form-text-box" id="users"   onchange="addlic()">
+                            </td>
+
+                        </td>
+                        <td>
+                            <td style="width: 11%">
+
+                                <label for="pdate" class="form-Label">Purchase Date:<sup class="astrick">*</sup></label></td>
+
+                            <td style="width:20%">
+                                <input name="pdate" class="form-text-box date" placeholder="Enter date" id="pdate"></td>
+                        </td>
+                        <td>
+                            <td style="width: 11%">
+                                <label for="edate" class="form-Label">Expiry Date:</label></td>
+                            <td style="width: 20%">
+                                <input name="edate" placeholder="Enter date" class="form-text-box date" id="edate">
+                            </td>                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <table id="license">  </table>
+            <input type='text' class='hide' name='flag' value="1">
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-5">
+                    <a href="/viewSoftware" type="button" class="btn btn-default">Cancel</a>
+                    <button type="submit" onclick="return validate()" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
-  </form>
-</div>
 
-<% include ../partials/footer %>
-<script>
-  $(document).ready(function() {
-            $('.asset-img').addClass('active');
-        });
-jQuery('.date').datetimepicker({
-  timepicker:false,
-  format:'Y-m-d'
-});
+    <% include ../partials/footer %>
+        <script>
+            $(document).ready(function() {
+                $('.asset-img').addClass('active');
+            });
+            jQuery('.date').datetimepicker({
+                timepicker: false,
+                format: 'Y-m-d'
+            });
 
-$('#test5').click(function(){
-  if($(this).is(':checked'))
-  { if($('#typel').val()===null)
+            $('#test5').click(function() {
+                if ($(this).is(':checked')) {
+                    if ($('#typel').val() === null) {
+                        alert("Please select the software type first!");
+                        return false;
+                    } else {
+                        $('#lic').removeClass('hide');
+                    }
+                } else {
+                    $('#lic').addClass('hide');
+                }
+            });
+
+            function validate() {
+                //alert('submit alert');
+                var us = $('#users').val();
+                if ($('#typel').val() === null) {
+                    alert("Please select the software type first!");
+                    return false;
+                }
+                if ($('#vendor').val().length < 1 || $.trim($("#vendor").val()) == "") {
+                    alert("Vendor is Missing!");
+                    return false;
+                }
+                if ($('#name').val().length < 1 || $.trim($("#name").val()) == "") {
+                    alert("Name is Missing!");
+                    return false;
+                }
+                if ($('#Invoicedate').val().length < 1 || $.trim($("#Invoicedate").val()) == "") {
+                    alert("Invoice date is Missing!");
+                    return false;
+                }
+                if ($('#textarea').val().length < 1 || $.trim($("#textarea").val()) == "") {
+                    alert("Description is Missing!");
+                    return false;
+                }
+                if ($('#test5').prop('checked')) {
+                    //alert("You have selected licence rqd."); //checked
+                    if ($('#key').val().length < 1 || $.trim($("#key").val()) == "") {
+                        alert("Licence key is Missing!");
+                        return false;
+                    }
+                    if ($('#pdate').val().length < 1 || $.trim($("#pdate").val()) == "") {
+                        alert("Licence start date is Missing!");
+                        return false;
+                    }
+
+                    if (new Date($('#pdate').val()) < new Date($('#Invoicedate').val())) {
+                        alert("purchase date cannot be less then invoice date!");
+                        return false;
+                    }
+
+
+                    if (us.length < 1 || isNaN(us) || us.trim().length < 0) {
+                        alert("Enter valid number of Users!");
+                        return false;
+                    }
+
+                    if ($('#edate').val().length > 0 || $.trim($("#edate").val()) != "") {
+                        if (new Date($('#edate').val()) < new Date($('#pdate').val())) {
+                            alert("Expiry date cannot be less then purchase date!");
+                            return false;
+                        }
+                    }
+
+                    if (new Date($('#edate').val()) < new Date($('#Invoicedate').val())) {
+                        alert("Expiry date cannot be less then invoice date!");
+                        return false;
+                    }
+
+
+                }
+
+                alert("Software successfully added!");
+            }
+
+
+           function addlic() {
+
+    //var typ = document.getElementById('users');
+    var typ=$('#users').val();
+    if (typ == "0") 
     {
-      alert("Please select the software type first!");
-      return false;
-    } else
-    {
-      $('#lic').removeClass('hide');
-    }
-  } else
-  { 
-    $('#lic').addClass('hide');
-  }
-});
-    
-  function validate(){
-    //alert('submit alert');
-    var us=$('#users').val();
-    if($('#typel').val()===null) 
-    {
-      alert("Please select the software type first!");  
-      return false;
-    }
-    if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
-    {
-      alert("Vendor is Missing!");    
-      return false;
-    }
-    if($('#name').val().length<1||$.trim($("#name").val()) =="") 
-    {
-      alert("Name is Missing!");    
-      return false;
-    }
-    if($('#Invoicedate').val().length<1||$.trim($("#Invoicedate").val()) =="") 
-    {
-      alert("Invoice date is Missing!");    
-      return false;
-    }
-    if($('#textarea').val().length<1||$.trim($("#textarea").val()) =="") 
-    {
-      alert("Description is Missing!");    
-      return false;
-    }
-    if ($('#test5').prop('checked')){
-      //alert("You have selected licence rqd."); //checked
-      if($('#key').val().length<1||$.trim($("#key").val()) =="") 
-      {
-        alert("Licence key is Missing!");    
+        alert("This value can not be zero");
         return false;
-      }
-      if($('#pdate').val().length<1||$.trim($("#pdate").val()) =="") 
-      {
-        alert("Licence start date is Missing!");    
-        return false;
-      }
-
-      if(new Date($('#pdate').val())<new Date($('#Invoicedate').val())){
-            alert("purchase date cannot be less then invoice date!");
-             return false;
-          }
-
-
-      if(us.length<1||isNaN(us)||us.trim().length<0) 
-      { 
-        alert("Enter valid number of Users!");    
-        return false;
-      }
-
-      if($('#edate').val().length>0||$.trim($("#edate").val()) !=""){
-          if(new Date($('#edate').val())<new Date($('#pdate').val())){
-            alert("Expiry date cannot be less then purchase date!");
-             return false;
-          }
-      }
-
-      if(new Date($('#edate').val())<new Date($('#Invoicedate').val())){
-            alert("Expiry date cannot be less then invoice date!");
-             return false;
-          }
-
-
     }
+    if ($('#users').val().length < 1 || $.trim($("#users").val()) < 1) 
+    {
+        alert("Please enter valid number of users!");
+        return false;
+    }
+    $("#license").append("<tr>");
+    for(var i=1;i<=typ;i++)
+    {
+      $('#license').append('<td class="col-md-3"><label for="key" class="form-Label" style="padding-top:0px;">Licence Key:'+ i +' <sup class="astrick">*</sup> </label> <input type="text"  placeholder="licence key" class="form-text-box" style="width:150px;"></input> </td>');    }
+    $("#license").append("</tr>");
 
-    alert("Software successfully added!");
-  }
+}
 
-</script>
+        </script>
