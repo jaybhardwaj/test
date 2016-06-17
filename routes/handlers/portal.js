@@ -1238,7 +1238,6 @@ attachDocFile: function(req,res,next){
                                
 
 
-<<<<<<< Updated upstream
                             } 
                             else if(exe == 'pptx'){
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function( error, text ) {
@@ -1264,11 +1263,7 @@ attachDocFile: function(req,res,next){
                                 var processor = pdf_extract(newpath, options, function(err) {
                                     if (err) {
                                          //console.log("pdf   ",error);
-=======
-                            } else if(exe == 'pdf') {
-                                var processor = pdf_extract(newpath, options, function(err) {
-                                    if (err) {
->>>>>>> Stashed changes
+
                                     }
                                 });
                                  processor.on('complete', function(data) {
