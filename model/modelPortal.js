@@ -2108,6 +2108,7 @@ mysql(q,function(err,result){
             values: [userId,roleId,retailerId]
         };
         mysql(query, function(err, result) {
+            console.log("holidayhome is--",result);
             callback(err, result);
         });
 
@@ -2119,6 +2120,7 @@ selectHolidaybyId: function(userId,roleId,retailerId,hid, callback) {
             values: [userId,roleId,retailerId,hid]
         };
         mysql(query, function(err, result) {
+            console.log("selectHolidaybyId----",result);
             callback(err, result);
         });
 
