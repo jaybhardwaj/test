@@ -219,6 +219,15 @@
                 });
             }
 
+
+// parse a date in yyyy-mm-dd format
+function parseDate(input) {
+  var parts = input.match(/(\d+)/g);
+  // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+  return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
+}
+
+
             function abc(year1, mon1, dy1)
             {
 
@@ -240,10 +249,11 @@
                         $('#startingdate').text(stdate);
                         $('#enddate').text(eddate);
                         eddate1 = " 15 " + "-" + monthNames[mon1 - 1] + "-" + year1;
-                        eddate2 = year1 + " " + mon1 + " " + 15;
+                        eddate2 = parseDate(year1 + " " + mon1 + " " + 15);
                         $('#submitdate').val(eddate1);
-                        var datefortimes = new Date(eddate2);
-                        //    alert("datefortimes"+datefortimes); 
+                        //var datefortimes = new Date(eddate2);
+                        //    alert("datefortimes"+datefortimes);
+                          var datefortimes = parseDate(year1 + " " + mon1 + " " + 15);
                         checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
                         /*checkUserTimesheet(userId,checkdate);*/
 
@@ -257,7 +267,9 @@
                         ed1 = eddate[b - 7] + eddate[b - 6];
                         temp = 14;
 
-                        new1 = new Date(year1 + " " + mon1 + " " + 1);
+                       // new1 = new Date(year1 + " " + mon1 + " " + 1);
+                        var new1 = parseDate(year1 + " " + mon1 + " " + 1);
+                         var datefortimes = parseDate(year1 + " " + mon1 + " " + 1);
                         EligibleAssignment(new1, datefortimes);
 
                         //    alert("Above Drawtime --------------  ");
@@ -282,29 +294,41 @@
                         st1 = stdate[a - 7] + stdate[a - 6];
                         ed1 = eddate[b - 7] + eddate[b - 6];
                         temp = ed1 - st1;
-                        new1 = new Date(year1 + " " + mon1 + " " + 16);
+                       // new1 = new Date(year1 + " " + mon1 + " " + 16);
+                       new1=parseDate(year1 + " " + mon1 + " " + 16);
                         if (temp == 15) {
                             eddate1 = "31" + "-" + monthNames[mon1 - 1] + "-" + year1;
-                            eddate2 = year1 + " " + mon1 + " " + 31;
-                            var datefortimes = new Date(eddate2);
+                            eddate2 = parseDate(year1 + " " + mon1 + " " + 31);
+                           // var datefortimes = new Date(eddate2);
+                            var datefortimes = parseDate(year1 + " " + mon1 + " " + 31);
                             checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' +
-                                datefortimes.getDate();
+                                 datefortimes.getDate();
                             /*checkUserTimesheet(userId,checkdate);*/
                         } else
 
                         if (temp == 14) {
                             eddate1 = "30" + "-" + monthNames[mon1 - 1] + "-" + year1;
-                            eddate2 = year1 + " " + mon1 + " " + 30;
-                            var datefortimes = new Date(eddate2);
+                            eddate2 = parseDate(year1 + " " + mon1 + " " + 30);
+
+                           // alert('eddate2 is '+eddate2)
+                           // var datefortimes = new Date(eddate2);
+ var datefortimes = parseDate(year1 + " " + mon1 + " " + 30);
+
+
+
+
+                            //  alert('datefortimes is '+datefortimes)
                             checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' +
                                 datefortimes.getDate();
+
                             /*checkUserTimesheet(userId,checkdate);*/
                         } else
 
                         if (temp == 13) {
                             eddate1 = "29" + "-" + monthNames[mon1 - 1] + "-" + year1;
-                            eddate2 = year1 + " " + mon1 + " " + 29;
-                            var datefortimes = new Date(eddate2);
+                            eddate2 = parseDate(year1 + " " + mon1 + " " + 29);
+                            //var datefortimes = new Date(eddate2);
+                           var datefortimes = parseDate(year1 + " " + mon1 + " " + 29);
                             checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' +
                                 datefortimes.getDate();
                             /* checkUserTimesheet(userId,checkdate);*/
@@ -312,12 +336,14 @@
 
                         if (temp == 12) {
                             eddate1 = "28" + "-" + monthNames[mon1 - 1] + "-" + year1;
-                            eddate2 = year1 + " " + mon1 + " " + 28;
-                            var datefortimes = new Date(eddate2);
+                            eddate2 = parseDate(year1 + " " + mon1 + " " + 28);
+                            var datefortimes = parseDate(year1 + " " + mon1 + " " + 28);
+                            //var datefortimes = new Date(eddate2);
                             checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' +
                                 datefortimes.getDate();
                             checkUserTimesheet(userId, checkdate);
-                            var datefortimes = new Date(eddate2);
+                           // var datefortimes = new Date(eddate2);
+                           var datefortimes = parseDate(year1 + " " + mon1 + " " + 28);
                             /*checkdate=datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' 
                             +  datefortimes.getDate();*/
                             /*checkUserTimesheet(userId,checkdate);*/
@@ -398,6 +424,7 @@
                       ed1 = lastDay;
                       eddate1 = ed + "-" + monthNames[firstDay.getMonth()] + "-" + year1;
                       eddate2 = ed1;
+
                       $('#submitdate').val(eddate1);
                       checkdate = lastDay.getFullYear() + '-' + (lastDay.getMonth() + 1) + '-' +
                         lastDay.getDate();
@@ -419,7 +446,7 @@
             }
 
             function EligibleAssignment(new1, datefortimes) {
-                 //alert(" inside eligable asignment");
+               //  alert(" inside eligable asignment"+new1+' ',datefortimes);
                 <% for(var i=0;i<timeinfo[2].length;i++)
                                     { %>
 
@@ -970,7 +997,7 @@
         document.getElementById('timestatus').innerHTML = for_status[flag];
         document.getElementById("submitTimes").value = "Submit";
         var tt = eddate2;
-        //alert("tt in getoprecious"+tt);
+      //  alert("tt in getoprecious"+tt);
         var date = new Date(tt);
         var newdate = new Date(date);
         if (ftdy) {
@@ -1003,10 +1030,12 @@
         var dd = ("0" + newdate.getDate()).slice(-2);
         var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
         var y = newdate.getFullYear();
-        eddate2 = y + " " + mm + " " + dd;
+//eddate2 = y + " " + mm + " " + dd;
+         eddate2 = parseDate(y + " " + mm + " " + dd);
         var someFormattedDate = dd + '-' + monthNames[mm - 1] + '-' + y;
         document.getElementById('submitdate').value = someFormattedDate.toString();
-        var datefortimes = new Date(eddate2);
+       // var datefortimes = new Date(eddate2);
+       var datefortimes = parseDate(y + " " + mm + " " + dd);
         checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
         // checkUserTimesheet(userId,checkdate);
         ////console.log("before abc in back", y, "---", mm, "-----", dd);
@@ -1027,7 +1056,7 @@
         document.getElementById("submitTimes").value = "Submit";
         //alert('dashgfdhsd');
         var tt = eddate2;
-        //alert(eddate2);
+       // alert("tt is "+eddate2);
         var date = new Date(tt);
         var newdate = new Date(date);
         a = newdate.getMonth();
