@@ -296,9 +296,11 @@
 					  		<form  id="form123" method="post" style="margin-left:1%;" enctype="multipart/form-data" name="comment">
 					  			<input type="file" id="fupUploadSheet" name="addBugAttachment" class="upload" onchange="UploadSheet()"/>
 					  			(Max. Size:2Mb)
+					  			
 							</form> 
+
 						</div>
-						<div id="attachment" style=''><p></p></div>					  
+							<div id="attachment" style=''><p></p></div>				  
 					</div>
 				</div>
 			</div>
@@ -520,7 +522,10 @@ str=str+'</select>';
 				{
 					deleteBtn="<span class='glyphicon glyphicon-trash' style='float:right;margin:6px' title='Delete' onclick='deleteAttach("+data[i].id+")'></span>";
 				}
-			att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px' id='"+data[i].id+"'><a href='"+data[i].orignalFilePath+"' download><div style='padding-left:10px;float:center'>"+data[i].orignalFileName+"</div></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+data[i].createdDate+"</div></div>"
+				var dat=(new Date(data[i].createdDate).toString());
+				dat=dat.slice(0,24);
+			att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[i].id+"'><a href='"+data[i].orignalFilePath+"' download ><img src='"+data[i].orignalFilePath+"' style='width:100px;height:100px'></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+dat+"</div></div>"
+		 
 		}
 		$('#attachment').html(att);
 	}
@@ -632,10 +637,11 @@ str=str+'</select>';
 				{
 					deleteBtn="<span class='glyphicon glyphicon-trash' style='float:right;margin:6px' title='Delete' onclick='deleteAttach("+data[2][i].id+")'></span>";
 				}
-				  att=att+"<div class='border-box hov-shadow'style='width:256px;float:left;margin-left:10px' id='"+data[2][i].id+"'><a href='/attach/"+data[2][i].fileName+"' download><div style='padding-left:10px;float:center'>"
-					+data[2][i].orignalFileName+"</div></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"
+				var dat=(new Date(data[2][i].createdDate).toString());
+				dat=dat.slice(0,24);
+				  att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[2][i].id+"'><a href='"+data[2][i].filePath+"' download> <img src='"+data[2][i].filePath+"' style='width:100px;height:100px'> </a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"
 					+data[2][i].firstName+" On:"
-					+data[2][i].createdDate+"</div></div>";
+					+dat+"</div></div>";
 
 					
 				}
