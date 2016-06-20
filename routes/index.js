@@ -329,6 +329,8 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
 
   app.post('/wbsAssignmentInProjectWbs',portal.wbsAssignmentInProjectWbs,render.redirect);
 
+  app.post('/checkProjectWbsDate', portal.checkProjectWbsDate,render.redirect);
+
 
 	//---------------------------------------ASSIGNMENT---------------------------------------
 

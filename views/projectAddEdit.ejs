@@ -718,61 +718,95 @@ function getSelectedOptions(cid){//alert(cid);
             }
           }
           function addProject() {
-            var pclient=$("#pclient").val().toString();
-            var ptech=$("#ptech").val().toString();
-            var presource=$("#presource").val()==null?'0':$("#presource").val().toString();
-            var ccontact=$("#ccontact").val()==null?'0':$("#ccontact").val().toString();
-            $.ajax({
-              url: '/projectAddEditDetailsWithFlag',
-              method: 'POST',
-              data: {
-                "pname": $("#idpname").val(),
-                "pclient": pclient,
-                "presource": presource,
-                "ccontact":ccontact,
-                "ptech": ptech,
-               "pcode": $("#pcode").val(),
-                 "ptype": $('#ptype1').val(),
-                 "pcat": $('#pcat').val(),
-                 "pdescription": $("#DescriptionID").val(),
-                 "psdate": $("#datepicker").val(),
-                "pedate": $('#datepicker1').val(),
-                "asdate": $("#datepicker2").val(),
-                 "aedate": $('#datepicker3').val(),
-                 "isBillable": $('input:radio[name=isBillable]:checked').val(),
-                 "taxCode": $('#taxCode').val(),
-                 "poNumber": $('#poNumber').val(),
-                 "pstatus": $('input:radio[name=pstatus]:checked').val(),
-                  "pcomplexity": $('#pcomplexity').val(),
-                  "plocation": $('#plocation').val(),
-                  "pcommercialhead": $('#pcommercialhead').val(),
-                 "paccounthead": $('#paccounthead').val(),
-                 "pmanager": $('#pmanager').val(),
-                  "hdnId": $("#hdnId").val(),
-                  "pid": $("#pid").val(),
-                 "tabDetail":$('#tabDetail').val()
-                },
-                success: function(data) {
-                  console.log('success',data);
-                 $("#pid").val(data[0][0].lid); 
-                   if(data[0][0].flag == 1){
-                    alert("Project added successfully.");
-                  }
-                   else {
-                    alert("Project updated successfully.");
-                   }
 
-                   var r = confirm("Do you want to create WBS ?");
-                    if (r == true) {
-                      window.location.href = "/projectWbs?pid="+data[0][0].lid;
-                    } else {
-                      window.location.href = "/projectDetails";
-                    }
+            alert($("#pid").val());
+           
+                  if($("#pid").val() == 0){
+                       addProject1();
+                }
+                else{
+                  alert('1');
+                   $.ajax({
+                            url: '/checkProjectWbsDate',
+                            type: 'post',
+                            data: {"pid": $("#pid").val(), "wid":0, "psdate": $("#datepicker").val(),
+                            "pedate": $('#datepicker1').val(),"wpsdate":'0',"wpedate":'0',flag:1
+                                  },
+                            success: function(data) {
+                              
+                                if(data[0][0].msg==0){
+                                            addProject1();
+                                }
+                                else{
+                                  alert('date validations of project are not according to WBS');
+                                }
+                            }
 
-                },
-                dataType: 'JSON',
-              });
+                        });
+                }
+            
+
             }
+
+
+            function addProject1(){
+                            var pclient=$("#pclient").val().toString();
+                              var ptech=$("#ptech").val().toString();
+                              var presource=$("#presource").val()==null?'0':$("#presource").val().toString();
+                              var ccontact=$("#ccontact").val()==null?'0':$("#ccontact").val().toString();
+                              $.ajax({
+                                url: '/projectAddEditDetailsWithFlag',
+                                method: 'POST',
+                                data: {
+                                  "pname": $("#idpname").val(),
+                                  "pclient": pclient,
+                                  "presource": presource,
+                                  "ccontact":ccontact,
+                                  "ptech": ptech,
+                                 "pcode": $("#pcode").val(),
+                                   "ptype": $('#ptype1').val(),
+                                   "pcat": $('#pcat').val(),
+                                   "pdescription": $("#DescriptionID").val(),
+                                   "psdate": $("#datepicker").val(),
+                                  "pedate": $('#datepicker1').val(),
+                                  "asdate": $("#datepicker2").val(),
+                                   "aedate": $('#datepicker3').val(),
+                                   "isBillable": $('input:radio[name=isBillable]:checked').val(),
+                                   "taxCode": $('#taxCode').val(),
+                                   "poNumber": $('#poNumber').val(),
+                                   "pstatus": $('input:radio[name=pstatus]:checked').val(),
+                                    "pcomplexity": $('#pcomplexity').val(),
+                                    "plocation": $('#plocation').val(),
+                                    "pcommercialhead": $('#pcommercialhead').val(),
+                                   "paccounthead": $('#paccounthead').val(),
+                                   "pmanager": $('#pmanager').val(),
+                                    "hdnId": $("#hdnId").val(),
+                                    "pid": $("#pid").val(),
+                                   "tabDetail":$('#tabDetail').val()
+                                  },
+                                  success: function(data) {
+                                    console.log('success',data);
+                                   $("#pid").val(data[0][0].lid); 
+                                     if(data[0][0].flag == 1){
+                                      alert("Project added successfully.");
+                                    }
+                                     else {
+                                      alert("Project updated successfully.");
+                                     }
+
+                                     var r = confirm("Do you want to create WBS ?");
+                                      if (r == true) {
+                                        window.location.href = "/projectWbs?pid="+data[0][0].lid;
+                                      } else {
+                                        window.location.href = "/projectDetails";
+                                      }
+
+                                  },
+                                  dataType: 'JSON',
+                                });
+            }
+
+
             function validDocInfo(prevOrNext) {
               $("#tab" + prevOrNext).click();
              }

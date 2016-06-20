@@ -1071,6 +1071,24 @@ console.log(result);
         });
     },
 
+
+    checkProjectWbsDate: function(pid,wid,psdate,pedate,wpsdate,wpedate,flag,
+        userId,roleId,retailerId, callback) {
+
+        var query = {
+            sql: 'call usp_checkProjectWbsDate(?,?,?,?,?,?,?,?,?,?)',
+            values: [pid,wid,psdate,pedate,wpsdate,wpedate,flag,userId,roleId,retailerId]
+        };
+        console.log(query);
+        mysql(query, function(err, result) {
+
+            if(err){}//console.log('errrrrrrrrrrrrrrrrr-------',err);}
+            else{
+            callback(err, result);
+              }
+        });
+    },
+
  
     //-------------------------------------------ASSIGNMENT---------------------------------------
 

@@ -2089,6 +2089,23 @@ changeProjectWbs: function(req, res, next) {
          });
      },
 
+     checkProjectWbsDate: function(req, res, next) {
+
+           modelPortal.checkProjectWbsDate(req.body.pid,req.body.wid,
+            req.body.psdate,req.body.pedate,req.body.wpsdate,req.body.wpedate,
+            req.body.flag,
+            req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+                console.log('date validation---',result);
+             res.json(result);
+             }
+         });
+     },
+
     //----------------------------------ASSIGNMENT---------------------------------------
 getAssignment:  function(req, res, next) {
 
