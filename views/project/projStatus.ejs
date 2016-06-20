@@ -36,7 +36,7 @@ otable=$('#projSummary').dataTable({
 
 <div class="se-pre-con"></div>
 
-<div class="col-md-12" style="background-color: antiquewhite;margin-left: 0px;padding-left: 2%;margin-right:0px;padding-bottom: 2%;overflow:none;margin-top: 20px; ">
+<div class="col-md-12" style="background-color: antiquewhite;margin-left: 0px;padding-left: 2%;margin-right:0px;padding-bottom: 2%;overflow:none;margin-top: 20px;overflow-x: scroll;">
 	<div class = 'col-md-12' style = 'margin-top: 20px;padding-bottom: 10px;'>
 	<table id = 'projSummary' class="table stripe cell-border hover">
 <thead>
@@ -44,26 +44,40 @@ otable=$('#projSummary').dataTable({
   <th>Project Name</th>
   <th>Planned Start Date</th>
   <th>Planned End Date</th>
+  <th>Planned Actual Start Date</th>
+  <th>Planned Actual End Date</th>
+  <th>Actual End Date</th>
   <th>Expected Completion</th>
   <th>Actual Completion</th>
   <th>Total Hours Booked</th>
-  
-  <th style = "width: 107px!important;">Completetion Based on hours Booked</th>
 
 </tr>
+
+
 
 </thead>
 <tbody>
   <% console.log('projectDetails.length is',projectDetails.length)%>
   <%for(var i = 0;i<projectDetails.length;i++){%>
 <tr><td><%=projectDetails[i].projectTitle%></td>
-   <td><%=projectDetails[i].plannedStartDate%></td>
-    <td><%=projectDetails[i].plannedEndDate%></td>
-     <td><%=effProjectCalculations[0][projectDetails[i].id]%> %</td>
-     <td><%=effProjectCalculations[1][projectDetails[i].id]%> %</td>
-       <td>100 Hrs</td>
-           <td>34 % </td>
+   <td><%=projectDetails[i].newPlannedStartDate%></td>
+    <td><%=projectDetails[i].newPlannedEndDate%></td>
 
+    <%if(0){%>
+<td><%=projectTree[i].plActStartDate%></td>
+<td><%=projectTree[i].plActEndDate%></td>
+<td><%=projectTree[i].actEndDate%></td>
+<%}else{%>
+<td></td>
+<td></td>
+<td></td>
+<%}%>
+
+
+
+<td><%=effProjectCalculations[1][projectDetails[i].id]%> %</td>
+  <td><%=percCompletedOnHoursBooked[projectDetails[i].id]%> %</td>
+   <td><%=totalHoursBooked[projectDetails[i].id]%></td>
 
 </tr>
 <%}%>

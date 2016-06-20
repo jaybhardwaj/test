@@ -4914,6 +4914,7 @@ upload_resume:function(req,res,next){
             req.prId          = result[1][0].prId; 
             req.Resources     =  result[4];
             req.versionFlag   =  versionFlag;
+
             if(!!result[5][0].version){
                 req.versionArr = result[5][0].version.split(',');
                 //console.log('version Arr is',req.versionArr);
@@ -5019,9 +5020,9 @@ modelPortal.projStatus(req.session.retailerId,function(err,result){
             else{
 
 
-            req.session.holidayArr = ['21/07/2016','27/07/2016','10/08/2016','18/08/2016'];
+        req.session.holidayArr = ['21/07/2016','27/07/2016','10/08/2016','18/08/2016'];
         req.session.workingHoursInADay = 9;
-            req.session.holidayArrDate = [];
+        req.session.holidayArrDate = [];
 
 for(var i = 0;i<req.session.holidayArr.length;i++){
   var holidayArrDateTime = req.session.holidayArr[i].split('/');
@@ -5042,10 +5043,17 @@ req.session.holidayArrDate.push(holidayArrDateTime);
                   if(result[0].length!=0){
                           maxid =  result[0][result[0].length-1].id + 1;
                   }
-                   req.effProjectCalculations = getDateTime(result[1],maxid);
 
-                   req.hoursArrProj           =  addSum(result[2]); 
-                   //console.log('***********',req.effProjectCalculations);
+        console.log('result[1] is',result[1]);
+                   req.effProjectCalculations = getDateTime(result[0],maxid);
+           
+                   req.projectTree              =   result[1];
+                   req.totalHoursBooked          =  addSum(result[1]);
+                   req.hoursFromTimesheetWbs     =  addSum(result[2]); 
+      req.percCompletedOnHoursBooked             =   getPercentage(req.totalHoursBooked,req.hoursFromTimesheetWbs,result[1]);
+                   //console.log('projHours is',req.projHours ,'hourSumWbs is',req.hourSumWbs);
+                  // console.log('***********',req.effProjectCalculations);
+
 
                 
                     next();
@@ -6178,7 +6186,7 @@ var projNew;
     }
   }
 
-
+i--;
 
        }
 
@@ -6227,5 +6235,27 @@ if(req.session.holidayArrDate.indexOf(date)!=-1){
       }
 
 
+
+}
+
+
+
+
+
+
+function getPercentage(wbs,totalEffort,projTreeArr){
+       var proj = setAllValuesInArray();
+for(var i = 0;i<projTreeArr.length;i++){
+    try{
+ proj[projTreeArr[i].project]  =  (wbs[projTreeArr[i].project]/totalEffort[projTreeArr[i].project])*100; 
+   }
+
+   catch(err){
+               
+        proj[projTreeArr[i].project]  =  0;
+    }
+ 
+}
+return proj;
 
 }

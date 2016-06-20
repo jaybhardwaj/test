@@ -17,9 +17,9 @@ var prId = 1;
 var projectDetails = [{
                 'id' :1,
       'projectTitle' :'Time1' }];
-/******************Mayur pls remove**********************/
+******************Mayur pls remove**********************/
   var newVersionToBeCreated  = verArr.length + 1; 
-
+  var optStringDD = '';
 var marginleftarr = [];
     marginleftarr[1] = 43;
     marginleftarr[2] = marginleftarr[1] + 19;
@@ -27,8 +27,10 @@ var marginleftarr = [];
     var treeStructure = [];
     var Tree = '';
     var startCounterTreeComponent;
+    var countNumber = 0;
+
     //console.log('ultimateEndId is ',ultimateEndId);
-    //console.log('tc',treeComponent);
+    console.log('tc',treeComponent);
   for(var i = 0 ;(i<=ultimateEndId)&&(ultimateEndId!=0);i++){   //here i is table id 
    treeStructure.push([]);
 
@@ -60,20 +62,25 @@ if(Resources[j].id == treeComponent[i].resources){
 resourceName = Resources[j].firstName+' '+Resources[j].lastName;
 }
 
-}
+} 
+  console.log('tc1 is',treeComponent[i].id,'treeComponent startDate',treeComponent[i].startDate);
 
-  var newobj =  { 'name' :  treeComponent[i].name,
-               'sdate':  treeComponent[i].startDate,
-               'edate': treeComponent[i].endDate,
-              'effort':treeComponent[i].effort,
-          'effortType':effortArr[treeComponent[i].effortType],
-          'perc'      : treeComponent[i].percCompleted + ' %',
-                 'resc'      : resourceName
+  var newobj =  {      'name' :  treeComponent[i].name,
+                    'startDate':  treeComponent[i].startDate,
+                     'endDate': treeComponent[i].endDate,
+                      'effort':treeComponent[i].effort,
+                  'effortType':effortArr[treeComponent[i].effortType],
+                  'perc'      : treeComponent[i].percCompleted + ' %',
+                  'resc'      : resourceName,
+              'plActStartDate':treeComponent[i].plActStartDate,
+              'plActEndDate'  : treeComponent[i].plActEndDate,
+              'actEndDate'   : treeComponent[i].actEndDate
                 };
    Foldernames[treeComponent[i].id] = newobj;
 }
 
 var optionStr = '<select class = " ddResources"><option value = "0"> --Select </option>';
+
 for(var i = 0;i<Resources.length;i++){
 
 optionStr = optionStr +'<option value ="'+Resources[i].id+'" >'+Resources[i].firstName+' '+Resources[i].lastName+'</option>';
@@ -92,36 +99,54 @@ function createTree(idarr,num,level){
        
 for(var i=0;i<idarr[num].length;i++){
     //console.log('size',idarr[num].length,'inc',i);
-    if(level==-1){
+
+console.log('countNumber is',countNumber);
+  countNumber++;
+           
+
+
+ if(level==-1){
       if(!treeStructure[idarr[num][i]].length){
          hideAddButtonClass = ' deleteCSS ';
+        var buttonStr = '../img/project/grey_button1.jpg';    
        
       }
 
     else {
             hideAddButtonClass = '';
+           var buttonStr = '../img/project/minus.png';
+
             
          }
 
 
-                      
-         Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="phase bold1"><img src="../img/project/minus.png" id = '+idarr[num][i]+'_sign_'+num+' onclick = "collapseExpand(this.id,1)" class="minus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = '+idarr[num][i]+'_add_'+num+'  class="shadow phaseImg  " onclick = "addRow(this.id)" height="18px" title="Add Phase" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'    height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS bold1">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td class = "bold1">'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
+console.log('pl Act startDate is',Foldernames[idarr[num][i]].plActStartDate);
+
+
+Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td><center><b style = "font-size:12px;">'+countNumber+'</b></center></td><td class="phase bold1"><img src="'+buttonStr+'" id = "'+idarr[num][i]+'_sign_'+num+'" onclick = "collapseExpand(this.id,1)" class="minus '+hideAddButtonClass+'" height="18px" title="Add Phase" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" id = "'+idarr[num][i]+'_add_'+num+'"  class="shadow phaseImg" onclick = "addRow(this.id)"  height="18px"  title = "Add Phase"   width = "18px" ></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = "'+idarr[num][i]+'_edit_'+num+'"    height="22px" class="shadow editRowClass" title="Add Phase" width="22px"></td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].startDate+'</td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].endDate+'</td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].plActStartDate+'</td><td class="dateCSS bold1">'+Foldernames[idarr[num][i]].plActEndDate+'</td><td class = "dateCSS bold1">'+Foldernames[idarr[num][i]].actEndDate+'</td><td class="effCSS bold1">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td class = "bold1">'+Foldernames[idarr[num][i]].perc+'</td><td><select class = "ddDepClass" id = "'+idarr[num][i]+'_ddDep_'+num+'" ></select></td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
        }
 
  else if(level==0){
-
+                            console.log('in level 0');
     if(!treeStructure[idarr[num][i]].length){
-         hideAddButtonClass = ' deleteCSS ';
-      
+     // console.log('in  level 0 if',treeStructure[idarr[num][i]].length);
+     
+        var buttonStr = '../img/project/grey_button1.jpg';  
        
       }
 
     else {
+     //  console.log('in  level 0 else',treeStructure[idarr[num][i]].length);
             hideAddButtonClass = '';
-            
+      var buttonStr = '../img/project/plus.png';
+
          }
+
+
+
+
          
- Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td></td><td class="task"><img src="../img/project/plus.png" class="plus'+hideAddButtonClass+'" onclick = "collapseExpand(this.id,1)"  id = '+idarr[num][i]+'_sign_'+num+' height="18px" title="" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" class="shadow " height="18px" onclick = "addRow(this.id)"  id = '+idarr[num][i]+'_add_'+num+' title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+' height="22px" class="shadow editRowClass" title="Add Child" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
+ Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td><center style = "font-size:12px;">'+countNumber+'</center></td><td class="task"><img src="'+buttonStr+'" class="plus'+hideAddButtonClass+'" onclick = "collapseExpand(this.id,1)"  id = '+idarr[num][i]+'_sign_'+num+' height="18px" title="" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1"><img src="../img/bug/addbug.png" class="shadow " height="18px" onclick = "addRow(this.id)"  id = '+idarr[num][i]+'_add_'+num+' title="Add Child" width="18px"></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+' height="22px" class="shadow editRowClass" title="Add Child" width="22px"></td><td class="dateCSS">'+Foldernames[idarr[num][i]].startDate+'</td><td class="dateCSS">'+Foldernames[idarr[num][i]].endDate+'</td><td class="dateCSS ">'+Foldernames[idarr[num][i]].plActStartDate+'</td><td class="dateCSS ">'+Foldernames[idarr[num][i]].plActEndDate+'</td><td class = "dateCSS ">'+Foldernames[idarr[num][i]].actEndDate+'</td><td class="effCSS">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td><select class = "ddDepClass" id = "'+idarr[num][i]+ '_ddDep_'+num+'" ></select></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
      
 
       } 
@@ -130,18 +155,31 @@ for(var i=0;i<idarr[num].length;i++){
 
 
       else if(level==1){
-        console.log('in level 1');
-  Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' class = "hide"><td></td><td class="subtask"><img src="../img/project/button.png" class="shadow donthide" height="18px" title="" width="18px" style="margin-right:5px;">'+Foldernames[idarr[num][i]].name+'</td><td class="images1 bold1 "></td><td class="images1 bold1"><img src="../img/write.png" onclick = "editRow(this.id,0)" id = '+idarr[num][i]+'_edit_'+num+'  height="22px" class="shadow editRowClass" title="Add Child" width="22px"></td><td class="dateCSS ">'+Foldernames[idarr[num][i]].sdate+'</td><td class="dateCSS ">'+Foldernames[idarr[num][i]].edate+'</td><td class="effCSS ">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td></td><td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
-      }
+     //   console.log('in level 1');
+ Tree = Tree + '<tr id = "'+idarr[num][i] +'_rowid_' + num + '" class = " yomyfiriend hide"><td><center style = "font-size:12px;">' + countNumber + '</center></td> <td class = "subtask" ><img src = "../img/project/button.png" class = "shadow donthide" height = "18px" title = "" width = "18px" style = "margin-right:5px;" > '+Foldernames[idarr[num][i]].name+' </td><td class="images1 bold1"></td ><td class = "images1 bold1"><img src = "../img/write.png"  onclick = "editRow(this.id,0)" id = "'+idarr[num][i]+'_edit_'+num+'" height = "22px"  class = "shadow editRowClass"  title = "Add Child" width = "22px"></td><td class="dateCSS">'+Foldernames[idarr[num][i]].startDate+'</td ><td class = "dateCSS">'+Foldernames[idarr[num][i]].endDate+'</td><td class="dateCSS">'+Foldernames[idarr[num][i]].plActStartDate+'</td><td class = "dateCSS">'+Foldernames[idarr[num][i]].plActEndDate+'</td><td class = "dateCSS">'+Foldernames[idarr[num][i]].actEndDate+'</td><td class="effCSS ">'+Foldernames[idarr[num][i]].effort+' '+Foldernames[idarr[num][i]].effortType+'</td><td>'+Foldernames[idarr[num][i]].perc+'</td><td><select class = "ddDepClass" id = "'+idarr[num][i]+ '_ddDep_'+num+'"></select></td> <td>'+Foldernames[idarr[num][i]].resc+'</td></tr>';
 
-else{
+      
+}
+
+   
+
+
+
+  else{
     console.log('Error!!!!',i,num,idarr[num]);
       }
 
-
+optStringDD = optStringDD + '<option value = "'+idarr[num][i]+'" class = "depDD_'+idarr[num][i]+'" ><span class = "spanDepDD_'+idarr[num][i]+'" >'+countNumber+' </span>'+Foldernames[idarr[num][i]].name+'</option>';
   if(level<1){
   createTree(idarr,idarr[num][i],level1);
    }
+
+
+
+
+//console.log('optStringDD is here******************',optStringDD);
+
+
 
 }
 //console.log('return',num);
@@ -229,11 +267,11 @@ presentIdsArr.push(treeComponent[i].id);
                        <col width="5">
           <thead>
             <tr id = '0_rowid_-1'>
-            <th style = "width:4%">#</th>
-            <th style = "width:35%">Name</th><th style = "width:5%"><img src="../img/bug/addbug.png" class="shadow" id = '0_add_-1' onclick="addRow(this.id)" height="18px" title="Add Phase" width="18px"><div style = 'font-size:8px;'>Add Phase</div></th><th style = "width:5%">Delete</th><th style = "width:9%">Start</th><th style = "width:9%">End</th><th style = "width:9%">Effort</th>
+            <th style = "width:3%">#</th>
+            <th style = "width:40%">Name</th><th style = "width:4%"><img src="../img/bug/addbug.png" class="shadow" id = '0_add_-1' onclick="addRow(this.id)" height="18px" title="Add Phase" width="18px"><div style = 'font-size:8px;'>Add Phase</div></th><th style = "width:4%">Delete</th><th style = "width:4%">Planned Start Date</th><th style = "width:4%">Planned End Date</th><th style = "width:4%">Actual Planned Start Date</th><th style = "width:4%">Actual Planned End Date</th><th style = "width:4%">Actual End Date</th><th style = "width:12%">Effort</th>
             <th style = "width:3%"> % Completed</th>
-            <th style = "width:9%">Dependencies</th>
-            <th style = "width:9%">Resources</th>
+            <th style = "width:6%">Dependencies</th>
+            <th style = "width:11%">Resources</th>
           </tr>
           </thead>
           <tbody id = 'tbody123'>

@@ -790,8 +790,13 @@ module.exports = {
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule,effProjectCalculations:req.effProjectCalculations,
-                     projectDetails:req.projectDetails
+                     projectDetails:req.projectDetails,totalHoursBooked:req.totalHoursBooked,percCompletedOnHoursBooked:req.percCompletedOnHoursBooked,
+                     projectTree:req.projectTree
 	            });
+
+
+
+
 
              break;
 
