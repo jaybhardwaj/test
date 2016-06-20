@@ -422,9 +422,17 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
 //---------------------------------------
 
     //------------------------------------------------Document---------------------------------------
-    /*--------------------------------------------------Added By Sudhakar-----------------------------------------------------*/
-    
-        getCustomRoleById: function(customRoleId,callback){
+       myUploads: function(userId,retailerId,callback){
+        var query= {
+            sql: 'call usp_doc_myUploads(?,?)',
+            values: [userId,retailerId]
+        };
+        mysql(query,function(err, result){
+            callback(err, result);
+        });
+    },
+
+       getCustomRoleById: function(customRoleId,callback){
         var query= {
             sql: 'call usp_doc_getCustomRolesVerticals(?)',
             values: [customRoleId]

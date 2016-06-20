@@ -825,6 +825,20 @@ project=project?project:'';
 
 
      //---------------------------------------Document--------------------------------------------------
+    
+         myUploads:function(req,res,next){
+      //  //////console.log('getCustomRoleById');
+        modelPortal.myUploads(req.session.userId,req.session.retailerId,function(err, result){
+            if(err){
+                next(err);
+                    return;
+            }
+            req.myUploads=result;
+          next()
+        });
+    },
+
+
     verifyCustomRole: function(req,res,next){
         modelPortal.verifyCustomRole(req.session.userId,function(error,result){
             if(error){

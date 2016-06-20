@@ -340,7 +340,17 @@ module.exports = {
 	},
 
 	//---------------------------------------Document-----------------------------------------------
+ myUploads: function(req,res,next){
 
+	    	if(req.session.modules.indexOf(config.Document)>=0){
+
+	    	req.page='myUploads';
+	    	next();
+	    }
+	    else{
+	    	res.redirect('/portal')
+	    }
+	},
 
 	    setpagecustomRoles: function(req,res,next){
 
