@@ -99,7 +99,7 @@
                     document.getElementById("submitdate").disabled=true;
                 });
               
-                //console.log("this is ready function");
+                ////console.log("this is ready function");
                 curr = new Date();
                 var s = curr.toString();
                 a = curr.getDate();
@@ -125,7 +125,7 @@
 
 
             function checkUserTimesheet(userId, tdate) {
-                //console.log("inside check");
+                ////console.log("inside check");
                 $.ajax({
                     url: 'checkUserTimesheet',
                     type: 'post',
@@ -213,11 +213,11 @@
                         }
 
 
-                        //console.log("in success end");
+                        ////console.log("in success end");
                     }
 
                 });
-                //console.log("out of check");
+                ////console.log("out of check");
 
             }
 
@@ -465,7 +465,7 @@
                                 startdd = new Date(year1, mon1 - 1, k);
                                 var current_date = startdd;
                                 var weekday_value = current_date.getDay();
-                                //console.log("days", startdd);
+                                ////console.log("days", startdd);
 
                                 a2 = a2 + '<td><input type="hidden" ';
                                 if (dy1 <= 15) {
@@ -717,9 +717,9 @@
         var datefortimes = new Date(eddate2);
         checkdate = datefortimes.getFullYear() + '-' + (datefortimes.getMonth() + 1) + '-' + datefortimes.getDate();
         checkUserTimesheet(userId, checkdate);
-        //console.log("before abc in back", y, "---", mm, "-----", dd);
+        ////console.log("before abc in back", y, "---", mm, "-----", dd);
         abc(y, mm, dd);
-        //console.log("at end in abc");
+        ////console.log("at end in abc");
         getUserUnderSupervisor();
     }
 
@@ -777,10 +777,10 @@
     function disableHoliday() {
         //alert(" i main disable holiday ");
         var k = curr_wbsnm.length + 1;
-        ////console.log(k,"hi i am in disableHoliday");
+        //////console.log(k,"hi i am in disableHoliday");
         for (var i = 0; i < temp + 1; i++) {
             var ddy = $('#t_h' + i).val();
-            // //console.log("date is "+ddy);
+            // ////console.log("date is "+ddy);
             ddy = new Date(ddy);
             var weekday = ddy.getDay();
             var date_other_format = ddy.getFullYear() + '-' + (ddy.getMonth() + 1) + '-' + ddy.getDate();
@@ -843,15 +843,15 @@
 
     function satsun(i, k,ddy) {
         for (var j = 0; j < curr_wbsnm.length; j++) {
-            //console.log('hhhhhhhhhhhhhhhhhhhh');
+            ////console.log('hhhhhhhhhhhhhhhhhhhh');
            // var hol = 'holiday';
             //var str = "my holiday";
             var abc = curr_wbsnm[j];
             //abc = abc.toLowerCase();
-           // //console.log('Do we found something?', Boolean(abc.match(hol)));
+           // ////console.log('Do we found something?', Boolean(abc.match(hol)));
             //if(j==0)
             if (abc=='Holiday') { //var q=document.getElementById("#id01").value;
-                console.log("this is sunday or saturday and i is ",i);
+                //console.log("this is sunday or saturday and i is ",i);
                 document.getElementById("id" + i+"_"+ k).value = 0;
                 document.getElementById("id" + i+"_"+ curr_wbsnm.length).style.color = "rgb(10, 199, 80)";
                 document.getElementById("id" + i+"_"+ (curr_wbsnm.length+1)).style.color = "rgb(10, 199, 80)";
@@ -890,12 +890,12 @@
         var holidy = new Date('<%=timeinfo[4][k1].holidaydate%>');
         var date_other_format_2 = holidy.getFullYear() + '-' + (holidy.getMonth() + 1) + '-' + holidy.getDate();
         if (date_other_format == date_other_format_2) {
-            //console.log("ddy is an holiday", date_other_format_2);
+            ////console.log("ddy is an holiday", date_other_format_2);
             for (var j = 0; j < no_of_asgmnt; j++) {
               //  var hol = 'Holiday';
                 var abc = curr_wbsnm[j];
               //  abc = abc.toLowerCase();
-              //  //console.log('Do we found something?', Boolean(abc.match(hol)));
+              //  ////console.log('Do we found something?', Boolean(abc.match(hol)));
                 if (abc=='Holiday') {
                     var p = k - 1;
                     document.getElementById("id" + i+"_"+ j).disabled = true;
@@ -971,7 +971,7 @@
                 },
                 success: function(data) {
                     alert("Response have been submited Successfuly");
-                    //console.log("--------------------werwerwe------------------");
+                    ////console.log("--------------------werwerwe------------------");
                     document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
                     if ((data[0][0].status == 3) && (<%=roleid%> == 1)) {
                         $('#Approved').addClass('hide');
@@ -986,7 +986,7 @@
                         $('#Rejected').addClass('hide');
                         $('#Approved').removeClass('hide');
                     }
-                    //console.log("kkkkkk");
+                    ////console.log("kkkkkk");
                     getUserUnderSupervisor();
                 }
 
@@ -1016,7 +1016,7 @@
                 },
                 success: function(data) {
                     alert("Response have been submited Successfuly");
-                    //console.log("--------------------werwerwe------------------");
+                    ////console.log("--------------------werwerwe------------------");
                     document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
                     if (data[0][0].status == 3) {
                         $('#Approved').addClass('hide');
@@ -1026,7 +1026,7 @@
                         $('#Rejected').addClass('hide');
                         $('#Approved').addClass('hide');
                     }
-                    //console.log("kkkkkk");
+                    ////console.log("kkkkkk");
                     getUserUnderSupervisor();
                 }
 
@@ -1045,7 +1045,7 @@
                 "cdate": checkdate
             },
             success: function(data) {
-                //console.log(data);
+                ////console.log(data);
                // $('#dropuserdata').html('');
              //alert("going for append in drop down list"+data[1].status+"and id is"+data[1].id+"an for second "+data[1].status+"and id is"+data[1].id);
              $('#drop').html('');
@@ -1074,7 +1074,7 @@
 
                 }
                string=string+'</select>';
-                //console.log("string-----"+string);
+                ////console.log("string-----"+string);
                $('#drop').html(string);
                 $("#dropuserdata").tagger({
                     "fieldWidth":"20em"
