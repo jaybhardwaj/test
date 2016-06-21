@@ -102,12 +102,27 @@ ShowAssignments();
                 }
 
 
+function parseDate(input) {
+  var parts = input.match(/(\d+)/g);
+  // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+  return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
+}
 
 
  function validDate(i,id){
 
                       var date = new Date($('#ws_'+i).val());
                       var date1 = new Date($('#we_'+i).val());
+                      //alert($('#ws_'+i).val())
+                      var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
+
+
+                       //var date=parseDate($('#ws_'+i).val());
+                       //var date1=parseDate($('#we_'+i).val());
+                      //alert(date+' '+date1);
                        $("#i_"+id).datetimepicker({ 
                                                           timepicker:false,
                                                           format:"m/d/y",
