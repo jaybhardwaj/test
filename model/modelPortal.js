@@ -71,6 +71,7 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             sql: 'call usp_changeSupervisor(?,?,?)',
             values: [userId,retialerId,supervisorId]
         };
+        
         console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
@@ -1098,7 +1099,9 @@ getAllAssignment: function(userId,roleId,retailerId,callback) {
             values:[retailerId]
             
         };
+        console.log(query);
         mysql(query, function(err, result) {
+            console.log(err);
             callback(err, result);
         });
     },

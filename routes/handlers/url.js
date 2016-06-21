@@ -188,6 +188,7 @@ module.exports = {
 	//----------------------------------ASSIGNMENT-----------------------------------
 
 	setpageAssignment: function(req, res, next) {
+		console.log("url assing");
 		var flag=req.query.inactive || 1;
 		req.statusFlag=flag=='0'?0:1;
 		req.page = 'assignment';

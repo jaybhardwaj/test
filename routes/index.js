@@ -24,6 +24,7 @@ app.use(bodyParser({
 	app.post('/recoverPassword', portal.recoverPassword);
 	app.post('/login', auth.login);
 	app.post('/checkPassword', portal.checkPassword);
+
 	app.post('/EmailVerification', portal.EmailVerification);
     app.get("/updateStatusReqViaMail",url.updateStatusReqViaMail,portal.updateStatusReq,render.redirect);
 
@@ -33,7 +34,7 @@ app.use(bodyParser({
 	app.get('/portal',url.home, portal.home,render.redirect);
 	app.get('/logout', portal.logout,render.redirect);
 	app.post('/changePassword',portal.changePass);
-
+   app.post('/changeSupervisor',portal.changeSupervisor);
 	app.post('/exportToCsv',portal.exportToCsv);
 	app.get('/getEmpData',url.getEmpData,portal.getEmpData);
 	app.post('/addNewModules',portal.addNewModules);
@@ -238,9 +239,9 @@ app.post('/insNewVer',portal.insNewVer);
     //app.post('/addStatuss',portal.setaddStatuss);
 	app.post('/settingdata',portal.settingdata);
 	app.post('/getothermaster',portal.getothermaster);
-  app.post('/changeSupervisor',portal.changeSupervisor)
+ 
 	
-<!------ srv-------->
+ 
 	 app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
     	portal.holidayhome,portal.select_ExpenseMaster,
     	portal.getDataAsset,
