@@ -156,6 +156,13 @@
 
        </select>
 
+       <script>
+         if('<%=allUser1.length%>' <= 0){
+          alert('First assign users to the project');
+          window.location.href="/projectDetails";
+         }
+       </script>
+
         </td>
     </td>
     <td>
@@ -479,7 +486,25 @@ $('#pid').val('<%=prid[0].pid%>');
 $('#assign').on('change',function(){
               if( $(this).val()==="1"){
                 $('#assignmentDiv').addClass('hide');
-                alluser="";
+                //alluser="";
+                var string1="<select class='form-text-box' name='asd' multiple='multiple' id='asd'><option value=0 disabled>Select </option>" ;
+
+                   <% for(var i=0;i<allUser1.length;i++) {%>
+                
+                            string1+="<option value='<%=allUser1[i].id%>' ><%=allUser1[i].firstName%></option>"  ;           
+                       <%}%>
+              string1+="</select>";
+              console.log(string1);
+
+
+
+              $("#asdDiv").html(string1);
+                  
+                   $('#asd').tagger({
+                    "fieldWidth":"18em"
+                      }); 
+
+
               } 
               else
               {

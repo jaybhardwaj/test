@@ -560,7 +560,7 @@
                                     if (users[i].flag != 1) {
                                         log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id=" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description + "</td>" + "<td >" + users[i].tripAssignment + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
                                         if (((users[i].ClaimedStatus > 0) || (users[i].ClaimedStatus == 0) || (users[i].ClaimedStatus == 101)) && ((users[i].Submitted == 0) || (users[i].flag == 2))) {
-                                            showtotalExpense();
+                                           actualDate();
                                             log = log + "<a  style='padding-left:6px' ></a><input type='hidden' value=" + users[i].id + " id='a" + users[i].id + "'><span id='a1'  class='glyphicon glyphicon-trash' style='color:red;height:10px' onclick='DeleteExpense(" + users[i].expenseType + ',' + users[i].expId + ',' + users[i].expenseclaimId + ");' data-target='#myModal1' title ='Delete Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value=" + users[i].id + " id='a" + users[i].id + "'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px' onclick='selecthotelExpense(" + users[i].expenseType + ',' + users[i].expId + ',' + users[i].expenseclaimId + ");' title ='Edit Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value=" + users[i].id + " id='a" + users[i].id + "'><span id='a3'  class='glyphicon glyphicon-file' style='color:red;height:10px'  onclick='showAttechmentmodel(" + users[i].id + ");' title ='Attach Bill' ></span><a style='padding-left:6px' ></a><input type='hidden' value=" + users[i].id + " id='a" + users[i].id + "'><span id='a5' class='glyphicon glyphicon-copy' style='color:red;height:10px' onclick='selecthotelExpenseforCopy(" + users[i].expenseType + ',' + users[i].expId + ',' + users[i].expenseclaimId + ");' title ='Copy Expense' ></span><input type='hidden' value=" + users[i].expenseclaimId + " name='claimidforuser' id='ipn'>";
                                             if (users[i].anyFile != undefined) {
                                                 log = log + "<a href='/attach/" + users[i].anyFile + "'Download style='padding-left:6px' ><input type='hidden' value=" + +" id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-download-alt' style='color:red;height:10px'   title ='download Bill' ></span></a>";
@@ -598,7 +598,7 @@
                                             log = log + "Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
                                         }
                                         if (((users[i].ClaimedStatus == 10) || (users[i].ClaimedStatus == 101))) {
-
+                                           showtotalExpense();
                                             log = log + "Rejected By Mr. <i style='color:#23527c'> " + users1[4][0].firstName + "</i></td>";
                                         }
                                         if (((users[i].ClaimedStatus == 0) || (users[i].ClaimedStatus != 0)) && ((users[i].Submitted == 0) || (users[i].f1 == 0))) {
@@ -979,6 +979,16 @@
                         $('#submitbut').addClass('hide');
 
                     }
+                    
+                    function actualDate() {
+                     var d = new Date(); 
+                     var first=new Date($('#hiddendatebutton').val());
+                      var dateforblast = new Date($('#hiddendatebutton').val());
+                        dateforblast.setDate(dateforblast.getDate() + 15); 
+                        if((d>=first)&&(d<=dateforblast)){
+                           showtotalExpense();
+                        }
+                    }
 
                     function showtotalExpense1() {
 
@@ -1341,7 +1351,7 @@
 
                             success: function(data) {
                                 if (data[0].flag1 == 0) {
-                                    alert('hfgdhfgsdf jdfghsf');
+                                    alert('Finance Manager missing,Please contact admin.');
                                     return false;
                                 } else {
 

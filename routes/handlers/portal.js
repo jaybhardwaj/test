@@ -284,7 +284,6 @@ var locationId = [],
          }); 
     },
     changeSupervisor : function(req, res, next) { 
-                console.log("change supervisor : portal");
                 modelPortal.changeSupervisor( req.session.userId,req.session.retailerId ,
                     req.body.supervisorId,function(err, result) {
                      if (err) { 
@@ -2111,9 +2110,8 @@ changeProjectWbs: function(req, res, next) {
 getAssignment:  function(req, res, next) {
 
          modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId, function(err, resultAssignment) {
-            console.log("getAssign in portal",resultAssignment);
              if (err) {
-console.log(err);
+
                  next(err);
                  return; 
              }
