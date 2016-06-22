@@ -100,8 +100,11 @@
   <div class="container-fluid user-list  secondry-color"   style=" ">
     <div class="modal-header" style="text-align:center">
       <span class="modal-title">Provide user details</span>
-     
+      <div class="hide" id="moreUser">
+            <img  onclick="addEditUser(0)" style="float:right;margin-right:8%;margin-top:2%" title="Create More Users"  class="addNewPlus">
+     </div>
     </div>
+
    <main> 
       <input type="hidden" id="hdnId" name="hdnUserId" value="0"> 
       <input id="tab1" class="tabradio" type="radio" name="tabs" checked>
@@ -370,6 +373,23 @@ var aaa,temp1=0;
 var pressButton=0;
 var users; 
   var imparray = ["Bug","Time","Expense","Asset",'Project',"Document","RMS"];
+
+  function addEditUser(flag) {
+            var form = document.createElement("form");
+            form.action = '/createEditUser';
+            form.method = "POST";
+            form.style = "display: none";
+            var hdnId = document.createElement("input");
+            hdnId.type = "hidden";
+            hdnId.name = "hdnId";
+            hdnId.value = flag;
+            form.appendChild(hdnId);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+
+
 function getDefaultModule(){
 
 
@@ -430,6 +450,7 @@ function getDefaultModule(){
 }
 
   $(document).ready(function(){
+    
 
         setTimeout(function(){  var aaa=$('#inNum').val();
         
@@ -598,7 +619,13 @@ function getDefaultModule(){
         $('#billRate').hide();
         $('#isbill').val(0);
        
-      }  
+      } 
+
+    if($('#hdnId').val() != 0){
+                 $('#moreUser').removeClass('hide');
+               }
+
+
 
     });
     function specialCharacter(evt) {
@@ -934,6 +961,9 @@ function getDefaultModule(){
                     window.location.href="/users";
                   }
                  }
+                 if(data[0][0].flag == 0){
+                 $('#moreUser').removeClass('hide');
+               }
                
             },
             dataType: 'JSON',
