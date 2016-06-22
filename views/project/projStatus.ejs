@@ -50,6 +50,7 @@ otable=$('#projSummary').dataTable({
   <th>Expected Completion</th>
   <th>Actual Completion</th>
   <th>Total Hours Booked</th>
+  <th>Completion Based On hours Booked</th>
 
 </tr>
 
@@ -63,21 +64,22 @@ otable=$('#projSummary').dataTable({
    <td><%=projectDetails[i].newPlannedStartDate%></td>
     <td><%=projectDetails[i].newPlannedEndDate%></td>
 
-    <%if(0){%>
+    <%if(false){%>
 <td><%=projectTree[i].plActStartDate%></td>
 <td><%=projectTree[i].plActEndDate%></td>
 <td><%=projectTree[i].actEndDate%></td>
 <%}else{%>
-<td></td>
-<td></td>
-<td></td>
+<td><%=projectDetails[i].newPlannedStartDate%></td>
+<td><%=projectDetails[i].newPlannedEndDate%></td>
+<td><%=actualEndDate[projectDetails[i].id]%></td>
 <%}%>
 
 
 
-<td><%=effProjectCalculations[1][projectDetails[i].id]%> %</td>
-  <td><%=percCompletedOnHoursBooked[projectDetails[i].id]%> %</td>
-   <td><%=totalHoursBooked[projectDetails[i].id]%></td>
+<td><%=effProjectCalculations[projectDetails[i].id]%> %</td>  
+<td><%=actProjectCalculations[projectDetails[i].id]%> %</td> 
+<td><%=totalHoursBookedFromWbs[projectDetails[i].id]%></td>
+  <td><%=calculatePercentageCompletedOnHoursBooked[projectDetails[i].id]%> %</td>
 
 </tr>
 <%}%>

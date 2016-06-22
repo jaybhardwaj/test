@@ -53,6 +53,8 @@ var locationId = [],
   parsing = [],done =0;
 
  var PPT = require('ppt');
+ var holidayArrDateTimeArr = [];
+ var saturdayOffFlag      = 1;
 
 
 
@@ -5060,7 +5062,8 @@ if(holidayArrDateTime[2].length==2){
   holidayArrDateTime[2] = '20'+ holidayArrDateTime[2];
 }
  holidayArrDateTime = new Date(holidayArrDateTime[2], holidayArrDateTime[1], holidayArrDateTime[0]); 
-req.session.holidayArrDate.push(holidayArrDateTime);
+ holidayArrDateTime = holidayArrDateTime.getTime();
+holidayArrDateTimeArr.push(holidayArrDateTime);
 
 }
  //console.log(result[1],'***********WAIT*************',result[0].length);
@@ -5072,12 +5075,15 @@ req.session.holidayArrDate.push(holidayArrDateTime);
                   }
 
         console.log('result[1] is',result[1]);
-                   req.effProjectCalculations = getDateTime(result[0],maxid);
-           
+                   req.actProjectCalculations = calculateActualCompletion(result[1]);
+                   req.effProjectCalculations  = calculateEffCompletion(result[0]);
                    req.projectTree              =   result[1];
                    req.totalHoursBooked          =  addSum(result[1]);
                    req.hoursFromTimesheetWbs     =  addSum(result[2]); 
-      req.percCompletedOnHoursBooked             =   getPercentage(req.totalHoursBooked,req.hoursFromTimesheetWbs,result[1]);
+             req.percCompletedOnHoursBooked      =   getPercentage(req.totalHoursBooked,req.hoursFromTimesheetWbs,result[1]);
+            req.totalHoursBookedFromWbs                  =   totalHoursBookedFromWbs(result[2]);
+            req.calculatePercentageCompletedOnHoursBooked       = calculatePercentageCompletedOnHoursBooked(req.totalHoursBookedFromWbs,result[1])
+             req.actualEndDate      =     calculateActualEndDate(result[1])
                    //console.log('projHours is',req.projHours ,'hourSumWbs is',req.hourSumWbs);
                   // console.log('***********',req.effProjectCalculations);
 
@@ -5088,8 +5094,6 @@ req.session.holidayArrDate.push(holidayArrDateTime);
                  
                 } 
         });
-
-
 
 
 },
@@ -6193,10 +6197,10 @@ function setAllValuesInArray(){
 
 
   var arr = [];
-for(var i = 0;i<100000;i++){
+for(var i = 0;i<200;i++){
   arr[i] = 0;
 }
-return arr
+return arr;
 }
 
 
@@ -6226,7 +6230,7 @@ return proj;
 
 
 
-function  calculateHoliday(date){
+function  calculateHoliday123(date){
 
  req.session.saturdayOffFlag = 1
 
@@ -6268,8 +6272,6 @@ if(req.session.holidayArrDate.indexOf(date)!=-1){
 
 
 
-
-
 function getPercentage(wbs,totalEffort,projTreeArr){
        var proj = setAllValuesInArray();
 for(var i = 0;i<projTreeArr.length;i++){
@@ -6284,5 +6286,272 @@ for(var i = 0;i<projTreeArr.length;i++){
  
 }
 return proj;
+
+}
+
+
+
+function MathRound(num){
+  return  (Math.round(num)*100)/100;
+}
+
+
+function calculateActualCompletion(RawData){
+  var bigArr = setAllValuesInArray();
+  var sumArr =  setAllValuesInArray();
+
+for(var i=0;i<RawData.length;i++){
+ sumArr[RawData[i].project] =  sumArr[RawData[i].project] + RawData[i].effortInHrs;
+}
+
+for(var i=0;i<sumArr.length;i++){
+  if(sumArr[i]==0){
+    sumArr[i] = 100;
+  }
+}
+
+
+for(var i = 0 ;i<RawData.length;i++){
+  var percCompleted = parseeIntForNan(RawData[i].percCompleted);
+  var sumArrthis     = sumArr[RawData[i].project];
+ console.log('percCompleted is',percCompleted,'dsasdasdasd',RawData[i].percCompleted,'effortInHrs',RawData[i].effortInHrs,'proj',RawData[i].project,'sumArrthis is',sumArrthis);
+bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((RawData[i].effortInHrs*percCompleted)/sumArrthis);
+
+//console.log('bigArr[RawData[i].project] is',bigArr[RawData[i].project]);
+
+}
+
+for(var i = 0;i<bigArr.length;i++){
+  bigArr[i] = MathRound(bigArr[i]);
+}
+
+
+
+return bigArr;
+
+}
+
+
+function parseeIntForNan(data){
+if(isNaN(data)){
+  return 0;
+}
+
+else return parseInt(data);
+
+}
+
+function calculateEffCompletion(RawData){
+
+  var bigArr = setAllValuesInArray();
+var nowDate = new Date();
+var dd  =   nowDate.getDate();
+var mm  =   nowDate.getMonth();
+var yy  =    nowDate.getFullYear();
+var nowDate  = dd+'/'+mm+'/'+yy;
+for(var i =0;i<RawData.length;i++){
+ 
+ var startDate  = RawData[i].newPlannedStartDate
+  var endDate    = RawData[i].newPlannedEndDate
+ startDate       = startDate.split('/');
+ endDate         = endDate.split('/');
+ startDate       = startDate[1] +'/'+startDate[0] +'/'+startDate[2];
+ endDate         = endDate[1] + '/' +endDate[0] + '/' +endDate[2];
+var numberOfDays  = calculateEffDays(endDate,startDate);
+var numberOfDays2 = calculateEffDays(nowDate,startDate);
+bigArr[RawData[i].id]  = MathRound((numberOfDays2*100)/numberOfDays);
+}
+
+
+return bigArr;
+
+}
+
+function calculateEffDays(sDateNew,sDateOld){
+  var effDays = 1;
+  sDateOld = sDateOld.split('/');
+  sDateNew =  sDateNew.split('/');
+   if(sDateOld.length==2){
+     sDateOld[2] = '20' + sDateOld[2];
+   }
+   if(sDateNew.length==2){
+    sDateNew[2] = '20' + sDateNew[2];
+   }
+   sDateNew[1] = (sDateNew[1] -1) + '';
+   sDateOld[1]  = (sDateOld[1] - 1)+ '';
+
+
+var sDateNew2 = new Date(sDateNew[2],sDateNew[1],sDateNew[0]);
+var sDateOld2 = new Date(sDateOld[2],sDateOld[1],sDateOld[0]);
+//sDateNew2 = sDateNew2.toString();
+//sDateOld2 = sDateOld2.toString();
+//debugger;
+ var d = sDateOld[0];
+var m = sDateOld[1];
+var y = sDateOld[2];
+    
+
+  while(sDateNew2>sDateOld2){
+   sDateOld2 = new Date(y,m,d++);
+   if(calculateHoliday(sDateOld2)){
+     effDays++;
+   }
+   
+  }
+
+  while(sDateNew2<sDateOld2){
+  sDateOld2 = new Date(y,m,d--);
+   if(calculateHoliday(sDateOld2)){
+     effDays--;
+   }
+  } 
+
+  return effDays;
+
+}
+
+function  calculateHoliday(date){
+
+ var weekEnds;
+ if(!saturdayOffFlag){
+ weekEnds =[0];
+}
+else {
+       weekEnds = [0,6];     
+    
+  }
+
+ var m = date.getMonth();
+    var d = date.getDate();
+    var y = date.getFullYear();
+    var day = date.getDay();
+    var dateTime = date.getTime();
+   // debugger;
+  //  console.log('date is',d,' ',m,' ',y);
+  if(saturdayOffFlag==1){
+        weekEnds = [0,6]    
+    }
+else if(saturdayOffFlag ==0){
+       weekEnds = [0];
+     }
+ 
+if(holidayArrDateTimeArr.indexOf(dateTime)!=-1){
+    return false;
+}
+else if(weekEnds.indexOf(day)!=-1){
+              return false;
+        }
+
+    else {
+        return true;
+         }
+
+
+
+}
+
+
+
+
+
+function totalHoursBookedFromWbs(RawData){
+
+var bigArr = setAllValuesInArray();
+
+
+for(var i = 0;i<RawData.length;i++){
+
+bigArr[RawData[i].projectId]  = RawData[i].effortInHrs;
+}
+ return bigArr;
+
+}
+
+
+function calculatePercentageCompletedOnHoursBooked(wbsHours,hoursFromTree){
+
+var bigArr = setAllValuesInArray();
+var effortHrs = setAllValuesInArray();
+
+for(var i = 0 ;i<hoursFromTree;i++){
+  effortHrs[hoursFromTree[i].project] = effortHrs[hoursFromTree[i].project] + hoursFromTree[i].effortInHrs; 
+}
+
+for(var i = 0;i<hoursFromTree;i++){
+
+if(hoursFromTree[i].effortInHrs==0){
+   bigArr[hoursFromTree[i].project]  = 0;
+}
+
+else{
+          
+        bigArr[hoursFromTree[i].project] = (wbsHours[hoursFromTree[i].project]*100)/effortHrs[hoursFromTree[i].project];
+
+    }
+
+}
+return bigArr;
+
+}
+
+
+
+function calculateActualEndDate(RawData){
+var bigArr = setAllValuesInArray();
+for(var i =0;i<RawData.length;i++){
+    console.log('RawData[i].actEndDate is',RawData[i].actEndDate,'bigArr[RawData[i].id] is ',bigArr[RawData[i].id]);
+if(RawData[i].actEndDate==null||RawData[i].actEndDate==''){
+    console.log('in if');
+  bigArr[RawData[i].project] = 'alpha';
+}
+else if(bigArr[RawData[i].project]!='alpha'){
+    console.log('in else');
+  bigArr[RawData[i].project]  = maxOf(bigArr[RawData[i].project],RawData[i].actEndDate);
+  console.log('bigArr[RawData[i].id] ',bigArr[RawData[i].project],'actEndDate is ',RawData[i].actEndDate);
+
+}
+else{
+    console.log('work hard in silence');
+}
+
+}
+
+for(var i = 0;i<bigArr.length;i++){
+            if(bigArr[i]==0||bigArr[i]=='alpha'){
+                bigArr[i] = '';
+            }
+ }
+ console.log('bigArr is',bigArr);
+ return bigArr;
+
+}
+
+
+function maxOf(date1,date2){
+if(date1==0||date1=='0'){
+  return date2
+}
+
+var dateTime1 = conVertToDateTime(date1);
+var dateTime2 = conVertToDateTime(date2);
+
+if(dateTime1>dateTime2){
+  return date1;
+}
+else{
+         return date2;
+ }
+
+}
+
+function conVertToDateTime(date1){
+   var date1Arr =  date1.split('/');
+
+if(date1Arr[2].length==2){
+  date1Arr[2] = '20'+date1Arr[2];
+}
+  var DateTime = new Date(date1Arr[2],date1Arr[1],date1Arr[0]);
+  return DateTime; 
+
 
 }

@@ -3322,7 +3322,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                 console.log(err,q);
             }
             else {
-         //   console.log(q,result);
+              console.log(q,result);
           
                callback(err,result);
             }

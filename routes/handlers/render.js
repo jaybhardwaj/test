@@ -789,9 +789,10 @@ module.exports = {
                 myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule,effProjectCalculations:req.effProjectCalculations,
+	                defaultModule:req.session.defaultModule,effProjectCalculations:req.effProjectCalculations,actProjectCalculations:req.actProjectCalculations,
                      projectDetails:req.projectDetails,totalHoursBooked:req.totalHoursBooked,percCompletedOnHoursBooked:req.percCompletedOnHoursBooked,
-                     projectTree:req.projectTree
+                     projectTree:req.projectTree,totalHoursBookedFromWbs:req.totalHoursBookedFromWbs,calculatePercentageCompletedOnHoursBooked:req.calculatePercentageCompletedOnHoursBooked,
+                      actualEndDate:req.actualEndDate
 	            });
 
 
