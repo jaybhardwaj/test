@@ -19,7 +19,8 @@ var projectDetails = [{
       'projectTitle' :'Time1' }];
 ******************Mayur pls remove**********************/
   var newVersionToBeCreated  = verArr.length + 1; 
-  var optStringDD = '';
+  var optStringDD = '<option value ="0">--Select</option>';
+  var dependeArr  = [];
 var marginleftarr = [];
     marginleftarr[1] = 43;
     marginleftarr[2] = marginleftarr[1] + 19;
@@ -74,7 +75,8 @@ resourceName = Resources[j].firstName+' '+Resources[j].lastName;
                   'resc'      : resourceName,
               'plActStartDate':treeComponent[i].plActStartDate,
               'plActEndDate'  : treeComponent[i].plActEndDate,
-              'actEndDate'   : treeComponent[i].actEndDate
+              'actEndDate'   : treeComponent[i].actEndDate,
+               'dependancy'  : treeComponent[i].dependancy
                 };
    Foldernames[treeComponent[i].id] = newobj;
 }
@@ -170,6 +172,20 @@ Tree = Tree + '<tr id = '+idarr[num][i]+'_rowid_'+num+' ><td><center><b style = 
       }
 
 optStringDD = optStringDD + '<option value = "'+idarr[num][i]+'" class = "depDD_'+idarr[num][i]+'" ><span class = "spanDepDD_'+idarr[num][i]+'" >'+countNumber+' </span>'+Foldernames[idarr[num][i]].name+'</option>';
+  var depeeArr = [idarr[num][i],num,Foldernames[idarr[num][i]].dependancy]
+dependeArr.push(depeeArr);
+/*****************Enter code here*****************/
+
+/************************************************/
+
+
+
+
+
+
+
+
+
   if(level<1){
   createTree(idarr,idarr[num][i],level1);
    }
@@ -196,7 +212,7 @@ for(var i = 0 ;i<treeComponent.length;i++){
 presentIdsArr.push(treeComponent[i].id);
 }
 
-
+console.log('dependeArr is',dependeArr);
 %>
 
 <html>
