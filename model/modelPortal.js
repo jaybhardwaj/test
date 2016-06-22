@@ -1104,7 +1104,9 @@ getAllAssignment: function(userId,roleId,retailerId,callback) {
             values:[retailerId]
             
         };
+        console.log(query);
         mysql(query, function(err, result) {
+            console.log("get all assignment modelPortal:",result);
             callback(err, result);
         });
     },
