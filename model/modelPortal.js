@@ -2,7 +2,8 @@
   
 var mysql = require('../lib/mysql').executeQuery;
 var randomString = require('../lib/common').generateRandomString;
- 
+ var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(3);
  
 module.exports = { 
      getEmpData:function(retId,emp_id,mgr_id,callback){
@@ -117,11 +118,15 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
     },
     recoverPassword: function(emailId, callback) {
         var randomPassword = randomString(10);
+       var ranPassword=randomPassword;
+ randomPassword=bcrypt.hashSync(randomPassword,salt);
+
         var query = {
             sql: 'call usp_recoverPassword(?,?)',
             values: [emailId, randomPassword]
         };
         mysql(query, function(err, result) {
+            result[1][0].userPassword=ranPassword;
             callback(err, result);
         });
     },
