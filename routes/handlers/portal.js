@@ -97,6 +97,7 @@ var locationId = [],
      } ,
         
     checkPassword: function(req, res, next) {
+        console.log('hello');
          modelPortal.checkPassword(req.body.userid,req.body.password,0,function(err, result) {
              if (err) {
                  next(err);
@@ -172,6 +173,7 @@ var locationId = [],
      },
     
        validateUser: function(req, res, next) {
+        console.log('hi');
          modelPortal.validateUser(
              req.query.v123v45,             
              function(err, result) {
@@ -184,7 +186,9 @@ var locationId = [],
                             configEmail.password= result[2][0].domailUserName,
                             configEmail.port= result[2][0].domailUserName;  
                            } 
-////console.log(result);
+console.log('isValidate-----',result[5][0].isValidate);
+
+                    if(result[5][0].isValidate==0){
                      req.session.allSupervisors=result[3];
                      req.session.mySupervisor=result[4][0].managerid;
                      req.session.firstName = result[0][0].firstName;
@@ -230,7 +234,13 @@ var locationId = [],
                        else if(req.session.defaultModule==7){
                             res.redirect('/rms');
                        }
-                     }                  
+                     } 
+
+                    }
+                    else{
+                        res.redirect('/');
+                    }
+
                  }
              });
      },

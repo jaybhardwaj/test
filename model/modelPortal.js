@@ -88,6 +88,7 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             sql: 'call usp_verifyUserViaEmail(?)',
             values: [dec1]
         };
+        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
