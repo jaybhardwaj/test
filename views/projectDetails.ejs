@@ -130,7 +130,6 @@ function formatDate(date) {
                         if(data[0][i].ptype==0){data[0][i].ptype='';}
                         if(data[0][i].ptype==2){data[0][i].ptype='Time';}
                         if(data[0][i].ptype==1){data[0][i].ptype='Time & Expense';}
-                        if(data[0][i].description==null){data[0][i].description='';}
                         if(data[0][i].plannedStartDate==null){data[0][i].plannedStartDate='';}
                         if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
                         if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
@@ -141,7 +140,7 @@ function formatDate(date) {
                       if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
 
 
-                        log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td>'+data[0][i].description+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].id+'" style="cursor: pointer;border:0px"   value="'+data[0][i].actualStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="aedate_'+data[0][i].id+'" value="'+data[0][i].actualEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
+                        log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].id+'" style="cursor: pointer;border:0px"   value="'+data[0][i].actualStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="aedate_'+data[0][i].id+'" value="'+data[0][i].actualEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
 
                         $('body').on('focus',"#psdate_"+data[0][i].id, function(){
                           $(this).datetimepicker({
@@ -715,10 +714,7 @@ function showAll()
                <tr>
                 <th   >Project title</th>
                 <th   >Project Code</th>
-                <th   >Project Type</th>
-                <!-- <th   >Client</th>
-                <th   >Project Technology</th> -->         
-                <th>Description</th>  
+                <th   >Project Type</th>  
                 <th>Planned Start Date</th>
                  <th>Planned End Date</th>
                 <th   >Actual Start Date</th>
@@ -746,15 +742,6 @@ function showAll()
                                     <%}else { %>
                                    <span>Fixed Cost</span>
                                      <%}%>
-                                    </td>
-                                    <!-- <td>
-                                        <%=allinfo[i].clientId%>
-                                    </td>
-                                    <td>
-                                        <%=allinfo[i].ptech%>
-                                    </td> -->
-                                    <td>
-                                        <%=allinfo[i].description%>
                                     </td>
                                     <td>
                                         <%=allinfo[i].plannedStartDate%>
