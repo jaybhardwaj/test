@@ -87,7 +87,9 @@
                 $('.timesheet-tab').addClass("active");
 
                $(".ui-datepicker-trigger img").css("width", "25px");
+               var retDate=new Date('<%=timeinfo[10][0].createdDate%>');
                 $('#submitdate').datepicker({
+                    minDate:retDate,
                     onSelect: function(dateText, inst) {
                         adjustdays();
                     }
@@ -485,6 +487,25 @@ function parseDate(input) {
                                 }
 
                                 a2 = a2 + ' value="' + startdd + '" ><input id="wkd' + (k - 1) + '" type="text" style="width:60px; height:49px; text-align:center;"; value=' + k + "-" + weekdays[weekday_value] + ' disabled></td>';
+
+                               //code for disable previous icon
+                               var dateString1='<%=timeinfo[10][0].createdDate%>';
+                                dateString1=new Date(dateString1).toUTCString();
+                                dateString1=dateString1.split(' ').slice(0, 4).join(' ');
+                                dateString2=new Date(startdd).toUTCString();
+                                dateString2=dateString2.split(' ').slice(0, 4).join(' ');
+                                console.log(dateString1,'------',dateString2);
+                                  
+                                  if(dateString1==dateString2)
+                                  {
+                                    //alert("going to disable");
+                                    $(".fadeLeftIcon").removeClass("hide");
+                                    $(".leftIcon").addClass("hide");
+                                  }
+
+
+
+
                             }
                         }
                     if (weekdy || monthly) {
@@ -579,8 +600,9 @@ function parseDate(input) {
             </div>
 
             <div class="col-md-3" style="text-align-last: center; height:29px;width:264px; background-color:white; border-radius: 25px; ">
-                <img type="button" src="../img/bug/left.jpg" class="shadow glyphicon" style=" " height="15px" title="Previous" width="15px" onClick="getdateprev()">
+                 <img type="button" id="prevdate" src="../img/bug/left.jpg" class="shadow glyphicon leftIcon" style=" " title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
 
+                 <img type="button" id="prevdate1" src="../img/bug/leftFade.png" class="  fadeLeftIcon hide" style=" " title="Previous" height="15px" title="" width="15px" >
                 <input disabled type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
 
                 <img type="button" src="../img/bug/Right.jpg" class="shadow glyphicon" style=" " height="15px" title="Next" width="15px" onClick="getdateuser()">
@@ -667,7 +689,7 @@ function parseDate(input) {
                 <div class="modal-content" id="express2">
                     <div class="modal-header" style="background-color:#f05f40;">
                         <center>
-                            <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px"><b>Please provide a reason for Reject Timesheet!</b>  </h4>
+                            <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px"><b>Please provide a reason for rejection!</b>  </h4>
                              </center>
                      <span   class='close closeedit' data-dismiss="modal" style='float:right;margin-top:-26px' title ='Close' > &times;  </span>
                    
@@ -734,6 +756,10 @@ function parseDate(input) {
     }
 
     function getdateuser() {
+
+          $(".fadeLeftIcon").addClass("hide");
+       $(".leftIcon").removeClass("hide");
+
         document.getElementById("savetimesheet").disabled = false;
         document.getElementById("resettimesheet").disabled = false;
 

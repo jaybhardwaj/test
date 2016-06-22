@@ -118,7 +118,10 @@
                 $('.timesheet-tab').addClass("active");
 
                 $(".ui-datepicker-trigger img").css("width", "25px");
+                var retDate=new Date('<%=timeinfo[10][0].createdDate%>');
+                //alert(retDate);
                 $('#submitdate').datepicker({
+                    minDate: retDate,
                     onSelect: function(dateText, inst) {
                         adjustdays();
                     }
@@ -494,7 +497,11 @@ function parseDate(input) {
                         if (ftdy) {
                             //alert("st1 is ---"+st1+"ed1 is ---"+ed1);
                             for (var k = st1; k <= ed1; k++) {
+
+
                                 startdd = new Date(year1, mon1 - 1, k);
+
+
                                 var current_date = startdd;
                                 var weekday_value = current_date.getDay();
                                 ////console.log("days", startdd);
@@ -507,6 +514,24 @@ function parseDate(input) {
                                 }
 
                                 a2 = a2 + ' value="' + startdd + '" ><input id="wkd' + (k - 1) + '" type="text" style="width:60px; height:49px; text-align:center"; value=' + k + "-" + weekdays[weekday_value] + ' disabled></input></td>';
+
+
+                                //code for disable previous icon
+                                var dateString1='<%=timeinfo[10][0].createdDate%>';
+                                dateString1=new Date(dateString1).toUTCString();
+                                dateString1=dateString1.split(' ').slice(0, 4).join(' ');
+                                dateString2=new Date(startdd).toUTCString();
+                                dateString2=dateString2.split(' ').slice(0, 4).join(' ');
+                                console.log(dateString1,'------',dateString2);
+                                  
+                                  if(dateString1==dateString2)
+                                  {
+                                    //alert("going to disable");
+                                    $(".fadeLeftIcon").removeClass("hide");
+                                    $(".leftIcon").addClass("hide");
+                                  }
+
+                                
                             }
                         }
 
@@ -625,9 +650,12 @@ function parseDate(input) {
             <div class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white;  border-radius: 25px;">
 
 
-                <img type="button" src="../img/bug/left.jpg" class="shadow glyphicon" style=" " title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
+                <img type="button" id="prevdate" src="../img/bug/left.jpg" class="shadow glyphicon leftIcon" style=" " title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
+
+                 <img type="button" id="prevdate1" src="../img/bug/leftFade.png" class="  fadeLeftIcon hide" style=" " title="Previous" height="15px" title="" width="15px" >
+
                 <input disabled type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
-                <img type="button" src="../img/bug/Right.jpg" title="Next" class="shadow glyphicon" style=" " height="15px" title="" width="15px" onClick="getdateuser()">
+                <img type="button" id="nextdate" src="../img/bug/Right.jpg" title="Next" class="shadow glyphicon" style=" " height="15px" title="" width="15px" onClick="getdateuser()">
 
                 <span id="StartDate" name="StartDate" class="glyphicon glyphicon-calendar" style="top:3px; margin-right:-5px;" title=" Select Calender"></span>
             </div>
@@ -990,6 +1018,7 @@ function parseDate(input) {
     function getdateprev() {
         //Totalsum(1);
         // alert(" inside getdateprev date function");
+        
         $('#savetimesheet').removeClass('hide');
         $('#resettimesheet').removeClass('hide');
         /*  document.getElementById("savetimesheet").disabled = false;
@@ -1046,8 +1075,10 @@ function parseDate(input) {
     }
 
     function getdateuser() {
-       // Totalsum(1);
-        // alert(" inside forward date function");
+   
+         $(".fadeLeftIcon").addClass("hide");
+       $(".leftIcon").removeClass("hide");
+
         $('#savetimesheet').removeClass('hide');
         $('#resettimesheet').removeClass('hide');
         /*document.getElementById("savetimesheet").disabled = false;

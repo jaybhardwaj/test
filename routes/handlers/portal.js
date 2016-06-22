@@ -3550,6 +3550,7 @@ addUser: function(req, res, next) {
             next(err)
         }else{
             req.timeinfo = result;
+            console.log("result---",result);
             next();
         }
        });
