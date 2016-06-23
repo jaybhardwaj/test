@@ -6374,10 +6374,18 @@ for(var i =0;i<RawData.length;i++){
   var endDate    = RawData[i].newPlannedEndDate
  startDate       = startDate.split('/');
  endDate         = endDate.split('/');
- startDate       = startDate[1] +'/'+startDate[0] +'/'+startDate[2];
- endDate         = endDate[1] + '/' +endDate[0] + '/' +endDate[2];
+ if(startDate[2].length==2){
+    startDate[2]  = '20' + startDate[2];
+ }
+ else if(endDate[2].length==2){
+endDate[2] = '20' + endDate[2]
+
+ }
+ startDate       = startDate[0] +'/'+startDate[1] +'/'+startDate[2];
+ endDate         = endDate[0] + '/' +endDate[1] + '/' +endDate[2];
 var numberOfDays  = calculateEffDays(endDate,startDate);
 var numberOfDays2 = calculateEffDays(nowDate,startDate);
+console.log()
 bigArr[RawData[i].id]  = MathRound((numberOfDays2*100)/numberOfDays);
 }
 
@@ -6428,6 +6436,11 @@ var y = sDateOld[2];
   return effDays;
 
 }
+
+
+
+
+
 
 function  calculateHoliday(date){
 
