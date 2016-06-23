@@ -100,13 +100,23 @@
   <div class="container-fluid user-list  secondry-color"   style=" ">
     <div class="modal-header" style="text-align:center">
       <span class="modal-title">Provide user details</span>
+
       <div class="hide" id="moreUser">
-            <img  onclick="addEditUser(0)" style="float:right;margin-right:8%;margin-top:2%" title="Create More Users"  class="addNewPlus">
+            <img  onclick="addEditUser(0,0)" style="float:right;margin-right:8%;margin-top:2%" title="Create More Users"  class="addNewPlus">
+
+         <span id="editNextUser" class="glyphicon glyphicon-chevron-right" onclick="addEditUser($('#hdnIdUser').val(),1)" style="float:right;margin-right:2%;margin-top:2.5%" title="Edit next user" ></span>
+
+        <span id="editPreviousUser" class="glyphicon glyphicon-chevron-left" onclick="addEditUser($('#hdnIdUser').val(),0)" style="float:right;margin-right:2%;margin-top:2.5%" title="Edit previous user" ></span>
+
+
      </div>
     </div>
 
    <main> 
       <input type="hidden" id="hdnId" name="hdnUserId" value="0"> 
+
+      <input type="hidden" id="hdnIdUser" name="hdnIdUser" value="0"> 
+
       <input id="tab1" class="tabradio" type="radio" name="tabs" checked>
       <label for="tab1">Basic Details</label>
       <input id="tab5" class="tabradio" type="radio" name="tabs"> 
@@ -374,9 +384,13 @@ var pressButton=0;
 var users; 
   var imparray = ["Bug","Time","Expense","Asset",'Project',"Document","RMS"];
 
-  function addEditUser(flag) {
+  function addEditUser(flag,flag12) {
+    //alert(flag);
+    //alert(flag12);
+    //alert($("#hdnId").val());
             var form = document.createElement("form");
-            form.action = '/createEditUser';
+            if(flag==0) {form.action = '/createEditUser';}
+            else {form.action = '/next_prev_user';}
             form.method = "POST";
             form.style = "display: none";
             var hdnId = document.createElement("input");
@@ -384,6 +398,11 @@ var users;
             hdnId.name = "hdnId";
             hdnId.value = flag;
             form.appendChild(hdnId);
+            var flag1 = document.createElement("input");
+            flag1.type = "hidden";
+            flag1.name = "flag1";
+            flag1.value = flag12;
+            form.appendChild(flag1);
             document.body.appendChild(form);
             form.submit();
             document.body.removeChild(form);
@@ -489,7 +508,8 @@ function getDefaultModule(){
             $("#doj").datetimepicker({format: "m/d/y",timepicker:false,scrollMouse:false,scrollInput:false});
             $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date(),scrollMouse:false,scrollInput:false});
             $("#doc").datetimepicker({format: "m/d/y",timepicker:false,scrollMouse:false,scrollInput:false}); 
-   
+            $('#editNextUser').addClass('hide');
+            $('#editPreviousUser').addClass('hide');
     <%}%>
     $("#modules").change(function(){
             
@@ -574,6 +594,11 @@ function getDefaultModule(){
             $("#create-user").text('Save');
             $('#hrRole').val(users[i].hrRole);
 
+            $('#hdnIdUser').val(users[0].id);
+            //console.log(i,'--------',users[i].id);
+            //alert('hidden user id value-------'+$("#hdnIdUser").val());
+            //console.log($("#hdnIdUser").val());
+
  $('#time').val(users[i].timeApproval);
               if(users[i].isApproval)
        {
@@ -603,7 +628,7 @@ function getDefaultModule(){
                   }
         }
         $("#hdnId").val(<%=editflag%>);
-     
+      
         
       if($('#clientId').val()==0){
         $('#isClient').val(0);

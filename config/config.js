@@ -2,9 +2,9 @@
 
 module.exports = {
 	mysqlconfig: {
-		host: '192.168.1.56', 
+		host: '139.162.47.185', 
 		user: 'polestarportal',
-		password : 'root',
+		password : 'Fus!on@1234',
 		port : 3306,
 		database:'portal'
 	},

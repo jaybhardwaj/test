@@ -3395,6 +3395,23 @@ updateHoliday: function(req,res,next){
          });
      },
 
+     checkNextUser: function(req, res, next) {
+        console.log('inside next user-----------------------',req.body);
+         modelPortal.checkNextUser(req.body.flag1,req.userid,req.session.roleId,req.session.retailerId,function(err, resultUsers) {
+             if (err) {
+                 next(err);
+                 return;
+             }
+             console.log('usp_checkNextUser----',resultUsers[0][0].id);
+             req.userid=resultUsers[0][0].id;
+             //req.resultUsers = resultUsers;
+             //console.log(" user transaction information is:",resultUsers);
+             next();
+         });
+     },
+
+
+
 
      getRole: function(req, res, next) {
          modelPortal.getAllRoles(req.session.userId, req.session.roleId, req.session.retailerId, function(errorRoles, resultRoles) {

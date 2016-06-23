@@ -269,6 +269,13 @@ app.post('/insNewVer',portal.insNewVer);
     app.post('/createEditUser',url.setpagecreateEditUser,portal.getClient,portal.getUser,portal.getRole,portal.getCustomRoleforUser,
 	portal.getDepartment,portal.getLevel,portal.getModules,portal.getHrRole,render.redirect);
 
+
+    app.post('/next_prev_user',url.setpagecreateEditUser,portal.getClient,portal.checkNextUser,portal.getUser,portal.getRole,portal.getCustomRoleforUser,
+  portal.getDepartment,portal.getLevel,portal.getModules,portal.getHrRole,render.redirect);
+
+
+
+
 	app.post('/addUser', portal.addUser,render.redirect);
 	app.post('/userStatus',portal.userStatus);
     app.post('/changeUserStatus', portal.changeUserStatus,render.redirect);

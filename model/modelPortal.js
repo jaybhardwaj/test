@@ -2261,6 +2261,18 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             callback(err, result);
         });
     },
+    checkNextUser: function(flag1,userId, roleId, retailerId, callback) {
+        var query = {
+            sql: 'call usp_checkNextUser(?,?,?,?)',
+            values: [flag1,userId, roleId, retailerId]
+        };
+        console.log(query);
+        mysql(query, function(err, result) {
+            
+            callback(err, result);
+        });
+    },
+
     calSetting: function(userId,roleId,retailerId,schedule,sDate,timespan,whours,callback){
     var query={
             sql: 'call usp_timesheet_schedule(?,?,?,?,?,?,?)',
