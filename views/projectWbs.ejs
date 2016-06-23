@@ -75,7 +75,7 @@
                   </div>
                   <div style="float:left;width:49%; ">
                       <select style="display:inline-block" id="wbseffort1" class="form-text-box" name="wbseffort1">
-                            <option  disabled selected value=0>Select</option>
+                            <option disabled selected   value=0>Select</option>
                             <option value=1>Man-Hours</option>
                             <option value=2>Man-Days</option>
                             <option value=3>Man-Weeks</option>
@@ -737,14 +737,19 @@ $(function(){
 
 
             var wbseffort = $('#wbseffort').val();
-            var wbseffort1 = $('#wbseffort1').val();
-            if (wbseffort != '') {
-
-                if (wbseffort1 == 0) {
-                    alert('Please Select WBS Effort Type');
-                    return false;
+                var wbseffort1 = $('#wbseffort1').val();
+                if (wbseffort != '') {
+                    if (wbseffort1 <= 0 ||  wbseffort1 == null) {
+                        alert('Please Select WBS Effort Type');
+                        return false;
+                    }
                 }
-            }
+                else{
+                  if(wbseffort1 > 0){
+                    alert('Please enter WBS effort value');
+                        return false;
+                  }
+                }
             
             if($('#assign').val()!= 1){
 
