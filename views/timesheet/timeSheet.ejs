@@ -100,7 +100,9 @@
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             $(document).ready(function() {
                 
-              
+             otable=$('#for_approv').dataTable({
+                                   "bInfo": false,"bLengthChange":false
+                                 });
                 if(('<%=timeinfo[8][0].schedule%>'==''||'<%=timeinfo[8][0].workinghours%>'==''||'<%=timeinfo[8][0].timesheetSpan%>'=='') && '<%=timeinfo[3][0].isRetailer%>'!=''){
                     alert("Fill the required informations Working Hours and Timsheet Span in Masters");
                     window.location.href="/masters?timesheet=1";
@@ -119,11 +121,15 @@
 
                 $(".ui-datepicker-trigger img").css("width", "25px");
                 var retDate=new Date('<%=timeinfo[10][0].createdDate%>');
+
                 //alert(retDate);
                 $('#submitdate').datepicker({
                     minDate: retDate,
                     onSelect: function(dateText, inst) {
+                          $(".fadeLeftIcon").addClass("hide");
+       $(".leftIcon").removeClass("hide");
                         adjustdays();
+                        OtherUsersLIst();
                     }
                 });
 
@@ -151,6 +157,9 @@
                     mon = d[0] + d[1];
                     abc(year, mon, dy);
                 }
+              
+
+
 
             });
             userId = <%=userid%>;
@@ -522,7 +531,7 @@ function parseDate(input) {
                                 dateString1=dateString1.split(' ').slice(0, 4).join(' ');
                                 dateString2=new Date(startdd).toUTCString();
                                 dateString2=dateString2.split(' ').slice(0, 4).join(' ');
-                                console.log(dateString1,'------',dateString2);
+                                //console.log(dateString1,'------',dateString2);
                                   
                                   if(dateString1==dateString2)
                                   {
@@ -553,6 +562,21 @@ function parseDate(input) {
                                 a2 = a2 + ' value="' + st1 + '" ><input id="wkd' + p + '" type="text" style="width:60px; height:49px; text-align:center "; value=' + k + "-" + weekdays[weekday_value] + ' disabled></input></td>';
 
                                 st1.setDate(st1.getDate() + 1);
+
+                                  var dateString1='<%=timeinfo[10][0].createdDate%>';
+                                dateString1=new Date(dateString1).toUTCString();
+                                dateString1=dateString1.split(' ').slice(0, 4).join(' ');
+                                dateString2=new Date(st1).toUTCString();
+                                dateString2=dateString2.split(' ').slice(0, 4).join(' ');
+                                //console.log(dateString1,'------',dateString2);
+                                  
+                                  if(dateString1==dateString2)
+                                  {
+                                    //alert("going to disable");
+                                    $(".fadeLeftIcon").removeClass("hide");
+                                    $(".leftIcon").addClass("hide");
+                                  }
+
 
                             }
                         }
@@ -637,17 +661,18 @@ function parseDate(input) {
                 
             </div>
             <div class="col-md-1">
-            <a href="/timesheet"><button type="button" style="float:right;font-size:10px; " class="btn btn-primary" >Own TimeSheet</button></a>
+            <!-- <a href="/timesheet"><button type="button" style="float:right;font-size:10px; " class="btn btn-primary" >Own TimeSheet</button></a> -->
+            <button type="button" style="float:right;font-size:10px; " class="btn btn-primary" onClick="timehome()">Own TimeSheet</button>
     
             </div>
             
         </div>
         <div class="row sub-header" id="headerTime" style="width:101%;margin-top:0%">
 
-            <div class="col-md-4" style="padding-top:4px;padding-left:5%">
+            <div id="for_name" class="col-md-4" style="padding-top:4px;padding-left:5%">
                 <label class="labelHead">Name  :  </label> <label><%=user%> </label>
             </div>
-            <div class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white;  border-radius: 25px;">
+            <div id="to_fro_date" class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white;  border-radius: 25px;">
 
 
                 <img type="button" id="prevdate" src="../img/bug/left.jpg" class="shadow glyphicon leftIcon" style=" " title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
@@ -660,14 +685,14 @@ function parseDate(input) {
                 <span id="StartDate" name="StartDate" class="glyphicon glyphicon-calendar" style="top:3px; margin-right:-5px;" title=" Select Calender"></span>
             </div>
 
-            <div class="col-md-3" style=" text-align:right;   margin-top: 4px;">
+            <div id="for_status" class="col-md-3" style=" text-align:right;   margin-top: 4px;">
                 <!--    <input class="date" id="StartDate" name="StartDate" style="height:25px" value="" type="hidden" /> -->
                 <!--   <input type="text" class="hide" id="hiddenDate" >  -->
                 <label class="labelHead">Status  :  </label>
                 <label id="timestatus">Draft</label>
             </div>
 
-            <div class="col-md-2" style="         float: right;">
+            <div id="app_div" class="col-md-2" style="         float: right;">
                 <!--  <% if(timeinfo[6].length!=0 || roleid==1) {%> 
                     <button style="font-size:10px; height: 26px; width: 165px;" type="button" class="btn btn-primary" onClick="showDiv()">Other Employee's Details </button>
                     <%}%> -->
@@ -683,8 +708,15 @@ function parseDate(input) {
 <div class="hide" style="min-height:300px" id="otherBlankDiv">
   
     <div  style="margin-top:30px;color:#7e7e7e;padding-left:30px;" class="center">
-        <center><label style="color:#7e7e7e;font-size:20pt;">Select a User!!!</label></center> 
+        <center><label style="color:#7e7e7e;font-size:20pt;">Timesheet Status</label></center> 
     </div>
+    <div class=" secondry-color row sub-header"  style="margin-left:15%; margin-top:0px; width:70%" >
+      <table class="table stripe cell-border hover" id="for_approv">
+        <thead><th>Employee Code</th><th>Employee Name</th><th>Status</th><th>View Timesheet</th></thead>
+        <tbody id="for_approv_body"></tbody>
+      </table>
+    </div>
+
 </div>
 
 
@@ -906,7 +938,7 @@ function parseDate(input) {
 
                 //console.log('b', data[0].i);
 
-                if(data[0].i==6){
+                if(data[0].i=='6a'){
                     alert(" You have already submitted TimeSheet");
                     return false;
                 }
@@ -1072,10 +1104,11 @@ function parseDate(input) {
         abc(y, mm, dd);
         // ////console.log("at end in abc");
         // alert(" End of  getdateprev date function");
+        OtherUsersLIst();
     }
 
     function getdateuser() {
-   
+        
          $(".fadeLeftIcon").addClass("hide");
        $(".leftIcon").removeClass("hide");
 
@@ -1137,6 +1170,7 @@ function parseDate(input) {
 
         abc(y, mm, dd);
         // alert(" end of forward date function");
+        OtherUsersLIst();
     }
 
     function disableHoliday() {
@@ -1285,15 +1319,41 @@ function parseDate(input) {
     disableHoliday();
     Totalsum(0);
 }
+
+
+
+
+    function timehome(){
+       $('#OtherEmp').addClass('hide');
+        $("#otherBlankDiv").addClass("hide");
+        $('#MainTime').removeClass('hide');
+       // $('#headerTime').removeClass('hide');
+       $('#for_name').removeClass('hide'); 
+        $('#for_status').removeClass('hide');
+         $('#app_div').removeClass('hide');
+        var move_to_fro = document.querySelector("#to_fro_date"); 
+        move_to_fro.style.marginLeft="0px";
+        move_to_fro.style.marginTop="0px";
+    }
     function showDiv() {
         // alert("hide");
         $('#OtherEmp').removeClass('hide');
         $("#otherBlankDiv").removeClass("hide");
         $('#MainTime').addClass('hide');
-        $('#headerTime').addClass('hide');
+       // document.getElementById("headerTime").style.backgroundColor="White";
+        $('#for_name').addClass('hide'); 
+        $('#for_status').addClass('hide');
+         $('#app_div').addClass('hide');
+        
+        var move_to_fro = document.querySelector("#to_fro_date");
+        move_to_fro.style.marginLeft="530px";
+        move_to_fro.style.marginTop="-41px";
+        OtherUsersLIst();
+    }
 
-        // arrayfrodrop[2]=checkdate;
-        // alert("for checking"+arrayfrodrop[0]);
+
+function OtherUsersLIst(){
+                      
 
         $.ajax({
             url: 'getUserUnderSupervisor',
@@ -1302,22 +1362,30 @@ function parseDate(input) {
                 "cdate": checkdate
             },
             success: function(data) {
-                ////console.log(data);
-
+  otable.dataTable().fnDestroy();
+                $('#for_approv_body').html('');
                 $('#dropuserdata').append('<option  value=0>Select</option>');
                 for (var i = 0; i < data.length; i++) {
                     if (for_status[data[i].status] != null) {
                         $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-' + for_status[data[i].status] + '</option>');
 
+                        $('#for_approv_body').append('<tr><td style="width:150px;">'+data[i].ecode+'</td><td style="width:250px;">' + data[i].firstName + '</td><td style="width:150px;">' + for_status[data[i].status] + '</td><td style="width:150px; text-align:center;"><span onClick="Show_Other_timesheet('+data[i].id+')" class="glyphicon glyphicon-list-alt" title="View Timesheet"></span></td>');
+
+
+
                     } else {
                         $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>');
+
+                        $('#for_approv_body').append('<tr><td style="width:150px;">'+data[i].ecode+'</td><td style="width:250px;">' + data[i].firstName + '</td><td style="width:150px;"> Draft</td><td style="width:150px; text-align:center;"><span onClick="Show_Other_timesheet('+data[i].id+')" class="glyphicon glyphicon-list-alt" title="View Timesheet"></span></td>');
                     }
 
                 }
                 $("#dropuserdata").tagger({
                     "fieldWidth":"20em"
                 }); 
-
+      $('#for_approv').dataTable({
+                                   "bInfo": false,"bLengthChange":false
+                                 });
             }
 
 
@@ -1335,6 +1403,21 @@ function parseDate(input) {
             window.location.href = "/otherTimeSheet?id=" + dpusdata;
         //alert("hiiiiiiiiiiiii");
     }*/
+
+    function Show_Other_timesheet(us_id){
+          $.ajax({
+                    url: '/otherTimeSheet_setPage',
+                    type: 'post',
+                    data: {
+                        "id": us_id,
+                        
+                    },
+                    success:function(data){
+                          
+                          window.location.href = "/otherTimeSheet";
+                    }
+                });
+    }
       function DropdownUsers() {
         var dpusdata = $('#dropuserdata').val();
          if(dpusdata==null){
