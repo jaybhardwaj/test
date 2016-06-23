@@ -46,7 +46,7 @@ var currentNodeNameForUpdateArrAll = '';
 var currenteffType = 0;
 
 function updateAllArr(idUsed, isActiveFl) {
-    //console.log('updateAllArr');
+    console.log('updateAllArr');
     var value = idUsed.split('_');
     var individualId = parseeIntForNan(value[0]);
     var parentId = value[2];
@@ -463,7 +463,7 @@ function addRow(currentId) {
      initializeJquery();
     var numValuePair = updateNumberSequenceInFirstColumn();
      debugger;
-    setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},100);
+    setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},3000);
 }
 
 
@@ -656,10 +656,11 @@ function createNewVersion(submitFlag) {
     var trArr = $('#tbody123 tr');
     for (var i = 0; i < trArr.length; i++) {
 
-        var tdArr = $(trArr[i]).children('td')[1];
+        var tdEleNew = $(trArr[i]).children('td')[1];
 
-        console.log('trArr is', trArr[i], 'tdArr is', tdArr);
-        var tdEle = $(tdArr).children('input')[0];
+        console.log('trArr is', trArr[i], 'tdEleNew is', tdEleNew);
+     
+        var tdEle = $(tdEleNew).children('input')[0];
         $(tdEle).focusout();
     }
 
@@ -669,8 +670,8 @@ function createNewVersion(submitFlag) {
         updateArr[i] = updateArr[i].join('$@$');
     }
     updateArr = updateArr.join('||');
-
-
+  console.log('updateArr is',updateArr);
+   debugger;
 
 
     $('.se-pre-con').fadeIn('slow');
@@ -764,7 +765,7 @@ function approvethis(approveFlag, modalBoxAcceptFlag) {
         success: function(data) {
 
             if (approveFlag) {
-                someThingUpdated = 1;
+                someThingUpdated = 0;
                 alert('Project approved successfully');
                 $('#statusSub').html('Approved');
 
@@ -883,6 +884,7 @@ function savethis(submitFlag, joinFlag) {
             updateArr = [];
             if (submitFlag) {
                 alert('form has been submitted');
+                submitted=1;
                 hideAllOnSubmit();
             }
             if (submitFlag == 0) {
@@ -913,7 +915,7 @@ function validationForSubmit() {
         var tdArr = $(currTr).children('td');
         // console.log('tdArr is',tdArr,tdArr[3]);
         for (var k = 0; k < tdArr.length; k++) {
-            if (k == 1 || k == 4 || k == 5) {
+            if (k == 1 || k >3&&k<11) {
                 var inpChild = $(tdArr[k]).children('input')[0];
                 if ($(inpChild).val() == '') {
                     returnFalseFlag = true;
@@ -923,7 +925,7 @@ function validationForSubmit() {
             }
 
 
-            if (k == 9) {
+            if (k == 12||k==11||k==9) {
                 var selChild = $(tdArr[k]).children('select')[0];
                 if ($(selChild).val() == '0') {
                     returnFalseFlag = true;
@@ -1416,57 +1418,101 @@ function findParentDate(inputTextBox, par2) {
 
 function hideAllOnSubmit() {
 
+    if (!isManagerFlag) {
 
-    if (submitted == 1 && isManagerFlag) {
-        $('#statusSub').html('Submitted');
-        $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq').attr('disabled', 'disabled');
-        $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq').addClass('disablePointer');
-        $('th').css('padding-top', '7px');
-        $('th').css('padding-bottom', '7px');
-        $('th div').css('font-size', '12px');
+        if (submitted == 1) {
 
-        $('.shadow').each(function() {
+            $('#statusSub').html('Submitted');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').attr('disabled', 'disabled');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').addClass('disablePointer');
+            $('th').css('padding-top', '7px');
+            $('th').css('padding-bottom', '7px');
+            $('th div').css('font-size', '12px');
 
-            if (!$(this).hasClass('donthide')) {
-                $(this).hide();
-            }
+            $('.shadow').each(function() {
 
-        });
+                if (!$(this).hasClass('donthide')) {
+                    $(this).hide();
+                }
 
-    }
+            });
+            $('#submitId').attr('disabled', 'disabled');
+            $('#saveId').attr('disabled', 'disabled');
 
-    //alert(isManagerFlag+'   '+submitted);
+        }
 
-    if (submitted == 1 && !isManagerFlag) {
+        //alert(isManagerFlag+'   '+submitted);
+        else if (submitted == 2) {
+            $('#statusSub').html('Accepted');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeAttr('disabled');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeClass('disablePointer');
+            $('.shadow').each(function() {
+                $(this).removeClass('donthide');
+                $(this).show();
 
-        $('#submitId').attr('disabled', 'disabled');
-        $('#saveId').attr('disabled', 'disabled');
+            });
+        } else if (submitted == 3) {
+            $('#statusSub').html('Rejected');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeAttr('disabled');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeClass('disablePointer');
+            $('.shadow').each(function() {
+                $(this).removeClass('donthide');
+                $(this).show();
 
-    } else if (submitted == 2 && !isManagerFlag) {
-        $('#statusSub').html('Accepted');
-        $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq').removeAttr('disabled');
-        $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq').removeClass('disablePointer');
-        $('.shadow').each(function() {
-            $(this).removeClass('donthide');
-        });
-    } else if (submitted == 3 && !isManagerFlag) {
-        $('#statusSub').html('Rejected');
-        $('.shadow').each(function() {
-            $(this).removeClass('donthide');
-        });
+            });
 
 
+        }
     } else if (isManagerFlag) {
+
+
+        if (submitted == 1) {
+            $('#statusSub').html('Submitted');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').attr('disabled', 'disabled');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').addClass('disablePointer');
+            $('th').css('padding-top', '7px');
+            $('th').css('padding-bottom', '7px');
+            $('th div').css('font-size', '12px');
+
+            $('.shadow').each(function() {
+
+                if (!$(this).hasClass('donthide')) {
+                    $(this).hide();
+
+                }
+
+            });
+
+        }
 
         if (submitted == 2) {
             $('#statusSub').html('Accepted');
             $('#submitId').attr('disabled', 'disabled');
             $('#saveId').attr('disabled', 'disabled');
+
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeAttr('disabled');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeClass('disablePointer');
+            $('.shadow').each(function() {
+                $(this).removeClass('donthide');
+                $(this).show();
+
+            });
+
         }
         if (submitted == 3) {
             $('#statusSub').html('Rejected');
             $('#submitId').attr('disabled', 'disabled');
             $('#saveId').attr('disabled', 'disabled');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeAttr('disabled');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeClass('disablePointer');
+            $('.shadow').each(function() {
+                $(this).removeClass('donthide');
+                $(this).show();
+
+            });
+
+
+
         }
 
         if (submitted != 0) {
@@ -1884,7 +1930,7 @@ function initializeJquery() {
 
         }).change(function() {
             // dropDownFlagUsedInTask = false;
-            someThingUpdated = 0;
+            someThingUpdated = 1;
             var tempSelectValue = $(this).val();
             var currentId = $(this).attr('id');
             var value = currentId.split('_');
@@ -1926,6 +1972,7 @@ function initializeJquery() {
         });
 
         $('.ddResourcesForJq').change(function() {
+            someThingUpdated = 1;
             var tdEle = $(this).parent('td');
             tdEle = $(tdEle).parent('tr');
             tdEle = $(tdEle).attr('id');
@@ -1943,7 +1990,11 @@ function initializeJquery() {
         //$('.textboxEffEditAddJq').spinner();
 
 
+         $('.nameFieldClass').keypress(function(){
+                
+                    someThingUpdated = 1;
 
+         });
 
         $('.nameFieldClass').focusout(function() {
             var tdlVal = $(this).val();
@@ -1967,6 +2018,7 @@ function initializeJquery() {
 
 
         $('.ddDepClass').change(function() {
+            someThingUpdated = 1;
             // alert('sadasdasdasd');
             var idThis = $(this).attr('id');
             var thisIdArr = idThis.split('_');
@@ -2002,6 +2054,11 @@ function initializeJquery() {
                     }
                 }
                 dependenteeArr[individualId].push(newArr2);
+
+            if ($(this).val() != '0') {
+                $(this).removeClass('isEmptyTextBoxValidation');
+
+            }
 
          updateAllArr(idThis, 1);
 
