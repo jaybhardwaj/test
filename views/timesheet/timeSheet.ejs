@@ -653,7 +653,7 @@ function parseDate(input) {
 
         <div class="hide row sub-header" id="OtherEmp" style=" margin-bottom:0%; margin-top:0px">
             <div class="col-md-1"></div>
-            <div class="col-md-1" style="text-align:center">
+            <div class="col-md-1" style="text-align:center" id="drop">
                 <select   class="form-text-box" id="dropuserdata" style="width:162px" onchange="DropdownUsers()">
                 </select>
             </div>
@@ -712,7 +712,7 @@ function parseDate(input) {
     </div>
     <div class=" secondry-color row sub-header"  style="margin-left:15%; margin-top:0px; width:70%" >
       <table class="table stripe cell-border hover" id="for_approv">
-        <thead><th>Employee Code</th><th>Employee Name</th><th>Status</th><th>View Timesheet</th></thead>
+        <thead><th>Employee Name</th><th>Employee Code</th><th>Status</th><th>View Timesheet</th></thead>
         <tbody id="for_approv_body"></tbody>
       </table>
     </div>
@@ -1105,6 +1105,8 @@ function parseDate(input) {
         // ////console.log("at end in abc");
         // alert(" End of  getdateprev date function");
         OtherUsersLIst();
+              //  alert(checkdate);
+
     }
 
     function getdateuser() {
@@ -1171,6 +1173,7 @@ function parseDate(input) {
         abc(y, mm, dd);
         // alert(" end of forward date function");
         OtherUsersLIst();
+       // alert(checkdate);
     }
 
     function disableHoliday() {
@@ -1353,7 +1356,7 @@ function parseDate(input) {
 
 
 function OtherUsersLIst(){
-                      
+                 // alert("change drop down and table data");    
 
         $.ajax({
             url: 'getUserUnderSupervisor',
@@ -1364,22 +1367,34 @@ function OtherUsersLIst(){
             success: function(data) {
   otable.dataTable().fnDestroy();
                 $('#for_approv_body').html('');
-                $('#dropuserdata').append('<option  value=0>Select</option>');
+                $('#drop').html('');
+               /* $('#dropuserdata').append('<option  value=0>Select</option>');
+*/
+                var string='<select  class="form-text-box" id="dropuserdata" onchange="DropdownUsers()"><option  value=0>Select</option>';
+
                 for (var i = 0; i < data.length; i++) {
                     if (for_status[data[i].status] != null) {
-                        $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-' + for_status[data[i].status] + '</option>');
 
-                        $('#for_approv_body').append('<tr><td style="width:150px;">'+data[i].ecode+'</td><td style="width:250px;">' + data[i].firstName + '</td><td style="width:150px;">' + for_status[data[i].status] + '</td><td style="width:150px; text-align:center;"><span onClick="Show_Other_timesheet('+data[i].id+')" class="glyphicon glyphicon-list-alt" title="View Timesheet"></span></td>');
+                      /*  $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-' + for_status[data[i].status] + '</option>');
+*/                  var string=string + '<option value="'+data[i].id+'">'+data[i].firstName+'-'+for_status[data[i].status]                     + '</option>';
+
+                        $('#for_approv_body').append('<tr><td style="width:150px;">'+data[i].firstName+'</td><td style="width:250px;">' + data[i].ecode + '</td><td style="width:150px;">' + for_status[data[i].status] + '</td><td style="width:150px; text-align:center;"><span onClick="Show_Other_timesheet('+data[i].id+')" class="glyphicon glyphicon-list-alt" title="View Timesheet"></span></td>');
 
 
 
                     } else {
-                        $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>');
+                       /* $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>');*/
+                        var string=string+'<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>';
 
-                        $('#for_approv_body').append('<tr><td style="width:150px;">'+data[i].ecode+'</td><td style="width:250px;">' + data[i].firstName + '</td><td style="width:150px;"> Draft</td><td style="width:150px; text-align:center;"><span onClick="Show_Other_timesheet('+data[i].id+')" class="glyphicon glyphicon-list-alt" title="View Timesheet"></span></td>');
+                        $('#for_approv_body').append('<tr><td style="width:150px;">'+data[i].firstName+'</td><td style="width:250px;">' + data[i].ecode  + '</td><td style="width:150px;"> Draft</td><td style="width:150px; text-align:center;"><span onClick="Show_Other_timesheet('+data[i].id+')" class="glyphicon glyphicon-list-alt" title="View Timesheet"></span></td>');
                     }
 
                 }
+
+                 string=string+'</select>';
+                ////console.log("string-----"+string);
+               $('#drop').html(string);
+             
                 $("#dropuserdata").tagger({
                     "fieldWidth":"20em"
                 }); 
@@ -1410,7 +1425,7 @@ function OtherUsersLIst(){
                     type: 'post',
                     data: {
                         "id": us_id,
-                        
+                         "time_date":checkdate
                     },
                     success:function(data){
                           
@@ -1431,7 +1446,7 @@ function OtherUsersLIst(){
                     type: 'post',
                     data: {
                         "id": dpusdata,
-                        
+                        "time_date":checkdate
                     },
                     success:function(data){
                           

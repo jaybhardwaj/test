@@ -599,7 +599,7 @@ module.exports = {
 			     case 'otherTimeSheet':
                 
 			     res.render('timesheet/timeSheetOther',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,timeinfo:req.session.timeinfo,data:req.data,id:req.session.timeshhetuserid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:0,timeinfo:req.session.timeinfo,check_date:req.session.othertime_checkdate,data:req.data,id:req.session.timeshhetuserid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 			    
 			     break;
 

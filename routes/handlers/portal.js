@@ -3710,6 +3710,7 @@ addUser: function(req, res, next) {
      otherTimeSheet_setPage: function(req,res,next){
         //////console.log(" i am in  post rtal");
         req.session.timeshhetuserid=req.body.id;
+        req.session.othertime_checkdate=req.body.time_date;
             modelPortal.otherTimeSheet(req.session.timeshhetuserid,req.session.retailerId,function(err,result){
         if(err){
             next(err)
