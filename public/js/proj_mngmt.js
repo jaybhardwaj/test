@@ -417,8 +417,9 @@ function addRow(currentId) {
         var str = '<tr id = "' + ultimateEndId + '_rowid_' + individualId + '" ><td></td><td class="subtask"><img src= "../img/project/button.png" id = "' + ultimateEndId + '_sign_' + individualId + '" onclick = "collapseExpand(this.id,1)" class="minus' + hideAddButtonClass + '" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" class = "nameFieldClass"   style = "width: 90%;"></td><td class="images1 "></td><td class="images1 "><img src="../img/project/blackdustbin.jpg" height="15px" class="shadow" onclick = "deleteRow(this.id,1)" id = "' + ultimateEndId + '_del_' + individualId + '"  title="Delete" width="15px"><img id = "' + ultimateEndId + '_OK_' + individualId + '"  src="../img/project/greentick.jpg" onclick = "convertTonormalTr(1,this.id,' + depth + ')" height="18px" class="shadow hide" title="Green Tick" class = "hide"  width="18px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = ' + ultimateEndId + '_sDate_' + individualId + ' ></td><td class="dateTempCss"><input type = "text " id = "' + ultimateEndId + '_eDate_' + individualId + '" class = "datePicker textBoxesCss"></td> <td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActStartDate_' + individualId + '"></input></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActEndDate_' + individualId + '"></input></td><td class = "dateTempCss "><input type = "text"  style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_actEndDate_' + individualId + '"></input></td><td class="effCSS "><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = "' + ultimateEndId + '_eff_' + individualId + '" ><select id = "' + ultimateEndId + '_effType_' + individualId + '" class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss  percCompletedClass"></td><td><select class = "ddDepClass"  id = "' + ultimateEndId + '_ddDep_' + individualId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + ultimateEndId + '_selectRS_' + individualId + '" ></td>';
     }
     makeEmptyAjaxCall();
-    if (newcurrentId == '#0_rowid_-1') newcurrentId = '#tbody123'
-    $(newcurrentId).after(str);
+    if (newcurrentId == '#0_rowid_-1') { newcurrentId = '#tbody123'
+                                     $(newcurrentId).append(str);   }
+    else{$(newcurrentId).after(str);}
     initializeJquery();
 
     /************Resources DropDown***********/
@@ -461,7 +462,8 @@ function addRow(currentId) {
     ultimateEndId++;
      initializeJquery();
     var numValuePair = updateNumberSequenceInFirstColumn();
-    setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},2000);
+     debugger;
+    setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},100);
 }
 
 
@@ -2183,8 +2185,10 @@ function changeDdOnDelete(currId, numValuePair) {
 }
 
 function changeDdOnAdd(beforeId, currId, numValuePair) {
+    console.log('numValuePair is ',numValuePair);
     var value = beforeId.split('_');
     var befIndividualId = value[0];
+   
     befIndividualId = befIndividualId.slice(1);
     var depClass = '.depDD_' + befIndividualId;
 
@@ -2192,16 +2196,25 @@ function changeDdOnAdd(beforeId, currId, numValuePair) {
     var individualId = value[0];
 
     var opStrDD = '<option value="' + individualId + '" class="depDD_' + individualId + '"></option>';
+     
+      if('tbody123'==befIndividualId){
+         $('.ddDepClass').append(opStrDD);
+    }
+    else{
+          addafter(depClass, opStrDD);
+
+       }
 
     console.log('depClass is', depClass, 'opStrDD is', opStrDD);
-    addafter(depClass, opStrDD);
-
+  
     for (var i = 0; i < numValuePair.length; i++) {
         var newClass = '.depDD_' + numValuePair[i][2];
+        console.log('newClass is',newClass);
         var newSrt = numValuePair[i][0] + ' ' + numValuePair[i][1];
         $(newClass).text(newSrt);
 
     }
+    debugger;
 
 }
 
