@@ -1177,7 +1177,7 @@ attachDocFile: function(req,res,next){
                 else{
                               
                          
-                              if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx'){
+                              if (exe == 'doc' || exe == 'docx'  || exe == 'rtf' || exe == 'txt' || exe == 'csv'){
 
                                     textract.fromFileWithPath(targetPath, config, function(error, text) {
 
@@ -1236,7 +1236,7 @@ attachDocFile: function(req,res,next){
                           var now = Date.now();
                           var exe = namearr[namearr.length - 1].toLowerCase();
                           var newpath = folderpath + '/' + namefile;
-                          if(exe == 'doc' || exe == 'docx'){
+                          if(exe == 'doc' || exe == 'docx'  || exe == 'rtf' || exe == 'txt' || exe == 'csv'){
                             textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                         if (error) {
@@ -1265,7 +1265,6 @@ attachDocFile: function(req,res,next){
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function( error, text ) {
 
                                         if (error) {
-                                             //console.log("pptx   ",error);
 
 
                                         } else {
@@ -1308,6 +1307,7 @@ attachDocFile: function(req,res,next){
 
                             }
                             else if(exe == 'exe'){
+                                      fs.unlinkSync(newpath);
 
                             }
                             else{ 
@@ -4234,7 +4234,8 @@ upload_resume:function(req,res,next){
                 if (err) {}//////console.log(err)
                 else {
 
-                    if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx') {
+                     if(exe == 'doc' || exe == 'docx'  || exe == 'rtf' || exe == 'txt' || exe == 'csv'){
+
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
