@@ -3403,19 +3403,28 @@ updateHoliday: function(req,res,next){
          });
      },
      getUser: function(req, res, next) {
+
+        if(! req.body.tab){
+            req.tab=1;
+        }
+        else{
+            req.tab=req.body.tab;
+        }
+
+        
          modelPortal.getAllUsers(req.userid,req.session.roleId,req.session.retailerId,function(err, resultUsers) {
              if (err) {
                  next(err);
                  return;
              }
              req.resultUsers = resultUsers;
-             //console.log(" user transaction information is:",resultUsers);
              next();
          });
      },
 
      checkNextUser: function(req, res, next) {
         console.log('inside next user-----------------------',req.body);
+
          modelPortal.checkNextUser(req.body.flag1,req.userid,req.session.roleId,req.session.retailerId,function(err, resultUsers) {
              if (err) {
                  next(err);

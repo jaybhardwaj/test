@@ -270,7 +270,8 @@ app.post('/insNewVer',portal.insNewVer);
 	portal.getDepartment,portal.getLevel,portal.getModules,portal.getHrRole,render.redirect);
 
 
-    app.post('/next_prev_user',url.setpagecreateEditUser,portal.getClient,portal.checkNextUser,portal.getUser,portal.getRole,portal.getCustomRoleforUser,
+    app.post('/next_prev_user',url.setpagecreateEditUser,portal.getClient,portal.checkNextUser,portal.getUser,
+      portal.getRole,portal.getCustomRoleforUser,
   portal.getDepartment,portal.getLevel,portal.getModules,portal.getHrRole,render.redirect);
 
 
@@ -337,6 +338,8 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
   app.post('/wbsAssignmentInProjectWbs',portal.wbsAssignmentInProjectWbs,render.redirect);
 
   app.post('/checkProjectWbsDate', portal.checkProjectWbsDate,render.redirect);
+
+  //------------new route
 
   app.post('/checkUsersInProject', portal.checkUsersInProject,render.redirect);
 

@@ -2406,7 +2406,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
 
 getHrRole:function(userId,roleId,retailerId,callback){
         var q={
-            sql:'call usp_getHrRole(?,?,?)',
+            sql:'call usp_rms_getHrRole(?,?,?)',
             values:[userId,roleId,retailerId]
         };
 

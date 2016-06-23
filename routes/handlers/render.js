@@ -22,7 +22,7 @@ module.exports = {
 				break;
 
 			case 'createEditUser' :
-				res.render('createEditUser',{retailerInfo:req.resultUsers[3],
+				res.render('createEditUser',{tab:req.tab,retailerInfo:req.resultUsers[3],
 					client:req.resultClient[2],myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:1,userModule:req.resultUsers[2],
 					report:req.resultUsers[1],editflag:req.body.hdnId,users:req.resultUsers[0],

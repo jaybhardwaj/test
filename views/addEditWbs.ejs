@@ -387,26 +387,42 @@
 
 
                         $('#assign').on('change',function(){
-                          if( $(this).val()==="1"){
-                            var pid = $('#proname').val();
-                            $.ajax({
-                                  url: '/checkUsersInProject',
-                                  type: 'post',
-                                  data: { "pid": pid},
-                                  success: function(data) {
-                                    if(data.length==0){
-                                      alert('First assign users to the project !');
-                                      $('#assign').val(0);
-                                    }
-                                  }
-
-                              });
-                          } 
+                              if(<%=flag%> == 0 && $('#proname').val() !=null){
+                                if( $(this).val()==="1"){
+                                  checkUsers();
+                                } 
+                              }
+                              if(<%=flag%> == 1){
+                                 if( $(this).val()==="1"){
+                                  checkUsers();
+                                } 
+                              }
                         });
 
 
 
             });
+
+
+                function checkUsers(){
+                        if(<%=flag%> == 0){ var pid = $('#proname').val(); }
+                        else{ var pid = '<%=name[0][0].projectId%>'; }
+
+                              $.ajax({
+                                    url: '/checkUsersInProject',
+                                    type: 'post',
+                                    data: { "pid": pid},
+                                    success: function(data) {
+                                      if(data.length==0){
+                                        alert('First assign users to the project !');
+                                        $('#assign').val(0);
+                                      }
+                                    }
+
+                                });
+                      }
+
+
 
             
             var y = Math.floor((Math.random() * 1000) + 1);
@@ -667,6 +683,10 @@
                 
 
             function getAllWbs(pid) {
+
+              if($('#assign').val() == 1){
+                checkUsers();
+              }
                 $("#datepicker").datetimepicker("destroy");
                 $("#datepicker1").datetimepicker("destroy");
                 //alert('pid---'+pid);
