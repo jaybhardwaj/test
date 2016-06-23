@@ -338,6 +338,8 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
 
   app.post('/checkProjectWbsDate', portal.checkProjectWbsDate,render.redirect);
 
+  app.post('/checkUsersInProject', portal.checkUsersInProject,render.redirect);
+
 
 	//---------------------------------------ASSIGNMENT---------------------------------------
 

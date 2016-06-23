@@ -1932,6 +1932,25 @@ addEditWbsDetails: function(req, res, next) {
          });
      },
 
+
+     checkUsersInProject: function(req, res, next) {
+
+        req.pid=req.body.pid;
+           modelPortal.projectWbs(req.pid,req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+                 if (err) {
+                     next(err);
+                 } else {
+                    console.log('checkUsersInProject-------',result[5]);
+                 res.json(result[5]);
+                 }
+         });
+     },
+
+
+
+
      projectAddEditDetailsWithFlag: function(req, res, next) {
         
         var flag=req.body.hdnId;

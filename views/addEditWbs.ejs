@@ -83,7 +83,7 @@
 <div class="secondry-color" style=" padding-top:1%;">
   <span class="modal-title" style="padding-left:45%">WBS Details</span>
   <div class="row" style="padding-left: 50px;padding-right: 50px;padding-top: 1%">
- <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm">
+ <!-- <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm"> -->
   <input type="text" name="wbshidden" class="hide" id="wbshidden" value='' />
           <input type="text" name="flaghide" class="hide" id="flaghide" <%if(flag==1 ){ console.log( 'Nae is ', name)%>value='  <%=flag%>' <%} else{%> value=0 <%}%> />
           <input type="text" name="wbsidhide" class="hide" id="idhide" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSId%>' <%} else{%> value=0 <%}%> />
@@ -384,26 +384,31 @@
 
                     $('#tb').html(tr);
                 }
+
+
+                        $('#assign').on('change',function(){
+                          if( $(this).val()==="1"){
+                            var pid = $('#proname').val();
+                            $.ajax({
+                                  url: '/checkUsersInProject',
+                                  type: 'post',
+                                  data: { "pid": pid},
+                                  success: function(data) {
+                                    if(data.length==0){
+                                      alert('First assign users to the project !');
+                                      $('#assign').val(0);
+                                    }
+                                  }
+
+                              });
+                          } 
+                        });
+
+
+
             });
 
-            function submitwbs() {
-                var flag = $('#flaghide').val();
-                if (flag == 1) {
-                    alert('WBS Updated Successfully');
-                } else {
-                    alert('WBS Added Successfully');
-                }
-                if ('<%=flag%>' == '0') {
-                    var r = confirm("Do you want to create more WBS ?");
-                    if (r == true) {
-                        $('#wbshidden').val(1);
-                    } else {
-                        $('#wbshidden').val(0);
-                    }
-                }
-                return true;
-            }
-
+            
             var y = Math.floor((Math.random() * 1000) + 1);
             
             function myFunction() {
@@ -520,10 +525,118 @@
                   }
                 }
 
-                submitwbs();
+                //submitwbs();
+
+                addWbs1();
 
 
             }
+
+            function submitwbs() {
+                var flag = $('#flaghide').val();
+                if (flag == 1) {
+                    alert('WBS Updated Successfully');
+                } else {
+                    alert('WBS Added Successfully');
+                }
+                if ('<%=flag%>' == '0') {
+                    var r = confirm("Do you want to create more WBS ?");
+                    if (r == true) {
+                        $('#wbshidden').val(1);
+                    } else {
+                        $('#wbshidden').val(0);
+                    }
+                }
+                //addWbs1();
+                //return true;
+                addWbs12();
+            }
+
+
+            function addWbs1() {
+
+           
+                  if($("#idhide").val() == 0){
+                       addWbs12();
+                }
+                else{
+                  
+                   $.ajax({
+                            url: '/checkProjectWbsDate',
+                            type: 'post',
+                            data: {"pid": $("#proname").val(), "wid":$("#idhide").val(), "psdate": '0', "pedate": '0',
+                            "wpsdate":$("#datepicker").val(),"wpedate":$("#datepicker1").val(),flag:2
+                                  },
+                            success: function(data) {
+                              
+                                if(data[0][0].msg==0){
+                                            //addWbs12();
+
+                                            submitwbs();
+                                }
+                                else{
+                                  alert('date validations of WBS are not according to Assignment');
+                                }
+                            }
+
+                        });
+                }
+            
+
+            }
+
+
+
+
+
+
+            function addWbs12(){
+
+              //alert('flag--'+$('#flaghide').val());
+              //alert('wbshidden--'+$('#wbshidden').val());
+
+                              $.ajax({
+                                url: '/addEditWbsDetails',
+                                method: 'POST',
+                                data: {
+                                  "assign": $('#assign').val(),
+                                  "flaghide": $("#flaghide").val(),
+                                  "wbsidhide": $("#idhide").val(),
+                                  "wbsname": $("#wbsname").val(),
+                                  "wbscode":$("#wbscode").val(),
+                                  "proname": $("#proname").val(),
+                                 "wbsowner": $("#wbsowner").val(),
+                                   "wbspsdate": $("#datepicker").val(),
+                                  "wbspedate": $('#datepicker1').val(),
+                                  "wbsasdate": $("#datepicker2").val(),
+                                   "wbsaedate": $('#datepicker3').val(),
+                                   "wbsstatus": $('input:radio[name=wbsstatus]:checked').val(),
+                                   "wbseffort": $('#wbseffort').val(),
+                                   "wbseffort1": $('#wbseffort1').val(),
+                                   "wbslocation": $('#wbslocation').val(),
+                                   "typeValue": $('#typeValue').val(),
+                                  },
+                                  success: function(data) {
+                                    console.log('success',data);
+                                    
+                                      if ('<%=flag%>' == '0') {
+                                          if ($('#wbshidden').val() == 1) {
+                                              window.location.href = "/addEditWbs?id=0&flag=0";
+                                          } else {
+                                              window.location.href = "/wbsDetails";
+                                          }
+                                      }
+                                      else{
+                                        window.location.href = "/wbsDetails";
+                                      }
+
+
+                                  }
+                            });
+            }
+
+
+
 
             function allWbs() {
                 var abc = 1;
