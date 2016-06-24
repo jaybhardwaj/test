@@ -463,7 +463,7 @@ function addRow(currentId) {
      initializeJquery();
     var numValuePair = updateNumberSequenceInFirstColumn();
      debugger;
-    setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},3000);
+    setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},2000);
 }
 
 
@@ -814,8 +814,8 @@ function savethis(submitFlag, joinFlag) {
     }
 
     if ((submitted == 2) && (submitFlag == 1 || submitFlag == 0)) {
-
-        if (someThingUpdated) {
+             
+        if (someThingUpdated==1) {
             var englishString = ''
             if (submitFlag) englishString = 'submit';
             else englishString = 'create';
@@ -826,7 +826,7 @@ function savethis(submitFlag, joinFlag) {
 
             createNewVersion(submitFlag);
             return;
-        } else {
+        } else if(someThingUpdated==0) {
             alert('This version has already been submitted');
             return;
 
@@ -866,6 +866,11 @@ function savethis(submitFlag, joinFlag) {
         return;
     }
 
+
+    if(submitted=2){
+     submitFlag = 2;//Code Added later 24 JUn requires more reasoning.
+             }
+
     $.ajax({
         url: '/saveTask',
         type: 'post',
@@ -874,7 +879,8 @@ function savethis(submitFlag, joinFlag) {
             'submitFlag': submitFlag,
             'projectId': projectId,
             'version': version,
-            'remarks': remarks
+            'remarks': remarks,
+             'userId':userId
 
         },
         success: function(data) {
@@ -882,7 +888,7 @@ function savethis(submitFlag, joinFlag) {
             $('.se-pre-con').fadeOut('slow');
             counterForRecursionAjax = 0;
             updateArr = [];
-            if (submitFlag) {
+            if (submitFlag==1) {
                 alert('form has been submitted');
                 submitted=1;
                 hideAllOnSubmit();
@@ -909,13 +915,19 @@ function validationForSubmit() {
     var returnFalseFlag = false;
 
     var trArr = $('#tbody123 tr');
+
+
     //console.log('trArr is',trArr);
     for (var i = 0; i < trArr.length; i++) {
+
+        if(!$(trArr[i]).hasClass('deleteCss')){
+
+      
         var currTr = trArr[i];
         var tdArr = $(currTr).children('td');
         // console.log('tdArr is',tdArr,tdArr[3]);
         for (var k = 0; k < tdArr.length; k++) {
-            if (k == 1 || k >3&&k<11) {
+            if (k == 1 || k >3&&k<6||k==9) {
                 var inpChild = $(tdArr[k]).children('input')[0];
                 if ($(inpChild).val() == '') {
                     returnFalseFlag = true;
@@ -925,7 +937,7 @@ function validationForSubmit() {
             }
 
 
-            if (k == 12||k==11||k==9) {
+            if (k == 12||k==9) {
                 var selChild = $(tdArr[k]).children('select')[0];
                 if ($(selChild).val() == '0') {
                     returnFalseFlag = true;
@@ -936,6 +948,10 @@ function validationForSubmit() {
             }
 
         }
+
+    }
+
+
 
     }
 
@@ -1136,8 +1152,10 @@ function editRow(rowId, AddFlag) {
         duration: "fast",
         beforeShow: findParentDate,
         onSelect: function(selected, evnt) {
-           console.log('sel is', selected);
+              $(this).removeClass('isEmptyTextBoxValidation');
+            console.log('sel is', selected);
             //alert('hi '+selected);
+
             someThingUpdated = 1
             var thisEle = $(this);
             var thisId = $(this).attr('id');
@@ -1150,6 +1168,7 @@ function editRow(rowId, AddFlag) {
                 endDateFlag = false;
             }
             if (middleElement == 'actEndDate') {
+               // alert('aS');
                 changeActEndDate(thisEle, thisDateBeforeSelect);
                 endDateFlag = true;
             }
@@ -1163,8 +1182,6 @@ function editRow(rowId, AddFlag) {
             parentRowId = $(parentRowId).parent('tr');
             parentRowId = $(parentRowId).attr('id');
             updateAllArr(parentRowId, 1);
-            $(this).removeClass('isEmptyTextBoxValidation');
-
         }
 
     });
@@ -1485,11 +1502,20 @@ function hideAllOnSubmit() {
 
         }
 
+
+     if (submitted != 0) {
+            $('#saveId').html('Approve');
+            $('#submitId').html('Reject');
+            $('#saveId').attr('onclick', 'approvethis(1,0)');
+            $('#submitId').attr('onclick', 'approvethis(0,0)');
+        }
+
         if (submitted == 2) {
             $('#statusSub').html('Accepted');
-            $('#submitId').attr('disabled', 'disabled');
-            $('#saveId').attr('disabled', 'disabled');
-
+            $('#saveId').html('Save');
+            $('#submitId').html('Submit');
+            $('#saveId').attr('onclick', 'savethis(0,1)'); 
+            $('#submitId').attr('onclick', 'savethis(1,1)'); 
             $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeAttr('disabled');
             $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeClass('disablePointer');
             $('.shadow').each(function() {
@@ -1497,6 +1523,7 @@ function hideAllOnSubmit() {
                 $(this).show();
 
             });
+            userId = 0;
 
         }
         if (submitted == 3) {
@@ -1515,12 +1542,7 @@ function hideAllOnSubmit() {
 
         }
 
-        if (submitted != 0) {
-            $('#saveId').html('Approve');
-            $('#submitId').html('Reject');
-            $('#saveId').attr('onclick', 'approvethis(1,0)');
-            $('#submitId').attr('onclick', 'approvethis(0,0)');
-        }
+   
 
 
 
@@ -1539,7 +1561,7 @@ function hideAllOnSubmit() {
 
 function deleteRow(rowId, editFlag) {
     /*deleteRRow*/
-
+someThingUpdated =1
     var value = rowId.split('_');
     var individualId = value[0];
     var parentId = value[2];
@@ -1577,7 +1599,7 @@ function deleteRow(rowId, editFlag) {
     updateAllArr(rowId, 0);
     //  console.log('rowid ', rowId);
     $('#' + rowId).addClass('deleteCss');
-
+   
 
     setTimeout(function() {
         var numValuePair = updateNumberSequenceInFirstColumn();
@@ -1707,9 +1729,10 @@ function initializeJquery() {
         duration: "fast",
         beforeShow: findParentDate,
         onSelect: function(selected, evnt) {
+            $(this).removeClass('isEmptyTextBoxValidation');
             console.log('sel is', selected);
             //alert('hi '+selected);
-            someThingUpdated = 1
+            someThingUpdated = 0;
             var thisEle = $(this);
             var thisId = $(this).attr('id');
             var value = thisId.split('_');
@@ -1735,7 +1758,7 @@ function initializeJquery() {
             parentRowId = $(parentRowId).parent('tr');
             parentRowId = $(parentRowId).attr('id');
             updateAllArr(parentRowId, 1);
-            $(this).removeClass('isEmptyTextBoxValidation');
+           
 
         }
 
@@ -1753,7 +1776,14 @@ function initializeJquery() {
         $('.ddResources').addClass('ddResourcesForJq');
 
         $('.textboxEffEditAddJq, .percCompletedClass').focusout(function() {
-            someThingUpdated = 1
+              someThingUpdated = 1;
+
+              if($(this).hasClass('percCompletedClass')){
+                    setTimeout(function(){
+                        someThingUpdated = -1;
+                    },750);
+
+              }
             if ($(this).val() != '') {
                 $(this).removeClass('isEmptyTextBoxValidation');
 
@@ -1971,7 +2001,7 @@ function initializeJquery() {
 
         });
 
-        $('.ddResourcesForJq').change(function() {
+        $('.ddResourcesForJq').change(function(){
             someThingUpdated = 1;
             var tdEle = $(this).parent('td');
             tdEle = $(tdEle).parent('tr');
@@ -1993,6 +2023,7 @@ function initializeJquery() {
          $('.nameFieldClass').keypress(function(){
                 
                     someThingUpdated = 1;
+             $(this).removeClass('isEmptyTextBoxValidation');
 
          });
 
@@ -2256,10 +2287,11 @@ function changeDdOnAdd(beforeId, currId, numValuePair) {
      
       if('tbody123'==befIndividualId){
          $('.ddDepClass').append(opStrDD);
+          updateOptStringDep();
     }
     else{
           addafter(depClass, opStrDD);
-
+    
        }
 
     console.log('depClass is', depClass, 'opStrDD is', opStrDD);
@@ -2271,24 +2303,35 @@ function changeDdOnAdd(beforeId, currId, numValuePair) {
         $(newClass).text(newSrt);
 
     }
-    debugger;
+    //debugger;
 
 }
 
 
 function addafter(depClass, opStrDD) {
     depClass = $(depClass);
-
+   
     for (var i = 0; i < depClass.length; i++) {
 
         $(depClass[i]).after(opStrDD);
 
     }
 
-
-
-
+    updateOptStringDep();
+  
 }
+
+
+function updateOptStringDep(){
+      var ddDepClass123 = $('.ddDepClass');
+    if(ddDepClass123.length){
+        ddDepClass123 = ddDepClass123[0];
+        optStringDep = $(ddDepClass123).html();
+        console.log('********optStringDep is  ',optStringDep);
+    }
+
+
+} 
 
 
 

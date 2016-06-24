@@ -4991,7 +4991,7 @@ upload_resume:function(req,res,next){
             req.prId          = result[1][0].prId; 
             req.Resources     =  result[4];
             req.versionFlag   =  versionFlag;
-
+            req.userId       = req.session.userId;
             if(!!result[5][0].version){
                 req.versionArr = result[5][0].version.split(',');
                 //console.log('version Arr is',req.versionArr);
@@ -5074,7 +5074,7 @@ modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
         });
    },
   saveTask :function(req,res,next){
-      modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.session.userId,function(err,result){
+      modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.body.userId,function(err,result){
             if(err){
                 ////console.log("there is an error",err);
             }   
