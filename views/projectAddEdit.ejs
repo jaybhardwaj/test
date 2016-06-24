@@ -213,8 +213,12 @@ width:24% !important;
              </td>
             </td>
             <td>
+
+              <button id="aa">Select All</button>
+              <button id="ab">Select None</button>
+
               <td style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Resources: <sup class="astrick">*</sup></label></td>
-              <td> <select multiple="multiple" class="form-text-box" style="margin-top:3%;width:100%;"  name="presource" id ="presource" maxlength="50">
+              <td id="presourceDiv"> <select multiple="multiple" class="form-text-box" style="margin-top:3%;width:100%;"  name="presource" id ="presource" maxlength="50">
                 <% for(var i=0;i<resource.length;i++) {%>
                 <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
                 <%}%>
@@ -363,9 +367,15 @@ width:24% !important;
       $('#ptech').tagger({
         "fieldWidth":"13em"
       }); 
+      /*$('#presource').tagger({
+        "fieldWidth":"13em"
+      });*/
+      //$("#presource").searchableOptionList();
+
       $('#presource').tagger({
         "fieldWidth":"13em"
       });
+
       $('#pcomplexity').tagger({
         "fieldWidth":"13em"
       });
@@ -446,9 +456,53 @@ getSelectedOptions($('#pclient').val());
 
 }
 
+    $('#aa').click( function() {
+      //alert('fgvswfs');
+       // $('#presource option').prop('selected', true);
+
+        /*<% for(var i=0;i<resource.length;i++) {%>
+                <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
+                <%}%>
+*/
+
+       //$("#presource").val([<%for(var i=0;i<resource.length;i++){%>"<%=resource[i].id%>",<%}%>]).prop("selected", false);
+
+              var string1="<select class='form-text-box' name='presource' multiple='multiple' id='presource'><option value=0 disabled>Select </option>" ;
+
+                   <% for(var i=0;i<resource.length;i++) {%>
+                
+                            string1+="<option value='<%=resource[i].id%>' selected><%=resource[i].name%></option>"  ;           
+                       <%}%>
+              string1+="</select>";
+              console.log(string1);
+              $("#presourceDiv").html(string1);
+                   $('#presource').tagger({
+                    "fieldWidth":"13em"
+                      }); 
+    });
+
+    $('#ab').click( function() {
+              var string1="<select class='form-text-box' name='presource' multiple='multiple' id='presource'><option value=0 disabled>Select </option>" ;
+
+                   <% for(var i=0;i<resource.length;i++) {%>
+                
+                            string1+="<option value='<%=resource[i].id%>' ><%=resource[i].name%></option>"  ;           
+                       <%}%>
+              string1+="</select>";
+              console.log(string1);
+              $("#presourceDiv").html(string1);
+                   $('#presource').tagger({
+                    "fieldWidth":"13em"
+                      }); 
+    });
 
 });
 
+   /* function abcd(){
+      alert('vdfsvfdsvgsd');
+      //$("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
+    }
+*/
 
     $('#pclient').change(function() {
        alert('1');
