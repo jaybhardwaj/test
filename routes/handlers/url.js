@@ -436,6 +436,7 @@ module.exports = {
 	}
 	},
 	setpageInsertDocument: function(req,res,next){
+		console.log("render");
 		req.session.documentalert++;
 		req.page='attachDocFile';
 		next();

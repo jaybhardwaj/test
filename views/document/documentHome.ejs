@@ -168,7 +168,7 @@
 <div class="col-md-6">
         <div style="overflow-x:auto;">
 
-            <table id="data_table" class="table" cellspacing="0"  style="max-width:100%">
+            <table id="data_table" class="table" cellspacing="0" align="centre" style="max-width:100%;">
                 <thead>
                 <tr>
                     <th>File Name</th>
@@ -176,6 +176,9 @@
                     <th>Author</th>
                      <th>Uploaded By</th>
                     <th>Upload Date</th>
+                    <th>Total Downloads</th>
+                    <th>File Rating</th>
+                     <th>Rate</th>
                     <%if(roleid!=1){%><th>Status</th><%}%>
                     <th>Action</th>
                     </tr>
@@ -186,7 +189,7 @@
 
                         <tr class="" id='row_<%=files[0][i].id%>'>
                             <td>
-                                <a download href="./attach/<%=files[0][i].fpath%>">
+                                <a onclick="downloadFile('row_<%=files[0][i].id%>','<%=files[0][i].id%>')" download href="./attach/<%=files[0][i].fpath%>">
                                     <%=files[0][i].name%>
                                 </a>
                             </td>
@@ -201,6 +204,27 @@
                             </td>
                             <td>
                                 <%=files[0][i].uploadDate%>
+                            </td>
+                             <td>
+                                <%=files[0][i].no_of_downloads%>
+                            </td>
+                            <td>
+                                <%if(files[0][i].Rating==null){%>
+                                not yet rated.
+                                <%}else{%>
+                                    <%=files[0][i].Rating%>
+                                <%}%>
+                            </td>
+                             <td>
+                                <select id="rateFile"  onChange="submitUpdatedRated('row_<%=files[0][i].id%>','<%=files[0][i].id%>',$(this).val())">
+                                    <option value="0">select</option>
+                                    <%for(var j=0;j<=files[1].length-1;j++) {%>
+                                        <option value="<%=files[1][j].id%>"
+                                            <%if(files[0][i].ratingId==files[1][j].id){%>
+                                                selected
+                                            <%}%>><%=files[1][j].value%></option>
+                                     <%}%>
+                                </select>
                             </td>
                              <%if(roleid!=1){
 
@@ -422,6 +446,54 @@
 
  
 <script>
+
+function submitUpdatedRated(rowid,fileid,rating){
+  
+
+  
+    $.ajax( {
+            url: 'downloadFileCount',
+            type: 'post' ,
+            data: {
+                'fileid': fileid,
+                'rating':rating,
+                'flag':2
+            },
+            dataType: 'json',
+            success: function(result) {
+               console.log(result);
+               if(rating==0){
+                alert("Error : Please provide a valid Rating");
+               $('#'+rowid+' td select')[0].value=result[0][0].ratingId;
+               }
+               else
+              document.getElementById("data_table").rows[rowid].cells.item(6).innerHTML =result[0][0].Rating;
+               
+            }
+           
+        });
+
+}
+function downloadFile(rowid,fileid){
+
+        $.ajax( {
+            url: 'downloadFileCount',
+            type: 'post' ,
+            data: {
+                'fileid': fileid,
+                 'rating':'',
+                'flag':1
+            },
+            dataType: 'json',
+            success: function(result) {
+               console.log(result);
+              document.getElementById("data_table").rows[rowid].cells.item(5).innerHTML =result[0][0].no_of_downloads;
+               
+            }
+           
+        });
+   
+}
    $('form#formID').submit(function(e){
     $(this).find('input[type=submit]').prop('disabled', true);
     $('.se-pre-con').fadeIn('slow');
@@ -564,9 +636,7 @@
         }
 
        
-        //delete file
         function deleteFile(temp) {
-          //  console.log(temp);
             var rowid = '#row_' + temp;
             if (confirm(" Are you sure ? , this file will be deleted permanently !") == true)
                 $.ajax({
@@ -587,7 +657,7 @@
                     }
                 });
         }
-
+var selectVariable=<%-JSON.stringify(files[1])%>;
         function filterdata() {
             $('.se-pre-con').fadeIn('slow');
             var emptyArr = [];
@@ -629,8 +699,9 @@
                 },
                 dataType: 'json',
                 success: function(tabledata) {
+                    console.log(selectVariable);
                     var charstr = "";
-                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Action</th></thead><tbody>';
+                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Total Downloads</th><th>File Rating</th><th>Rate</th><th>Action</th></thead><tbody>';
                     for (var i = 0; i <= tabledata.length - 1; i++) {
                         var bgstr = '';
                         if (tabledata[i].color == 'yellow') {
@@ -638,7 +709,21 @@
                             bgstr = 'style = "background-color:#ffffb3"';
 
                         }
-                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>';
+                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a onclick="downloadFile(row_'+tabledata[i].id+','+tabledata[i].id+')"  download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate +'</td><td>'+tabledata[i].no_of_downloads+'</td><td>' ;
+                                if(tabledata[i].Rating==null){
+                               var rateString= "not yet rated." ;
+                                }else{
+                                   var rateString=  tabledata[i].Rating ;
+                                }
+                           
+                               charstr+=rateString+'</td><td><select onChange=submitUpdatedRated("row_'+tabledata[i].id+'","'+tabledata[i].id+'",$(this).val())><option value="0" >select</option>';
+                                    for(var j=0;j<=selectVariable.length-1;j++) {
+                                     charstr+='<option value="'+selectVariable[j].id+'"';
+                                            if(tabledata[i].ratingId==selectVariable[j].id){
+                                            charstr+='selected';
+                                            }charstr+='>'+selectVariable[j].value+'</option>';
+                                     }
+                              charstr+='</select></td></td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>';
                         if (<%=roleid%> == 1) {
                                 charstr = charstr + '<a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
                         } 
@@ -761,7 +846,7 @@
                 success: function(tabledata) {
 
                     var charstr = "";
-                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th> <th>Upload Date</th><th>Actio</th></thead><tbody>';
+                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th> <th>Upload Date</th><th>Action</th></thead><tbody>';
                     for (var i = tabledata.length - 1; i >= 0; i--) {
                         var bgstr = '';
                         if (tabledata[i].color == 'yellow') {

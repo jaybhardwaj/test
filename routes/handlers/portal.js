@@ -1118,7 +1118,22 @@ deleteFileByIdPermanentely: function(req,res,next){
    });
         
  },
+
+ downloadFileCount : function(req,res,next){
  
+  
+
+    modelPortal.downloadFileCount(req.session.userId,req.session.roleId,req.session.retailerId,req.body.fileid,req.body.rating,req.body.flag,function(err,result){
+    if(err){
+        next(err);
+        return;
+    }
+ 
+ console.log(result);
+  res.json(result);
+   });
+        
+ },
 
 
 rejectFileById: function(req,res,next){
@@ -1159,6 +1174,7 @@ rejectFileById: function(req,res,next){
 attachDocFile: function(req,res,next){
     var parsedData = null;
     if(req.file != undefined){
+        console.log("portal");
         var currfolder = req.body.currfolder;
         var fname = req.file.originalname;
         var now = Date.now();
@@ -1370,7 +1386,7 @@ attachDocFile: function(req,res,next){
 tableSearchBox: function(req,res,next){
 
 req.body.searchbox = req.body.searchbox.replace(/ +/g,' ');
-   modelPortal.tableSearchBox((req.body.nb ||' '),(req.body.nd || ' '),(req.body.ni ||' '),(req.body.nt || ' '),(req.body.nr || ' '),req.body.searchbox.trim(),req.session.roleId,req.session.croleId,req.session.retailerId,function(err,resultSearchFile){
+   modelPortal.tableSearchBox((req.body.nb ||' '),(req.body.nd || ' '),(req.body.ni ||' '),(req.body.nt || ' '),(req.body.nr || ' '),req.body.searchbox.trim(),req.session.roleId,req.session.croleId,req.session.retailerId,req.session.userId,function(err,resultSearchFile){
         if(err){
             next(err);
             return ;
@@ -1403,7 +1419,7 @@ resultSearchFile[0].forEach(function(element,index){
                         var business=req.body.nb==null? '':req.body.nb.toString();
                         var doctype=req.body.nd==null? '':req.body.nd.toString();
                         var tec=req.body.nt==null? '':req.body.nt.toString();
-    modelPortal.filterFiledata(business,doctype,industry,tec,req.session.roleId,req.session.croleId,function(err,result){
+    modelPortal.filterFiledata(business,doctype,industry,tec,req.session.roleId,req.session.croleId,req.session.userId,function(err,result){
          if(err){
             next(err);
             return;
