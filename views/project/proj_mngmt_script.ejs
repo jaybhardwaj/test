@@ -1,7 +1,12 @@
 <html>
 <body>
 <script>
-
+function parseeIntForNan(data){
+if(isNaN(data)){
+  return 0;
+}
+else return parseInt(data);
+}
 var submittedProject = [];
 var submittedVersion =  [];
 <%for(var i = 0 ;i<submittedProject.length;i++){%>
@@ -27,18 +32,16 @@ var startDateOriginal = '<%=prStartDate%>';
 var endDateOriginal   = '<%=prEndDate%>';
 var startDate         = startDateOriginal;
 var endDate           = endDateOriginal;
-
+var userFlag          = parseeIntForNan('<%=userFlag%>');
 var endDateInDatePicker ,startDateInDatePicker ;
 var edateTime = '' ,sdateTime = '';
-var saturdayOffFlag = 1;/*Take Diff from this Date and Satdurday found diff must be multiple of 14.
-
-*/
+var saturdayOffFlag = 1;/*Take Diff from this Date and Satdurday found diff must be multiple of 14.*/
 var ultimateEndId = parseeIntForNan('<%=ultimateEndId%>');
-
+console.log('ultimateEndId is ',ultimateEndId);
 var treeStructure = <%=JSON.stringify(treeStructure)%>;
 var dependeArr   =  <%=JSON.stringify(dependeArr)%>;
-
 var presentIdsArr = JSON.stringify(<%=presentIdsArr%>);
+
 
 <%if(Tree==''){%>
  var Tree = '';
@@ -49,14 +52,7 @@ var presentIdsArr = JSON.stringify(<%=presentIdsArr%>);
 <%}%>
 var projectId = parseeIntForNan('<%=prId%>') ;
 var version = parseeIntForNan('<%=version%>'); 
-function parseeIntForNan(data){
-if(isNaN(data)){
-  return 0;
-}
 
-else return parseInt(data);
-
-}
 
 </script>
 

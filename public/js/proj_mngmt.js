@@ -2,8 +2,12 @@ var holidayArr = ['21/07/2016', '27/07/2016', '10/08/2016', '18/08/2016'];
 var thisDateBeforeSelect = '';
 var workingHoursInADay = 9;
 var holidayArrGetTime = [];
+var bigAarrBigArrBecauseNormalMethodWasNotWorking = [];
 var dependantsArr = [];
 var dependenteeArr = [];
+var percValue;
+var percEle;
+console.log('ultimateEndId is ',ultimateEndId);
 var ultimate1000 = ultimateEndId + 1000;
 for (var i = 0; i <= ultimate1000; i++) {
     dependantsArr.push([]);
@@ -46,7 +50,7 @@ var currentNodeNameForUpdateArrAll = '';
 var currenteffType = 0;
 
 function updateAllArr(idUsed, isActiveFl) {
-    console.log('updateAllArr');
+ //   console.log('updateAllArr');
     var value = idUsed.split('_');
     var individualId = parseeIntForNan(value[0]);
     var parentId = value[2];
@@ -156,12 +160,14 @@ function updateAllArr(idUsed, isActiveFl) {
 
 
 $(document).ready(function() {
-    console.log('optStringDep is', optStringDep);
-
-
+    var thEle = $('thead tr th')[12];
+   var newData = $(thEle).html(optionStr).text();
+                  $(thEle).html(newData);
+   // console.log('optStringDep is', optStringDep);
+   resourceFilterFunctionality();
     optStringDep = $('#tbody123').html(optStringDep).text();
     $('.ddDepClass').html(optStringDep);
-    console.log('optStringDep is', optStringDep);
+    //console.log('optStringDep is', optStringDep);
 
     initializeJquery();
 
@@ -192,11 +198,11 @@ $(document).ready(function() {
 
 
     $('#proSel option').each(function(i) {
-        console.log('submittedProject is', submittedProject);
+        //console.log('submittedProject is', submittedProject);
         for (var k = 0; k < submittedProject.length; k++) {
-            console.log('this.val is', $(this).val(), 'element is', submittedProject[k]);
+          //  console.log('this.val is', $(this).val(), 'element is', submittedProject[k]);
             if ($(this).val() == submittedProject[k]) {
-                console.log('this is', $(this)[0]);
+              //  console.log('this is', $(this)[0]);
                 $(this).addClass('submitDropDownClass');
             }
 
@@ -210,7 +216,7 @@ $(document).ready(function() {
     $('#verSel option').each(function(i) {
 
         for (var k = 0; k < submittedVersion.length; k++) {
-            console.log('this.val is', $(this).val(), 'element is', submittedVersion[k]);
+           // console.log('this.val is', $(this).val(), 'element is', submittedVersion[k]);
             if ($(this).val() == submittedVersion[k]) {
                 $(this).addClass('submitDropDownClass');
             }
@@ -267,6 +273,7 @@ $(document).ready(function() {
         var str = '/task?flag=' + projectId + '&&versionFlag=' + val;
         window.location.href = str;
     });
+
 
 
 
@@ -464,11 +471,21 @@ function addRow(currentId) {
     var numValuePair = updateNumberSequenceInFirstColumn();
      debugger;
     setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},2000);
+     setTimeout(function(){focusOnNewCreate(idAddedUsedEverywhereInThisFunction)},200);
+
 }
 
 
 
+function focusOnNewCreate(idAddedUsedEverywhereInThisFunction){
 
+var currentId = '#' + idAddedUsedEverywhereInThisFunction;
+  currentId    = currentId + ' td input';
+
+  var currentElement  =$(currentId)[0];
+    $(currentElement).focus();
+
+}
 
 
 
@@ -575,7 +592,7 @@ function convertTonormalTr(addNewFlag, rowId, depth) {
 function makeEmptyAjaxCall() {
 
     counterForAjax++;
-
+$('.se-pre-con').fadeIn();
     $.ajax({
         url: '/emptyProj',
         type: 'post',
@@ -584,6 +601,7 @@ function makeEmptyAjaxCall() {
             'version': version
         },
         success: function(data) {
+            $('.se-pre-con').fadeOut();
             console.log('sucess');
 
             counterForAjax--; /*    Important code to be inserted here Mayur */
@@ -867,8 +885,8 @@ function savethis(submitFlag, joinFlag) {
     }
 
 
-    if(submitted=2){
-     submitFlag = 2;//Code Added later 24 JUn requires more reasoning.
+    if(submitted==2){
+     submitFlag = 2;//Code Added later 24 Jun requires more reasoning.
              }
 
     $.ajax({
@@ -972,6 +990,7 @@ function validationForSubmit() {
 function editRow(rowId, AddFlag) {
     //  return;
     /********editRRow*******/
+  
     var value = rowId.split('_');
     var individualId = value[0];
     var parentId = value[2];
@@ -1233,10 +1252,66 @@ function editRow(rowId, AddFlag) {
      }
    }
  }*/
+ setTimeout(function(){
+ 
+if (userFlag) {
+    var trArr = $('#tbody123 tr');
+    var keepClass = [];
+    for (var i = 0; i < trArr.length; i++) {
+        var img = $(trArr[i]).children('td').children('img')[0];
+ 
+      if($(img).hasClass('plus')){
+            $(img).click();
+      }
+        //$(trArr[i]).addClass('userClass');
+        console.log('trArr[i] is ',trArr[i]);
+        var name1 = $(trArr[i]).children('td').children('input')[1];
+        
+        var name = $(name1).val();
+          name = name + '';
+        if (name.indexOf('$$$0$RobertJFi$cher$$') != -1) {
+            name = name.slice(0, name.indexOf('$$$0$RobertJFi$cher$$'));
+            name = name.toString();
+           console.log('name1 is',name1,'name is ',name);
+           var nameId = $(name1).attr('id');
+              nameId = '#'+nameId;
+              var tempArr = [nameId,name];
+        bigAarrBigArrBecauseNormalMethodWasNotWorking.push(tempArr);''
+             
+            
+        } else {
+            $(trArr[i]).hide();
+        }
+
+    }
+
+
+}
+
+},100);
+
+
+setTimeout(function(){
+ /*********************Strike Off 100%******************************/
+var trArr = $('#tbody123 tr');
+for(var i = 0;i<trArr.length;i++){
+var trEle =  $(trArr[i]); 
+var percValue =  $(trArr[i]).children('td').children('.percCompletedClass')[0];
+    percValue = $(percValue).val();
+strikeOff100Percent(percValue,trEle);
+
+}
+/******************************************************************/
+
+
+},100);
 
 
 
 }
+
+
+
 
 
 function checkNature(inputTextBoxId) {
@@ -1436,7 +1511,7 @@ function findParentDate(inputTextBox, par2) {
 function hideAllOnSubmit() {
 
     if (!isManagerFlag) {
-
+      if(!userFlag){
         if (submitted == 1) {
 
             $('#statusSub').html('Submitted');
@@ -1480,6 +1555,24 @@ function hideAllOnSubmit() {
 
 
         }
+
+    }
+
+    else{
+
+            if(submitted!=2)  $('#statusSub').html('Draft');
+              else   $('#statusSub').html('Accepted');
+               $('#submitId').hide();
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').attr('disabled', 'disabled');
+            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').addClass('disablePointer');
+             $('.percCompletedClass').removeAttr('disabled');
+              $('.percCompletedClass').removeClass('disablePointer');
+               $('#saveId').css('margin-top','3%');
+
+
+       }
+
+
     } else if (isManagerFlag) {
 
 
@@ -1743,7 +1836,7 @@ function initializeJquery() {
                 changeActPlStDate(thisEle, thisDateBeforeSelect);
                 endDateFlag = false;
             }
-            if (middleElement == 'actEndDate') {
+            if (middleElement == 'actEndDate'){
                // alert('aS');
                 changeActEndDate(thisEle, thisDateBeforeSelect);
                 endDateFlag = true;
@@ -1769,6 +1862,25 @@ function initializeJquery() {
 
     setTimeout(function() {
         $('.editRowClass').click();
+       
+    setTimeout(function(){
+        if(true){
+  for(var i=0;i<bigAarrBigArrBecauseNormalMethodWasNotWorking.length;i++){
+      var nameId = bigAarrBigArrBecauseNormalMethodWasNotWorking[i][0];
+       var name = bigAarrBigArrBecauseNormalMethodWasNotWorking[i][1];
+      $(nameId).val(name);
+
+  }
+
+}
+
+},500)
+       
+
+
+
+
+
         $('input[type="text"]').css('border', 0);
         $('input[type="text"],.textBoxesCss,input[type="number"]').addClass('allTextAndNumberBoxes');
         $('.datepicker').addClass('allTextAndNumberBoxes');
@@ -1778,9 +1890,17 @@ function initializeJquery() {
         $('.textboxEffEditAddJq, .percCompletedClass').focusout(function() {
               someThingUpdated = 1;
 
+
               if($(this).hasClass('percCompletedClass')){
+                percEle = $(this);
+                percValue = $(this).val();
                     setTimeout(function(){
                         someThingUpdated = -1;
+                        var valueHere =percValue;
+                     var trEle = $(percEle).parent('td').parent('tr');
+                        console.log('from here  ',valueHere,trEle);
+                       strikeOff100Percent(valueHere,trEle);
+                      
                     },750);
 
               }
@@ -2011,7 +2131,7 @@ function initializeJquery() {
                 $(this).removeClass('isEmptyTextBoxValidation');
 
             }
-
+            console.log('tu kaise bc');
             updateAllArr(tdEle, 1);
 
 
@@ -2457,7 +2577,7 @@ function changeActPlStDate(sDateEle, sDateOld) {
 
     for (var i = 0; i < DateArr.length; i++) {
         var Ele = DateArr[i];
-        var EleId = DateArr[i];
+        var EleId = $(DateArr[i]).attr('id');
         var valueEle = EleId.split('_');
 
         var individualIdEle = valueEle[0];
@@ -2465,6 +2585,7 @@ function changeActPlStDate(sDateEle, sDateOld) {
             debugger;
             var eDateClt = calculateAheadDate($(Ele).val(), numberOfDays);
             $(Ele).val(eDateClt);
+            updateAllArr(EleId,1);
             //setDateInDatePicker(Ele,eDateClt);
         }
 
@@ -2644,3 +2765,87 @@ function setDateInDatePicker(dateID, newDate) {
     $('.ui-datepicker-current-day').click();
 
 }
+
+
+
+
+
+function strikeOff100Percent(thisValue,trEle){
+    console.log('thisValue is',thisValue,'trEle is',trEle);
+if(thisValue==100){
+    $(trEle).addClass('strikeout');
+}
+else{
+       $(trEle).removeClass('strikeout');
+ 
+   }
+
+
+}
+
+
+
+function resourceFilterFunctionality(){
+setTimeout(function(){
+var thEle = $('thead tr th select')[0];
+var optionEle = $(thEle).children('option')[0];
+ $(optionEle).html('All Resources');
+console.log('***************************thEle is ',thEle);
+$(thEle).removeClass('ddResourcesForJq');
+$(thEle).removeClass('ddResources');
+$(thEle).addClass('filterForResouceJq')
+$(thEle).addClass('filterForResouce');
+$('.filterForResouceJq').change(function(){
+
+    console.log('in');
+var valthis = $(this).val();
+console.log('valthis is',valthis);
+if($(this).val()==0){
+openAllForResourceFilter()  
+
+}
+
+else{
+openAllForResourceFilter();
+var trArr = $('#tbody123 tr');
+for(var i=0;i<trArr.length;i++){
+
+var imgEle = $(trArr[i]).children('td').children('img')[0];
+if($(imgEle).hasClass('plus')){
+$(imgEle).click();
+$(trArr[i]).addClass('thisWasClicked');
+}
+
+var selectEle = $(trArr[i]).children('td').children('.ddResourcesForJq')[0];
+if(valthis!=$(selectEle).val()){
+  $(trArr[i]).addClass('tempHidden');   
+}
+
+}
+}
+
+console.log('out');
+});
+
+},50);
+}
+
+function openAllForResourceFilter(){
+  var trArr = $('#tbody123 tr');
+for(var i=0;i<trArr.length;i++){
+$(trArr[i]).removeClass('tempHidden');
+
+if($(trArr[i]).hasClass('thisWasClicked')){
+var imgEle = $(trArr[i]).children('td').children('img')[0];
+$(imgEle).click();
+$(trArr[i]).removeClass('thisWasClicked');
+
+}
+
+}
+
+
+
+}
+
+

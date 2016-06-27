@@ -5019,6 +5019,7 @@ upload_resume:function(req,res,next){
             }   
             else{
             req.treeComponent = result[0];
+            console.log('treeComponent is',req.treeComponent);
             req.maxid         = result[1][0].endId;
             req.minid         = result[1][0].startId;
             req.flag          = flag;
@@ -5087,7 +5088,26 @@ upload_resume:function(req,res,next){
                    
 
                 }
+                    if (result[10].length) {
+               console.log('RESULT length supports here');
 
+                        var submitted;
+                        req.userFlag = 1;
+                         if (!req.treeComponent.length) {
+                                submitted = 0;
+                          } else {
+                          submitted = req.treeComponent[0].isSubmit;
+                          }
+                         if(submitted != 2) {
+                         req.treeComponent = [];
+                          }else {
+                            console.log('reached in else here',req.tree);
+                         req.treeComponent = findDataFromUserFlag(result[0],req.session.userId);
+                           }
+                           }
+                    else{
+                      req.userFlag = 0;
+                        }
             
            // ////console.log('alldata here',req.treeComponent,req.maxid,req.minid);
                         next();
@@ -5166,7 +5186,7 @@ holidayArrDateTimeArr.push(holidayArrDateTime);
                    req.hoursFromTimesheetWbs     =  addSum(result[2]); 
              req.percCompletedOnHoursBooked      =   getPercentage(req.totalHoursBooked,req.hoursFromTimesheetWbs,result[1]);
             req.totalHoursBookedFromWbs                  =   totalHoursBookedFromWbs(result[2]);
-            req.calculatePercentageCompletedOnHoursBooked       = calculatePercentageCompletedOnHoursBooked(req.totalHoursBookedFromWbs,result[1])
+            req.calculatePercentageCompletedOnHoursBooked   =   calculatePercentageCompletedOnHoursBooked(req.totalHoursBookedFromWbs,result[1])
              req.actualEndDate      =     calculateActualEndDate(result[1])
                    //console.log('projHours is',req.projHours ,'hourSumWbs is',req.hourSumWbs);
                   // console.log('***********',req.effProjectCalculations);
@@ -6314,44 +6334,7 @@ return proj;
 
 
 
-function  calculateHoliday123(date){
 
- req.session.saturdayOffFlag = 1
-
-
- var weekEnds =[0];
- var m = date.getMonth();
-    var d = date.getDate();
-    var y = date.getFullYear();
-    var day = date.getDay();
-
-  if(req.session.saturdayOffFlag==1){
-  weekEnds = [0,6]
-
-     }
-     else if(req.session.saturdayOffFlag ==0){
-       weekEnds = [0];
-     }
- 
-
-
-
-
-if(req.session.holidayArrDate.indexOf(date)!=-1){
-    return false;
-
-}
-    else if(weekEnds.indexOf(day)!=-1){
-              return false;
-    }
-
-  else {
-        return true;
-      }
-
-
-
-}
 
 
 
@@ -6430,7 +6413,7 @@ function calculateEffCompletion(RawData){
   var bigArr = setAllValuesInArray();
 var nowDate = new Date();
 var dd  =   nowDate.getDate();
-var mm  =   nowDate.getMonth();
+var mm  =   nowDate.getMonth() + 1;
 var yy  =    nowDate.getFullYear();
 var nowDate  = dd+'/'+mm+'/'+yy;
 for(var i =0;i<RawData.length;i++){
@@ -6442,7 +6425,7 @@ for(var i =0;i<RawData.length;i++){
  if(startDate[2].length==2){
     startDate[2]  = '20' + startDate[2];
  }
- else if(endDate[2].length==2){
+ if(endDate[2].length==2){
 endDate[2] = '20' + endDate[2]
 
  }
@@ -6652,3 +6635,72 @@ if(date1Arr[2].length==2){
 
 
 }
+
+
+
+
+
+
+/***************************task*****************************/
+    
+
+/****************************************task************************************/
+function findDataFromUserFlag(RawData,userId){
+   
+   var DataArr = [];
+
+
+   for(var i = 0;i<RawData.length;i++){
+           if(RawData[i].resources==userId){
+             DataArr.push(i);
+               getChildrenForParents(DataArr,RawData[i].id,RawData,0);
+           }
+       }
+     RawData =  changeTheOnesForWhichNodesHaveToBeSeen(RawData,DataArr);
+     //RawData  = convertAllFirstChildrenToZero(RawData);
+     return RawData;
+}
+
+
+
+function getChildrenForParents(DataArr,parentId,RawData,level){
+if(level>1)   return;
+for(var i = 0;i<RawData.length;i++){
+    if(RawData[i].parentId==parentId){
+        DataArr.push(i);
+     getChildrenForParents(DataArr,RawData[i].id,RawData,level+1); 
+    }
+ }
+
+}
+
+function changeTheOnesForWhichNodesHaveToBeSeen(RawData,DataArr){
+var newRawData = [];
+for(var i =0;i<RawData.length;i++){
+    if(DataArr.indexOf(i)!=-1){
+      var startDate = RawData[i].startDate;
+      RawData[i].startDate = startDate + '$$$0$RobertJFi$cher$$';
+    }
+}
+return RawData;
+}
+
+
+function convertAllFirstChildrenToZero(RawData){
+    if(!RawData.length){
+    return;
+   }
+var parentId = RawData[0].parentId;
+
+for(var i =0;i<RawData.length;i++){
+     
+if(parentId==RawData[i].parentId){
+        RawData[i].parentId = 0;
+    }
+}
+return RawData;
+
+}
+
+
+

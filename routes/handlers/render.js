@@ -751,7 +751,7 @@ module.exports = {
 
 
             //----------------------------------Project-------------------------------------------
-             case 'task':
+          case 'task':
              res.render('project/task', {	               
                 role: req.session.roleId,
                 Name: ' ',
@@ -762,7 +762,7 @@ module.exports = {
 	                startid :req.minid,flag :req.flag,ultimateEndId:req.ultimateEndId,projectDetails:req.projectDetails,
 	                prId:req.prId,prStartDate:req.prStartDate,prEndDate:req.prEndDate,Resources:req.Resources,version:req.versionFlag,
 	                verArr:req.versionArr,projectAndVersions:req.projectAndVersions,isManagerFlag:req.isManagerFlag,
-					submittedProject:req.submittedProject,submittedVersion:req.submittedVersion,userId:req.userId 
+					submittedProject:req.submittedProject,submittedVersion:req.submittedVersion,userId:req.userId ,userFlag:req.userFlag
 
 
 

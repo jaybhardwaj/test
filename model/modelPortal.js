@@ -3306,8 +3306,8 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             }
             else {
                 ////console.log(q,result);
-          
-            callback(err,result);
+
+                callback(err,result);
             }
         });         
     }, 
