@@ -1064,7 +1064,11 @@ project=project?project:'';
             if(err){
                 next(err);
                 return;
-            }        
+            }  
+        var  selectVariableStar=["*****","****","***","**","*"];
+        for(var i=0,len=resultFiles[1].length;i<len;i++){
+         resultFiles[1][i].value=selectVariableStar[i];
+            }      
             req.resultFiles=resultFiles;
             next();
         })
