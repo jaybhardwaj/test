@@ -24,7 +24,8 @@ module.exports = {
 			case 'createEditUser' :
 				res.render('createEditUser',{tab:req.tab,retailerInfo:req.resultUsers[3],
 					client:req.resultClient[2],myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,userModule:req.resultUsers[2],
+					isRetailer:req.session.isRetailer,hideFlag:1,
+					userHrRoles:req.resultUsers[4],userModule:req.resultUsers[2],
 					report:req.resultUsers[1],editflag:req.body.hdnId,users:req.resultUsers[0],
 					role:req.resultRoles[0],customRole:req.resultCustomRoles,roleid:req.session.roleId,
 					department:req.resultDepartment[0],level:req.resultLevel[0],
@@ -605,8 +606,7 @@ module.exports = {
 
 
 //-----------------------------RMS---------------------------------------
-		case 'dashboard':
-		console.log();
+		case 'dashboard': 
 				res.render('rms/dashboard',{role:req.session.hrRole,Name: '',myModules:req.session.modules,
 					allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,

@@ -14,156 +14,149 @@
   <table id="headMenu"> 
 
         <tr align="center">
-          
- <%if(role!=4) {%>
+    <%  var hrArr=[]; for(var i=0;i<role.length;i++){ hrArr[i]=role[i].hrRoleId; } %>      
+ <%console.log("all hr roles assigned",hrArr); if(!(hrArr.indexOf(4)>=0&&hrArr.length==1)){%>
   <td class="dashboard-img">
       <a href="/rms">
         <img class="imageInc" style="height:30px;width:30px" src="/img/dashboard.png">
       </a>
     </td>
 <%}%>
-<%if(role==3) {%>
-    <td style="width:100px" class="raiseReq-img">
-      <a href="/raiseRequisition">
-        <img class="imageInc" style="height:30px;width:30px" src="/img/write.png">
-      </a>
-    </td>
-    <td style="width:100px" class="allReq-img">
-      <a href="/allrequisitions">
-       <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
-      </a>
-    </td>
-    <%}%>
-<%if(role==1||role==2) {%>
-    <td style="width:100px" class="viewCand-img">
-      <a href="/viewCandidate">
-        <img class="imageInc" style="height:30px;width:30px" src="/img/candidateList.png">
-      </a>
-    </td>     
-  <%}%>
-<%if(role==1||role==2) {%>
-    <td style="width:100px" class="upload-img">
-      <a href="/upload">
-       <img class="imageInc" style="height:30px;width:30px" src="/img/folder_upload.png">
-      </a>
-    </td>     
-  <%}%>
-  <%if(role==5) {%>
-       <td style="width:100px" class="raiseReq-img">
-      <a href="/raiseRequisition">
-        <img class="imageInc" style="height:30px;width:30px" src="/img/write.png">
-      </a>
-    </td>
-      <td style="width:100px" class="allReq-img">
-      <a href="/reqHod">
-        <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
-      </a>
-    </td>
-<%}%>
-  <%if(role==6) {%>
-    
-      <td style="width:100px" class="allReq-img" >
-      <a href="/reqApprover">
-        <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
-      </a>
-    </td>
-<%}%>
-  <%if(role==1) {%>
-      <td style="width:100px" class="allReq-img">
-      <a href="/viewReq">
-        <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
-      </a>
-    </td>
-<%}%>
-<%if(role==4||role==5||role==3) { console.log("-----------hm to");%>
+<%if(hrArr.indexOf(4)>=0) { %>
     <td style="width:100px" class="calen-img">
       <a href="/interview">
        <img class="imageInc" style="height:30px;width:30px" src="/img/agent.png">
       </a>
     </td>     
   <%}%>
-   <%if(role==2) {%>
-      <td style="width:100px" class="allReq-img">
+  <%if(hrArr.indexOf(1)>=0||hrArr.indexOf(2)>=0) {%>
+    <td style="width:100px" class="viewCand-img">
+      <a href="/viewCandidate">
+        <img class="imageInc" style="height:30px;width:30px" src="/img/candidateList.png">
+      </a>
+    </td>     
+   
+    <td style="width:100px" class="upload-img">
+      <a href="/upload">
+       <img class="imageInc" style="height:30px;width:30px" src="/img/folder_upload.png">
+      </a>
+    </td>     
+  <%}%>
+<%if(hrArr.indexOf(3)>=0||hrArr.indexOf(5)>=0) { %>
+    <td style="width:100px" class="raiseReq-img">
+      <a href="/raiseRequisition">
+        <img class="imageInc" style="height:30px;width:30px" src="/img/write.png">
+      </a>
+    </td>
+    <%}%>
+ <%if(hrArr.indexOf(3)>=0){%>   
+    <td style="width:100px" class="allReq-img">
+      <a href="/allrequisitions">
+       <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
+      </a>
+    </td>
+    <%}%>
+
+  <%if(hrArr.indexOf(5)>=0) {%>     
+      <td style="width:100px" class="reqHod-img">
+      <a href="/reqHod">
+        <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
+      </a>
+    </td>
+<%}%>
+  <%if(hrArr.indexOf(6)>=0) {%>
+    
+      <td style="width:100px" class="reqApprover-img" >
+      <a href="/reqApprover">
+        <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
+      </a>
+    </td>
+<%}%>
+  <%if(hrArr.indexOf(1)>=0) {%>
+      <td style="width:100px" class="viewReq-img">
+      <a href="/viewReq">
+        <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
+      </a>
+    </td>
+<%}%>
+
+   <%if(hrArr.indexOf(2)>=0) {%>
+      <td style="width:100px" class="userHrViewReq-img">
       <a href="/userHrViewReq">
         <img class="imageInc" style="height:30px;width:30px" src="/img/lists.png">
       </a>
     </td>
 <%}%>
  </tr>
-
-
  <tr >
-   <%if(role!=4) {%>
+   <%if(!(hrArr.indexOf(4)>=0&&hrArr.length==1)) {%>
   <td style="width:100px;text-align:center" class="dashboard-img">
       <a href="/rms" style="color:black">
         Dashboard
       </a>
     </td>
 <%}%>
-<%if(role==3) {%>
-    <td style="width:100px;text-align:center" class="raiseReq-img">
-      <a href="/raiseRequisition" style="color:black">
-        Raise Requisition
-      </a>
-    </td>
-    <td style="width:100px;text-align:center" class="allReq-img">
-      <a href="/allrequisitions" style="color:black">
-       Requisitions
-      </a>
-    </td>
-    <%}%>
-<%if(role==1||role==2) {%>
-    <td style="width:100px;text-align:center" class="viewCand-img">
-      <a href="/viewCandidate" style="color:black">
-        Candidates
-      </a>
-    </td>     
-  <%}%>
-<%if(role==1||role==2) {%>
-    <td style="width:100px;text-align:center" class="upload-img">
-      <a href="/upload" style="color:black">
-       Upload
-      </a>
-    </td>     
-  <%}%>
-  <%if(role==5) {%>
-       <td style="width:100px;text-align:center" class="raiseReq-img">
-      <a href="/raiseRequisition" style="color:black">
-        Raise Requisition
-      </a>
-    </td>
-      <td style="width:100px;text-align:center" class="allReq-img">
-      <a href="/reqHod" style="color:black">
-        Requisitions
-      </a>
-    </td>
-<%}%>
-  <%if(role==6) {%>
-    
-      <td style="width:100px;text-align:center" class="allReq-img">
-      <a href="/reqApprover" style="color:black">
-        Requisitions
-      </a>
-    </td>
-<%}%>
-  <%if(role==1) {%>
-      <td style="width:100px;text-align:center" class="allReq-img">
-      <a href="/viewReq"  style="color:black">
-        Requisitions
-      </a>
-    </td>
-<%}%>
-<%if(role==4||role==5||role==3) {%>
+<%if(hrArr.indexOf(4)>=0) {%>
     <td style="width:100px;text-align:center" class="calen-img">
       <a href="/interview" style="color:black" >
         Interview
       </a>
     </td>     
   <%}%>
-   <%if(role==2) {%>
-      <td style="width:100px;text-align:center" class="allReq-img">
-      <a href="/userHrViewReq"  style="color:black">
+  <%if(hrArr.indexOf(1)>=0||hrArr.indexOf(2)>=0) {%>
+    <td style="width:100px;text-align:center" class="viewCand-img">
+      <a href="/viewCandidate" style="color:black">
+        Candidates
+      </a>
+    </td>     
+  
+    <td style="width:100px;text-align:center" class="upload-img">
+      <a href="/upload" style="color:black">
+       Upload
+      </a>
+    </td>     
+  <%}%>
+<%if(hrArr.indexOf(3)>=0||hrArr.indexOf(5)>=0) {%>
+    <td style="width:100px;text-align:center" class="raiseReq-img">
+      <a href="/raiseRequisition" style="color:black">
+        Add Requisition
+      </a>
+    </td>
+ <%}%>
+  <%if(hrArr.indexOf(3)>=0){ %>
+    <td style="width:100px;text-align:center" class="allReq-img">
+      <a href="/allrequisitions" style="color:black">
+       Raised Requisitions
+      </a>
+    </td>
+    <%}%>
+
+  <%if(hrArr.indexOf(5)>=0) {%>     
+      <td style="width:100px;text-align:center" class="reqHod-img">
+      <a href="/reqHod" style="color:black">
         Requisitions
+      </a>
+    </td>
+<%}%>
+  <%if(hrArr.indexOf(6)>=0) {%> 
+      <td style="width:100px;text-align:center" class="reqApprover-img">
+      <a href="/reqApprover" style="color:black">
+       Approve Requisitions
+      </a>
+    </td>
+<%}%>
+  <%if(hrArr.indexOf(1)>=0) {%>
+      <td style="width:100px;text-align:center" class="viewReq-img">
+      <a href="/viewReq"  style="color:black">
+       Assigned Requisitions
+      </a>
+    </td>
+<%}%>
+
+   <%if(hrArr.indexOf(2)>=0) {%>
+      <td style="width:100px;text-align:center" class="userHrViewReq-img">
+      <a href="/userHrViewReq"  style="color:black">
+       Assigned Requisitions
       </a>
     </td>
 <%}%>

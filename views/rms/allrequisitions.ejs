@@ -21,19 +21,7 @@
             text-align: center;
         }
 
-  /*        .form-Label {
-            background-color: none;
-            color: #f05f40;
-            font-size: 14px;
-            font-weight: 2px;
-        }
-        
-        .detailLabelContent {
-            background-color: none;
-            color: black;
-            font-size: 12px;
-            
-        }*/
+  
         .col-md-4{
             padding-right: 5px;
             padding-left: 5px;
@@ -207,13 +195,14 @@
                     <div class="col-md-4">
                     <label class="form-Label">Skills:<sup class="astrick">*</sup></label>
                     </div>
-                    <div class="col-md-8" id="skillLabel">
-                    <select max-size="1" multiple class="form-text-box addDisable " style="max-height:9%;overflow-y:auto;width:100%" id='skillsId' name="skills">
-                          
+                    <div class="col-md-8"  >
+                    <select max-size="1" multiple class="form-text-box " style="max-height:9%;overflow-y:auto;width:100%" id='skillsId' name="skills">
+                            
                             <%for(var i = 0 ;i<skills.length;i++){%>
                                 <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>"><%=skills[i].skills%></option>
                                 <%}%>
                         </select>
+                        <label id="skillLabel" class="hide"></label>
                     </div>        
                 </div>
             </div> 
@@ -411,7 +400,7 @@
                         menubar:false
                     }); 
                    
-                    function validateForm() { 
+                   function validateForm() { 
                         if(!$('#jobTitle').val().trim().length){
                         alert("Please fill Job Title!");
                         return false;
@@ -443,13 +432,12 @@
                         var re = new RegExp(find, 'g');
                         decode = decode.replace(re, '');
                         decode = decode.trim();
-                         
                         if (decode == '') {
                             alert('Please fill in some description!');
                             return false;
                         }
                         if (decode.length > 4000) {
-                            alert('Job Description contains '+decode.length+' characters, it can not be more than 4000 characters!');
+                            alert('Description can not be more than 4000 characters!');
                             return false;
                         }  
                          
@@ -467,13 +455,12 @@
                             } */
                         }
                         $('.addDisable').attr('disabled', false);   
-                        // $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
+                         $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
                         $('.addDisable').removeAttr('disabled');
-                       // $(".chosen-select").removeAttr('disabled');
+                        $(".chosen-select").removeAttr('disabled');
                         $('input ,  select').removeAttr('disabled');
  
-                    } 
-                   
+                    }
                     function reqData(id, flag, con) {
 
                         // alert(id);
@@ -530,7 +517,7 @@
                                     $('#history').val(info[0].jobType);
                                     var arr = [];
                                     for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
-                                      //  console.log(JSON.parse(JSON.stringify(data.result[6]))[i].skill);
+                                     
                                         arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skill;
                                         $('#skills_' + JSON.parse(JSON.stringify(data.result[6]))[i].skill).prop('selected', true);
                                     }
@@ -587,6 +574,7 @@
                                     //free to edit
                                     $('.addUsed').addClass("used");
                                     $('.addDisable').attr('disabled', false); 
+                                     $(".tagger").removeClass("disabled1");
                                     
                                    // $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
 
@@ -595,23 +583,32 @@
                                     
                                     if (con == 0) { // show everything and edit everything
                                         $('.addUsed').addClass("used");
-                                        $('.addDisable').attr('disabled', false);  
+                                        $('.addDisable').attr('disabled', false); 
+                                        $('#skillsId').removeClass("hide"); 
+                                         $(".tagger").removeClass("disabled1");
                                    
                                       //  $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
                                     }
-                                    if (con == 2 || con == 1) {
+                                    if (con == 2  ) {
                                         //partial editing is allowed
-                                        
                                         $('.addUsed').addClass("used");
                                         $('.addDisable').attr('disabled', true);
+                                        $('#skillsId').removeClass("hide");
+                                        $(".addDisable").css("color", "grey"); 
                                         var arr = [];
-                                            for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
-                                                arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skillName;
-                                            }
-                                            $('#skillLabel').html(arr.toString());
-                                      
-                                        $(".addDisable").css("color", "grey");
-                                       // $(".chosen-select").prop('disabled', true).trigger('chosen:updated');
+                                    for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
+                                        arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skillName;
+                                    }
+                                   $('#skillLabel').html(arr.toString());
+                                    
+                                     $('#skillsId').tagger({
+                                       fielddisplay:"none"
+                                        }).css("display","none"); 
+
+                                        $(".tagger").addClass("disabled1");
+                                        $(".tagger").css("display","none");
+                                    //$('#skillsId').addClass("hide");
+                                    $('#skillLabel').removeClass("hide");
                                     }
                                 }
                             }

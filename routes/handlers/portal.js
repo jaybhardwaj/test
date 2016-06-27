@@ -203,7 +203,7 @@ console.log('isValidate-----',result[5][0].isValidate);
                      req.session.isVerified = true;
                      req.session.croleId=result[0][0].crole_id;  
                      req.session.isRetailer=result[0][0].isRetailer; 
-                     req.session.hrRole=result[0][0].hrRole; 
+                     req.session.hrRole=result[5]; 
                      req.session.documentalert=0;
                      req.session.loginIdUser=result[0][0].lastinsert; 
                      req.session.defaultModule = result[0][0].defaultModuleId;
@@ -3822,7 +3822,14 @@ addUser: function(req, res, next) {
            ////console.log('kaisan ho',req.body);
    totalFiles[req.session.userId] = 0;
   parsing[req.session.userId] = false; 
-        modelPortal.dashboardData(req.body.data,req.body.grid,req.body.time,req.session.hrRole,req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
+     var hrArrS=req.session.hrRole;
+            var hrarr=[];
+            for(var i=0;i<hrArrS.length;i++){
+                hrarr[i]=hrArrS[i].hrRoleId;
+            }
+            var hrRoleArray=hrarr.toString();
+            
+        modelPortal.dashboardData(req.body.data,req.body.grid,req.body.time,hrRoleArray,req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
 
 
             if(err){
@@ -3847,6 +3854,7 @@ addUser: function(req, res, next) {
         });
 
     },
+
     raiseRequisition1:function(req,res,next){
              if(req.body.locationName!=undefined&&req.body.locationName!=null){
                  req.body.locationName = req.body.locationName.trim();
@@ -3899,45 +3907,51 @@ addUser: function(req, res, next) {
                     skills = skills.replace(/['"]+/g, '');
                 }
             }
+              var hrArrS=req.session.hrRole;
+            var hrarr=[];
+            for(var i=0;i<hrArrS.length;i++){
+                hrarr[i]=hrArrS[i].hrRoleId;
+            }
+            var hrRoleArray=hrarr.toString();
+            
    modelPortal.raiseRequisition1(
               req.session.userId,req.body.JobTitle,req.body.NoOfPostions,skills,
               req.body.MinimumSalary,req.body.MaximumSalary,
               req.body.ExpiresOn,req.body.Location,req.body.Description,
               req.body.designation,req.body.RecruiterName,
               req.body.YearsOfExp,req.body.adminhr,flag,id,
-              req.body.mailPriority,req.body.jobType,req.session.hrRole,req.session.retailerId,function(err,result){
-
-                if(err){
-                    ////console.log("error portal",err);
+              req.body.mailPriority,req.body.jobType,hrRoleArray,req.session.retailerId,function(err,result){
+              if(err){
+                     console.log("error portal",err);
                 }
     else{
        
         var recEmail = [];
-            for(var i =0;i<result[5].length;i++){
-                    recEmail.push(result[5][i].userEmail);
+            for(var i =0;i<result[4].length;i++){
+                    recEmail.push(result[4][i].userEmail);
                 }
          recEmail = recEmail.join(','); 
          req.body.Location =req.body.locationName;
 
-         if(req.session.hrRole==3){            //hm
+         if(hrarr.indexOf(3)!=-1){            //hm
           if(flag==0){ 
-              mailTemplates.hrMailer(0,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
+              mailTemplates.hrMailer(0,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
             res.redirect('/allrequisitions?flag=1');
               }
               else if(flag==1){
                 var mailCounter = result[3][0].mailCounter;
-                mailTemplates.hrMailer(1,recEmail,result[6][0],result[0][0].id,mailCounter,skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
+                mailTemplates.hrMailer(1,recEmail,result[5][0],result[1][0].id,mailCounter,skills,hrarr,req.session.userId,"--",function(err,result){});
                 res.redirect('/allrequisitions?flag=0'); 
             } 
          }
-        else if(req.session.hrRole==5){         //hod
+        else if(hrarr.indexOf(5)!=-1){         //hod
              if(flag==0){            
-           mailTemplates.hrMailer(flag,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
+           mailTemplates.hrMailer(flag,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
                 res.redirect('/reqHod?flag=1');
             }
             else if(flag==1){
                 var mailCounter = result[3][0].mailCounter;
-                  mailTemplates.hrMailer(1,recEmail,result[6][0],result[0][0].id,mailCounter,skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
+                  mailTemplates.hrMailer(1,recEmail,result[5][0],result[1][0].id,mailCounter,skills,hrarr,req.session.userId,"--",function(err,result){});
                 res.redirect('/reqHod?flag=0'); 
             }
         }   
@@ -3960,18 +3974,24 @@ addUser: function(req, res, next) {
                             }
                      recEmail = recEmail.join(',');
                      var skills;
+            var hrArrS=req.session.hrRole;
+            var hrarr=[];
+            for(var i=0;i<hrArrS.length;i++){
+                hrarr[i]=hrArrS[i].hrRoleId;
+            }
+            var hrRoleArray=hrarr.toString();
                 if(req.body.flag==1){ 
                     //Approved
-                      mailTemplates.hrMailer(2,recEmail,result[0][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,req.approve,function(err,result){});
+                      mailTemplates.hrMailer(2,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
                 }
                 else{ 
                     //Rejected
-                   mailTemplates.hrMailer(3,recEmail,result[0][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,req.approve,function(err,result){});
+                   mailTemplates.hrMailer(3,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
                 }   
                    if(req.isMail){   
                     next();
                      }
-                     else{
+                     else{ 
                         res.json(result); 
                 } 
             }
@@ -4663,11 +4683,11 @@ upload_resume:function(req,res,next){
         });
     },
     addQuickTag:function(req,res,next){
-        //////console.log("addQuickTag portal");
+      console.log("addQuickTag portal");
         modelPortal.addQuickTag(req.session.userId,req.session.roleId,req.session.retailerId,
            req.body.jdid,req.body.allcdid,function(err,result){
             if(err){
-                //////console.log("there is an error",err);
+                console.log("there is an error",err);
             }   
             else{
                      res.json(result);

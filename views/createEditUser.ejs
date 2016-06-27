@@ -91,6 +91,9 @@
     border-radius: 4px;
     width: 90% !important;
 }
+.sol-container multiplebox sol-selection-top sol-active{
+  font-size: 10px;
+}
     </style>
 </head>
 <body style="min-height:100px">
@@ -190,8 +193,8 @@
             <td>
               <td><label class="form-Label">Modules:<sup  class="astrick">*</sup></label></td>
               <td>
-              <select multiple = "multiple" class=" multiplebox  " name="modules" id ="modules" style="" maxlength="50">
-                <%for(var i=0;i<modules.length;i++){%>
+              <select multiple = "multiple" class="multiplebox" name="modules" id="modules" style="" maxlength="50">
+                <%for(var i=0;i<modules.length;i++){console.log(modules[i].id,"my modules: ",userModule,"--",editflag);%>
                 <option value="<%=modules[i].id%>" 
                   <%if(editflag==1){if(modules[i].id==userModule[i].moduleId){%> selected <%}}%> > 
                   <%=modules[i].Name%>
@@ -343,16 +346,20 @@
                         <label style="margin-top:-3%;margin-left: 40%;">Recruitment Roles(<%=modules[j].Name%>) :</label> 
                     </div>
                     <div class="col-md-2 ">
-                       <select class="form-text-box" onChange="showHod()" style="" id='hrRole' name="crole">
-                        <option selected="true" value="0">---  Select ---</option>
-                       <%console.log("hr rollleeeeeeee",hrRole);for(var k=0;k<hrRole.length;k++){%> 
+                       <select class="multiplebox"  multiple="multiple" id='hrRole' name="crole"> 
+                       <%for(var k=0;k<hrRole.length;k++){%> 
                         <option id="<%=hrRole[k].id%>" value="<%=hrRole[k].id%>"> <%=hrRole[k].roleName%></option>
                        <%}%> 
                       </select>
                     </div>
+
+ <script type="text/javascript">
+   $("#hrRole").val([<%console.log("allUserHr",userHrRoles); if (editflag) { for(var i=0;i<userHrRoles.length;i++){ %>"<%=userHrRoles[i].hrRoleId%>",<%}}%>]).prop("selected", false); 
+</script>
+
                     <div class="col-md-2 a">
                           <select class="form-text-box"  style="" id='hodList' name="hodList" style="">
-                              <option selected="true" value="0">--Select Hod--</option>
+                              <option selected="true" value="0">Select Hod</option>
                             <%for(var i=0;i<allHod.length;i++){%>
                               <option value="<%=allHod[i].id%>"><%=allHod[i].hodName%></option>  
                               <%}%>              
@@ -478,6 +485,27 @@ function getDefaultModule(){
 }
 
   $(document).ready(function(){
+ 
+    /*    $('#hrRole').tagger({
+          "fieldWidth":"13em"
+        });
+
+      $('.tagger').focusout(function() {
+       //alert($(this).val());
+        showHod();
+    });*/ 
+     $("#hrRole").searchableOptionList();
+     $("#hrRole").change(function(){            
+            showHod();
+    });
+
+       var hrArr1=$('#hrRole').val();   
+        if(hrArr1!=null&&hrArr1.indexOf("3")>-1)  {  
+         $('#hodList').show();                
+        }
+        else{     
+           $('#hodList').hide();   
+        }
 
         //alert('<%=tab%>');
     
@@ -498,9 +526,7 @@ function getDefaultModule(){
           },100);
       
 
-     
- 
-
+    
        $('#manager').tagger({
         baseURL: '../img/'
       , tabindexOffset: 400
@@ -528,11 +554,10 @@ function getDefaultModule(){
             $('#editNextUser').addClass('hide');
             $('#editPreviousUser').addClass('hide');
     <%}%>
-    $("#modules").change(function(){
-            
+    $("#modules").change(function(){            
             getDefaultModule();
-
     }); 
+
     <%if(editflag!=0){%>  
           getDefaultModule();
         <% if(typeof(customRole[1][0]) !='undefined'){%>
@@ -608,8 +633,7 @@ function getDefaultModule(){
             $('#ecode').val(users[i].ecode);
             $('#default-module').val(users[i].defaultModuleId);
             $("#user-role").val(users[i].roleId);
-            $("#create-user").text('Save');
-            $('#hrRole').val(users[i].hrRole);
+            $("#create-user").text('Save');   
 
             $('#hdnIdUser').val(users[0].id);
             //console.log(i,'--------',users[i].id);
@@ -652,7 +676,7 @@ function getDefaultModule(){
          $('#clientId').hide();
       } 
 
-      if($('#hrRole').val()!=3){
+      if($('#hrRole').val().indexOf(3)==1){
         $('#hodList').val(0);
          $('#hodList').hide();
       }  
@@ -702,8 +726,10 @@ function getDefaultModule(){
     }
 
     function showHod(){
-      
-      if($('#hrRole').val()==3){
+      console.log($('#hrRole').val())
+    var hrArr=$('#hrRole').val();
+   
+    if(hrArr!=null&&hrArr.indexOf("3")>-1)  {   
          $('#hodList').show();                
         }
         else{                  
@@ -864,7 +890,7 @@ function getDefaultModule(){
                 return false;
               }
                
-               if(($("#hrRole").val()=='3') && ($("#hodList").val()=='0')&&($('#modules').val().indexOf("7")>=0)){
+               if(($("#hrRole").val().indexOf('3')>-1) && ($("#hodList").val()=='0')&&($('#modules').val().indexOf("7")>=0)){
                 alert('Error:HOD is required');
                 return false;
               }  
@@ -940,6 +966,11 @@ function getDefaultModule(){
         $("#hodList").addClass('hide');
       }
       var modules=$('#modules').val().toString();
+      
+      var hrRoleString
+      if($('#hrRole').val()){
+        hrRoleString=$('#hrRole').val().toString();
+    }
          $.ajax({
             url: '/addUser',
             method: 'POST',
@@ -970,7 +1001,7 @@ function getDefaultModule(){
                 "rtype":$('#rtype').val(),
                 "crole":$('#crole').val(),
                 "timesheet":$('#time').val(),
-                "hrRole":$('#hrRole').val()
+                "hrRole":hrRoleString
             },
             success: function(data) {
               if(data[0][0].uid >0 )

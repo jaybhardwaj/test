@@ -554,16 +554,10 @@
                                     $('#history').val(info[0].jobType);
                                     var arr = [];
                                     for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
-                                      //  console.log(JSON.parse(JSON.stringify(data.result[6]))[i].skill);
+                                      
                                         arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skill
                                         $('#skills_' + JSON.parse(JSON.stringify(data.result[6]))[i].skill).prop('selected', true);
-                                    }
-                                  
-                                   /*  $('#skillsId').val(arr.toString().split(',')).trigger('change');
-                                    $('#skillsId').trigger('chosen:updated');
-                                    $('#skillsId').prop('disabled', false).trigger("chosen:updated");
-                                    */
-                                    
+                                    } 
                                      $('#skillsId').tagger({
                                         preselectedTags: arr,
                                         fieldWidth:'12em'
@@ -627,7 +621,7 @@
                                         $('#skillsId').removeClass("hide"); 
                                          $(".tagger").removeClass("disabled1");
                                     }
-                                    if (con == 2 || con == 1) {
+                                    if (con == 2 ) {
                                         //partial editing is allowed
                                         
                                         $('.addUsed').addClass("used");
@@ -676,14 +670,14 @@
                         },
                         method: 'post',
                         success: function(data) {
-                                
-                            if(data[2][0].flag==0){
+                                console.log(data);
+                            if(data[3][0].flag==0){
                                 alert("This Requisition is already deleted!")
                             }  
                             else{
                                alert("Requisition Approved successfuly!") 
                                 location.reload();
-                            }                   
+                            }                    
                             //location.reload();
                         }
                     });
@@ -711,7 +705,7 @@
                 });
 
                 $(document).ready(function() {
- $('.allReq-img').addClass("active");
+ $('.reqhod-img').addClass("active");
                        var todate=new Date();
                         jQuery('#expiresOn').datetimepicker({
                             i18n: {
