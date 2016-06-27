@@ -327,7 +327,7 @@ $('#wbsDiv').removeClass('hide');
                       if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
 
 
-                      log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows1" onclick="highlight('+data[0][i].id+',0,1)" id="projectRow_'+data[0][i].id+'"><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true"  value="'+data[0][i].projectTitle+'" id="pname_'+data[0][i].id+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true"  id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true" id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input style="cursor: pointer;border:0px"   type="text" readonly="true"  id="asdate_'+data[0][i].id+'" value="'+data[0][i].actualStartDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input style="cursor: pointer;border:0px"   type="text" readonly="true"  id="aedate_'+data[0][i].id+'" value="'+data[0][i].actualEndDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td></tr>';
+                      log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows1" onclick="highlight('+data[0][i].id+',0,1)" id="projectRow_'+data[0][i].id+'"><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true"  value="'+data[0][i].projectTitle+'" id="pname_'+data[0][i].id+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true"  id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td><td><input type="text"  style="cursor: pointer;border:0px"   readonly="true" id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="changeProjectWbs('+data[0][i].id+',0,2);"></td></tr>';
 
                       $('body').on('focus',"#psdate_"+data[0][i].id, function(){
                           $(this).datetimepicker({
@@ -338,22 +338,6 @@ $('#wbsDiv').removeClass('hide');
                                });
                       });
                       $('body').on('focus',"#pedate_"+data[0][i].id, function(){
-                          $(this).datetimepicker({
-                                timepicker:false,
-                                format:"m/d/y",
-                                    scrollMouse: false,
-                                    scrollInput: false
-                               });
-                      });
-                      $('body').on('focus',"#asdate_"+data[0][i].id, function(){
-                          $(this).datetimepicker({
-                                timepicker:false,
-                                format:"m/d/y",
-                                    scrollMouse: false,
-                                    scrollInput: false
-                               });
-                      });
-                      $('body').on('focus',"#aedate_"+data[0][i].id, function(){
                           $(this).datetimepicker({
                                 timepicker:false,
                                 format:"m/d/y",
@@ -559,7 +543,7 @@ function changeProjectWbs(pid,wid,flag){
     $.ajax({
                 url: '/changeProjectWbs',
                 type: 'post',
-                data: { "pid":pid,"pname":pname,"psdate":psdate,"pedate":pedate,"asdate":asdate,"aedate":aedate,"wid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","flag":flag},
+                data: { "pid":pid,"pname":pname,"psdate":psdate,"pedate":pedate,"asdate":"0","aedate":"0","wid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","flag":flag},
                 success: function(data) {
                    //$(".active-row").click();
 
@@ -717,9 +701,7 @@ function showAll()
                 
                 <th   >Project title</th>
                 <th   >Planned Start Date</th>
-                <th   >Planned End Date</th>
-                <th   >Actual Start Date</th>
-                <th   >Actual End Date</th>   
+                <th   >Planned End Date</th>  
                 </tr>
                </thead>
                   

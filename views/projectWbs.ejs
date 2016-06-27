@@ -3,6 +3,8 @@
 <% include ./partials/head %> 
         <% include ./partials/adminheader %> 
 <body style="overflow-x:hidden"> 
+
+<div class="se-pre-con"></div>
   
 <div class="row secondry-color" style="margin:0px;padding:0px;padding-top: 1% ">
  <!-- <form method="post" action="/wbsAssignmentInProjectWbs" method="post" class="login-form" id="form1" name="myForm"> -->
@@ -140,6 +142,16 @@
    <span class="modal-title" style="padding-left: 44%;padding-bottom: 1%">Assingment Details</span>  
     <input type="hidden" value=""id='pcount'name='pcount'> 
     <table class="table">
+
+     <tr>
+         
+          <td><td><button class="btn btn-primary" id="selectAll" style="float:right">Select All</button></td><td><button class="btn btn-primary"  id="selectNone" style="margin-left:29px">Select None</button></td>
+              </td>
+               <td><td></td><td></td></td>
+          <td><td></td><td></td></td>
+        </tr>
+
+
   <tr>
     
     <td>
@@ -345,6 +357,8 @@
 
         $(document).ready(function() {
 
+          $('.se-pre-con').fadeOut('slow');
+
           $("#asd").tagger({
             'fieldWidth':"18em"
           });
@@ -513,25 +527,6 @@ $('#assign').on('change',function(){
             });
 
 
-/*
-$(function(){
-   $('#datepicker').datetimepicker({
-      onSelect: function (dateText, inst) {
-         alert('select!');
-      }
-   });
-});*/
-/*$(function(){
-   $('#datepicker').datetimepicker({
-      onSelect: function (dateText, inst) {
-         alert('select!');
-         // Remember to fire the change event...
-        
-      }
-   });
-});*/
-
-
             $('#datepicker').on('change',function(){
 
 
@@ -596,6 +591,30 @@ $(function(){
                             maxDate: date1
                         });
             });
+
+
+            $('#selectAll').click( function() {
+              var string1="<select class='form-text-box' name='asd' multiple='multiple' id='asd'><option value=0 disabled>Select </option>" ;
+                   <% for(var i=0;i<allUser1.length;i++) {%>
+                            string1+="<option value='<%=allUser1[i].id%>' selected><%=allUser1[i].firstName%></option>"  ;
+                       <%}%>
+              string1+="</select>";
+              $("#asdDiv").html(string1);
+              $('#asd').tagger({ "fieldWidth":"18em" }); 
+ 
+            });
+
+            $('#selectNone').click( function() {
+                      var string1="<select class='form-text-box' name='asd' multiple='multiple' id='asd'><option value=0 disabled>Select </option>" ;
+                           <% for(var i=0;i<allUser1.length;i++) {%>
+                                    string1+="<option value='<%=allUser1[i].id%>' ><%=allUser1[i].firstName%></option>"  ;
+                               <%}%>
+                      string1+="</select>";
+                      $("#asdDiv").html(string1);
+                      $('#asd').tagger({ "fieldWidth":"18em" }); 
+            });
+
+
 });
         function allWbs() {
             var abc = 1;
@@ -846,7 +865,7 @@ $(function(){
                         else{
                           window.location.href="/projectWbs?pid="+$('#proname').val();
                         }
-                    
+                    $('.se-pre-con').fadeOut('slow');
 
               }
 

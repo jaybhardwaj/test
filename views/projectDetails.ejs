@@ -140,7 +140,7 @@ function formatDate(date) {
                       if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
 
 
-                        log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  id="asdate_'+data[0][i].id+'" style="cursor: pointer;border:0px"   value="'+data[0][i].actualStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="aedate_'+data[0][i].id+'" value="'+data[0][i].actualEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
+                        log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
 
                         $('body').on('focus',"#psdate_"+data[0][i].id, function(){
                           $(this).datetimepicker({
@@ -151,22 +151,6 @@ function formatDate(date) {
                                });
                       });
                       $('body').on('focus',"#pedate_"+data[0][i].id, function(){
-                          $(this).datetimepicker({
-                                timepicker:false,
-                                format:"m/d/y",
-                                    scrollMouse: false,
-                                    scrollInput: false
-                               });
-                      });
-                      $('body').on('focus',"#asdate_"+data[0][i].id, function(){
-                          $(this).datetimepicker({
-                                timepicker:false,
-                                format:"m/d/y",
-                                    scrollMouse: false,
-                                    scrollInput: false
-                               });
-                      });
-                      $('body').on('focus',"#aedate_"+data[0][i].id, function(){
                           $(this).datetimepicker({
                                 timepicker:false,
                                 format:"m/d/y",
@@ -524,7 +508,7 @@ if(type==1){ //alert('bdbdbdbgd');
          $.ajax({
                 url: '/updateAssignmentWBSForProject',
                 type: 'post',
-                data: {"pid":pid,"psdate1":psdate,"pedate1":pedate,"asdate1":asdate,"aedate1":aedate,"assignmentid":0,"wbsid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","asdate":"0","aedate":"0","flag":1},
+                data: {"pid":pid,"psdate1":psdate,"pedate1":pedate,"asdate1":"0","aedate1":"0","assignmentid":0,"wbsid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","asdate":"0","aedate":"0","flag":1},
                 success: function(data) {
                    $(".active-row").click();
 
@@ -717,8 +701,6 @@ function showAll()
                 <th   >Project Type</th>  
                 <th>Planned Start Date</th>
                  <th>Planned End Date</th>
-                <th   >Actual Start Date</th>
-                <th   >Actual End Date</th> 
                 <th>Last Updated</th>
                 <th>Open Bugs</th>
                 <th>Closed Bugs</th>
@@ -749,12 +731,7 @@ function showAll()
                                     <td>
                                         <%=allinfo[i].plannedEndDate%>
                                     </td>
-                                    <td>
-                                        <%=allinfo[i].actualStartDate%>
-                                    </td>
-                                    <td>
-                                        <%=allinfo[i].actualEndDate%>
-                                    </td>
+                                    
                                     <td>
                                         
                                     </td>

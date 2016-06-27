@@ -52,6 +52,10 @@ width:24% !important;
   <div>
     <% include ./partials/adminheader %>
   </div>
+
+  <div class="se-pre-con"></div>
+
+
   <div class="container-fluid user-list secondry-color" style=" ">
     <div  style="margin-top:1%">
       <span class="modal-title" style="margin-left:42%"><%if(flag==0){%>Add Project Details<%} else{%>Edit Project Details.<%}%></span> </div>
@@ -192,6 +196,13 @@ width:24% !important;
       <section id="content2">
         
         <table class="table">
+        <tr>
+          <td><td></td><td></td></td>
+          <td><td></td><td></td></td>
+          <td><td></td><td></td></td>
+          <td><td><button class="btn btn-primary" id="selectAll">Select All</button></td><td><button class="btn btn-primary"  id="selectNone">Select None</button></td>
+              </td>
+        </tr>
           <tr>
             <td>
               <td style="width: 100px"><label   style="padding:2%;color: #524A4A;font-size: 11px">Actual Start Date :</label></td>
@@ -214,8 +225,8 @@ width:24% !important;
             </td>
             <td>
 
-              <button id="aa">Select All</button>
-              <button id="ab">Select None</button>
+              <!-- <button class="btn btn-primary" id="selectAll" style="margin-bottom:4px">Select All</button>
+              <button class="btn btn-primary"  id="selectNone">Select None</button> -->
 
               <td style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Resources: <sup class="astrick">*</sup></label></td>
               <td id="presourceDiv"> <select multiple="multiple" class="form-text-box" style="margin-top:3%;width:100%;"  name="presource" id ="presource" maxlength="50">
@@ -361,15 +372,17 @@ width:24% !important;
   var abcd=0;
     $(document).ready(function() {
 
+      $('.se-pre-con').fadeOut('slow');
+
       $('#pclient').tagger({
         "fieldWidth":"13em"
       });  
       $('#ptech').tagger({
         "fieldWidth":"13em"
       }); 
-      /*$('#presource').tagger({
+      $('#presource').tagger({
         "fieldWidth":"13em"
-      });*/
+      });
       //$("#presource").searchableOptionList();
 
       $('#presource').tagger({
@@ -398,9 +411,6 @@ width:24% !important;
   $('#plocation').tagger({
         "fieldWidth":"13em"
       });
-/*
-  $("#ptech").prop("selectedIndex", -1);
-  $("#pclient").prop("selectedIndex", -1);*/
 
   $("input[name=pstatus][value=" + 1 + "]").prop('checked', true);
   $("input[name=isBillable][value=" + 1 + "]").prop('checked', true);
@@ -446,27 +456,13 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
   $("#datepicker1").datetimepicker({timepicker:false,format:'m/d/y',scrollMouse: false,scrollInput: false});
   $("#datepicker2").datetimepicker({timepicker:false,format:'m/d/y',scrollMouse: false,scrollInput: false});
   $("#datepicker3").datetimepicker({timepicker:false,format:'m/d/y',scrollMouse: false,scrollInput: false});
-  /*$('#datepicker').datetimepicker({ timepicker: false, format: 'm/d/y' });
-  $('#datepicker1').datetimepicker({ timepicker: false, format: 'm/d/y' });
-  $('#datepicker2').datetimepicker({ timepicker: false, format: 'm/d/y' });
-  $('#datepicker3').datetimepicker({ timepicker: false, format: 'm/d/y' });*/
 
 if( '<%=flag%>'=='1'){
 getSelectedOptions($('#pclient').val());
 
 }
 
-    $('#aa').click( function() {
-      //alert('fgvswfs');
-       // $('#presource option').prop('selected', true);
-
-        /*<% for(var i=0;i<resource.length;i++) {%>
-                <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
-                <%}%>
-*/
-
-       //$("#presource").val([<%for(var i=0;i<resource.length;i++){%>"<%=resource[i].id%>",<%}%>]).prop("selected", false);
-
+    $('#selectAll').click( function() {
               var string1="<select class='form-text-box' name='presource' multiple='multiple' id='presource'><option value=0 disabled>Select </option>" ;
 
                    <% for(var i=0;i<resource.length;i++) {%>
@@ -481,7 +477,7 @@ getSelectedOptions($('#pclient').val());
                       }); 
     });
 
-    $('#ab').click( function() {
+    $('#selectNone').click( function() {
               var string1="<select class='form-text-box' name='presource' multiple='multiple' id='presource'><option value=0 disabled>Select </option>" ;
 
                    <% for(var i=0;i<resource.length;i++) {%>
@@ -852,7 +848,7 @@ function getSelectedOptions(cid){//alert(cid);
                                       } else {
                                         window.location.href = "/projectDetails";
                                       }
-
+                                      $('.se-pre-con').fadeOut('slow');
                                   },
                                   dataType: 'JSON',
                                 });

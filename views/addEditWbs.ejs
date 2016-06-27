@@ -78,6 +78,8 @@
             <% include ./partials/adminheader %>
         </div>
 
+
+<div class="se-pre-con"></div>
        
 
 <div class="secondry-color" style=" padding-top:1%;">
@@ -91,34 +93,34 @@
       <tr>
         <td>
           <td>
-            <label class="form-Label">WBS Name :<sup>*</sup></label>
+            <label class="form-Label">Project Name:<sup>*</sup>    </label>
            </td>
            <td style="width:200px">
-            <input onblur="return allWbs();" onkeypress="return specialCharacter(event)" type="text" placeholder="Enter a WBS Name" class="  form-text-box" style="" name="wbsname" id="wbsname" maxlength="50" onblur="myFunction(); checkprofield();" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSName%>' <%}%> >
+            <%if(flag==1  && typeof (name[0][0]) != 'undefined'){%> 
+              <input type="text" class="form-control form-text-box" style="" name="proname" id="proname" maxlength="50" value='<%=name[0][0].projectTitle%>' disabled="true">
+              <%}%>
+              <%if(flag==0) {%>
+               <select class="  form-text-box"   onchange="getAllWbs($('#proname').val())" name="proname" id="proname" style="">
+              <option value='0' disabled selected>Select</option>
+              <% for(var i=0;i<allinfo.length;i++) {%>
+              <option value="<%=allinfo[i].id%>"<%if(flag==1&&name[0][0].projectId==allinfo[i].id){%>
+              selected<%}%>> <%=allinfo[i].projectTitle%> </option>
+              <%}%> </select> <% } %>
           </td>
           <td>
             <td>
-            <label class="form-Label">WBS Code :   </label>
+            <label class="form-Label">WBS Name :<sup>*</sup></label>
             </td>
             <td>
-            <input type="text" placeholder="WBS Code" class=" form-text-box" style="" name="wbscode" id="wbscode" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSCode%>' <%}%> readonly>
+            <input onblur="return allWbs();" onkeypress="return specialCharacter(event)" type="text" placeholder="Enter a WBS Name" class="  form-text-box" style="" name="wbsname" id="wbsname" maxlength="50" onblur="myFunction(); checkprofield();" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSName%>' <%}%> >
           </td>
         </td>
         <td>
           <td>
-          <label class="form-Label">Project Name:<sup>*</sup>    </label>
+          <label class="form-Label">WBS Code :   </label>
           </td>
            <td>
-          <%if(flag==1  && typeof (name[0][0]) != 'undefined'){%> 
-          <input type="text" class="form-control form-text-box" style="" name="proname" id="proname" maxlength="50" value='<%=name[0][0].projectTitle%>' disabled="true">
-          <%}%>
-          <%if(flag==0) {%>
-           <select class="  form-text-box"   onchange="getAllWbs($('#proname').val())" name="proname" id="proname" style="">
-          <option value='0' disabled selected>Select</option>
-          <% for(var i=0;i<allinfo.length;i++) {%>
-          <option value="<%=allinfo[i].id%>"<%if(flag==1&&name[0][0].projectId==allinfo[i].id){%>
-          selected<%}%>> <%=allinfo[i].projectTitle%> </option>
-          <%}%> </select> <% } %>
+              <input type="text" placeholder="WBS Code" class=" form-text-box" style="" name="wbscode" id="wbscode" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSCode%>' <%}%> readonly>
           <td>
         </td>
         <td>
@@ -285,6 +287,10 @@
         <script>
             var otable = '';
             $(document).ready(function() { 
+
+              $('.se-pre-con').fadeOut('slow');
+
+
                 $('#datepicker').click(function() {
                     if ($('#proname').val() < 1) {
                         alert("Please select a project first.");
@@ -445,13 +451,14 @@
 
             function checkfield() {
 
-                if ($('#wbsname').val().trim().length <= 0 || $('#wbsname').val() == '') {
-                    alert("Please Enter WBS Name First");
+
+              if ($('#proname').val() == null || $('#proname').val() <= 0) {
+                    alert("Please select a Project ");
                     return false;
                 }
 
-                if ($('#proname').val() == null || $('#proname').val() <= 0) {
-                    alert("Please select a Project ");
+                if ($('#wbsname').val().trim().length <= 0 || $('#wbsname').val() == '') {
+                    alert("Please Enter WBS Name First");
                     return false;
                 }
 
@@ -647,6 +654,7 @@
                                         window.location.href = "/wbsDetails";
                                       }
 
+                                      $('.se-pre-con').fadeOut('slow');
 
                                   }
                             });
@@ -717,10 +725,10 @@
                             if (data[0][i].wplannedEndDate == null) {
                                 data[0][i].wplannedEndDate = '';
                             }
-                            if (data[0][i].wactualStartDate == null) {
+                            if (data[0][i].wactualStartDate == null || data[0][i].wactualStartDate == '00/00/00') {
                                 data[0][i].wactualStartDate = '';
                             }
-                            if (data[0][i].wactualEndDate == null) {
+                            if (data[0][i].wactualEndDate == null || data[0][i].wactualEndDate == '00/00/00') {
                                 data[0][i].wactualEndDate = '';
                             }
 
