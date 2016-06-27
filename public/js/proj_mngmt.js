@@ -375,6 +375,7 @@ function collapseExpand(id, flag) {
 
 function addRow(currentId) {
     /*********************addRRow****************************************/
+    someThingUpdated =1
     var value = currentId.split('_');
     var individualId = value[0];
     var parentId = value[2];
@@ -816,6 +817,9 @@ function approvethis(approveFlag, modalBoxAcceptFlag) {
 
 
 function savethis(submitFlag, joinFlag) {
+
+sleepFunctionForStoppingTime(760);
+//alert('sahi');
     var returnFlag = (submitted == 1);
 
     if (returnFlag) {
@@ -848,6 +852,10 @@ function savethis(submitFlag, joinFlag) {
             alert('This version has already been submitted');
             return;
 
+        }
+        else if(submitFlag==1){
+        alert('This version has already been submitted');
+            return;
         }
 
 
@@ -911,7 +919,7 @@ function savethis(submitFlag, joinFlag) {
                 submitted=1;
                 hideAllOnSubmit();
             }
-            if (submitFlag == 0) {
+            if (submitFlag == 0&&submitted!=2){
                 $('#statusSub').html('Draft');
                 submitted = 0;
             }
@@ -947,7 +955,7 @@ function validationForSubmit() {
         for (var k = 0; k < tdArr.length; k++) {
             if (k == 1 || k >3&&k<6||k==9) {
                 var inpChild = $(tdArr[k]).children('input')[0];
-                if ($(inpChild).val() == '') {
+                if ($(inpChild).val().trim() == '') {
                     returnFalseFlag = true;
                     $(inpChild).addClass('isEmptyTextBoxValidation');
 
@@ -1558,8 +1566,9 @@ function hideAllOnSubmit() {
 
     }
 
-    else{
-
+    else{ //if usser
+             
+            userId = 0;
             if(submitted!=2)  $('#statusSub').html('Draft');
               else   $('#statusSub').html('Accepted');
                $('#submitId').hide();
@@ -1573,9 +1582,10 @@ function hideAllOnSubmit() {
        }
 
 
-    } else if (isManagerFlag) {
+    } else { //if  mannager
 
 
+            userId = 0;
         if (submitted == 1) {
             $('#statusSub').html('Submitted');
             $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').attr('disabled', 'disabled');
@@ -1616,14 +1626,15 @@ function hideAllOnSubmit() {
                 $(this).show();
 
             });
-            userId = 0;
 
         }
         if (submitted == 3) {
             $('#statusSub').html('Rejected');
-            $('#submitId').attr('disabled', 'disabled');
-            $('#saveId').attr('disabled', 'disabled');
-            $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeAttr('disabled');
+            $('#saveId').html('Save');
+            $('#submitId').html('Submit');
+            $('#saveId').attr('onclick', 'savethis(0,1)'); 
+            $('#submitId').attr('onclick', 'savethis(1,1)'); 
+         $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeAttr('disabled');
             $('.allTextAndNumberBoxes,.selectClassForJq,.ddResourcesForJq,.ddDepClass').removeClass('disablePointer');
             $('.shadow').each(function() {
                 $(this).removeClass('donthide');
@@ -1825,7 +1836,7 @@ function initializeJquery() {
             $(this).removeClass('isEmptyTextBoxValidation');
             console.log('sel is', selected);
             //alert('hi '+selected);
-            someThingUpdated = 0;
+            someThingUpdated = 1;
             var thisEle = $(this);
             var thisId = $(this).attr('id');
             var value = thisId.split('_');
@@ -1888,7 +1899,7 @@ function initializeJquery() {
         $('.ddResources').addClass('ddResourcesForJq');
 
         $('.textboxEffEditAddJq, .percCompletedClass').focusout(function() {
-              someThingUpdated = 1;
+              
 
 
               if($(this).hasClass('percCompletedClass')){
@@ -1901,8 +1912,10 @@ function initializeJquery() {
                         console.log('from here  ',valueHere,trEle);
                        strikeOff100Percent(valueHere,trEle);
                       
-                    },750);
-
+                    },50);
+  }
+          else{
+              someThingUpdated = 1;
               }
             if ($(this).val() != '') {
                 $(this).removeClass('isEmptyTextBoxValidation');
@@ -2846,6 +2859,13 @@ $(trArr[i]).removeClass('thisWasClicked');
 
 
 
+}
+
+function sleepFunctionForStoppingTime(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
 }
 
 
