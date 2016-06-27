@@ -118,10 +118,7 @@ $(window).bind('resize', function () {
                     var arr=[];
                     for(i=1;i<=5;i++){
                         arr.push($(row_id+i).text());
-                    }
-                   
-                    console.log('arrrrrrrrrrrrrrrr',arr);
-                     
+                    } 
                     inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
                       log='<a  onclick= "actinact('+uid+',0)">'+inact+'</a>';
                     otable.fnUpdate([arr[0],arr[1],arr[2],arr[3],arr[4],log],row_id);
@@ -178,16 +175,17 @@ function userStatus(){
                     else 
                           mgrname=data[0][i].managerName;
                     log=log+ '<tr id=row_'+data[0][i].id+'><td id=row_'+data[0][i].id+'1'+'>'+data[0][i].firstName+'</td><td id=row_'+data[0][i].id+'2'+'>'+data[0][i].userEmail+'</td><td id=row_'+data[0][i].id+'3'+'>'+data[0][i].contactNumber+'</td><td id=row_'+data[0][i].id+'4'+'>'+data[0][i].roleName+'</td><td id=row_'+data[0][i].id+'5'+'>'+ mgrname +'</td><td>';
-                    if(data[0][i].isRetailer != 1) {
+                 //   if(data[0][i].isRetailer != 1) {
                             if (data[0][i].isActive) {
-                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+data[0][i].id+',1)">'+act+'</a>';}
+                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+data[0][i].id+',1)">'+act+'</a>';
+                              }
                             else if (data[0][i].isActive==0) {
                                             log+='<a  onclick= "actinact('+data[0][i].id+',0)">'+inact+'</a>';}
                                     }
-                           else {
+                          /* else {
                                 log+='<span style="color:green;height:10px" class="glyphicon  glyphicon-ban-circle"></span>';
                             }
-                }
+                }*/
                 otable.fnDestroy();
                 $('#pstatus').html(log);
                 otable=$('#usertable').dataTable({

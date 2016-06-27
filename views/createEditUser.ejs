@@ -190,9 +190,10 @@
       
           </tr>
           <tr>
-            <td>
-              <td><label class="form-Label">Modules:<sup  class="astrick">*</sup></label></td>
-              <td>
+          
+            <td class="retailerEdit">
+              <td class="retailerEdit"><label class="form-Label">Modules:<sup  class="astrick">*</sup></label></td>
+              <td class="retailerEdit">
               <select multiple = "multiple" class="multiplebox" name="modules" id="modules" style="" maxlength="50">
                 <%for(var i=0;i<modules.length;i++){console.log(modules[i].id,"my modules: ",userModule,"--",editflag);%>
                 <option value="<%=modules[i].id%>" 
@@ -200,16 +201,16 @@
                   <%=modules[i].Name%>
                 </option>
                 <%}%>
-              </select> 
-             
-        
-            </td>
-            <td>
-              <td><label class="form-Label">Default Module: </label></td>
-              <td>  <select class="form-text-box"   id='default-module' name="defmod" >
-             <option>No Module Solelected</option>
-            </select> </td>
-      
+              </select>  
+              </td>
+              </td>
+            <td class="retailerEdit">
+              <td class="retailerEdit"><label class="form-Label">Default Module: </label></td>
+              <td class="retailerEdit">  <select class="form-text-box"   id='default-module' name="defmod" >
+               <option>No Module Solelected</option>
+                </select> 
+               </td> 
+ </td>
             <td>
               <td><label class="form-Label">Role:<sup  class="astrick">*</sup></label></td>
               <td><select class="form-text-box"   id='user-role' name="user-role"  >
@@ -633,9 +634,13 @@ function getDefaultModule(){
             $('#ecode').val(users[i].ecode);
             $('#default-module').val(users[i].defaultModuleId);
             $("#user-role").val(users[i].roleId);
-            $("#create-user").text('Save');   
-
+            $("#create-user").text('Save');  
             $('#hdnIdUser').val(users[0].id);
+            console.log(users);
+              if(users[i].isRetailer==1){
+               
+              $('.retailerEdit').hide();
+            }
             //console.log(i,'--------',users[i].id);
             //alert('hidden user id value-------'+$("#hdnIdUser").val());
             //console.log($("#hdnIdUser").val());
