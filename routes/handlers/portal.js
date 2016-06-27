@@ -6313,23 +6313,13 @@ return arr;
 
 
    function addSum(projTreeArr){
-       var proj = setAllValuesInArray();
-var projNew;
-    for(var i = 0;i<projTreeArr.length;i++){
-    projNew = projTreeArr[i].project;
-     while(projNew==projTreeArr[i].project){
-    proj[projNew] =  proj[projNew] + projTreeArr[i].effortInHrs;
-    i++;
-    if(i==projTreeArr.length){
-    break;
-    }
-  }
-
-i--;
-
-       }
-
-return proj;
+   
+   var sumArr =  setAllValuesInArray();
+for(var i=0;i<projTreeArr.length;i++){
+    var effInHrsHereIs = parseeIntForNan(projTreeArr[i].effortInHrs);
+   sumArr[projTreeArr[i].project] =  sumArr[projTreeArr[i].project] + effInHrsHereIs;
+}
+   return sumArr;
        }
 
 
@@ -6370,10 +6360,11 @@ function MathRound(num){
 function calculateActualCompletion(RawData){
   var bigArr = setAllValuesInArray();
   var sumArr =  setAllValuesInArray();
-
 for(var i=0;i<RawData.length;i++){
- sumArr[RawData[i].project] =  sumArr[RawData[i].project] + RawData[i].effortInHrs;
+    var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
+   sumArr[RawData[i].project] =  sumArr[RawData[i].project] + effInHrsHereIs;
 }
+
 
 for(var i=0;i<sumArr.length;i++){
   if(sumArr[i]==0){
@@ -6381,26 +6372,27 @@ for(var i=0;i<sumArr.length;i++){
   }
 }
 
-
 for(var i = 0 ;i<RawData.length;i++){
   var percCompleted = parseeIntForNan(RawData[i].percCompleted);
+  var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
   var sumArrthis     = sumArr[RawData[i].project];
  console.log('percCompleted is',percCompleted,'dsasdasdasd',RawData[i].percCompleted,'effortInHrs',RawData[i].effortInHrs,'proj',RawData[i].project,'sumArrthis is',sumArrthis);
-bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((RawData[i].effortInHrs*percCompleted)/sumArrthis);
+bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((effInHrsHereIs*percCompleted)/sumArrthis);
 
-//console.log('bigArr[RawData[i].project] is',bigArr[RawData[i].project]);
+console.log('bigArr[RawData[i].project] is',bigArr[RawData[i].project]);
 
 }
 
 for(var i = 0;i<bigArr.length;i++){
+  //bigArr[i] = bigArr[i]*100;
   bigArr[i] = MathRound(bigArr[i]);
 }
-
 
 
 return bigArr;
 
 }
+
 
 
 function parseeIntForNan(data){
@@ -6605,7 +6597,7 @@ for(var i = 0;i<bigArr.length;i++){
                 bigArr[i] = '';
             }
  }
- console.log('bigArr is',bigArr);
+ //console.log('bigArr is',bigArr);
  return bigArr;
 
 }
