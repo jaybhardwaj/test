@@ -722,7 +722,17 @@ if(type=='effectiveEndDate')
 	  	} else 
 	  	{	
 	  	if(type=='assingedToUserId'&&confirm("Are you sure you want to change the assinged to ?")){
-
+	  		var up ={data: {"bugid":bugid,"value":e.value,"colname":type},
+			url: '/updatebugdetails',
+			method: 'POST',
+			success: function(data) {
+				showdetails(bugid);
+			 },
+			dataType: 'JSON',
+			};
+			$.ajax(up);
+		}
+		else{
 	  		var up ={data: {"bugid":bugid,"value":e.value,"colname":type},
 			url: '/updatebugdetails',
 			method: 'POST',
