@@ -609,7 +609,8 @@ str=str+'</select>';
 				if(data[0][0].detectedByName){
 				$('#overview').append($("<br>  Detected By  : <label>"+data[0][0].detectedByName+"</label>"));
 			}
-				$('#overview').append($("<br>  Created Date  : <label>"+data[0][0].createdDate+"</label>"));
+			$('#overview').append($("<br>  Created By  : <label>"+data[0][0].createdByName+"</label>"));
+			$('#overview').append($("<br>  Created Date  : <label>"+data[0][0].createdDate+"</label>"));
 		 if(data[0][0].enddate){
 				$('#overview').append($("<br>  Tentative Clouser  : <label>"+data[0][0].enddate+"</label>"));
 				}
@@ -697,13 +698,9 @@ $(".btndesc").removeClass('hide');
 	//....................Save bug details......................
  
 	function updatebugdetails(bugid,e,type,id,endate){
- 		//	`var url = '/updatebugdetails';
-
-//alert("updatebugdetails"+bugid+type+id);
+ 	 
 if(type=='effectiveEndDate')
-   {   
-   	var date=new Date(e.value);
-   	var todayDate=new Date(); 
+   {     
 	var up ={
 		data: {"bugid":bugid,"value":e.value,"colname":type},
 			url: '/updatebugdetails',
@@ -724,6 +721,8 @@ if(type=='effectiveEndDate')
 	  		$('#bugtitle'+id).val($('#hiddentitle'+id).val());
 	  	} else 
 	  	{	
+	  	if(type=='assingedToUserId'&&confirm("Are you sure you want to change the assinged to ?")){
+
 	  		var up ={data: {"bugid":bugid,"value":e.value,"colname":type},
 			url: '/updatebugdetails',
 			method: 'POST',
@@ -733,6 +732,7 @@ if(type=='effectiveEndDate')
 			dataType: 'JSON',
 			};
 			$.ajax(up);
+		}
 		}
 	}
 

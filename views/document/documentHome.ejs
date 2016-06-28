@@ -10,15 +10,6 @@
 .dataTables_filter, .dataTables_length {
      display: none;
     }
-.ms-drop ul {
-    max-height: 120px !important;
-}
-.ms-parent {
-    width:200px;
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
-}    
 .color3{
     padding-left: 1%;
     padding-top: 2%;
@@ -86,9 +77,6 @@
 .col-md-6 {
     width: 60%;
 }
-/*.col-md-3 {
-    width: 19%;
-}*/
 </style>
 
   <% include ../partials/adminheader %>
@@ -97,102 +85,88 @@
   $("#searchbox_demo").removeClass("hide"); 
   </script>   
 <div class="se-pre-con"></div>        
- 
-<div class="container-fluid"> 
-    <div class="row">
-        
-                    <div class="col-md-3 " style="margin-top:0%">
-                       
-                            <div class=" form-Label" style=""><b>Industry :</b>
-                            </div>
-                            <div>
-                                <select id="select1" multiple="multiple" required name="industry1">
-                                  <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
-                                <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
-                                <%}}}%>
-                                           
-                                </select>
-                        
-                    </div>
+ <div class='progressWrapper' style='float: left; width: 100%'>
+    <div class='progress' style='float: left; width: 0%; color: red'></div>
+    <div class='progressText' style='float: left;'></div>
+</div>
+<div class="container-fluid">    
+<div class="row secondry-color" style="padding:2%">
+<div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
+    height:auto;padding:10px;min-height:689px;">
+<div class="" style="padding-left: 7%;margin-top:-1%"><b> Search By :</b></div>
+                <div id="new111">
+                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
+                        <div class="row labelclass form-Label" style=""><b>Industry:</b>
+                        </div>
+                        <div class="form-Label">
+                            <select id="select1" multiple="multiple" required name="industry1">
+                              <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                            <%}}}%>
+                                       
+                            </select>
+                        </div>
                     </div>
 
 
-                    <div class="col-md-3 " style="margin-top:0%">
-                        
-                            <div class="   form-Label" style=""><b>Business:</b>
-                            </div>
-                            <div >
-                                 <select id="select2" multiple="multiple" required name="business1">
+                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
+                        <div class="row labelclass form-Label" style=""><b>Business:</b></div>
+                        <div class="form-Label">
+                            <select id="select2" multiple="multiple" required name="business1">
                                   <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
                             <%}}}%>
                             
                             </select>
-                        
+                        </div>
                     </div>
-                    </div>
+                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
+                        <div class="row labelclass form-Label" style=""><b>Document type:</b></div>
 
-
-                    <div class="col-md-3 " style="margin-top:0%">
-                       
-                            <div class="   form-Label" style=""><b>Document Type:</b>
-                            </div>
-                            <div >
-                                  <select id="select3" multiple="multiple" required name="doctype">
+                        <div class="form-Label">
+                            <select id="select3" multiple="multiple" required name="doctype">
                                             <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
                             <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
                             <%}}}%>
                                           
  
                                         </select>
-                            
-                    </div>
+                        </div>
                     </div>
 
-                      <div class="col-md-3 " style="margin-top:0%">
-                     
-                            <div class="   form-Label" style=""><b>Technology:</b>
-                            </div>
-                            <div>
-                                 <select id="select4"    multiple="multiple" required name="newTec1">
+                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
+                        <div class="row labelclass form-Label" style=""><b>Technology :</b></div>
+                        <div class="form-Label">
+                            <select id="select4" multiple="multiple" required name="newTec1">
                                              <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][0].Active==1){%>
                             <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
                             <%}}}%>
                                                 
                                         </select>
-                          
+                        </div>
                     </div>
-                    </div>
-
-                     <div class="col-md-3 " style="margin-top:0%">
-                      
-                            <div class="   form-Label" style=""><b>Restriction Level:</b>
-                            </div>
-                            <div >
-                                 <select id="select5" multiple="true" required name="rLevel1">
+                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
+                        <div class="row labelclass form-Label" style=""><b>Restriction Level:</b>
+                        </div>
+                        <div class="form-Label">
+                            <select id="select5" multiple="true" required name="rLevel1">
                                          <%for(var i=0;i<restriction[0].length;i++){%>
                                         <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                                         <%}%>
                                      
 
                                     </select>
-                         
-                           
+                        </div>
                     </div>
-                    <span  onclick="filterdata();" ><input type="image" src="../images/candidate_search.png" id="searchBoxId1" height="33px" title="Search" style="margin-right: 2%; margin-top:-12%; float: right;"></span>
-                    </div>
-                  
+                     <div class="col-md-10 col-md-offset-1" style="margin-top:11%">
+                      <button type="submit" class="btn btn-success" id="searchBoxId1" onclick="filterdata()" style="
+                              background-color: #f05f40;border-color: #f05f40;margin-left:18%;">Search</button>
+                              </div>                                   
                     
-
-      </div>  
-                         
-                    
-
-    <div class="row secondry-color" style="padding:2%">
-
- 
-<div class="col-md-9">
-        <div style="width: 107%; overflow-x:auto;">
+                </div>
+</div>
+<div class="col-md-6">
+        <div style="overflow-x:auto;">
 
             <table id="data_table" class="table" cellspacing="0" align="centre" style="max-width:100%;">
                 <thead>
@@ -242,8 +216,7 @@
                                 <%}%>
                             </td>
                              <td>
-                                 
-                                <select id="rateFile_<%=files[0][i].id%>" class="rateFileClass" onChange="submitUpdatedRated('row_<%=files[0][i].id%>','<%=files[0][i].id%>',$(this).val())"   <%if(files[0][i].ratingId){%>disabled="true"<%}%>  >
+                                <select id="rateFile"  onChange="submitUpdatedRated('row_<%=files[0][i].id%>','<%=files[0][i].id%>',$(this).val())">
                                     <option value="0">select</option>
                                     <%for(var j=0;j<=files[1].length-1;j++) {%>
                                         <option value="<%=files[1][j].id%>"
@@ -252,7 +225,6 @@
                                             <%}%>><%=files[1][j].value%></option>
                                      <%}%>
                                 </select>
-                                 
                             </td>
                              <%if(roleid!=1){
 
@@ -278,7 +250,7 @@
         </div>
 </div>
 <div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
-    height:auto;     margin-left: 5%;">
+    height:auto;">
             <div class="" style=""><b>File Upload (size limit :20 mb)</b></div>
             <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" style="margin-left:-12%">
                 <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:4%;">
@@ -367,9 +339,9 @@
       </form>
   
     </div>
-</div> 
+</div>
   
-<!-- </div> -->
+</div>
 
 
 <div class="modal fade" id="tag1">
@@ -494,11 +466,9 @@ function submitUpdatedRated(rowid,fileid,rating){
                 alert("Error : Please provide a valid Rating");
                $('#'+rowid+' td select')[0].value=result[0][0].ratingId;
                }
-               else{
+               else
               document.getElementById("data_table").rows[rowid].cells.item(6).innerHTML =result[0][0].Rating;
                
-                  $('#rateFile_'+fileid).prop('disabled', true);
-              }
             }
            
         });
@@ -601,44 +571,20 @@ function downloadFile(rowid,fileid){
         var otable;
         $(document).ready(function() {
                 
-
-          /*  if($(".rateFileClass").val()!=0){
-                $('.rateFileClass').prop('disabled', true);
-            }    */
             $('.se-pre-con').fadeOut('slow');
             $(".portal-menu").hide();
 
 
-            $('#select1').multipleSelect({
-            width: '75%'
-        });
-            $('#select2').multipleSelect({
-            width: '75%'
-        });
-            $('#select3').multipleSelect({
-            width: '75%'
-        });
-            $('#select4').multipleSelect({
-            width: '75%'
-        });
-            $('#select5').multipleSelect({
-            width: '75%'
-        });
-           $('#my-select').multipleSelect({
-            width: '75%'
-        });
-            $('#my-select1').multipleSelect({
-            width: '100%'
-        });
-            $('#my-select2').multipleSelect({
-            width: '100%'
-        });
-            $('#my-select3').multipleSelect({
-            width: '100%'
-        });
-             $('#my-select4').multipleSelect({
-            width: '100%'
-        });
+            $('#select1').searchableOptionList();
+            $('#select2').searchableOptionList();
+            $('#select3').searchableOptionList();
+            $('#select4').searchableOptionList();
+            $('#select5').searchableOptionList();
+           $('#my-select').searchableOptionList();
+            $('#my-select1').searchableOptionList();
+            $('#my-select2').searchableOptionList();
+            $('#my-select3').searchableOptionList();
+             $('#my-select4').searchableOptionList();
             
         
             if ('<%=roleid%>' != '1') {
@@ -753,6 +699,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 },
                 dataType: 'json',
                 success: function(tabledata) {
+                    console.log(selectVariable);
                     var charstr = "";
                     charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Total Downloads</th><th>File Rating</th><th>Rate</th><th>Action</th></thead><tbody>';
                     for (var i = 0; i <= tabledata.length - 1; i++) {
@@ -769,11 +716,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                                    var rateString=  tabledata[i].Rating ;
                                 }
                            
-                               charstr+=rateString+'</td><td><select id="rateFile_'+tabledata[i].id+'" class="rateFileClass" onChange=submitUpdatedRated("row_'+tabledata[i].id+'","'+tabledata[i].id+'",$(this).val())';
-                                    if(tabledata[i].ratingId){
-                                        charstr+='" disabled="true"';
-                                    } 
-                                   charstr+=' >><option value="0" >select</option>';
+                               charstr+=rateString+'</td><td><select onChange=submitUpdatedRated("row_'+tabledata[i].id+'","'+tabledata[i].id+'",$(this).val())><option value="0" >select</option>';
                                     for(var j=0;j<=selectVariable.length-1;j++) {
                                      charstr+='<option value="'+selectVariable[j].id+'"';
                                             if(tabledata[i].ratingId==selectVariable[j].id){
@@ -807,7 +750,6 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                         "order": emptyArr /*we can provide order to every column "order": [[0,'asc'],[1,'des']] */
 
                     });
-                   
                     $('.se-pre-con').fadeOut('slow');
 
                 },
@@ -831,6 +773,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
         });
 
         function editModel(id1) {
+            console.log(id1);
             $.ajax({
                 url: '/viewFileDetails',
                 type: 'post',
@@ -876,7 +819,13 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 }
             });
             $('#tag1').modal('show');
-          
+            /*$('.modal-backdrop.fade').css({
+               'background-color':'rgba(0,0,0,0)'       
+            });
+              $("#tag1").draggable({
+                   handle: ".modal-header"
+               });*/
+
 
         }
 
