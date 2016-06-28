@@ -3667,6 +3667,14 @@ addUser: function(req, res, next) {
         if(err){
             next(err)
         }else{
+            console.log('bsfbbrdfgs---------',result);
+            if(result[3][0].already_submit ==2){
+                mailTemplates.timesheetToSupervisorForApproval(result[1][0].firstName, result[2][0].userDetails,result[1][0].userEmail,function(error, resultMail) {
+                     if (error) {
+                     }
+                });
+
+            }
              res.json(result[0]);
        
         }

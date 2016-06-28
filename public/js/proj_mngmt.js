@@ -454,6 +454,8 @@ function addRow(currentId) {
             $(tdchild).val(0);
             $(tdchild).attr('disabled', true);
             $(tdchild).addClass('disablePointer');
+          var parentRowIdHereUsedIsOnlyForUpdateArrAll = individualId + '_rowid_' + parentId;
+         updateAllArr(parentRowIdHereUsedIsOnlyForUpdateArrAll,1)
 
 
         }
@@ -671,16 +673,15 @@ function nextClass(depth, rowId) {
 
 function createNewVersion(submitFlag) {
 
-    updateArr = [];
+   updateArr = [];
     var trArr = $('#tbody123 tr');
     for (var i = 0; i < trArr.length; i++) {
-
+   if(!$(trArr[i]).hasClass('deleteCss')){
         var tdEleNew = $(trArr[i]).children('td')[1];
-
-        console.log('trArr is', trArr[i], 'tdEleNew is', tdEleNew);
-     
-        var tdEle = $(tdEleNew).children('input')[0];
+      console.log('trArr is', trArr[i], 'tdEleNew is', tdEleNew);
+      var tdEle = $(tdEleNew).children('input')[0];
         $(tdEle).focusout();
+        }
     }
 
 
@@ -818,7 +819,18 @@ function approvethis(approveFlag, modalBoxAcceptFlag) {
 
 function savethis(submitFlag, joinFlag) {
 
-sleepFunctionForStoppingTime(760);
+sleepFunctionForStoppingTime(500);
+
+updateArr = [];
+    var trArr = $('#tbody123 tr');
+    for (var i = 0; i < trArr.length; i++) {
+   if(!$(trArr[i]).hasClass('deleteCss')){
+        var tdEleNew = $(trArr[i]).children('td')[1];
+      console.log('trArr is', trArr[i], 'tdEleNew is', tdEleNew);
+      var tdEle = $(tdEleNew).children('input')[0];
+        $(tdEle).focusout();
+        }
+    }
 //alert('sahi');
     var returnFlag = (submitted == 1);
 

@@ -2323,6 +2323,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
           sql:'call usp_time_getTime(?,?)',
           values:[userId,retailerId]
         };
+        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2344,6 +2345,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             approvedOrRejectedDate,
             rejectionReason]
         };
+        console.log(query);
         //console.log(" in submit timesheet");
         mysql(query, function(err, result) {
             callback(err, result);
@@ -2368,7 +2370,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
           values:[userId,tdate]
         };
 
-        //console.log(query);
+        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
