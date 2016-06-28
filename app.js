@@ -57,7 +57,7 @@ if (env.toLowerCase() === 'development') {
 
 require('./routes')(router);
 
-http.createServer(app)
+var server=http.createServer(app)
   .on('error', function(err) {
     util.log(util.inspect(err));
     process.exit(1);
@@ -65,3 +65,4 @@ http.createServer(app)
   .listen(app.get('port'), function() {
     util.log('Server listening on port ' + app.get('port') + ' in ' + app.get('env'));
   });
+  server.timeout=360000;

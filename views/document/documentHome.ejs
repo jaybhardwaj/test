@@ -10,6 +10,15 @@
 .dataTables_filter, .dataTables_length {
      display: none;
     }
+.ms-drop ul {
+    max-height: 120px !important;
+}
+.ms-parent {
+    width:200px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}    
 .color3{
     padding-left: 1%;
     padding-top: 2%;
@@ -18,19 +27,50 @@
     padding-bottom: 61%;
     padding-right: 1%;
 }
-.sol-current-selection {
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.ms-choice > span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    padding-left: 8px;
+    font-size: 10px;
+}
+/*.sol-current-selection {
      padding: 0px 0; 
 }
     #my-select5 {
         width: 100%;
         height: 29px;
-    }
+    }*/
     
     .glyphicon-folder-open {
         color: black;
     }
     
-    .glyphicon-plus {
+    /*.glyphicon-plus {
         color: black;
     }
     
@@ -40,7 +80,7 @@
     
     .a {
         color: #2b2b2b;
-    }
+    }*/
     
     input[type=search] {
         height: 29px !important;
@@ -67,16 +107,37 @@
     .labelclass{
         position:relative;top:10%;margin-top:-10px;margin-left:0%
     }    
-    .sol-inner-container {
+    /*.sol-inner-container {
         height: 25px;
         width: 100%;
-    }
+    }*/
     .col-md-3 {
     width: 20%;
 }
 .col-md-6 {
     width: 60%;
 }
+/*.col-md-3 {
+    width: 19%;
+}*/
+
+
+.rating > span:hover:before {
+   content: "\2605";
+   position: absolute;
+}
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+}
+
+
 </style>
 
   <% include ../partials/adminheader %>
@@ -85,88 +146,102 @@
   $("#searchbox_demo").removeClass("hide"); 
   </script>   
 <div class="se-pre-con"></div>        
- <div class='progressWrapper' style='float: left; width: 100%'>
-    <div class='progress' style='float: left; width: 0%; color: red'></div>
-    <div class='progressText' style='float: left;'></div>
-</div>
-<div class="container-fluid">    
-<div class="row secondry-color" style="padding:2%">
-<div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
-    height:auto;padding:10px;min-height:689px;">
-<div class="" style="padding-left: 7%;margin-top:-1%"><b> Search By :</b></div>
-                <div id="new111">
-                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                        <div class="row labelclass form-Label" style=""><b>Industry:</b>
-                        </div>
-                        <div class="form-Label">
-                            <select id="select1" multiple="multiple" required name="industry1">
-                              <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
-                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
-                            <%}}}%>
-                                       
-                            </select>
-                        </div>
+ 
+<div class="container-fluid"> 
+    <div class="row">
+        
+                    <div class="col-md-3 " style="margin-top:0%">
+                       
+                            <div class=" form-Label" style=""><b>Industry :</b>
+                            </div>
+                            <div>
+                                <select id="select1" multiple="multiple" required name="industry1">
+                                  <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                                <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                                <%}}}%>
+                                           
+                                </select>
+                        
+                             </div>
                     </div>
 
 
-                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                        <div class="row labelclass form-Label" style=""><b>Business:</b></div>
-                        <div class="form-Label">
-                            <select id="select2" multiple="multiple" required name="business1">
+                    <div class="col-md-3 " style="margin-top:0%">
+                        
+                            <div class="   form-Label" style=""><b>Business:</b>
+                            </div>
+                            <div >
+                                 <select id="select2" multiple="multiple" required name="business1">
                                   <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
                             <%}}}%>
                             
                             </select>
-                        </div>
+                        
                     </div>
-                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                        <div class="row labelclass form-Label" style=""><b>Document type:</b></div>
+                    </div>
 
-                        <div class="form-Label">
-                            <select id="select3" multiple="multiple" required name="doctype">
+
+                    <div class="col-md-3 " style="margin-top:0%">
+                       
+                            <div class="   form-Label" style=""><b>Document Type:</b>
+                            </div>
+                            <div >
+                                  <select id="select3" multiple="multiple" required name="doctype">
                                             <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
                             <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
                             <%}}}%>
                                           
  
                                         </select>
-                        </div>
+                            
+                    </div>
                     </div>
 
-                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                        <div class="row labelclass form-Label" style=""><b>Technology :</b></div>
-                        <div class="form-Label">
-                            <select id="select4" multiple="multiple" required name="newTec1">
+                      <div class="col-md-3 " style="margin-top:0%">
+                     
+                            <div class="   form-Label" style=""><b>Technology:</b>
+                            </div>
+                            <div>
+                                 <select id="select4" multiple="multiple" required name="newTec1">
                                              <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][0].Active==1){%>
                             <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
                             <%}}}%>
                                                 
                                         </select>
-                        </div>
+                          
                     </div>
-                    <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                        <div class="row labelclass form-Label" style=""><b>Restriction Level:</b>
-                        </div>
-                        <div class="form-Label">
-                            <select id="select5" multiple="true" required name="rLevel1">
+                    </div>
+
+                     <div class="col-md-3 " style="margin-top:0%">
+                      
+                            <div class="   form-Label" style=""><b>Restriction Level:</b>
+                            </div>
+                            <div >
+                                 <select id="select5" multiple="true" required name="rLevel1">
                                          <%for(var i=0;i<restriction[0].length;i++){%>
                                         <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                                         <%}%>
                                      
 
                                     </select>
-                        </div>
+                         
+                           
                     </div>
-                     <div class="col-md-10 col-md-offset-1" style="margin-top:11%">
-                      <button type="submit" class="btn btn-success" id="searchBoxId1" onclick="filterdata()" style="
-                              background-color: #f05f40;border-color: #f05f40;margin-left:18%;">Search</button>
-                              </div>                                   
+                    <span  onclick="filterdata();" ><input type="image" src="../images/candidate_search.png" id="searchBoxId1" height="33px" title="Search" style="margin-right: 2%; margin-top:-12%; float: right;"></span>
+                    </div>
+                  
                     
-                </div>
-</div>
-<div class="col-md-6">
-        <div style="overflow-x:auto;">
+
+      </div>  
+                         
+                    
+
+    <div class="row secondry-color" style="padding:2%">
+
+ 
+<div class="col-md-9">
+        <div style="width: 107%; overflow-x:auto;">
 
             <table id="data_table" class="table" cellspacing="0" align="centre" style="max-width:100%;">
                 <thead>
@@ -216,7 +291,8 @@
                                 <%}%>
                             </td>
                              <td>
-                                <select id="rateFile"  onChange="submitUpdatedRated('row_<%=files[0][i].id%>','<%=files[0][i].id%>',$(this).val())">
+                                 
+                                <select id="rateFile_<%=files[0][i].id%>" class="rateFileClass" onChange="submitUpdatedRated('row_<%=files[0][i].id%>','<%=files[0][i].id%>',$(this).val())"   <%if(files[0][i].ratingId){%>disabled="true"<%}%>  >
                                     <option value="0">select</option>
                                     <%for(var j=0;j<=files[1].length-1;j++) {%>
                                         <option value="<%=files[1][j].id%>"
@@ -225,6 +301,12 @@
                                             <%}%>><%=files[1][j].value%></option>
                                      <%}%>
                                 </select>
+
+                               <!--  <div class="rating">
+                                <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+                                </div> -->
+
+                                 
                             </td>
                              <%if(roleid!=1){
 
@@ -240,7 +322,8 @@
                                 </td>
                             <%}%>
                             <td><a title="view details"><i  onclick="editModel(<%=files[0][i].id%>)" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>
-                                <a title="delete file" class ='glyphicon glyphicon-trash delete' onclick="deleteFile(<%=files[0][i].id%>)" style="max-width: 15px" ></a>
+                                <a title="delete file" class ='glyphicon glyphicon-trash delete' onclick="deleteFile(<%=files[0][i].id%>)" style="max-width: 15px ;margin-right:5px " ></a>
+                                </a><a title="edit file" class="glyphicon glyphicon-pencil delete" onclick="editFile(<%=files[0][i].id%>)" style="max-width: 15px"></a> 
                             </td>
                         </tr>
 
@@ -250,7 +333,7 @@
         </div>
 </div>
 <div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
-    height:auto;">
+    height:auto;     margin-left: 5%;">
             <div class="" style=""><b>File Upload (size limit :20 mb)</b></div>
             <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" style="margin-left:-12%">
                 <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:4%;">
@@ -339,9 +422,10 @@
       </form>
   
     </div>
-</div>
+</div> 
   
-</div>
+<!-- </div> -->
+</body>
 
 
 <div class="modal fade" id="tag1">
@@ -444,7 +528,125 @@
         </div>
     </div>
 
- 
+ <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content"  style="padding-bottom:2%" id="express2">
+                
+
+                <div class="modal-header">
+                  <button type="button" class="close" id='btn-cancel' type="reset" data-dismiss="modal">&times;</button>
+                  <center>
+<label id="head4" class="modal-title" style="color:white;"><b>Edit File Details</b></label> </center>              </div>
+
+
+                    
+           
+            <div style="max-height:300px;overflow-y:auto">
+
+            <div class="col-md-12 a"  style="padding-top:2%"> 
+               <div class="col-md-5">
+               <label  style="line-height:42px !important;padding:0px">Title:<sup  style="color:red">*</sup></label>
+               </div>
+               <div class="col-md-7">
+                <input placeholder="Enter File Title Here" type="text" maxlength="30"  style="width:100%" class="form-control" id="file_title" name="rname" />
+               </div>
+            </div>
+            <div class="col-md-12 a"  style="padding-top:2%"> 
+               <div class="col-md-5">
+               <label  style="line-height:42px !important;padding:0px">Author Name:<sup  style="color:red">*</sup></label>
+               </div>
+               <div class="col-md-7">
+                <input placeholder="Enter Author Name Here" type="text" maxlength="30"  style="width:100%" class="form-control" id="author_name" name="rname" />
+               </div>
+            </div>
+             <div class="col-md-12 a"  style="padding-top:2%"> 
+               <div class="col-md-5">
+               <label  style="line-height:42px !important;padding:0px">Description:<sup  style="color:red">*</sup></label>
+               </div>
+               <div class="col-md-7">
+                <input placeholder="Enter Author Name Here" type="text" maxlength="30"  style="width:100%" class="form-control" id="file_description" name="rname" />
+               </div>
+            </div>
+                    <div class="col-md-12 a">
+                    <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Industry:<sup  style="color:red">*</sup></label></div>
+                    <div class="col-md-7">
+                    <input type="hidden" id="<%=industry[0].id%>" maxlength="30" required name="industryhide" value="<%=industry[0].id%>">
+                    <div id="ii">
+                    <select multiple = "multiple" class="multiplebox clearField" id="my-selectII" required name="i_name" maxlength="30">
+                      <%
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                            <%}}}%>
+                    </select> 
+                    </div>
+                    </div>
+                   </div>
+                <div class="col-md-12 a">
+                    <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Business:<sup  style="color:red">*</sup></label></div>
+                    <div class="col-md-7">
+                      <input type="hidden" id="<%=business[0].id%>" maxlength="30" required name="businesshide" value="<%=business[0].id%>">
+                       <div id="bb">
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectBB" required name="b_name">
+                            <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                      </div>  
+                    </div>
+                </div>
+                <div class="col-md-12 a">
+                    <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Document Type:<sup  style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+                          <input type="hidden" id="<%=document[0].id%>" maxlength="30" required name="doctypehide" value="<%=document[0].id%>">
+                          <div id="dd">
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectDD" required name="d_name">
+                             <%
+                             if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                      </div>
+                 </div>
+              </div>
+              <div class="col-md-12 a">
+                    <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Technology:<sup  style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+                          <input type="hidden" id="<%=technology[0].id%>" maxlength="30" required name="newTechide" value="<%=technology[0].id%>">
+                        <div id="tt">  
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectTT" required name="t_name">
+                         <%
+                         if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
+                        </select> 
+                      </div>
+                 </div>
+              </div>
+             <div class="col-md-12 a">
+                <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Restriction Level:<sup  style="color:red">*</sup></label></div>
+                  <div class="col-md-7" style="margin-bottom: 4%;">
+               <input type="hidden" id="<%=restriction[0].id%>" maxlength="30"  required name="rLevelhide" value="<%=restriction[0].id%>">
+                <div id="rr">  
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectRR" required name="res_name">
+                             <%for(var i=0;i<restriction[0].length;i++){%>
+                                        <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                            <%}%>
+                        </select>
+                      </div>
+                    </div>
+            </div>
+    </div>
+           <div class="modal-footer">
+                <center>
+                         <button id='btn-cancel' type="reset" data-dismiss="modal"  class="btn">Cancel</button>
+                             <button class="btn "  onClick="docValidation()">Submit</button>
+               
+                </center>
+
+         </div>
+            </div>
+            </div>
+</div>
 <script>
 
 function submitUpdatedRated(rowid,fileid,rating){
@@ -461,14 +663,14 @@ function submitUpdatedRated(rowid,fileid,rating){
             },
             dataType: 'json',
             success: function(result) {
-               console.log(result);
                if(rating==0){
                 alert("Error : Please provide a valid Rating");
                $('#'+rowid+' td select')[0].value=result[0][0].ratingId;
                }
-               else
+               else{
               document.getElementById("data_table").rows[rowid].cells.item(6).innerHTML =result[0][0].Rating;
-               
+                  $('#rateFile_'+fileid).prop('disabled', true);
+              }
             }
            
         });
@@ -485,8 +687,8 @@ function downloadFile(rowid,fileid){
                 'flag':1
             },
             dataType: 'json',
-            success: function(result) {
-               console.log(result);
+            success: function(result) {                  
+
               document.getElementById("data_table").rows[rowid].cells.item(5).innerHTML =result[0][0].no_of_downloads;
                
             }
@@ -562,8 +764,7 @@ function downloadFile(rowid,fileid){
                 return false;
             } else
             {
-/*            $('#document_submit').attr('disabled',true);
-*/             return true;
+            return true;
             }
         }
 
@@ -571,20 +772,42 @@ function downloadFile(rowid,fileid){
         var otable;
         $(document).ready(function() {
                 
+
+    
             $('.se-pre-con').fadeOut('slow');
             $(".portal-menu").hide();
 
 
-            $('#select1').searchableOptionList();
-            $('#select2').searchableOptionList();
-            $('#select3').searchableOptionList();
-            $('#select4').searchableOptionList();
-            $('#select5').searchableOptionList();
-           $('#my-select').searchableOptionList();
-            $('#my-select1').searchableOptionList();
-            $('#my-select2').searchableOptionList();
-            $('#my-select3').searchableOptionList();
-             $('#my-select4').searchableOptionList();
+            $('#select1').multipleSelect({
+            width: '75%'
+        });
+            $('#select2').multipleSelect({
+            width: '75%'
+        });
+            $('#select3').multipleSelect({
+            width: '75%'
+        });
+            $('#select4').multipleSelect({
+            width: '75%'
+        });
+            $('#select5').multipleSelect({
+            width: '75%'
+        });
+           $('#my-select').multipleSelect({
+            width: '75%'
+        });
+            $('#my-select1').multipleSelect({
+            width: '100%'
+        });
+            $('#my-select2').multipleSelect({
+            width: '100%'
+        });
+            $('#my-select3').multipleSelect({
+            width: '100%'
+        });
+             $('#my-select4').multipleSelect({
+            width: '100%'
+        });
             
         
             if ('<%=roleid%>' != '1') {
@@ -614,7 +837,6 @@ function downloadFile(rowid,fileid){
                             type: 'get',
                             dataType: 'json',
                             success: function(tabledata) {
-                               // alert('sdds')
                                window.location.href="/document";
                             },
                             error: function() {
@@ -699,7 +921,6 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 },
                 dataType: 'json',
                 success: function(tabledata) {
-                    console.log(selectVariable);
                     var charstr = "";
                     charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Total Downloads</th><th>File Rating</th><th>Rate</th><th>Action</th></thead><tbody>';
                     for (var i = 0; i <= tabledata.length - 1; i++) {
@@ -716,7 +937,11 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                                    var rateString=  tabledata[i].Rating ;
                                 }
                            
-                               charstr+=rateString+'</td><td><select onChange=submitUpdatedRated("row_'+tabledata[i].id+'","'+tabledata[i].id+'",$(this).val())><option value="0" >select</option>';
+                               charstr+=rateString+'</td><td><select id="rateFile_'+tabledata[i].id+'" class="rateFileClass" onChange=submitUpdatedRated("row_'+tabledata[i].id+'","'+tabledata[i].id+'",$(this).val())';
+                                    if(tabledata[i].ratingId){
+                                        charstr+='" disabled="true"';
+                                    } 
+                                   charstr+=' >><option value="0" >select</option>';
                                     for(var j=0;j<=selectVariable.length-1;j++) {
                                      charstr+='<option value="'+selectVariable[j].id+'"';
                                             if(tabledata[i].ratingId==selectVariable[j].id){
@@ -725,7 +950,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                                      }
                               charstr+='</select></td></td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>';
                         if (<%=roleid%> == 1) {
-                                charstr = charstr + '<a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
+                                charstr = charstr + '<a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px ; margin-right:5px"></a><a title="edit file" class="glyphicon glyphicon-pencil delete" onclick="editFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
                         } 
                     }
 
@@ -750,6 +975,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                         "order": emptyArr /*we can provide order to every column "order": [[0,'asc'],[1,'des']] */
 
                     });
+                   
                     $('.se-pre-con').fadeOut('slow');
 
                 },
@@ -768,12 +994,10 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
             if (e.which == 13) {
                 filterdata();
                 return false;
-                //do some stuff
             }
         });
 
         function editModel(id1) {
-            console.log(id1);
             $.ajax({
                 url: '/viewFileDetails',
                 type: 'post',
@@ -819,76 +1043,251 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 }
             });
             $('#tag1').modal('show');
-            /*$('.modal-backdrop.fade').css({
-               'background-color':'rgba(0,0,0,0)'       
-            });
-              $("#tag1").draggable({
-                   handle: ".modal-header"
-               });*/
-
+          
 
         }
-
-        function maketablesearchbox() {
-
-            var searchbox = $('#searchBoxId').val();
-            /*  console.log(   " brfore search :",   searchbox.length);*/
-            searchbox = searchbox.trim();
-            /*console.log(   " search :",   searchbox.length);*/
-            searchbox = searchbox
-                //  alert(searchbox);
+        var fileIdForModelBox=0;
+        function editFile(fileId){
+           
+            fileIdForModelBox=fileId;
+            
             $.ajax({
-                url: '/tableSearchBox',
-                method: 'post',
-                data: {
-                    'searchbox': searchbox
-                },  
-                success: function(tabledata) {
-
-                    var charstr = "";
-                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th> <th>Upload Date</th><th>Action</th></thead><tbody>';
-                    for (var i = tabledata.length - 1; i >= 0; i--) {
-                        var bgstr = '';
-                        if (tabledata[i].color == 'yellow') {
-
-                            bgstr = 'style = "background-color:#ffffb3"';
-
-                        }
-                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>' + tabledata[i].uploadDate + '</td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a><a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
-                    }
-                    charstr += '</tbody>';
-                    otable.dataTable().fnDestroy();
-
-                    $('#data_table').html(charstr);
-                    otable = $("#data_table").dataTable({
-                        "aLengthMenu": [
-                            [10, 20, 50, 100, -1],
-                            ["10", "20", "50", "100", "all"]
-                        ],
-                        destroy: true,
-                        "iDisplayLength": 10,
-                        /*used to display no of element  on page load or relaod*/
-                        "showNEntries": true,
-                        /* for displaying showing 10 out of 50 entries at left bottom corner*/
-                        "bFilter": false,
-                        /*dispalying search box at top right corner*/
-                        "bLengthChange": true,
-                        /*dispalying  show 10 out of 50 entries at top left corner*/
-                        "aoColumnDefs": [{ //   "bSortable": false,
-                            //  "aTargets": [0]
-                        }],
-                        "order": [] /*we can provide order to every column "order": [[0,'asc'],[1,'des']] */
-
-                    });
-                },
-                error: function() {
+            url: '/getind',
+           type: 'post',
+           dataType: 'json',
+            success: function(industry) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField" id="my-selectII" required name="i_name" maxlength="30">';
+                   
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                           str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+              
+                    $('#ii').html(str);
                  
+            }
+        });
+     
+         $.ajax({
+            url: '/getdoc',
+            type: 'post',
+            dataType: 'json',
+            success: function(document) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField" id="my-selectDD" required name="i_name" maxlength="30">';
+                   
+                      if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                           str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#dd').html(str);
+               
+            }
+        });
+  
+         $.ajax({
+            url: '/getbus',
+             type: 'post',
+            dataType: 'json',
+             success: function(business) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField" id="my-selectBB" required name="i_name" maxlength="30">';
+                   
+                      if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                           str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#bb').html(str);
+                 
+            }
+        });
+
+         $.ajax({
+            url: '/gettec',
+          
+            type: 'post',
+             dataType: 'json',
+             success: function(technology) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField" id="my-selectTT" required name="i_name" maxlength="30">';
+                   
+                      if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                           str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#tt').html(str);
+                  
+            }
+        }); 
+        
+         setTimeout(function() {
+           $('#editRole').modal('show');
+                              
+        $.ajax({
+           url: '/viewFileDetails',
+                type: 'post',
+                data: {
+                    "id": fileId
+                },
+            dataType: 'json',
+            success: function(data) {
+                      var arr1 = [];
+                      var docarray=[];
+                      var indarray=[];
+                      var busarray=[];
+                      var tecarray=[];
+                      var resarray=[];
+                      $("#file_title").val(data[0][0].title);
+                      $("#author_name").val(data[0][0].author);
+                      $("#file_description").val(data[0][0].description);
+
+
+                    for(var i=1;i<data.length;i++){
+                       
+                               for(var j=0;j<data[i].length;j++){
+                                if(i==1){
+                                        docarray.push(data[i][j].id);
+                                }
+                                 if(i==2){
+                                         indarray.push(data[i][j].id);
+                                }
+                                if(i==3){
+                                     busarray.push(data[i][j].id);
+                                }   
+                                if(i==4){
+                                     tecarray.push(data[i][j].id);
+                                }
+                                if(i==5){
+                                     resarray.push(data[i][j].id);
+                                }
+
+                                    }
+                    }
+                     $('#my-selectII').val(indarray);
+                        $("#my-selectII").multipleSelect({
+            width: '100%'
+        }); 
+                                $('#my-selectBB').val(busarray);
+                        $("#my-selectBB").multipleSelect({
+            width: '100%'
+        });   
+                         $('#my-selectDD').val(docarray);
+                        $("#my-selectDD").multipleSelect({
+            width: '100%'
+        });   
+                         $('#my-selectTT').val(tecarray);
+                         $("#my-selectTT").multipleSelect({
+            width: '100%'
+        }); 
+                          $('#my-selectRR').val(resarray);
+                           $("#my-selectRR").multipleSelect({
+            width: '100%'
+        });  
+                    
+                     
                 }
-            });
+        });
+               
+            },500);
         }
+ 
+
+       function docValidation() {
+
+            var rolename = $('#rl_name').val();
+            var indus = $('#my-selectII').val();
+            var bus = $('#my-selectBB').val();
+            var  doc=$('#my-selectDD').val();
+            var tec=$('#my-selectTT').val();
+            var restrict=$('#my-selectRR').val();
+            if ($('#file_title').val().trim()==""){
+                alert("Please Enter valid File Title!");
+                return false;
+            }
+             if ($('#author_name').val().trim()==""){
+                alert("Please Enter valid Author Name!");
+                return false;
+            }     
+
+            if(indus==null) {
+                alert("Please select any Industry name! ");
+                return false;
+            }
+            if (bus ==null) {
+                alert("Please select any Business name!");
+                return false;
+            }
+            if (doc== null) {
+                alert("Please select any Document Type!");
+                return false;
+            }
+             if (tec== null) {
+                alert("Please select any Technology Type!");
+                return false;
+            }   
+             if (restrict== null) {
+                alert("Please select any Restriction Level!");
+                return false;
+            }  
+
+            submitFileChanges();
+    }
+var arr1=[];
+var arr2=[];
+var arr3=[];
+var arr4=[];
+var arr5=[];
+function submitFileChanges(){
+               
+      var ihide=$("#<%=industry[0].id%>").val()==""?0:$("#<%=industry[0].id%>").val();
+      var bhide=$("#<%=business[0].id%>").val()==""?0:$("#<%=business[0].id%>").val();
+      var dhide=$("#<%=document[0].id%>").val()==""?0:$("#<%=document[0].id%>").val();
+      var thide=$("#<%=technology[0].id%>").val()==""?0:$("#<%=technology[0].id%>").val();
+      var rhide=$("#<%=restriction[0].id%>").val()==""?0:$("#<%=restriction[0].id%>").val();
+           $.ajax({
+            url: '/fileDetialsUpdate',
+            type: 'post',
+            data: {  
+                 
+              'fileid' :  fileIdForModelBox,
+              'fileTitle':$('#file_title').val(),
+              'description':$('#file_description').val(),
+              'fileAuthor':$('#author_name').val(),
+              'industry': $("#my-selectII").val().toString(),
+              'business':$("#my-selectBB").val().toString(),
+              'doctypes' :$("#my-selectDD").val().toString(),
+              'technology':$("#my-selectTT").val().toString(),
+              'rLevel':$("#my-selectRR").val().toString(),
+              'industryhide':1,
+              'businesshide':2,
+              'doctypehide':3,
+              'newTechide':4,
+              'rLevelhide' :5 ,
+               },
+           success: function(data) {
+            
+            alert("updated Successfully");
+             
+              $("#btn-cancel").click();
+
+             document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(1).innerHTML= $('#file_title').val();
+            document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(2).innerHTML =$('#author_name').val();
+
+
+          
+            },
+                    dataType: 'JSON',                
+        });
+      }
+ var myBackup = $('#editRole').clone();    
+    // Delegated events because we make a copy, and the copied button does not exist onDomReady
+    $('body').on('click','#cancel',function() {
+         setTimeout(function(){ $('#editRole').remove();
+        var myClone = myBackup.clone();
+        $('body').append(myClone); },700);
+    });     
+
+
+
     </script>
 
 <% include ../partials/footer %>
 
-</body>
 </html>

@@ -388,7 +388,6 @@ module.exports = {
 		}
 	},
 	Documenterror:function(req,res,next){
-		console.log("hhh----hh");
 		if(req.session.modules.indexOf(config.Document)>=0)
 				 	{
 		        

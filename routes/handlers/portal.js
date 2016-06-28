@@ -1045,7 +1045,20 @@ project=project?project:'';
               
               });
           },
-
+fileDetialsUpdate: function(req,res,next){
+     
+  modelPortal.fileDetialsUpdate(req.session.retailerId,req.body.fileid,req.body.fileTitle,req.body.fileAuthor,req.body.description,req.body.industry,req.body.business,
+    req.body.doctypes,req.body.technology, req.body.rLevel,req.body.industryhide,req.body.businesshide,
+    req.body.doctypehide,req.body.newTechide,req.body.rLevelhide,function(err, result){
+                if(err){
+                    next(err);
+                    return;
+                }
+               
+                res.json('success');
+              
+              });
+          },
  docActiveInactive:function(req,res,next){
      
   modelPortal.docActiveInactive(req.session.retailerId,req.body.croleid,req.body.flag,function(err, result){
@@ -1242,7 +1255,26 @@ attachDocFile: function(req,res,next){
                                      
                                     });
                             }
+                          else if(exe == 'pptx'){
+                            textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",targetPath, function( error, text ) {
 
+                                        if (error) {
+
+
+                                        }else {
+                                            if (typeof text != undefined) {
+                                              
+                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
+                                 
+                                              
+                                             parseAll(textLowerCase,req,strname,1,next);
+                                                             next();
+
+                                            } 
+                                        }
+                                    });
+
+                            }    
                         else if(exe.toLowerCase() == 'zip'){
                         var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
                         var folderpath='./public/attach/' + exet[0] + '_' + now ;
@@ -3431,7 +3463,6 @@ updateHoliday: function(req,res,next){
             req.tab=req.body.tab;
         }
 
-        
          modelPortal.getAllUsers(req.userid,req.session.roleId,req.session.retailerId,function(err, resultUsers) {
              if (err) {
                  next(err);

@@ -59,7 +59,7 @@ app.post('/blockUser',portal.blockUser);
 
 
 	//----------------------Document-------------------------------------------
-    app.get('/document',url.setpageDocument,portal.getUser,portal.getAllFiles,portal.getIndustry,portal.getBusiness,portal.getDocument,portal.getTechnology,portal.getRestriction,render.redirect);
+    app.get('/document',url.setpageDocument,portal.getAllFiles,portal.getIndustry,portal.getBusiness,portal.getDocument,portal.getTechnology,portal.getRestriction,render.redirect);
     app.post('/attachDocFile',upload.single('attach'),url.setpageInsertDocument,portal.attachDocFile,render.redirect);
     app.get('/permission',url.setpagePermission,portal.setFilePermission,render.redirect);
     app.post('/confirmedFilePermission',url.setpageConfirmedFile,portal.confirmedFilePermission,render.redirect);
@@ -72,6 +72,8 @@ app.post('/blockUser',portal.blockUser);
     app.get('/setdocalert',portal.setdocalert);
      app.get('/verifyCustomRole',portal.verifyCustomRole);
      app.get('/myUploads',url.myUploads,portal.myUploads,render.redirect);
+         app.post('/downloadFileCount',portal.downloadFileCount);
+
     //app.get('/Documenterror',url.Documenterror,render.redirect);
   
 //------------------------------------------Asset-------------------------------
@@ -371,6 +373,8 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
     app.post('/docActiveInactive',portal.docActiveInactive);
     app.post('/getRolesInfo',portal.getRolesInfo);
 	app.post('/addEditClientAjax',portal.addEditClientAjax);
+      app.post('/fileDetialsUpdate',portal.fileDetialsUpdate);
+
 
 	<!----- srvvvvvvvvvvvvvvvvvvvvv      -->
 	app.post('/getind',portal.getind);
