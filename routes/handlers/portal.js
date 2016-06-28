@@ -6396,7 +6396,7 @@ return bigArr;
 
 
 function parseeIntForNan(data){
-if(isNaN(data)){
+if(isNaN(data)||data==null){
   return 0;
 }
 
