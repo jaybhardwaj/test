@@ -821,7 +821,9 @@ function savethis(submitFlag, joinFlag) {
 
 sleepFunctionForStoppingTime(500);
 var somethingMinusOneFlag = false;
+var  somethingZeroFlag     = false;
 if(someThingUpdated==-1){   somethingMinusOneFlag = true; }
+if(somethingUpdated==0){   somethingZeroFlag = true;  }      
 updateArr = [];
     var trArr = $('#tbody123 tr');
     for (var i = 0; i < trArr.length; i++) {
@@ -833,7 +835,9 @@ updateArr = [];
         }
     }
 //alert('sahi');
-if(somethingMinusOneFlag)   someThingUpdated = -1;
+if(somethingMinusOneFlag)  { someThingUpdated = -1; }
+if(somethingZeroFlag)      { somethingUpdated = 0;}
+
     var returnFlag = (submitted == 1);
 
     if (returnFlag) {
