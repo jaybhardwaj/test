@@ -820,7 +820,8 @@ function approvethis(approveFlag, modalBoxAcceptFlag) {
 function savethis(submitFlag, joinFlag) {
 
 sleepFunctionForStoppingTime(500);
-
+var somethingMinusOneFlag = false;
+if(someThingUpdated==-1){   somethingMinusOneFlag = true; }
 updateArr = [];
     var trArr = $('#tbody123 tr');
     for (var i = 0; i < trArr.length; i++) {
@@ -832,6 +833,7 @@ updateArr = [];
         }
     }
 //alert('sahi');
+if(somethingMinusOneFlag)   someThingUpdated = -1;
     var returnFlag = (submitted == 1);
 
     if (returnFlag) {
