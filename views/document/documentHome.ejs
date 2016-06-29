@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <% include ../partials/head %>
-
+<% include ../partials/adminheader %>
+  <% include headerDoc.ejs %>
 <title>Document Management</title>
 
 <style type="text/css">
@@ -58,29 +59,13 @@
     padding-left: 8px;
     font-size: 10px;
 }
-/*.sol-current-selection {
-     padding: 0px 0; 
-}
-    #my-select5 {
-        width: 100%;
-        height: 29px;
-    }*/
+
     
     .glyphicon-folder-open {
         color: black;
     }
     
-    /*.glyphicon-plus {
-        color: black;
-    }
-    
-    .glyphicon-minus {
-        color: black;
-    }
-    
-    .a {
-        color: #2b2b2b;
-    }*/
+   
     
     input[type=search] {
         height: 29px !important;
@@ -107,19 +92,14 @@
     .labelclass{
         position:relative;top:10%;margin-top:-10px;margin-left:0%
     }    
-    /*.sol-inner-container {
-        height: 25px;
-        width: 100%;
-    }*/
+   
     .col-md-3 {
     width: 20%;
 }
 .col-md-6 {
     width: 60%;
 }
-/*.col-md-3 {
-    width: 19%;
-}*/
+
 
 
 .rating > span:hover:before {
@@ -136,12 +116,14 @@
    content: "\2605";
    position: absolute;
 }
-
+#data_table
+{
+    white-space: nowrap;
+}
 
 </style>
 
-  <% include ../partials/adminheader %>
-  <% include headerDoc.ejs %>
+  
   <script>
   $("#searchbox_demo").removeClass("hide"); 
   </script>   
@@ -184,7 +166,7 @@
 
                     <div class="col-md-3 " style="margin-top:0%">
                        
-                            <div class="   form-Label" style=""><b>Document Type:</b>
+                            <div class=" form-Label" style=""><b>Document Type:</b>
                             </div>
                             <div >
                                   <select id="select3" multiple="multiple" required name="doctype">
@@ -222,9 +204,7 @@
                                          <%for(var i=0;i<restriction[0].length;i++){%>
                                         <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                                         <%}%>
-                                     
-
-                                    </select>
+                                </select>
                          
                            
                     </div>
@@ -243,7 +223,7 @@
 <div class="col-md-9">
         <div style="width: 107%; overflow-x:auto;">
 
-            <table id="data_table" class="table" cellspacing="0" align="centre" style="max-width:100%;">
+            <table id="data_table" class="table table-bordered" cellspacing="0" align="centre" style="max-width:100%;">
                 <thead>
                 <tr>
                     <th>File Name</th>
@@ -292,20 +272,19 @@
                             </td>
                              <td>
                                  
-                                <select id="rateFile_<%=files[0][i].id%>" class="rateFileClass" onChange="submitUpdatedRated('row_<%=files[0][i].id%>','<%=files[0][i].id%>',$(this).val())"   <%if(files[0][i].ratingId){%>disabled="true"<%}%>  >
-                                    <option value="0">select</option>
-                                    <%for(var j=0;j<=files[1].length-1;j++) {%>
-                                        <option value="<%=files[1][j].id%>"
-                                            <%if(files[0][i].ratingId==files[1][j].id){%>
-                                                selected
-                                            <%}%>><%=files[1][j].value%></option>
-                                     <%}%>
-                                </select>
-
-                               <!--  <div class="rating">
-                                <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-                                </div> -->
-
+                                
+                               
+                             
+                             <%for(var a=1;a<=5;a++){%>
+                                <%if(files[0][i].ratingId>=a){%>
+                               <i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>
+                                    
+                               <%}%>
+                               <%if(!files[0][i].ratingId){%>
+                                <i id="star-<%=a%>-<%=files[0][i].id%>" onClick="submitUpdatedRated('row_<%=files[0][i].id%>','<%=files[0][i].id%>',<%=a%>)" class="star glyphicon glyphicon-star-empty"></i>
+                                    
+                               <%}%>
+                             <%}%>
                                  
                             </td>
                              <%if(roleid!=1){
@@ -648,10 +627,11 @@
             </div>
 </div>
 <script>
-
 function submitUpdatedRated(rowid,fileid,rating){
-  
-
+  var stringStar="";
+for(var i=0;i<rating;i++){
+stringStar+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>';
+}
   
     $.ajax( {
             url: 'downloadFileCount',
@@ -669,7 +649,7 @@ function submitUpdatedRated(rowid,fileid,rating){
                }
                else{
               document.getElementById("data_table").rows[rowid].cells.item(6).innerHTML =result[0][0].Rating;
-                  $('#rateFile_'+fileid).prop('disabled', true);
+                 document.getElementById("data_table").rows[rowid].cells.item(7).innerHTML=stringStar;
               }
             }
            
@@ -772,6 +752,28 @@ function downloadFile(rowid,fileid){
         var otable;
         $(document).ready(function() {
                 
+             $(".star").on({
+    mouseenter: function () {
+        var getId=$(this).attr("id").split("-");
+        getFileId=getId[getId.length-1];
+        var getStarId=getId[getId.length-2];
+        for(var i=1;i<=getStarId;i++){
+            $("#star-"+i+"-"+getFileId).removeClass("glyphicon-star-empty");
+            $("#star-"+i+"-"+getFileId).addClass("glyphicon-star");
+        }
+      
+    },
+    mouseleave: function () {
+        var getId=$(this).attr("id").split("-");
+        getFileId=getId[getId.length-1];
+        var getStarId=getId[getId.length-2];
+        for(var i=1;i<=getStarId;i++){
+            $("#star-"+i+"-"+getFileId).addClass("glyphicon-star-empty");
+            $("#star-"+i+"-"+getFileId).removeClass("glyphicon-star");
+        }
+      
+    },
+}); 
 
     
             $('.se-pre-con').fadeOut('slow');
@@ -825,8 +827,10 @@ function downloadFile(rowid,fileid){
                 "showNEntries": true,
                 "bFilter": false,
                 "bLengthChange": true,
-                "aoColumnDefs": [{}],
-                "order": []
+               
+                "order": [],
+                "fixedColumns": true,
+                
             });
           
             if (<%=alert%> == 1) {
@@ -922,7 +926,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 dataType: 'json',
                 success: function(tabledata) {
                     var charstr = "";
-                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Total Downloads</th><th>File Rating</th><th>Rate</th><th>Action</th></thead><tbody>';
+                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Total Downloads</th><th>File Rating</th><th style="width:50px">Rate</th><th>Action</th></thead><tbody>';
                     for (var i = 0; i <= tabledata.length - 1; i++) {
                         var bgstr = '';
                         if (tabledata[i].color == 'yellow') {
@@ -937,18 +941,21 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                                    var rateString=  tabledata[i].Rating ;
                                 }
                            
-                               charstr+=rateString+'</td><td><select id="rateFile_'+tabledata[i].id+'" class="rateFileClass" onChange=submitUpdatedRated("row_'+tabledata[i].id+'","'+tabledata[i].id+'",$(this).val())';
-                                    if(tabledata[i].ratingId){
-                                        charstr+='" disabled="true"';
-                                    } 
-                                   charstr+=' >><option value="0" >select</option>';
-                                    for(var j=0;j<=selectVariable.length-1;j++) {
-                                     charstr+='<option value="'+selectVariable[j].id+'"';
-                                            if(tabledata[i].ratingId==selectVariable[j].id){
-                                            charstr+='selected';
-                                            }charstr+='>'+selectVariable[j].value+'</option>';
-                                     }
-                              charstr+='</select></td></td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>';
+                                charstr+=rateString+'</td><td>';
+                                for(var a=1;a<=5;a++){
+                                    if(tabledata[i].ratingId>=a){
+                                     charstr+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>';
+                                        
+                                   }
+                                   if(!tabledata[i].ratingId){%>
+                                    charstr+='<i id="star-'+a+'-'+tabledata[i].id+'" onClick=submitUpdatedRated("row_'+tabledata[i].id+'","'+tabledata[i].id+'",'+a+') class="star glyphicon glyphicon-star-empty"></i>';
+                                        
+                                   }
+                                }
+                                 
+
+                             
+                              charstr+='</td></td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>';
                         if (<%=roleid%> == 1) {
                                 charstr = charstr + '<a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px ; margin-right:5px"></a><a title="edit file" class="glyphicon glyphicon-pencil delete" onclick="editFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
                         } 
