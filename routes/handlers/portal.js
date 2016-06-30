@@ -1188,235 +1188,200 @@ rejectFileById: function(req,res,next){
  );
 },
 
-attachDocFile: function(req,res,next){
+
+attachDocFile: function(req, res, next) {
     var parsedData = null;
-    if(req.file != undefined){
-        console.log("portal");
+    if (req.file != undefined) {
         var currfolder = req.body.currfolder;
         var fname = req.file.originalname;
         var now = Date.now();
         var exet = fname.split('.');
         var exe = exet[exet.length - 1];
-       
+
         var tempPath = req.file.path,
-            targetPath = path.resolve('./public/attach/' +exet[0] + '_' +now+'.' + exe);
-         
-            var strname =   exet[0]+'_'+now+ '.' + exe;
-            fs.rename(tempPath, targetPath, function(err){
-                if (err){
-                   
-                       res.redirect('/breakdown');
-                }
-                else{
-                              
-                         
-                              if (exe == 'doc' || exe == 'docx'  || exe == 'rtf' || exe == 'txt' || exe == 'csv'){
+        targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
+        var strname = exet[0] + '_' + now + '.' + exe;
+        fs.rename(tempPath, targetPath, function(err) {
+            if (err) {
 
-                                    textract.fromFileWithPath(targetPath, config, function(error, text) {
+                res.redirect('/breakdown');
+            } else {
+                if (exe == 'doc' || exe == 'docx' || exe == 'rtf' || exe == 'txt' || exe == 'csv') {
+                    textract.fromFileWithPath(targetPath, config, function(error, text) {
+                        if (error) {
 
-                                        if (error) {
-                                         
-
-                                        } else {
-                                            if (typeof text != undefined) {
-                                              
-                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
-                                 
-                                              
-                                             parseAll(textLowerCase,req,strname,1,next);
-                                                             next();
-
-                                            } 
-                                        }
-                                    });
-                            }
-                            else if (exe.toLowerCase() == 'pdf') { 
-                                                    //console.log("ppt start");           
-                                    var processor = pdf_extract(targetPath, options, function(err) {
-                                        if (err) {
-                                           
-                                        }
-                                    });
-                                    processor.on('complete', function(data) {
-                                       
-                                        var text = '';
-                                        for (var i = 0; i < data.text_pages.length; i++) {
-                                            text = text.concat(data.text_pages[i]);
-                                        }
-                                     
-                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
-                                      
-                                         parseAll(textLowerCase,req,strname,1,next);
-                                                  next();
-                                    });
-
-                                    processor.on('error', function(err) {
-
-                                     
-                                    });
-                            }
-                          else if(exe == 'pptx'){
-                            textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",targetPath, function( error, text ) {
-
-                                        if (error) {
-
-
-                                        }else {
-                                            if (typeof text != undefined) {
-                                              
-                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
-                                 
-                                              
-                                             parseAll(textLowerCase,req,strname,1,next);
-                                                             next();
-
-                                            } 
-                                        }
-                                    });
-
-                            }    
-                        else if(exe.toLowerCase() == 'zip'){
-                        var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
-                        var folderpath='./public/attach/' + exet[0] + '_' + now ;
-                        var foldername=exet[0] + '_' + now;
-                        var zip = new AdmZip(targetPath);
-                         zip.extractAllTo( path.join(__dirname, '../../public/attach/' + exet[0] + '_' + now), false);
-                        var zipEntries = zip.getEntries();
-                        zipEntries.forEach(function(zipEntry){
-                          var namefile = zipEntry["name"];
-                          var namearr = namefile.split('.');
-                          var now = Date.now();
-                          var exe = namearr[namearr.length - 1].toLowerCase();
-                          var newpath = folderpath + '/' + namefile;
-                          if(exe == 'doc' || exe == 'docx'  || exe == 'rtf' || exe == 'txt' || exe == 'csv'){
-                            textract.fromFileWithPath(newpath, config, function(error, text) {
-
-                                        if (error) {
-
-
-                                        } else {
-                                            if (typeof text != undefined) {
-                                              
-                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
-                                 
-                                              
-                                            parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
-                                                        
-
-                                            } 
-                                        }
-                                    });
-
-
-
-                               
-
-
-                            } 
-                            else if(exe == 'pptx'){
-                            textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function( error, text ) {
-
-                                        if (error) {
-
-
-                                        } else {
-                                            if (typeof text != undefined) {
-                                              
-                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
-                                 
-                                              
-                                            parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
-                                                        
-
-                                            } 
-                                        }
-                                    });
-
-                            }else if(exe == 'pdf') {
-                                var processor = pdf_extract(newpath, options, function(err) {
-                                    if (err) {
-                                         //console.log("pdf   ",error);
-
-                                    }
-                                });
-                                 processor.on('complete', function(data) {
-                                       
-                                        var text = '';
-                                        for (var i = 0; i < data.text_pages.length; i++) {
-                                            text = text.concat(data.text_pages[i]);
-                                        }
-                                     
-                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
-                                      
-                                          parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
-
-                                                
-                                    });
-                               
-                                processor.on('error', function(err) {
-                                    blankentry(newpath, req);
-                                });
-
-                            }
-                            else if(exe == 'exe'){
-                                      fs.unlinkSync(newpath);
-
-                            }
-                            else{ 
-                                var industry=req.body.industry==null? '':req.body.industry.toString();
-                                var business=req.body.business==null? '':req.body.business.toString();
-                                var doctype=req.body.doctype==null? '':req.body.doctype.toString();
-                                var tec=req.body.newTec==null? '':req.body.newTec.toString();
-                                var restriction=req.body.rLevel==null? '':req.body.rLevel.toString();
-                            
-                                modelPortal.attachDocFile(req.session.userId,req.session.retailerId,
-                                     foldername+'/'+namefile,req.body.currfolder,namefile,req.body.descbox,req.body.authname,
-                                    industry,business,req.body.title,doctype,tec,req.session.roleId,restriction,
-                                    req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
-                                    req.body.rLevelhide,parsedData,function(err,result){
-                                                 if(err){
-                                                 
-                                                    return;
-                                                }
-                                                else{
-                                                
-                                                  }
-                                      });
-
-                            }
-                          });  
-                            next();
-                        }                      
+                        } 
+                        else if (typeof text != undefined){
+                               var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                parseAll(textLowerCase, req, strname, 1, next);
+                        }
                         
-                                     
-                            else{
-                                    var industry=req.body.industry==null? '':req.body.industry.toString();
-                                    var business=req.body.business==null? '':req.body.business.toString();
-                                    var doctype=req.body.doctype==null? '':req.body.doctype.toString();
-                                    var tec=req.body.newTec==null? '':req.body.newTec.toString();
-                                    var restriction=req.body.rLevel==null? '':req.body.rLevel.toString();
-                                
-                                    modelPortal.attachDocFile(req.session.userId,req.session.retailerId,
-                                         strname,req.body.currfolder,fname,req.body.descbox,req.body.authname,
-                                        industry,business,req.body.title,doctype,tec,req.session.roleId,restriction,
-                                        req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
-                                        req.body.rLevelhide,parsedData,function(err,result){
-                                        if(err){
-                                            next(err);
-                                            return;
-                                        }
-                                        else{
-                                          next(); 
-                                        }
-                                   });
-                            }
-                    }    
-           
-            });
-        }
-   
- },
+                    });
+                } 
+                else if (exe.toLowerCase() == 'pdf'){
+                    var processor = pdf_extract(targetPath, options, function(err){
+                        if (err) {
+                        }
+                    });
+                    processor.on('complete', function(data) {
+                        var text = '';
+                        for (var i = 0; i < data.text_pages.length; i++){
+                            text = text.concat(data.text_pages[i]);
+                        }
+                        var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                        parseAll(textLowerCase, req, strname, 1, next);
+                       
+                    });
+                    processor.on('error', function(err) {
+                    });
+                }
+                else if (exe == 'pptx') {
+                    textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation", targetPath, function(error, text) {
+                        if (error) {
+
+                        } else if (typeof text != undefined) {
+                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                parseAll(textLowerCase, req, strname, 1, next);
+                        }
+                    });
+
+                }
+                else if (exe.toLowerCase() == 'zip') {
+                    var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
+                    var folderpath = './public/attach/' + exet[0] + '_' + now;
+                    var foldername = exet[0] + '_' + now;
+                    var zip = new AdmZip(targetPath);
+                    zip.extractAllTo(path.join(__dirname, '../../public/attach/' + exet[0] + '_' + now), false);
+                    var zipEntries = zip.getEntries();
+                     var textLowerCase="";
+                     var count=1;
+                    zipEntries.forEach(function(zipEntry){
+                        var namefile = zipEntry["name"];
+                        var namearr = namefile.split('.');
+                        var now = Date.now();
+                        var exe = namearr[namearr.length - 1].toLowerCase();
+                        var newpath = folderpath + '/' + namefile;
+                        if (exe == 'doc' || exe == 'docx' || exe == 'rtf' || exe == 'txt' || exe == 'csv') {
+                            textract.fromFileWithPath(newpath, config, function(error, text) {
+                                if (error) {
+                                   
+                                    if(count==zipEntries.length){
+                                        parseAll(textLowerCase, req,strname,1, next);
+                                    }
+                                        count++;
+    
+                                } else if(typeof text != undefined) {
+                                        var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                          textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                                         if(count==zipEntries.length){
+                                            parseAll(textLowerCase, req,strname,1, next);
+                                         } 
+                                         count++;
   
+                                }
+                                
+                            });
+                        }
+                        else if (exe == 'pptx') {
+                            textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation", newpath, function(error, text) {
+
+                                if (error) {
+                                     
+                                     if(count==zipEntries.length){
+                                             parseAll(textLowerCase, req,strname,1, next);
+                                         }
+                                          count++; 
+
+                                } else if (typeof text != undefined) {
+                                       var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                          textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                                       if(count==zipEntries.length){
+                                         parseAll(textLowerCase, req,strname,1, next);
+                                       } 
+                                        count++;
+                                }
+                                 
+                            });
+
+                        }
+                        else if (exe == 'pdf') {
+                            var processor = pdf_extract(newpath, options, function(err) {
+                                if (err) {
+                                  
+                                    if(count==zipEntries.length){
+                                             parseAll(textLowerCase, req,strname,1, next);
+                                    } 
+                                     count++;
+                                }
+                            });
+                            processor.on('complete', function(data){
+                                var text = '';
+                                for (var i = 0; i < data.text_pages.length; i++) {
+                                    text = text.concat(data.text_pages[i]);
+                                }
+                               var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                          textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                                if(count==zipEntries.length){
+                                     console.log(count," pdf  ",textLowerCase.length);
+                                     parseAll(textLowerCase, req,strname,1, next);
+                                } 
+                                 count++;
+                            });
+
+                            processor.on('error', function(err) {
+                                
+                                 if(count==zipEntries.length){
+                                     console.log(count,"   ",textLowerCase.length);
+                                     parseAll(textLowerCase, req,strname,1, next);
+                                } 
+                                 count++;
+                                blankentry(newpath, req);
+                            });
+
+                        }
+                        else if (exe == 'exe'){
+                           fs.unlinkSync(newpath);
+                            if(count==zipEntries.length){
+                                 parseAll(textLowerCase, req,strname,1, next);
+                             } 
+                             count++;
+                        }
+                        else {
+                            if(count==zipEntries.length){
+                                    console.log(count,"   ",textLowerCase.length);
+                                     parseAll(textLowerCase, req,strname,1, next);
+                            } 
+                             count++;
+                        }
+                    });
+                   
+                } else {
+                    var industry = req.body.industry == null ? '' : req.body.industry.toString();
+                    var business = req.body.business == null ? '' : req.body.business.toString();
+                    var doctype = req.body.doctype == null ? '' : req.body.doctype.toString();
+                    var tec = req.body.newTec == null ? '' : req.body.newTec.toString();
+                    var restriction = req.body.rLevel == null ? '' : req.body.rLevel.toString();
+
+                    modelPortal.attachDocFile(req.session.userId, req.session.retailerId,
+                        strname, req.body.currfolder, fname, req.body.descbox, req.body.authname,
+                        industry, business, req.body.title, doctype, tec, req.session.roleId, restriction,
+                        req.body.industryhide, req.body.businesshide, req.body.doctypehide, req.body.newTechide,
+                        req.body.rLevelhide, parsedData,
+                        function(err, result) {
+                            if (err) {
+                                next(err);
+                                return;
+                            } else {
+                                next();
+                            }
+                        });
+                }
+            }
+
+        });
+    }
+
+},  
    
 
 tableSearchBox: function(req,res,next){
@@ -4346,7 +4311,7 @@ upload_resume:function(req,res,next){
                 if (err) {}//////console.log(err)
                 else {
 
-                     if(exe == 'doc' || exe == 'docx'  || exe == 'rtf' || exe == 'txt' || exe == 'csv'){
+                     if(exe == 'doc' || exe == 'docx'  || exe == 'rtf' ){
 
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
@@ -4510,7 +4475,7 @@ upload_resume:function(req,res,next){
 
                             //         parseResume(req,newpath);
 
-                            if (exet == 'doc' || exet == 'docx') {
+                            if (exet == 'doc' || exet == 'docx' || exet == 'rtf') {
                                 /*  if(exet=="rtf")
                                   {
                                     namearr.pop();
@@ -5290,61 +5255,63 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
 
 
  //-------------------------------------SEPERATE FUNCTION-------------------------------------->
-
- function  parseAll(textLowerCase,req,strname,temp,next){
-var parsedData ;
-var largeArr = [];
-
-var conjunctionArr = ['if','and','the','is','because','on','to','in','from','of','above','be','would','for','each','at','under','by','been','no','my','upon','been','it0','will','there','that','this','has','have','had','up','with','own','are','any','may','about','used','can','into','as','not','we','or','than','also','using','see','its','more','such','what','us','there','so','them','Your','just','our','why','but','am','//','>=','<=','over','per','#1','#2','#3','#4','#5','#6','etc)','recent','due','(the','an','out','here'];
-
-
-for(var i =0,len=textLowerCase.length;i<len;i++){
-if((largeArr.indexOf(textLowerCase[i])<0)&&(conjunctionArr.indexOf(textLowerCase[i])<0)&&(textLowerCase[i].length>1)&&(isNaN(textLowerCase[i]))){
-    //console.log("munni",textLowerCase.length);
+function union_arrays (x, y) {
+  var obj = {};
+  for (var i = x.length-1; i >= 0; -- i)
+     obj[x[i]] = x[i];
+  for (var i = y.length-1; i >= 0; -- i)
+     obj[y[i]] = y[i];
+  var res = []
+  for (var k in obj) {
+    if (obj.hasOwnProperty(k))  // <-- optional
+      res.push(obj[k]);
+  }
+  return res;
+}
+function parseAll(textLowerCase, req, strname, temp, next) {
+    var parsedData;
+    var largeArr = [];
+    var conjunctionArr = ['if', 'and', 'the', 'is', 'because', 'on', 'to', 'in', 'from', 'of', 'above', 'be', 'would', 'for', 'each', 'at', 'under', 'by', 'been', 'no', 'my', 'upon', 'been', 'it0', 'will', 'there', 'that', 'this', 'has', 'have', 'had', 'up', 'with', 'own', 'are', 'any', 'may', 'about', 'used', 'can', 'into', 'as', 'not', 'we', 'or', 'than', 'also', 'using', 'see', 'its', 'more', 'such', 'what', 'us', 'there', 'so', 'them', 'Your', 'just', 'our', 'why', 'but', 'am', '//', '>=', '<=', 'over', 'per', '#1', '#2', '#3', '#4', '#5', '#6', 'etc)', 'recent', 'due', '(the', 'an', 'out', 'here'];
+    for (var i = 0, len = textLowerCase.length; i < len; i++) {
+        if ((largeArr.indexOf(textLowerCase[i]) < 0) && (conjunctionArr.indexOf(textLowerCase[i]) < 0) && (textLowerCase[i].length > 1) && (isNaN(textLowerCase[i]))) {
             largeArr.push(textLowerCase[i]);
 
-}
+        }
+    }
+    if (!largeArr.length) {
+        parsedData = null;
+    } else {
+        parsedData = largeArr.join(',');
+    }
+    var filenamedemo;
+    if (temp == 1) {
+        filenamedemo = req.file.originalname;
+    } else if (temp == 2) {
+        var arr = strname.split("/");
+        filenamedemo = arr[arr.length - 1];
+    }
+    var industry = req.body.industry == null ? '' : req.body.industry.toString();
+    var business = req.body.business == null ? '' : req.body.business.toString();
+    var doctype = req.body.doctype == null ? '' : req.body.doctype.toString();
+    var tec = req.body.newTec == null ? '' : req.body.newTec.toString();
+    var restriction = req.body.rLevel == null ? '' : req.body.rLevel.toString();
 
 
-}
-if(!largeArr.length){
-    parsedData = null;
-}
-
-else{
-
-          parsedData = largeArr.join(',');
-
-  }
- // ////console.log(parsedData.length);
-  var filenamedemo ;
-if(temp==1){
-filenamedemo=req.file.originalname;
-}
-else if(temp==2){
-    var arr=strname.split("/");
-    filenamedemo=arr[arr.length-1];
-    ////console.log("yeeeee : : :",filenamedemo ,parsedData);
-}
-  var industry=req.body.industry==null? '':req.body.industry.toString();
-                        var business=req.body.business==null? '':req.body.business.toString();
-                        var doctype=req.body.doctype==null? '':req.body.doctype.toString();
-                        var tec=req.body.newTec==null? '':req.body.newTec.toString();
-                        var restriction=req.body.rLevel==null? '':req.body.rLevel.toString();
-                        ////console.log("come on baby :",req.file.originalname,"       ",strname);
-                        modelPortal.attachDocFile(req.session.userId,req.session.retailerId,
-                             strname,req.body.currfolder,filenamedemo,req.body.descbox,req.body.authname,
-                            industry,business,req.body.title,doctype,tec,req.session.roleId,restriction,
-                            req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
-                            req.body.rLevelhide,parsedData,function(err,result){
-
-                          if(err){
-                        next(err);
-                         return;
-                            }
+    modelPortal.attachDocFile(req.session.userId, req.session.retailerId,
+        strname, req.body.currfolder, filenamedemo, req.body.descbox, req.body.authname,
+        industry, business, req.body.title, doctype, tec, req.session.roleId, restriction,
+        req.body.industryhide, req.body.businesshide, req.body.doctypehide, req.body.newTechide,
+        req.body.rLevelhide, parsedData,
+        function(err, result) {
+            if (err) {
+                next(err);
+                return;
+            } else {
+                next();
+            }
 
 
-});
+        });
 
 }
 

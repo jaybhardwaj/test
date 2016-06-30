@@ -70,9 +70,9 @@ app.post('/blockUser',portal.blockUser);
   	app.post('/filterFiledata',portal.tableSearchBox);
     app.post('/viewFileDetails',portal.viewFileDetails);
     app.get('/setdocalert',portal.setdocalert);
-     app.get('/verifyCustomRole',portal.verifyCustomRole);
-     app.get('/myUploads',url.myUploads,portal.myUploads,render.redirect);
-         app.post('/downloadFileCount',portal.downloadFileCount);
+    app.get('/verifyCustomRole',portal.verifyCustomRole);
+    app.get('/myUploads',url.myUploads,portal.myUploads,render.redirect);
+    app.post('/downloadFileCount',portal.downloadFileCount);
 
     //app.get('/Documenterror',url.Documenterror,render.redirect);
   

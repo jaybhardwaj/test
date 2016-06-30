@@ -7,7 +7,27 @@
 <title>Document Management</title>
 
 <style type="text/css">
-
+.tdClassTextBox{
+    width:25%;
+}
+.form-text-box {
+    display: block;
+    width: 90%;
+    height: 25px;
+    padding: 0px 0px;
+    font-size: 10px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
 .dataTables_filter, .dataTables_length {
      display: none;
     }
@@ -90,7 +110,7 @@
             overflow-y: scroll;
         }
     .labelclass{
-        position:relative;top:10%;margin-top:-10px;margin-left:0%
+        position:relative;top:10%;margin-left:0%
     }    
    
     .col-md-3 {
@@ -121,117 +141,185 @@
     white-space: nowrap;
 }
 
+
+
+.left {
+    width: 30%;
+    float: left;
+ 
+}
+.right {
+    width: 65%;
+    margin-left: 10px;
+    float:left;
+    margin-top: 4%;
+}
 </style>
 
   
   <script>
   $("#searchbox_demo").removeClass("hide"); 
-  </script>   
-<div class="se-pre-con"></div>        
+ </script> 
+<body>  
+<div class="se-pre-con"></div>      
+
  
-<div class="container-fluid"> 
-    <div class="row">
-        
-                    <div class="col-md-3 " style="margin-top:0%">
-                       
-                            <div class=" form-Label" style=""><b>Industry :</b>
-                            </div>
-                            <div>
-                                <select id="select1" multiple="multiple" required name="industry1">
-                                  <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
-                                <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
-                                <%}}}%>
-                                           
-                                </select>
-                        
-                             </div>
+<div class="container-fluid secondry-color" > 
+  <div class="row">
+    <div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
+      height:auto;width:19%;;padding:0px;">
+            <div class="" style=" margin-left:16%;"><label class="form-Label ">File Upload (size limit :20 mb)</label></div>
+            <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" >
+                <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:0%;">
+                    <input type="file" id="fileAttach" class="fileStyle form-control " name='attach' style="font-size:11px;height: 0%;" required>
+                    <input type="number" name='currfolder' value='0' class="hide" id="currfolderId">
+                </div>
+
+                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
+                    <input type="text" id="ftitle" maxlength="50" required name="title" placeholder=" File Title(Required)" style="width:100%; ">
+                </div>
+                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
+                    <input type="text" id="fauthor" maxlength="30" equired name="authname" placeholder=" Author Name(Required)" style="width:100%">
+                </div>
+                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
+                    <textarea rows="6" cols="12" maxlength="500" id="des" name="descbox" placeholder=" Description(Required) Limit:100 words" style="width:100%;resize: none;"></textarea>
+                </div>
+
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
+                    <div class="row labelclass form-Label" ><b>Industry:<sup style="color:red;">*</sup></b></div>
+                    <div class="form-Label">
+                     <%if(industry[0].length>0){%><input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"><%}%>
+                        <select id="my-select1"  multiple="multiple" required name="industry">
+                           <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                            <%}}}%>
+                        </select>
                     </div>
+                </div>
 
 
-                    <div class="col-md-3 " style="margin-top:0%">
-                        
-                            <div class="   form-Label" style=""><b>Business:</b>
-                            </div>
-                            <div >
-                                 <select id="select2" multiple="multiple" required name="business1">
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
+                    <div class="row labelclass form-Label" style=""><b>User Department:<sup style="color:red;">*</sup></b></div>
+                    <div class="form-Label">
+                        <%if(business[0].length>0){%> <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>">  <%}%>
+                        <select id="my-select2"  multiple="multiple" required name="business">
+                            <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
+                    <div class="row labelclass form-Label" style=""><b>Document type:<sup style="color:red;">*</sup></b></div>
+
+                    <div class="form-Label">  <%if(document[0].length>0){%>
+                        <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>">   <%}%>
+                        <select id="my-select3"  multiple="multiple" required name="doctype">
+                                         <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
+
+                                        </select>
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
+                    <div class="row labelclass form-Label" style=""><b>Application Area:<sup style="color:red;">*</sup></b></div>
+                    <div class="form-Label"><%if(technology[0].length>0){%>
+                        <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"><%}%>
+                        <select id="my-select4"  multiple="multiple" required name="newTec">
+                                             <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%" id="">
+                    <div class="row labelclass form-Label" style="">
+                        <b>Restriction Level:<sup style="color:red;">*</sup></b>
+                    </div>
+                    <div class="form-Label">
+                        <input type="hidden" id="<%=restriction[0][0].id%>" required name="rLevelhide" value="<%=restriction[0][0].id%>">
+                        <select id="my-select5" required name="rLevel" class="form-text-box form-Label" style="width: 100%;padding: 3px;">
+                             <%for(var i=0;i<restriction[0].length;i++){%>
+                            <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                            <%}%>
+
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6 col-md-offset-4 " id="lastfiveuploads6" style="margin-top:0%;">
+                    <input type="submit" value="Submit" id="" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()">
+                </div>
+      </form>
+  
+    </div>
+
+    <div class="col-md-9" style="width:81%">
+
+        <table>
+            <tr>
+            <td><label class="form-Label ">Industry:</label></td>
+            <td class="tdClassTextBox"> <select id="select1" multiple="multiple" required name="industry1" class="form-text-box">
+                                              <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                                            <%}}}%>
+                                                       
+                            </select></td>
+
+            <td><label class="form-Label ">User Department:</label></td>
+            <td class="tdClassTextBox">  <select id="select2" multiple="multiple" required name="business1"  class="form-text-box">
                                   <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
                             <%}}}%>
                             
-                            </select>
-                        
-                    </div>
-                    </div>
-
-
-                    <div class="col-md-3 " style="margin-top:0%">
-                       
-                            <div class=" form-Label" style=""><b>Document Type:</b>
-                            </div>
-                            <div >
-                                  <select id="select3" multiple="multiple" required name="doctype">
+                            </select></td>
+            <td><label class="form-Label ">Document Type:</label></td>
+            <td class="tdClassTextBox">   <select id="select3" multiple="multiple" required name="doctype"  class="form-text-box">
                                             <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
                             <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
                             <%}}}%>
                                           
  
-                                        </select>
-                            
-                    </div>
-                    </div>
-
-                      <div class="col-md-3 " style="margin-top:0%">
-                     
-                            <div class="   form-Label" style=""><b>Technology:</b>
-                            </div>
-                            <div>
-                                 <select id="select4" multiple="multiple" required name="newTec1">
-                                             <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][0].Active==1){%>
+                                        </select></td>
+            
+             </tr>
+             <tr>
+                <td><label class="form-Label ">Application Area:</label></td>
+            <td class="tdClassTextBox"> <select id="select4" multiple="multiple" required name="newTec1"  class="form-text-box">
+                                            <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
                             <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
                             <%}}}%>
+
                                                 
-                                        </select>
-                          
-                    </div>
-                    </div>
+                                        </select></td>
+            <td><label class="form-Label ">Restriction Level:</label></td>
+            <td class="tdClassTextBox"> <select id="select5" multiple="true" required name="rLevel1" class="form-text-box">
+                                                     <%for(var i=0;i<restriction[0].length;i++){%>
+                                                    <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                                                    <%}%>
+                                            </select></td>
+            <td>
+             <span  onclick="filterdata();" ><input type="image" src="../images/candidate_search.png" id="searchBoxId1" height="33px" title="Search" style=""></span>
+            </td>
+           </tr>
+        </table>
 
-                     <div class="col-md-3 " style="margin-top:0%">
-                      
-                            <div class="   form-Label" style=""><b>Restriction Level:</b>
-                            </div>
-                            <div >
-                                 <select id="select5" multiple="true" required name="rLevel1">
-                                         <%for(var i=0;i<restriction[0].length;i++){%>
-                                        <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
-                                        <%}%>
-                                </select>
-                         
-                           
-                    </div>
-                    <span  onclick="filterdata();" ><input type="image" src="../images/candidate_search.png" id="searchBoxId1" height="33px" title="Search" style="margin-right: 2%; margin-top:-12%; float: right;"></span>
-                    </div>
-                  
-                    
 
-      </div>  
-                         
-                    
+     
 
-    <div class="row secondry-color" style="padding:2%">
-
- 
-<div class="col-md-9">
-        <div style="width: 107%; overflow-x:auto;">
-
-            <table id="data_table" class="table table-bordered" cellspacing="0" align="centre" style="max-width:100%;">
+ <div class="row">
+            <table id="data_table" class="table table-bordered" cellspacing="0" align="centre" style="max-width:100%;padding: 1%;">
                 <thead>
                 <tr>
                     <th>File Name</th>
                     <th>File Title</th>
-                    <th>Author</th>
+                   <!--  <th>Author</th> -->
                      <th>Uploaded By</th>
                     <th>Upload Date</th>
-                    <th>Total Downloads</th>
+                  <!--   <th>Total Downloads</th> -->
                     <th>File Rating</th>
                      <th>Rate</th>
                     <%if(roleid!=1){%><th>Status</th><%}%>
@@ -251,23 +339,25 @@
                             <td>
                                 <%=files[0][i].title%>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <%=files[0][i].author%>
-                            </td>
+                            </td> -->
                             <td>
                                 <%=files[0][i].userName%>
                             </td>
                             <td>
                                 <%=files[0][i].uploadDate%>
                             </td>
-                             <td>
+                             <!-- <td>
                                 <%=files[0][i].no_of_downloads%>
-                            </td>
+                            </td> -->
                             <td>
-                                <%if(files[0][i].Rating==null){%>
+                                <%if(files[0][i].Rating==null || files[0][i].Rating==0){%>
                                 not yet rated.
                                 <%}else{%>
-                                    <%=files[0][i].Rating%>
+                                <%for(var k=0;k<files[0][i].Rating;k++){%>
+                                     <i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>
+                                     <%}%>
                                 <%}%>
                             </td>
                              <td>
@@ -308,102 +398,11 @@
 
                         <%}%>
                 </tbody>
-            </table>
-        </div>
+            </table>  
+    </div> 
+ </div> 
 </div>
-<div class="col-md-3" style="border-radius:15px;background: rgba(133,148,119,0.29);
-    height:auto;     margin-left: 5%;">
-            <div class="" style=""><b>File Upload (size limit :20 mb)</b></div>
-            <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" style="margin-left:-12%">
-                <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:4%;">
-                    <input type="file" id="fileAttach" class="fileStyle form-control " name='attach' style="font-size:11px;height: 0%;" required>
-                    <input type="number" name='currfolder' value='0' class="hide" id="currfolderId">
-                </div>
-
-                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:4%;">
-                    <input type="text" id="ftitle" maxlength="50" required name="title" placeholder=" File Title(Required)" style="width:100%; ">
-                </div>
-                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:4%;">
-                    <input type="text" id="fauthor" maxlength="30" equired name="authname" placeholder=" Author Name(Required)" style="width:100%">
-                </div>
-                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:5%;">
-                    <textarea rows="6" cols="12" maxlength="500" id="des" name="descbox" placeholder=" Description(Required) Limit:100 words" style="width:100%;resize: none;"></textarea>
-                </div>
-
-                <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                    <div class="row labelclass form-Label" ><b>Industry:<sup style="color:red;">*</sup></b></div>
-                    <div class="form-Label">
-                     <%if(industry[0].length>0){%><input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"><%}%>
-                        <select id="my-select1"  multiple="multiple" required name="industry">
-                           <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
-                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
-                            <%}}}%>
-                        </select>
-                    </div>
-                </div>
-
-
-                <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                    <div class="row labelclass form-Label" style=""><b>Business:<sup style="color:red;">*</sup></b></div>
-                    <div class="form-Label">
-                        <%if(business[0].length>0){%> <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>">  <%}%>
-                        <select id="my-select2"  multiple="multiple" required name="business">
-                            <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
-                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
-                            <%}}}%>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                    <div class="row labelclass form-Label" style=""><b>Document type:<sup style="color:red;">*</sup></b></div>
-
-                    <div class="form-Label">  <%if(document[0].length>0){%>
-                        <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>">   <%}%>
-                        <select id="my-select3"  multiple="multiple" required name="doctype">
-                                         <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
-                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
-                            <%}}}%>
-
-                                        </select>
-                    </div>
-                </div>
-                <div class="col-md-10 col-md-offset-1" style="margin-top:7%">
-                    <div class="row labelclass form-Label" style=""><b>Technology :<sup style="color:red;">*</sup></b></div>
-                    <div class="form-Label"><%if(technology[0].length>0){%>
-                        <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"><%}%>
-                        <select id="my-select4"  multiple="multiple" required name="newTec">
-                                             <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
-                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
-                            <%}}}%>
-                        </select>    
-                    </div>
-                </div>
-                <div class="col-md-10 col-md-offset-1" style="margin-top:7%" id="">
-                    <div class="row labelclass form-Label" style="">
-                        <b>Restriction Level:<sup style="color:red;">*</sup></b>
-                    </div>
-                    <div class="form-Label">
-                        <input type="hidden" id="<%=restriction[0][0].id%>" required name="rLevelhide" value="<%=restriction[0][0].id%>">
-                        <select id="my-select5" required name="rLevel" class="form-control form-Label" style="width: 100%;padding: 3px;">
-                             <%for(var i=0;i<restriction[0].length;i++){%>
-                            <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
-                            <%}%>
-
-                        </select>
-                    </div>
-                </div>
-
-
-
-                <div class="col-md-6 col-md-offset-4 " id="lastfiveuploads6" style="margin-top:5%;">
-                    <input type="submit" value="Submit" id="" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()">
-                </div>
-      </form>
-  
-    </div>
-</div> 
-  
-<!-- </div> -->
+</div>
 </body>
 
 
@@ -455,7 +454,7 @@
                     </div>
                     <div class="row ">
                         <div class="col-md-4">
-                            <label style="line-height:42px !important;">Business:</label>
+                            <label style="line-height:42px !important;">User Department:</label>
                         </div>
                         <div class="col-md-8">
                              <textarea name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
@@ -476,7 +475,7 @@
 
                     <div class="row ">
                         <div class="col-md-4">
-                            <label style="line-height:42px !important;">Technology:</label>
+                            <label style="line-height:42px !important;">Application Area:</label>
                         </div>
                         <div class="col-md-8">
                              <textarea name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
@@ -515,39 +514,36 @@
                 <div class="modal-header">
                   <button type="button" class="close" id='btn-cancel' type="reset" data-dismiss="modal">&times;</button>
                   <center>
-<label id="head4" class="modal-title" style="color:white;"><b>Edit File Details</b></label> </center>              </div>
-
-
-                    
-           
-            <div style="max-height:300px;overflow-y:auto">
-
-            <div class="col-md-12 a"  style="padding-top:2%"> 
+                <label id="head4" class="modal-title" style="color:white;"><b>Edit File Details</b></label> </center>
+                 </div>
+                <div class="modal-body" style="width:auto">
+            <div class="row  a"  style="padding-top:2%"> 
+               
                <div class="col-md-5">
-               <label  style="line-height:42px !important;padding:0px">Title:<sup  style="color:red">*</sup></label>
+               <label class="form-Label"  style="padding:0px">File Title:<sup  style="color:red">*</sup></label>
                </div>
                <div class="col-md-7">
-                <input placeholder="Enter File Title Here" type="text" maxlength="30"  style="width:100%" class="form-control" id="file_title" name="rname" />
+                <input placeholder="Enter File Title Here" type="text" maxlength="30"  style="width:100%" class="form-text-box" id="file_title" name="rname" />
                </div>
             </div>
-            <div class="col-md-12 a"  style="padding-top:2%"> 
+            <div class="row a"  style="padding-top:2%"> 
                <div class="col-md-5">
-               <label  style="line-height:42px !important;padding:0px">Author Name:<sup  style="color:red">*</sup></label>
+               <label class="form-Label" style="padding:0px">Author Name:<sup  style="color:red">*</sup></label>
                </div>
                <div class="col-md-7">
-                <input placeholder="Enter Author Name Here" type="text" maxlength="30"  style="width:100%" class="form-control" id="author_name" name="rname" />
+                <input placeholder="Enter Author Name Here" type="text" maxlength="30"  style="width:100%" class="form-text-box" id="author_name" name="rname" />
                </div>
             </div>
-             <div class="col-md-12 a"  style="padding-top:2%"> 
+             <div class="row a"  style="padding-top:2%"> 
                <div class="col-md-5">
-               <label  style="line-height:42px !important;padding:0px">Description:<sup  style="color:red">*</sup></label>
+               <label class="form-Label" style="padding:0px">Description:<sup  style="color:red">*</sup></label>
                </div>
                <div class="col-md-7">
-                <input placeholder="Enter Author Name Here" type="text" maxlength="30"  style="width:100%" class="form-control" id="file_description" name="rname" />
+                <input placeholder="Enter Author Name Here" type="text" maxlength="500"  style="width:100%" class="form-text-box" id="file_description" name="rname" />
                </div>
             </div>
-                    <div class="col-md-12 a">
-                    <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Industry:<sup  style="color:red">*</sup></label></div>
+                    <div class="row a" style="margin-top:1%">
+                    <div class="col-md-5"><label class="form-Label" style="padding:0px">Industry:<sup  style="color:red">*</sup></label></div>
                     <div class="col-md-7">
                     <input type="hidden" id="<%=industry[0].id%>" maxlength="30" required name="industryhide" value="<%=industry[0].id%>">
                     <div id="ii">
@@ -560,8 +556,8 @@
                     </div>
                     </div>
                    </div>
-                <div class="col-md-12 a">
-                    <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Business:<sup  style="color:red">*</sup></label></div>
+                <div class="row a" style="margin-top:1%">
+                    <div class="col-md-5"><label class="form-Label" style="padding:0px">User Department:<sup  style="color:red">*</sup></label></div>
                     <div class="col-md-7">
                       <input type="hidden" id="<%=business[0].id%>" maxlength="30" required name="businesshide" value="<%=business[0].id%>">
                        <div id="bb">
@@ -573,8 +569,8 @@
                       </div>  
                     </div>
                 </div>
-                <div class="col-md-12 a">
-                    <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Document Type:<sup  style="color:red">*</sup></label></div>
+                <div class="row a" style="margin-top:1%">
+                    <div class="col-md-5"><label class="form-Label" style="padding:0px">Document Type:<sup  style="color:red">*</sup></label></div>
                   <div class="col-md-7">
                           <input type="hidden" id="<%=document[0].id%>" maxlength="30" required name="doctypehide" value="<%=document[0].id%>">
                           <div id="dd">
@@ -587,8 +583,8 @@
                       </div>
                  </div>
               </div>
-              <div class="col-md-12 a">
-                    <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Technology:<sup  style="color:red">*</sup></label></div>
+              <div class="row a" style="margin-top:1%">
+                    <div class="col-md-5"><label class="form-Label" style="padding:0px">Application Area:<sup  style="color:red">*</sup></label></div>
                   <div class="col-md-7">
                           <input type="hidden" id="<%=technology[0].id%>" maxlength="30" required name="newTechide" value="<%=technology[0].id%>">
                         <div id="tt">  
@@ -601,8 +597,8 @@
                       </div>
                  </div>
               </div>
-             <div class="col-md-12 a">
-                <div class="col-md-5"><label  style="line-height:42px !important;padding:0px">Restriction Level:<sup  style="color:red">*</sup></label></div>
+             <div class="row a" style="margin-top:1%">
+                <div class="col-md-5"><label class="form-Label" style="padding:0px">Restriction Level:<sup  style="color:red">*</sup></label></div>
                   <div class="col-md-7" style="margin-bottom: 4%;">
                <input type="hidden" id="<%=restriction[0].id%>" maxlength="30"  required name="rLevelhide" value="<%=restriction[0].id%>">
                 <div id="rr">  
@@ -614,7 +610,7 @@
                       </div>
                     </div>
             </div>
-    </div>
+  
            <div class="modal-footer">
                 <center>
                          <button id='btn-cancel' type="reset" data-dismiss="modal"  class="btn">Cancel</button>
@@ -623,8 +619,10 @@
                 </center>
 
          </div>
+     </div>
             </div>
             </div>
+
 </div>
 <script>
 function submitUpdatedRated(rowid,fileid,rating){
@@ -648,8 +646,18 @@ stringStar+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></
                $('#'+rowid+' td select')[0].value=result[0][0].ratingId;
                }
                else{
-              document.getElementById("data_table").rows[rowid].cells.item(6).innerHTML =result[0][0].Rating;
-                 document.getElementById("data_table").rows[rowid].cells.item(7).innerHTML=stringStar;
+
+
+             // document.getElementById("data_table").rows[rowid].cells.item(4).innerHTML =result[0][0].Rating;
+
+var ratingstr='';
+             for(var k=0;k<result[0][0].Rating;k++)
+             {
+                ratingstr+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>';
+                
+             }
+             document.getElementById("data_table").rows[rowid].cells.item(4).innerHTML =ratingstr;
+                 document.getElementById("data_table").rows[rowid].cells.item(5).innerHTML=stringStar;
               }
             }
            
@@ -669,8 +677,8 @@ function downloadFile(rowid,fileid){
             dataType: 'json',
             success: function(result) {                  
 
-              document.getElementById("data_table").rows[rowid].cells.item(5).innerHTML =result[0][0].no_of_downloads;
-               
+           /*   document.getElementById("data_table").rows[rowid].cells.item(5).innerHTML =result[0][0].no_of_downloads;
+               */
             }
            
         });
@@ -841,10 +849,11 @@ function downloadFile(rowid,fileid){
                             type: 'get',
                             dataType: 'json',
                             success: function(tabledata) {
-                               window.location.href="/document";
                             },
                             error: function() {
-                                alert("error");
+                                alert("Server Error");
+                                window.location.href="/document";
+
                             }
                     });
                 }, 500);
@@ -926,7 +935,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 dataType: 'json',
                 success: function(tabledata) {
                     var charstr = "";
-                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Author</th><th>Uploaded By</th> <th>Upload Date</th><th>Total Downloads</th><th>File Rating</th><th style="width:50px">Rate</th><th>Action</th></thead><tbody>';
+                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Uploaded By</th> <th>Upload Date</th><th>File Rating</th><th style="width:50px">Rate</th><th>Action</th></thead><tbody>';
                     for (var i = 0; i <= tabledata.length - 1; i++) {
                         var bgstr = '';
                         if (tabledata[i].color == 'yellow') {
@@ -934,7 +943,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                             bgstr = 'style = "background-color:#ffffb3"';
 
                         }
-                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a onclick="downloadFile(row_'+tabledata[i].id+','+tabledata[i].id+')"  download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>' + tabledata[i].author + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate +'</td><td>'+tabledata[i].no_of_downloads+'</td><td>' ;
+                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a onclick="downloadFile(row_'+tabledata[i].id+','+tabledata[i].id+')"  download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate +'</td><td>' ;
                                 if(tabledata[i].Rating==null){
                                var rateString= "not yet rated." ;
                                 }else{
@@ -1218,7 +1227,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 return false;
             }
             if (bus ==null) {
-                alert("Please select any Business name!");
+                alert("Please select any User Department!");
                 return false;
             }
             if (doc== null) {
@@ -1226,7 +1235,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 return false;
             }
              if (tec== null) {
-                alert("Please select any Technology Type!");
+                alert("Please select any Application Area!");
                 return false;
             }   
              if (restrict== null) {
@@ -1275,7 +1284,7 @@ function submitFileChanges(){
               $("#btn-cancel").click();
 
              document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(1).innerHTML= $('#file_title').val();
-            document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(2).innerHTML =$('#author_name').val();
+           /* document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(2).innerHTML =$('#author_name').val();*/
 
 
           

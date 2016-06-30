@@ -525,8 +525,7 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             values: [retailerId,fileid,fileTitle,fileAuthor,description,i_name,b_name,d_name,t_name,res_name,industryhide,businesshide,doctypehide,newTechide,rLevelhide]
         };
         mysql(query,function(err,result){
-            console.log(query,result);
-
+          
             callback(err, result);
         });
      },
