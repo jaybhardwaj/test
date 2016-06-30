@@ -623,7 +623,7 @@ module.exports = {
       myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule});
 				break ;
-				case 'reqHod':
+		/*		case 'reqHod':
 				res.render('rms/reqhod',{
 					pdetails: req.hodResult[0],
                 skills: req.hodResult[2],
@@ -638,16 +638,15 @@ module.exports = {
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
-            });
-				console.log('jjojojojo',req.hodResult[0]);
-			break ;
+            }); 
+			break ;*/
 			case 'allrequisitions':
 			res.render('rms/allrequisitions',{pdetails:req.allrequisitions[0],role:req.session.hrRole,
    		   		Name:req.session.Name,flag:req.fl1,skills:req.allrequisitions[1],
       			cities:req.allrequisitions[2],adminhr:req.allrequisitions[3],
-      			designation:req.allrequisitions[4],priority:req.allrequisitions[5],
+      			designation:req.allrequisitions[4],priority:req.allrequisitions[5],myRmsRole:req.myRmsRoles,
       			myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
+					isRetailer:req.session.isRetailer,hideFlag:0,userId:req.session.userId,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule
       		});
@@ -686,7 +685,8 @@ module.exports = {
 	                defaultModule:req.session.defaultModule
 	            });
             break ;
-            case 'viewReq':	           
+            case 'viewReq':
+            console.log("hr roles for view Reqsn. ",req.session.hrRole);	           
 	            res.render('rms/viewReq', {
 	                 role: req.session.hrRole,
 		                Name: '',
@@ -734,7 +734,7 @@ module.exports = {
 	            });
             console.log('cdtiddbs',req.interviewFeedback[0]);
             break;
-            case 'reqApprover':
+       /*     case 'reqApprover':
             res.render('rms/reqApprover', {
 	                 pdetails: req.reqApprover[0],
                 role: req.session.hrRole,
@@ -744,7 +744,7 @@ module.exports = {
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule,projectDetails:req.projectDetails
 	            });
-            break;
+            break;*/
             case 'updateStatusReqViaMail':
             res.render('index'); 
             break;

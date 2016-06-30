@@ -3950,7 +3950,7 @@ addUser: function(req, res, next) {
                     skills = skills.replace(/['"]+/g, '');
                 }
             }
-              var hrArrS=req.session.hrRole;
+            var hrArrS=req.session.hrRole;
             var hrarr=[];
             for(var i=0;i<hrArrS.length;i++){
                 hrarr[i]=hrArrS[i].hrRoleId;
@@ -3990,12 +3990,12 @@ addUser: function(req, res, next) {
         else if(hrarr.indexOf(5)!=-1){         //hod
              if(flag==0){            
            mailTemplates.hrMailer(flag,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
-                res.redirect('/reqHod?flag=1');
+                res.redirect('/allrequisitions?flag=1');
             }
             else if(flag==1){
                 var mailCounter = result[3][0].mailCounter;
                   mailTemplates.hrMailer(1,recEmail,result[5][0],result[1][0].id,mailCounter,skills,hrarr,req.session.userId,"--",function(err,result){});
-                res.redirect('/reqHod?flag=0'); 
+                res.redirect('/allrequisitions?flag=0'); 
             }
         }   
        }
@@ -4060,14 +4060,18 @@ addUser: function(req, res, next) {
         var flag = query.flag;
         if (flag==undefined) flag = -1;
         req.fl1=flag;
-        //////console.log("shubham ",req.fl1);
+        
         modelPortal.allrequisitions(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
                 //////console.log("there is an error",err);
             }   
             else{
+                var arr=[];
+                for(var i=0;i<result[6].length;i++){
+                     arr.push(result[6][i].hrRoleId);
+                }
+                req.myRmsRoles=arr;
                 req.allrequisitions=result;
-               
                 next();
             }  
         });

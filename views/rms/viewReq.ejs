@@ -34,7 +34,7 @@
           
           <div class="row" style="padding-top:1%">
          <!--  <label style="">Select Manager Hr :</label>  -->
-               <select class="form-text-box" style="color:black;width:150px;float:left" id="selectAdminHr">
+               <select class="form-text-box action hide" style="color:black;width:150px;float:left" id="selectAdminHr">
              
                 <%for(var i = 0 ;i<adminhr.length;i++){%>
                     <option value="<%=adminhr[i].id%>" id="adminhr_<%=adminhr[i].id%>">
@@ -57,10 +57,11 @@
                         <th>Skills</th>
                         <th># Positions</th>
                         <th>Experience</th>
+                        <th>Raised By</th>
                         <th class="hide">Status</th>
                         <th>Recruiter</th>
-                        <th>Manager HR</th>
-                        <th>Action</th>
+                        <th>Manager HR</th>                        
+                        <th class="action hide">Action</th>
                         <th class='hide'></th>
                     </tr>
                 </thead>
@@ -77,7 +78,11 @@
 
 
          <script type="text/javascript">
-
+ var hrRole=<%-JSON.stringify(role)%>;
+ var roleArr=[];
+ for(var i=0;i<hrRole.length;i++){
+    roleArr.push(hrRole[i].hrRoleId)
+ } 
        $(".close").click(function(){
         $('#jddetail').modal("hide");
 });
@@ -100,8 +105,7 @@
                                 var info = JSON.parse(JSON.stringify(data.result[5]));
                                 var dviewinfo = JSON.parse(JSON.stringify(data.result[9]));
                                 var prio = JSON.parse(JSON.stringify(data.result[4]));
-                                var arstr = [];
-console.log("-----------",dviewinfo[0].location);
+                                var arstr = []; 
                                  if (con == 7) {
                                     $('#ModalHeading').html("Requisition Details");
                                   
@@ -207,16 +211,17 @@ console.log("-----------",dviewinfo[0].location);
                                 method: 'post',
                                 success: function(pdetails) {
                                     if(newDataTable != null)newDataTable.fnDestroy();
-                                    $('#tbodyReq').html(ch);
-                                    console.log('pdetails',pdetails);
+                                    $('#tbodyReq').html(''); 
+
+                if((roleArr.indexOf(1)>=0&&roleArr.indexOf(2)>=0)|| roleArr.indexOf(1)>=0){
+                    $(".action").removeClass("hide");
                                     for (var i = 0; i < pdetails.length; i++) {
-                                        var hide = 'hide';
-                                        console.log(pdetails[i].adminHR, uid);
+                                        var hide = 'hide'; 
                                         if (pdetails[i].adminHr == uid) {
                                             hide = '';
                                         }
 
-                                        ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%"><a onclick=reqData('+ pdetails[i].id +',"show",7) data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">' + pdetails[i].title + '</a></td><td>' + pdetails[i].skills + '</td><td style = "width:10%">' + pdetails[i].positions + '</td><td style = "width:10%">' + pdetails[i].Experience + '</td><td class="hide" id = "con_' + i + '">' + pdetails[i].assignedTo + '</td>';
+                                        ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%"><a onclick=reqData('+ pdetails[i].id +',"show",7) data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">' + pdetails[i].title + '</a></td><td>' + pdetails[i].skills + '</td><td style = "width:10%">' + pdetails[i].positions + '</td><td style = "width:10%">' + pdetails[i].Experience + '</td><td>'+pdetails[i].createdByName+'</td><td class="hide" id = "con_' + i + '">' + pdetails[i].assignedTo + '</td>';
                                         if(pdetails[i].assignedTofirstName!=null){
                                        ch=ch+ '<td id = "assign_' + pdetails[i].id + '">' + pdetails[i].assignedTofirstName + '</td>';}
                                        else{
@@ -225,6 +230,26 @@ console.log("-----------",dviewinfo[0].location);
                                        hrUser="<%for(var i = 0 ;i<userInfo.length;i++){%><option value='<%=userInfo[i].id%>' <%if(userInfo[i].id=="+pdetails[i].assignedTo+"){selected}%> id='option_<%=userInfo[i].id%>'><%=userInfo[i].firstName%></option><%}%>"
                                        ch=ch+'<td>' + pdetails[i].adminHrfirstName + '</td><td ><select class="' + hide + '"  id = "edit_' + pdetails[i].id+'_'+i+'" onchange="saveRecruter(this.id,'+pdetails[i].id+')"><option value="0">select</option>'+hrUser+'</select></td><td class = "hide" id = "user_' + pdetails[i].id + '">' + pdetails[i].assignedTo + '</td></tr>';
                                     }
+                                }
+                                else{
+                                     for (var i = 0; i < pdetails.length; i++) {
+                                        if(pdetails[i].assignedTo==uid){
+                                        var hide = 'hide'; 
+                                        if (pdetails[i].adminHr == uid) {
+                                            hide = '';
+                                        }
+
+                                        ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%"><a onclick=reqData('+ pdetails[i].id +',"show",7) data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">' + pdetails[i].title + '</a></td><td>' + pdetails[i].skills + '</td><td style = "width:10%">' + pdetails[i].positions + '</td><td style = "width:10%">' + pdetails[i].Experience + '</td><td>'+pdetails[i].createdByName+'</td><td class="hide" id = "con_' + i + '">' + pdetails[i].assignedTo + '</td>';
+                                        if(pdetails[i].assignedTofirstName!=null){
+                                       ch=ch+ '<td id = "assign_' + pdetails[i].id + '">' + pdetails[i].assignedTofirstName + '</td>';}
+                                       else{
+                                        ch=ch+'<td id = "assign_' + pdetails[i].id + '"><span class="fa fa-ellipsis-h"></span></td>';
+                                       }
+                                      
+                                       ch=ch+'<td>' + pdetails[i].adminHrfirstName + '</td> </tr>';
+                                   }
+                                }
+                            }
 
 
                                     $('#tbodyReq').html(ch);

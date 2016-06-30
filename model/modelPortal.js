@@ -2502,7 +2502,7 @@ getHrRole:function(userId,roleId,retailerId,callback){
                 values: [userId,retailerId]
 }
          mysql(q, function(err, result) {
-         	//console.log("all reqsnerr",err);
+         	 console.log("all requisition Error",err);
                     callback(err, result);
          });
 

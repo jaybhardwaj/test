@@ -29,7 +29,107 @@
    
     </style>
 
-     <!---------------------------------View Detail modal box -------------------------------------->
+   
+<!-----------------------------------------Main body-------------------------------------------->
+      <div class="secondry-color" style=" overflow: hidden;padding: 2%;padding-top:3%">
+        <div class="row" style="padding-top: 2%;margin:0px " >
+             <span class="modal-title" style="padding-left:46%; ">All Requisition</span> 
+             <input type="text" class="form-text-box" id="searchbox" placeholder="search" style="float: right;width: 13%"></div>
+            <table id="openreqstate1" class="table  cell-border" style="font-size:13px;width:100%;margin-top:1%">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Title</th>
+                        <th style="text-align:center">Skills</th>
+                        <th style="text-align:center"># Positions</th>
+                        <th style="text-align:center">Experience</th>
+                        <th style="text-align:center">Raised By</th>
+                        <th style="text-align:center">Assigned To</th>
+                        <th style="text-align:center">Status</th>
+                        <th style="text-align:center">Action</th>
+                        <th class="hide">xcx</th>
+                    </tr>
+                </thead>
+                <tbody style="margin-top:7%;padding-top:7%">
+                    <%for(var i=0;i<pdetails.length;i++){%>
+                        <tr id="row_<%=i%>">
+                            <td style="width:40%;text-align:center">
+                                <a onclick="reqData(<%=pdetails[i].id%>,'show',7)" data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">
+                                    <%=pdetails[i].title%>
+                                </a>
+                            </td>
+                            <td style="text-align:center">
+                                <%=pdetails[i].skills%>
+                            </td>
+                            <td style="width:10%;text-align:center">
+                                <%=pdetails[i].positions%>
+                            </td>
+                            <td style="width:10%;text-align:center">
+                                <%=pdetails[i].Experience%>
+                            </td>
+                             <td style="width:10%;text-align:center">
+                                <%=pdetails[i].createdByName%>
+                            </td>
+                             <td id="assign_<%=pdetails[i].id%>">
+                                <%if(pdetails[i].assignedTofirstName!=null){%>
+                                    <%=pdetails[i].assignedTofirstName%>
+                                        <%}else{%><i class="fa fa-ellipsis-h" style="font-size:130%;color:grey" title="Pending for your approval"></i>
+                                            <%}%>
+                            </td>
+                           <!--  <td id="con_<%=i%>"  style="text-align:center">
+                                <%=pdetails[i].isConfirmed%>
+                            </td> -->
+                             <%if(pdetails[i].isConfirmed==2){%> 
+                                <td><i class="fa fa-check" style="font-size:130%;color:green" title="Approved"></i></td>
+                                <%}else if(pdetails[i].isConfirmed==-2){%>
+                                    <td><i class="fa fa-times" style="font-size:130%;color:red" title="Rejected"></i></td> 
+                                <%}else if(pdetails[i].isConfirmed==1&&myRmsRole.indexOf(6)>=0) {%>
+                                <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:grey" title="Pending for your approval"></i></td>
+                                   <%}else if(pdetails[i].isConfirmed==1&&myRmsRole.indexOf(5)>=0){%>
+                                    <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:black" title="Pending for 2nd level approval"></i></td>
+                                <%}else{%> 
+                                <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:grey" title="Pending for first level approval"></i></td>
+                                <%}%>
+                            <td>
+                                <span>
+                                <%if(myRmsRole.indexOf(3)>=0||myRmsRole.indexOf(5)>=0){%>
+                                <i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy Requisition" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i>
+                                </span>
+                                <span style="padding-right:5px;padding-left:5px">
+                                <i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit Requisition"></i>
+                                </span>
+                                <span>
+                                 <%if(pdetails[i].isConfirmed!=-2&&pdetails[i].createdBy==userId){%>
+                                <i class="glyphicon glyphicon-trash" id = "trash_<%=i%>" style = "color:gray;margin:2%;" title = "Delete Requisition" onclick = "delteRequisition(this.id)"></i>
+                                <%}%>
+                                </span>
+                                <br>
+                                <%}%>
+                                <%if(myRmsRole.indexOf(6)>=0){%> 
+                                 <%if(pdetails[i].isConfirmed ==1 || pdetails[i].isConfirmed == 0){ %>
+                                <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove"  onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i>
+                                    <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i>
+                                <%}}else if(myRmsRole.indexOf(5)>=0){%>
+                                    <%if(pdetails[i].createdBy==userId&&(pdetails[i].isConfirmed ==1 || pdetails[i].isConfirmed == 0)){ %>
+                                     <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove"  onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i>
+                                    <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i>
+                                    <%}}%>
+                            </td>
+
+                            <td id="hid_<%=i%>" class="hide">
+                                <%=pdetails[i].id%>
+                            </td>
+                        </tr>
+                        <%}%>
+                </tbody>
+            </table>
+        </div>
+</div>
+
+<% include ../partials/footer %> 
+
+</body> 
+
+  <!---------------------------------View Detail modal box -------------------------------------->
       <div class="modal fade" id="jdDetailModal" role="dialog">
             <div class="modal-dialog modal-lg" style="">
                 <div class="modal-content" style=" ">
@@ -338,61 +438,7 @@
                     
                 </div>
             </div>
-        </div>
-<!-----------------------------------------Main body-------------------------------------------->
-      <div class="secondry-color" style=" overflow: hidden;padding: 2%">
-        <div class="row" style="padding-top: 2%;margin:0px " >
-             <span class="modal-title" style="padding-left:46%; ">All Requisition</span> 
-             <input type="text" class="form-text-box" id="searchbox" placeholder="search" style="float: right;width: 13%"></div>
-            <table id="openreqstate1" class="table  cell-border" style="font-size:13px;width:100%;margin-top:1%">
-                <thead>
-                    <tr>
-                        <th style="text-align:center">Title</th>
-                        <th style="text-align:center">Skills</th>
-                        <th style="text-align:center"># Positions</th>
-                        <th style="text-align:center">Experience</th>
-                        <th style="text-align:center">Status</th>
-                        <th style="text-align:center">Action</th>
-                        <th class="hide">xcx</th>
-                    </tr>
-                </thead>
-                <tbody style="margin-top:7%;padding-top:7%">
-                    <%for(var i=0;i<pdetails.length;i++){%>
-                        <tr id="row_<%=i%>">
-                            <td style="width:40%;text-align:center">
-                                <a onclick="reqData(<%=pdetails[i].id%>,'show',7)" data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">
-                                    <%=pdetails[i].title%>
-                                </a>
-                            </td>
-                            <td style="text-align:center">
-                                <%=pdetails[i].skills%>
-                            </td>
-                            <td style="width:10%;text-align:center">
-                                <%=pdetails[i].positions%>
-                            </td>
-                            <td style="width:10%;text-align:center">
-                                <%=pdetails[i].Experience%>
-                            </td>
-                            <td id="con_<%=i%>"  style="text-align:center">
-                                <%=pdetails[i].isConfirmed%>
-                            </td>
-                            <td>
-                                <span><i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy Requisition" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i></span><span style="padding-right:5px;padding-left:5px"><i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit Requisition"></i></span><span><i class="glyphicon glyphicon-trash" id = "trash_<%=i%>" style = "color:gray;margin:2%;" title = "Delete Requisition" onclick = "delteRequisition(this.id)"></i></span>
-                            </td>
-
-                            <td id="hid_<%=i%>" class="hide">
-                                <%=pdetails[i].id%>
-                            </td>
-                        </tr>
-                        <%}%>
-                </tbody>
-            </table>
-        </div>
-</div>
-
-<% include ../partials/footer %> 
-
-</body>              
+        </div>             
                 <script>
                  var str1;var flage;
                     tinymce.init({
@@ -655,7 +701,37 @@
                             }
                         });
                     }
+function updateStatusReq(flag,jdid){
 
+       if(flag==0){
+                        if (!confirm('Are you sure you want to REJECT this Requisition')) {
+                        return false;
+                        }
+                    }
+                    if(flag==1){
+                        if (!confirm('Are you sure you want to APPROVE this Requisition')) {
+                        return false;
+                        }
+                    } 
+     $.ajax({
+            url: '/updateStatusReq',
+            data: {
+                'jdid': jdid,
+                'approve':"approver",
+                'flag':flag
+            },
+            method: 'post',
+            success: function(data) {
+                if(data[2][0].flag==0){
+                                alert("This Requisition is already deleted!")
+                            }  
+                            else{
+                               alert("Requisition Approved successfuly!") 
+                                location.reload();
+                            } 
+            }
+            });
+}
 
 
 
@@ -728,9 +804,9 @@
                             "aaSorting": [
                                 [5, "desc"]
                             ],
-                            "columnDefs": [{
-                                className: "dt-body-left",
-                                "targets": [5]
+                            "columnDefs": [{ 
+                                "targets": [0],
+                                width:"20%"
                             }],
                            
                         });

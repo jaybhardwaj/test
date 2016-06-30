@@ -172,7 +172,7 @@ app.get('/rms',url.hr,render.redirect);
 app.post('/dashboardData',portal.dashboardData);
 app.get('/raiseRequisition',url.raiseRequisition,portal.raiseRequisition,render.redirect) ;
 app.post('/raiseRequisition',portal.raiseRequisition1) ;
-app.get('/reqHod',url.reqHod,portal.reqHod,render.redirect);
+//app.get('/reqHod',url.reqHod,portal.reqHod,render.redirect);
 app.get('/allrequisitions',url.allrequisitions,portal.allrequisitions,render.redirect);
 app.post('/reqData',portal.reqData);
 app.post('/deleteReq',portal.deleteReq);
@@ -189,7 +189,7 @@ app.post('/submitparsedData',url.submitparsedData, portal.submitParseData,render
 app.post('/upload_resume', upload.single('attach'),portal.upload_resume);
 app.post('/deleteUploadRecords',portal.deleteUploadRecords);
 app.get("/viewReq",url.viewReq,portal.viewReq,render.redirect);
-app.get("/userHrViewReq",url.userHrViewReq,portal.userHrViewReq,render.redirect);
+//app.get("/userHrViewReq",url.userHrViewReq,portal.userHrViewReq,render.redirect);
 app.post("/search",portal.searchHr);
 app.post("/asearch",portal.advancesearchHr);
 app.post("/interviewerInfo",portal.interviewerInfo);
@@ -210,7 +210,7 @@ app.post('/selectAdminHr',portal.selectAdminHr);
 app.post('/updateCandidate',portal.updateCandidate);
 app.post('/interviewData', upload.single('feedback'),portal.interviewData);
 app.get('/interviewFeedback',url.interviewFeedback,portal.interviewFeedback,render.redirect);
-app.get('/reqApprover',url.reqApprover,portal.reqApprover,render.redirect);
+//app.get('/reqApprover',url.reqApprover,portal.reqApprover,render.redirect);
 
 app.post('/error',url.error,render.redirect);
  app.post('/getClientContacts',portal.getClientContacts);
