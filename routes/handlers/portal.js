@@ -57,13 +57,6 @@ var locationId = [],
  var saturdayOffFlag      = 1;
 
 
-
-
-
-
-
-//var buffer = readChunk.sync(path.resolve('public/attach/adminheader.ejs'), 0, 262);
-////console.log(fileType(buffer));
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -1213,6 +1206,8 @@ attachDocFile: function(req, res, next) {
                         } 
                         else if (typeof text != undefined){
                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+
+                                textLowerCase=union_arrays(textLowerCase,[]);
                                 parseAll(textLowerCase, req, strname, 1, next);
                         }
                         
@@ -1229,6 +1224,9 @@ attachDocFile: function(req, res, next) {
                             text = text.concat(data.text_pages[i]);
                         }
                         var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+
+                        textLowerCase=union_arrays(textLowerCase,[]);
+
                         parseAll(textLowerCase, req, strname, 1, next);
                        
                     });
@@ -1241,6 +1239,9 @@ attachDocFile: function(req, res, next) {
 
                         } else if (typeof text != undefined) {
                                 var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+
+                                textLowerCase=union_arrays(textLowerCase,[]);
+
                                 parseAll(textLowerCase, req, strname, 1, next);
                         }
                     });
@@ -1272,7 +1273,8 @@ attachDocFile: function(req, res, next) {
     
                                 } else if(typeof text != undefined) {
                                         var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-                                          textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                                        textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                                       
                                          if(count==zipEntries.length){
                                             parseAll(textLowerCase, req,strname,1, next);
                                          } 
@@ -1320,7 +1322,7 @@ attachDocFile: function(req, res, next) {
                                     text = text.concat(data.text_pages[i]);
                                 }
                                var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-                                          textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                                textLowerCase= union_arrays(textLowerCase,textLowerCase1);
                                 if(count==zipEntries.length){
                                      console.log(count," pdf  ",textLowerCase.length);
                                      parseAll(textLowerCase, req,strname,1, next);
