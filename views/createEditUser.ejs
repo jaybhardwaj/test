@@ -427,32 +427,32 @@ var users;
 
 
 function getDefaultModule(){
-
-
-
             var valueModules=$("#modules").val();
             var a=[0,0,0,0];
             if(!!valueModules)
             for(i=0,length=valueModules.length;i<length;i++){
               if(valueModules[i]=='2'){
+                $("#content5").removeClass("hide");
                 $(".tabradioRole").removeClass('hide');
                 $("#TimeDiv").removeClass('hide');
                 a[0]=1;
               }
               else  if(valueModules[i]=='3'){
+              $("#content5").removeClass("hide");
                 $(".tabradioRole").removeClass('hide');
               $("#ExpenseDiv").removeClass('hide');
                 a[1]=1;
               }
               else  if(valueModules[i]=='6'){
-                $(".tabradioRole").removeClass('hide');
-              
+               $("#content5").removeClass("hide");
+               $(".tabradioRole").removeClass('hide');
               $("#DocumentDiv").removeClass('hide');
                 a[2]=1;
               }
               else  if(valueModules[i]=='7'){
+                $("#content5").removeClass("hide");
                 $(".tabradioRole").removeClass('hide');
-              $("#RMSDiv").removeClass('hide');
+               $("#RMSDiv").removeClass('hide');
                 a[3]=1;
               }
 
@@ -470,7 +470,12 @@ function getDefaultModule(){
                $("#RMSDiv").addClass('hide');
             } 
 
-
+            if( $("#TimeDiv").hasClass('hide') && $("#ExpenseDiv").hasClass('hide') && $("#DocumentDiv").hasClass('hide') && $("#RMSDiv").hasClass('hide')){
+              $(".tabradioRole").addClass("hide");
+              $("#content5").addClass("hide");
+ 
+                
+            }
                   var newArr=$('#modules').val();  
                  var stringType ;
                  var i=0;
@@ -487,14 +492,6 @@ function getDefaultModule(){
 
   $(document).ready(function(){
  
-    /*    $('#hrRole').tagger({
-          "fieldWidth":"13em"
-        });
-
-      $('.tagger').focusout(function() {
-       //alert($(this).val());
-        showHod();
-    });*/ 
      $("#hrRole").searchableOptionList();
      $("#hrRole").change(function(){            
             showHod();

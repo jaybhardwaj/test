@@ -1322,7 +1322,8 @@ attachDocFile: function(req, res, next) {
                                     text = text.concat(data.text_pages[i]);
                                 }
                                var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-                                textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+
+                                  textLowerCase= union_arrays(textLowerCase,textLowerCase1);
                                 if(count==zipEntries.length){
                                      console.log(count," pdf  ",textLowerCase.length);
                                      parseAll(textLowerCase, req,strname,1, next);
