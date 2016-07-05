@@ -929,14 +929,14 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         });
     },
 
-    projectAddEditDetailsWithFlag: function(pid,pname, pcode, ptype,pcat, pclient, ptech,presource,ccontact,
+    projectAddEditDetailsWithFlag: function(pid,pname,planReq, pcode, ptype,pcat, pclient, ptech,presource,ccontact,
             pdescription, psdate,  pedate,  asdate,  aedate,
             pstatus,  pcomplexity,  plocation, pcommercialhead,
             paccounthead, pmanager,isBillable,taxCode,poNumber,
             tab,userId,roleId,retailerId, callback) {
         var query = {
-            sql: 'call usp_addEditProWithFlag(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [pid, pname, pcode, ptype,pcat, pclient, ptech,presource,ccontact,
+            sql: 'call usp_addEditProWithFlag(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [pid, pname,planReq, pcode, ptype,pcat, pclient, ptech,presource,ccontact,
             pdescription, psdate,  pedate,  asdate,  aedate,
             pstatus,  pcomplexity,  plocation, pcommercialhead,
             paccounthead, pmanager,isBillable,taxCode,poNumber,tab,
@@ -950,6 +950,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
               }
         });
     },
+
 
     getAllWbs: function(pid,userId,roleId,retailerId, callback) {
         
@@ -2230,7 +2231,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             ecode,designation,level,modules,doj,dob,doc,rtype,
              userId, roleId, retailerId,crole,hrRole,hodId]
         };
-       
+       console.log(query);
         mysql(query, function(err, result) { 
             callback(err, result);
         });
@@ -2279,6 +2280,8 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             sql: 'call usp_getAllUsersById(?,?,?)',
             values: [userId, roleId, retailerId]
         };
+
+        console.log(query);
         mysql(query, function(err, result) {
             
             callback(err, result);

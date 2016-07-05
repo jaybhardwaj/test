@@ -1970,7 +1970,7 @@ addEditWbsDetails: function(req, res, next) {
 
 
 
-     projectAddEditDetailsWithFlag: function(req, res, next) {
+    projectAddEditDetailsWithFlag: function(req, res, next) {
         
         var flag=req.body.hdnId;
        
@@ -1988,7 +1988,7 @@ var tab=req.body.tabDetail;
     req.pname=req.body.completed;
   
 
-           modelPortal.projectAddEditDetailsWithFlag(pid,req.body.pname, req.body.pcode, req.body.ptype,req.body.pcat,
+           modelPortal.projectAddEditDetailsWithFlag(pid,req.body.pname,req.body.planReq, req.body.pcode, req.body.ptype,req.body.pcat,
             pclient, ptech,presource,ccontact,
             req.body.pdescription, req.body.psdate,  req.body.pedate,  req.body.asdate,  req.body.aedate,
             req.body.pstatus,pcomplexity, plocation, req.body.pcommercialhead,
@@ -3436,6 +3436,7 @@ updateHoliday: function(req,res,next){
                  return;
              }
              req.resultUsers = resultUsers;
+             console.log('))))))))))))))))))))))----',resultUsers[0],'---------hdnId----',req.body.hdnId);
              next();
          });
      },
@@ -3450,6 +3451,8 @@ updateHoliday: function(req,res,next){
              }
              console.log('usp_checkNextUser----',resultUsers[0][0].id);
              req.userid=resultUsers[0][0].id;
+             req.body.hdnId=req.userid;
+             console.log('req.body.hdnId changed in checkNextUser----',req.body.hdnId);
              //req.resultUsers = resultUsers;
              //console.log(" user transaction information is:",resultUsers);
              next();

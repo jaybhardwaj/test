@@ -265,6 +265,17 @@ width:24% !important;
               </select>
               </td>
             </td>
+
+             <td>
+              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Is Plan Required:</label></td>
+              <td> <select class="form-text-box" id ="planReq" name="planReq" >
+                <option value="1" selected>Yes</option>
+                <option value="0">No</option>
+              </select>
+              </td>
+            </td>
+
+
             <td>
               <td><label class="form-label"></label></td>
               <td></td>
@@ -426,6 +437,7 @@ if( '<%=flag%>'=='1'){
            $("input[name=isBillable][value=<%=name[0].isBillable%>]").prop('checked', true);
 
            $('#pcomplexity').val('<%=name[0].pcomplexity%>');
+            $('#planReq').val('<%=name[0].isPlanReq%>');
  //$('#completed').val('<%=name[0].completed%>');
 
 
@@ -447,7 +459,7 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
       } else {
           $('#pcat').val('<%=name[0].category%>');
       }
-
+      
 
     <%}%>
 
@@ -807,6 +819,7 @@ function getSelectedOptions(cid){//alert(cid);
                                 method: 'POST',
                                 data: {
                                   "pname": $("#idpname").val(),
+                                  "planReq": $("#planReq").val(),
                                   "pclient": pclient,
                                   "presource": presource,
                                   "ccontact":ccontact,
