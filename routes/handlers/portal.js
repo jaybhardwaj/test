@@ -181,8 +181,7 @@ var locationId = [],
                             configEmail.password= result[2][0].domailUserName,
                             configEmail.port= result[2][0].domailUserName;  
                            } 
-console.log('isValidate-----',result[5][0].isValidate);
-
+                    console.log('isValidate-----',result[5][0].isValidate);
                     if(result[5][0].isValidate==0){
                      req.session.allSupervisors=result[3];
                      req.session.mySupervisor=result[4][0].managerid;
