@@ -143,38 +143,27 @@
 </form>
 </div>
 <div class="modal " id="addModal"  role="dialog">
-  <div class="modal-dialog" style="display:table;height:95%;">
+  <div class="modal-dialog" style="display:table;">
     <!-- Modal content-->
-    <div class="modal-content" id="express2" style="height:356px;width:800px">
+    <div class="modal-content" id="express2" style="height:600px;width:800px">
       <div class="modal-header" style="background-color:#f05f40;">
         <center><label id="head4" class="modal-title" style="color:white; "> Add Component </label>
-        <span  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:black;margin-bottom: 15px'></span>
+        <span  data-dismiss="modal" id="cut"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:black;margin-bottom: 15px'></span>
         </center>
       </div>
       <div id="err" class="col-lg-6 col-sm-offset-3"></div>
       <div class="modal-body">
         <div class="form-group">
           <div class=" col-md-12 table-responsive">
-          <!-- <h3>Specifications</h3> -->
-        <!-- <input type="button" onclick="addRow()" value="ADD"> -->
             <table class="table table-striped table-bordered table-hover table-condensed" style="overflow-y:auto;">
             <col width="10"><col width="10"><col width="20"><col width="10"><col width="10">
 
-                <!---thead id="modalHead">
-                  <tr>
-                    <th>Component</th>
-                    <th style="width:25%;">Serial No.</th>
-                    <th style="width:15%;">Brand</th>
-                    <th style="width:15%">Warranty</th>
-                    <th style="width:15%">Action</th>
-                  </tr>
-                </thead-->
                 <tbody id="addcompobody">
                 </tbody>
               </table>
               <div id="tablediv"></div>
               <input type="hidden" id="serids">
-              <input  data-dismiss="modal" type="button"class="btn btn-info" onclick="saveComp()" value="SUBMIT">
+              <input   type="button"class="btn btn-info" onclick="validatesubcomponent()" value="SUBMIT">
              
 
             </div>
@@ -196,15 +185,18 @@
       var subheaderArray=[];
       var componentArray=[];
       i=0;
-     function addCompModal(){
-      //alert($('#typel').val());
-       //getbrand();
+     function addCompModal(rowid){
+      addId(rowid);
+      kid=0;
+      $('#addcompobody').html('');
+      $('#tablediv').html('');
+      
     var row = '<tr id="tr'+countAddCompModal+''+i+'"><td>Select Subcomponent</td><td><select class = "form-text-box form-control" id="compo"><%for(var i=0;i<htype[0].length;i++){%>';
     if($('#typel').val() != "<%=htype[0][i].id%>"){
         row+='<option value="<%=htype[0][i].id%>"><%=htype[0][i].componentName%></option>';
       } 
     row+='<%}%></select></td><td><input type="button"class="btn btn-info" onclick="addsubcomponent()" value="ADD"></td>';
-    /*</td><td><input type = "text" class = "form-text-box form-control" id="srno'+countAddCompModal+'"></td><td><select class="branddrop1 form-text-box form-control" id="brand'+countAddCompModal+'"><%for(var i=0;i<brandtype.length;i++){%><option value="<%=brandtype[i].id%>"><%=brandtype[i].value%></option><%}%></select></td><td><input type = "text" class = "form-text-box datetimepicker" id="war'+countAddCompModal+'"></td><td class="hide"><input type = "text" class = "form-text-box form-control" id="size'+countAddCompModal+'"></td><td><span style="font-size:25px;color:red" class="glyphicon glyphicon-remove-circle" onclick="removeRow('+countAddCompModal+','+i+')"></span></td></tr>';*/
+   
          $('#addcompobody').append(row);
          
          countAddCompModal++;
@@ -224,27 +216,6 @@
  }
 
 
-
-
-
-
-
-  /*var subtype;
-  function changeddl(){
-    console.log("changeddl");
-    var value=$('#typel').val();
-    console.log(value);
-    $.ajax({
-      url: "/type",
-      method:'post',
-      data: {qids: value},
-              dataType: 'json',
-      success: function(result){
-        console.log(result);
-        subtype=result[0];
-      }
-    });
-  }*/
             var i=0;
         function addRow(){
         i++;
@@ -315,6 +286,7 @@ var qty;
 var attlength;
 var allAttIds = [];
 var allAttIds1 = [];
+var allAttIds2 = [];
 var fact=0;
 
 function validatehardvare(){
@@ -410,7 +382,6 @@ function addcompo() {
     }
    
     qty = document.getElementById('qty').value;
-    /*var rem_qty=document.getElementById('rem_qty').value;*/
 
     if (qty > 20) {
         alert("Quantity cannot exceed 20!");
@@ -436,8 +407,8 @@ function addcompo() {
                 }
                 allAttIds1 = allAttIds;
               
-                /********************Important next line*************************/
-                head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty</th><th class = "">Components</th></tr>';
+              
+                head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty Start Date</th><th style = "width:100px;" id ="underconsideration">Warranty End Date</th><th "width:100px;"  class = "">Components</th></tr>';
                 $('#headi').append(head);
                 $('#bodyi').empty();
                 arr.length = qty;
@@ -449,7 +420,7 @@ function addcompo() {
                         ' id="serial' + i + '"></td>';
                     for (var o = 0; o < result[0].length; o++) {
 
-                        row = row + '<td><select class="form-text-box" id="' + i + o + '">';
+                        row = row + '<td><select class="form-text-box" id="' + i + o + '"><option value="0">Select</option>';
 
 
                         for (var dropdownValues = 0; dropdownValues < result[1].length; dropdownValues++) {
@@ -462,24 +433,22 @@ function addcompo() {
 
                     }
 
-                    /*******************Code by Mayur for brandname and warranty***************************/
-                    // var k = 0;while(result[1][k++].attId!=0);
-                    // k--;
+                   
 
 
-                    row = row + '<td><select class="form-text-box" id="brand' + i + '">';
+                    row = row + '<td><select class="form-text-box" id="brand' + i + '"><option value="0">Select</option>';
 
                     for (var dropdownValues = 0; dropdownValues < result[2].length; dropdownValues++) {
                         row = row + '<option value="' + result[2][dropdownValues].id + '">' + result[2][dropdownValues].value + '</option>';
                     }
-                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker1" id="warranty' + i + '" type = "text"></td>';
+                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker1" placeholder="Start Date" id="warranty' + i + '" type = "text"></td><td><input' + ' class="form-text-box datetimepicker1" placeholder="End Date" id="warranty1' + i + '" type = "text"></td>';
                     row = row + '<td class="hide"><input' + ' class="single form-control warrClass" id="componentdata' + i + '" type = "hidden"></td>';
-                    /******************************************************************************/
+                
 
 
-                    row = row + '<td class = "">' + '<input onclick="addCompModal()" class="btn btn-danger"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
+                    row = row + '<td class = "">' + '<input onclick="addCompModal('+i+')" class="btn btn-danger"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
 
-                    addId(i);
+                   // addId(i);
                     $('#bodyi').append(row);
                 }
 
@@ -511,12 +480,11 @@ function addcompo() {
         $('#submit').removeClass('hide');
         $('#submit').addClass('show');
 }
-                //var date=new Date($('#Deliverydate').val()); alert(date);
-/*****start**************/
-var k=0;
+
+var kid=0;
 function addsubcomponent() {
-  k++;
-  var intr='<table class="table" style="overflow:scroll;width:100%;"><thead id="headij'+k+'"></thead><tbody id="bodyk'+k+'"></tbody></table>';
+  kid++;
+  var intr='<table class="table" style="overflow:scroll;width:100%;"><thead id="headij'+kid+'"></thead><tbody id="bodyk'+kid+'"></tbody></table>';
    $('#tablediv').append(intr);
     $('#tableQuantity').removeClass('hide');
     var typ = document.getElementById('compo');
@@ -530,16 +498,7 @@ function addsubcomponent() {
         alert("Please enter valid Quantity!");
         return false;
     }
-    //..............................validation commented for  testing................................
-
-
-    //else if($('#invoiceNo').val().length<1||$.trim($("#idpname").val()) =="")){}
-
-
-    //$("#qty").blur(function() {
     qty = 1;
-    /*var rem_qty=document.getElementById('rem_qty').value;*/
-
     if (qty > 20) {
         alert("Quantity cannot exceed 20!");
         document.getElementById('qty').value = '';
@@ -553,31 +512,30 @@ function addsubcomponent() {
             },
             dataType: 'json',
             success: function(result) {
-
-               // $('#headij').empty();
-                var head = '<tr style="height:12px"><th>#</th><th >Serial No.</th>';
+                var head = '<tr style="height:12px"><th style="width:150px"># <span style="color:red" onclick="remove1('+kid+')" class="glyphicon glyphicon-remove-circle"></span></th><th >Component Name</th>';
                 allAttIds = [];
                 for (var i = 0; i < result[0].length; i++) {
                     console.log('head' + i)
                     head = head + '<th>' + result[0][i].attribute + '</th>';
                     allAttIds.push(result[0][i].attId);
                 }
-                allAttIds1 = allAttIds;
-                //allAttIds.push(0);
+                allAttIds2 = allAttIds;
+              
                 /********************Important next line*************************/
-                head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty</th><th class = "">Components</th></tr>';
-                $('#headij'.concat(k)).append(head);
+                head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty Start Date</th><th style = "width:100px;" id ="underconsideration">Warranty End Date</th></tr>';
+                $('#headij'.concat(kid)).append(head);
                 //$('#bodyk').empty();
                 arr.length = qty;
                 col = result[0].length;
                 attlength = col;
+
                 for (var i = 0; i < qty; i++) {
                     var k = i
-                    var row = '<tr><td>' + ++k + '</td><td><input class="form-text-box" placeholder="Enter serial number"' +
-                        ' id="serial' + i + '"></td>';
+                    var row = '<tr><td>' + ++k + '<input type="hidden" class="form-text-box" id="rowlineid'+kid+'" value="0"></td><td><input type="hidden" class="form-text-box" id="attrid'+kid+'" value='+allAttIds.toString()+'><input type="hidden" class="form-text-box" id="col'+kid+'" value='+col+'><input type="hidden" class="form-text-box" placeholder="Enter serial number"' +
+                        ' id="serial12' + kid + '" value='+selectedValue+'>'+$("#compo option:selected").text()+'</td>';
                     for (var o = 0; o < result[0].length; o++) {
 
-                        row = row + '<td><select class="form-text-box" id="' + i + o + '">';
+                        row = row + '<td><select class="form-text-box" id="' + i + o +kid+ '"><option value="0">Select</option>';
 
 
                         for (var dropdownValues = 0; dropdownValues < result[1].length; dropdownValues++) {
@@ -589,93 +547,29 @@ function addsubcomponent() {
                         row = row + '</select></td>';
 
                     }
-
-                    /*******************Code by Mayur for brandname and warranty***************************/
-                    // var k = 0;while(result[1][k++].attId!=0);
-                    // k--;
-
-
-                    row = row + '<td><select class="form-text-box" id="brand' + i + '">';
+                    row = row + '<td><select class="form-text-box" id="brands' + kid + '"><option value="0">Select</option>';
 
                     for (var dropdownValues = 0; dropdownValues < result[2].length; dropdownValues++) {
                         row = row + '<option value="' + result[2][dropdownValues].id + '">' + result[2][dropdownValues].value + '</option>';
                     }
-                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker1" id="warranty' + i + '" type = "text"></td>';
-                    row = row + '<td class="hide"><input' + ' class="single form-control warrClass" id="componentdata' + i + '" type = "hidden"></td>';
-                    /******************************************************************************/
-
-
-                    row = row + '<td class = "">' + '<input class="btn btn-danger"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
-
-                    addId(i);
-                    $('#bodyk'.concat(k)).append(row);
+                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker2" id="warrantyco1' + kid + '" type = "text"></td>';
+                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker2" id="warrantyco2' + kid + '" type = "text"></td>';
+                    row = row + '<td class="hide"><input' + ' class="single form-control warrClass" id="componen' + i + '" type = "hidden"></td>';
+                
+                    $('#bodyk'.concat(kid)).append(row);
                 }
-}
-/****************end**************/
-
-
-                jQuery('.datetimepicker1').datetimepicker({
+                  jQuery('.datetimepicker2').datetimepicker({
                     timepicker: false,
                     format: 'Y-m-d'
                 });
+}
 
-
-                $('table').removeClass('hide');
-                arr[i] = {
-                    specification: null,
-                    brand: null,
-                    serial: null,
-                    warranty: null,
-                    component: {},
-                    saved: false
-                };
-
-                $('.single').selectpicker({
-                    width: 90
-                });
-
-            }
 });
 }
 }
 
 
-      /*  $('.com').selectpicker({
-
-            onChange: function(option, checked, select) {
-                console.log($(option).val());
-                console.log($(option).attr('id'));
-                if (checked) {
-                    if ($(option).val() == 'monitor') {
-                        $('.modal-body').html('');
-                        console.log('monitors' + $(option).val());
-                        var size = '<label for="size">Size</label><input id="size" name>'
-                        $('.modal-body').append(size);
-                    }
-                    $('#hide1').val($(option).attr('id'));
-                    console.log($(option).attr('id'));
-                    console.log($('#hide1').val());
-                    $('.modal-title').html($(option).val());
-                    if (arr[$('#hide1').val()].component.hasOwnProperty($(option).val())) {
-                        $('#serial').val(arr[$('#hide1').val()].component[$(option).val()].serial);
-                        $('#brand').val(arr[$('#hide1').val()].component[$(option).val()].brand);
-                    }
-                    /*arr[$('#hide1').val()].component[el.value].serial
-                    $('#myModal').show('toggle');
-                }
-            }
-        });
-
-
-        $('#next').hide();
-        $('#cancel').removeClass('hide');
-        $('#cancel').addClass('show');
-        $('#submit').removeClass('hide');
-        $('#submit').addClass('show');
-    }
-
-    // });
-}*/
+   
  function addId(ids){
   $('#serids').val(ids);
  }
@@ -706,15 +600,7 @@ function addsubcomponent() {
   var compID;
   function saveId(id){
     addId(id);
-    /* console.log(comps);
-     comps = [];
-    for(var i=0;i<comps.length;i++){
-    if(arr[id].component.hasOwnProperty(comps[i])){
-                $('#mserial'+i).val(arr[$('#hide1').val()].component[$(option).val()].serial);
-                $('#brand').val(arr[$('#hide1').val()].component[$(option).val()].brand);
-              }
-            }
-      compID=id;*/
+  
   }
 
 function addTag(ides){
@@ -735,26 +621,66 @@ var  tagNo='PSSL'+ides;
 
 });
 }
+  function remove1(tabid){
+    alert(tabid);
+   $('#headij'.concat(tabid)).addClass('hide');
+   $('#bodyk'.concat(tabid)).addClass('hide');
+   $('#rowlineid'.concat(tabid)).val(1);
+
+  }
+
+  function validatesubcomponent(){
+         for(var  i=1;i<=kid;i++){
+  if($('#rowlineid'.concat(i)).val()==0){
+    if($('#brands'.concat(i)).val()==0){
+        alert('please select Brand');
+        return false;
+       }
+      else if($('#warrantyco1'.concat(i)).val()==0){
+             alert('please select Warranty start date');
+             return false;
+        }
+         else if($('#warrantyco2'.concat(i)).val()==0){
+                alert('please select warranty end date');
+                return false;
+           }
+            else {
+                   var stratt='';
+                   var len1=$('#col'.concat(i)).val();
+                   for(var j=0;j<len1;j++){
+                   if($(('#0'.concat(j)).concat(i)).val()==0){
+                    alert('please select attribute value');
+                    return false;
+                  }
+                  else{
+                    saveComp();
+                  }
+     }
+    } 
+} 
+}
+}
 
   function saveComp(){
-     tempArr=[];
+     tempArr='';
      var str='';
-     
-    /*alert(compID);
-            console.log($('#mserial'+compID).val());
-            console.log($('#mbrand'+compID).val());
-            
-    for(var i=0;i<comps.length;i++){
-  var obj=objs($('#mserial'+i).val(),$('#mbrand'+i).val(),
-      $('#mwarranty'+i).val(),$('#msize'+i).val(),comps[i]);
-  arr[compID].component[comps[i]]=obj;*/
-  for(var  i=0;i<countAddCompModal;i++){
-   str=str+$('#compo'.concat(i)).val()+','+$('#srno'.concat(i)).val()+','+$('#brand'.concat(i)).val()+','+$('#war'.concat(i)).val()+','+$('#size'.concat(i)).val();
-   tempArr[i]=str;
-   str='?';
+   
+  for(var  i=1;i<=kid;i++){
+    if($('#rowlineid'.concat(i)).val()==0){
+    var stratt='';
+    var len1=$('#col'.concat(i)).val();
+    for(var j=0;j<len1;j++){
+     stratt=stratt+$(('#0'.concat(j)).concat(i)).val();
+    }
+  
+   str= str+$('#serial12'.concat(i)).val()+'/'+$('#brands'.concat(i)).val()+'/'+$('#warrantyco1'.concat(i)).val()+'/'+$('#warrantyco2'.concat(i)).val()+'/'+stratt+'/'+$('#attrid'.concat(i)).val();
+   tempArr=tempArr+str;
+   str='?'; 
+   } 
    }
+   alert(tempArr);
    $('#componentdata'.concat($('#serids').val())).val(tempArr);
-  // alert(tempArr);
+  $("#cut").click();
 
   }
 
@@ -767,7 +693,7 @@ var  tagNo='PSSL'+ides;
     for(var i=0;i<q;i++){
       for(var j=0;j<allAttIds1.length;j++){
    str2=str2+$('#'.concat(i).concat(j)).val()+',';}
-   //+','+$('#warranty'.concat(i)).val()+'@'+$('#componentdata'.concat(i)).val();$('#serial'.concat(i)).val()+','+
+ 
    str1=str2+'$';
    str2='';
    dataArray[i]=str1;
@@ -852,100 +778,14 @@ serialClassArr = serialClassArr.join(',');
 //console.log(newOuterArr,warrClassArr,serialClassArr);
 addHardware(newOuterArr,warrClassArr,serialClassArr)
 }
-  /*  for(var i=0;i<qty;i++){
-      if(i>0){
-      info=info+';'+$('#serial'+i).val()+',';
-      for(var o=0;o<col;o++){
-        info=info+$('#'+i+o).val()+',';
-      }
-      info=info+$('#brand'+i).val()+','+$('#warranty'+i).val();
-    }
-    else{
-    
-      info=$('#serial'+i).val()+',';
-    
-      for(var o=0;o<col;o++){
-        info=info+$('#'+i+o).val()+',';
-        console.log(info);
-      }
-      info=info+$('#brand'+i).val()+','+$('#warranty'+i).val();
-    
-    }    
-
-  }
-  var a='';
-  $("#inf").val(info);
-  for(var i=0;i<arr.length;i++){
-    for(var k=0;k<comps.length;k++){
-      if(i>0){
-      if(k>0){
-     a= a+';'+arr[i].component[comps[k]].serial+','+arr[i].component[comps[k]].brand+','+arr[i].component[comps[k]].warranty+','+arr[i].component[comps[k]].sizel;
-  }
-  else{
-    a=a+arr[i].component[comps[k]].serial+','+arr[i].component[comps[k]].brand+
-    ','+arr[i].component[comps[k]].warranty+','+arr[i].component[comps[k]].sizel;
-
-  }
-        }
-else{
-  if(k>0){
-     a= a+';'+arr[i].component[comps[k]].serial+','+arr[i].component[comps[k]].brand+','+arr[i].component[comps[k]].warranty+','+arr[i].component[comps[k]].sizel;
-  }
-  else{
-    a=arr[i].component[comps[k]].serial+','+arr[i].component[comps[k]].brand+
-    ','+arr[i].component[comps[k]].warranty+','+arr[i].component[comps[k]].sizel;
-
-  }
-}
-}
-if(i<arr.length-1){
-    a=a+':';
-  }
-  /*else if(i==arr.length-1){
-   a=a; 
-  }/
-
-
-}
-$("#inf2").val(comps.toString());
-$("#inf1").val(a);
- console.log($("#inf").val());
- console.log(a);
- console.log(comps);*/
- 
   
 
-   /*function getbrand()
-  {
- 
-   $.ajax({
-        url:'/getbrand',
-        method:'post',
-        async:true,
-        
-                dataType:'json',
-                success:function(result)
-                {
-                  var att='';
-                   $('.branddrop1').html('');
-                  for(var j=0;j<result[0].length;j++)
-                  {
-                      
-                      att='<option value='+result[0][j].id+'>'+result[0][j].value+'</option>';
-
-                       $('.branddrop1').append(att);
-                  }
-               }
-
-         });
-  }*/
-
-  function addlinedata(t1,t2,t3,t6,t7,headid,ctypeid,arr1){
+  function addlinedata(t1,t2,t3,t6,t7,headid,ctypeid,arr1,t8){
    // alert('hello line data');
    // alert(arr1);
    var arr3=[];
    arr3=arr1.split('?');
-  // alert(arr3.length);
+   alert(arr3);
     var arr2=[];
 
    $.ajax({
@@ -959,7 +799,8 @@ $("#inf1").val(a);
              't7' : t7,
              'hdId' : headid,
              'ctype':ctypeid,
-             'ides' :0
+             'ides' :0,
+             't8' : t8
 
              },
                 dataType:'json',
@@ -970,10 +811,10 @@ $("#inf1").val(a);
                        //alert(arr3[i]);
                        var   increment= arr3.length-1;
                        var  inc=i;
-                      arr2=arr3[i].split(',');
+                      arr2=arr3[i].split('/');
                       if(arr3.length!=0){
-                     
-               addsubline(arr2[0],arr2[1],arr2[2],arr2[3],arr2[4],headid,ctypeid,result,increment,inc);
+                 // console.log('jai mata di', arr2[0],arr2[1],arr2[2],arr2[3],arr2[4],arr2[5]);   
+               addsubline(arr2[0],arr2[1],arr2[2],arr2[3],arr2[4],arr2[5],headid,ctypeid,result,increment,inc);
                    }
                    else{
                     if(fact==($('#qty').val())){
@@ -987,10 +828,10 @@ $("#inf1").val(a);
 });
 }
  var t=0;
-function addsubline(st1,st2,st3,st4,st5,headerid,ctypeid,lineid,incr,inc1){
+function addsubline(st1,st2,st3,st4,st5,st6,headerid,ctypeid,lineid,incr,inc1){
  // allAttIds = allAttIds.join(',');
  //alert('addcomponent');
-  console.log("hfshgfshgdsh sshh",st1,st2,st3,st4,st5,headerid,ctypeid,lineid);
+  console.log("hfshgfshgdsh sshh",st1,st2,st3,st4,st5,st6,headerid,ctypeid,lineid);
   var ides=0;
    $.ajax({
         url:'/subaddline',
@@ -1001,6 +842,7 @@ function addsubline(st1,st2,st3,st4,st5,headerid,ctypeid,lineid,incr,inc1){
             'st3' :st3,
             'st4' : st4,
             'st5'  : st5,
+            'st6':st6,
              'hdId' : headerid,
              'ctype':ctypeid,
              'lineid':lineid,
@@ -1018,7 +860,7 @@ function addsubline(st1,st2,st3,st4,st5,headerid,ctypeid,lineid,incr,inc1){
                   }
                 
              
-                                      }
+              }
 
 });
 }
@@ -1067,11 +909,9 @@ function addHardware(newOuterArr){
  alert(compdata[0]);*/
  //+','+$('#warranty'.concat(i)).val()+'@'+$('#componentdata'.concat(i)).val();$('#serial'.concat(i)).val()+','+
 //console.log(compdata[0],compdata[1],compdata[2],compdata[3],compdata[4],compdata[5],compdata[6],result,$('#typel').val());
-          addlinedata($('#serial'.concat(i)).val(),attid,array[0],$('#brand'.concat(i)).val(),$('#warranty'.concat(i)).val(),result,$('#typel').val(),$('#componentdata'.concat(i)).val());
-
-             
-                                      }
-                                      }
+          addlinedata($('#serial'.concat(i)).val(),attid,array[0],$('#brand'.concat(i)).val(),$('#warranty'.concat(i)).val(),result,$('#typel').val(),$('#componentdata'.concat(i)).val(),$('#warranty1'.concat(i)).val());        
+     }
+  }
 
 });
 }

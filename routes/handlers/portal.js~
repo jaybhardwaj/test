@@ -53,10 +53,15 @@ var locationId = [],
   parsing = [],done =0;
 
  var PPT = require('ppt');
- var holidayArrDateTimeArr = [];
- var saturdayOffFlag      = 1;
 
 
+
+
+
+
+
+//var buffer = readChunk.sync(path.resolve('public/attach/adminheader.ejs'), 0, 262);
+////console.log(fileType(buffer));
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -92,7 +97,6 @@ var locationId = [],
      } ,
         
     checkPassword: function(req, res, next) {
-        console.log('hello');
          modelPortal.checkPassword(req.body.userid,req.body.password,0,function(err, result) {
              if (err) {
                  next(err);
@@ -168,7 +172,6 @@ var locationId = [],
      },
     
        validateUser: function(req, res, next) {
-        console.log('hi');
          modelPortal.validateUser(
              req.query.v123v45,             
              function(err, result) {
@@ -181,8 +184,7 @@ var locationId = [],
                             configEmail.password= result[2][0].domailUserName,
                             configEmail.port= result[2][0].domailUserName;  
                            } 
-                    console.log('isValidate-----',result[5][0].isValidate);
-                    if(result[5][0].isValidate==0){
+////console.log(result);
                      req.session.allSupervisors=result[3];
                      req.session.mySupervisor=result[4][0].managerid;
                      req.session.firstName = result[0][0].firstName;
@@ -195,7 +197,7 @@ var locationId = [],
                      req.session.isVerified = true;
                      req.session.croleId=result[0][0].crole_id;  
                      req.session.isRetailer=result[0][0].isRetailer; 
-                     req.session.hrRole=result[5]; 
+                     req.session.hrRole=result[0][0].hrRole; 
                      req.session.documentalert=0;
                      req.session.loginIdUser=result[0][0].lastinsert; 
                      req.session.defaultModule = result[0][0].defaultModuleId;
@@ -228,13 +230,7 @@ var locationId = [],
                        else if(req.session.defaultModule==7){
                             res.redirect('/rms');
                        }
-                     } 
-
-                    }
-                    else{
-                        res.redirect('/');
-                    }
-
+                     }                  
                  }
              });
      },
@@ -1037,20 +1033,7 @@ project=project?project:'';
               
               });
           },
-fileDetialsUpdate: function(req,res,next){
-     
-  modelPortal.fileDetialsUpdate(req.session.retailerId,req.body.fileid,req.body.fileTitle,req.body.fileAuthor,req.body.description,req.body.industry,req.body.business,
-    req.body.doctypes,req.body.technology, req.body.rLevel,req.body.industryhide,req.body.businesshide,
-    req.body.doctypehide,req.body.newTechide,req.body.rLevelhide,function(err, result){
-                if(err){
-                    next(err);
-                    return;
-                }
-               
-                res.json('success');
-              
-              });
-          },
+
  docActiveInactive:function(req,res,next){
      
   modelPortal.docActiveInactive(req.session.retailerId,req.body.croleid,req.body.flag,function(err, result){
@@ -1069,11 +1052,7 @@ fileDetialsUpdate: function(req,res,next){
             if(err){
                 next(err);
                 return;
-            }  
-        var  selectVariableStar=["*****","****","***","**","*"];
-        for(var i=0,len=resultFiles[1].length;i<len;i++){
-         resultFiles[1][i].value=selectVariableStar[i];
-            }      
+            }        
             req.resultFiles=resultFiles;
             next();
         })
@@ -1127,22 +1106,7 @@ deleteFileByIdPermanentely: function(req,res,next){
    });
         
  },
-
- downloadFileCount : function(req,res,next){
  
-  
-
-    modelPortal.downloadFileCount(req.session.userId,req.session.roleId,req.session.retailerId,req.body.fileid,req.body.rating,req.body.flag,function(err,result){
-    if(err){
-        next(err);
-        return;
-    }
- 
- console.log(result);
-  res.json(result);
-   });
-        
- },
 
 
 rejectFileById: function(req,res,next){
@@ -1180,216 +1144,221 @@ rejectFileById: function(req,res,next){
  );
 },
 
-
-attachDocFile: function(req, res, next) {
+attachDocFile: function(req,res,next){
     var parsedData = null;
-    if (req.file != undefined) {
+    if(req.file != undefined){
         var currfolder = req.body.currfolder;
         var fname = req.file.originalname;
         var now = Date.now();
         var exet = fname.split('.');
         var exe = exet[exet.length - 1];
-
+       
         var tempPath = req.file.path,
-        targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
-        var strname = exet[0] + '_' + now + '.' + exe;
-        fs.rename(tempPath, targetPath, function(err) {
-            if (err) {
-
-                res.redirect('/breakdown');
-            } else {
-                if (exe == 'doc' || exe == 'docx' || exe == 'rtf' || exe == 'txt' || exe == 'csv') {
-                    textract.fromFileWithPath(targetPath, config, function(error, text) {
-                        if (error) {
-
-                        } 
-                        else if (typeof text != undefined){
-                               var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-
-                                textLowerCase=union_arrays(textLowerCase,[]);
-                                parseAll(textLowerCase, req, strname, 1, next);
-                        }
-                        
-                    });
-                } 
-                else if (exe.toLowerCase() == 'pdf'){
-                    var processor = pdf_extract(targetPath, options, function(err){
-                        if (err) {
-                        }
-                    });
-                    processor.on('complete', function(data) {
-                        var text = '';
-                        for (var i = 0; i < data.text_pages.length; i++){
-                            text = text.concat(data.text_pages[i]);
-                        }
-                        var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-
-                        textLowerCase=union_arrays(textLowerCase,[]);
-
-                        parseAll(textLowerCase, req, strname, 1, next);
-                       
-                    });
-                    processor.on('error', function(err) {
-                    });
-                }
-                else if (exe == 'pptx') {
-                    textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation", targetPath, function(error, text) {
-                        if (error) {
-
-                        } else if (typeof text != undefined) {
-                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-
-                                textLowerCase=union_arrays(textLowerCase,[]);
-
-                                parseAll(textLowerCase, req, strname, 1, next);
-                        }
-                    });
-
-                }
-                else if (exe.toLowerCase() == 'zip') {
-                    var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
-                    var folderpath = './public/attach/' + exet[0] + '_' + now;
-                    var foldername = exet[0] + '_' + now;
-                    var zip = new AdmZip(targetPath);
-                    zip.extractAllTo(path.join(__dirname, '../../public/attach/' + exet[0] + '_' + now), false);
-                    var zipEntries = zip.getEntries();
-                     var textLowerCase="";
-                     var count=1;
-                    zipEntries.forEach(function(zipEntry){
-                        var namefile = zipEntry["name"];
-                        var namearr = namefile.split('.');
-                        var now = Date.now();
-                        var exe = namearr[namearr.length - 1].toLowerCase();
-                        var newpath = folderpath + '/' + namefile;
-                        if (exe == 'doc' || exe == 'docx' || exe == 'rtf' || exe == 'txt' || exe == 'csv') {
-                            textract.fromFileWithPath(newpath, config, function(error, text) {
-                                if (error) {
-                                   
-                                    if(count==zipEntries.length){
-                                        parseAll(textLowerCase, req,strname,1, next);
-                                    }
-                                        count++;
-    
-                                } else if(typeof text != undefined) {
-                                        var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-                                        textLowerCase= union_arrays(textLowerCase,textLowerCase1);
-                                       
-                                         if(count==zipEntries.length){
-                                            parseAll(textLowerCase, req,strname,1, next);
-                                         } 
-                                         count++;
-  
-                                }
-                                
-                            });
-                        }
-                        else if (exe == 'pptx') {
-                            textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation", newpath, function(error, text) {
-
-                                if (error) {
-                                     
-                                     if(count==zipEntries.length){
-                                             parseAll(textLowerCase, req,strname,1, next);
-                                         }
-                                          count++; 
-
-                                } else if (typeof text != undefined) {
-                                       var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-                                          textLowerCase= union_arrays(textLowerCase,textLowerCase1);
-                                       if(count==zipEntries.length){
-                                         parseAll(textLowerCase, req,strname,1, next);
-                                       } 
-                                        count++;
-                                }
-                                 
-                            });
-
-                        }
-                        else if (exe == 'pdf') {
-                            var processor = pdf_extract(newpath, options, function(err) {
-                                if (err) {
-                                  
-                                    if(count==zipEntries.length){
-                                             parseAll(textLowerCase, req,strname,1, next);
-                                    } 
-                                     count++;
-                                }
-                            });
-                            processor.on('complete', function(data){
-                                var text = '';
-                                for (var i = 0; i < data.text_pages.length; i++) {
-                                    text = text.concat(data.text_pages[i]);
-                                }
-                               var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-
-                                  textLowerCase= union_arrays(textLowerCase,textLowerCase1);
-                                if(count==zipEntries.length){
-                                     console.log(count," pdf  ",textLowerCase.length);
-                                     parseAll(textLowerCase, req,strname,1, next);
-                                } 
-                                 count++;
-                            });
-
-                            processor.on('error', function(err) {
-                                
-                                 if(count==zipEntries.length){
-                                     console.log(count,"   ",textLowerCase.length);
-                                     parseAll(textLowerCase, req,strname,1, next);
-                                } 
-                                 count++;
-                                blankentry(newpath, req);
-                            });
-
-                        }
-                        else if (exe == 'exe'){
-                           fs.unlinkSync(newpath);
-                            if(count==zipEntries.length){
-                                 parseAll(textLowerCase, req,strname,1, next);
-                             } 
-                             count++;
-                        }
-                        else {
-                            if(count==zipEntries.length){
-                                    console.log(count,"   ",textLowerCase.length);
-                                     parseAll(textLowerCase, req,strname,1, next);
-                            } 
-                             count++;
-                        }
-                    });
+            targetPath = path.resolve('./public/attach/' +exet[0] + '_' +now+'.' + exe);
+         
+            var strname =   exet[0]+'_'+now+ '.' + exe;
+            fs.rename(tempPath, targetPath, function(err){
+                if (err){
                    
-                } else {
-                    var industry = req.body.industry == null ? '' : req.body.industry.toString();
-                    var business = req.body.business == null ? '' : req.body.business.toString();
-                    var doctype = req.body.doctype == null ? '' : req.body.doctype.toString();
-                    var tec = req.body.newTec == null ? '' : req.body.newTec.toString();
-                    var restriction = req.body.rLevel == null ? '' : req.body.rLevel.toString();
-
-                    modelPortal.attachDocFile(req.session.userId, req.session.retailerId,
-                        strname, req.body.currfolder, fname, req.body.descbox, req.body.authname,
-                        industry, business, req.body.title, doctype, tec, req.session.roleId, restriction,
-                        req.body.industryhide, req.body.businesshide, req.body.doctypehide, req.body.newTechide,
-                        req.body.rLevelhide, parsedData,
-                        function(err, result) {
-                            if (err) {
-                                next(err);
-                                return;
-                            } else {
-                                next();
-                            }
-                        });
+                       res.redirect('/breakdown');
                 }
-            }
+                else{
+                              
+                         
+                              if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx'){
 
-        });
-    }
+                                    textract.fromFileWithPath(targetPath, config, function(error, text) {
 
-},  
+                                        if (error) {
+                                         
+
+                                        } else {
+                                            if (typeof text != undefined) {
+                                              
+                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
+                                 
+                                              
+                                             parseAll(textLowerCase,req,strname,1,next);
+                                                             next();
+
+                                            } 
+                                        }
+                                    });
+                            }
+                            else if (exe.toLowerCase() == 'pdf') { 
+                                                    //console.log("ppt start");           
+                                    var processor = pdf_extract(targetPath, options, function(err) {
+                                        if (err) {
+                                           
+                                        }
+                                    });
+                                    processor.on('complete', function(data) {
+                                       
+                                        var text = '';
+                                        for (var i = 0; i < data.text_pages.length; i++) {
+                                            text = text.concat(data.text_pages[i]);
+                                        }
+                                     
+                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
+                                      
+                                         parseAll(textLowerCase,req,strname,1,next);
+                                                  next();
+                                    });
+
+                                    processor.on('error', function(err) {
+
+                                     
+                                    });
+                            }
+
+                        else if(exe.toLowerCase() == 'zip'){
+                        var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
+                        var folderpath='./public/attach/' + exet[0] + '_' + now ;
+                        var foldername=exet[0] + '_' + now;
+                        var zip = new AdmZip(targetPath);
+                         zip.extractAllTo( path.join(__dirname, '../../public/attach/' + exet[0] + '_' + now), false);
+                        var zipEntries = zip.getEntries();
+                        zipEntries.forEach(function(zipEntry){
+                          var namefile = zipEntry["name"];
+                          var namearr = namefile.split('.');
+                          var now = Date.now();
+                          var exe = namearr[namearr.length - 1].toLowerCase();
+                          var newpath = folderpath + '/' + namefile;
+                          if(exe == 'doc' || exe == 'docx'){
+                            textract.fromFileWithPath(newpath, config, function(error, text) {
+
+                                        if (error) {
+
+
+                                        } else {
+                                            if (typeof text != undefined) {
+                                              
+                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
+                                 
+                                              
+                                            parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
+                                                        
+
+                                            } 
+                                        }
+                                    });
+
+
+
+                               
+
+
+                            } 
+                            else if(exe == 'pptx'){
+                            textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function( error, text ) {
+
+                                        if (error) {
+                                             //console.log("pptx   ",error);
+
+
+                                        } else {
+                                            if (typeof text != undefined) {
+                                              
+                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g,'').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
+                                 
+                                              
+                                            parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
+                                                        
+
+                                            } 
+                                        }
+                                    });
+
+                            }else if(exe == 'pdf') {
+                                var processor = pdf_extract(newpath, options, function(err) {
+                                    if (err) {
+                                         //console.log("pdf   ",error);
+
+                                    }
+                                });
+                                 processor.on('complete', function(data) {
+                                       
+                                        var text = '';
+                                        for (var i = 0; i < data.text_pages.length; i++) {
+                                            text = text.concat(data.text_pages[i]);
+                                        }
+                                     
+                                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g,'').replace(/"/g,'').split(' ');
+                                      
+                                          parseAll(textLowerCase,req,foldername+'/'+namefile,2,next);
+
+                                                
+                                    });
+                               
+                                processor.on('error', function(err) {
+                                    blankentry(newpath, req);
+                                });
+
+                            }
+                            else if(exe == 'exe'){
+
+                            }
+                            else{ 
+                                var industry=req.body.industry==null? '':req.body.industry.toString();
+                                var business=req.body.business==null? '':req.body.business.toString();
+                                var doctype=req.body.doctype==null? '':req.body.doctype.toString();
+                                var tec=req.body.newTec==null? '':req.body.newTec.toString();
+                                var restriction=req.body.rLevel==null? '':req.body.rLevel.toString();
+                            
+                                modelPortal.attachDocFile(req.session.userId,req.session.retailerId,
+                                     foldername+'/'+namefile,req.body.currfolder,namefile,req.body.descbox,req.body.authname,
+                                    industry,business,req.body.title,doctype,tec,req.session.roleId,restriction,
+                                    req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
+                                    req.body.rLevelhide,parsedData,function(err,result){
+                                                 if(err){
+                                                 
+                                                    return;
+                                                }
+                                                else{
+                                                
+                                                  }
+                                      });
+
+                            }
+                          });  
+                            next();
+                        }                      
+                        
+                                     
+                            else{
+                                    var industry=req.body.industry==null? '':req.body.industry.toString();
+                                    var business=req.body.business==null? '':req.body.business.toString();
+                                    var doctype=req.body.doctype==null? '':req.body.doctype.toString();
+                                    var tec=req.body.newTec==null? '':req.body.newTec.toString();
+                                    var restriction=req.body.rLevel==null? '':req.body.rLevel.toString();
+                                
+                                    modelPortal.attachDocFile(req.session.userId,req.session.retailerId,
+                                         strname,req.body.currfolder,fname,req.body.descbox,req.body.authname,
+                                        industry,business,req.body.title,doctype,tec,req.session.roleId,restriction,
+                                        req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
+                                        req.body.rLevelhide,parsedData,function(err,result){
+                                        if(err){
+                                            next(err);
+                                            return;
+                                        }
+                                        else{
+                                          next(); 
+                                        }
+                                   });
+                            }
+                    }    
+           
+            });
+        }
+   
+ },
+  
    
 
 tableSearchBox: function(req,res,next){
 
 req.body.searchbox = req.body.searchbox.replace(/ +/g,' ');
-   modelPortal.tableSearchBox((req.body.nb ||' '),(req.body.nd || ' '),(req.body.ni ||' '),(req.body.nt || ' '),(req.body.nr || ' '),req.body.searchbox.trim(),req.session.roleId,req.session.croleId,req.session.retailerId,req.session.userId,function(err,resultSearchFile){
+   modelPortal.tableSearchBox((req.body.nb ||' '),(req.body.nd || ' '),(req.body.ni ||' '),(req.body.nt || ' '),(req.body.nr || ' '),req.body.searchbox.trim(),req.session.roleId,req.session.croleId,req.session.retailerId,function(err,resultSearchFile){
         if(err){
             next(err);
             return ;
@@ -1422,7 +1391,7 @@ resultSearchFile[0].forEach(function(element,index){
                         var business=req.body.nb==null? '':req.body.nb.toString();
                         var doctype=req.body.nd==null? '':req.body.nd.toString();
                         var tec=req.body.nt==null? '':req.body.nt.toString();
-    modelPortal.filterFiledata(business,doctype,industry,tec,req.session.roleId,req.session.croleId,req.session.userId,function(err,result){
+    modelPortal.filterFiledata(business,doctype,industry,tec,req.session.roleId,req.session.croleId,function(err,result){
          if(err){
             next(err);
             return;
@@ -1951,26 +1920,7 @@ addEditWbsDetails: function(req, res, next) {
          });
      },
 
-
-     checkUsersInProject: function(req, res, next) {
-
-        req.pid=req.body.pid;
-           modelPortal.projectWbs(req.pid,req.session.userId,req.session.roleId,req.session.retailerId,
-            function(err, result) {
-
-                 if (err) {
-                     next(err);
-                 } else {
-                    console.log('checkUsersInProject-------',result[5]);
-                 res.json(result[5]);
-                 }
-         });
-     },
-
-
-
-
-    projectAddEditDetailsWithFlag: function(req, res, next) {
+     projectAddEditDetailsWithFlag: function(req, res, next) {
         
         var flag=req.body.hdnId;
        
@@ -1988,7 +1938,7 @@ var tab=req.body.tabDetail;
     req.pname=req.body.completed;
   
 
-           modelPortal.projectAddEditDetailsWithFlag(pid,req.body.pname,req.body.planReq, req.body.pcode, req.body.ptype,req.body.pcat,
+           modelPortal.projectAddEditDetailsWithFlag(pid,req.body.pname, req.body.pcode, req.body.ptype,req.body.pcat,
             pclient, ptech,presource,ccontact,
             req.body.pdescription, req.body.psdate,  req.body.pedate,  req.body.asdate,  req.body.aedate,
             req.body.pstatus,pcomplexity, plocation, req.body.pcommercialhead,
@@ -3437,44 +3387,16 @@ updateHoliday: function(req,res,next){
          });
      },
      getUser: function(req, res, next) {
-
-        if(! req.body.tab){
-            req.tab=1;
-        }
-        else{
-            req.tab=req.body.tab;
-        }
-
          modelPortal.getAllUsers(req.userid,req.session.roleId,req.session.retailerId,function(err, resultUsers) {
              if (err) {
                  next(err);
                  return;
              }
              req.resultUsers = resultUsers;
-             console.log('))))))))))))))))))))))----',resultUsers[0],'---------hdnId----',req.body.hdnId);
-             next();
-         });
-     },
-
-     checkNextUser: function(req, res, next) {
-        console.log('inside next user-----------------------',req.body);
-
-         modelPortal.checkNextUser(req.body.flag1,req.userid,req.session.roleId,req.session.retailerId,function(err, resultUsers) {
-             if (err) {
-                 next(err);
-                 return;
-             }
-             console.log('usp_checkNextUser----',resultUsers[0][0].id);
-             req.userid=resultUsers[0][0].id;
-             req.body.hdnId=req.userid;
-             console.log('req.body.hdnId changed in checkNextUser----',req.body.hdnId);
-             //req.resultUsers = resultUsers;
              //console.log(" user transaction information is:",resultUsers);
              next();
          });
      },
-
-
 
 
      getRole: function(req, res, next) {
@@ -3631,7 +3553,6 @@ addUser: function(req, res, next) {
             next(err)
         }else{
             req.timeinfo = result;
-            console.log("result---",result);
             next();
         }
        });
@@ -3652,14 +3573,6 @@ addUser: function(req, res, next) {
         if(err){
             next(err)
         }else{
-            console.log('bsfbbrdfgs---------',result);
-            if(result[3][0].already_submit ==2){
-                mailTemplates.timesheetToSupervisorForApproval(result[1][0].firstName, result[2][0].userDetails,result[1][0].userEmail,function(error, resultMail) {
-                     if (error) {
-                     }
-                });
-
-            }
              res.json(result[0]);
        
         }
@@ -3763,7 +3676,6 @@ addUser: function(req, res, next) {
      otherTimeSheet_setPage: function(req,res,next){
         //////console.log(" i am in  post rtal");
         req.session.timeshhetuserid=req.body.id;
-        req.session.othertime_checkdate=req.body.time_date;
             modelPortal.otherTimeSheet(req.session.timeshhetuserid,req.session.retailerId,function(err,result){
         if(err){
             next(err)
@@ -3850,14 +3762,7 @@ addUser: function(req, res, next) {
            ////console.log('kaisan ho',req.body);
    totalFiles[req.session.userId] = 0;
   parsing[req.session.userId] = false; 
-     var hrArrS=req.session.hrRole;
-            var hrarr=[];
-            for(var i=0;i<hrArrS.length;i++){
-                hrarr[i]=hrArrS[i].hrRoleId;
-            }
-            var hrRoleArray=hrarr.toString();
-            
-        modelPortal.dashboardData(req.body.data,req.body.grid,req.body.time,hrRoleArray,req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
+        modelPortal.dashboardData(req.body.data,req.body.grid,req.body.time,req.session.hrRole,req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
 
 
             if(err){
@@ -3882,7 +3787,6 @@ addUser: function(req, res, next) {
         });
 
     },
-
     raiseRequisition1:function(req,res,next){
              if(req.body.locationName!=undefined&&req.body.locationName!=null){
                  req.body.locationName = req.body.locationName.trim();
@@ -3935,52 +3839,46 @@ addUser: function(req, res, next) {
                     skills = skills.replace(/['"]+/g, '');
                 }
             }
-            var hrArrS=req.session.hrRole;
-            var hrarr=[];
-            for(var i=0;i<hrArrS.length;i++){
-                hrarr[i]=hrArrS[i].hrRoleId;
-            }
-            var hrRoleArray=hrarr.toString();
-            
    modelPortal.raiseRequisition1(
               req.session.userId,req.body.JobTitle,req.body.NoOfPostions,skills,
               req.body.MinimumSalary,req.body.MaximumSalary,
               req.body.ExpiresOn,req.body.Location,req.body.Description,
               req.body.designation,req.body.RecruiterName,
               req.body.YearsOfExp,req.body.adminhr,flag,id,
-              req.body.mailPriority,req.body.jobType,hrRoleArray,req.session.retailerId,function(err,result){
-              if(err){
-                     console.log("error portal",err);
+              req.body.mailPriority,req.body.jobType,req.session.hrRole,req.session.retailerId,function(err,result){
+
+                if(err){
+                    ////console.log("error portal",err);
                 }
     else{
        
         var recEmail = [];
-            for(var i =0;i<result[4].length;i++){
-                    recEmail.push(result[4][i].userEmail);
+            for(var i =0;i<result[5].length;i++){
+                    recEmail.push(result[5][i].userEmail);
                 }
          recEmail = recEmail.join(','); 
          req.body.Location =req.body.locationName;
 
-         if(hrarr.indexOf(3)!=-1){            //hm
+         if(req.session.hrRole==3){            //hm
           if(flag==0){ 
-              mailTemplates.hrMailer(0,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
+              mailTemplates.hrMailer(0,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
             res.redirect('/allrequisitions?flag=1');
               }
               else if(flag==1){
                 var mailCounter = result[3][0].mailCounter;
-                mailTemplates.hrMailer(1,recEmail,result[5][0],result[1][0].id,mailCounter,skills,hrarr,req.session.userId,"--",function(err,result){});
+                mailTemplates.hrMailer(1,recEmail,result[6][0],result[0][0].id,mailCounter,skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
                 res.redirect('/allrequisitions?flag=0'); 
             } 
          }
-        else if(hrarr.indexOf(5)!=-1){         //hod
+        else if(req.session.hrRole==5){         //hod
              if(flag==0){            
-           mailTemplates.hrMailer(flag,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
-                res.redirect('/allrequisitions?flag=1');
+           mailTemplates.hrMailer(flag,recEmail,result[6][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
+                res.redirect('/reqHod?flag=1');
             }
             else if(flag==1){
                 var mailCounter = result[3][0].mailCounter;
-                  mailTemplates.hrMailer(1,recEmail,result[5][0],result[1][0].id,mailCounter,skills,hrarr,req.session.userId,"--",function(err,result){});
-                res.redirect('/allrequisitions?flag=0'); 
+                  mailTemplates.hrMailer(1,recEmail,result[6][0],result[0][0].id,mailCounter,skills,req.session.hrRole,req.session.userId,"--",function(err,result){});
+                res.redirect('/reqHod?flag=0'); 
             }
         }   
        }
@@ -4002,24 +3900,18 @@ addUser: function(req, res, next) {
                             }
                      recEmail = recEmail.join(',');
                      var skills;
-            var hrArrS=req.session.hrRole;
-            var hrarr=[];
-            for(var i=0;i<hrArrS.length;i++){
-                hrarr[i]=hrArrS[i].hrRoleId;
-            }
-            var hrRoleArray=hrarr.toString();
                 if(req.body.flag==1){ 
                     //Approved
-                      mailTemplates.hrMailer(2,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
+                      mailTemplates.hrMailer(2,recEmail,result[0][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,req.approve,function(err,result){});
                 }
                 else{ 
                     //Rejected
-                   mailTemplates.hrMailer(3,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
+                   mailTemplates.hrMailer(3,recEmail,result[0][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,req.approve,function(err,result){});
                 }   
                    if(req.isMail){   
                     next();
                      }
-                     else{ 
+                     else{
                         res.json(result); 
                 } 
             }
@@ -4045,18 +3937,14 @@ addUser: function(req, res, next) {
         var flag = query.flag;
         if (flag==undefined) flag = -1;
         req.fl1=flag;
-        
+        //////console.log("shubham ",req.fl1);
         modelPortal.allrequisitions(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
                 //////console.log("there is an error",err);
             }   
             else{
-                var arr=[];
-                for(var i=0;i<result[6].length;i++){
-                     arr.push(result[6][i].hrRoleId);
-                }
-                req.myRmsRoles=arr;
                 req.allrequisitions=result;
+               
                 next();
             }  
         });
@@ -4331,8 +4219,7 @@ upload_resume:function(req,res,next){
                 if (err) {}//////console.log(err)
                 else {
 
-                     if(exe == 'doc' || exe == 'docx'  || exe == 'rtf' ){
-
+                    if (exe.toLowerCase() == 'doc' || exe.toLowerCase() == 'docx') {
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
@@ -4495,7 +4382,7 @@ upload_resume:function(req,res,next){
 
                             //         parseResume(req,newpath);
 
-                            if (exet == 'doc' || exet == 'docx' || exet == 'rtf') {
+                            if (exet == 'doc' || exet == 'docx') {
                                 /*  if(exet=="rtf")
                                   {
                                     namearr.pop();
@@ -4715,11 +4602,11 @@ upload_resume:function(req,res,next){
         });
     },
     addQuickTag:function(req,res,next){
-      console.log("addQuickTag portal");
+        //////console.log("addQuickTag portal");
         modelPortal.addQuickTag(req.session.userId,req.session.roleId,req.session.retailerId,
            req.body.jdid,req.body.allcdid,function(err,result){
             if(err){
-                console.log("there is an error",err);
+                //////console.log("there is an error",err);
             }   
             else{
                      res.json(result);
@@ -5051,7 +4938,6 @@ upload_resume:function(req,res,next){
             }   
             else{
             req.treeComponent = result[0];
-            console.log('treeComponent is',req.treeComponent);
             req.maxid         = result[1][0].endId;
             req.minid         = result[1][0].startId;
             req.flag          = flag;
@@ -5060,7 +4946,7 @@ upload_resume:function(req,res,next){
             req.prId          = result[1][0].prId; 
             req.Resources     =  result[4];
             req.versionFlag   =  versionFlag;
-            req.userId       = req.session.userId;
+
             if(!!result[5][0].version){
                 req.versionArr = result[5][0].version.split(',');
                 //console.log('version Arr is',req.versionArr);
@@ -5120,26 +5006,7 @@ upload_resume:function(req,res,next){
                    
 
                 }
-                    if (result[10].length) {
-               console.log('RESULT length supports here');
 
-                        var submitted;
-                        req.userFlag = 1;
-                         if (!req.treeComponent.length) {
-                                submitted = 0;
-                          } else {
-                          submitted = req.treeComponent[0].isSubmit;
-                          }
-                         if(submitted != 2) {
-                         req.treeComponent = [];
-                          }else {
-                            console.log('reached in else here',req.tree);
-                         req.treeComponent = findDataFromUserFlag(result[0],req.session.userId);
-                           }
-                           }
-                    else{
-                      req.userFlag = 0;
-                        }
             
            // ////console.log('alldata here',req.treeComponent,req.maxid,req.minid);
                         next();
@@ -5162,7 +5029,7 @@ modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
         });
    },
   saveTask :function(req,res,next){
-      modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.body.userId,function(err,result){
+      modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.session.userId,function(err,result){
             if(err){
                 ////console.log("there is an error",err);
             }   
@@ -5198,8 +5065,7 @@ if(holidayArrDateTime[2].length==2){
   holidayArrDateTime[2] = '20'+ holidayArrDateTime[2];
 }
  holidayArrDateTime = new Date(holidayArrDateTime[2], holidayArrDateTime[1], holidayArrDateTime[0]); 
- holidayArrDateTime = holidayArrDateTime.getTime();
-holidayArrDateTimeArr.push(holidayArrDateTime);
+req.session.holidayArrDate.push(holidayArrDateTime);
 
 }
  //console.log(result[1],'***********WAIT*************',result[0].length);
@@ -5211,15 +5077,12 @@ holidayArrDateTimeArr.push(holidayArrDateTime);
                   }
 
         console.log('result[1] is',result[1]);
-                   req.actProjectCalculations = calculateActualCompletion(result[1]);
-                   req.effProjectCalculations  = calculateEffCompletion(result[0]);
+                   req.effProjectCalculations = getDateTime(result[0],maxid);
+           
                    req.projectTree              =   result[1];
                    req.totalHoursBooked          =  addSum(result[1]);
                    req.hoursFromTimesheetWbs     =  addSum(result[2]); 
-             req.percCompletedOnHoursBooked      =   getPercentage(req.totalHoursBooked,req.hoursFromTimesheetWbs,result[1]);
-            req.totalHoursBookedFromWbs                  =   totalHoursBookedFromWbs(result[2]);
-            req.calculatePercentageCompletedOnHoursBooked   =   calculatePercentageCompletedOnHoursBooked(req.totalHoursBookedFromWbs,result[1])
-             req.actualEndDate      =     calculateActualEndDate(result[1])
+      req.percCompletedOnHoursBooked             =   getPercentage(req.totalHoursBooked,req.hoursFromTimesheetWbs,result[1]);
                    //console.log('projHours is',req.projHours ,'hourSumWbs is',req.hourSumWbs);
                   // console.log('***********',req.effProjectCalculations);
 
@@ -5230,6 +5093,8 @@ holidayArrDateTimeArr.push(holidayArrDateTime);
                  
                 } 
         });
+
+
 
 
 },
@@ -5275,63 +5140,61 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
 
 
  //-------------------------------------SEPERATE FUNCTION-------------------------------------->
-function union_arrays (x, y) {
-  var obj = {};
-  for (var i = x.length-1; i >= 0; -- i)
-     obj[x[i]] = x[i];
-  for (var i = y.length-1; i >= 0; -- i)
-     obj[y[i]] = y[i];
-  var res = []
-  for (var k in obj) {
-    if (obj.hasOwnProperty(k))  // <-- optional
-      res.push(obj[k]);
-  }
-  return res;
-}
-function parseAll(textLowerCase, req, strname, temp, next) {
-    var parsedData;
-    var largeArr = [];
-    var conjunctionArr = ['if', 'and', 'the', 'is', 'because', 'on', 'to', 'in', 'from', 'of', 'above', 'be', 'would', 'for', 'each', 'at', 'under', 'by', 'been', 'no', 'my', 'upon', 'been', 'it0', 'will', 'there', 'that', 'this', 'has', 'have', 'had', 'up', 'with', 'own', 'are', 'any', 'may', 'about', 'used', 'can', 'into', 'as', 'not', 'we', 'or', 'than', 'also', 'using', 'see', 'its', 'more', 'such', 'what', 'us', 'there', 'so', 'them', 'Your', 'just', 'our', 'why', 'but', 'am', '//', '>=', '<=', 'over', 'per', '#1', '#2', '#3', '#4', '#5', '#6', 'etc)', 'recent', 'due', '(the', 'an', 'out', 'here'];
-    for (var i = 0, len = textLowerCase.length; i < len; i++) {
-        if ((largeArr.indexOf(textLowerCase[i]) < 0) && (conjunctionArr.indexOf(textLowerCase[i]) < 0) && (textLowerCase[i].length > 1) && (isNaN(textLowerCase[i]))) {
+
+ function  parseAll(textLowerCase,req,strname,temp,next){
+var parsedData ;
+var largeArr = [];
+
+var conjunctionArr = ['if','and','the','is','because','on','to','in','from','of','above','be','would','for','each','at','under','by','been','no','my','upon','been','it0','will','there','that','this','has','have','had','up','with','own','are','any','may','about','used','can','into','as','not','we','or','than','also','using','see','its','more','such','what','us','there','so','them','Your','just','our','why','but','am','//','>=','<=','over','per','#1','#2','#3','#4','#5','#6','etc)','recent','due','(the','an','out','here'];
+
+
+for(var i =0,len=textLowerCase.length;i<len;i++){
+if((largeArr.indexOf(textLowerCase[i])<0)&&(conjunctionArr.indexOf(textLowerCase[i])<0)&&(textLowerCase[i].length>1)&&(isNaN(textLowerCase[i]))){
+    //console.log("munni",textLowerCase.length);
             largeArr.push(textLowerCase[i]);
 
-        }
-    }
-    if (!largeArr.length) {
-        parsedData = null;
-    } else {
-        parsedData = largeArr.join(',');
-    }
-    var filenamedemo;
-    if (temp == 1) {
-        filenamedemo = req.file.originalname;
-    } else if (temp == 2) {
-        var arr = strname.split("/");
-        filenamedemo = arr[arr.length - 1];
-    }
-    var industry = req.body.industry == null ? '' : req.body.industry.toString();
-    var business = req.body.business == null ? '' : req.body.business.toString();
-    var doctype = req.body.doctype == null ? '' : req.body.doctype.toString();
-    var tec = req.body.newTec == null ? '' : req.body.newTec.toString();
-    var restriction = req.body.rLevel == null ? '' : req.body.rLevel.toString();
+}
 
 
-    modelPortal.attachDocFile(req.session.userId, req.session.retailerId,
-        strname, req.body.currfolder, filenamedemo, req.body.descbox, req.body.authname,
-        industry, business, req.body.title, doctype, tec, req.session.roleId, restriction,
-        req.body.industryhide, req.body.businesshide, req.body.doctypehide, req.body.newTechide,
-        req.body.rLevelhide, parsedData,
-        function(err, result) {
-            if (err) {
-                next(err);
-                return;
-            } else {
-                next();
-            }
+}
+if(!largeArr.length){
+    parsedData = null;
+}
+
+else{
+
+          parsedData = largeArr.join(',');
+
+  }
+ // ////console.log(parsedData.length);
+  var filenamedemo ;
+if(temp==1){
+filenamedemo=req.file.originalname;
+}
+else if(temp==2){
+    var arr=strname.split("/");
+    filenamedemo=arr[arr.length-1];
+    ////console.log("yeeeee : : :",filenamedemo ,parsedData);
+}
+  var industry=req.body.industry==null? '':req.body.industry.toString();
+                        var business=req.body.business==null? '':req.body.business.toString();
+                        var doctype=req.body.doctype==null? '':req.body.doctype.toString();
+                        var tec=req.body.newTec==null? '':req.body.newTec.toString();
+                        var restriction=req.body.rLevel==null? '':req.body.rLevel.toString();
+                        ////console.log("come on baby :",req.file.originalname,"       ",strname);
+                        modelPortal.attachDocFile(req.session.userId,req.session.retailerId,
+                             strname,req.body.currfolder,filenamedemo,req.body.descbox,req.body.authname,
+                            industry,business,req.body.title,doctype,tec,req.session.roleId,restriction,
+                            req.body.industryhide,req.body.businesshide,req.body.doctypehide,req.body.newTechide,
+                            req.body.rLevelhide,parsedData,function(err,result){
+
+                          if(err){
+                        next(err);
+                         return;
+                            }
 
 
-        });
+});
 
 }
 
@@ -6335,21 +6198,31 @@ function setAllValuesInArray(){
 
 
   var arr = [];
-for(var i = 0;i<200;i++){
+for(var i = 0;i<100000;i++){
   arr[i] = 0;
 }
-return arr;
+return arr
 }
 
 
    function addSum(projTreeArr){
-   
-   var sumArr =  setAllValuesInArray();
-for(var i=0;i<projTreeArr.length;i++){
-    var effInHrsHereIs = parseeIntForNan(projTreeArr[i].effortInHrs);
-   sumArr[projTreeArr[i].project] =  sumArr[projTreeArr[i].project] + effInHrsHereIs;
-}
-   return sumArr;
+       var proj = setAllValuesInArray();
+var projNew;
+    for(var i = 0;i<projTreeArr.length;i++){
+    projNew = projTreeArr[i].project;
+     while(projNew==projTreeArr[i].project){
+    proj[projNew] =  proj[projNew] + projTreeArr[i].effortInHrs;
+    i++;
+    if(i==projTreeArr.length){
+    break;
+    }
+  }
+
+i--;
+
+       }
+
+return proj;
        }
 
 
@@ -6357,6 +6230,45 @@ for(var i=0;i<projTreeArr.length;i++){
 
 
 
+
+function  calculateHoliday(date){
+
+ req.session.saturdayOffFlag = 1
+
+
+ var weekEnds =[0];
+ var m = date.getMonth();
+    var d = date.getDate();
+    var y = date.getFullYear();
+    var day = date.getDay();
+
+  if(req.session.saturdayOffFlag==1){
+  weekEnds = [0,6]
+
+     }
+     else if(req.session.saturdayOffFlag ==0){
+       weekEnds = [0];
+     }
+ 
+
+
+
+
+if(req.session.holidayArrDate.indexOf(date)!=-1){
+    return false;
+
+}
+    else if(weekEnds.indexOf(day)!=-1){
+              return false;
+    }
+
+  else {
+        return true;
+      }
+
+
+
+}
 
 
 
@@ -6379,354 +6291,3 @@ for(var i = 0;i<projTreeArr.length;i++){
 return proj;
 
 }
-
-
-
-function MathRound(num){
-  return  (Math.round(num)*100)/100;
-}
-
-
-function calculateActualCompletion(RawData){
-  var bigArr = setAllValuesInArray();
-  var sumArr =  setAllValuesInArray();
-for(var i=0;i<RawData.length;i++){
-    var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
-   sumArr[RawData[i].project] =  sumArr[RawData[i].project] + effInHrsHereIs;
-}
-
-
-for(var i=0;i<sumArr.length;i++){
-  if(sumArr[i]==0){
-    sumArr[i] = 100;
-  }
-}
-
-for(var i = 0 ;i<RawData.length;i++){
-  var percCompleted = parseeIntForNan(RawData[i].percCompleted);
-  var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
-  var sumArrthis     = sumArr[RawData[i].project];
- console.log('percCompleted is',percCompleted,'dsasdasdasd',RawData[i].percCompleted,'effortInHrs',RawData[i].effortInHrs,'proj',RawData[i].project,'sumArrthis is',sumArrthis);
-bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((effInHrsHereIs*percCompleted)/sumArrthis);
-
-console.log('bigArr[RawData[i].project] is',bigArr[RawData[i].project]);
-
-}
-
-for(var i = 0;i<bigArr.length;i++){
-  //bigArr[i] = bigArr[i]*100;
-  bigArr[i] = MathRound(bigArr[i]);
-}
-
-
-return bigArr;
-
-}
-
-
-
-function parseeIntForNan(data){
-if(isNaN(data)||data==null){
-  return 0;
-}
-
-else return parseInt(data);
-
-}
-
-function calculateEffCompletion(RawData){
-
-  var bigArr = setAllValuesInArray();
-var nowDate = new Date();
-var dd  =   nowDate.getDate();
-var mm  =   nowDate.getMonth() + 1;
-var yy  =    nowDate.getFullYear();
-var nowDate  = dd+'/'+mm+'/'+yy;
-for(var i =0;i<RawData.length;i++){
- 
- var startDate  = RawData[i].newPlannedStartDate
-  var endDate    = RawData[i].newPlannedEndDate
- startDate       = startDate.split('/');
- endDate         = endDate.split('/');
- if(startDate[2].length==2){
-    startDate[2]  = '20' + startDate[2];
- }
- if(endDate[2].length==2){
-endDate[2] = '20' + endDate[2]
-
- }
- startDate       = startDate[0] +'/'+startDate[1] +'/'+startDate[2];
- endDate         = endDate[0] + '/' +endDate[1] + '/' +endDate[2];
-var numberOfDays  = calculateEffDays(endDate,startDate);
-var numberOfDays2 = calculateEffDays(nowDate,startDate);
-console.log()
-bigArr[RawData[i].id]  = MathRound((numberOfDays2*100)/numberOfDays);
-}
-
-
-return bigArr;
-
-}
-
-function calculateEffDays(sDateNew,sDateOld){
-  var effDays = 1;
-  sDateOld = sDateOld.split('/');
-  sDateNew =  sDateNew.split('/');
-   if(sDateOld.length==2){
-     sDateOld[2] = '20' + sDateOld[2];
-   }
-   if(sDateNew.length==2){
-    sDateNew[2] = '20' + sDateNew[2];
-   }
-   sDateNew[1] = (sDateNew[1] -1) + '';
-   sDateOld[1]  = (sDateOld[1] - 1)+ '';
-
-
-var sDateNew2 = new Date(sDateNew[2],sDateNew[1],sDateNew[0]);
-var sDateOld2 = new Date(sDateOld[2],sDateOld[1],sDateOld[0]);
-//sDateNew2 = sDateNew2.toString();
-//sDateOld2 = sDateOld2.toString();
-//debugger;
- var d = sDateOld[0];
-var m = sDateOld[1];
-var y = sDateOld[2];
-    
-
-  while(sDateNew2>sDateOld2){
-   sDateOld2 = new Date(y,m,d++);
-   if(calculateHoliday(sDateOld2)){
-     effDays++;
-   }
-   
-  }
-
-  while(sDateNew2<sDateOld2){
-  sDateOld2 = new Date(y,m,d--);
-   if(calculateHoliday(sDateOld2)){
-     effDays--;
-   }
-  } 
-
-  return effDays;
-
-}
-
-
-
-
-
-
-function  calculateHoliday(date){
-
- var weekEnds;
- if(!saturdayOffFlag){
- weekEnds =[0];
-}
-else {
-       weekEnds = [0,6];     
-    
-  }
-
- var m = date.getMonth();
-    var d = date.getDate();
-    var y = date.getFullYear();
-    var day = date.getDay();
-    var dateTime = date.getTime();
-   // debugger;
-  //  console.log('date is',d,' ',m,' ',y);
-  if(saturdayOffFlag==1){
-        weekEnds = [0,6]    
-    }
-else if(saturdayOffFlag ==0){
-       weekEnds = [0];
-     }
- 
-if(holidayArrDateTimeArr.indexOf(dateTime)!=-1){
-    return false;
-}
-else if(weekEnds.indexOf(day)!=-1){
-              return false;
-        }
-
-    else {
-        return true;
-         }
-
-
-
-}
-
-
-
-
-
-function totalHoursBookedFromWbs(RawData){
-
-var bigArr = setAllValuesInArray();
-
-
-for(var i = 0;i<RawData.length;i++){
-
-bigArr[RawData[i].projectId]  = RawData[i].effortInHrs;
-}
- return bigArr;
-
-}
-
-
-function calculatePercentageCompletedOnHoursBooked(wbsHours,hoursFromTree){
-
-var bigArr = setAllValuesInArray();
-var effortHrs = setAllValuesInArray();
-
-for(var i = 0 ;i<hoursFromTree;i++){
-  effortHrs[hoursFromTree[i].project] = effortHrs[hoursFromTree[i].project] + hoursFromTree[i].effortInHrs; 
-}
-
-for(var i = 0;i<hoursFromTree;i++){
-
-if(hoursFromTree[i].effortInHrs==0){
-   bigArr[hoursFromTree[i].project]  = 0;
-}
-
-else{
-          
-        bigArr[hoursFromTree[i].project] = (wbsHours[hoursFromTree[i].project]*100)/effortHrs[hoursFromTree[i].project];
-
-    }
-
-}
-return bigArr;
-
-}
-
-
-
-function calculateActualEndDate(RawData){
-var bigArr = setAllValuesInArray();
-for(var i =0;i<RawData.length;i++){
-    console.log('RawData[i].actEndDate is',RawData[i].actEndDate,'bigArr[RawData[i].id] is ',bigArr[RawData[i].id]);
-if(RawData[i].actEndDate==null||RawData[i].actEndDate==''){
-    console.log('in if');
-  bigArr[RawData[i].project] = 'alpha';
-}
-else if(bigArr[RawData[i].project]!='alpha'){
-    console.log('in else');
-  bigArr[RawData[i].project]  = maxOf(bigArr[RawData[i].project],RawData[i].actEndDate);
-  console.log('bigArr[RawData[i].id] ',bigArr[RawData[i].project],'actEndDate is ',RawData[i].actEndDate);
-
-}
-else{
-    console.log('work hard in silence');
-}
-
-}
-
-for(var i = 0;i<bigArr.length;i++){
-            if(bigArr[i]==0||bigArr[i]=='alpha'){
-                bigArr[i] = '';
-            }
- }
- //console.log('bigArr is',bigArr);
- return bigArr;
-
-}
-
-
-function maxOf(date1,date2){
-if(date1==0||date1=='0'){
-  return date2
-}
-
-var dateTime1 = conVertToDateTime(date1);
-var dateTime2 = conVertToDateTime(date2);
-
-if(dateTime1>dateTime2){
-  return date1;
-}
-else{
-         return date2;
- }
-
-}
-
-function conVertToDateTime(date1){
-   var date1Arr =  date1.split('/');
-
-if(date1Arr[2].length==2){
-  date1Arr[2] = '20'+date1Arr[2];
-}
-  var DateTime = new Date(date1Arr[2],date1Arr[1],date1Arr[0]);
-  return DateTime; 
-
-
-}
-
-
-
-
-
-
-/***************************task*****************************/
-    
-
-/****************************************task************************************/
-function findDataFromUserFlag(RawData,userId){
-   
-   var DataArr = [];
-
-
-   for(var i = 0;i<RawData.length;i++){
-           if(RawData[i].resources==userId){
-             DataArr.push(i);
-               getChildrenForParents(DataArr,RawData[i].id,RawData,0);
-           }
-       }
-     RawData =  changeTheOnesForWhichNodesHaveToBeSeen(RawData,DataArr);
-     //RawData  = convertAllFirstChildrenToZero(RawData);
-     return RawData;
-}
-
-
-
-function getChildrenForParents(DataArr,parentId,RawData,level){
-if(level>1)   return;
-for(var i = 0;i<RawData.length;i++){
-    if(RawData[i].parentId==parentId){
-        DataArr.push(i);
-     getChildrenForParents(DataArr,RawData[i].id,RawData,level+1); 
-    }
- }
-
-}
-
-function changeTheOnesForWhichNodesHaveToBeSeen(RawData,DataArr){
-var newRawData = [];
-for(var i =0;i<RawData.length;i++){
-    if(DataArr.indexOf(i)!=-1){
-      var startDate = RawData[i].startDate;
-      RawData[i].startDate = startDate + '$$$0$RobertJFi$cher$$';
-    }
-}
-return RawData;
-}
-
-
-function convertAllFirstChildrenToZero(RawData){
-    if(!RawData.length){
-    return;
-   }
-var parentId = RawData[0].parentId;
-
-for(var i =0;i<RawData.length;i++){
-     
-if(parentId==RawData[i].parentId){
-        RawData[i].parentId = 0;
-    }
-}
-return RawData;
-
-}
-
-
-

@@ -6,6 +6,10 @@
     <% include assetheader %>
 <script type="text/javascript">
 	    $(document).ready(function(){
+          jQuery('#assigndate').datetimepicker({
+                    timepicker:false,
+                    format:'Y-m-d'
+                  });
  var otable=$("#adTable").dataTable();
    $("#searchbox").keyup(function() {
         otable.fnFilter(this.value);
@@ -86,20 +90,24 @@
       </div>
          <div id="softwareList" class="hide col-md-2">
          <label class="form-Label">Software List:</label>
-            <select id="ac" type="dropdown" class="form-text-box" onchange="getAcc(this.value)"></select>
+            <select id="ac" type="dropdown" class="form-text-box" onchange="getAcc()"></select>
           </div>
           <div id="hardwareTag" class="hide col-md-2">
             <label class="form-Label">Hardware Tag:</label>
-            <select id="hdwTagOption" class="form-text-box " onchange="assignHdwr()">
+            <select id="hdwTagOption" class="form-text-box " onchange="showdate()">
             <option value="0">Select</option>
             </select>
           </div>
           <div id="softwareLic" class="hide col-md-2">
           <label class="form-Label">Software Licence:</label>
-           <select id="acc" class="form-text-box " onchange="">
+           <select id="acccc" class="form-text-box " >
                 </select>
           </div>
-          <input type="submit" class="btn" value="Assign" style="margin-top:2.5%" onclick="">
+           <div id="date123" class=" col-md-2">
+          <label class="form-Label">Assign Date:</label>
+           <input id="assigndate" class="form-text-box date">
+          </div>
+          <input type="submit" class="btn" value="Assign" style="margin-top:2.5%" onclick="save2db();">
       </div>
          
              <!--  <tr>
@@ -252,11 +260,13 @@ function chooseType(){
     //alert(at);
     $("#hardwareList").removeClass("hide");
     $("#softwareList").addClass("hide");
+    $("#softwareLic").addClass("hide");
   }
   else if(at=="1"){
     //alert(at);
     $("#hardwareList").addClass("hide");
     $("#softwareList").removeClass("hide");
+    $("#hardwareTag").addClass("hide");
   }
   else{
    // alert(at);
@@ -295,7 +305,10 @@ function chooseType(){
       });
     
 
-
+function showdate(){
+ 
+  $('date123').removeClass('hide');
+}
 
 
 
@@ -329,7 +342,7 @@ var count=0;
             console.log("-- -- -  -- dd --- - - ",result);
             for(var i=0;i<result[0].length;i++){
               var row='<tr><td>'+ ++count+'</td><td>'+result[0][i].firstName+'</td><td>'+result[0][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[0][i].ACID+'></td><td>'+
-                  result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:70px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent('+result[0][i].Id+')"></span>';
+                  result[0][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[0][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[0][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[0][i].assignDate).toString()).slice(0,10)+'"></input><td><span id="assignapp'+count+'" style="margin-left:0px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span>';
                  // alert(result[0][i].assign);
                   if(result[0][i].assign==1){
                    
@@ -349,9 +362,9 @@ var count=0;
               $('#bodyi').append(row);
             }
             for(var i=0;i<result[1].length;i++){
-              var row='<tr><td>'+ ++count+'</td><td>'+result[1][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[1][i].ACID+'></td><td>'+result[1][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[1][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[1][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[1][i].assignDate).toString()).slice(0,10)+'"></input><td>';
+              var row='<tr><td>'+ ++count+'</td><td>'+result[0][i].firstName+'</td><td>'+result[1][i].componentName+'<input type="hidden" id="compId'+count+'" value='+result[1][i].ACID+'></td><td>'+result[1][i].tagNo+'<input type="hidden" id="line'+count+'" value='+result[1][i].Id+'><input type="hidden" id="tsId'+count+'" value='+result[1][i].tsId+'></td><td><input id="date'+count+'" class="form-text-box date" value="'+((result[1][i].assignDate).toString()).slice(0,10)+'"></input><td>';
                  if(result[1][i].assign==1){
-                   row=row+'<span id="assignapp'+count+'" style="margin-left:70px; color:red; " class=" glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
+                   row=row+'<span id="assignapp'+count+'" style="margin-left:0px; color:red; " class=" glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
                 
                   
                     $('#assignreg'+count).removeClass('hide');
@@ -564,8 +577,8 @@ var count=0;
           }
         });
       } 
-      function getAcc(value){
-        //alert(value);
+      function getAcc(){
+       var value=$('#ac').val();
          $("#hardwareTag").addClass("hide");
         $("#softwareLic").removeClass("hide");
         $.ajax({
@@ -579,17 +592,18 @@ var count=0;
 
             //console.log(result);
            // alert(result);
-       /*     var data=JSON.stringify(result[0]);
-            var options = $("#acc");
-            options.empty();
+            var data=JSON.stringify(result[0]);
+          //var options = $("#acc");
+             $("#acccc").empty();
             $.each(JSON.parse(data), function() {
               //console.log(data);
               if(this['tagNo'] != null){
-                options.append($("<option />").val(this['id']).text(this['tagNo']).attr('value1',this['id']));
+          
+                 $("#acccc").append("<option value="+this['id']+">"+(this['tagNo'])+"</option>");
               }
               
             });
-          var a;
+         /* var a;
           $('#acc').editableSelect({
             onSelect:function(elem){
               console.log(elem[0].value);
@@ -616,7 +630,7 @@ var count=0;
                   }
                 });
               });
-              if(check==false){
+             /* if(check==false){
                 console.log('elsecheck')
                 var row='<tr><td>'+ ++count+'</td><td>'+$("#ac option:selected").text()+'<input type="hidden" id="compId'+ count+'" value='+$("#ac option:selected").val()+'></td><td>'+$(this)[0].value+'<input type="hidden" id="line'+count+'" value='+elem[0].value+'><input  type="hidden" id="tsId'+count+'" value="0"></td><td><input id="date'+count+'" class="form-text-box date"></input>'
                 +'<td><span id="assignreg'+count+'" style=" margin-left:70px;color:green; " class="glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></td><td class="hide">'+
@@ -627,11 +641,10 @@ var count=0;
                   timepicker:false,
                   format:'Y-m-d'
                 });
-              }
+              }*/
             }
           });
-*/        }
-      }); 
+    
     }
 
    /* function Assign(e){
@@ -645,11 +658,18 @@ var count=0;
 
     function save2db(num){
       var uid,lid,cid,adate,tid;
-    uid=userid;
-    lid=$('#line'.concat(num)).val();
-    cid=$('#compId'.concat(num)).val();
-    adate=$('#date'.concat(num)).val();
-    tid=$('#tsId'.concat(num)).val();
+    uid=$('#usersId').val();
+    var type=$('#chooseType').val();
+    if(type==0){
+    lid=$('#hdwTagOption').val();
+    cid=$('#hw').val();
+  }
+     if(type==1){
+    lid=$('#acccc').val();
+    cid=$('#ac').val();
+  }
+    adate=$('#assigndate').val();
+    tid=0
     aflag=1;
    
     console.log(uid,lid,cid,adate,tid);
@@ -659,12 +679,13 @@ var count=0;
         data: {uid:uid,cid:cid,lid:lid,adate:adate,aflag:aflag,tid:tid},
                 dataType: 'json',
         success: function(result){
-         $('#tsId'.concat(num)).val(result);
+         /*$('#tsId'.concat(num)).val(result);
          $('#assign'.concat(num)).html(''); 
          $('#assign'.concat(num)).append('assigned');
           $('#assignapp'.concat(num)).removeClass('hide');
-          $('#assignreg'.concat(num)).addClass('hide');
+          $('#assignreg'.concat(num)).addClass('hide');*/
          alert('sucessfully asigned');
+         window.location.reload();
         }
       });
     }

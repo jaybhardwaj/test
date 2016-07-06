@@ -89,6 +89,7 @@ app.post('/getlineid',portal.getlineid);
 app.post('/getcomponentfordescription',portal.descriptionforatr);
 app.post('/updateTag',portal.updateTag);
 app.post('/getlinevalue',portal.getlinevalue);
+app.post('/deletesubline',portal.deletesubline);
 app.post('/getbrand',portal.getbrand);
 app.post('/getsubComponent',portal.getsubComponent);
 app.post('/getsublinevalue',portal.getsublinevalue);
