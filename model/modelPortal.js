@@ -310,22 +310,27 @@ exportBug: function(userId, roleId,retailerid, callback){
             sql: 'call usp_bug_raiseBug(?,?,?)',
             values: [userId, roleId,retailerid]
         };
-
+console.log(query);
         mysql(query, function(err, result) {
+            if(err){
+                console.log(err);
+            }
             callback(err, result);
         });
     },
 
 
 
-addBug: function(userId,project,status,assignedTo,priority,severity,technology,type,tclosure,title,description,targetpath,filename,origFname,detectedBy,cycle,retailerid,callback){
+addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assignedTo,priority,severity,technology,type,tclosure,title,description,targetpath,filename,origFname,detectedBy,cycle,retailerid,callback){
         var query = {
-            sql: 'call usp_bug_addBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [userId,project,status,assignedTo,priority,
-        severity,technology,type,tclosure,title,description,targetpath,filename,origFname,detectedBy,cycle,retailerid]
+            sql: 'call usp_bug_addBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [estimatedEffort,actualEffort,linkTo,userId,project,status,assignedTo,priority,
+        severity,technology,type,tclosure,title,description,targetpath,filename,origFname,detectedBy,
+        cycle,retailerid]
         };
          //console.log(query)
         mysql(query, function(err, result) {
+            if(err){console.log(err);}
             callback(err, result); 
         });
     },
@@ -354,6 +359,21 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             else{
           callback(err,result);            
       }
+        });
+    },
+     updatebugdescription: function(bugid,description,linkTo,userId,retailerId,callback){       
+        var query = {
+            sql: 'call usp_bug_updatebugdescription(?,?,?,?)',
+            values: [bugid,description,linkTo,userId]
+        }; 
+        console.log(query);
+        mysql(query, function(err, result) {
+            if(err){
+                console.log(query,err)
+            }
+            else{
+              callback(err,result);            
+          }
         });
     },
     addComment: function(bugid,comment,userId,retailerId,callback){
@@ -404,10 +424,10 @@ addBug: function(userId,project,status,assignedTo,priority,severity,technology,t
             }
         });
     },
-     getAlltech: function(projectId, callback){
+     getAlltech: function(projectId,userId,retailerId, callback){
         var query = {
-            sql: 'call usp_bug_getAllTechnology(?)',
-            values: [projectId]
+            sql: 'call usp_bug_getAllTechnology(?,?,?)',
+            values: [projectId,userId,retailerId]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -2520,6 +2540,7 @@ getHrRole:function(userId,roleId,retailerId,callback){
                 sql: 'call usp_rms_allrequisitions(?,?)',
                 values: [userId,retailerId]
 }
+console.log(q);
          mysql(q, function(err, result) {
          	 console.log("all requisition Error",err);
                     callback(err, result);

@@ -105,11 +105,11 @@
                                 <br>
                                 <%}%>
                                 <%if(myRmsRole.indexOf(6)>=0){%> 
-                                 <%if(pdetails[i].isConfirmed ==1 || pdetails[i].isConfirmed == 0){ %>
+                                 <%if(pdetails[i].isConfirmed ==1){ %>
                                 <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove"  onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i>
                                     <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i>
                                 <%}}else if(myRmsRole.indexOf(5)>=0){%>
-                                    <%if(pdetails[i].createdBy!=userId&&(pdetails[i].isConfirmed ==1 || pdetails[i].isConfirmed == 0)){ %>
+                                    <%if(pdetails[i].createdBy!=userId&&(pdetails[i].isConfirmed == 0)){ %>
                                      <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove"  onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i>
                                     <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i>
                                     <%}}%>
@@ -717,7 +717,6 @@ function updateStatusReq(flag,jdid){
             url: '/updateStatusReq',
             data: {
                 'jdid': jdid,
-                'approve':"approver",
                 'flag':flag
             },
             method: 'post',

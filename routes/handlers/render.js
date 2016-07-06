@@ -111,6 +111,7 @@ module.exports = {
 					directedby:req.resultViewBug[3],
 					type:req.resultViewBug[7],
                     allusers:req.resultViewBug[8],
+                    linkTo:req.resultViewBug[9],
 					userid:req.session.userId,
 					roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,
@@ -136,6 +137,7 @@ module.exports = {
 					roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover,bugSetting:req.session.bugSetting});
+				console.log("raiseBug render");
 				break;
 				case 'bugDetails':				
 				res.json(req.resultBugDetails);

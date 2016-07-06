@@ -56,6 +56,7 @@ app.post('/blockUser',portal.blockUser);
 	app.post('/filterBug',url.filterBug,portal.filterBug,render.redirect);
 	app.get('/filterBug',url.filterBug,portal.filterBug,render.redirect);
   app.post('/deleteBugAttach',portal.deleteBugAttach);
+  app.post('/updatebugdescription',portal.updatebugdescription);
 
 
 	//----------------------Document-------------------------------------------

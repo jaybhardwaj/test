@@ -521,7 +521,7 @@ filename=req.session.logo;
                  return;
              }
             req.resultRaiseBug=resultRaiseBug;
-        
+        console.log("raisebug: portal ")
             next();
                   });
     },
@@ -551,7 +551,7 @@ filename=req.session.logo;
     
         }
       
-        modelPortal.addBug(req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
+        modelPortal.addBug(req.body.estimatedEffort,req.body.actualEffort,req.body.linkTo,req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
             req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
             req.body.description,  targetPath, filename, fname,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
             if (error) {
@@ -620,6 +620,17 @@ if(req.body.colname == 'assingedToUserId'){
             next();
               });
     },
+    updatebugdescription:function(req, res, next){
+        console.log("portal updatebugdescription ",req.body);
+        modelPortal.updatebugdescription(req.body.bugid,req.body.description,req.body.linkedTo,req.session.userId,req.session.retailerId,function(error,result) {
+              if (error) {
+               console.log(error);
+                 next(error);
+                 return;
+             }            
+            res.json(result);
+                  });
+    }, 
      addComment: function(req, res, next) {               
       
         modelPortal.addComment(req.body.bugid,req.body.comment,req.session.userId,req.session.retailerId, function(errorActivity,resultAddComment) {
@@ -678,7 +689,7 @@ if(req.body.colname == 'assingedToUserId'){
         });
     },
     getAlltech: function(req, res, next) {                       
-        modelPortal.getAlltech(req.body.projectId, function(errorActivity,resultAllTech) {
+        modelPortal.getAlltech(req.body.projectId,req.session.userId,req.session.retailerId,  function(errorActivity,resultAllTech) {
               if (errorActivity) {
               
                  next(errorActivity);
@@ -3988,25 +3999,32 @@ addUser: function(req, res, next) {
 
     },
     updateStatusReq:function(req,res,next){ 
-       // ////console.log("portal  updateStatusReq ",req.body.jdid,req.body.flag,req.session.hrRole);
+         var hrArrS=req.session.hrRole;
+         var approve;
+            var hrarr=[];
+            for(var i=0;i<hrArrS.length;i++){
+                hrarr[i]=hrArrS[i].hrRoleId;
+            }
+            if(hrarr.indexOf(5)>=0){
+                approve='hod';
+            }
+            if(hrarr.indexOf(6)>=0){
+                approve='approver';
+            }
         modelPortal.updateStatusReq(req.session.userId,req.session.roleId,req.session.retailerId,
-            req.body.flag,req.body.jdid,req.body.approve,function(err,result){
+            req.body.flag,req.body.jdid,approve,function(err,result){
             if(err){
-               ////console.log("there is an error",err);
+               console.log("there is an error",err);
             }   
             else{
-                ////console.log("modal portal update status req",req.body.flag,recEmail,result[0][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,req.approve);
+                console.log("modal portal update status req",req.body.flag,recEmail,result[0][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,req.approve);
                  var recEmail = [];
                         for(var i =0;i<result[2].length;i++){
                                 recEmail.push(result[2][i].userEmail);
                             }
                      recEmail = recEmail.join(',');
                      var skills;
-            var hrArrS=req.session.hrRole;
-            var hrarr=[];
-            for(var i=0;i<hrArrS.length;i++){
-                hrarr[i]=hrArrS[i].hrRoleId;
-            }
+          
             var hrRoleArray=hrarr.toString();
                 if(req.body.flag==1){ 
                     //Approved
