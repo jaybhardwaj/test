@@ -25,7 +25,7 @@ app.use(bodyParser({
 	app.post('/login', auth.login);
 	app.post('/checkPassword', portal.checkPassword);
 	app.post('/EmailVerification', portal.EmailVerification);
-    app.get("/updateStatusReqViaMail",url.updateStatusReqViaMail,portal.updateStatusReq,render.redirect);
+  app.get("/updateStatusReqViaMail",url.updateStatusReqViaMail,portal.updateStatusReq,render.redirect);
 
 	app.get('/validateuser',portal.validateUser);  //index
 	app.all('*', auth.checkauterization, render.redirect);
@@ -37,7 +37,6 @@ app.use(bodyParser({
 	app.post('/exportToCsv',portal.exportToCsv);
 	app.get('/getEmpData',url.getEmpData,portal.getEmpData);
 	app.post('/addNewModules',portal.addNewModules);
-	//app.get('/isRetailer',portal.isRetailer);
 app.post('/sendMailClient',portal.updateClientPassword,portal.sendMailClient);
 app.post('/blockUser',portal.blockUser);
 	

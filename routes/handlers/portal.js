@@ -167,7 +167,6 @@ var locationId = [],
      },
     
        validateUser: function(req, res, next) {
-        console.log('hi');
          modelPortal.validateUser(
              req.query.v123v45,             
              function(err, result) {
@@ -204,7 +203,7 @@ var locationId = [],
                      if(req.session.isRetailer)       
                      res.redirect('/mailServerInfo');
                      else{
-                       console.log("222---b-b-b-b");
+                       
                         res.redirect('/changePassWordPage');
                      /*  if(req.session.defaultModule==1){
                             res.redirect('/mailServerInfo');
