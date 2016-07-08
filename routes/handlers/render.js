@@ -606,12 +606,12 @@ module.exports = {
                  case 'timeSheet':
                
 			     res.render('timesheet/timeSheet',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,timeinfo:req.timeinfo,userid:req.session.userId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:0,flag_owntimesheet:req.session.flag_owntimesheet,timeinfo:req.timeinfo,userid:req.session.userId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 			     break;
 			     case 'otherTimeSheet':
                 
 			     res.render('timesheet/timeSheetOther',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,timeinfo:req.session.timeinfo,check_date:req.session.othertime_checkdate,data:req.data,id:req.session.timeshhetuserid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:0,timeinfo:req.session.timeinfo,check_date:req.session.othertime_checkdate,data:req.data,id:req.session.timeshhetuserid,userid:req.session.userId,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 			    
 			     break;
 

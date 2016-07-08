@@ -3651,6 +3651,10 @@ addUser: function(req, res, next) {
    },
     //--------------------------------------TimeSheet--------------------
      getTimeSheetData: function(req,res,next){
+
+        var query = require('url').parse(req.url, true).query;
+        console.log("flag for flag_owntimesheet is==--======",query.flag);
+         req.session.flag_owntimesheet = query.flag;
        modelPortal.getTimeSheetData(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
         if(err){
             next(err)
@@ -3789,6 +3793,8 @@ addUser: function(req, res, next) {
         //////console.log(" i am in  post rtal");
         req.session.timeshhetuserid=req.body.id;
         req.session.othertime_checkdate=req.body.time_date;
+
+
             modelPortal.otherTimeSheet(req.session.timeshhetuserid,req.session.retailerId,function(err,result){
         if(err){
             next(err)

@@ -157,10 +157,12 @@
                     mon = d[0] + d[1];
                     abc(year, mon, dy);
                 }
-              
 
-
-
+               
+         if('<%=flag_owntimesheet%>'==1)
+           {
+            showDiv();
+            }
             });
             userId = <%=userid%>;
             var retailerId = <%=retailerId%>;
@@ -282,7 +284,7 @@ function parseDate(input) {
 
                        // new1 = new Date(year1 + " " + mon1 + " " + 1);
                         var new1 = parseDate(year1 + " " + mon1 + " " + 1);
-                         var datefortimes = parseDate(year1 + " " + mon1 + " " + 1);
+                         var datefortimes = parseDate(year1 + " " + mon1 + " " + 15);
                         EligibleAssignment(new1, datefortimes);
 
                         //    alert("Above Drawtime --------------  ");
@@ -654,13 +656,18 @@ function parseDate(input) {
 
         <div class="hide row sub-header" id="OtherEmp" style=" margin-bottom:0%; margin-top:0px">
             <div class="col-md-1"></div>
-            <div class="col-md-1" style="text-align:center" id="drop">
-                <select   class="form-text-box" id="dropuserdata" style="width:162px" onchange="DropdownUsers()">
-                </select>
+            <div class="col-md-1" style="text-align:center" id="myrep_drop">
+               <!--  <select   class="form-text-box" id="dropuserdata" style="width:162px" onchange="DropdownUsers(1)">
+                </select> -->
             </div>
-            <div class="col-md-9">
+            <div class="col-md-6">
                 
             </div>
+            <div class="col-md-1" style="text-align:center" id="drop">
+                <!-- <select   class="form-text-box" id="myrep_dropuserdata" style="width:252px" onchange="DropdownUsers(0)">
+                </select> -->
+            </div>
+            <div class="col-md-2"></div>
             <div class="col-md-1">
             <!-- <a href="/timesheet"><button type="button" style="float:right;font-size:10px; " class="btn btn-primary" >Own TimeSheet</button></a> -->
             <button type="button" style="float:right;font-size:10px; " class="btn btn-primary" onClick="timehome()">Own TimeSheet</button>
@@ -703,11 +710,12 @@ function parseDate(input) {
 
             </div>
 
+
         </div>
  <hr style="max-width:100%">
 
 <div class="hide" style="min-height:300px" id="otherBlankDiv">
-  
+     
     <div  style="margin-top:30px;color:#7e7e7e;padding-left:30px;" class="center">
         <center><label style="color:#7e7e7e;font-size:20pt;">Timesheet Status</label></center> 
     </div>
@@ -1297,6 +1305,8 @@ function parseDate(input) {
                     document.getElementById("id" + i+"_"+ j).value = workschedule;
                     document.getElementById("id" + i+"_"+ (k - 1)).value = workschedule;
                     document.getElementById("id" + i+"_"+ j).value = workschedule;
+                   
+                    $("#id" + i+"_"+ j).attr("title","<%=timeinfo[4][k1].holidayname%>");
                 }
             }
         }
@@ -1369,15 +1379,21 @@ function OtherUsersLIst(){
   otable.dataTable().fnDestroy();
                 $('#for_approv_body').html('');
                 $('#drop').html('');
-               /* $('#dropuserdata').append('<option  value=0>Select</option>');
-*/
-                var string='<select  class="form-text-box" id="dropuserdata" onchange="DropdownUsers()"><option  value=0>Select</option>';
+                 $('#myrep_drop').html('');
 
+                if('<%=timeinfo[9][0].isRetailer%>'==1){
+                var string1='<select  class="form-text-box" id="dropuserdata" onchange="DropdownUsers(1)"><option  value=0>All Employee</option>';}
+                var string2='<select  class="form-text-box" id="myrep_dropuserdata" onchange="DropdownUsers(0)"><option  value=0>My Reportee</option>';
                 for (var i = 0; i < data.length; i++) {
+                    // alert("this  is for repotee----user id is--"+'<%=userid%>'+"and managerId is----"+data[i].managerId );
                     if (for_status[data[i].status] != null) {
-
-                      /*  $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-' + for_status[data[i].status] + '</option>');
-*/                  var string=string + '<option value="'+data[i].id+'">'+data[i].firstName+'-'+for_status[data[i].status]                     + '</option>';
+                         if('<%=timeinfo[9][0].isRetailer%>'==1){
+                  var string1=string1 + '<option value="'+data[i].id+'">'+data[i].firstName+'-'+for_status[data[i].status]                     + '</option>';}
+                   
+                    if(data[i].managerId=='<%=userid%>'){
+                       // alert("this is after for reportee");
+                    var string2=string2 + '<option value="'+data[i].id+'">'+data[i].firstName+'-'+for_status[data[i].status]                     + '</option>';
+                }
 
                         $('#for_approv_body').append('<tr><td style="width:150px;">'+data[i].firstName+'</td><td style="width:250px;">' + data[i].ecode + '</td><td style="width:150px;">' + for_status[data[i].status] + '</td><td style="width:150px; text-align:center;"><span onClick="Show_Other_timesheet('+data[i].id+')" class="glyphicon glyphicon-list-alt" title="View Timesheet"></span></td>');
 
@@ -1385,21 +1401,28 @@ function OtherUsersLIst(){
 
                     } else {
                        /* $('#dropuserdata').append('<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>');*/
-                        var string=string+'<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>';
-
+                        if('<%=timeinfo[9][0].isRetailer%>'==1){
+                        var string1=string1+'<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>';}
+                        if(data[i].managerId=='<%=userid%>'){
+                        var string2=string2+'<option value="' + data[i].id + '">' + data[i].firstName + '-Draft</option>';
+                              }
                         $('#for_approv_body').append('<tr><td style="width:150px;">'+data[i].firstName+'</td><td style="width:250px;">' + data[i].ecode  + '</td><td style="width:150px;"> Draft</td><td style="width:150px; text-align:center;"><span onClick="Show_Other_timesheet('+data[i].id+')" class="glyphicon glyphicon-list-alt" title="View Timesheet"></span></td>');
                     }
 
                 }
 
-                 string=string+'</select>';
+                 if('<%=timeinfo[9][0].isRetailer%>'==1){ string1=string1+'</select>';}
+                 string2=string2+'</select>';
                 ////console.log("string-----"+string);
-               $('#drop').html(string);
-             
+               if('<%=timeinfo[9][0].isRetailer%>'==1){ $('#drop').html(string1);}
+               $('#myrep_drop').html(string2);
                 $("#dropuserdata").tagger({
                     "fieldWidth":"20em"
                 }); 
-      $('#for_approv').dataTable({
+                $("#myrep_dropuserdata").tagger({
+                    "fieldWidth":"20em"
+                }); 
+               $('#for_approv').dataTable({
                                    "bInfo": false,"bLengthChange":false
                                  });
             }
@@ -1426,7 +1449,7 @@ function OtherUsersLIst(){
                     type: 'post',
                     data: {
                         "id": us_id,
-                         "time_date":checkdate
+                         "time_date":checkdate                         
                     },
                     success:function(data){
                           
@@ -1434,20 +1457,27 @@ function OtherUsersLIst(){
                     }
                 });
     }
-      function DropdownUsers() {
-        var dpusdata = $('#dropuserdata').val();
+      function DropdownUsers(flag) {
+      
+        if(flag==0)
+        {
+         var dpusdata = $('#myrep_dropuserdata').val();
+        }else
+        {
+         var dpusdata = $('#dropuserdata').val();
+        }
          if(dpusdata==null){
            
             return false;
             }
         //alert("user id is"+dpusdata);
-        if ($('#dropuserdata').val() != 0){
+        if (dpusdata!= 0){
              $.ajax({
                     url: '/otherTimeSheet_setPage',
                     type: 'post',
                     data: {
                         "id": dpusdata,
-                        "time_date":checkdate
+                        "time_date":checkdate,
                     },
                     success:function(data){
                           
@@ -1479,6 +1509,10 @@ function OtherUsersLIst(){
                        
             }
         }
+
+
+
+
 
 </script>
 <% include ../partials/footer %>
