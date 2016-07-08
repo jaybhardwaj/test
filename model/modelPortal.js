@@ -64,6 +64,7 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             values: [emailId,flag]
         };
         mysql(query, function(err, result) {
+            console.log("ss----------- ",query,result);
             callback(err, result);
         });
     },
@@ -88,7 +89,6 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             sql: 'call usp_verifyUserViaEmail(?)',
             values: [dec1]
         };
-        //console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -127,7 +127,22 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             values: [emailId, randomPassword]
         };
         mysql(query, function(err, result) {
+            console.log(query,result);
+            if(result[1][0].userPassword)
             result[1][0].userPassword=ranPassword;
+            callback(err, result);
+        });
+    },
+    submitUserPassword: function(pass,userid,roleid,retailerid, callback) {
+        console.log("firdsty step ",pass);
+       
+        var query = {
+            sql: 'call usp_submitUserPassword(?,?,?,?)',
+            values: [pass,userid,roleid,retailerid]
+        };
+        mysql(query, function(err, result) {
+           console.log("sec step ",query);
+       
             callback(err, result);
         });
     },

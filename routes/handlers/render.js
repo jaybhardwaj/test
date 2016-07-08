@@ -16,7 +16,16 @@ module.exports = {
 					logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover});
 				break;
-					case 'users' :
+				case 'changePassWordPage' :
+				console.log("step last",req.session.modules);
+				res.render('changePassWordPage',{
+					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,					 
+					isRetailer:req.session.isRetailer,hideFlag:1,module:req.result1,roleid:req.session.roleId,
+					logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover});
+				break;
+				
+				case 'users' :
 				res.render('users',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:1,users:req.resultUsers[0],role:req.resultRoles[0],customRole:req.resultCustomRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;

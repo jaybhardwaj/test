@@ -57,8 +57,15 @@ var salt = bcrypt.genSaltSync(3);
                      req.session.modules=result[1].map(function(v){
                         return v.id;
                      });
+                     if(result[0][0].isRetailer==0 && result[0][0].passwordFlag==0 ){   
+                         var  newFlag=[2,req.session.defaultModule]
+
+                            res.json(newFlag);
+                     }
+                     else{
                      var newFlag=[1,req.session.defaultModule];
                      res.json(newFlag);
+                 }
                  } else {
                      var newFlag=[0,0];
                      res.json(newFlag);

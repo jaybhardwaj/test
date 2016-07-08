@@ -1,0 +1,732 @@
+
+<title>Resume Upload</title>
+
+<% include ../partials/head %>  
+    <% include ../partials/adminheader %>
+
+<!-- <script src = 'javascripts1/chosen.jquery.js'></script>
+ -->
+  <!--  <link href="/Bootstrap/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">  
+  -->
+<style>
+label{
+  font-size: 14px;
+} 
+.se-pre-con {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url(/img/Preloader_3.gif) center no-repeat;
+
+}
+.dataTable td{
+  word-wrap:break-word;
+  max-width:100px; 
+ overflow:hidden; 
+} 
+</style>
+ 
+
+
+    <div class="se-pre-con hide"></div>
+
+  <div class="secondry-color" style=" padding:5% 1%;overflow: hidden;">
+  <div   style="border:2px solid #f05f40;padding:1%">
+  <table style="width:100%;">
+    <tr>
+       <td style = 'width:16% '>
+        <label>Select Source of Resume<sup class='astrick'>*</sup> :</label>
+        </td>
+        <td>
+        <select id="selectsource" class="form-control" name="selectsource" style = ' '>
+          <option value='0'>-select-</option>
+          <%for(var i=0;i<source.length;i++){  %>
+          <option value="<%=source[i].id%>"> <%=source[i].sourcename%> </option>  
+          <%}%>    
+        </select>
+        </td>
+        <td style=" ">
+         <label style="style:font-size:12px;float:right">Upload Resume : </label>
+        </td>
+        <td style="width:28%">
+            <form id="form" action="/upload_resume" method="post"  onsubmit="return validation()"  style = 'width: 75%'  enctype="multipart/form-data">            
+             <input  type="file" id="file" onclick = 'select1source()' style = ' ' name="attach" class="form-control" value="Upload Resume"  >
+            </form>
+         </td>
+        <td style = ' '>
+ 
+        </td> 
+    <td></td> 
+   </tr>
+   </table> 
+   </div>
+   <div style="padding-top:1%">
+<table>
+  <tr>
+    <td>
+      <span>Search :</span>  <input type="text" id="searchbox"> 
+    </td>
+    <td style="width: 64%"></td>
+    <td>
+        <form action = '/submitparsedData' method = 'post'>
+            <button type="submit" onclick = 'return confirmmessage()'  value="Cancel" data-dismiss="modal"  class="closeedit btn  " style = " margin-left:10px"> Submit All</button>
+           </form> 
+    </td>
+    <td>
+        <button type="button" onclick = 'deleteAllIds()' value="Cancel"  class="closeedit btn " style = " margin-bottom:10px;float:right"> Delete Selected</button>
+    </td>
+  </tr>
+</table>
+         
+
+               
+              
+            <table id="openreqstate1" class="table  cell-border" style="font-size:13px;width:100%;margin-top:1%">
+                 <col width="80">
+                 <col width="80">
+                    <col width="80">
+                 <col width="80">
+                    <col width="80">
+                 <col width="80">
+                    <col width="80">
+                 <col width="80">
+                    <col width="130">
+                      <col width="80">
+             
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>E-mail</th>
+                        <th>Phone</th>
+                        <th>Experience</th>
+                        <th>Current Location</th>
+                        <th >Permananent Address</th>
+                        <th>Skills</th>
+                        <th>Qualification</th>
+                        <th>Institute</th>
+                         <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                </table>
+ 
+</div>
+</div>
+
+    <!--PAGE CONTENT ENDS-->
+<%include menu1.ejs%>
+<% include ../partials/footer %> 
+ 
+
+<script type="text/javascript">
+var deleteArray = [];
+var skillIdsGroup = [];
+var locationId     =[];
+var flag = 1;
+var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+var currentrow;
+var id;
+var targetPath;
+function validation(){
+   var arrExt=["pdf","doc","docx","zip"]
+                        var filename=$('#file').val(); 
+                        var fileExt=filename.split('.');
+                        fileExt=fileExt[fileExt.length-1];
+                         
+                        if(arrExt.indexOf(fileExt) == -1){
+                            alert("uploaded file format is invalid! \n valid formats: pdf,doc,docx,pdf,zip");
+                         return false;
+                        }
+}
+//.......................................Document.Ready......................................
+var newDataTable;
+
+function deleteAllIds(){
+     var deleteLength = deleteArray.length;
+     var deleteString ;
+var currentDelrow;
+if(!confirm('Are you sure you want to delete '+deleteLength+' records' )){
+return;
+}
+
+deleteArray.forEach(function(element){
+currentDelrow = $('#delete_'+element).closest('tr');
+newDataTable.fnDeleteRow(currentDelrow);
+
+
+});
+deleteArrayString =  deleteArray.join(',');
+deleteArray = [];
+
+$.ajax({
+    'url' :'deleteUploadRecords',
+    'data'   : {'delete':deleteArrayString},
+      'method' :  'post',
+  success :function(data){ }
+
+});
+
+
+
+}
+
+$(document).ready(function() {
+
+
+            $('.upload-img').addClass("active");
+
+   $("#edit").draggable({
+      handle: ".modal-header"
+  });
+
+  newDataTable = $("#openreqstate1").dataTable({
+                         "showNEntries": false,
+                            "bFilter": true,
+                            "bLengthChange": false,
+                            "aoColumnDefs": [{
+                                //   "bSortable": false,
+                                //  "aTargets": [0]
+                            }],
+                            "order": [
+                                [9, "asc"]
+                            ]
+                        });
+  $('.dataTables_filter').hide();
+  console.log(newDataTable);
+
+      /*    $("#searchbox").keyup(function() {
+
+                        newDataTable.fnFilter(this.value);
+                    });
+*/
+ getTabledata();
+ 
+  $('#file').click(function(event){
+   // console.log('sdsdsddsdsdsd');
+  if($("#selectsource").val()==0){
+          event.preventDefault();
+        }
+  
+  });
+
+
+//$('#edit').modal().draggable();
+
+
+
+
+    $('#file').change(function() {
+  $('#form').submit();
+   });
+
+    function getTabledata(){
+
+$.ajax({
+    'url'  :'parserTable',
+   'data'  : {'count':count},
+  'method' :'post',
+   success :function(data1){
+    var data = data1[0];
+    var str;
+      if(!newDataTable) {
+        return;
+      }
+else {
+
+
+        count = count + data.length;
+        console.log(count,data.length);
+ // console.log(newDataTable);
+ // console.log(data);
+  //var skillarr  = data[i].skillIds.split(',');
+for(var i =0;i<data.length;i++){
+         //console.log(data[i].skills); 
+    data[i].skills = removeDuplicates(data[i].skills);
+var skillarr = [];
+data[i].targetPath = data[i].targetPath.replace('/public','');
+if(data[i].skillIds!=null&&typeof data[i].skillIds!=undefined&&data[i].skillIds!='null')
+{
+skillarr = data[i].skillIds.split(',')
+}
+//console.log(skillarr);
+var str2  = data[i].years+' years'+'  '+data[i].months+' months';
+
+str = '<a href="'+data[i].targetPath+'"Download><span class="glyphicon glyphicon-save" style="color:#2CB8E5;height:10px;cursor:pointer" title ="Download" ></span></a><span  class="glyphicon glyphicon-pencil" onclick = "glyphPencil(this.id)"   style="color:#06394A;height:20px;" id = edit_'+data[i].id+' title ="edit"></span><input type="checkbox" onclick = "pushDeleteArray(this.id)" id = delete_'+data[i].id+'>';
+if(data[i].years==0&&data[i].months==0) str2 = 'Fresher/\n(Requires Checking)';
+if(data[i].years==-1&&data[i].months==-1) {str2 = 'Fresher';data[i].years=0;data[i].months=0}
+           newDataTable.fnAddData([
+            data[i].name,
+            data[i].email,
+            data[i].phone,
+            str2,
+            data[i].locationname,
+            data[i].permanentAddress,
+            data[i].skills,
+            data[i].qualification,
+            data[i].institutes,
+            str
+        ]);
+        
+
+ skillIdsGroup[data[i].id] = skillarr;
+ locationId[data[i].id]  = data[i].location;
+ //glyphEventPencil();
+ }
+
+
+
+if(!data1[1]){
+ $(".se-pre-con").fadeOut("slow");
+
+alert('All files have been parsed');
+//window.location.reload();
+//window.location.href="/upload_resume";
+}
+else if (data1[1]==1){
+  $(".se-pre-con").removeClass('hide');
+  $(".se-pre-con").fadeIn("slow");
+
+getTabledata();
+
+}
+
+else{
+     $(".se-pre-con").fadeOut("slow");
+
+     }
+
+
+}
+            $("#searchbox").keyup(function() {
+                        newDataTable.fnFilter(this.value);
+                    });
+}
+ 
+
+
+
+
+
+
+});
+}
+
+$('input').addClass('used');
+$('select').addClass('used');
+/*while(1){
+glyphEventPencil();
+}*/
+  
+});
+
+
+function glyphEventPencil(){
+
+  $('.glyphicon-pencil').click(function(){
+   // alert($(this).attr('id'));
+  var alldataTable = [];
+     id = parseInt($(this).attr('id').match(/\d{1,9}/)[0]);
+    console.log($(this).attr('id'),id);
+    currentrow = $(this).closest('tr');
+    var $td= $(this).closest('tr').children('td');  
+  //console.log($td);
+for(var  i =0;i<9;i++ ){
+alldataTable[i] = $td.eq(i).text();  
+}
+alldataTable[10] = id;
+  showmodal(alldataTable)
+});
+
+
+
+}
+
+function glyphPencil(idPencil){
+  //alert(idPencil);
+  var alldataTable = [];
+     id = parseInt(idPencil.match(/\d{1,9}/)[0]);
+    console.log($('#'+idPencil).attr('id'),id);
+    currentrow = $('#'+idPencil).closest('tr');
+    var $td= $('#'+idPencil).closest('tr').children('td');  
+  //console.log($td);
+for(var  i =0;i<9;i++ ){
+alldataTable[i] = $td.eq(i).text();  
+}
+alldataTable[10] = id;
+targetPath = $('#'+idPencil).prev().attr('href');
+console.log(alldataTable);
+  showmodal(alldataTable)
+
+
+
+
+}
+
+
+
+function showmodal(alldatatable){
+  
+var time;
+console.log(alldatatable[10]);
+$('.modal form input')[1].value = alldatatable[0];
+$('.modal form input')[2].value = alldatatable[2];
+
+if(alldatatable[3].indexOf('Fresher')!=-1){
+$('.modal form input')[3].value  = 0;
+$('.modal form input')[4].value  = 0;
+}
+else{
+time = alldatatable[3].match(/\d{1,9}/g);
+$('.modal form input')[3].value  = time[0];
+$('.modal form input')[4].value  = time[1];
+ }
+
+
+$('.modal form input')[5].value  = alldatatable[1];
+$('.modal form input')[6].value  = alldatatable[5];
+$('.modal form input')[7].value  = alldatatable[7];
+$('.modal form input')[8].value  = alldatatable[8];
+
+$('#skillsId').val(skillIdsGroup[alldatatable[10]]);
+$("#skillsId").trigger("chosen:updated");
+$('#locationId').val(locationId[alldatatable[10]]);
+$("#locationId").trigger("chosen:updated");
+$('#edit').modal('show');
+               
+
+
+}
+
+
+
+
+function validateedit(){ 
+ 
+   if(isNaN($("#phone").val())||$("#phone").val().length<10&&$("#phone").val()!=''){
+    alert("Enter Valid Phone Number");
+    return false;
+  }
+   if(!regex.test($("#email").val())&&$("#email").val()!=''){
+    alert("Enter Valid Email ID!");
+    return false;
+  }
+   
+
+  if(isNaN($("#years").val())){
+    alert("Enter valid years of experience!");
+    return false;
+  }
+  if(isNaN($("#months").val())) {
+    alert("Enter valid months of experience!");
+    return false;
+  }
+  update();
+
+return true;   
+
+}
+
+function update(){
+
+var glyphstr = str = '<a href="'+targetPath+'"Download><span class="glyphicon glyphicon-save" style="color:#2CB8E5;height:10px;cursor:pointer" title ="Download" ></span></a><span  class="glyphicon glyphicon-pencil" onclick = "glyphPencil(this.id)"   style="color:#06394A;height:20px;" id = edit_'+id+' title ="edit"></span><input type="checkbox" onclick = "pushDeleteArray(this.id)" id = delete_'+id+'>';
+
+  var skillarr2 = [];
+  var locationstr = '';
+if($('#locationId').val()!='null'&&$('#locationId').val()!=''&&$('#locationId').val()!=null){
+ locationstr = $('#location_'+$('#locationId').val()).html();
+  console.log(locationstr);
+  }
+if($('#skillsId').val()!=null&&$('#skillsId').val()!='null'){
+  ($('#skillsId').val()).forEach(function(element){
+      skillarr2.push($('#skills_' + element).html());
+
+  });
+}
+  skillarr2 = skillarr2.join(',');
+var expstring = $("#years").val() + ' years ' + $("#months").val() + ' months';
+if($("#years").val()==0&&$("#months").val()==0) expstring = 'Fresher';
+newDataTable.fnUpdate([$('#name').val(),$('#email').val(),$('#phone').val(),expstring,locationstr,  $('#perm').val(),skillarr2,$('#qual').val(),$('#ins').val(),glyphstr] ,currentrow );
+
+
+//glyphEventPencil();
+
+makeajax();
+
+}
+
+
+function pushDeleteArray(deleteId){
+  
+  var idDb = deleteId.match(/\d{1,9}/)[0];
+  console.log(deleteId,idDb);       
+
+if($('#' + deleteId).is(":checked")){
+
+deleteArray.push(idDb);
+
+}
+
+else{
+   idDb = deleteArray.indexOf(idDb);
+   deleteArray.splice(idDb,1);
+
+   }
+
+console.log(deleteArray);
+
+
+}
+
+
+
+function makeajax(){
+
+  var loc = $('#locationId').val();
+var skills2 = $('#skillsId').val().join(',');
+if($('#skillsId').val()==null||$('#skillsId').val()=='null'){
+skills2 = '';
+}
+if($('#locationId').val()=='null'||$('#locationId').val()==''||$('#locationId').val()==null){
+ loc = -1;
+ //alert(loc)
+}
+$.ajax({
+
+url :'updateCandidate',
+type:'post',
+data:{
+   'id' :id,
+ 'name' :$('#name').val(),
+ 'email':$('#email').val(),
+ 'phone':$('#phone').val(),
+'years' :$('#years').val(),
+'months':$('#months').val(), 
+'location':loc,
+'address' :$('#perm').val(),
+'skills' :skills2,
+'qualification':$('#qual').val(),
+'ins'    :$('#ins').val()
+},
+success:function(data){
+
+},
+error:function(){
+
+  alert('ERROR:Connection failure,please reload page');
+}
+
+
+
+
+});
+
+
+
+
+
+
+}
+
+ 
+//-------------------------------------------End Ready
+
+function select1source(){ 
+  if($("#selectsource").val()==0){
+    alert("Select a Source for Resume");
+    return false;
+  }
+  
+}
+function removeDuplicates(arrstring){
+if(!arrstring) return ''
+var arr = arrstring.split(',');
+var emptyarr = [];
+arr.forEach(function(element){
+if(emptyarr.indexOf(element)==-1){
+       emptyarr.push(element)
+      
+}
+
+
+});
+emptyarr = emptyarr.join(',');
+
+return emptyarr;
+}
+function confirmmessage(){
+
+if(confirm('Are you sure you want to Submit all Candidates?')){
+  return true;
+}
+
+else return false;
+
+
+}
+
+</script>
+<style>
+
+input[type=search] {
+            height: 29px !important;
+            border-radius: 5px !important;
+            border: 1px solid #669ECC !important;
+           
+        }
+
+  input[type=checkbox] {
+    display:inline;
+}
+
+</style>
+
+<script type="text/javascript">
+count = 0;
+
+
+</script>
+<div class="modal fade" id="edit" data-backdrop="static" data-keyboard="false" >
+        <div class="modal-dialog">
+            <!-- Modal content-->
+          <div class="modal-content"  id="express2" style="height:400px;width:700px" >
+                <div class="modal-header" style="background-color:#f05f40;height:40px">
+                    <center>
+                        <h4 id="head4" class="modal-title" style="color:#052F71;font-size:14pt;width:auto;margin-top:-5px"><b>Edit Information </b><a id="closeedit" >
+                     <span  class='glyphicon glyphicon-remove closeedit' data-dismiss="modal" style='color:#06394A;height:20px;float:right'title ='Close' > 
+                  </a> </h4>
+                    </center>  
+                                      
+                </div>
+        <form  method="post">        
+            <div class="modal-body" style = 'height:50%;'>
+              <input type="hidden" name="hcid"   id="hcid" >
+              <table style="table-layout: fixed; width: 100%">
+                <tr style='height:100px'>
+                  <td width = '33%'>
+                   <div >
+                   <label>Name<sup class='astrick'>*</sup></label>
+                      <input name="name" class="form-control" id="name" maxlength="100" style="width:95%" >                      
+                      
+                   </div>
+                  </td>
+                  <td width = '33%'>
+                   <div >
+                   <label>Phone No.<sup class='astrick'>*</sup></label>
+                      <input name="phone" class="form-control" id="phone" maxlength="10" minlength="10" style="width:95%">
+                      
+                   </div>
+                 </td>
+                    <div style = ' font-size: 87%;margin-left: 64%;margin-bottom: -3%;'>Experience :</div>
+                     <td width = '16.5%!important;'>
+
+                     <div >
+                     <label style = 'MARGIN-LEFT: 36%;'>Years<sup class='astrick'>*</sup></label>
+                        <input name="years" class="form-control" id="years" maxlength="100" style="width:83%;">
+                        
+                     </div>
+                     </td>
+                     <td width = '16.5%;'>
+                     <div >
+                      <label style = 'margin-left: 33%;'>Months<sup class='astrick'>*</sup></label>
+                        <input name="months" class="form-control"  id="months" maxlength="100" style="width:83%">
+                       
+                     </div>
+                    </td>
+                </tr>
+               
+                     <tr style='height:100px'>
+                   <td width = '33%;'>
+                     <div >
+                     <label>Email id<sup class='astrick'>*</sup></label>
+                        <input name="email" class="form-control" id="email" maxlength="100" style="width:95%">
+                        
+                     </div>
+                    </td>
+                 
+                    <td width = '33%;'>
+                       
+                     <div >
+                     <label id="">Current Location<sup class='astrick'>*</sup></label>
+                    <select class="form-control" id='locationId' name="location" style="width:95%">
+                                          <option value = 'null'></option>
+                                                <%for(var i = 0 ;i<location.length;i++){%>
+                                                    <option id="location_<%=location[i].id%>" value="<%=location[i].id%>">
+                                                        <%=location[i].location%>
+                                                    </option>
+                                                    <%}%>
+                                            </select> 
+                                            
+                     </div>
+                  
+                    </td>
+                      <td colspan="2">
+                     <div >
+                     <label>Permanent address<sup class='astrick'>*</sup></label>
+                        <input name="perm" class="form-control" id="perm" maxlength="300" style="width:95%">
+                        
+                     </div>
+                    </td>
+                    </tr>
+                
+                 <tr style='height:80px'>
+                  <td>
+                     <div >
+                       <label id="lski">Skills<sup class='astrick'>*</sup></label>
+                                            <select size="1" multiple class="form-control" style="width:95%" id='skillsId' name="skills">
+                                                <option value = 'null'></option>
+                                                <%for(var i = 0 ;i<skills.length;i++){%>
+                                                    <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>">
+                                                        <%=skills[i].skills%>
+                                                    </option>
+                                                    <%}%>
+
+                                            </select>
+                                           
+                                        </div>
+                  </td>
+                      <td colspan="1">
+                     <div >
+                     <label>Qualification<sup class='astrick'>*</sup></label>
+                        <input name="qual" class="form-control" id="qual" maxlength="100" style="width:95%">
+                        
+                     </div>
+                    </td>
+                     <td colspan="2">
+                     <div >
+                     <label>Institute<sup class='astrick'>*</sup></label>
+                        <input name="ins" class="form-control"  id="ins" maxlength="100" style="width:95%">
+                        
+                     </div>
+                    </td>
+                </tr>
+                <tr >
+                <td>
+                <center style = ' margin-left: 94%;width: 100%;margin-top: 10%;'>
+                     <button type="button" value="Cancel" data-dismiss="modal"  class="closeedit btn waves-effect waves-light" style = "background-color:#f05f40;color:white;"><i class="fa fa-save"></i> <b>Cancel</b></button>
+                     <button type="button"  data-dismiss="modal" class="btn waves-effect waves-light" onclick="return validateedit()" style = "background-color:#f05f40;color:white;" value="Save"><i class="fa fa-save"></i> <b>Save</b></button>
+
+               </center>
+
+              
+
+                  </td>
+                  </tr>
+            
+           </table>
+            </div>    
+                         
+            </form>        
+                    
+              </div>
+        </div>
+        
+</div>
+
+
+
+</body> 
+
+

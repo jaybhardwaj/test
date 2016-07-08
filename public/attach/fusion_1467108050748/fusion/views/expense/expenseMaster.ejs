@@ -1,0 +1,318 @@
+ 
+<html>
+<head>
+<% include ../partials/head %>
+<% include expHeader.ejs %>
+ <% include ../partials/adminheader %>
+
+</head>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+ // getdate();  
+$("#data_table2").dataTable();
+});
+
+function createmaster(){
+	$('#myModalmaster').modal('show');
+}
+ 
+
+function expenseMasterdescription(){
+  
+        expclaimId=$('#masterTypecode').val();
+        $('#myModalexp').modal('show');
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/showMasterExpense';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                   expclaimId:expclaimId,
+                    
+               },
+                dataType: 'json',
+                success: function(users1) {
+     
+
+            var  users =users1[0];        
+                            
+                           
+                               if (users.length == 0) {
+                             //$("#orderbody").empty();
+                            /* $("tbody").empty();
+                             $('tbody').append('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');*/
+                            // var table = $('#data_table').DataTable();
+ 
+                            //  table.clear().draw();
+                            //$('#data_table').dataTable().fnDestroy();
+                          // window.location.reload();
+                             }
+                        if (users.length > 0) {
+                          // $("#tablebody").html('');
+                            log='';
+                       
+                            var log = "<thead><tr style='font-size:12px' >" + "<th  style='background-color:grey;color:white'>Expense Type</th>" + "<th  style='background-color:grey;color:white'>IsBillMendarury</th>" + "<th  style='background-color:grey;color:white'>BillMandatryUpToAmount</th>" +"<th  style='background-color:grey;color:white'>Action</th></tr></thead><tbody id='tablebody' >";
+                            for (var i = 0; i < users.length; i++) {
+                            // claimid=claimid+users[i].expenseclaimId+",";
+                              
+                                log = log + "<tr style='height:10px;color:grey;font-size:10px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >";
+                                 if(users[i].minimumBillableMandetory ==1){ 
+                                  log = log +"<label style='height:15px;color:grey;font-size:10px;'>Yes</label>";
+                                }else{
+                                  log = log +"<label style='height:15px;color:grey;font-size:10px;'>No</label>";
+                                } 
+                                log = log +"</td>" + "<td >" + users[i].maximumBillableMandetory + "</td>" + "<td >";
+                                if(users[i].isActive==1){
+                                log = log + "  <a  style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a1'  class='glyphicon glyphicon-ok-sign' style='color:green;height:10px'  data-target='#myModal1' title ='Delete Expense' ></span>";
+                                     }
+                                     else{ 
+                                       log = log + "<a  style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a1'  class='glyphicon glyphicon-remove-sign' style='color:red;height:10px'  data-target='#myModal1' title ='Delete Expense' ></span>";
+                                      }
+                                     log = log + " <a style='padding-left:6px' ></a><input type='hidden' value="+users[i].id+" id='a"+users[i].id+"'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px'onclick='selecthotelExpense("+users[i].id+","+users[i].code+")' title ='Edit Expense' ></span></td>";
+
+                            
+                            log = log + "</tr>";}
+                            log=log+"</tbody>";
+
+
+                            $("#data_table2").dataTable().fnDestroy();
+                                     $("#data_table2").html('');
+
+                            $("#data_table2").html(log);
+                             $("#data_table2").dataTable({
+                                "bLengthChange": false,
+                "paging": true,
+                "binfo" : false , 
+                 "bDestroy": true ,  
+
+                "aoColumnDefs": [{
+                    "bSortable": false,
+                    "aTargets": [-1]
+                }],
+                "autoWidth": false,
+                "columns": [{
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }, {
+                    "width": "10%"
+                }]
+                       });  
+                      
+                        }
+                    
+                }
+            });
+        
+        } 
+
+
+    function selecthotelExpense(id,codeId) {
+      // codeId=$('#masterTypecode').val();
+      $('#myModalmaster').modal('show');
+      $('#edit').removeClass('hide');
+            var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/getexpensemaster';
+            $.ajax({
+                url: url1,
+                method: 'POST',
+                  data: {
+                    id: id,
+                    codeId:codeId
+                },
+                success: function(data) {
+                
+                	data=data[0][0];
+                 $('#descr1').val(data.description);
+                 $('#bill').val(data.minimumBillableMandetory);
+                 $('#bill1').val(data.maximumBillableMandetory);
+                 $('#bill2').val(data.isActive);
+                 $('#flagother').val(1);
+                  $('#code').val(data.code);
+                 $('#idmaster').val(data.id);
+                }
+            });
+        }
+</script>
+
+<div class="secondry-color" style=" " style="margin-bottom:-14px">
+
+<div class="col-md-12 a" style="margin-top:4%;background-color:#AD5555">
+  <div class="col-md-4">
+<button class="btn btn-danger" style="height:30px;width:100px;color:white;background-color:#f05f40;margin-top:10px;margin-left:10px;margin-buttom:10px;"data-toggle=''data-target='' onclick="createmaster()">Add New</button>
+ </div>           
+                         <div class="col-md-2">
+                            <label style="font-size:12px;line-height:42px !important;">Expense MasterType:</label>
+                      </div>
+                      <div class="col-md-2">
+                            <select class="form-control" style="margin-top:10px;" id='masterTypecode' name="code1" style="width:200px !important;" onchange="expenseMasterdescription()" required>
+                            <option value=0>--Select--</option>
+                               
+                                             <%for(var i=0;i<expenseMasterType.length;i++)
+                        {%>
+                      <option value="<%=expenseMasterType[i].code%>">
+                        <%=expenseMasterType[i].tableName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                      </div>
+                </div>
+
+<div class="" id="accordionsdata" style="">
+    <table id="data_table2" class="table table-hover table-striped table-bordered rceDataTable" cellspacing="0" width="100%" >
+                <thead>
+                         <th style='font-size:12px;background-color:grey;color:white'>Expense Type</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>IsBillMendarury</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>BillMandatryUpToAmount</th>
+                         <th style='font-size:12px;background-color:grey;color:white'>Action</th>
+               </thead>
+                        <tbody id="orderbody">
+                       
+                        <%if(expenseType!=undefined){%>          
+                          <% for(var i=0;i<expenseType.length;i++) { %>
+                            
+
+                             %>
+                                <tr class="" style='height:20px;color:grey;font-size:10px;'>                                    
+                                    <td>
+                                        <%=expenseType[i].description%>
+                                    </td>
+                                     <td>
+                     
+                                     <%if(expenseType[i].minimumBillableMandetory==1){%><label style='height:15px;color:grey;font-size:10px;'>Yes</label>
+                                     <%} else{%>
+                                     <label>No</label>
+                                     <%}%>   
+                                    </td>
+                                     <td>
+                                       <%=(expenseType[i].maximumBillableMandetory)%>
+                                    </td>
+                                     
+                                      <td>
+                                      <%if(expenseType[i].isActive==1){%>
+                                      <a  style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a1'  class='glyphicon glyphicon-ok-sign' style='color:green;height:10px' onclick='DeleteExpense(<%=expenseType[i].id%>,<%=expenseType[i].code%>);' data-target='#myModal1' title ='Delete Expense' ></span>
+                                       <%} else{%>
+                                       <a  style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a1'  class='glyphicon glyphicon-remove-sign' style='color:red;height:10px' onclick='DeleteExpense(<%=expenseType[i].id%>,<%=expenseType[i].code%>);' data-target='#myModal1' title ='Delete Expense' ></span>
+                                        <%}%>
+                                     <a style='padding-left:6px' ></a><input type='hidden' value="+expenseDetails[i].id+" id='a"+expenseDetails[i].id+"'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px' onclick='selecthotelExpense(<%=expenseType[i].id%>,<%=expenseType[i].code%>);' title ='Edit Expense' ></span>
+                                      
+                                       </td>
+
+                                </tr> 
+                                <% }} %> 
+               
+                        </tbody>
+                    </table>
+</div>
+
+<form action="/isertExpensemaster" method="post">
+
+      <div class="modal fade" id="myModalmaster" role="dialog" style="margin-left:;">
+
+           <div style="height:auto;width:500px;margin-left:400px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="font-size:12px;color:white;font-size:14pt;">Expense Master Details</label>
+                    </center>
+                    <input Type="hidden" id="flagother" name="edit" value="0">
+                   
+                    <input type="hidden"id="idmaster" name="idmaster" value="0">
+                </div>
+
+                         <div class="col-md-12 a">
+                         <div class="col-md-5">
+                            <label style="font-size:10px;line-height:42px !important;">Expense MasterType:<span Style="font-size:15px; color:red">*</span></label>
+                      </div>
+                      <div class="col-md-7">
+                            <select class="form-control" style="margin-top:10px;" id='code' name="code1" style="width:200px !important;" required/>
+                            <option value=0>--Select--</option>
+                               
+                                             <%for(var i=0;i<expenseMasterType.length;i++)
+                        {%>
+                      <option value="<%=expenseMasterType[i].code%>">
+                        <%=expenseMasterType[i].tableName%>
+                      </option>
+                        <%}%> 
+                                
+                                
+                            </select>
+                      </div>
+                </div>
+
+                <div class="col-md-12 a">
+                        <div class="col-md-5">
+                            <label style="font-size:10px;line-height:42px !important;">Description:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" maxlength="45" style="margin-top:10px;width:100%" class="form-control datepicker" id="descr1" name="desc" onkeypress="return specialchar(event)" required/>
+                        </div>
+                   
+                </div>               
+
+           
+
+                <div class="col-md-12 a">
+                        <div class="col-md-5">
+                            <label style="font-size:10px;line-height:42px !important;">BillMandetory:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                           <div class="col-md-7">
+                          <select class="form-control" style="margin-top:10px;" for="hotelName" id='bill' name="billM" style="width:200px !important;" required/>
+                                  <option value='0'>
+                                          no
+                                  </option>                               
+                                  <option value="1">
+                                              Yes
+                                  </option>
+                                
+                                
+                           </select>
+                      </div> 
+                </div>
+                  
+                       <div class="col-md-12 a">              
+                        <div class="col-md-5">
+                            <label style="font-size:10px;line-height:42px !important;">Bill Mandetory Upto Amount :<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="number" maxlength="45" style="margin-top:10px;width:100%" class="form-control" id="bill1" name="billa" onkeypress="return specialchar(event)" required/>
+                        </div>                       
+                </div>
+                     
+             <div class="col-md-12 a hide" id="edit">
+                        <div class="col-md-5">
+                            <label style="font-size:10px;line-height:42px !important;">Is Active:<span Style="font-size:15px; color:red">*</span></label>
+                        </div>
+                           <div class="col-md-7">
+                          <select class="form-control" style="margin-top:10px;" for="hotelName" id='bill2' name="active" style="width:200px !important;" required/>
+                                  <option value='0'>
+                                          no
+                                  </option>                               
+                                  <option value="1">
+                                              Yes
+                                  </option>
+                                
+                                
+                           </select>
+                      </div> 
+                </div>
+
+                     <div id="footer" class="modal-footer" style="border-top:0px;">
+                        <center>
+                            <button id='cancel' type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
+                            <button type="submit" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white" onclick="forlinevalidation();">Submit</button>
+                        </center>
+                    </div>
+               </div>
+           </div>
+       </div>
+</form>
+</div>
+
+</html>
+
+<% include ../partials/footer.ejs %>

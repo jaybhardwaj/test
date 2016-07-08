@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+    <style>
+   
+        .marginAlign{
+            margin-top: 2%;
+        }
+        .form-table label {
+          display: inline-block;
+          margin: 0 0 -1px;
+          padding: 5%;
+          font-weight: 600;
+          text-align: center;
+          color: #524A4A;
+          border: 1px solid transparent;
+          font-size: 11px;
+      }
+    </style>
+</head>
+<body>
+  <div>
+    <% include ./partials/adminheader %>
+  </div>
+  <div class="container-fluid user-list  secondry-color"   style=" ">
+    <div class="modal-header" style="text-align:center">
+      <span class="modal-title">Provide user details</span>
+    </div>
+   <main> 
+      <input type="hidden" id="hdnId" name="hdnUserId" value="0"> 
+      <input id="tab1" class="tabradio" type="radio" name="tabs" checked>
+      <label for="tab1">Basic Details</label>
+      <input id="tab5" class="tabradio" type="radio" name="tabs"> <label for="tab5">Role</label> 
+        <input id="tab2" class="tabradio" type="radio" name="tabs">
+        <label for="tab2">Finance</label> 
+        <input id="tab3" class="tabradio" type="radio" name="tabs">
+        <label for="tab3">HR</label> 
+        <input id="tab4" class="tabradio" type="radio" name="tabs">
+        <section id="content1">
+        <table class="table form-table" style="padding-bottom: 1%">
+          <tr>
+            <td>
+              <td><label class="form-Label">First Name:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="20" class="form-text-box" id="first-name"   name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Last Name:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="20"   class="form-text-box" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" /></td>
+            </td>
+            <td>
+              <td><label class="form-Label">Email:<sup  class="astrick">*</sup></label></td>
+              <td><input type="email" maxlength="150"   class="form-text-box" id="emailId" name="emailId" placeholder="abc@mydomain.com" /> </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Contact Number: </label></td>
+              <td><input type="text" maxlength="11"  class="form-text-box" id="contact-number" name="contact-number" placeholder="Contact Number" /></td>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <td><label class="form-Label">Employee Code:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="10"   class="form-text-box" id="ecode" name="ecode" placeholder="Employee Code" /></td>
+            </td>
+            <td>
+              <td><label class="form-Label">Designation: </label></td>
+              <td><select class="form-text-box"   id='designation' name="designation"  >
+                <option value="0">Select Department</option>
+                  <%for(var i=0;i<department.length;i++){%>
+                <option value="<%=department[i].id%>">
+                   <%=department[i].description1%>
+                </option>
+                <%}%>
+              </select> 
+              </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Level:</label></td>
+              <td> <select class="form-text-box"   id='level' name="level"  >
+                <option value="0">Select Level</option>
+                <%for(var i=0;i<level.length;i++){%>
+                <option value="<%=level[i].id%>">
+                <%=level[i].description1%>
+                </option>
+                <%}%>
+              </select> </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Reporting To : </label></td>
+              <td> <select class="form-text-box"   id='manager' name="manager" style="width:164px !important;">
+                <option value='0' >--Select Supervisor--</option>
+                <%for(var i=0;i<report.length;i++){%>
+                <option value="<%=report[i].id%>">
+                <%=report[i].Name%>
+                </option>
+                <%}%>
+              </select></td>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <td><label class="form-Label">Modules:<sup  class="astrick">*</sup></label></td>
+              <td>
+              <select multiple = "multiple" class=" multiplebox " name="modules" id ="modules" style="padding: 18px !important" maxlength="50">
+                <%for(var i=0;i<modules.length;i++){%>
+                <option value="<%=modules[i].id%>" 
+                  <%if(editflag==1){if(modules[i].id==userModule[i].moduleId){%> selected <%}}%> >
+                  <%=modules[i].Name%>
+                </option>
+                <%}%>
+              </select> 
+             
+              </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Default Module: </label></td>
+              <td>  <select class="form-text-box"   id='default-module' name="defmod" >
+             <option>No Module Solelected</option>
+            </select> </td>
+            </td>
+            <td>
+              <td><label class="form-Label">Role:<sup  class="astrick">*</sup></label></td>
+              <td><select class="form-text-box"   id='user-role' name="user-role"  >
+                <%for(var i=0;i<role.length;i++){%>
+                <%if(role[i].id==1||role[i].id==2||role[i].id==4||role[i].id==5){%>
+                <option value="<%=role[i].id%>">
+                  <%=role[i].roleName%>
+                </option>
+                  <%}}%>
+              </select> </td>
+            </td>
+            <td>
+              <td> </td>
+              <td> </td>
+            </td>
+          </tr>
+           <tr>
+            <td></td><td></td><td></td><td></td> 
+           <td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td> 
+          </tr>
+        </table>
+        <center style="padding-bottom: 1%">
+          
+              <a href="/users">
+                 <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
+              </a>
+             
+             <button class="btn btn-primary" onclick="validBasicInfo1()" id="create-user">Submit</button>
+             
+             <input type="button"  value="Next"  onclick="changeTab(5)" class="btn btn-primary" style="background-color: #f05f40 !important;">
+            
+        </center>
+ 
+         <!--  <div class="col-md-6">
+            <div class="col-md-5"> <label style="line-height:25px !important;">First Name:<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-7"> <input type="text" maxlength="20" class="form-control" id="first-name" style="margin-top:10px;width:100%;" name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> </div>
+          </div>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Last Name:<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-7"> <input type="text" maxlength="20" style="margin-top:10px;width:100%" class="form-control" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" /> </div>
+          </div>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Email:<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-7"> <input type="email" maxlength="150" style="margin-top:10px;width:100%" class="form-control" id="emailId" name="emailId" placeholder="abc@mydomain.com" /> </div>
+          </div>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Contact Number: </label> </div>
+            <div class="col-md-7"> <input type="text" maxlength="11" style="margin-top:10px;width:100%" class="form-control" id="contact-number" name="contact-number" placeholder="Contact Number" /> </div>
+          </div>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Employee code:<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-7"> <input type="text" maxlength="10" style="margin-top:10px;width:100%" class="form-control" id="ecode" name="ecode" placeholder="Employee Code" /> </div>
+          </div>
+          <div class="col-md-6 a ">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Designation : </label> </div>
+            <div class="col-md-7 marginAlign"> 
+              <select class="form-control" style="margin-top:10px;margin-bottom:4%;width: 99%;" id='designation' name="designation" style="width:200px !important;;">
+                <option value="0">Select Department</option>
+                  <%for(var i=0;i<department.length;i++){%>
+                <option value="<%=department[i].id%>">
+                   <%=department[i].description1%>
+                </option>
+                <%}%>
+              </select> 
+            </div>
+          </div>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Level: </label> </div>
+            <div class="col-md-7 marginAlign">
+              <select class="form-control" style="margin-top:10px;margin-bottom:4%;   width: 99%;" id='level' name="level" style="width:200px !important;;">
+                <option value="0">Select Level</option>
+                <%for(var i=0;i<level.length;i++){%>
+                <option value="<%=level[i].id%>">
+                <%=level[i].description1%>
+                </option>
+                <%}%>
+              </select> 
+              
+            </div>
+          </div>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Reporting to:  </label> </div>
+            <div class="col-md-7 marginAlign ">
+              <select class="form-control" style="margin-top:10px;margin-bottom:4%;   width: 99%;" id='manager' name="manager" style="width:200px !important;">
+                <option value='0' >--Select Supervisor--</option>
+                <%for(var i=0;i<report.length;i++){%>
+                <option value="<%=report[i].id%>">
+                <%=report[i].Name%>
+                </option>
+                <%}%>
+              </select> 
+            </div>
+          </div> <br/>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Modules:<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-7" style=""> 
+            <select multiple = "multiple" class="multiplebox" name="modules" id ="modules" maxlength="50">
+                <%for(var i=0;i<modules.length;i++){%>
+                <option value="<%=modules[i].id%>" 
+                  <%if(editflag==1){if(modules[i].id==userModule[i].moduleId){%> selected <%}}%> >
+                  <%=modules[i].Name%>
+                </option>
+                <%}%>
+              </select> 
+            </div>
+          </div>
+         
+
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Default Module: </label> </div>
+            <div class="col-md-7" style="margin-top:10px;"> 
+           <select class="form-control"   id='default-module' name="defmod" >
+             <option>No Module Solelected</option>
+            </select> 
+            </div>
+          </div> 
+
+          <br/>
+
+
+
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Role:<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-7">
+
+              <select class="form-control" style="margin-top:15px;margin-bottom:4%;   width: 99%;" id='user-role' name="user-role" style="width:200px; !important;">
+                <%for(var i=0;i<role.length;i++){%>
+                <%if(role[i].id==1||role[i].id==2||role[i].id==4||role[i].id==5){%>
+                <option value="<%=role[i].id%>">
+                  <%=role[i].roleName%>
+                </option>
+                  <%}}%>
+              </select> 
+            </div>
+          </div>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;"> </label> </div>
+            <div class="col-md-7"> 
+            </div>
+          </div>  
+          <div class="col-md-12" style="margin-bottom:1%">
+          
+          <center>
+              <a href="/users">
+                 <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
+              </a>
+             <button class="btn btn-primary" onclick="validBasicInfo1()" id="create-user">Submit</button>
+
+             <input type="button"  value="Next"  onclick="changeTab(5)" class="btn btn-primary" style="background-color: #f05f40 !important;">
+            
+          </center>
+          </div> -->
+        </section>
+
+        <section id="content2">
+        <div class="row form-table" >
+        
+      <div class="col-md-6">
+            <div class="col-md-5"> <label >Resource Type:</label> </div>
+            <div class="col-md-7"> 
+              <select class="form-text-box" style="margin-top:10px;margin-bottom:4%;   width: 99%;" id='isbill' name="isbill" style="width:200px !important;;">
+                <option value=0>Not Billable</option>
+                <option value=1>Is Billable</option>
+                
+              </select>  
+            </div>
+          </div>
+          <div class="col-md-6 a" id="billRate">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Billable Rate:<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-7"> <input type="number" min="1" maxlength="45" style="margin-top:10px;width:100%" class="form-text-box " placeholder="enter bill rate" id="billrate" name="billrate" onkeypress=" return checkBillrate(event)" /> </div>
+          </div> 
+        </div>
+        
+          <center style="padding-bottom: 1%">
+           <button class="btn btn-primary" onclick="validFinance()">Save Changes</button>
+          <input type="button"  value="Next"  onclick="changeTab(3)" class="btn btn-primary" style="background-color: #f05f40 !important;">
+           </center>
+     
+      </section>
+        <section id="content3">
+        <table class="table form-table">
+          <tr>
+            <td><label class="form-Label">Date of Joining:<sup  class="astrick">*</sup></label></td>
+            <td> <input name="doj" placeholder="MM/DD/YYYY"  class="form-text-box date" id="doj" readonly="true" ></td>
+            <td><label class="form-Label">Date of Confirmation:</label></td>
+            <td><input   placeholder="MM/DD/YYYY" class="form-text-box date" id="doc" name="doc" readonly="true" ></td>
+            <td> <label class="form-Label">Date of Birth:</label></td>
+            <td><input    placeholder="MM/DD/YYYY" class="form-text-box date" id="dob" name="dob"  readonly="true"></td>
+          </tr> 
+        </table>
+         <center>
+             <button class="btn btn-primary" style="margin-bottom:1%" onclick="validHr()">Save Changes</button> </center> 
+          </center>
+        <!-- <div class="row">
+          <div class="col-md-6">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Date of Joining:<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-7"> <input name="doj" placeholder="MM/DD/YYYY" style="margin-top:10px;cursor: pointer;background-color: rgb(255, 255, 255);"class="form-text-box date" id="doj" readonly="true" > </div>
+          </div>
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Date of Confirmation:</label> </div>
+            <div class="col-md-7"> <input style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="MM/DD/YYYY" class="form-text-box date" id="doc" name="doc" readonly="true" > </div>
+          </div>
+          </div>
+          <div class="row">
+          <div class="col-md-6 a">
+            <div class="col-md-5"> <label style="line-height:25px !important;">Date of Birth:</label> </div>
+            <div class="col-md-7"> <input  style="margin-top:10px;width:100%;cursor: pointer;background-color: rgb(255, 255, 255);" placeholder="MM/DD/YYYY" class="form-text-box date" id="dob" name="dob"  readonly="true"> </div>
+            
+          </div>
+           <div class="col-md-6 a" style="height:">
+           </div>
+           </div>
+          <center>
+             <button class="btn btn-primary" style="margin-bottom:1%" onclick="validHr()">Save Changes</button> </center>
+             
+          </center> -->
+        </section>
+
+
+        <section id="content5">        
+          <%for(var j=0;j<modules.length;j++){%>
+          <div class="row form-table">
+          
+                 <%if(modules[j].Name=="Expense" ){%>
+                   <div class="col-md-4 ">
+                   <label style="line-height:25px;  width: 90%;!important;">Approver(<%=modules[j].Name%>)</label>
+                   </div>
+                    <div class="col-md-2 ">
+                    <select class="form-text-box" style="margin-top:10px; " id='expense' name="role1" style="" ><option value='0'>No</option> 
+                    <option value='1'>Yes</option>
+                                      
+                    </select>
+                  </div>
+                  <div class="col-md-6 ">
+                <input type="number" maxlength="10" class="form-text-box" style="margin-top:10px;width:200px; " class="form-text-box" id="inNum" name="inNum" placeholder="Approve Limit" onkeypress="return specialCharacter(event)" /> 
+                </div>
+                  <%}%>
+
+                  <%if(modules[j].Name=="Time"){%>
+                  <div class="col-md-4 ">
+                     <label style="line-height:25px;  width: 90%;!important;">Supervisor(<%=modules[j].Name%>)</label>
+                   </div>
+                     <div class="col-md-2 ">
+                <select class="form-text-box" style="margin-top:10px; " id='time' name="role1" style=" "> <option value=0>No</option>
+                    <option value=1>Yes</option>
+                                    
+                </select>
+                </div>
+                    <%}%>
+                   <% if(modules[j].Name=="Document" ){%>
+                   <div class="col-md-4 ">
+                    <label style="line-height:25px;  width: 90%;!important;">custom Role(<%=modules[j].Name%>)</label> 
+                   </div>
+                        <div class="col-md-2 ">
+                 <div id ="customeRoleDiv">
+                <select class="form-text-box"  style="margin-top:10px;" id='crole' name="crole">
+                  <option selected="true" value="0">---  Select ---</option>
+                 <%for(var k=0;k<customRole[0].length;k++){%> 
+                  <option id="<%=customRole[0][k].id%>"value="<%=customRole[0][k].id%>"> <%=customRole[0][k].description%></option>
+                 <%}%> 
+                </select>
+              </div>
+              </div>
+                    <%}%>
+
+               
+                <%if(modules[j].Name=="RMS"){%>
+                <div class="col-md-4 ">
+                    <label style="line-height:25px;  width: 90%;!important;">Recruitment Roles(<%=modules[j].Name%>)</label> 
+                   </div>
+                 <div class="col-md-2 ">
+                 <div id ="customeRoleDiv">
+                <select class="form-text-box" onChange="showHod()" style="margin-top:10px;" id='hrRole' name="crole">
+                  <option selected="true" value="0">---  Select ---</option>
+                 <%console.log("hr rollleeeeeeee",hrRole);for(var k=0;k<hrRole.length;k++){%> 
+                  <option id="<%=hrRole[k].id%>"value="<%=hrRole[k].id%>"> <%=hrRole[k].roleName%></option>
+                 <%}%> 
+                </select>
+              </div>
+              </div>
+                <div class="col-md-6 a">
+                      <select class="form-text-box"  style="margin-top:10px;width:33%" id='hodList' name="hodList" style="">
+                          <option selected="true" value="0">--Select Hod--</option>
+                        <%console.log("hod rollleeeeeeee",allHod);for(var i=0;i<allHod.length;i++){%>
+                          <option value="<%=allHod[i].id%>"><%=allHod[i].hodName%></option>  
+                          <%}%>              
+                      </select>
+                      </div>
+                <%}%>
+            </div>
+                <%}%>
+                <div class="row form-table">
+                  <div class="col-md-4 a">
+                     <label style="line-height:25px;  width: 90%;!important;">Client-User</label>
+                   </div>
+                     <div class="col-md-2 a">
+                      <select class="form-text-box" style="margin-top:10px; " onChange="showClient()" id='isClient' name="isClient" style=" ">
+                      <option value="0"  >No</option>  
+                        <option value="1">Yes</option>
+                                         
+                      </select>
+                      </div>
+                      <div class="col-md-6 a">
+                      <select class="form-text-box" style="margin-top:10px;width:33%" id='clientId' name="clientId" style="">
+                          <option value="0">--Select Client--</option>
+                        <%for(var i=0;i<client.length;i++){%>
+                          <option value="<%=client[i].id%>"><%=client[i].clientName%></option>  
+                          <%}%>              
+                      </select>
+                      </div>
+                </div>
+            
+            <div class="modal-footer" style="border-top:0px;">
+              <center> <button type="button" id="btnuser" class="btn btn-primary"  onclick="validRole();">Save changes</button>
+              <input type="button"  value="Next"  onclick="changeTab(2)" class="btn btn-primary" style="background-color: #f05f40 !important;"> 
+              </center>
+            </div>
+          </section>
+        </main>
+      </div>
+      <footer>
+        <% include ./partials/footer %>
+      </footer>
+  </body>
+
+</html>
+
+<style type="text/css">
+  .user-list label select {
+    padding:0px;
+  }
+  .ms-drop ul > li label {
+    display: inline;
+  }
+  .user-list li label {
+    padding: 0px;
+  }
+  div .ui-multiselect-menu .ui-widget .ui-widget-content .ui-corner-all{
+  width: 310px !important;
+ }
+.ui-multiselect
+{
+  width:100% !important;
+      background-color: #FFFFFF !important;
+    margin-top: 15px !important;
+}
+  li > label > span{
+    margin-left: 4%;
+    font-size: 15px;
+    font-weight: 400;
+  }
+  div > button{
+    height:33px;
+  }
+  div > ul{
+    height:auto;
+  }
+  .sol-option{
+    margin-top: -7px !important;
+        margin-left: -37px;
+          padding-left: 10px!important;
+       
+  }
+  .sol-selection-container{
+    overflow-y: scroll;
+
+  }
+  .sol-label-text {
+    margin-top: -6px;
+    margin-left: 20px;
+}
+    .sol-checkbox{
+  margin-top: 0px !important;
+      margin-left: -18px!important;
+          left: 50px;
+    }
+
+    
+</style>
+<script>
+var levelVar;
+var subFlag=0; 
+var aaa,temp1=0; 
+var pressButton=0;
+var users; 
+  var imparray = ["Bug","Time","Expense","Asset",'Project',"Document","RMS"];
+function getDefaultModule(){
+                  var newArr=$('#modules').val();  
+                 var stringType ;
+                 var i=0;
+                 if(newArr!=null)
+                 for(i in newArr){
+                        var a= newArr[i];
+                        var b=imparray[a-1];
+                        stringType=stringType+'<option value='+a+'>'+b+'</option>';
+                        i++;
+                 }
+                 $('#default-module').html(stringType);
+}
+
+  $(document).ready(function(){
+
+        setTimeout(function(){  var aaa=$('#inNum').val();
+        
+          if(aaa==0){
+            $('#expense').val(0);
+            $('#inNum').removeClass('show');
+            $('#inNum').addClass('hide');
+          }
+        console.log("hiiii   ",aaa);},100)
+      
+
+     
+    /*  $('#level').tagger({
+        baseURL: '../img/'
+      , tabindexOffset: 400
+      , fieldWidth: null
+      });
+    */
+
+       $('#manager').tagger({
+        baseURL: '../img/'
+      , tabindexOffset: 400
+      , fieldWidth: null
+      });
+    
+
+   /*    $('#designation').tagger({
+        baseURL: '../img/'
+      , tabindexOffset: 400
+      , fieldWidth: null
+      });*/
+    
+
+          $('#isbill').on('change',function(){
+              if( $(this).val()==="1"){               
+                $("#billRate").removeClass("hide");
+                $("#billRate").addClass("show");
+              } 
+              else
+              {
+                $("#billRate").hide();
+               }
+    });
+    <%if(editflag==0){%>
+      
+            $('#billRate').addClass("hide");
+            $('#inNum').addClass("hide");
+            $("#doj").datetimepicker({format: "m/d/y",timepicker:false,scrollMouse:false,scrollInput:false});
+            $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date(),scrollMouse:false,scrollInput:false});
+            $("#doc").datetimepicker({format: "m/d/y",timepicker:false,scrollMouse:false,scrollInput:false}); 
+   
+    <%}%>
+    $("#modules" ).change(function(){
+      
+            getDefaultModule();
+
+    }); 
+    <%if(editflag!=0){%>  
+        getDefaultModule();
+        <% if(typeof(customRole[1][0]) !='undefined'){%>
+            $("#crole").val('<%=customRole[1][0].id%>');
+        <%}%>
+        setTimeout(function(){
+             
+              var a=new Date($("#doj").val());
+              var mm=a.getMonth();
+              var mm=mm+1;
+              var dd=a.getDate();
+              var yy=a.getFullYear();
+              if($("#doj").val()==''){
+                  var p ='01/01/1900';
+              }
+              else
+                  var p=mm+'/'+dd+'/'+yy;
+              var j=new Date(p);
+              $("#doj").datetimepicker({format: "m/d/y",timepicker:false,scrollMouse:false,scrollInput:false});
+              $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date(),scrollMouse:false,scrollInput:false});
+              $("#doc").datetimepicker({format: "m/d/y",timepicker:false,minDate:j,scrollMouse:false,scrollInput:false}); 
+        },100);
+    <%}%>
+
+
+    
+    $('#isbill').on('change',function(){
+                    if($('#isbill').val()==1){ 
+                    $('#billRate').removeClass("hide");
+                    $('#billRate').addClass("show");
+                        
+              } 
+               if($('#isbill').val()==0){ 
+                    $('#billRate').removeClass("show");
+                    $('#billRate').addClass("hide");
+                        }
+        });
+     $('#expense').on('change',function(){           
+          if( $(this).val()==1){
+             $("#inNum").removeClass("hide");
+             $("#inNum").addClass("show");
+          } else
+          {
+            $("#inNum").removeClass("show");
+            $("#inNum").addClass("hide");
+          }
+
+    });
+        $('.user-img').addClass('active');
+        $("#modules").searchableOptionList();
+         
+        if (<%=editflag%>) {
+            users = <%-JSON.stringify(users)%>;
+            var i = 0;
+          //  console.log(users);
+        // alert(users[i].hodId)
+            $("#first-name").val(users[i].firstName);
+            $("#last-name").val(users[i].lastName);
+            $("#emailId").val(users[i].userEmail);
+            $("#contact-number").val(users[i].contactNumber);
+            $('#billing-rate').val(users[i].billingAmount);
+            $('#isClient').val(users[i].isClient);
+            $('#hodList').val(users[i].hodId);
+            $('#clientId').val(users[i].clientId);
+            $('#custom-role').val(users[i].managerId);
+            $('#isbill').val(users[i].isBillable);
+            $('#billrate').val(users[i].billingAmount);
+            $('#expense').val(users[i].isApproval);
+            $('#inNum').val(users[i].approveLimit);
+            $('#doj').val(users[i].doj);
+            $('#dob').val(users[i].dob);
+            $('#doc').val(users[i].doc);
+            $('#rtype').val(users[i].rtype);
+            $('#ecode').val(users[i].ecode);
+            $('#default-module').val(users[i].defaultModuleId);
+            $("#user-role").val(users[i].roleId);
+            $("#create-user").text('Save Changes');
+            $('#hrRole').val(users[i].hrRole);
+              if(users[i].isApproval)
+       {
+  
+             $("#inNum").removeClass("hide");
+             $("#inNum").addClass("show");
+       } 
+       else{
+                        $("#inNum").removeClass("show");
+                        $("#inNum").addClass("hide");
+       }
+       if(users[i].isBillable)
+       {
+                    $('#billRate').removeClass("hide");
+                    $('#billRate').addClass("show");
+               
+       } 
+      else{
+
+                    $('#billRate').removeClass("show");
+                    $('#billRate').addClass("hide");
+                  
+          }
+     if($('#isbill').val()==0){ 
+
+              $('#billrate').val('');
+                  }
+        }
+        $("#hdnId").val(<%=editflag%>);
+     
+        
+      if($('#clientId').val()==0){
+        $('#isClient').val(0);
+         $('#clientId').hide();
+      } 
+
+      if($('#hrRole').val()!=3){
+        $('#hodList').val(0);
+         $('#hodList').hide();
+      }  
+    if($('#billrate').val()==""){
+      $('#billRate').removeClass('show');
+        $('#billRate').hide();
+        $('#isbill').val(0);
+       
+      }  
+
+    });
+    function specialCharacter(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("This special character or number is not allowed\n ");
+            return false;
+        }
+        return true;
+    }
+      function checkBillrate(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("Error:This special character is not allowed \n");
+            return false;
+        }
+        return true;
+    }
+    function changeTab(prevOrNext) {
+              $("#tab" + prevOrNext).click();
+             }
+
+
+    function showClient(){
+      if($('#isClient').val()==1){
+       
+        $('#clientId').show();                
+        }
+        else{                  
+           $('#clientId').hide();   
+        }
+    }
+
+    function showHod(){
+      
+      if($('#hrRole').val()==3){        
+         $('#hodList').show();                
+        }
+        else{                  
+           $('#hodList').hide();   
+        }
+    }
+
+    function resetUserForm() {
+        $("#tab1").click();
+        $(".modal input, textarea").val("");
+        $(".modal select").val(0);
+        $('input[type="radio":checked]').each(function() {
+            $(this).checked = false;
+        });
+        $("#btnuser").text('Create User');
+        $("#hdnId").val('0');
+    }
+      check= checkFinal();
+      function validBasicInfo1() {
+        pressButton=1;
+        return validBasicInfo();
+      }
+      function validBasicInfo() {
+            
+                             
+             var retailerInfo = <%-JSON.stringify(retailerInfo[0].emailId)%>;
+             var validEmailAccRetailer= retailerInfo.substring(retailerInfo.indexOf('@')+1);
+             var userEmail=$('#emailId').val().trim();
+             var validUserEmail=userEmail.substring(userEmail.indexOf('@')+1);
+             if($("#first-name").val().trim()=='') {
+                if(pressButton==2 || pressButton==4 || pressButton==3){alert("Please Enter User Basic Information first!!!");
+                    return false;
+                }
+                alert('First Name is required');
+                return false;
+            }
+            if ($("#last-name").val().trim() == '') {
+
+              if(pressButton==2 || pressButton==4|| pressButton==3){alert("Please Enter User Basic Information first!!!");
+            return false;}
+                alert('Last Name is required');
+                return false;
+            }
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+            var numreg = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
+
+            if ($("#emailId").val().trim() == '' || !(re.test($("#emailId").val()))) {
+
+              if(pressButton==2 || pressButton==4|| pressButton==3){
+                    alert("Please Enter User Basic Information first!!!");
+                    return false;
+              }
+              alert('Valid email id is required.');
+              return false;
+
+            }
+             if (validEmailAccRetailer != validUserEmail) {
+                alert('Email Id Should be of type @'+validEmailAccRetailer);
+                return false;
+            }
+
+
+            var cno=$('#contact-number').val();
+            if( ($('#contact-number').val().trim()!='') &&(cno.length<10||cno.length>12||isNaN(cno)||cno.trim().length<1)) 
+            {   if(pressButton==2 || pressButton==4|| pressButton==3){alert("Please Enter User Basic Information first!!!");
+            return false;}
+                alert("Enter valid Contact number!");    
+              return false;
+            }
+            if ($("#ecode").val().trim() == '') {
+              if(pressButton==2 || pressButton==4|| pressButton==3){alert("Please Enter User Basic Information first!!!");
+            return false;}
+                alert('Employee code is required');
+                return false;
+            }
+            if(/^[a-zA-Z0-9- -]*$/.test($("#ecode").val().trim()) == false)
+             {     
+                    alert('Your Employee Code contains illegal characters.');
+                    return false;
+                 }
+           var str= $("#ecode").val().trim();     
+           var Exp = /((^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i;
+
+             if(!$('#modules').val())
+            {
+              if(pressButton==2 || pressButton==4|| pressButton==3){alert("Please Enter User Basic Information first!!!");
+            return false;}
+              alert('Please select Modules!');
+              return false;
+            }
+           check=checkFinal();
+           console.log('check '+check  );
+           if(($("#hdnId").val()==0)&&(check)){
+              if(pressButton==1){addUser(1);}
+              else {return true;}
+            }
+            else{
+             if((pressButton==1)&&(check)){addUser(0);}
+              else {return true;}
+            }
+    }
+    function checkFinal(){
+            if($("#isClient").val()=='1' && $("#clientId").val()=='0'){
+                alert('Error:In Role Details ,Client is required');
+                return false;
+            }
+            else if($("#hrRole").val()=='3' && $("#hodList").val()=='0'){
+                alert('Error:In Role Details ,HOD is required');
+                return false;
+            }
+            else if($("#expense").val()=='1' && $("#inNum").val()==''){
+                 alert('Error:In Role Details , Expense limit is required');
+                return false;
+            }
+            else if($("#expense").val()=='1' && $("#inNum").val()==0){
+                alert('Error:In Role Details , Expense limit should be greated than 0');
+                return false;
+              } 
+            else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)){
+                    alert('Error:Enter Billrate greater than zero');
+                    return false;
+            }
+            else  if(($('#isbill').val()==1)&&($('#billrate').val()==0)){
+                    alert('Error:Enter Billrate greater than zero');
+                    return false;
+            }
+            else if(($('#doj').val()=='')&&($('#doc').val()!='')){
+                    alert("Error:In HR Details ,Please Enter Date of joining");
+                    return false;
+            
+            }           
+            else if(new Date($('#doj').val())>new Date($('#doc').val())){
+                  alert("Error:In HR Details ,Date of joining should note be greater then Date of confirmation");
+                  return false;
+            }
+           
+            return true ;
+           
+
+  }
+ function validRole(){
+
+          pressButton=4;  
+          subFlag=0;
+          var abc=validBasicInfo();
+          if((abc)&&(check)){
+              if($("#expense").val()=='1' && $("#inNum").val()==''){
+                alert('Error:Expense limit is required');
+                return false;
+              }
+              if($("#expense").val()=='1' && $("#inNum").val()==0){
+                alert('Error:Expense limit should be greated than 0');
+                return false;
+              }
+                if($("#isClient").val()=='1' && $("#clientId").val()=='0'){
+                alert('Error:Client is required');
+                return false;
+              }
+               
+                if($("#hrRole").val()=='3' && $("#hodList").val()=='0'){
+                alert('Error:HOD is required');
+                return false;
+              }
+              return addUser(0);
+          }
+
+        
+       
+      }
+
+      function validFinance(){
+              subFlag=0;
+              pressButton=2;
+              var abc=validBasicInfo();
+              if((abc)&&(check)){
+                   if($('#isbill').val()==1){
+                    
+                      if($('#billrate').val().length<1){
+                      alert('Error : please specify Billable Rate');
+                      return false;
+                      }
+              }
+            return addUser(0);
+            }
+
+      }
+
+
+     function validHr(){
+      pressButton=3;
+      var abc=validBasicInfo();
+      console.log("mayur abc ",abc);
+      subFlag=100;
+      var text = $('#doj').val();
+      var comp = text.split('/');
+      var d = parseInt(comp[0], 10);
+      var m = parseInt(comp[1], 10);
+      var y = parseInt(comp[2], 10);
+      var date = new Date(y,m-1,d);
+      if((abc)&&(check)){
+     
+      var text = $('#doc').val();
+      var comp = text.split('/');
+      var d = parseInt(comp[0], 10);
+      var m = parseInt(comp[1], 10);
+      var y = parseInt(comp[2], 10);
+      var date = new Date(y,m-1,d);
+    
+      if($('#doj').val()==''){
+        alert("Error :please enter Date of joining ");
+        return false;
+      }
+      if(new Date($('#doj').val())>new Date($('#doc').val())){
+         subFlag=2;
+         alert("'Error :Date of joining should note be greater then Date of confirmation");
+         return false;
+      }
+        addUser(0);
+    }
+       
+      }
+    function addUser(temp) {
+    
+//alert($('#hodList').val());
+      var modules=$('#modules').val().toString();
+         $.ajax({
+            url: '/addUser',
+            method: 'POST',
+            data: {
+                "firstName": $("#first-name").val(),
+                "lastName": $("#last-name").val(),
+                "emailId": $("#emailId").val(),  
+                "contactNumber": $("#contact-number").val(),
+                "isbill": $('#isbill').val(),
+                "billingRate": $('#billrate').val(),
+                "expense": $('#expense').val(),
+                "inNum": $('#inNum').val(),
+                "userRole": $("#user-role").val(),
+                "manager": $('#manager').val(),                        
+                "defaultModule": $('#default-module').val(),
+                "customRole": $('#custom-role').val(),
+                "hdnUserId": $("#hdnId").val(),
+                "ecode": $("#ecode").val(),
+                "designation": $("#designation").val(),
+                "level": $("#level").val(),
+                'modules':modules,
+                'isClient':$('#isClient').val(),
+                'clientId':$('#clientId').val(),
+                'hodId':$('#hodList').val(),
+                "doj":$('#doj').val(),
+                "dob":$('#dob').val(),
+                "doc":$('#doc').val(),
+                "rtype":$('#rtype').val(),
+                "crole":$('#crole').val(),
+                "timesheet":$('#time').val(),
+                "hrRole":$('#hrRole').val()
+            },
+            success: function(data) {
+              if(data[0][0].uid >0 )
+              {
+                 $("#hdnId").val(data[0][0].uid); 
+              }
+              else
+              {
+                if($("#hdnId").val()<=0)
+                $("#hdnId").val( <%=editflag%>); 
+              }
+                  if(data[0][0].flag==2){
+                    alert("Employee Code already exist! Please enter different Empolyee Code");                    
+                    return false;
+                  }
+                  
+                  else if (data[0][0].flag == 3) {
+                    alert('EmailId is already exist.Please register again with different email id.');
+                    return false;
+                }
+                else if(data[0][0].flag == 0){
+                    alert("User added successfully. Mail is sent on registered emailId.");
+                    if(subFlag==100){
+                      window.location.href="/users";
+                    }
+                  }
+                else if (data[0][0].flag == 1) {
+                      alert("User updated successfully.");
+                     if(subFlag==100){
+                    window.location.href="/users";
+                  }
+                 }
+               
+            },
+            dataType: 'JSON',
+        });
+  
+    }
+            if(<%=editflag%>){
+            var newUser=<%-JSON.stringify(users)%>;
+            $("#modules").val([<%for(var i=0;i<userModule.length;i++){%>"<%=userModule[i].moduleId%>",<%}%>]).prop("selected", false); 
+            $("#level").val(newUser[0].level).prop("selected", false);
+            $("#manager").val(newUser[0].managerId).prop("selected", false);
+            $("#designation").val(newUser[0].designation).prop("selected", false);
+
+      }
+                
+          
+</script>
+

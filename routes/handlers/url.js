@@ -1054,5 +1054,9 @@ error:function(req,res,next){
   projStatus:function(req,res,next){
 		req.page = 'projStatus';
     	next();
+	},
+	 changePassWordPage:function(req,res,next){
+		req.page = 'changePassWordPage';
+    	next();
 	}
 }

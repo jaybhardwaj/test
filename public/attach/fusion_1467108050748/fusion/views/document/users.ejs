@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+</head>
+
+<body> 
+    <div>
+        <% include ./partials/adminheader %>
+    </div>
+    <div class="container-fluid user-list  " style="background-color:antiquewhite">
+  <!--       <div align="center" style="margin-top:2%"> <span class="portal-page-header"> Manager User Here.</span> </div> -->
+        <div>
+            <a> <button class="btn btn-primary custom-button" onclick="addEditUser(0)">Add</button> </a>
+            <span class="modal-title" style="padding-left:38%">User Details</span>
+        </div>
+        <div class=" " id="accordions" style="margin-bottom:1%;">
+            <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="usertable">
+                <thead>
+                    <tr style='font-size:12px'>
+                        <th style='background-color:grey;color:white'>Name</th>
+                        <th style='background-color:grey;color:white'>Email Id</th>
+                        <th style='background-color:grey;color: white;'>Contact number</th>
+                        <th style='background-color:grey;color: white;'>Role</th>
+                        <th style='background-color:grey;color: white;'>Supervisor</th>
+                        <th style='background-color:grey;color: white;'>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="pstatus">
+                    <% for(var i=(users.length)-1;i>=0;i--) { %>
+                        <tr style='height:20px;color:grey;font-size:12px;'>
+                            <td>
+                                <%=users[i].Name%>
+                            </td>
+                            <td>
+                                <%=users[i].userEmail%>
+                            </td>
+                            <td>
+                                <%=users[i].contactNumber%>
+                            </td>
+                            <td>
+                                <%=users[i].roleName%>
+                            </td>
+                            <td>
+                                <% if (users[i].managerName == '' || users[i].managerName == null) {%> No Concerned Manager
+                                    <% } else {%>
+                                        <%=users[i].managerName%>
+                                            <% } %>
+                            </td>
+                            <td>
+                                <%if (users[i].roleId != 1) {%>
+                                    <%if (users[i].isActive) {%>
+                                        <a onclick='addEditUser(<%=users[i].id%>)'> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a> 
+                                        <!-- <a><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px" title="click to inactive"></span></a> -->
+                                        <%}else {%> <span style='color:red;height:10px' class='glyphicon  glyphicon-remove-sign'></span>
+                                            <%}%>
+                                                <%} else {%> <span style='color:green;height:10px' class='glyphicon  glyphicon-ban-circle'></span>
+                                                    <% }%>
+                            </td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <% include ./partials/footer %>
+    </footer>
+    <script>
+        $(document).ready(function() {
+            $('#usertable').dataTable({
+                "order": []
+            });
+            $('.user-img').addClass('active');
+        });
+
+        function addEditUser(flag) {
+            var form = document.createElement("form");
+            form.action = '/createEditUser';
+            form.method = "POST";
+            form.style = "display: none";
+            var hdnId = document.createElement("input");
+            hdnId.type = "hidden";
+            hdnId.name = "hdnId";
+            hdnId.value = flag;
+            form.appendChild(hdnId);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+    </script>
+</body>
+
+</html>

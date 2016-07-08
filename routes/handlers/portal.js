@@ -99,7 +99,6 @@ var locationId = [],
 
              } else { 
                    var hash=result[0][0].userPassword.toString();
-                    ////console.log("yooooooo      ",hash);
                    if((bcrypt.compareSync(req.body.password,hash))&&(hash!=0)){
                     res.json("1");
                    }
@@ -175,13 +174,13 @@ var locationId = [],
                  if (err) {
                      next(err);
                  } else {   
+                    console.log('hi   -   ',result);
                         if( result[2].length>0){
                             configEmail.service= result[2][0].domailUserName;
                             configEmail.user=result[2][0].smtpMail,
                             configEmail.password= result[2][0].domailUserName,
                             configEmail.port= result[2][0].domailUserName;  
                            } 
-                    console.log('isValidate-----',result[5][0].isValidate);
                     if(result[5][0].isValidate==0){
                      req.session.allSupervisors=result[3];
                      req.session.mySupervisor=result[4][0].managerid;
@@ -205,7 +204,9 @@ var locationId = [],
                      if(req.session.isRetailer)       
                      res.redirect('/mailServerInfo');
                      else{
-                       if(req.session.defaultModule==1){
+                       console.log("222---b-b-b-b");
+                        res.redirect('/changePassWordPage');
+                     /*  if(req.session.defaultModule==1){
                             res.redirect('/mailServerInfo');
                        }else if(req.session.defaultModule==1){
                             res.redirect('/bugHome');
@@ -227,7 +228,7 @@ var locationId = [],
                        }
                        else if(req.session.defaultModule==7){
                             res.redirect('/rms');
-                       }
+                       }*/
                      } 
 
                     }
@@ -258,13 +259,26 @@ var locationId = [],
              }
          });
      },
+      submitUserPassword: function(req, res, next) {
+        console.log(bcrypt.hashSync(req.body.pass,salt));
+         modelPortal.submitUserPassword(bcrypt.hashSync(req.body.pass,salt),req.session.userId,req.session.roleId,req.session.retailerId, function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+                 
+                 }
+                 res.json('success');
+             
+         });
+     },
     changePass: function(req,res,next){
          modelPortal.checkPassword(req.session.userId,req.body.pass,1,function(err, result) {
              if (err) {
                  next(err);
              }
             else{ 
-                ////console.log(result,req.body.pass);
+               console.log(result,req.body.pass);
                 var hash=result[0][0].userPassword;
                 if(bcrypt.compareSync(req.body.oldpass,hash)){
                  
