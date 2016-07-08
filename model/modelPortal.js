@@ -119,15 +119,14 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
     },
     recoverPassword: function(emailId, callback) {
         var randomPassword = randomString(10);
-       var ranPassword=randomPassword;
- randomPassword=bcrypt.hashSync(randomPassword,salt);
+        var ranPassword=randomPassword;
+        randomPassword=bcrypt.hashSync(randomPassword,salt);
 
         var query = {
             sql: 'call usp_recoverPassword(?,?)',
             values: [emailId, randomPassword]
         };
         mysql(query, function(err, result) {
-            console.log(query,result);
             if(result[1][0].userPassword)
             result[1][0].userPassword=ranPassword;
             callback(err, result);
