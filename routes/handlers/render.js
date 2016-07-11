@@ -17,7 +17,6 @@ module.exports = {
 					isApp:req.session.isApprover});
 				break;
 				case 'changePassWordPage' :
-				console.log("step last",req.session.modules);
 				res.render('changePassWordPage',{
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,					 
 					isRetailer:req.session.isRetailer,hideFlag:1,module:req.result1,roleid:req.session.roleId,
@@ -181,6 +180,7 @@ module.exports = {
 				type:req.resultFilterBug[6],
 				bug:req.resultFilterBug[7],
                 allusers:req.resultFilterBug[8],
+                linkTo:req.resultFilterBug[9],
 				roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,
 				userid:req.session.userid,
 				defaultModule:req.session.defaultModule,
