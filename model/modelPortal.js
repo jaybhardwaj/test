@@ -342,7 +342,7 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
         severity,technology,type,tclosure,title,description,targetpath,filename,origFname,detectedBy,
         cycle,retailerid]
         };
-         //console.log(query)
+         console.log(query)
         mysql(query, function(err, result) {
             if(err){console.log(err);}
             callback(err, result); 
