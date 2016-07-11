@@ -2282,7 +2282,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             ecode,designation,level,modules,doj,dob,doc,rtype,
              userId, roleId, retailerId,crole,hrRole,hodId]
         };
-       console.log(query);
+       console.log("queries ids ",query);
         mysql(query, function(err, result) { 
             callback(err, result);
         });
@@ -2343,9 +2343,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             sql: 'call usp_checkNextUser(?,?,?,?)',
             values: [flag1,userId, roleId, retailerId]
         };
-        //console.log(query);
         mysql(query, function(err, result) {
-            
             callback(err, result);
         });
     },

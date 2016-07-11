@@ -314,7 +314,7 @@
                          <label style="margin-top:-3%;margin-left: 40%;">Supervisor(<%=modules[j].Name%>) :</label>
                        </div>
                        <div class="col-md-2 ">
-                          <select class="form-text-box" style=" " id='time' name="role1" style=" "> <option value=0>No</option>
+                          <select class="form-text-box" style=" " id='time' name="role1" style=" "> <option value=0 selected>No</option>
                               <option value=1>Yes</option>
                                               
                           </select>
@@ -355,7 +355,7 @@
                     </div>
 
  <script type="text/javascript">
-   $("#hrRole").val([<%console.log("allUserHr",userHrRoles); if (editflag) { for(var i=0;i<userHrRoles.length;i++){ %>"<%=userHrRoles[i].hrRoleId%>",<%}}%>]).prop("selected", false); 
+   $("#hrRole").val([<% if (editflag) { for(var i=0;i<userHrRoles.length;i++){ %>"<%=userHrRoles[i].hrRoleId%>",<%}}%>]).prop("selected", false); 
 </script>
 
                     <div class="col-md-2 a">
@@ -393,9 +393,7 @@ var users;
   var imparray = ["Bug","Time","Expense","Asset",'Project',"Document","RMS"];
 
   function addEditUser(flag,flag12,tab1) {
-    //alert(flag);
-    //alert(flag12);
-    //alert($("#hdnId").val());
+    
             var form = document.createElement("form");
             if(flag==0) {form.action = '/createEditUser';}
             else {form.action = '/next_prev_user';}
@@ -479,7 +477,7 @@ function getDefaultModule(){
                   var newArr=$('#modules').val();  
                  var stringType ;
                  var i=0;
-                 console.log(newArr);
+                
                  if(newArr!=null)
                  for(i in newArr){
                         var a= newArr[i];
@@ -505,7 +503,6 @@ function getDefaultModule(){
            $('#hodList').hide();   
         }
 
-        //alert('<%=tab%>');
     
         if(<%=tab%> ==1){$('#tab1').click();}
         else if(<%=tab%> ==2){$('#tab5').click();}
@@ -633,65 +630,56 @@ function getDefaultModule(){
             $("#user-role").val(users[i].roleId);
             $("#create-user").text('Save');  
             $('#hdnIdUser').val(<%=editflag%>);
-           /* console.log(users);
-              if(users[i].isRetailer==1){
-               
-              $('.retailerEdit').hide();
-            }*/
-            //console.log(i,'--------',users[i].id);
-            //alert('hidden user id value-------'+$("#hdnIdUser").val());
-            //console.log($("#hdnIdUser").val());
-
- $('#time').val(users[i].timeApproval);
-              if(users[i].isApproval)
-       {
+            if(users[i].timeApproval !=null)
+            $('#time').val(users[i].timeApproval);
+            else
+               $('#time').val('0');
+            if(users[i].isApproval)
+            {
   
              $("#inNum").removeClass("hide");
              $("#inNum").addClass("show");
-       } 
-       else{
-                        $("#inNum").removeClass("show");
-                        $("#inNum").addClass("hide");
-       }
-       if(users[i].isBillable)
-       {
-                    $('#billRate').removeClass("hide");
-                    $('#billRate').addClass("show");
-               
-       } 
-      else{
+             } 
+             else{
+                              $("#inNum").removeClass("show");
+                              $("#inNum").addClass("hide");
+             }
+             if(users[i].isBillable)
+             {
+                          $('#billRate').removeClass("hide");
+                          $('#billRate').addClass("show");
+                     
+             } 
+            else{
 
-                    $('#billRate').removeClass("show");
-                    $('#billRate').addClass("hide");
-                  
-          }
-     if($('#isbill').val()==0){ 
+                          $('#billRate').removeClass("show");
+                          $('#billRate').addClass("hide");
+                        
+                }
+             if($('#isbill').val()==0){ 
 
-              $('#billrate').val('');
-                  }
-        }
-        $("#hdnId").val(<%=editflag%>);
-      
-        
-      if($('#clientId').val()==0){
-        $('#isClient').val(0);
-         $('#clientId').hide();
-      } 
+                      $('#billrate').val('');
+                          }
+                }
+                $("#hdnId").val(<%=editflag%>);
+              
+                
+              if($('#clientId').val()==0){
+                $('#isClient').val(0);
+                 $('#clientId').hide();
+              } 
 
-     /* if($('#hrRole').val().indexOf(3)==1){
-        $('#hodList').val(0);
-         $('#hodList').hide();
-      }  */
-    if($('#billrate').val()==""){
-      $('#billRate').removeClass('show');
-        $('#billRate').hide();
-        $('#isbill').val(0);
-       
-      } 
+    
+             if($('#billrate').val()==""){
+            $('#billRate').removeClass('show');
+              $('#billRate').hide();
+              $('#isbill').val(0);
+             
+            } 
 
-    if($('#hdnId').val() != 0){
-                 $('#moreUser').removeClass('hide');
-               }
+          if($('#hdnId').val() != 0){
+                       $('#moreUser').removeClass('hide');
+                     }
 
 
 
@@ -728,7 +716,6 @@ function getDefaultModule(){
     }
 
     function showHod(){
-      console.log($('#hrRole').val())
     var hrArr=$('#hrRole').val();
    
     if(hrArr!=null&&hrArr.indexOf("3")>-1)  {   
@@ -749,7 +736,7 @@ function getDefaultModule(){
         $("#btnuser").text('Create User');
         $("#hdnId").val('0');
     }
-      check= checkFinal();
+     // check= checkFinal();
       function validBasicInfo1() {
         pressButton=1;
         return validBasicInfo();
@@ -843,12 +830,26 @@ function getDefaultModule(){
             }
     }
     function checkFinal(){
-             if(($("#hrRole").val()=='3') &&( $("#hodList").val()=='0') && ($('#modules').val().indexOf("7")>=0)){
-                alert('Error:In Role Details ,HOD is required');
+          if($('#modules').val() !=null){
+            if($('#modules').val().indexOf("7")>=0){  
+                  if($("#hrRole").val()!=null){
+                    if( ($("#hrRole").val().indexOf('3')>=0) &&( $("#hodList").val()=='0')  ){
+                      alert('Error:In Role Details ,HOD is required');
+                       return false;
+                    }
+                  }
+                  else{
+                       alert(" Error:In Role Details ,RMS Role is required");
+                        return false;
+                  }
+                 
+            }
+            if(($("#expense").val()=='1') && ($("#inNum").val()=='') && ($('#modules').val().indexOf("3")>=0)){
+                 alert('Error:In Role Details , Expense limit is required');
                 return false;
             }
-            else if(($("#expense").val()=='1') && ($("#inNum").val()=='') && ($('#modules').val().indexOf("3")>=0)){
-                 alert('Error:In Role Details , Expense limit is required');
+            else if(($("#crole").val()=='0') && ($('#modules').val().indexOf("6")>=0)){
+                 alert('Error:In Role Details , custom Role is required');
                 return false;
             }
             else if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
@@ -856,23 +857,22 @@ function getDefaultModule(){
                 return false;
               } 
             else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)&& ($('#modules').val().indexOf("2")>=0)){
-                    alert('Error:Enter Billrate greater than zero');
+                    alert('Error:In Finance Details , Enter Billrate greater than zero');
                     return false;
             }
-            else  if(($('#isbill').val()==1)&&($('#billrate').val()==0)){
-                    alert('Error:Enter Billrate greater than zero');
-                    return false;
-            }
-            else if(($('#doj').val()=='')&&($('#doc').val()!='')){
+           else if(($('#doj').val()=='')&&($('#doc').val()!='')){
                     alert("Error:In HR Details ,Please Enter Date of joining");
                     return false;
             
-            }           
-            else if(new Date($('#doj').val())>new Date($('#doc').val())){
+            }  
+         }         
+         if(new Date($('#doj').val())>new Date($('#doc').val())){
                   alert("Error:In HR Details ,Date of joining should note be greater then Date of confirmation");
                   return false;
-            }
-            return true ;
+         }
+         return true ;
+
+
   }
  function validRole(){ 
           pressButton=4;  
@@ -951,7 +951,6 @@ function getDefaultModule(){
        
       }
     function addUser(temp) {
- 
       if($('#modules').val().indexOf("2")<0){
           $("#time").val('0');
       }  
@@ -1046,7 +1045,6 @@ function getDefaultModule(){
   
     }
             if(<%=editflag%>){
-              <%console.log("m modules",userModule);%>
             var newUser=<%-JSON.stringify(users)%>;
             $("#modules").val([<%for(var i=0;i<userModule.length;i++){%>"<%=userModule[i].moduleId%>",<%}%>]).prop("selected", false); 
             $("#level").val(newUser[0].level).prop("selected", false);
