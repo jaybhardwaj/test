@@ -68,6 +68,82 @@ var locationId = [],
              }
         });
     },
+
+    notification: function(req, res, next) {
+        console.log(req.body);
+        var flag=0;
+        var notification=0,type,assignedTo=0,edit=0,notificationForApproveReject=0;
+
+         if(typeof(req.body.editNotification)=='undefined'){ edit=0; }
+        else{edit=req.body.editNotification; }
+
+        if(edit==0){
+            if(typeof(req.body.moduleType)=='undefined'){ 
+             type='home';  assignedTo=0; notification=0; flag=0; 
+        }
+        else{
+             type=req.body.moduleType;
+            if(type=='bug'){
+                 if(typeof(req.body.assingedto)=='undefined'){  assignedTo=0; }
+                else{ assignedTo=req.body.assingedto; }
+
+                if(typeof(req.session.notification)=='undefined'){ notification=0; }
+                else{ notification=req.session.notification.bug_notification; }
+
+                flag=req.body.flagNotification;
+            }
+
+            if(type=='timesheet'){ 
+                assignedTo=req.body.supervisor; flag=0;
+                if(typeof(req.session.notification)=='undefined'){ notification=0; }
+                else{ notification=req.session.notification.bug_notification; }
+                //console.log('timesheet----flag--',flag,'--assignedto--',assignedTo,'--notification--',notification);
+
+                 if(typeof(req.body.notificationForApproveReject)=='undefined'){ notificationForApproveReject=0; }
+                else{ notificationForApproveReject=req.body.notificationForApproveReject;
+                    assignedTo=req.body.id;
+                 }
+
+            }
+         }
+        }
+        else{
+            notification=0;assignedTo=0;flag=0; type=req.body.moduleType;
+        }
+
+        modelPortal.notification(edit,notificationForApproveReject,type,notification,assignedTo,flag,req.session.userId, req.session.retailerId,function(err, result) {
+             if (err) {
+                console.log(err);
+                 next(err);
+                 res.json('0');
+             } else {
+                console.log('noti_bug-------------',result);
+                req.session.notification=null;
+
+                req.session.notification=result[0][0];
+                console.log('req.session.noti in portal.js after updating or adding-------',req.session.notification);
+                if(req.body.editNotification==0){
+                    if(req.body.moduleTypeIndex=='index'){
+                        res.json('0');
+                    }
+                    else{
+                        next();
+                    }
+                }
+                else{
+                    res.json('0');
+                   /* if(type=='timesheet'){
+                        console.log('inside res.json in timesheet');
+                        res.json('0');
+                    }*/
+                }
+                    
+             }
+         });
+     },
+
+
+
     customRolesExist: function(req, res, next) {
          modelPortal.customRolesExist(req.session.userId,req.session.roleId, req.session.retailerId,req.body.roleName,function(err, result) {
              if (err) {
@@ -3555,6 +3631,7 @@ updateHoliday: function(req,res,next){
              } else {
                 req.result1=result;
              req.session.url = req.url;
+             console.log('req.session.noti in portal.js in case home-------',req.session.notification);
              next();
              }
          });

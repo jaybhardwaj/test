@@ -31,6 +31,20 @@ module.exports = {
             //console.log(err,result);
         });
     },
+
+    notification: function(edit,notificationForApproveReject,type,notification,assignedTo,flag,userid, retailerid, callback) {
+        var query = {
+            sql: 'call usp_getNotification(?,?,?,?,?,?,?,?)',
+            values: [edit,notificationForApproveReject,type,notification,assignedTo,flag,userid, retailerid]
+        };
+        console.log(query)
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    },
+
+
+
     customRolesExist:function(userId,roleId,retailerId,roleName, callback) {
         var query = {
             sql: 'call usp_customRolesExist(?)',

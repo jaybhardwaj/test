@@ -23,6 +23,8 @@ app.use(bodyParser({
 	app.post('/registration', portal.registration);
 	app.post('/recoverPassword', portal.recoverPassword);
 	app.post('/login', auth.login);
+  app.post('/getNotification', portal.notification);
+  app.post('/updateNotification', portal.notification);
 	app.post('/checkPassword', portal.checkPassword);
 	app.post('/EmailVerification', portal.EmailVerification);
   app.get("/updateStatusReqViaMail",url.updateStatusReqViaMail,portal.updateStatusReq,render.redirect);
@@ -46,7 +48,7 @@ app.post('/blockUser',portal.blockUser);
 	app.post('/getAllBugtoexport',portal.exportBug);
 	app.get('/viewBug',url.viewBug,portal.viewBug,render.redirect);
 	app.get('/raiseBug',url.raiseBug,portal.raiseBug,render.redirect);
-	app.post('/addBug',upload.single('addBugUpload'),url.addBug,portal.addBug,render.redirect);
+	app.post('/addBug',upload.single('addBugUpload'),url.addBug,portal.notification,portal.addBug,render.redirect);
 	app.post('/bugDetails',url.bugDetails,portal.bugDetails,render.redirect);
 	app.post('/updateBugDetails',url.updateBugDetails,portal.updateBugDetails,render.redirect);
 	app.post('/addComment',url.addComment,portal.addComment,render.redirect);
@@ -155,7 +157,7 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
 
    //---------------------------------TimeSheet-----------------------------------------
 	app.get('/timesheet',url.fillTimeSheet,portal.getTimeSheetData,render.redirect);
-    app.post('/submitTimesheet',portal.submitTimesheet);
+    app.post('/submitTimesheet', portal.notification, portal.submitTimesheet);
      app.post('/submitTimesheetAssignment',portal.submitTimesheetAssignment);
       app.post('/checkUserTimesheet',portal.checkUserTimesheet);
        app.post('/getUserUnderSupervisor',portal.getUserUnderSupervisor);
@@ -164,7 +166,7 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
        app.post('/otherTimeSheet_setPage',portal.otherTimeSheet_setPage);
 
 
-       app.post('/ApprovedOrReject',portal.ApprovedOrReject);
+       app.post('/ApprovedOrReject', portal.notification, portal.ApprovedOrReject);
           app.post('/SubmitRejectReason',portal.SubmitRejectReason);
 
 

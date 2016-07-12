@@ -4,6 +4,38 @@
         font-size: 20px;
         color: #f05f40;
     }
+     #noti_Container, #noti_Container_timesheet {
+        position:relative;
+    }
+         #noti_Counter_timesheet {
+        display:block;
+        position:absolute;
+        background:#E1141E;
+        color:#FFF;
+        font-size:12px;
+        font-weight:normal;
+        padding:1px 3px;
+        margin:10px 0 0 98px;
+        border-radius:12px;
+        -moz-border-radius:12px; 
+        -webkit-border-radius:12px;
+        z-index:1;
+    }
+    #noti_Counter {
+        display:block;
+        position:absolute;
+        background:#E1141E;
+        color:#FFF;
+        font-size:12px;
+        font-weight:normal;
+        padding:1px 3px;
+        margin:10px 0 0 45px;
+        border-radius:12px;
+        -moz-border-radius:12px; 
+        -webkit-border-radius:12px;
+        z-index:1;
+    }
+
 </style>
  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top" style="background-color:white;font-family: Merriweather,'Helvetica Neue',Arial,sans-serif;padding-right:10px;padding-left:10px">
 
@@ -26,11 +58,15 @@
                         <a  class="page-scroll " href="/portal"  >  <label class="header-title" >Setting </label>  </a>
                     </li>
                     <%}%>
-                        <%if(myModules.indexOf(1)>=0){%>
-                    <li class="modulemenu bug-tab" >
-                        <a  class="page-scroll " href="/bugHome">  <label class="header-title" >BUG </label>  </a>
+
+                           <%if(myModules.indexOf(1)>=0){%>
+                    <li id="noti_Container" class="modulemenu bug-tab" >
+                        <div id="noti_Counter"></div>
+                        <a id="bugAdminHeader"  class="page-scroll " href="/bugHome">  <label class="header-title" >BUG </label>  </a>
                     </li>
                            <%}%>
+
+
                         <%if(myModules.indexOf(6)>=0){%>
                      <li class="modulemenu document-tab">
                      <a class="page-scroll "  onclick="return verifyCustomRole()">
@@ -50,7 +86,8 @@
                     </li >
                     <%}%>
                         <%if(myModules.indexOf(2)>=0){%>
-                     <li class="modulemenu timesheet-tab">
+                     <li  id="noti_Container_timesheet" class="modulemenu timesheet-tab">
+                        <div id="noti_Counter_timesheet"></div>
                         <a class="page-scroll " href="/timesheet?flag=0"><label class="header-title">TIMESHEET  </label></a>
                     </li>
                    <%}%>
@@ -323,6 +360,33 @@
                     if(difference.length!=0){
                         $("#cart").removeClass("hide");
                     }
+
+
+                    /*alert('bug--<%=notification.bug_notification%>     --time-- <%=notification.time_notification%>');
+
+
+            if('<%=notification.time_notification%>' != 0){
+                $('#noti_Counter_timesheet')
+                .css({ opacity: 0 })
+                .text('<%=notification.time_notification%>')              
+                .css({ top: '-10px' })
+                .animate({ top: '-2px', opacity: 1 }, 500);
+            }
+
+            if('<%=notification.bug_notification%>' != 0){
+                $('#noti_Counter')
+                .css({ opacity: 0 })
+                .text('<%=notification.bug_notification%>')              
+                .css({ top: '-10px' })
+                .animate({ top: '-2px', opacity: 1 }, 500);
+            }*/
+             
+             //if($('#noti_Counter').html() == ''){$("#noti_Counter").fadeOut('slow'); }
+
+             //if($('#noti_Counter_timesheet').html() == ''){$("#noti_Counter_timesheet").fadeOut('slow'); }
+
+
+
 
      });
    /* var progressBar = $('#progress-bar'),width=0;

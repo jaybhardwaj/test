@@ -101,6 +101,42 @@
 <script>
 $(document).ready(function() {
   $('.bughome-img').addClass('active');
+
+  
+
+	        
+
+	    if('<%=notification.time_notification%>' != 0){
+                $('#noti_Counter_timesheet')
+                .css({ opacity: 0 })
+                .text('<%=notification.time_notification%>')              
+                .css({ top: '-10px' })
+                .animate({ top: '-2px', opacity: 1 }, 500);
+            }
+
+            if('<%=notification.bug_notification%>' != 0){
+                $('#noti_Counter')
+                .css({ opacity: 0 })
+                .text('<%=notification.bug_notification%>')              
+                .css({ top: '-10px' })
+                .animate({ top: '-2px', opacity: 1 }, 500);
+            }
+
+
+            if( $('.bug-tab').attr('class') == 'modulemenu bug-tab active' ){
+	        	$('#noti_Counter').fadeOut('slow');
+	        	$.ajax({
+                    url: '/updateNotification',
+                    type: 'post',
+                    data: {'moduleType':'bug',"editNotification":1 },
+                    dataType: 'json',
+                    success: function(data) { console.log('aaaaa----',data);
+                        
+                    }
+                });
+	            return false;
+	        }
+
   });
 </script>
 
