@@ -362,7 +362,7 @@
                     }
 
 
-                    /*alert('bug--<%=notification.bug_notification%>     --time-- <%=notification.time_notification%>');
+                   // alert('bug--<%=notification.bug_notification%>     --time-- <%=notification.time_notification%>');
 
 
             if('<%=notification.time_notification%>' != 0){
@@ -379,14 +379,25 @@
                 .text('<%=notification.bug_notification%>')              
                 .css({ top: '-10px' })
                 .animate({ top: '-2px', opacity: 1 }, 500);
-            }*/
-             
-             //if($('#noti_Counter').html() == ''){$("#noti_Counter").fadeOut('slow'); }
+            }
 
-             //if($('#noti_Counter_timesheet').html() == ''){$("#noti_Counter_timesheet").fadeOut('slow'); }
+              if( $('.bug-tab').attr('class') == 'modulemenu bug-tab active' ){
 
-
-
+                //if( $('.viewbug-img').attr('class') == 'viewbug-img active' ){
+                        $('#noti_Counter').fadeOut('slow');
+                        $.ajax({
+                            url: '/updateNotification',
+                            type: 'post',
+                            data: {'moduleType':'bug',"editNotification":1 },
+                            dataType: 'json',
+                            success: function(data) {
+                                
+                            }
+                        });
+                        return false;
+               // }
+                
+            }
 
      });
    /* var progressBar = $('#progress-bar'),width=0;
