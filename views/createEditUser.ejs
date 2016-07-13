@@ -711,7 +711,7 @@ function getDefaultModule(){
               }else{
               $("#tab" + prevOrNext).click();
               }
-     }
+     }  
 
 
     function showClient(){
@@ -745,12 +745,11 @@ function getDefaultModule(){
         $("#btnuser").text('Create User');
         $("#hdnId").val('0');
     }
-     // check= checkFinal();
-      function validBasicInfo1() {
+    function validBasicInfo1() {
         pressButton=1;
         return validBasicInfo();
-      }
-      function validBasicInfo() { 
+    }
+    function validBasicInfo(){ 
              var retailerInfo = <%-JSON.stringify(retailerInfo[0].emailId)%>;
              var validEmailAccRetailer= retailerInfo.substring(retailerInfo.indexOf('@')+1);
              var userEmail=$('#emailId').val().trim();
@@ -796,8 +795,6 @@ function getDefaultModule(){
                     return false;
                 }
             }
-
-
             var cno=$('#contact-number').val();
             if( ($('#contact-number').val().trim()!='') &&(cno.length<10||cno.length>12||isNaN(cno)||cno.trim().length<1)) 
             {   if(pressButton==2 || pressButton==4|| pressButton==3){
@@ -892,22 +889,25 @@ function getDefaultModule(){
                 alert('Error:Expense limit is required');
                 return false;
               }
-              if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
-                alert('Error:Expense limit should be greated than 0');
-                return false;
-              }
+              if($('#modules').val()!=null){
+                if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
+                  alert('Error:Expense limit should be greated than 0');
+                  return false;
+                }
                 if(($("#isClient").val()=='1') && ($("#clientId").val()=='0')&&($('#modules').val().indexOf("2")>=0)){
-                alert('Error:Client is required');
-                return false;
-              }
-               
-               if(($("#hrRole").val().indexOf('3')>-1) && ($("#hodList").val()=='0')&&($('#modules').val().indexOf("7")>=0)){
-                alert('Error:HOD is required');
-                return false;
-              }  
+                  alert('Error:Client is required');
+                  return false;
+                }
+                if($("#hrRole").val()!=null){
+                  if(($("#hrRole").val().indexOf('3')>-1) && ($("#hodList").val()=='0')&&($('#modules').val().indexOf("7")>=0)){
+                    alert('Error:HOD is required');
+                    return false;
+                  } 
+                }
+              } 
               return addUser(0);
           } 
-      }
+  }
 
       function validFinance(){
               subFlag=0;
