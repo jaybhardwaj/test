@@ -965,9 +965,13 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                         charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a onclick="downloadFile(row_'+tabledata[i].id+','+tabledata[i].id+')"  download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate +'</td><td>' ;
                                 if(tabledata[i].Rating==null){
                                var rateString= "not yet rated." ;
-                                }else{
-                                   var rateString=  tabledata[i].Rating ;
-                                }
+                               }
+                               else{
+                                    var rateString="";
+                                    for(var k=0;k<tabledata[i].Rating;k++){
+                                        rateString+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>' ;
+                                     }
+                               }
                            
                                 charstr+=rateString+'</td><td>';
                                 for(var a=1;a<=5;a++){
