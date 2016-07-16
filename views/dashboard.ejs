@@ -4,32 +4,61 @@
 
 <head>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.11/angular.min.js"></script>
-	 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="/script/angular-toggle/angular-toggle-switch.css" rel="stylesheet">
+	<link href="/script/angular-toggle/angular-toggle-switch-bootstrap.css" rel="stylesheet">
+
+	<script src="/script/angular-toggle/angular-toggle-switch.min.js"></script>
+
+
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+
+
+
+
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+
+	
+
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
+
+	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+
+	
+
+
+
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.7.0/lodash.min.js"></script>
+
 
 	<% include ./partials/head %>
 	<style>
 
-		 .node {
-      cursor: pointer;
-    }
+		.node {
+			cursor: pointer;
+		}
 
-    .node circle {
-      fill: #fff;
-      stroke: steelblue;
-      stroke-width: 1.5px;
-    }
+		.node circle {
+			fill: #fff;
+			stroke: steelblue;
+			stroke-width: 1.5px;
+		}
 
-    .node text {
-      font: 10px sans-serif;
-    }
+		.node text {
+			font: 10px sans-serif;
+		}
 
-    .link {
-      fill: none;
-      stroke: #707070;
-      stroke-width: 0.5px;
-    }
+		.link {
+			fill: none;
+			stroke: #707070;
+			stroke-width: 0.5px;
+		}
 		/*************** mylegend styling ******************/
 		.my-legend {
 			background-color: #CCFFFF   ;
@@ -79,31 +108,174 @@
 
 </head>
 
+
 <body ng-controller="visualCtrl">
 	
 	<div>
 		<% include ./partials/adminheader %>
 	</div>
-	
+
 	<div class="secondry-color"  id="accordions"  style="padding-bottom:2%;font-family: Merriweather,'Helvetica Neue',Arial,sans-serif"> 
-		<script src="//d3js.org/d3.v3.min.js"></script>
-		<script src="/script/angular/script.js"></script>
-		<div class='my-legend'>
-			<div class='legend-title'>Emp under direct supervision</div>
-			<div class='legend-scale'>
-				<ul class='legend-labels'>
-					<li><span style='background:#66FF33;'></span>More than 20%</li>
-					<li><span style='background:#0099FF;'></span>10% to 20%</li>
-					<li><span style='background:#8DD3C7;'></span>5% to 10%</li>
-					<li><span style='background:#CCFF66;'></span>0 to 5%</li>
-					<li><span style='background:#fff;'></span>0</li>
-					<li><h5><b>Total Employees : {{totalEmployees}}</b></h5></li>
-				</ul>
-			</div>
-		</div>
+		
+		<br>
+
+		
+
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-sm-1">
+
+					<div ng-dropdown-multiselect="" options="example14data" selected-model="example14model"  ng-change="myFunc()" ng-model="example14model" checkboxes="true" extra-settings="example14settings">
+
+					</div>
+
+				</div>
+
+				<div class="col-sm-1">
+
+				</div>
+
+				
+
+				<div class="col-sm-1">
+
+				</div>
+
+    <!--  <div class="col-sm-4">
+
+       <pre>Selected Value (Id): {{example14model}} | json  xxx is {{count}}</pre>
+
+   </div> -->
+
+   
+
+   <div class="col-sm-3">
+
+   	<toggle-switch ng-model="switchStatus" on-label="Individual" off-label="Summated">
+
+   </toggle-switch>  
+
+</div>
+
+
+
+<select ng-model="myModel"
+
+ng-options="record.id as record.value for record in records" ng-change="update()">
+
+<option value=''>- Apply Date Filters -</option>
+
+</select>
+
+
+
+
+
+<div ng-show="myModel==4">
+
+	<div class="col-sm-2">
+
+		<p class="input-group">
+
+			<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+
+			<span class="input-group-btn">
+
+				<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+
+			</span>
+
+		</p>
 
 	</div>
+
+	
+
+	<div class="col-sm-2">
+
+		<p class="input-group">
+
+			<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+
+			<span class="input-group-btn">
+
+				<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+
+			</span>
+
+		</p>
+
+	</div>
+
+</div>
+
+</div>
+
+
+
+<!-- <pre>Selected date is: <em>{{dt | date:'fullDate' }} && {{dt2}}</em></pre> -->
+
+</div>
+
+   <!--  <div class="row">
+
+        <div class="col-md-6">
+
+            <label>Format:</label> <select class="form-control" ng-model="format" ng-options="f for f in formats"><option></option></select>
+
+        </div>
+
+    </div> -->
+
+    
+
+    <hr />
+
+    
+
+    
+
+    
+
+    <div class='my-legend'>
+
+    	<div class='legend-title'>No. of employees under direct supervision</div>
+
+    	<div class='legend-scale'>
+
+    		<ul class='legend-labels'>
+
+    			<li><span style='background:lightgreen;'></span>More than 20%</li>
+
+    			<li><span style='background:#8DD3C7;'></span>10% to 20%</li>
+
+    			<li><span style='background:yellow;'></span>5% to 10%</li>
+
+    			<li><span style='background:#FB8072;'></span>0 to 5%</li>
+
+    			<li><span style='background:#fff;'></span>0</li>
+
+    			<li><h5><b>Total Employees : {{totalEmployees}}</b></h5></li>
+
+    		</ul>
+
+    	</div>
+
+    </div>
+
+    
+
+    
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="/script/angular/script.js"></script>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+
+</div>
 </body>
+
 
 <footer>
 	<% include ./partials/footer %>
@@ -115,10 +287,10 @@
 		$(".report-img").addClass("active");
 
 		$('#noti_Counter_timesheet')
-            .css({ opacity: 0 })
-            .text('<%=notification.time_notification%>')              
-            .css({ top: '-10px' })
-            .animate({ top: '-2px', opacity: 1 }, 500);
+		.css({ opacity: 0 })
+		.text('<%=notification.time_notification%>')              
+		.css({ top: '-10px' })
+		.animate({ top: '-2px', opacity: 1 }, 500);
 
 	});
 </script>
