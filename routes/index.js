@@ -227,14 +227,18 @@ app.post('/emptyProj',portal.emptyProj);
 app.post('/saveTask',portal.saveTask);
 app.get('/projStatus',url.projStatus,portal.projStatus,render.redirect);
 app.post('/insNewVer',portal.insNewVer);
+
 /*latest change by saurav*/
     app.get('/changePassWordPage',url.changePassWordPage,render.redirect);
     app.post('/submitUserPassword',portal.submitUserPassword);
     /*----*/
+
+app.post('/createExcelProj',portal.createExcelProj);
+
+
 //-------------------------Admin Routes----------------------------------------------------
  app.use(function(req, res,next) {
-    if(req.session.roleId!=1){
-    	res.redirect('/portal');
+    if(req.session.roleId!=1){    	res.redirect('/portal');
     }
     else{
     	next();
