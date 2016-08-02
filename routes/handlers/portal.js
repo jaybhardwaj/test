@@ -1,6 +1,7 @@
  'use strict';
    
 var modelPortal = require('../../model/modelPortal');
+var portalJsForProjectmngmt = require('../../public/js/portalProject.js');
 var mailTemplates = require('../../lib/mailtemplates');
 var randomString = require('../../lib/common').generateRandomString;
 var flag = require('../../config/config').flagUsed;
@@ -55,6 +56,7 @@ var locationId = [],
  var PPT = require('ppt');
  var holidayArrDateTimeArr = [];
  var saturdayOffFlag      = 1;
+var excel = require('node-excel-export');
 
 
  module.exports = {
@@ -168,7 +170,6 @@ var locationId = [],
      } ,
         
     checkPassword: function(req, res, next) {
-        console.log('hello');
          modelPortal.checkPassword(req.body.userid,req.body.password,0,function(err, result) {
              if (err) {
                  next(err);
@@ -1568,7 +1569,6 @@ getRolesInfo : function(req,res,next){
        res.json(allRoleresult);
     });
 },
-<!---added by saurav ------- -->
 
 Docmaster:function(req,res,next){
         modelPortal.Docmaster(req.session.userId,req.session.roleId,req.session.retailerId,req.body.type,req.body.oldname,req.body.name,req.body.flag,req.session.croleId,function(err,result){
@@ -5138,7 +5138,8 @@ upload_resume:function(req,res,next){
         });
     },
     task :function(req,res,next){
-        var query = require('url').parse(req.url, true).query;
+
+       var query = require('url').parse(req.url, true).query;
         var flag = query.flag;
         var versionFlag = query.versionFlag;
         if(flag==undefined){
@@ -5152,13 +5153,13 @@ upload_resume:function(req,res,next){
         //console.log('retailerId is',req.session.retailerId,'userId is',req.session.userId);
 
      modelPortal.task(flag,req.session.retailerId,versionFlag,req.session.userId,function(err,result){
-
+              console.log('in here');    
             if(err){
-                ////console.log("there is an error",err);
+            console.log("there is an error",err);
             }   
             else{
             req.treeComponent = result[0];
-            console.log('treeComponent is',req.treeComponent);
+         //   console.log('treeComponent is',req.treeComponent);
             req.maxid         = result[1][0].endId;
             req.minid         = result[1][0].startId;
             req.flag          = flag;
@@ -5178,23 +5179,13 @@ upload_resume:function(req,res,next){
                }
 
             req.projectAndVersions = result[6];
-            if(result[7].length){
-               req.isManagerFlag = true;
-                 
-         }
+              
 
-                           else{
+       req.submittedProject = result[8];
+       req.submittedVersion = result[9];
 
-                                req.isManagerFlag = false;
-                                }  
-
-
-                  
-                req.submittedProject = result[8];
-                req.submittedVersion = result[9];
-
-         if(req.submittedVersion.length==0){
-              req.submittedVersion  = [];
+     if(req.submittedVersion.length==0){
+            req.submittedVersion  = [];
          }
 
          if(req.submittedProject.length==0){
@@ -5227,29 +5218,86 @@ upload_resume:function(req,res,next){
                    
 
                 }
-                    if (result[10].length) {
-               console.log('RESULT length supports here');
 
-                        var submitted;
-                        req.userFlag = 1;
-                         if (!req.treeComponent.length) {
-                                submitted = 0;
-                          } else {
-                          submitted = req.treeComponent[0].isSubmit;
-                          }
-                         if(submitted != 2) {
-                         req.treeComponent = [];
-                          }else {
-                            console.log('reached in else here',req.tree);
-                         req.treeComponent = findDataFromUserFlag(result[0],req.session.userId);
-                           }
-                           }
-                    else{
-                      req.userFlag = 0;
-                        }
-            
-           // ////console.log('alldata here',req.treeComponent,req.maxid,req.minid);
-                        next();
+
+                    if(result[12].length){
+                        req.isManagerFlag = true;
+                        req.isCreaterFlag = false;
+                        req.userFlag = false;
+                            req.collFlag = false;
+
+                                         }
+
+                else if(result[7].length){
+                        req.isCreaterFlag = true;
+                        req.isManagerFlag = false;
+                           req.userFlag = false;
+                    req.collFlag = false;
+
+                                          }
+                else if(result[10].length){
+                           req.userFlag = true;
+                        req.isCreaterFlag = false;
+                        req.isManagerFlag = false;
+                            req.collFlag = false;
+
+                      var submitted;
+                          
+if(!req.treeComponent.length) {
+            submitted = 0;
+                              } 
+                        else {
+                   submitted = req.treeComponent[0].isSubmit;
+                             }
+          if(submitted != 2) {
+       req.treeComponent = [];
+                             }
+                        else {
+     
+                  req.treeComponent = findDataFromUserFlag(result[0],req.session.userId);
+                             }
+                                      }
+                                      else if(result[16].length){
+                        req.userFlag = false;
+                        req.isCreaterFlag = false;
+                        req.isManagerFlag = false;
+                        req.collFlag = true;
+
+                                      }
+                                  else{
+
+                        req.userFlag = false;
+                   req.isCreaterFlag = false;
+                  req.isManagerFlag = false;
+                    req.collFlag = false;
+
+                    req.treeComponent = [];
+
+                                     }
+     console.log('user flag is ',req.userFlag,'creater Flag is ',req.isCreaterFlag,'manager flag ',req.isManagerFlag);
+     
+                   req.holidayArr = [];
+                for(var i=0;i<result[11].length;i++){
+                   req.holidayArr.push(result[11][i].holidayDate);
+                                                    }
+            var allcommentsArrComment = [];
+            var allcommentsArrId     =  [];
+               req.allcommentsSet = result[13]; 
+            for(var i =0;i<result[13].length;i++) {
+             allcommentsArrId[i] =    result[13][i].treeId;
+             allcommentsArrComment[i] = result[13][i].comment;
+            }       
+            req.allcommentsArrComment = allcommentsArrComment;   
+            req.allcommentsArrId      = allcommentsArrId;  
+             req.usersAll    = result[14]; 
+             console.log('result[15] is ',result[15]);
+             if(!result[15].length){
+                req.collaborateId = '';
+             }
+             else{
+              req.collaborateId       =  result[15][0].collaborateIds;          
+                 }
+             next();
                 } 
         });
                         
@@ -5269,11 +5317,45 @@ modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
         });
    },
   saveTask :function(req,res,next){
-      modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.body.userId,function(err,result){
+      modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.body.userId,req.body.commentString,req.body.collaborateId,function(err,result){
             if(err){
                 ////console.log("there is an error",err);
             }   
             else{
+                   if(result.length>2){
+                     var project   = result[0][0].projectTitle;
+                      console.log('req body submitFlag',req.body.submitFlag);
+                       if(req.body.submitFlag==2){
+                          for(var i = 0 ;i<result[1].length;i++){
+                        var email = result[1][i].email;
+                        console.log('email is',email,'project is',project);
+                          mailTemplates.projectApprovedRes(email,project,function(err,result1){
+
+                          });    
+                          }
+                       for(var i = 0 ;i<result[2].length;i++){
+                        var email = result[2][i].email;
+                        console.log('email is',email,'project is',project);
+                          mailTemplates.projectApprovedMan(email,project,req.session.firstName,function(err,result1){
+
+                          });    
+                          }
+
+                      }
+                      else{
+                             for(var i = 0 ;i<result[1].length;i++){
+                        var email = result[1][i].email;
+                        console.log('email123 is',email,'project123 is',project);
+                          mailTemplates.projectRejectMan(email,project,req.session.firstName,req.body.remarks,function(err,result1){
+
+                          });    
+                          }
+ 
+
+                      }
+                    
+
+                        }
         
                  res.json('smile');
                 } 
@@ -5290,49 +5372,17 @@ modelPortal.projStatus(req.session.retailerId,function(err,result){
              ////console.log("there is an error",err);
             }   
             else{
-
-
-        req.session.holidayArr = ['21/07/2016','27/07/2016','10/08/2016','18/08/2016'];
-        req.session.workingHoursInADay = 9;
-        req.session.holidayArrDate = [];
-
-for(var i = 0;i<req.session.holidayArr.length;i++){
-  var holidayArrDateTime = req.session.holidayArr[i].split('/');
-holidayArrDateTime[0]    = parseInt(holidayArrDateTime[0]);
-holidayArrDateTime[1]    = parseInt(holidayArrDateTime[1]) -1;
-holidayArrDateTime[2]    = parseInt(holidayArrDateTime[2]);
-if(holidayArrDateTime[2].length==2){
-  holidayArrDateTime[2] = '20'+ holidayArrDateTime[2];
-}
- holidayArrDateTime = new Date(holidayArrDateTime[2], holidayArrDateTime[1], holidayArrDateTime[0]); 
- holidayArrDateTime = holidayArrDateTime.getTime();
-holidayArrDateTimeArr.push(holidayArrDateTime);
-
-}
- //console.log(result[1],'***********WAIT*************',result[0].length);
-
-                  req.projectDetails = result[0];
                   var maxid = 1;
                   if(result[0].length!=0){
                           maxid =  result[0][result[0].length-1].id + 1;
                   }
+                  req.result  = result;
+                  console.log('result is    ',req.result);
 
-        console.log('result[1] is',result[1]);
-                   req.actProjectCalculations = calculateActualCompletion(result[1]);
-                   req.effProjectCalculations  = calculateEffCompletion(result[0]);
-                   req.projectTree              =   result[1];
-                   req.totalHoursBooked          =  addSum(result[1]);
-                   req.hoursFromTimesheetWbs     =  addSum(result[2]); 
-             req.percCompletedOnHoursBooked      =   getPercentage(req.totalHoursBooked,req.hoursFromTimesheetWbs,result[1]);
-            req.totalHoursBookedFromWbs                  =   totalHoursBookedFromWbs(result[2]);
-            req.calculatePercentageCompletedOnHoursBooked   =   calculatePercentageCompletedOnHoursBooked(req.totalHoursBookedFromWbs,result[1])
-             req.actualEndDate      =     calculateActualEndDate(result[1])
-                   //console.log('projHours is',req.projHours ,'hourSumWbs is',req.hourSumWbs);
+                      //console.log('projHours is',req.projHours ,'hourSumWbs is',req.hourSumWbs);
                   // console.log('***********',req.effProjectCalculations);
 
-
-                
-                    next();
+   next();
 
                  
                 } 
@@ -5370,7 +5420,14 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
         });
 
 
-}
+},
+
+createExcelProj:function(req,res,next){
+
+
+createExcelHere(res,JSON.parse(req.body.projData),JSON.parse(req.body.bigArr),req.body.mailFlag,JSON.parse(req.body.receiverMail));
+
+},
 
 
      
@@ -5530,7 +5587,7 @@ function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
     var dateForYear = new Date();
     var yearForYear = dateForYear.getFullYear();
     yearForYear = yearForYear + '';
-    var CurrentYearArr = [yearForYear, yearForYear[0] + 'k' + yearForYear.slice(2, 3), yearForYear.slice(2, 3), "'" + yearForYear.slice(2, 3)];
+    var CurrentYearArr = [yearorYear, yearForYear[0] + 'k' + yearForYear.slice(2, 3), yearForYear.slice(2, 3), "'" + yearForYear.slice(2, 3)];
     var textarr = [];
     textarrNewLine.forEach(function(eachElement) {
         var array = eachElement.split(' ');
@@ -6169,7 +6226,7 @@ function blankentry(targetPath, req) {
 }
 
 
-function getDateTime(timeStamp,dateTimeLength) {
+/*function getDateTime(timeStamp,dateTimeLength) {
     var originalArr = [[],[]];
 for(var i = 0;i<2;i++){
       for(var j =0;j<dateTimeLength+1;j++){
@@ -6184,7 +6241,7 @@ for(var i=0;i<timeStamp.length;i++){
     ////console.log('StartDate is ',timeStamp[i].startDate,'endDate is',timeStamp[i].endDate); 
 }
 
-    /*****************Today date Calculation**************************/
+    /*****************Today date Calculation**************************
       var nowDateTime = new Date();
  var nowDateTimeForEmptyStartEndDate = nowDateTime;
     var nowDateTimeArr = [];
@@ -6198,7 +6255,7 @@ for(var i=0;i<timeStamp.length;i++){
 
 
 
-    /********************************Actual completetion********************************/
+    /********************************Actual completetion********************************
 
     var compInc = 0;
     var completeArr = setAllValuesInArray();
@@ -6207,7 +6264,7 @@ for(var i=0;i<timeStamp.length;i++){
 
 
 
-/**insert here*/ 
+/**insert here*
  for (var inc = 0; inc < timeStamp.length; inc++) { //if-else
        if (inc != timeStamp.length - 1) {
            while (timeStamp[inc].project == timeStamp[inc + 1].project) {
@@ -6317,7 +6374,7 @@ for(var i=0;i<timeStamp.length;i++){
 
    }
 
- /******End*******/
+ /******End*******
 
 
 
@@ -6331,7 +6388,7 @@ for(var inc=0;inc<completeArr.length;inc++){
 
 
 
-    /******************Asli Estimated Calculation***************************/
+    /******************Asli Estimated Calculation***************************
         var sumEff = 0,sumEffTotal = 0 ;
    for (var inc = 0; inc < timeStamp.length; inc++) {
 
@@ -6399,386 +6456,11 @@ originalArr[i][j] = Math.round(originalArr[i][j]);
 
 }
 
+*/
 
 
 
-
-function getEffNumberOfDays(EndDateTime,StartDateTime){
-    if(!EndDateTime||!StartDateTimeInTime){
-        return 0;
-    }
-var EndDateTimeValue =  EndDateTime.split('/');
-var StartDateTimeValue = StartDateTime.split('/');
-if(EndDateTimeValue.length<3||StartDateTimeValue.length<3){
-    return 0;
-} 
-if(StartDateTimeValue[2].length==2){ StartDateTimeValue[2] = '20' + StartDateTimeValue[2];}
-if(EndDateTimeValue[2].length==2){ EndDateTimeValue[2] = '20' + EndDateTimeValue[2];}
-
-
-var endDateTimeInTime = new Date(parseInt(EndDateTimeValue[2]),parseInt(EndDateTimeValue[1]), parseInt(EndDateTimeValue[0]));
-    endDateTimeInTime = endDateTimeInTime.getTime();
-
-    var StartDateTimeInTime =   new Date(parseInt(StartDateTimeValue[2]),parseInt(StartDateTimeValue[1]), parseInt(StartDateTimeValue[0]));
-       StartDateTimeInTime  = StartDateTimeInTime.getTime();
-
-
-   ////console.log('EndDateTimeInTime is',endDateTimeInTime,'StartDateTimeInTime is',StartDateTimeInTime,'diff is',endDateTimeInTime-StartDateTimeInTime);
-
-if((endDateTimeInTime-StartDateTimeInTime)<0){
-return 0;
-}
-return (endDateTimeInTime - StartDateTimeInTime);
-
-
-
-}
-
-
-
-
-
-function setAllValuesInArray(){
-
-
-  var arr = [];
-for(var i = 0;i<200;i++){
-  arr[i] = 0;
-}
-return arr;
-}
-
-
-   function addSum(projTreeArr){
-   
-   var sumArr =  setAllValuesInArray();
-for(var i=0;i<projTreeArr.length;i++){
-    var effInHrsHereIs = parseeIntForNan(projTreeArr[i].effortInHrs);
-   sumArr[projTreeArr[i].project] =  sumArr[projTreeArr[i].project] + effInHrsHereIs;
-}
-   return sumArr;
-       }
-
-
-
-
-
-
-
-
-
-
-
-
-function getPercentage(wbs,totalEffort,projTreeArr){
-       var proj = setAllValuesInArray();
-for(var i = 0;i<projTreeArr.length;i++){
-    try{
- proj[projTreeArr[i].project]  =  (wbs[projTreeArr[i].project]/totalEffort[projTreeArr[i].project])*100; 
-   }
-
-   catch(err){
-               
-        proj[projTreeArr[i].project]  =  0;
-    }
- 
-}
-return proj;
-
-}
-
-
-
-function MathRound(num){
-  return  (Math.round(num)*100)/100;
-}
-
-
-function calculateActualCompletion(RawData){
-  var bigArr = setAllValuesInArray();
-  var sumArr =  setAllValuesInArray();
-for(var i=0;i<RawData.length;i++){
-    var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
-   sumArr[RawData[i].project] =  sumArr[RawData[i].project] + effInHrsHereIs;
-}
-
-
-for(var i=0;i<sumArr.length;i++){
-  if(sumArr[i]==0){
-    sumArr[i] = 100;
-  }
-}
-
-for(var i = 0 ;i<RawData.length;i++){
-  var percCompleted = parseeIntForNan(RawData[i].percCompleted);
-  var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
-  var sumArrthis     = sumArr[RawData[i].project];
- console.log('percCompleted is',percCompleted,'dsasdasdasd',RawData[i].percCompleted,'effortInHrs',RawData[i].effortInHrs,'proj',RawData[i].project,'sumArrthis is',sumArrthis);
-bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((effInHrsHereIs*percCompleted)/sumArrthis);
-
-console.log('bigArr[RawData[i].project] is',bigArr[RawData[i].project]);
-
-}
-
-for(var i = 0;i<bigArr.length;i++){
-  //bigArr[i] = bigArr[i]*100;
-  bigArr[i] = MathRound(bigArr[i]);
-}
-
-
-return bigArr;
-
-}
-
-
-
-function parseeIntForNan(data){
-if(isNaN(data)||data==null){
-  return 0;
-}
-
-else return parseInt(data);
-
-}
-
-function calculateEffCompletion(RawData){
-
-  var bigArr = setAllValuesInArray();
-var nowDate = new Date();
-var dd  =   nowDate.getDate();
-var mm  =   nowDate.getMonth() + 1;
-var yy  =    nowDate.getFullYear();
-var nowDate  = dd+'/'+mm+'/'+yy;
-for(var i =0;i<RawData.length;i++){
- 
- var startDate  = RawData[i].newPlannedStartDate
-  var endDate    = RawData[i].newPlannedEndDate
- startDate       = startDate.split('/');
- endDate         = endDate.split('/');
- if(startDate[2].length==2){
-    startDate[2]  = '20' + startDate[2];
- }
- if(endDate[2].length==2){
-endDate[2] = '20' + endDate[2]
-
- }
- startDate       = startDate[0] +'/'+startDate[1] +'/'+startDate[2];
- endDate         = endDate[0] + '/' +endDate[1] + '/' +endDate[2];
-var numberOfDays  = calculateEffDays(endDate,startDate);
-var numberOfDays2 = calculateEffDays(nowDate,startDate);
-console.log()
-bigArr[RawData[i].id]  = MathRound((numberOfDays2*100)/numberOfDays);
-}
-
-
-return bigArr;
-
-}
-
-function calculateEffDays(sDateNew,sDateOld){
-  var effDays = 1;
-  sDateOld = sDateOld.split('/');
-  sDateNew =  sDateNew.split('/');
-   if(sDateOld.length==2){
-     sDateOld[2] = '20' + sDateOld[2];
-   }
-   if(sDateNew.length==2){
-    sDateNew[2] = '20' + sDateNew[2];
-   }
-   sDateNew[1] = (sDateNew[1] -1) + '';
-   sDateOld[1]  = (sDateOld[1] - 1)+ '';
-
-
-var sDateNew2 = new Date(sDateNew[2],sDateNew[1],sDateNew[0]);
-var sDateOld2 = new Date(sDateOld[2],sDateOld[1],sDateOld[0]);
-//sDateNew2 = sDateNew2.toString();
-//sDateOld2 = sDateOld2.toString();
-//debugger;
- var d = sDateOld[0];
-var m = sDateOld[1];
-var y = sDateOld[2];
-    
-
-  while(sDateNew2>sDateOld2){
-   sDateOld2 = new Date(y,m,d++);
-   if(calculateHoliday(sDateOld2)){
-     effDays++;
-   }
-   
-  }
-
-  while(sDateNew2<sDateOld2){
-  sDateOld2 = new Date(y,m,d--);
-   if(calculateHoliday(sDateOld2)){
-     effDays--;
-   }
-  } 
-
-  return effDays;
-
-}
-
-
-
-
-
-
-function  calculateHoliday(date){
-
- var weekEnds;
- if(!saturdayOffFlag){
- weekEnds =[0];
-}
-else {
-       weekEnds = [0,6];     
-    
-  }
-
- var m = date.getMonth();
-    var d = date.getDate();
-    var y = date.getFullYear();
-    var day = date.getDay();
-    var dateTime = date.getTime();
-   // debugger;
-  //  console.log('date is',d,' ',m,' ',y);
-  if(saturdayOffFlag==1){
-        weekEnds = [0,6]    
-    }
-else if(saturdayOffFlag ==0){
-       weekEnds = [0];
-     }
- 
-if(holidayArrDateTimeArr.indexOf(dateTime)!=-1){
-    return false;
-}
-else if(weekEnds.indexOf(day)!=-1){
-              return false;
-        }
-
-    else {
-        return true;
-         }
-
-
-
-}
-
-
-
-
-
-function totalHoursBookedFromWbs(RawData){
-
-var bigArr = setAllValuesInArray();
-
-
-for(var i = 0;i<RawData.length;i++){
-
-bigArr[RawData[i].projectId]  = RawData[i].effortInHrs;
-}
- return bigArr;
-
-}
-
-
-function calculatePercentageCompletedOnHoursBooked(wbsHours,hoursFromTree){
-
-var bigArr = setAllValuesInArray();
-var effortHrs = setAllValuesInArray();
-
-for(var i = 0 ;i<hoursFromTree;i++){
-  effortHrs[hoursFromTree[i].project] = effortHrs[hoursFromTree[i].project] + hoursFromTree[i].effortInHrs; 
-}
-
-for(var i = 0;i<hoursFromTree;i++){
-
-if(hoursFromTree[i].effortInHrs==0){
-   bigArr[hoursFromTree[i].project]  = 0;
-}
-
-else{
-          
-        bigArr[hoursFromTree[i].project] = (wbsHours[hoursFromTree[i].project]*100)/effortHrs[hoursFromTree[i].project];
-
-    }
-
-}
-return bigArr;
-
-}
-
-
-
-function calculateActualEndDate(RawData){
-var bigArr = setAllValuesInArray();
-for(var i =0;i<RawData.length;i++){
-    console.log('RawData[i].actEndDate is',RawData[i].actEndDate,'bigArr[RawData[i].id] is ',bigArr[RawData[i].id]);
-if(RawData[i].actEndDate==null||RawData[i].actEndDate==''){
-    console.log('in if');
-  bigArr[RawData[i].project] = 'alpha';
-}
-else if(bigArr[RawData[i].project]!='alpha'){
-    console.log('in else');
-  bigArr[RawData[i].project]  = maxOf(bigArr[RawData[i].project],RawData[i].actEndDate);
-  console.log('bigArr[RawData[i].id] ',bigArr[RawData[i].project],'actEndDate is ',RawData[i].actEndDate);
-
-}
-else{
-    console.log('work hard in silence');
-}
-
-}
-
-for(var i = 0;i<bigArr.length;i++){
-            if(bigArr[i]==0||bigArr[i]=='alpha'){
-                bigArr[i] = '';
-            }
- }
- //console.log('bigArr is',bigArr);
- return bigArr;
-
-}
-
-
-function maxOf(date1,date2){
-if(date1==0||date1=='0'){
-  return date2
-}
-
-var dateTime1 = conVertToDateTime(date1);
-var dateTime2 = conVertToDateTime(date2);
-
-if(dateTime1>dateTime2){
-  return date1;
-}
-else{
-         return date2;
- }
-
-}
-
-function conVertToDateTime(date1){
-   var date1Arr =  date1.split('/');
-
-if(date1Arr[2].length==2){
-  date1Arr[2] = '20'+date1Arr[2];
-}
-  var DateTime = new Date(date1Arr[2],date1Arr[1],date1Arr[0]);
-  return DateTime; 
-
-
-}
-
-
-
-
-
-
-/***************************task*****************************/
-    
-
-/****************************************task************************************/
-function findDataFromUserFlag(RawData,userId){
+function findDataFromUserFlag(RawData,userId){ 
    
    var DataArr = [];
 
@@ -6796,7 +6478,7 @@ function findDataFromUserFlag(RawData,userId){
 
 
 
-function getChildrenForParents(DataArr,parentId,RawData,level){
+function getChildrenForParents(DataArr,parentId,RawData,level){ 
 if(level>1)   return;
 for(var i = 0;i<RawData.length;i++){
     if(RawData[i].parentId==parentId){
@@ -6807,7 +6489,7 @@ for(var i = 0;i<RawData.length;i++){
 
 }
 
-function changeTheOnesForWhichNodesHaveToBeSeen(RawData,DataArr){
+function changeTheOnesForWhichNodesHaveToBeSeen(RawData,DataArr){ 
 var newRawData = [];
 for(var i =0;i<RawData.length;i++){
     if(DataArr.indexOf(i)!=-1){
@@ -6818,20 +6500,311 @@ for(var i =0;i<RawData.length;i++){
 return RawData;
 }
 
-
-function convertAllFirstChildrenToZero(RawData){
-    if(!RawData.length){
-    return;
-   }
-var parentId = RawData[0].parentId;
-
-for(var i =0;i<RawData.length;i++){
-     
-if(parentId==RawData[i].parentId){
-        RawData[i].parentId = 0;
+function createExcelHere(res,projectData,bigArr,mailFlag,receiverMail){
+var projName = projectData[0];
+var dateThis =  projectData[2];
+var verThis =  projectData[1];
+var nameStr  = projName +'_'+verThis+'.xlsx';
+var styles = { 
+  headerDark: {
+  
+    font: {
+      color: {
+        rgb: 'FF000000'
+      },
+      sz: 12,
+      bold: true,
+      underline: false
     }
+  },
+  cellPink: {
+    fill: {
+      fgColor: {
+        rgb: 'FFFFCCFF'
+      }
+    }
+  },
+  cellGreen: {
+    fill: {
+      fgColor: {
+        rgb: 'FF00FF00'
+      }
+    }
+  },
+ cellRed:{
+   fill: {
+      fgColor: {
+        rgb: 'FFFF0000'
+      }
+    }
+    
+
+ },
+ cellYellow:{
+   fill: {
+      fgColor: {
+        rgb: 'FFFFFF99'
+      }
+    }
+    
+
+ }
+};
+
+var heading = [
+  [{value: 'Project Name : '+projName, style: styles.headerDark},{value: 'version : '+verThis, style: styles.headerDark},{value: 'Date :'+dateThis, style: styles.headerDark}] // <-- It can be only values 
+];
+
+var specification = {
+  snumber: { // <- the key should match the actual data key 
+    displayName: 'SNo', // <- Here you specify the column header 
+    headerStyle: styles.headerDark, // <- Header style 
+    cellStyle: function(value, row) { // <- style renderer function 
+      // if the status is 1 then color in green else color in red 
+      // Notice how we use another cell value to style the current one 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    },
+    width: 50 // <- width in pixels 
+  },
+  name: {
+    displayName: 'Name',
+    headerStyle: styles.headerDark,
+   cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    },
+    width: 200 // <- width in chars (when the number is passed as string) 
+  },
+  plStartDate: {
+    displayName: 'Pl. Start Date',
+    headerStyle: styles.headerDark,
+  cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    },    width: 100 // <- width in pixels 
+ 
+  
+},
+ plEDate: {
+    displayName: 'Pl. End Date',
+    headerStyle: styles.headerDark,
+  cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    },    width: 100 // <- width in pixels 
+ 
+  
+},
+ plActSDate: {
+    displayName: 'Act. Pl. Start Date',
+    headerStyle: styles.headerDark,
+  cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    },    width: 150 // <- width in pixels 
+  
+},
+plActEDate: {
+    displayName: 'Act. Pl. End Date',
+    headerStyle: styles.headerDark,
+  cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    },    width: 150 // <- width in pixels 
+  
+},
+actEDate: {
+    displayName: 'Act. End Date',
+    headerStyle: styles.headerDark,
+      cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    }, // <- Cell style 
+    width: 100 // <- width in pixels 
+  
+},
+effort: {
+    displayName: 'Effort',
+    headerStyle: styles.headerDark,
+      cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    }, // <- Cell style     width: 220 // <- width in pixels 
+    width: 100
+},
+percCompleted: {
+    displayName: '% Completed',
+    headerStyle: styles.headerDark,
+      cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    }, // <- Cell style     width: 220 // <- width in pixels 
+    width: 100
+ 
+
+},
+ dependancy: {
+    displayName: 'Dependancy',
+    headerStyle: styles.headerDark,
+   cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    },  
+      width: 100 // <- width in pixels 
+
+},
+resources: {
+    displayName: 'Resources',
+    headerStyle: styles.headerDark,
+   cellStyle: function(value, row) { 
+      if(row.depth==0){
+         return styles.cellRed;
+            }
+            else if(row.depth==1){
+                 return styles.cellGreen;
+            }
+            else{
+              return styles.cellYellow;
+            }
+    },    width: 150 // <- width in pixels 
+  }
 }
-return RawData;
+
+// The data set should have the following shape (Array of Objects) 
+// The order of the keys is irrelevant, it is also irrelevant if the 
+// dataset contains more fields as the report is build based on the 
+// specification provided above. But you should have all the fields 
+// that are listed in the report specification 
+var dataset = bigArr;
+ 
+// Create the excel report. 
+// This function will return Buffer 
+var report = excel.buildExport(
+  [ // <- Notice that this is an array. Pass multiple sheets to create multi sheet report 
+    {
+      name: 'Sheet name', // <- Specify sheet name (optional) 
+      heading: heading, // <- Raw heading array (optional) 
+      specification: specification, // <- Report specification 
+      data: dataset // <-- Report data 
+    }
+  ]
+);
+ console.log('*************************************************',report);
+
+var filename  = nameStr;
+fs.appendFile(filename, report);
+var tempPath =  path.resolve(filename);
+var targetPath = path.resolve('./public/attach/projectReports/'+filename);
+console.log(tempPath,targetPath);
+         
+fs.rename(tempPath, targetPath, function(err){
+            if (err) 
+                next(err)
+            else{
+                if(mailFlag){
+                   sendAsMail(nameStr,targetPath,res,receiverMail);
+                }
+
+                else{res.json('done')};
+
+            }
+
+          });
+// You can then return this straight 
+/*res.json('report.xlsx'); // This is sails.js specific (in general you need to set headers) 
+return res.send(report);*/
+
+
+
+
+}
+
+function sendAsMail(nameStr,targetPath,res,receiverMail){
+var attachData = [];
+     attachData[0] = nameStr;
+     attachData[1] = targetPath;
+
+
+mailTemplates.projectAttachFile(receiverMail.join(),attachData,function(err,result1){
+                         if(err){
+                            console.log('err here ',err);
+                         }
+                         else{
+                            res.json('smile');
+                         }
+              });
+
 
 }
 

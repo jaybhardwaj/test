@@ -774,12 +774,7 @@ module.exports = {
 	                startid :req.minid,flag :req.flag,ultimateEndId:req.ultimateEndId,projectDetails:req.projectDetails,
 	                prId:req.prId,prStartDate:req.prStartDate,prEndDate:req.prEndDate,Resources:req.Resources,version:req.versionFlag,
 	                verArr:req.versionArr,projectAndVersions:req.projectAndVersions,isManagerFlag:req.isManagerFlag,
-					submittedProject:req.submittedProject,submittedVersion:req.submittedVersion,userId:req.userId ,userFlag:req.userFlag
-
-
-
-
-	            });
+					submittedProject:req.submittedProject,submittedVersion:req.submittedVersion,userId:req.userId ,userFlag:req.userFlag,holidayArr:req.holidayArr,notification:req.session.notification,allcommentsSet:req.allcommentsSet,usersAll:req.usersAll,collaborateId:req.collaborateId,collFlag:req.collFlag,isCreaterFlag:req.isCreaterFlag});
 
             break;
                 case 'resource':
@@ -793,18 +788,15 @@ module.exports = {
 	            });
             break;
 
+          case 'projStatus':
+             res.render('project/projStatus', {	               
 
-            case 'projStatus':
-             res.render('project/projStatus', {	   	notification:req.session.notification,                
                 role: req.session.roleId,
                 Name: ' ',
                 myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule,effProjectCalculations:req.effProjectCalculations,actProjectCalculations:req.actProjectCalculations,
-                     projectDetails:req.projectDetails,totalHoursBooked:req.totalHoursBooked,percCompletedOnHoursBooked:req.percCompletedOnHoursBooked,
-                     projectTree:req.projectTree,totalHoursBookedFromWbs:req.totalHoursBookedFromWbs,calculatePercentageCompletedOnHoursBooked:req.calculatePercentageCompletedOnHoursBooked,
-                      actualEndDate:req.actualEndDate
+	                defaultModule:req.session.defaultModule,result:req.result,notification:req.session.notification
 	            });
 
 

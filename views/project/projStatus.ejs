@@ -9,7 +9,354 @@
 
 </head>
 <title>task manaagement</title>
+<%
+
+
+var holidayArrDateTimeArr  = [1467743400000,1471199400000,1473618600000,1476124200000,1477852200000];
+var  saturdayOffFlag        = 1
+  function totalHoursBookedFromWbs(RawData){
+
+var bigArr = setAllValuesInArray();
+
+
+for(var i = 0;i<RawData.length;i++){
+
+bigArr[RawData[i].projectId]  = RawData[i].effortInHrs;
+}
+ return bigArr;
+
+}
+
+function MathRound(num){
+  return  (Math.round(num)*100)/100;
+}
+
+
+function parseeIntForNan(data){
+if(isNaN(data)||data==null){
+  return 0;
+}
+
+else return parseInt(data);
+
+}
+
+
+
+function setAllValuesInArray(){
+
+var arr = [];
+for(var i = 0;i<9000;i++){
+  arr[i] = 0;
+}
+return arr;
+}
+
+
+   function addSum(projTreeArr){
+   
+   var sumArr =  setAllValuesInArray();
+for(var i=0;i<projTreeArr.length;i++){
+    var effInHrsHereIs = parseeIntForNan(projTreeArr[i].effortInHrs);
+   sumArr[projTreeArr[i].project] =  sumArr[projTreeArr[i].project] + effInHrsHereIs;
+}
+   return sumArr;
+       }
+
+
+
+
+
+
+function calculateActualCompletion(RawData){
+  var bigArr = setAllValuesInArray();
+  var sumArr =  setAllValuesInArray();
+for(var i=0;i<RawData.length;i++){
+    var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
+   sumArr[RawData[i].project] =  sumArr[RawData[i].project] + effInHrsHereIs;
+}
+
+
+for(var i=0;i<sumArr.length;i++){
+  if(sumArr[i]==0){
+    sumArr[i] = 100;
+  }
+}
+
+for(var i = 0 ;i<RawData.length;i++){
+  var percCompleted = parseeIntForNan(RawData[i].percCompleted);
+  var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
+  var sumArrthis     = sumArr[RawData[i].project];
+ console.log('percCompleted is',percCompleted,'dsasdasdasd',RawData[i].percCompleted,'effortInHrs',RawData[i].effortInHrs,'proj',RawData[i].project,'sumArrthis is',sumArrthis);
+bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((effInHrsHereIs*percCompleted)/sumArrthis);
+
+console.log('bigArr[RawData[i].project] is',bigArr[RawData[i].project]);
+
+}
+
+for(var i = 0;i<bigArr.length;i++){
+  //bigArr[i] = bigArr[i]*100;
+  bigArr[i] = MathRound(bigArr[i]);
+}
+
+
+return bigArr;
+
+}
+
+
+
+
+function calculateEffCompletion(RawData){
+
+  var bigArr = setAllValuesInArray();
+var nowDate = new Date();
+var dd  =   nowDate.getDate();
+var mm  =   nowDate.getMonth() + 1;
+var yy  =    nowDate.getFullYear();
+var nowDate  = dd+'/'+mm+'/'+yy;
+for(var i =0;i<RawData.length;i++){
+ 
+ var startDate  = RawData[i].newPlannedStartDate
+  var endDate    = RawData[i].newPlannedEndDate
+ startDate       = startDate.split('/');
+ endDate         = endDate.split('/');
+ if(startDate[2].length==2){
+    startDate[2]  = '20' + startDate[2];
+ }
+ if(endDate[2].length==2){
+endDate[2] = '20' + endDate[2]
+
+ }
+ startDate       = startDate[0] +'/'+startDate[1] +'/'+startDate[2];
+ endDate         = endDate[0] + '/' +endDate[1] + '/' +endDate[2];
+var numberOfDays  = calculateEffDays(endDate,startDate);
+var numberOfDays2 = calculateEffDays(nowDate,startDate);
+console.log()
+bigArr[RawData[i].id]  = MathRound((numberOfDays2*100)/numberOfDays);
+}
+
+
+return bigArr;
+
+}
+
+function calculateEffDays(sDateNew,sDateOld){
+  var effDays = 1;
+  sDateOld = sDateOld.split('/');
+  sDateNew =  sDateNew.split('/');
+   if(sDateOld.length==2){
+     sDateOld[2] = '20' + sDateOld[2];
+   }
+   if(sDateNew.length==2){
+    sDateNew[2] = '20' + sDateNew[2];
+   }
+   sDateNew[1] = (sDateNew[1] -1) + '';
+   sDateOld[1]  = (sDateOld[1] - 1)+ '';
+
+
+var sDateNew2 = new Date(sDateNew[2],sDateNew[1],sDateNew[0]);
+var sDateOld2 = new Date(sDateOld[2],sDateOld[1],sDateOld[0]);
+//sDateNew2 = sDateNew2.toString();
+//sDateOld2 = sDateOld2.toString();
+//debugger;
+ var d = sDateOld[0];
+var m = sDateOld[1];
+var y = sDateOld[2];
+    
+
+  while(sDateNew2>sDateOld2){
+   sDateOld2 = new Date(y,m,d++);
+   if(calculateHoliday(sDateOld2)){
+     effDays++;
+   }
+   
+  }
+
+  while(sDateNew2<sDateOld2){
+  sDateOld2 = new Date(y,m,d--);
+   if(calculateHoliday(sDateOld2)){
+     effDays--;
+   }
+  } 
+
+  return effDays;
+
+}
+
+
+
+function  calculateHoliday(date){
+
+ var weekEnds;
+ if(!saturdayOffFlag){
+ weekEnds =[0];
+}
+else {
+       weekEnds = [0,6];     
+    
+  }
+
+ var m = date.getMonth();
+    var d = date.getDate();
+    var y = date.getFullYear();
+    var day = date.getDay();
+    var dateTime = date.getTime();
+   // debugger;
+  //  console.log('date is',d,' ',m,' ',y);
+  if(saturdayOffFlag==1){
+        weekEnds = [0,6]    
+    }
+else if(saturdayOffFlag ==0){
+       weekEnds = [0];
+     }
+ 
+if(holidayArrDateTimeArr.indexOf(dateTime)!=-1){
+    return false;
+}
+else if(weekEnds.indexOf(day)!=-1){
+              return false;
+        }
+
+    else {
+        return true;
+         }
+
+
+
+}
+
+
+function calculatePercentageCompletedOnHoursBooked(wbsHours,hoursFromTree){
+
+var bigArr = setAllValuesInArray();
+var effortHrs = setAllValuesInArray();
+
+for(var i = 0 ;i<hoursFromTree;i++){
+  effortHrs[hoursFromTree[i].project] = effortHrs[hoursFromTree[i].project] + hoursFromTree[i].effortInHrs; 
+}
+
+for(var i = 0;i<hoursFromTree;i++){
+
+if(hoursFromTree[i].effortInHrs==0){
+   bigArr[hoursFromTree[i].project]  = 0;
+}
+
+else{
+          
+        bigArr[hoursFromTree[i].project] = (wbsHours[hoursFromTree[i].project]*100)/effortHrs[hoursFromTree[i].project];
+
+    }
+
+}
+return bigArr;
+
+}
+
+
+function calculateActualEndDate(RawData){
+var bigArr = setAllValuesInArray();
+for(var i =0;i<RawData.length;i++){
+    console.log('RawData[i].actEndDate is',RawData[i].actEndDate,'bigArr[RawData[i].id] is ',bigArr[RawData[i].id]);
+if(RawData[i].actEndDate==null||RawData[i].actEndDate==''){
+    console.log('in if');
+  bigArr[RawData[i].project] = 'alpha';
+}
+else if(bigArr[RawData[i].project]!='alpha'){
+    console.log('in else');
+  bigArr[RawData[i].project]  = maxOf(bigArr[RawData[i].project],RawData[i].actEndDate);
+  console.log('bigArr[RawData[i].id] ',bigArr[RawData[i].project],'actEndDate is ',RawData[i].actEndDate);
+
+}
+else{
+    console.log('work hard in silence');
+}
+
+}
+
+for(var i = 0;i<bigArr.length;i++){
+            if(bigArr[i]==0||bigArr[i]=='alpha'){
+                bigArr[i] = '';
+            }
+ }
+ //console.log('bigArr is',bigArr);
+ return bigArr;
+
+}
+
+
+
+
+function maxOf(date1,date2){
+if(date1==0||date1=='0'){
+  return date2
+}
+
+var dateTime1 = conVertToDateTime(date1);
+var dateTime2 = conVertToDateTime(date2);
+
+if(dateTime1>dateTime2){
+  return date1;
+}
+else{
+         return date2;
+ }
+
+}
+
+
+
+function conVertToDateTime(date1){
+   var date1Arr =  date1.split('/');
+
+if(date1Arr[2].length==2){
+  date1Arr[2] = '20'+date1Arr[2];
+}
+   date1Arr[1]   = date1Arr[1] - 1;
+   var DateTime = new Date(date1Arr[2],date1Arr[1],date1Arr[0]);
+  return DateTime; 
+
+
+}
+
+
+                   var actProjectCalculations = calculateActualCompletion(result[1]);
+                   var effProjectCalculations  = calculateEffCompletion(result[0]);
+                   var projectTree              =   result[1];
+                   var totalHoursBooked          =  addSum(result[1]);
+                   var hoursFromTimesheetWbs     =  addSum(result[2]); 
+                  // var percCompletedOnHoursBooked      =   getPercentage(totalHoursBooked,hoursFromTimesheetWbs,result[1]);
+                   var totalHoursBookedFromWbs                  =   totalHoursBookedFromWbs(result[2]);
+            var calculatePercentageCompletedOnHoursBooked   =   calculatePercentageCompletedOnHoursBooked(totalHoursBookedFromWbs,result[1])
+                   var actualEndDate      =     calculateActualEndDate(result[1]);
+                   var projectDetails   = result[0];
+
+
+
+
+
+
+
+
+
+
+
+
+
+%>
+
+
+
+
 <script>
+
+
+
+
+
+
+
+
 var otable = '';
 
 $(document).ready(function(){
@@ -19,7 +366,7 @@ $(document).ready(function(){
 var trArr = $('#projSummary tr');
 trArr.splice(0,1);
 for(var i = 0 ;i<trArr.length;i++){
-  var tdEle = $(trArr[i]).children('td')[6];
+  var tdEle = $(trArr[i]).children('td')[9];
       var Num = $(tdEle).html().match(/-?\d{1,9}/)[0];
          Num = parseInt(Num);
          console.log('num is',Num);
@@ -60,44 +407,46 @@ otable=$('#projSummary').dataTable({
 <thead>
 <tr>
   <th>Project Name</th>
-  <th>Planned Start Date</th>
-  <th>Planned End Date</th>
-  <th>Planned Actual Start Date</th>
-  <th>Planned Actual End Date</th>
-  <th>Actual End Date</th>
-  <th>Expected Completion</th>
-  <th>Actual Completion</th>
-  <th>Total Hours Booked</th>
-  <th>Completion Based On hours Booked from Wbs</th>
-
+  <th>Project Manager</th>
+  <th>Account Head</th>
+  <th>Pl. Total Effort</th>
+  <th>Pl. Start Date</th>
+  <th>Pl. End Date</th>
+  <th>Pl. Act. Start Date</th>
+  <th>Pl. Act. End Date</th>
+  <th>Act. End Date</th>
+  <th>Expected Comp.</th>
+  <th>Actual Comp.</th>
+  <th>Total Hrs Booked</th>
+  <th>Compl. Based On hrs Booked </th>
+  <th>Open Bugs</th>
+   <th>Closed Bugs</th>
 </tr>
 
 
 
 </thead>
 <tbody>
-  <% console.log('projectDetails.length is',projectDetails.length)%>
-  <%for(var i = 0;i<projectDetails.length;i++){%>
+<%for(var i = 0;i<projectDetails.length;i++){%>
 <tr><td><%=projectDetails[i].projectTitle%></td>
-   <td><%=projectDetails[i].newPlannedStartDate%></td>
-    <td><%=projectDetails[i].newPlannedEndDate%></td>
+  <td></td>
+    <td></td>
+    <td></td>
 
-    <%if(false){%>
-<td><%=projectTree[i].plActStartDate%></td>
-<td><%=projectTree[i].plActEndDate%></td>
-<td><%=projectTree[i].actEndDate%></td>
-<%}else{%>
-<td><%=projectDetails[i].newPlannedActualStartDate%></td>
+<td><%=projectDetails[i].newPlannedStartDate%></td>
+    <td><%=projectDetails[i].newPlannedEndDate%></td>
+  <td><%=projectDetails[i].newPlannedActualStartDate%></td>
 <td><%=projectDetails[i].newPlannedActualEndDate%></td>
 <td><%=actualEndDate[projectDetails[i].id]%></td>
-<%}%>
 
 
 
 <td><%=effProjectCalculations[projectDetails[i].id]%> %</td>  
 <td><%=actProjectCalculations[projectDetails[i].id]%> %</td> 
-<td><%=totalHoursBooked[projectDetails[i].id]%></td>
+<td><%=hoursFromTimesheetWbs[projectDetails[i].id]%></td>
   <td><%=calculatePercentageCompletedOnHoursBooked[projectDetails[i].id]%> %</td>
+  <td></td>
+  <td></td>
 
 </tr>
 <%}%>

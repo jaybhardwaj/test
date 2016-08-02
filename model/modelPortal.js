@@ -3378,13 +3378,12 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [flag,retailerId,versionFlag,userId]
        
         };
- 
-        mysql(q, function(err, result) {
+                 console.log('q is ',q);
+         mysql(q, function(err, result) {
             if (err) {
                 ////console.log(err);
             }
             else {
-                ////console.log(q,result);
 
                 callback(err,result);
             }
@@ -3408,11 +3407,12 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
             }
         });         
     },
-    saveTask : function (proId,version,updateQ,submitFlag,remarks,userId,callback){
-
+    saveTask : function (proId,version,updateQ,submitFlag,remarks,userId,commentString,collaborateId,callback){
+                     commentString = commentString.split('$AK$');
+                     
        var q ={
-          sql: 'call usp_proj_updateInsert(?,?,?,?,?,?)',
-        values: [proId,version,updateQ,submitFlag,userId,remarks]
+          sql: 'call usp_proj_updateInsert(?,?,?,?,?,?,?,?,?)',
+        values: [proId,version,updateQ,submitFlag,userId,remarks,commentString[0],commentString[1],collaborateId]
        
         };
         mysql(q, function(err, result) {
@@ -3420,7 +3420,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                 //console.log(err,q);
             }
             else {
-              //console.log(q,result);
+              console.log(q,result);
           
                callback(err,result);
             }
