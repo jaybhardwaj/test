@@ -14,7 +14,7 @@ module.exports = {
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,					 
 					isRetailer:req.session.isRetailer,hideFlag:1,module:req.result1,roleid:req.session.roleId,
 					logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover});
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 				case 'changePassWordPage' :
 				console.log("step last",req.session.modules);
@@ -22,12 +22,12 @@ module.exports = {
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,					 
 					isRetailer:req.session.isRetailer,hideFlag:1,module:req.result1,roleid:req.session.roleId,
 					logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover});
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 				
 				case 'users' :
 				res.render('users',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,users:req.resultUsers[0],role:req.resultRoles[0],customRole:req.resultCustomRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,users:req.resultUsers[0],role:req.resultRoles[0],customRole:req.resultCustomRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 
 			case 'createEditUser' :
@@ -39,7 +39,7 @@ module.exports = {
 					role:req.resultRoles[0],customRole:req.resultCustomRoles,roleid:req.session.roleId,
 					department:req.resultDepartment[0],level:req.resultLevel[0],
 					modules:req.result[0],logo:req.session.logo,user:req.session.firstName,
-					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,hrRole:req.hrRole,allHod:req.hodList});
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,hrRole:req.hrRole,allHod:req.hodList,assetrole:req.session.asstroleid});
 				
 				break;
 				case 'success' :
@@ -53,16 +53,16 @@ module.exports = {
 	            res.render('errorSWW',{	notification:req.session.notification,    role: req.session.roleId,Name: ' ',myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,
 	            	user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-		                defaultModule:req.session.defaultModule});
+		                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
             	break;
 				case 'clients' :
 				res.render('clients',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,clients:req.resultClient[2],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,flagActive:req.session.statusflag,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,clients:req.resultClient[2],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,flagActive:req.session.statusflag,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 
 				case 'createEditClient' :
 				res.render('createEditClient',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,clientinfo:req.resultClient[2],location:req.resultClient[0],users:req.resultClient[1],id:0,editflag:req.editflag,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,clientinfo:req.resultClient[2],location:req.resultClient[0],users:req.resultClient[1],id:0,editflag:req.editflag,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 				case 'addEditClient':
 				res.redirect('/clients');
@@ -71,7 +71,7 @@ module.exports = {
 
 				case 'mailServerConfig'	:
 			    res.render('mailServerConfig',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,mailserver:req.mailServerresult[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,mailserver:req.mailServerresult[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 			    break;
 			    
                 case 'mailServerConfigureInfo'	:
@@ -86,7 +86,7 @@ module.exports = {
                	 myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,
                	hideFlag:1,info:req.resultProfile,logo:req.session.logo,user:req.session.firstName,
-               	roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+               	roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
                 break;
                 
                 //------------------Dashboards <Phase1 : Not Lived> --------------------------
@@ -94,7 +94,7 @@ module.exports = {
             	req.session.firstName=req.resultProfile[0][0].firstName;
             	req.session.logo=req.resultProfile[0][0].logo;
                 res.render('dashboard',{ 	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,info:req.resultProfile,logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,info:req.resultProfile,logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
                 break;
                 
                case 'updateProfile' :
@@ -103,7 +103,7 @@ module.exports = {
 				//-----------------------------Bug--------------------------------------------
 				case 'bugHome': console.log('bbbbbbbbbbbbbbbb--',req.session.notification);
 				res.render('bug/home',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,bug:req.resultActivity[0],activity:req.resultActivity[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:0,bug:req.resultActivity[0],activity:req.resultActivity[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 				case 'viewBug': console.log('view bug-----------',req.session.notification);
 				res.render('bug/viewBug',{	notification:req.session.notification,    
@@ -126,7 +126,7 @@ module.exports = {
 					user:req.session.firstName,
 					defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover,
-					showSelect:'-'
+					showSelect:'-',assetrole:req.session.asstroleid
 				});
 				break;
 
@@ -145,7 +145,7 @@ module.exports = {
 					allusers:req.resultRaiseBug[8],
 					roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover,bugSetting:req.session.bugSetting});
+					isApp:req.session.isApprover,bugSetting:req.session.bugSetting,assetrole:req.session.asstroleid});
 				console.log("raiseBug render");
 				break;
 				case 'bugDetails':				
@@ -186,18 +186,18 @@ module.exports = {
 				userid:req.session.userid,
 				defaultModule:req.session.defaultModule,
 				isApp:req.session.isApprover,
-				showSelect:req.showSelect
+				showSelect:req.showSelect,assetrole:req.session.asstroleid
 			});	
 				break;
 			
 			case 'createEditClient' :
 				res.render('createEditClient',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,clients:req.resultClient[0],id:0,editflag:req.body.hdnId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,clients:req.resultClient[0],id:0,editflag:req.body.hdnId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 
 			case 'customrole' :
 			    res.render('customrole',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,customrole:req.resultCustomRoles[0],industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,role:req.resultRoles,customRole:req.resultCustomRoles,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,customrole:req.resultCustomRoles[0],industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,role:req.resultRoles,customRole:req.resultCustomRoles,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 			    break;
 
 		    case 'customRolesEntry' :
@@ -207,12 +207,12 @@ module.exports = {
 			case 'documentHome' :
 			
             	res.render('document/documentHome',{	notification:req.session.notification,    flag:flag,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,alert:req.session.documentalert});
+					isRetailer:req.session.isRetailer,hideFlag:0,files:req.resultFiles,industry:req.resultIndustry,business:req.resultBusiness,document:req.resultDocument,technology:req.resultTechnology,restriction:req.resultRestriction,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,alert:req.session.documentalert,assetrole:req.session.asstroleid});
 			    break;
 
 			case 'Documenterror' :
 			    res.render('document/Documenterror',{	notification:req.session.notification,    flag:flag,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 			    break;    
 			case 'myUploads' :
 			   res.render('document/myUploads',{	notification:req.session.notification,    
@@ -220,11 +220,11 @@ module.exports = {
 			   	mySupervisor:req.session.mySupervisor,isRetailer:req.session.isRetailer,
 			   	hideFlag:0,user:req.session.firstName,roleid:req.session.roleId,
 			   	files:req.permissionResult,logo:req.session.logo,
-			   	defaultModule:req.session.defaultModule,myUploads:req.myUploads});
+			   	defaultModule:req.session.defaultModule,myUploads:req.myUploads,assetrole:req.session.asstroleid});
 			   break; 
 			case 'permission' :
 			   res.render('document/permission',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,user:req.session.firstName,roleid:req.session.roleId,files:req.permissionResult,logo:req.session.logo,defaultModule:req.session.defaultModule});
+					isRetailer:req.session.isRetailer,hideFlag:0,user:req.session.firstName,roleid:req.session.roleId,files:req.permissionResult,logo:req.session.logo,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 			   break; 
 
 			case 'confirmedFilePermission' :
@@ -241,7 +241,7 @@ module.exports = {
 
             case 'rejectedFiles':
             	res.render('document/rejectedFiles',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,user:req.session.firstName,roleid:req.session.roleId,files:req.resultRejectedFile,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover}); 
+					isRetailer:req.session.isRetailer,hideFlag:0,user:req.session.firstName,roleid:req.session.roleId,files:req.resultRejectedFile,logo:req.session.logo,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid}); 
 			    break;
 
 			case 'attachDocFile' :
@@ -257,18 +257,18 @@ module.exports = {
 //---------------------------------Project WBS-----------------------------------------------------
 			case 'projectDetails' :
 				res.render('projectDetails',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.projectResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.projectResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 				case 'addEditProject' :
 				res.render('addEditProject',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,flag:req.flagForProject,name:req.projectResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,flag:req.flagForProject,name:req.projectResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 				case 'projectDetails11' :
 				res.redirect('/projectDetails');
 				break;
 				case 'wbsDetails' :
 				res.render('wbsDetails',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.wbsResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.wbsResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 		case 'addEditWbs' :
 				if(req.flagForProject==1){
@@ -277,11 +277,11 @@ module.exports = {
 					hideFlag:1,flag:req.flagForProject,owner:req.wbsResults[2],
 					location:req.wbsResults[1],allinfo:'result',name:req.wbsResults,
 					roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,
-					defaultModule:req.session.defaultModule});
+					defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 				  }
 				  else{
 				  	res.render('addEditWbs',{	notification:req.session.notification,    allpro:req.wbsResults[4],allWbs:req.wbsResults[3],myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,flag:req.flagForProject,owner:req.wbsResults[2],name:'result[0]',location:req.wbsResults[1],allinfo:req.wbsResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule});
+					isRetailer:req.session.isRetailer,hideFlag:1,flag:req.flagForProject,owner:req.wbsResults[2],name:'result[0]',location:req.wbsResults[1],allinfo:req.wbsResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 				  
 				  }
 				break;
@@ -310,7 +310,7 @@ module.exports = {
 					isRetailer:req.session.isRetailer,hideFlag:1,allProjects:req.projectResults[7],flag:req.flag,location:req.projectResults[1],
 					resource:req.projectResults[5],flagForTab:req.projectResults[6],
 					tech:req.projectResults[2],manager:req.projectResults[4],teamlead:req.projectResults[5],
-					client:req.projectResults[3],name:req.projectResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					client:req.projectResults[3],name:req.projectResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 
 				case 'projectDetails12' :
@@ -322,7 +322,7 @@ module.exports = {
 				res.render('projectWbs',{	notification:req.session.notification,    prid:req.projectWbs[6],allUser1:req.projectWbs[5],allWbs:req.projectWbs[4],myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:1,project:req.projectWbs[0],wbs:req.projectWbs[1],
 					location:req.projectWbs[2],owner:req.projectWbs[3],
-					roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 
 
@@ -332,7 +332,7 @@ module.exports = {
 
 				case 'assignment' :
 				res.render('assignment',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,allinfo1:req.allinfo1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,allinfo1:req.allinfo1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 			case 'createAssignment' :
 				res.render('createAssignment',{	notification:req.session.notification,    
@@ -340,7 +340,7 @@ module.exports = {
 					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.allinfo,
 					assignmentId:req.assignmentId,flag:req.flag,roleid:req.session.roleId,
 					logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,
-					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 		    case 'changeAssignmentStatus' :
 		       if(req.flag==1)
@@ -357,55 +357,57 @@ module.exports = {
 
 				//------------------------------------------Asset-------------------------------
 
-			case 'viewInventory':
-			console.log("in render inven");
-				res.render('asset/inventory',{	notification:req.session.notification,    
+case 'viewInventory':
+			console.log("in render inven jai mata di",req.session.asstroleid);
+				res.render('asset/inventory',{notification:req.session.notification, 
 					myModules:req.session.modules,
 					allSuperVisors:req.session.allSupervisors,
 					mySupervisor:req.session.mySupervisor,isRetailer:req.session.isRetailer,
 					hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
-					assetType:req.assetType,tableData:req.tableData
+					assetType:req.assetType,tableData:req.tableData,assetrole:req.session.asstroleid
 				})
 				break;
 
 			// new for hardware
 
 			case 'viewHardware': 
-				res.render('asset/viewHardware',{	notification:req.session.notification,    
+				res.render('asset/viewHardware',{notification:req.session.notification, 
 					vendor:req.resultHardware[3],myModules:req.session.modules,
 					allSuperVisors:req.session.allSupervisors,
 					mySupervisor:req.session.mySupervisor,isRetailer:req.session.isRetailer,
 					hideFlag:0, htype:req.resultHardware[0],ctype:req.resultHardware[1],
 					brandtype:req.resultHardware[2],roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover}) 
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid}) 
 		
 				break;
 			case 'viewFurniture' :
-				res.render('asset/viewFurniture',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,
+			console.log('jai mata di',req.resultFurniture);
+				res.render('asset/viewFurniture',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:0,notification:req.session.notification, 
 					flag:req.body.flag, stype:req.resultFurniture,roleid:req.session.roleId,
 					logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover});
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 
 			case 'viewStationary' :
-				res.render('asset/viewStationary',{	notification:req.session.notification,    
+			console.log(req.resultStationary);
+				res.render('asset/viewStationary',{
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,flag:req.body.flag,
+					isRetailer:req.session.isRetailer,hideFlag:0,flag:req.body.flag,notification:req.session.notification, 
 					stype:req.resultStationary,logo:req.session.logo,user:req.session.firstName,
 					roleid:req.session.roleId,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover});
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 			case 'viewSoftware':
-				res.render('asset/viewSoftware',{	notification:req.session.notification,    
+				res.render('asset/viewSoftware',{
  
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,flag:req.body.flag,stype:req.resultSoftware,
-					logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleid,
+					isRetailer:req.session.isRetailer,hideFlag:0,flag:req.body.flag,stype:req.resultSoftware,notification:req.session.notification, 
+					logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,
  
-					defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 
 				case 'viewSoftwareDetails':
@@ -413,10 +415,10 @@ module.exports = {
 				break;
 
 			case 'addFurniture' :
-				res.render('asset/addFurniture',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,brand_vendor:req.brandName,hideFlag:0,
+				res.render('asset/addFurniture',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,brand_vendor:req.brandName,hideFlag:0,notification:req.session.notification, 
 					roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,
-					defaultModule:req.session.defaultModule,isApp:req.session.isApprover})
+					defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid})
 				break;
 
 			case 'trans' :
@@ -424,33 +426,41 @@ module.exports = {
 				break;
 			case 'transactions' :
  
-				res.render('asset/transactions',{	notification:req.session.notification,    
+				res.render('asset/transactions',{
 					assignedHome:req.resultAssignedHome,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0, 
+					isRetailer:req.session.isRetailer,hideFlag:0,notification:req.session.notification,  
 					users:req.resultUsers[0],roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover})
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid})
 				break;
-			
+			case 'assignasset':
+			console.log("assigndata",req.resultAssigneds);
+			res.render('asset/assignasset',{
+					assignedast:req.resultAssigneds,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:0,notification:req.session.notification,  
+					users:req.resultUsers[0],roleid:req.session.roleId,logo:req.session.logo,
+					user:req.session.firstName,defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid})
+				break;
 			case 'Delete' :
 				res.json(req.resultdelete);
 				break;
 			case 'addStationary':
  
-				res.render('asset/addStationary',{	notification:req.session.notification,    
+				res.render('asset/addStationary',{
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,
-					mySupervisor:req.session.mySupervisor,brand_vendor:req.brandName,
-					isRetailer:req.session.isRetailer,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					mySupervisor:req.session.mySupervisor,brand_vendor:req.brandName,notification:req.session.notification, 
+					isRetailer:req.session.isRetailer,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
  
 				break;
 				//new 4 dynamic software
 			case 'addSoftware':
-				res.render('asset/addSoftware',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,stype:req.resultType,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('asset/addSoftware',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,notification:req.session.notification, 
+					isRetailer:req.session.isRetailer,hideFlag:0,stype:req.resultType,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 			 //new 4 assign soft
 			 case 'assignSoftware':
-				res.render('asset/assignSoftware',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+				res.render('asset/assignSoftware',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,notification:req.session.notification, 
 					isRetailer:req.session.isRetailer,hideFlag:0,logo:req.session.logo,roleid:req.session.roleId,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
 				break;
 			case 'Edit' :
@@ -482,8 +492,8 @@ module.exports = {
 				res.json(req.resultType);
 				break;
 			case 'assetSettings' :
-				res.render('assetSettings',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,assetType:req.resultTypeSubtype[0],assetComponent:req.resultTypeSubtype[1],attr:req.resultTypeSubtype[2],user:req.session.firstName,roleid:req.session.roleid,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+				res.render('assetSettings',{notification:req.session.notification, myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:0,assetType:req.resultTypeSubtype[0],assetComponent:req.resultTypeSubtype[1],attr:req.resultTypeSubtype[2],user:req.session.firstName,roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 				case 'transa' :
                 res.json();
@@ -496,33 +506,40 @@ module.exports = {
 				res.json(req.resultAttribute);
 				break; 
 			case 'hardware' : 
-				res.render('asset/hardware',{	notification:req.session.notification,    
-					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,
+				res.render('asset/hardware',{
+					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,notification:req.session.notification, 
 					mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,htype:req.resultType,
 					brandtype:req.resultType[1],user:req.session.firstName,
-					roleid:req.session.roleid,logo:req.session.logo,defaultModule:req.session.defaultModule,
-					isApp:req.session.isApprover});
+					roleid:req.session.roleId,logo:req.session.logo,defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 
 				break;
  			case 'transAss':
  				res.json(req.resultAssigned);
  				break;               
 
+
+
+
+
+
+
                
  
 //---------------------------------Expense------------------------------------------
-			case 'expenseHome' :
+			
+	case 'expenseHome' :
 
 				res.render('expense/expenseHome',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10]});
+					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10],assetrole:req.session.asstroleid,designation:req.resultExpense[10]});
 				console.log(req.resultExpense[8],req.resultExpense[9]);
 
 				break;
 
 				case 'expenseHomenew' :
 				res.render('expense/expenseHome',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpensenew[0],expenseDetails:req.resultExpensenew[1],currency:req.resultExpensenew[2],totalExpense:req.resultExpensenew[3],bilableusers:req.resultExpensenew[4],trip:req.resultExpensenew[5],travelType:req.resultExpensenew[7],hotelType:req.resultExpensenew[6],Ex:0,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit ,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0});
+					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpensenew[0],expenseDetails:req.resultExpensenew[1],currency:req.resultExpensenew[2],totalExpense:req.resultExpensenew[3],bilableusers:req.resultExpensenew[4],trip:req.resultExpensenew[5],travelType:req.resultExpensenew[7],hotelType:req.resultExpensenew[6],Ex:0,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit ,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0,assetrole:req.session.asstroleid});
 				break;
 				case 'fileAttechment': 
 
@@ -538,32 +555,35 @@ module.exports = {
 
 				case 'expenseDetails' :
 				res.render('expense/expenseDetails',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0});
+					isRetailer:req.session.isRetailer,hideFlag:0,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0 ,assetrole:req.session.asstroleid});
 				break;
 
                 case 'expenseOther' :
 
 				res.render('expense/expenseHome',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:1,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10]});
+					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:1,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10],assetrole:req.session.asstroleid,designation:req.resultExpense[11]});
 
 				break;     
 
 				case 'expensemaster' :
 				res.render('expense/expenseMaster',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpensemaster[0],role:req.resultRoles[0],expenseMasterType:req.resultExpensemaster[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0});
+					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpensemaster[0],role:req.resultRoles[0],expenseMasterType:req.resultExpensemaster[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0 ,assetrole:req.session.asstroleid});
 				break;
-				/*end expense Jogendra singh*/
+			
+				/*end expense Jogendra singh/expdepartment:req.resultExpensemaster[2],/limit: req.session.limit,*/
 				<!--- added by saurav   -->
 				case 'masters':
-				console.log("master render-----------");
+				console.log("master render-----------",req.resultExpensemaster[2]);
 			     var flag=req.flag==null?0:req.flag;
-			   res.render('masters',
+
+
+res.render('masters',
 			   	{		notification:req.session.notification,    timesheet1:req.timesheet,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,
 			   		bugMaster:req.bugMaster,otherMaster:req.otherMaster,
 			   		bugMasterSubData:req.bugMasterSubData,
 			   		hideFlag:1,expenseMaster:req.resultExpensemaster[0],
-			   		expenseType:req.resultExpensemaster[1],
+			   		expenseType:req.resultExpensemaster[1], expdepartment2:req.resultExpensemaster[2],
 			   		roleid:req.session.roleId,
 			   		logo:req.session.logo,user:req.session.firstName,
 			   		limit: req.session.limit,
@@ -571,7 +591,7 @@ module.exports = {
 			   		industry:req.resultIndustry,business:req.resultBusiness,
 			   		document:req.resultDocument,technology:req.resultTechnology,
 			   		restriction:req.resultRestriction,allinfo :req.resultHoliday,
-			   		defaultModule:req.session.defaultModule,assetType:req.resultTypeSubtype});
+			   		defaultModule:req.session.defaultModule,assetType:req.resultTypeSubtype,assetrole:req.session.asstroleid});
 			   break;
 				/*case 'masters':
 			     var flag=req.flag==null?0:req.flag;
@@ -600,19 +620,19 @@ module.exports = {
 
                  case 'calSetting':
                  res.render('calSetting',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
                  break;
 
 //-----------------------------TimeSheethh---------------------------------------
                  case 'timeSheet':   console.log('timesheet in render-----------------------',req.session.notification);
                
 			     res.render('timesheet/timeSheet',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,flag_owntimesheet:req.session.flag_owntimesheet,timeinfo:req.timeinfo,userid:req.session.userId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:0,flag_owntimesheet:req.session.flag_owntimesheet,timeinfo:req.timeinfo,userid:req.session.userId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 			     break;
 			     case 'otherTimeSheet':
                 
 			     res.render('timesheet/timeSheetOther',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,timeinfo:req.session.timeinfo,check_date:req.session.othertime_checkdate,data:req.data,id:req.session.timeshhetuserid,userid:req.session.userId,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
+					isRetailer:req.session.isRetailer,hideFlag:0,timeinfo:req.session.timeinfo,check_date:req.session.othertime_checkdate,data:req.data,id:req.session.timeshhetuserid,userid:req.session.userId,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 			    
 			     break;
 
@@ -623,17 +643,17 @@ module.exports = {
 					allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,
 					hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,
-					logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule});
+					logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 				break ;
 				case 'interview':
 				res.render('rms/interview',{	notification:req.session.notification,    role:req.session.hrRole,Name: '',myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule});
+					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 				break ;
 				case 'raiseRequisition':
 				res.render('rms/raiseRequisition',{	notification:req.session.notification,    cities:req.hrRequisition[0],skills:req.hrRequisition[1]
       ,role:req.session.hrRole,Name:'',adminhr:req.hrRequisition[2],desig:req.hrRequisition[3],priority:req.hrRequisition[4],
       myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule});
+					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 				break ;
 		/*		case 'reqHod':
 				res.render('rms/reqhod',{
@@ -660,7 +680,7 @@ module.exports = {
       			myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,userId:req.session.userId,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule
+	                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
       		});
 
 			break ;
@@ -673,7 +693,7 @@ module.exports = {
 	                myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,uid:req.session.userId,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule
+	                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
             });
             break ;
 
@@ -694,7 +714,7 @@ module.exports = {
 	                myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule
+	                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
 	            });
             break ;
             case 'viewReq':
@@ -709,7 +729,7 @@ module.exports = {
 		                myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 			                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-			                defaultModule:req.session.defaultModule
+			                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
 	            });
 	            console.log(req.viewReq[0]);
             break ;
@@ -722,7 +742,7 @@ module.exports = {
 	                myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 		                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-		                defaultModule:req.session.defaultModule
+		                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
             });
             break;
             case 'error':
@@ -730,7 +750,7 @@ module.exports = {
 	                 role: req.session.hrRole,Name: '',uid: req.session.userId,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 		                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-		                defaultModule:req.session.defaultModule
+		                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
 	            });
             break;
             case 'interviewFeedback':
@@ -742,7 +762,7 @@ module.exports = {
                 myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule
+	                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
 	            });
             console.log('cdtiddbs',req.interviewFeedback[0]);
             break;
@@ -763,7 +783,9 @@ module.exports = {
 
 
             //----------------------------------Project-------------------------------------------
-          case 'task':
+
+
+case 'task':
              res.render('project/task', {		notification:req.session.notification,                   
                 role: req.session.roleId,
                 Name: ' ',
@@ -774,9 +796,10 @@ module.exports = {
 	                startid :req.minid,flag :req.flag,ultimateEndId:req.ultimateEndId,projectDetails:req.projectDetails,
 	                prId:req.prId,prStartDate:req.prStartDate,prEndDate:req.prEndDate,Resources:req.Resources,version:req.versionFlag,
 	                verArr:req.versionArr,projectAndVersions:req.projectAndVersions,isManagerFlag:req.isManagerFlag,
-					submittedProject:req.submittedProject,submittedVersion:req.submittedVersion,userId:req.userId ,userFlag:req.userFlag,holidayArr:req.holidayArr,notification:req.session.notification,allcommentsSet:req.allcommentsSet,usersAll:req.usersAll,collaborateId:req.collaborateId,collFlag:req.collFlag,isCreaterFlag:req.isCreaterFlag});
+					submittedProject:req.submittedProject,submittedVersion:req.submittedVersion,userId:req.userId ,userFlag:req.userFlag,holidayArr:req.holidayArr,allcommentsSet:req.allcommentsSet,usersAll:req.usersAll,collaborateId:req.collaborateId,collFlag:req.collFlag,isCreaterFlag:req.isCreaterFlag,changedEleFromDb:req.changedEle,assetrole:req.session.asstroleid});
 
             break;
+
                 case 'resource':
              res.render('project/resourceView', {	 	notification:req.session.notification,                  
                 role: req.session.roleId,
@@ -784,19 +807,20 @@ module.exports = {
                 myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule,allResources:req.reqResources
+	                defaultModule:req.session.defaultModule,allResources:req.reqResources,assetrole:req.session.asstroleid
 	            });
             break;
 
+
+
           case 'projStatus':
              res.render('project/projStatus', {	               
-
                 role: req.session.roleId,
                 Name: ' ',
                 myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule,result:req.result,notification:req.session.notification
+	                defaultModule:req.session.defaultModule,result:req.result,notification:req.session.notification,assetrole:req.session.asstroleid
 	            });
 
 
@@ -810,4 +834,7 @@ module.exports = {
 		}
 	}
 }
+
+
+
 

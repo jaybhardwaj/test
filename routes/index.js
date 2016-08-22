@@ -31,6 +31,7 @@ app.use(bodyParser({
 
 	app.get('/validateuser',portal.validateUser);  //index
 	app.all('*', auth.checkauterization, render.redirect);
+  app.use(portal.resetNotification);
 	app.get('/', url.setpage, render.redirect);
 	app.get('/portal',url.home, portal.home,render.redirect);
 	app.get('/logout', portal.logout,render.redirect);
@@ -79,6 +80,12 @@ app.post('/blockUser',portal.blockUser);
     //app.get('/Documenterror',url.Documenterror,render.redirect);
   
 //------------------------------------------Asset-------------------------------
+//jay
+app.post('/selectAdminData',portal.selectAdminData);
+app.post('/sendmailtouser',portal.sendmailtouser);
+app.post('/sendemail',portal.sendemail);
+app.post('/printexpense', portal.printexpense);
+//jay
 app.get('/inventory',url.inventory,portal.inventory,render.redirect);
 app.post('/inventory',portal.inventoryAjax);
 app.get('/transaction',url.setpageTransactions,portal.getUser,portal.getAssignedAssetsHome,render.redirect);
@@ -95,7 +102,8 @@ app.post('/deletesubline',portal.deletesubline);
 app.post('/getbrand',portal.getbrand);
 app.post('/getsubComponent',portal.getsubComponent);
 app.post('/getsublinevalue',portal.getsublinevalue);
-app.post('/getAttr',url.setpageHw,portal.getAttribute,render.redirect);
+app.post('/showinfo',portal.showinfoOfInventory);
+app.post('/getAttr',portal.getAttribute);
 app.post('/getTransDetails',url.setpageTransAssigned,portal.getAssignedAssets,render.redirect);
 app.post('/getUserInfoAsset',url.setpageTrans,portal.getUser,render.redirect);
 app.get('/viewFurniture',url.setpageviewFurniture,portal.getViewFurniture,render.redirect);
@@ -109,6 +117,7 @@ app.post('/getEditHardware',url.editHardware,portal.editHardware,render.redirect
 app.post('/updateHardware',url.setUpdateHardware,portal.updateHardware,render.redirect);//newhard
 app.post('/deleteHeader',url.setDelete,portal.deleteData,render.redirect);
 app.post('/deleteHeaderandline',url.setDelete,portal.deletehardware);
+app.post('/deletesoftware',url.setDelete,portal.deletesoft);
 app.post('/getEditStationary',url.setEdit,portal.editData,render.redirect);
 app.post('/updateFurniture',url.setUpdate,portal.updateFurniture,render.redirect);
 app.post('/updateStationary',url.setUpdatestat,portal.updateStation,render.redirect);
@@ -124,12 +133,16 @@ app.post('/saveMaster',url.setpageSett,portal.saveAssetMap,portal.getMap,render.
 app.get('/settings',url.setpageSettings,portal.getDataAsset,render.redirect);
 app.post('/assetComponent',url.setpageSet,portal.getComp,render.redirect);
 app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
+app.get('/AssignAsset',url.setpageTransactionsasset,portal.getUser,portal.assignedAssets,render.redirect);
+
+
 
 
 //---------------------------------Expense------------------------------------------
 	app.get('/expense',url.setExpense, portal.getExpense,portal.getRole,render.redirect);
 	app.get('/expensenew',url.setNewExpense, portal.getNewExpense,portal.getRole,render.redirect);
 	//app.post('/insertExpense',url.setexpensehomenewbyInsert, portal.insertExpense,portal.getRole,render.redirect);
+   app.post('/insertExpense', portal.insertExpense);
 	app.post('/insertExpense', portal.insertExpense);
 	app.post('/fileAttechment',upload.single('comment-upload'),url.setexpensehomenew, portal.insertExpenseAttachment,portal.getRole,render.redirect);	
     app.post('/deleteExpense',url.setNewExpense, portal.deleteExpense,portal.getRole);
@@ -140,6 +153,7 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
     app.post('/ShowExpenseWeekBy',url.setNewExpense, portal.getExpenseWeekBy,portal.getRole);
     app.get('/expensemaster',url.setExpenseMaster, portal.select_ExpenseMaster,portal.getRole,render.redirect);
     app.post('/insertExpenseMaster', portal.insert_Expense);
+    app.post('/updatesencationAmount', portal.updatesencationAmount);
    // app.post('/expensemaster',url.setNewExpense, portal.update_Expense,portal.getRole,render.redirect);
     app.post('/expenseUser',url.setNewExpense, portal.selectByExpenseUser,portal.getRole);
     app.post('/getexpensemaster',url.setExpenseMaster, portal.selectExpensebyId,portal.getRole);
@@ -156,6 +170,7 @@ app.post('/getMapping',url.setpageSett,portal.getMap,render.redirect);
     app.post('/getBillableUsers', portal.getBillableUsers,portal.getRole);
 
    //---------------------------------TimeSheet-----------------------------------------
+ app.post('/uploadattendance',upload.array('file',2),portal.uploadattendance);
 	app.get('/timesheet',url.fillTimeSheet,portal.getTimeSheetData,render.redirect);
     app.post('/submitTimesheet', portal.notification, portal.submitTimesheet);
      app.post('/submitTimesheetAssignment',portal.submitTimesheetAssignment);
@@ -203,6 +218,7 @@ app.post("/getReleventTag",portal.getReleventTag);
 app.post("/removeTag",portal.removeTag);
 app.post("/getreleventState",portal.getreleventState);
 app.post("/addQuickTag",portal.addQuickTag);
+app.post("/quickdeletecandidate",portal.quickdeletecandidate);
 app.post('/getallmanager',portal.getallmanager);
 app.post('/getscheduleInfo',portal.getscheduleInfo);
 app.post('/deletehistory',portal.deletehistory);
@@ -227,38 +243,50 @@ app.post('/emptyProj',portal.emptyProj);
 app.post('/saveTask',portal.saveTask);
 app.get('/projStatus',url.projStatus,portal.projStatus,render.redirect);
 app.post('/insNewVer',portal.insNewVer);
+app.post('/createExcelProj',portal.createExcelProj);
 
 /*latest change by saurav*/
     app.get('/changePassWordPage',url.changePassWordPage,render.redirect);
     app.post('/submitUserPassword',portal.submitUserPassword);
     /*----*/
 
-app.post('/createExcelProj',portal.createExcelProj);
+ app.post('/changeSupervisor',portal.changeSupervisor);
+
+
+ app.use(function(req, res,next) {
+    if(!(req.session.asstroleid==1 || req.session.roleId==1)){
+      res.redirect('/portal');
+    }
+    else{
+      next();
+    }
+  });
+    app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
+      portal.holidayhome,portal.select_ExpenseMaster,
+      portal.getDataAsset,
+      portal.getCustomRole,portal.getIndustry,portal.getBusiness,
+      portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
+      render.redirect);
 
 
 //-------------------------Admin Routes----------------------------------------------------
- app.use(function(req, res,next) {
-    if(req.session.roleId!=1){    	res.redirect('/portal');
+/* app.use(function(req, res,next) {
+    if(req.session.roleId!=1){
+    	res.redirect('/portal');
     }
     else{
     	next();
     }
   });
-
+*/
     //----------------------Masters-------index------------------------------------------
  
     //app.post('/addStatuss',portal.setaddStatuss);
 	app.post('/settingdata',portal.settingdata);
 	app.post('/getothermaster',portal.getothermaster);
-  app.post('/changeSupervisor',portal.changeSupervisor)
 	
 <!------ srv-------->
-	 app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
-    	portal.holidayhome,portal.select_ExpenseMaster,
-    	portal.getDataAsset,
-    	portal.getCustomRole,portal.getIndustry,portal.getBusiness,
-    	portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
-    	render.redirect);
+	 
 	//**change
     /*app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
     	portal.holidayhome,portal.select_ExpenseMaster,
@@ -423,3 +451,7 @@ app.get('/json1', function(req, res, next){
 
 
 }
+
+
+
+

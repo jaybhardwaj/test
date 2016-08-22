@@ -155,9 +155,9 @@
                 </div>
             </div>
             <div>
-                <table style="height:50px;width:49%;float:left;margin-top:5px">
+                <table style="height:50px;width:92%;float:left;margin-top:5px">
                     <tr>
-                        <td><a id="quick" style="font-size:12px;cursor:pointer;color:#f05f40;float:left;margin-top:11px">Quick Tagging</a></td>
+                        <td><a id="quick" style="font-size:12px;cursor:pointer;color:#f05f40;float:left;margin-top:11px; width:120px">Quick Actions</a></td>
                         <td class="hide" id="qmgrdiv" style="">
                            
                                 <div class=" ">
@@ -181,8 +181,23 @@
                         </td>
 
                         <td style="padding-left:5px" id="qsdiv" class="hide">
-                            <button type="submit" value="Save" id="qsave" class=" btn waves-effect waves-light" onclick="return savequicktag()" style="background-color:#00B9F5;color:white;margin-top:15px" value="Save"><i class="fa fa-save"></i> <b>Save</b></button>
+                            <button type="submit" value="Save" id="qsave" class=" btn waves-effect waves-light" onclick="return savequicktag()" style="background-color:#00B9F5;color:white;margin-top:15px" value="Save"><i class="fa fa-save"></i> <b>Tag Selected</b></button>
+
+                                 
+
                         </td>
+                        <td class="hide" id="qsdiv2">
+                         <button type="button" value="Delete Selected" id="qdelete" class=" btn waves-effect waves-light" onclick="return deletequick()" style="background-color:#00B9F5;color:white;margin-top:15px;margin-left:10px" value="Save"><i class="fa fa-save"></i> <b>Delete Selected</b></button>
+
+
+                        
+
+
+                         </td>
+                         <td id="qsdiv3" class="hide">
+
+                         <span style="width:100%"> check all/none:</span> <input style="margin-top:10px" type = "checkbox" id = "check_all_none"></input>
+                          </td>
                     </tr>
                 </table>
             </div>
@@ -523,6 +538,8 @@
                         $('#qmgrdiv').toggleClass("hide");
                         $('#qjddiv').toggleClass("hide");
                         $('#qsdiv').toggleClass("hide");
+                        $('#qsdiv2').toggleClass("hide");
+                         $('#qsdiv3').toggleClass("hide");
                         if ($('#qmgrdiv').hasClass("hide")){
                          
                                  table.column(11).visible(false);      
@@ -623,7 +640,7 @@
                                         data[i].resumeTitle = data[i].resumeTitle.replace("/public", "");
                                         data[i].Action = "<a onclick='editcdt(" + cddid + ");' data-toggle='modal' data-target='#edit'><span  class='glyphicon glyphicon-pencil' style='color:#f05f40;height:10px;cursor:pointer'title ='Edit' ></span></a> <a data-toggle='modal' data-target='#tag' onclick='getAllTag(" + cddid + ")'> <span  class='glyphicon glyphicon-pushpin' style='color:#06394A;height:10px;cursor:pointer'title ='Tags' ></span> </a><a href='" + data[i].resumeTitle + "' Download> <span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download' ></span>" + sicon;
                                     }
-                                    data[i].check = "<input type='checkbox' name='qcktagcheck' value='" + data[i].id + "' />";
+                                    data[i].check = "<input type='checkbox' class='chkAll' name='qcktagcheck' value='" + data[i].id + "' />";
                                     data[i].id = c++;
                                     //       alert(c++ + "<input type='checkbox'></input>")
 
@@ -669,7 +686,8 @@
                                     }],
                                      destroy: true, 
                                     "bLengthChange": true,
-                                    "searching": false
+                                    "searching": false,
+                                    "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]]
                                 });
                                  if ($('#qmgrdiv').hasClass("hide")){
                                        table.column(8).visible(false);
@@ -722,6 +740,37 @@
 
                     }
 
+
+
+                      function deletequick() {
+                        var qcdid = $('input[name="qcktagcheck"]:checked').map(function() {
+                            return this.value;
+                        }).get().join(",");
+
+
+               if (qcdid.length == 0) {
+                            alert("Choose at least one candidate");
+                            return false;
+                        }
+
+                     $.ajax({
+                            url: '/quickdeletecandidate',
+                            type: 'post',
+                            data: {
+                                "allcdid": qcdid
+                                
+                            },
+                            success: function(data) {
+                                alert("Selected Candidates Deleted Successfuly!");
+                                window.location.reload();
+                            }
+
+                        });
+
+                    }
+
+
+
                     function getallmanager() {
                
                         $.ajax({
@@ -757,7 +806,7 @@
                         }
                         var d1=new Date($('#intdatetime').val());
                         var d2=new Date($("#defaultDate").val());
-                        if ($('#intdatetime').val() == ''||d1<d2) {
+                        if ($('#intdatetime').val() == '') {
                             alert("Choose a Date and time for interview");
                             return false;
                         }
@@ -1051,7 +1100,8 @@
                                     "bLengthChange": true,
                                     "searching": false,
                                     "info":     false,
-                                     "showNEntries" : false
+                                     //"showNEntries" : false,
+                                    "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]]
                                 });
                                 $('#currentjd').append('</tbody>');
                                 $('#mgrdropdown').html('');
@@ -1325,7 +1375,7 @@ var id = e.options[e.selectedIndex].value;*/
                                         data[i].resumeTitle = data[i].resumeTitle.replace("/public", "");
                                         data[i].Action = "<a onclick='editcdt(" + cddid + ");' data-toggle='modal' data-target='#edit'><span  class='glyphicon glyphicon-pencil' style='color:#f05f40;height:10px;cursor:pointer'title ='Edit' ></span></a> <a data-toggle='modal' data-target='#tag' onclick='getAllTag(" + cddid + ")'> <span  class='glyphicon glyphicon-pushpin' style='color:#06394A;height:10px;cursor:pointer'title ='Tags' ></span> </a><a href='" + data[i].resumeTitle + "' Download> <span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download' ></span>" + sicon;
                                     }
-                                    data[i].check = "<input type='checkbox' name='qcktagcheck' value='" + data[i].id + "' />";
+                                    data[i].check = "<input type='checkbox' class='chkAll' name='qcktagcheck' value='" + data[i].id + "' />";
                                     data[i].id = c++;
                                     //       alert(c++ + "<input type='checkbox'></input>")
 
@@ -1375,7 +1425,8 @@ var id = e.options[e.selectedIndex].value;*/
                                     }],
                                      destroy: true,
                                     "bLengthChange": true,
-                                    "searching": false
+                                    "searching": false,
+                                    "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]]
                                 });
                                    table.column(8).visible(false);
                                    table.column(9).visible(false);
@@ -1436,7 +1487,7 @@ var id = e.options[e.selectedIndex].value;*/
                                         data[i].resumeTitle = data[i].resumeTitle.replace("/public", "");
                                         data[i].Action = "<a onclick='editcdt(" + cddid + ");' data-toggle='modal' data-target='#edit'><span  class='glyphicon glyphicon-pencil' style='color:#f05f40;height:10px;cursor:pointer'title ='Edit' ></span></a> <a data-toggle='modal' data-target='#tag' onclick='getAllTag(" + cddid + ")'> <span  class='glyphicon glyphicon-pushpin' style='color:#06394A;height:10px;cursor:pointer'title ='Tags' ></span> </a><a href='" + data[i].resumeTitle + "' Download> <span  class='glyphicon glyphicon-save' style='color:#f05f40;height:10px;cursor:pointer'title ='Download' ></span>" + sicon;
                                     }
-                                    data[i].check = "<input type='checkbox' name='qcktagcheck' value='" + data[i].id + "' />";
+                                    data[i].check = "<input type='checkbox' class='chkAll' name='qcktagcheck' value='" + data[i].id + "' />";
                                     data[i].id = c++;
                                     //       alert(c++ + "<input type='checkbox'></input>")
 
@@ -1480,7 +1531,8 @@ var id = e.options[e.selectedIndex].value;*/
                                     }],
 
                                     "bLengthChange": true,
-                                    "searching": false
+                                    "searching": false,
+                                    "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]]
                                 });
                                 table.column(8).visible(false);
                                 table.column(10).visible(false);
@@ -1491,6 +1543,18 @@ var id = e.options[e.selectedIndex].value;*/
                     function noresume() {
                         alert("Candidate resume is not available");
                     }
+
+
+
+                    $('#check_all_none').click(function () {
+if ( $(this).is(':checked') ){
+    $('.chkAll').prop("checked", true);
+}
+else{
+    $('.chkAll').removeAttr("checked");
+ }
+
+});
                 </script>
                 <style>
                     input[type=search] {

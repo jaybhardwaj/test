@@ -18,7 +18,10 @@ var clicks = 0;
 var timer;
 var projName;
 var remarks;
-//console.log('userFlag is',userFlag);
+var changedEleArr = [];
+var beforeChanged = [];
+var newRowFlag = false;
+//console.log
 for (var i = 0; i < holidayArr.length; i++) {
     var holidayArrDateTime = holidayArr[i].split('/');
     holidayArrDateTime[0] = parseeIntForNan(holidayArrDateTime[0]);
@@ -164,7 +167,7 @@ function updateAllArr(idUsed, isActiveFl) {
     }
 
 
-    console.log(newArr);
+   // console.log(newArr);
     var iValue = -1; //Either insertion or updation Flag
     for (var i = 0; i < updateArr.length; i++) {
         if (updateArr[i][0] == individualId) {
@@ -180,7 +183,7 @@ function updateAllArr(idUsed, isActiveFl) {
      updateArr[iValue] = newArr;
     }
 
-    console.log(newArr);
+   // console.log(newArr);
 
     //console.log(updateArr);
 
@@ -266,7 +269,7 @@ var newVer = $('#verSel option');
 if(version==-1){
     version = $(eleVer).val();
 }
-console.log('version is ',version);
+//console.log('version is ',version);
 
     $('#verSel option').each(function(i) {
 
@@ -285,7 +288,7 @@ console.log('version is ',version);
     });
 
 
-console.log('index2 is ',index2);
+//console.log('index2 is ',index2);
 
     var selectJq1 = $('#proSel option');
     var selectJq2 = selectJq1[index1];
@@ -354,6 +357,8 @@ function makeMoreRow(newlength) {
 
 
 function collapseExpand(id, flag) {
+
+  $('#tbody123 tr .open').click();
 
     //console.log('ts here',treeStructure[4]);
     //alert('clickeed yo!');
@@ -430,7 +435,8 @@ function collapseExpand(id, flag) {
 
 function addRow(currentId) {
     /*********************addRRow****************************************/
-    someThingUpdated =1
+    someThingUpdated =1;
+    changedEleFunc(currentId,-1);
     showSaveSubmit();
     var value = currentId.split('_');
     var individualId = value[0];
@@ -684,10 +690,10 @@ function createNewVersion(submitFlag) {
     updateArr = updateArr.join('||');
  // console.log('updateArr is',updateArr);
   // debugger;
-
+var changedEle = changedEleArr.join();
 
     $('.se-pre-con').fadeIn('slow');
-
+//debugger
     $.ajax({
         url: '/insNewVer',
         type: 'post',
@@ -696,7 +702,8 @@ function createNewVersion(submitFlag) {
             'submitFlag': submitFlag,
             'projectId': projectId,
             'version': newVersionToBeCreated,
-            'remarks': remarks
+            'remarks': remarks,
+            'changedEle':changedEle
         },
         success: function(data) {
             someThingUpdated = 0;
@@ -766,7 +773,7 @@ var collaborate = '';
 if($('#collaborateId').val()!=null){
  collaborate  = $('#collaborateId').val().join();
 }
-debugger;
+//debugger;
 
     $.ajax({
         url: '/saveTask',
@@ -834,13 +841,12 @@ if(someThingUpdated==0){   somethingZeroFlag = true;  }
     }*/
 
 
-<<<<<<< HEAD
 sleepFunctionForStoppingTime(500);
 var somethingMinusOneFlag = false;
 var  somethingZeroFlag     = false;
 if(someThingUpdated==-1){   somethingMinusOneFlag = true; }
-if(somethingUpdated==0){   somethingZeroFlag = true;  }      
-updateArr = [];
+if(someThingUpdated==0){   somethingZeroFlag = true;  }      
+/*updateArr = [];
     var trArr = $('#tbody123 tr');
     for (var i = 0; i < trArr.length; i++) {
    if(!$(trArr[i]).hasClass('deleteCss')){
@@ -849,7 +855,7 @@ updateArr = [];
       var tdEle = $(tdEleNew).children('input')[0];
         $(tdEle).focusout();
         }
-    }
+    }*/
 //alert('sahi');
 if(somethingMinusOneFlag)  { someThingUpdated = -1; }
 if(somethingZeroFlag)      { somethingUpdated = 0;}
@@ -928,7 +934,7 @@ debugger;
 
 
     if(submitted==2){
-     submitFlag = 2;//Code Added later 24 Jun requires more reasoning.
+     submitFlag = -1;//Code Added later 24 Jun requires more reasoning.
              }
               $('.se-pre-con').fadeIn('slow');
 createCommentString();
@@ -936,7 +942,7 @@ var collaborate = '';
 if($('#collaborateId').val()!=null){
  collaborate  = $('#collaborateId').val().join();
 }
-debugger;
+//debugger;
 
     $.ajax({
         url: '/saveTask',
@@ -953,7 +959,7 @@ debugger;
 
         },
         success: function(data) {
-            console.log('sucess');
+         //   console.log('sucess');
             $('.se-pre-con').fadeOut('slow');
             counterForRecursionAjax = 0;
             updateArr = [];
@@ -1128,7 +1134,7 @@ function editRow(rowId, AddFlag) {
         var buttonStr = '';
 
         if (!treeStructure[individualId].length) {
-            console.log('in  depth 1 if', treeStructure[individualId].length);
+           // console.log('in  depth 1 if', treeStructure[individualId].length);
             // hideAddButtonClass = ' deleteCSS ';
             buttonStr = '../img/project/grey_button1.jpg';
 
@@ -1300,7 +1306,7 @@ function deleteThisRowHereAndNow(rowId){
 setTimeout(function(){  disableEverything(rowId);},1000);
      endDate = endDate.slice(0,x);
      $(endDateEle).val(endDate);
-     //debugger;
+     debugger;
     },500);
     }
     
@@ -1627,12 +1633,11 @@ function findParentDate(inputTextBox, par2) {
     }
     else if(collFlag)
     {
-        if (submitted != 2) $('#statusSub').html('Draft');
-        else $('#statusSub').html('Accepted');
-        $('#submitId').hide();
+    
+        $('#submitId').remove();
         $(' .allTextAndNumberBoxes, .selectClassForJq, .ddResourcesForJq, .ddDepClass').attr('disabled', 'disabled');
         $('.allTextAndNumberBoxes, .selectClassForJq, .ddResourcesForJq, .ddDepClass').addClass('disablePointer');
-        $('#saveId').css('margin-top', '3%');
+        //$('#saveId').css('margin-top', '3%');
         $('.shadow').each(function()
         {
             if (!$(this).hasClass('donthide'))
@@ -1649,24 +1654,23 @@ function findParentDate(inputTextBox, par2) {
 
 function deleteRow(rowId, editFlag) {
     /*deleteRRow*/
+
 someThingUpdated = -1
 showSaveSubmit();
     var value = rowId.split('_');
     var individualId = value[0];
     var parentId = value[2];
     rowId = individualId + '_rowid_' + parentId;
-
     var objForSecondTd = $('#' + rowId + ' td')[1];
     if (parentId == '0') {
         depth = 0;
     } else if ($(objForSecondTd).hasClass('task')) {
         depth = 1;
     } else depth = 2;
-
     if (treeStructure[individualId].length) {
         alert('Please delete all children first');
-        return;
-    }
+return;}
+
 
 
     if (editFlag) {
@@ -1675,6 +1679,20 @@ showSaveSubmit();
         }
 
     }
+
+
+       if(submitted==2){
+   $('#' + rowId).addClass('deleteCss');
+    $('#' + rowId).addClass('strikeout');
+    disableEverything(rowId);
+    updateAllArr(rowId, -1);
+      return;
+    }
+    else{
+    $('#' + rowId).remove();
+       updateAllArr(rowId, 0);
+       }
+
     individualId = parseeIntForNan(individualId);
     var arrForTreeStr = treeStructure[parentId]
         //console.log('before',arrForTreeStr);
@@ -1686,18 +1704,7 @@ showSaveSubmit();
 
     // convertTonormalTr(-1, rowId, depth);
     //  console.log('rowid ', rowId);
-    if(submitted==2){
-   $('#' + rowId).addClass('deleteCss');
-    $('#' + rowId).addClass('strikeout');
-     disableEverything(rowId);
-         updateAllArr(rowId, -1);
-
-    }
-    else{
-    $('#' + rowId).remove();
-       updateAllArr(rowId, 0);
-       }
-
+ 
     setTimeout(function() {
         var numValuePair = updateNumberSequenceInFirstColumn();
 
@@ -1882,7 +1889,11 @@ addcollaborateClassToTagger();
                     },50);
   }
           else{
+            var nextEle = $(this).next()[0];
+            var newId   = $(nextEle).attr("id");
               someThingUpdated = 1;
+         changedEleFunc(newId,9);
+
               showSaveSubmit();
                  if($(this).val()<0){
                  $(this).val('0');
@@ -2066,9 +2077,12 @@ addcollaborateClassToTagger();
         }).change(function() {
             // dropDownFlagUsedInTask = false;
             someThingUpdated = 1;
+         
+
             showSaveSubmit();
             var tempSelectValue = $(this).val();
             var currentId = $(this).attr('id');
+               changedEleFunc(currentId,9);
             var value = currentId.split('_');
             var individualId = parseeIntForNan(value[0]);
             var parentId = parseeIntForNan(value[2]);
@@ -2109,11 +2123,13 @@ addcollaborateClassToTagger();
 
         $('.ddResourcesForJq').change(function(){
             someThingUpdated = 1;
+            
+
             showSaveSubmit();
             var tdEle = $(this).parent('td');
             tdEle = $(tdEle).parent('tr');
             tdEle = $(tdEle).attr('id');
-
+           changedEleFunc(tdEle,12);
             if ($(this).val() != '0') {
                 $(this).removeClass('isEmptyTextBoxValidation');
 
@@ -2210,7 +2226,7 @@ $('.textboxEffEditAddJq').keypress(function(){
     }
 });
 $('.textboxEffEditAddJq').scroll(function(){
-    console.log('sdsdsd');
+    //console.log('sdsdsd');
     if($(this).val()<0){
         $(this).val('0');
     }
@@ -2245,9 +2261,13 @@ $('#collaborateId').tagger({
 
 
 
+
 setTimeout(function(){
-$('.tagger').css('display','inline-flex');
-});
+
+$('.mailClass input').removeAttr('disabled').removeClass('disablePointer');
+$('.collaborateClass input').removeAttr('disabled').removeClass('disablePointer');
+
+},3000);
 
 
 
@@ -2261,8 +2281,27 @@ $('.tagger').css('display','inline-flex');
 
 $('.datePickerFilter').on("keyup", datePickerFilterFunction);
 $('#dueDate').change(dueDateFunction);
-
- 
+ debugger;
+ for(var j =0;j<newChangedEleArrFromDb.length;j++){
+var individualIdthis = newChangedEleArrFromDb[j][0];
+var parentThis;
+for (var i = 0; i <= ultimateEndId; i++) {
+                // console.log('#'+parentId + '_rowid_'+i);
+                if ($('#' + individualIdthis + '_rowid_' + i).length) {
+                    //  console.log('sassddassdasdasd','#'+parentId + '_rowid_'+i);
+                    parentThis = i;
+                    break;
+                }
+            }
+       var ele = $('#'+individualIdthis+'_rowid_'+parentThis +' td')[newChangedEleArrFromDb[j][1]];
+          
+        var newEle1 = $(ele).children("input")[0];
+        var newEle2 = $(ele).children("select")[0];    
+        $(ele).addClass("changedEleClassCss");
+        $(newEle1).addClass("changedEleClassCss");
+        $(newEle2).addClass("changedEleClassCss");
+        debugger;
+ }
 
 }
 /****************************************************initializeJquery**********************************************************************/
@@ -2643,7 +2682,7 @@ function dependancyCheckForChangePlannedStartDate(rootIndividualId, sDateEle) {
         alert('Pl Start Date cannot be before dependencies act End Date');
         $(sDateEle).val('');
     }
-    debugger;
+   // debugger;
     return true;
 
 }
@@ -2956,6 +2995,7 @@ $(".datePicker").attr('readonly', true);
            if(middleElement=='sDate'){
 
               changeStartDate(thisId);
+             changedEleFunc(thisId,3);
 
                 return ; // I don't want end date validation here .
            }
@@ -2963,20 +3003,24 @@ $(".datePicker").attr('readonly', true);
            if(middleElement=='eDate'){
               checkNature($(this).attr('id'));
                 changeEndDate(thisId);
+                   changedEleFunc(thisId,4);
 
          }
             if (middleElement == 'pActStartDate') {
                  changeActPlStDate(thisEle, thisDateBeforeSelect);
+                  changedEleFunc(thisId,5);
                 return;           // I don't want end date validation here .
             }
 
              if (middleElement == 'pActEndDate') {
                     checkNature($(this).attr('id'));
                    changeActPlEndDate(thisId);
+                    changedEleFunc(thisId,6);
               }
 
             if (middleElement == 'actEndDate'){
                 changeActEndDate(thisEle, thisDateBeforeSelect);
+                  changedEleFunc(thisId,7);
                 return;       //  I don't want end date validation here .
               
             }
@@ -3025,12 +3069,12 @@ function userFlagFunction(){
         
         var name = $(name1).val();
           name = name + '';
-                    console.log('name is ',name);
+                  //  console.log('name is ',name);
 
         if (name.indexOf('$$$0$RobertJFi$cher$$') != -1) {
             name = name.slice(0, name.indexOf('$$$0$RobertJFi$cher$$'));
             name = name.toString();
-                      console.log('name now is ',name);
+                     // console.log('name now is ',name);
 
        //   console.log('name1 is',name1,'name is ',name);
            var nameId = $(name1).attr('id');
@@ -3104,6 +3148,7 @@ var numberOfDays = calculateEffDays(newDate, thisDateBeforeSelect);
 
     }
     $(actPlStartDateId).val(newDate);
+    updateAllArr(thisEleId,1);
     dependancyCheckForChangePlannedStartDate(individualId,actPlStartDateId);
 
 
@@ -3176,16 +3221,16 @@ function getDateTimeNow(){
 function replaceTextBoxWithTextAreaAndViceVersa(thisEle){
 var hasFlag = $(thisEle).hasClass('textAreaCheck'); 
 var  value  =   $(thisEle).val();
-var changedEle;
+var changedEle1;
 if(hasFlag){
     $(thisEle).removeClass('textAreaCheck');
     var classHere = $(thisEle).attr('class');
  var inputBox = $(document.createElement('input')).attr('class',classHere).attr('type','text').attr('style',styleTextBoxForFocusOut);
- changedEle = inputBox;
+ changedEle1 = inputBox;
   $(thisEle).replaceWith(inputBox);
- $(changedEle).focusout(focusoutFunctionNameField);
- $(changedEle).click(clickNameField);
-  $(changedEle).keypress(nameFieldClassKeyPressFunc);
+ $(changedEle1).focusout(focusoutFunctionNameField);
+ $(changedEle1).click(clickNameField);
+  $(changedEle1).keypress(nameFieldClassKeyPressFunc);
  }
 
  else{
@@ -3193,15 +3238,15 @@ if(hasFlag){
     var classHere = $(thisEle).attr('class');
     var textArea = $(document.createElement('textArea')).attr('class',classHere).attr('cols','40')[0];
 
-     changedEle = textArea;
+     changedEle1 = textArea;
     $(thisEle).replaceWith(textArea);
-    $(changedEle).addClass('textAreaCheck');
-    $(changedEle).focusout(focusoutFunctionTextArea);
-     $(changedEle).focus();
+    $(changedEle1).addClass('textAreaCheck');
+    $(changedEle1).focusout(focusoutFunctionTextArea);
+     $(changedEle1).focus();
 }
 
 
-$(changedEle).val(value);
+$(changedEle1).val(value);
 
 }
 
@@ -3402,7 +3447,7 @@ $.ajax({
      },
      error:function(err){
       alert('server error');
-      console.log('error is ',err);
+     // console.log('error is ',err);
     $('.se-pre-con').fadeOut('slow');
 
  
@@ -3586,6 +3631,9 @@ return dateString;
 
 
 function downloadasExcel(mailFlag){
+
+  $('#tbody123 tr .open').click();
+
     if(mailFlag){
         if($('#sendMailTo').val()==null){
             alert('No receiptants selected');
@@ -3596,7 +3644,7 @@ function downloadasExcel(mailFlag){
 var bigArr = [];
 var trArr = $('#tbody123 tr');
 for(var i = 0;i<trArr.length;i++){
- if(!$(trArr).hasClass('deleteCss')){
+ if(!$(trArr[i]).hasClass('deleteCss')){
    var id = $(trArr[i]).attr('id');
    bigArr.push(createObjForExcel(id));
 
@@ -3605,7 +3653,7 @@ for(var i = 0;i<trArr.length;i++){
 }
 
 createExcelSheet(bigArr,mailFlag);
-
+//debugger;
 
 }
 function expandTree(){
@@ -3681,8 +3729,22 @@ rowId = '#' + rowId;
 $(rowId + ' input').attr('disabled','disabled').addClass('disablePointer');
 $(rowId + ' select').attr('disabled','disabled').addClass('disablePointer');
 $(rowId + ' .glyphicon').unbind('click');
-$(rowId + ' img').attr('onclick','');
+setTimeout(function(){$(rowId + '  img').each(function(){$(this).removeAttr('onclick')})
+debugger;
+},500);
+var inp = $(rowId+' input')[6];
+$(inp).val("0");
 
+}
+
+
+function changedEleFunc(rowid,num){
+    if(submitted!=2){
+        return;
+    } 
+var value = rowid.split('_');
+var individualId = value[0];
+changedEleArr.push(individualId+'$@$'+num);
 }
 /***********************************Function ends here*********************************************************/
 
@@ -3739,6 +3801,8 @@ var nameFieldClassKeyPressFunc  = function(){
                }
 
         someThingUpdated = 1;
+        var rowid = $(this).parent('td').parent('tr').attr('id');
+        changedEleFunc(rowid,1)
         showSaveSubmit();
 $(this).removeClass('isEmptyTextBoxValidation');
     }
@@ -3746,6 +3810,7 @@ $(this).removeClass('isEmptyTextBoxValidation');
 
  var ddDepClassFunction =  function() {
              someThingUpdated = 1;
+
             // alert('sadasdasdasd');
             var idThis = $(this).attr('id');
             var thisIdArr = idThis.split('_');
@@ -3755,6 +3820,7 @@ $(this).removeClass('isEmptyTextBoxValidation');
             if ($(this).val() != '0') {
                 $(this).removeClass('isEmptyTextBoxValidation');
          }
+            changedEleFunc(idThis,11);
 
          updateAllArr(idThis, 1);
 
@@ -3797,7 +3863,7 @@ if(clicks === 1) {
             clearTimeout(timer);    //prevent single-click action
             clicks = 0;             //after action performed, reset counter
         }
-   console.log('hello');
+   //console.log('hello');
    var thisTr = $(this) .parent('td').parent('tr'); 
     var idThis   = $(thisTr).attr('id');
     var value    =  idThis.split('_');
@@ -3823,7 +3889,7 @@ createNewCommentRows(individualId,nextTr);
 $('.commentTextArea').keypress(commentTextAreaFunction);
 //if(allCommentsArr[individualId]
 
-debugger;
+//debugger;
 }
 
 
@@ -3905,7 +3971,7 @@ var dueDateFunction = function(){
                                          $(trArr[i]).addClass('dueDateClass')
                                      }   
                             
-                             debugger;
+                             //debugger;
                             }
                  
                 }
@@ -3994,3 +4060,4 @@ strikeout parent
 4)Filter on each dates.
 
 */
+

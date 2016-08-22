@@ -1,0 +1,1272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <% include ../partials/head %>
+<% include ../partials/adminheader %>
+  <% include headerDoc.ejs %>
+<title>Document Management</title>
+
+<style type="text/css">
+.tdClassTextBox{
+    width:25%;
+}
+
+.fileUplaodDivClass{
+
+      overflow: auto;
+      max-height: 500px;
+      border-radius:15px;
+      background: rgba(133,148,119,0.29);
+     
+      padding:0px;
+      
+}
+.form-text-box {
+    display: block;
+    width: 90%;
+    height: 25px;
+    padding: 0px 0px;
+    font-size: 10px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.dataTables_filter, .dataTables_length {
+     display: none;
+    }
+.ms-drop ul {
+    max-height: 120px !important;
+}
+.ms-parent {
+    width:200px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}    
+.color3{
+    padding-left: 1%;
+    padding-top: 2%;
+    margin-left: 19.7%;
+    width: 61%;
+    padding-bottom: 61%;
+    padding-right: 1%;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.ms-choice > span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    padding-left: 8px;
+    font-size: 10px;
+}
+
+    
+    .glyphicon-folder-open {
+        color: black;
+    }
+    
+   
+    
+    input[type=search] {
+        height: 29px !important;
+        border-radius: 5px !important;
+        border: 1px solid #669ECC !important;
+    }
+    
+    thead {
+        background-color: #808080;
+        color: white;
+        font-size: 12px;
+    }
+    
+    tbody {
+        color: #808080;
+        font-size: 12px;
+    }
+    
+  
+    }
+    body {
+            overflow-y: scroll;
+        }
+    .labelclass{
+        position:relative;top:10%;margin-left:0%
+    }    
+   
+    .col-md-3 {
+    width: 20%;
+}
+.col-md-6 {
+    width: 60%;
+}
+
+
+
+.rating > span:hover:before {
+   content: "\2605";
+   position: absolute;
+}
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+}
+#data_table
+{
+    white-space: nowrap;
+}
+
+
+
+.left {
+    width: 30%;
+    float: left;
+ 
+}
+.right {
+    width: 65%;
+    margin-left: 10px;
+    float:left;
+    margin-top: 4%;
+}
+#advanceSearch{
+
+    cursor: pointer;
+}
+</style>
+
+  
+  <script>
+  $("#searchbox_demo").removeClass("hide"); 
+ </script> 
+<body>  
+<div class="se-pre-con"></div>      
+
+ 
+<div class="container-fluid secondry-color" > 
+  <div class="row">
+    <div class="fileUplaodDivClass col-md-3 " style="width:18%">
+            <div class="" style=" margin-left:16%;"><label class="form-Label ">File Upload (size limit :20 mb)</label></div>
+            <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" >
+                <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:0%;">
+                    <input type="file" id="fileAttach" class="fileStyle form-control " name='attach' style="font-size:11px;height: 0%;" required>
+                    <input type="number" name='currfolder' value='0' class="hide" id="currfolderId">
+                </div>
+
+                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
+                    <input type="text" id="ftitle" maxlength="50" required name="title" placeholder=" File Title(Required)" style="width:100%; ">
+                </div>
+                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
+                    <input type="text" id="fauthor" maxlength="50" equired name="authname" placeholder=" Author Name(Required)" style="width:100%">
+                </div>
+                <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
+                    <textarea rows="6" cols="12" maxlength="500" id="des" name="descbox" placeholder=" Description(Required) Limit:100 words" style="width:100%;resize: none;"></textarea>
+                </div>
+
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
+                    <div class="row labelclass form-Label" ><b>Industry:<sup style="color:red;">*</sup></b></div>
+                    <div class="form-Label">
+                     <%if(industry[0].length>0){%><input type="hidden" id="<%=industry[0][0].id%>" required name="industryhide" value="<%=industry[0][0].id%>"><%}%>
+                        <select id="my-select1"  multiple="multiple" required name="industry">
+                           <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
+                    <div class="row labelclass form-Label" style=""><b>User Department:<sup style="color:red;">*</sup></b></div>
+                    <div class="form-Label">
+                        <%if(business[0].length>0){%> <input type="hidden" id="<%=business[0][0].id%>" required name="businesshide" value="<%=business[0][0].id%>">  <%}%>
+                        <select id="my-select2"  multiple="multiple" required name="business">
+                            <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
+                    <div class="row labelclass form-Label" style=""><b>Document type:<sup style="color:red;">*</sup></b></div>
+
+                    <div class="form-Label">  <%if(document[0].length>0){%>
+                        <input type="hidden" id="<%=document[0][0].id%>" required name="doctypehide" value="<%=document[0][0].id%>">   <%}%>
+                        <select id="my-select3"  multiple="multiple" required name="doctype">
+                                         <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
+
+                                        </select>
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
+                    <div class="row labelclass form-Label" style=""><b>Application Area:<sup style="color:red;">*</sup></b></div>
+                    <div class="form-Label"><%if(technology[0].length>0){%>
+                        <input type="hidden" id="<%=technology[0][0].id%>" required name="newTechide" value="<%=technology[0][0].id%>"><%}%>
+                        <select id="my-select4"  multiple="multiple" required name="newTec">
+                                             <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1" style="margin-top:1%" id="">
+                    <div class="row labelclass form-Label" style="">
+                        <b>Restriction Level:<sup style="color:red;">*</sup></b>
+                    </div>
+                    <div class="form-Label">
+                        <input type="hidden" id="<%=restriction[0][0].id%>" required name="rLevelhide" value="<%=restriction[0][0].id%>">
+                        <select id="my-select5" required name="rLevel" class="form-text-box form-Label" style="width: 100%;padding: 3px;">
+                             <%for(var i=0;i<restriction[0].length;i++){%>
+                            <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                            <%}%>
+
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6 col-md-offset-4 " id="lastfiveuploads6" style="margin-top:0%;">
+                    <input type="submit" value="Submit" id="" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()">
+                </div>
+      </form>
+  
+    </div>
+
+    <div class="col-md-9" style="width:81%">
+
+        <table>
+		<tr id="advanceSearch"><td style="width:200px;font-size:13px;color:#f05f40">Advance Search</td></tr> 
+           <tr class="advanceSearch hide">
+            <td><label class="form-Label ">Industry:</label></td>
+            <td class="tdClassTextBox"> <select id="select1" multiple="multiple" required name="industry1" class="form-text-box">
+                                              <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                                            <%}}}%>
+                                                       
+                            </select></td>
+
+            <td><label class="form-Label ">User Department:</label></td>
+            <td class="tdClassTextBox">  <select id="select2" multiple="multiple" required name="business1"  class="form-text-box">
+                                  <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                            
+                            </select></td>
+            <td><label class="form-Label ">Document Type:</label></td>
+            <td class="tdClassTextBox">   <select id="select3" multiple="multiple" required name="doctype"  class="form-text-box">
+                                            <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
+                                          
+ 
+                                        </select></td>
+            
+             </tr>
+             <tr class="advanceSearch hide">
+                <td><label class="form-Label ">Application Area:</label></td>
+            <td class="tdClassTextBox"> <select id="select4" multiple="multiple" required name="newTec1"  class="form-text-box">
+                                            <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
+
+                                                
+                                        </select></td>
+            <td><label class="form-Label ">Restriction Level:</label></td>
+            <td class="tdClassTextBox"> <select id="select5" multiple="true" required name="rLevel1" class="form-text-box">
+                                                     <%for(var i=0;i<restriction[0].length;i++){%>
+                                                    <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                                                    <%}%>
+                                            </select></td>
+            <td>
+             <span  onclick="filterdata();" ><input type="image" src="../images/candidate_search.png" id="searchBoxId1" height="33px" title="Search" style=""></span>
+            </td>
+           </tr>
+        </table>
+
+
+     
+
+ <div class="row">
+            <table id="data_table" class="table table-bordered" cellspacing="0" align="centre" style="max-width:100%;padding: 1%;">
+                <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>File Title</th>
+                   <!--  <th>Author</th> -->
+                     <th>Uploaded By</th>
+                    <th>Upload Date</th>
+                  <!--   <th>Total Downloads</th> -->
+                    <th>File Rating</th>
+                     <th>Rate</th>
+                    <%if(roleid!=1){%><th>Status</th><%}%>
+                    <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="orderbody">
+                
+                    <%for(var i=0;i<=files[0].length-1;i++) {%>
+
+                        <tr class="" id='row_<%=files[0][i].id%>'>
+                            <td>
+                                <a onclick="downloadFile('row_<%=files[0][i].id%>','<%=files[0][i].id%>')" download href="./attach/<%=files[0][i].fpath%>">
+                                    <%=files[0][i].name%>
+                                </a>
+                            </td>
+                            <td>
+                                <%=files[0][i].title%>
+                            </td>
+                            <!-- <td>
+                                <%=files[0][i].author%>
+                            </td> -->
+                            <td>
+                                <%=files[0][i].userName%>
+                            </td>
+                            <td>
+                                <%=files[0][i].uploadDate%>
+                            </td>
+                             <!-- <td>
+                                <%=files[0][i].no_of_downloads%>
+                            </td> -->
+                            <td>
+                                <%if(files[0][i].Rating==null || files[0][i].Rating==0){%>
+                                not yet rated.
+                                <%}else{%>
+                                <%for(var k=0;k<files[0][i].Rating;k++){%>
+                                     <i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>
+                                     <%}%>
+                                <%}%>
+                            </td>
+                             <td>
+                                 
+                                
+                               
+                             
+                             <%for(var a=1;a<=5;a++){%>
+                                <%if(files[0][i].ratingId>=a){%>
+                               <i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>
+                                    
+                               <%}%>
+                               <%if(!files[0][i].ratingId){%>
+                                <i id="star-<%=a%>-<%=files[0][i].id%>" onClick="submitUpdatedRated('row_<%=files[0][i].id%>','<%=files[0][i].id%>',<%=a%>)" class="star glyphicon glyphicon-star-empty"></i>
+                                    
+                               <%}%>
+                             <%}%>
+                                 
+                            </td>
+                             <%if(roleid!=1){
+
+                                if(files[0][i].isConfirmed==-1 )
+                                    var statusvar="pending " ;
+                                 if(files[0][i].isConfirmed==1 )
+                                    var statusvar="approved" ;    
+
+                                %>
+
+                                 <td>
+                                    <%=statusvar%>
+                                </td>
+                            <%}%>
+                            <td><a title="view details"><i  onclick="editModel(<%=files[0][i].id%>)" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>
+                                <a title="delete file" class ='glyphicon glyphicon-trash delete' onclick="deleteFile(<%=files[0][i].id%>)" style="max-width: 15px ;margin-right:5px " ></a>
+                                </a><a title="edit file" class="glyphicon glyphicon-pencil delete" onclick="editFile(<%=files[0][i].id%>)" style="max-width: 15px"></a> 
+                            </td>
+                        </tr>
+
+                        <%}%>
+                </tbody>
+            </table>  
+    </div> 
+ </div> 
+</div>
+</div>
+</body>
+
+
+<div class="modal fade" id="tag1">
+        <div class="modal-dialog">
+
+            <div class="modal-content" id="express2" style="">
+                <div class="modal-header" style="background-color:#f05f40; ">
+                    <center><label id="head4" class="modal-title" style="color:white;"><b>View Details</b></label></center>
+                     <button type="button" class="close" id='cancel' style="margin-top: -31px" aria-label="Close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="width:auto">
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label class="form-Label" > File Title:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea class="form-text-box"  id="title1" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-Label" > Author Name:</label>
+                        </div>
+                        <div class="col-md-8">
+                       <textarea class="form-text-box"  id="authname" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label class="form-Label" >Description :</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea rows="4" cols="12" name="descbox" id="desc"  placeholder="Description" style="width:100%;resize: none;margin-bottom:3%;font-size:10px" readonly="readonly"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-Label" >Industry :</label>
+                        </div>
+                        <div class="col-md-8">
+                             <textarea class="form-text-box" name="descbox" id="industry" value=" " placeholder="Description" style="max-height:100px ; width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
+                           
+
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label class="form-Label" >User Department:</label>
+                        </div>
+                        <div class="col-md-8">
+                             <textarea class="form-text-box" name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
+                           
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label class="form-Label" >Document Type:</label>
+                        </div>
+                        <div class="col-md-8">
+                             <textarea class="form-text-box" name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
+                          
+                        </div>
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label class="form-Label" >Application Area:</label>
+                        </div>
+                        <div class="col-md-8">
+                             <textarea class="form-text-box" name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize: none;margin-bottom:3%" readonly="readonly"></textarea>
+                           
+
+
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label class="form-Label" >Restriction Lavel:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea class="form-text-box"  id="rest" value="" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly>
+                        </textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <center>
+                            <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Close</button>
+
+                        </center>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+=1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                      </div>  
+                    </div>
+                </div>
+                <div class="row a" style="margin-top:1%">
+                    <div class="col-md-5"><label class="form-Label" style="padding:0px">Document Type:<sup  style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+                          <input type="hidden" id="<%=document[0].id%>" maxlength="50" required name="doctypehide" value="<%=document[0].id%>">
+                          <div id="dd">
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectDD" required name="d_name">
+                             <%
+                             if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                      </div>
+                 </div>
+              </div>
+              <div class="row a" style="margin-top:1%">
+                    <div class="col-md-5"><label class="form-Label" style="padding:0px">Application Area:<sup  style="color:red">*</sup></label></div>
+                  <div class="col-md-7">
+                          <input type="hidden" id="<%=technology[0].id%>" maxlength="50" required name="newTechide" value="<%=technology[0].id%>">
+                        <div id="tt">  
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectTT" required name="t_name">
+                         <%
+                         if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
+                        </select> 
+                      </div>
+                 </div>
+              </div>
+             <div class="row a" style="margin-top:1%">
+                <div class="col-md-5"><label class="form-Label" style="padding:0px">Restriction Level:<sup  style="color:red">*</sup></label></div>
+                  <div class="col-md-7" style="margin-bottom: 4%;">
+               <input type="hidden" id="<%=restriction[0].id%>" maxlength="50"  required name="rLevelhide" value="<%=restriction[0].id%>">
+                <div id="rr">  
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectRR" required name="res_name">
+                             <%for(var i=0;i<restriction[0].length;i++){%>
+                                        <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                            <%}%>
+                        </select>
+                      </div>
+                    </div>
+            </div>
+  
+           <div class="modal-footer">
+                <center>
+                         <button id='btn-cancel' type="reset" data-dismiss="modal"  class="btn">Cancel</button>
+                             <button class="btn "  onClick="docValidation()">Submit</button>
+               
+                </center>
+
+         </div>
+     </div>
+            </div>
+            </div>
+
+</div>
+<script>
+function submitUpdatedRated(rowid,fileid,rating){
+  var stringStar="";
+for(var i=0;i<rating;i++){
+stringStar+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>';
+}
+  
+    $.ajax( {
+            url: 'downloadFileCount',
+            type: 'post' ,
+            data: {
+                'fileid': fileid,
+                'rating':rating,
+                'flag':2
+            },
+            dataType: 'json',
+            success: function(result) {
+               if(rating==0){
+                alert("Error : Please provide a valid Rating");
+               $('#'+rowid+' td select')[0].value=result[0][0].ratingId;
+               }
+               else{
+
+
+             // document.getElementById("data_table").rows[rowid].cells.item(4).innerHTML =result[0][0].Rating;
+
+var ratingstr='';
+             for(var k=0;k<result[0][0].Rating;k++)
+             {
+                ratingstr+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>';
+                
+             }
+             document.getElementById("data_table").rows[rowid].cells.item(4).innerHTML =ratingstr;
+                 document.getElementById("data_table").rows[rowid].cells.item(5).innerHTML=stringStar;
+              }
+            }
+           
+        });
+
+}
+function downloadFile(rowid,fileid){
+
+        $.ajax( {
+            url: 'downloadFileCount',
+            type: 'post' ,
+            data: {
+                'fileid': fileid,
+                 'rating':'',
+                'flag':1
+            },
+            dataType: 'json',
+            success: function(result) {                  
+
+           /*   document.getElementById("data_table").rows[rowid].cells.item(5).innerHTML =result[0][0].no_of_downloads;
+               */
+            }
+           
+        });
+   
+}
+   $('form#formID').submit(function(e){
+    $(this).find('input[type=submit]').prop('disabled', true);
+    $('.se-pre-con').fadeIn('slow');
+});
+
+   var  validType=['exe'];
+        function validation() {
+            var input, file;
+            input = document.getElementById('fileAttach');
+            file = input.files[0];
+            var fname = $('#ftitle').val();
+            var fauthor = $('#fauthor').val();
+            var des = $('#des').val();
+            var indus = $('#my-select1').val();
+            var bus = $('#my-select2').val();
+            var doc = $('#my-select3').val();
+            var tec = $('#my-select4').val();
+            var res = $('#my-select5').val();
+            var filename=$("#fileAttach").val();
+            var fileType=filename.split('.');
+            var fileType1=fileType[fileType.length-1];
+            if (filename.trim() == "") {
+                alert("Please Select a File First!");
+                return false;
+            }
+            if(fileType1=='exe'){
+                alert("Error:exe  file cannot be uploaded!");
+                return false;
+            }
+            if(file.size>20971520){
+                 alert("Error:File limit is 20 mb");
+                 return false ;
+            }    
+            if (fname == "") {
+                alert("Please Enter valid File Name!");
+                return false;
+            }
+            if (fauthor == "") {
+                alert("Please Enter valid Author Name!");
+                return false;
+            }
+            if (des == "") {
+                alert("Please Enter valid Description!");
+                return false;
+            }
+
+            if (indus == null) {
+                alert("Please select any Industry name! ");
+                return false;
+            }
+            if (bus == null) {
+                alert("Please select any Business name!");
+                return false;
+            }
+
+            if (doc == null) {
+                alert("Please select any Document Type!");
+                return false;
+            }
+            if (tec == null) {
+                alert("Please select any Technology Type!");
+                return false;
+            }
+            if (res == null) {
+                alert("Please select any Restriction Type!");
+                return false;
+            } else
+            {
+            return true;
+            }
+        }
+
+      
+        var otable;
+        $(document).ready(function() {
+                
+	$("#advanceSearch").click(function(){
+                $(".advanceSearch").toggleClass("hide");
+            });
+
+             $(".star").on({
+    mouseenter: function () {
+        var getId=$(this).attr("id").split("-");
+        getFileId=getId[getId.length-1];
+        var getStarId=getId[getId.length-2];
+        for(var i=1;i<=getStarId;i++){
+            $("#star-"+i+"-"+getFileId).removeClass("glyphicon-star-empty");
+            $("#star-"+i+"-"+getFileId).addClass("glyphicon-star");
+        }
+      
+    },
+    mouseleave: function () {
+        var getId=$(this).attr("id").split("-");
+        getFileId=getId[getId.length-1];
+        var getStarId=getId[getId.length-2];
+        for(var i=1;i<=getStarId;i++){
+            $("#star-"+i+"-"+getFileId).addClass("glyphicon-star-empty");
+            $("#star-"+i+"-"+getFileId).removeClass("glyphicon-star");
+        }
+      
+    },
+}); 
+
+    
+            $('.se-pre-con').fadeOut('slow');
+            $(".portal-menu").hide();
+
+
+            $('#select1').multipleSelect({
+            width: '75%'
+        });
+            $('#select2').multipleSelect({
+            width: '75%'
+        });
+            $('#select3').multipleSelect({
+            width: '75%'
+        });
+            $('#select4').multipleSelect({
+            width: '75%'
+        });
+            $('#select5').multipleSelect({
+            width: '75%'
+        });
+           $('#my-select').multipleSelect({
+            width: '75%'
+        });
+            $('#my-select1').multipleSelect({
+            width: '100%'
+        });
+            $('#my-select2').multipleSelect({
+            width: '100%'
+        });
+            $('#my-select3').multipleSelect({
+            width: '100%'
+        });
+             $('#my-select4').multipleSelect({
+            width: '100%'
+        });
+            
+        
+            if ('<%=roleid%>' != '1') {
+               $('.delete').addClass('hide');
+                $('#docTabName2').addClass('hide');
+                $('#docTab2').addClass('hide');
+
+            } 
+
+            otable = $("#data_table").dataTable({
+
+                destroy: true,
+
+                "iDisplayLength": 10,
+                "showNEntries": true,
+                "bFilter": false,
+                "bLengthChange": true,
+               
+                "order": [],
+                "fixedColumns": true,
+                
+            });
+          
+            if (<%=alert%> == 1) {
+                setTimeout(function(){
+                    alert("File has been uploaded");
+                    $.ajax({
+                            url: '/setdocalert',
+                            type: 'get',
+                            dataType: 'json',
+                            success: function(tabledata) {
+                            },
+                            error: function() {
+                                alert("Server Error");
+                                window.location.href="/document";
+
+                            }
+                    });
+                }, 500);
+
+            }
+
+            $('#docTab').addClass('active');
+            $('#docTabName').addClass('active');
+
+
+        });
+
+        function closeModel() {
+            $('#tag1').modal('hide');
+        }
+
+       
+        function deleteFile(temp) {
+            var rowid = '#row_' + temp;
+            if (confirm(" Are you sure ? , this file will be deleted permanently !") == true)
+                $.ajax({
+                    url: 'deleteFileByIdPermanentely',
+                    method: 'post',
+                    data: {
+                        "status": temp,
+                        "status1": '',
+
+                    },
+                    dataType: 'json',
+                    success: function(tabledata) {
+                       
+                        otable.fnDeleteRow(rowid);
+                    },
+                    error: function() {
+                        location.reload();
+                    }
+                });
+        }
+var selectVariable=<%-JSON.stringify(files[1])%>;
+        function filterdata() {
+            $('.se-pre-con').fadeIn('slow');
+            var emptyArr = [];
+          
+            if ($('#select1').val() == null)
+                a = ' ';
+            else
+                a = $('#select1').val().toString();
+            if ($('#select2').val() == null)
+                b = ' ';
+            else
+                b = $('#select2').val().toString();
+            if ($('#select3').val() == null)
+                c = ' ';
+            else
+                c = $('#select3').val().toString();
+            if ($('#select4').val() == null)
+                d = ' ';
+            else
+                d = $('#select4').val().toString();
+            if ($('#select5').val() == null)
+                e = ' ';
+            else
+                e = $('#select5').val().toString();
+            
+
+
+            $.ajax({
+                url: '/filterFiledata',
+                method: 'post',
+                data: {
+                    'ni': a,
+                    'nb': b,
+                    'nd': c,
+                    'nt': d,
+                    'nr': e,
+                    'searchbox': $("#searchBoxId").val()
+                        
+                },
+                dataType: 'json',
+                success: function(tabledata) {
+                    var charstr = "";
+                    charstr += '<thead><th>File Name</th><th>File Title</th><th>Uploaded By</th> <th>Upload Date</th><th>File Rating</th><th style="width:50px">Rate</th><th>Action</th></thead><tbody>';
+                    for (var i = 0; i <= tabledata.length - 1; i++) {
+                        var bgstr = '';
+                        if (tabledata[i].color == 'yellow') {
+
+                            bgstr = 'style = "background-color:#ffffb3"';
+
+                        }
+                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a onclick="downloadFile(row_'+tabledata[i].id+','+tabledata[i].id+')"  download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate +'</td><td>' ;
+                                if(tabledata[i].Rating==null){
+                               var rateString= "not yet rated." ;
+                                }else{
+                                   var rateString=  tabledata[i].Rating ;
+                                }
+                           
+                                charstr+=rateString+'</td><td>';
+                                for(var a=1;a<=5;a++){
+                                    if(tabledata[i].ratingId>=a){
+                                     charstr+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>';
+                                        
+                                   }
+                                   if(!tabledata[i].ratingId){%>
+                                    charstr+='<i id="star-'+a+'-'+tabledata[i].id+'" onClick=submitUpdatedRated("row_'+tabledata[i].id+'","'+tabledata[i].id+'",'+a+') class="star glyphicon glyphicon-star-empty"></i>';
+                                        
+                                   }
+                                }
+                                 
+
+                             
+                              charstr+='</td></td><td><a title="view details"><i  onclick="editModel(' + tabledata[i].id + ')" style="max-width: 25px;margin-right:5px" class="glyphicon glyphicon-search"></i></a>';
+                        if (<%=roleid%> == 1) {
+                                charstr = charstr + '<a title="delete file" class="glyphicon glyphicon-trash delete" onclick="deleteFile(' + tabledata[i].id + ')" style="max-width: 15px ; margin-right:5px"></a><a title="edit file" class="glyphicon glyphicon-pencil delete" onclick="editFile(' + tabledata[i].id + ')" style="max-width: 15px"></a></td></tr>';
+                        } 
+                    }
+
+                    charstr += '</tbody>';
+                    otable.dataTable().fnDestroy();
+
+                    $('#data_table').html(charstr);
+                    otable = $("#data_table").dataTable({
+                     
+                        destroy: true,
+                        "iDisplayLength": 10,
+                        /*used to display no of element  on page load or relaod*/
+                        "showNEntries": true,
+                        /* for displaying showing 10 out of 50 entries at left bottom corner*/
+                        "bFilter": false,
+                        /*dispalying search box at top right corner*/
+                        "bLengthChange": true,
+                        /*dispalying  show 10 out of 50 entries at top left corner*/
+                        "aoColumnDefs": [{ //   "bSortable": false,
+                            //  "aTargets": [0]
+                        }],
+                        "order": emptyArr /*we can provide order to every column "order": [[0,'asc'],[1,'des']] */
+
+                    });
+                   
+                    $('.se-pre-con').fadeOut('slow');
+
+                },
+
+                error: function() {
+                   
+                }
+
+
+
+            });
+
+        }
+
+        $(document).on("keypress", '#searchBoxId', function(e) {
+            if (e.which == 13) {
+                filterdata();
+                return false;
+            }
+        });
+
+        function editModel(id1) {
+            $.ajax({
+                url: '/viewFileDetails',
+                type: 'post',
+                data: {
+                    "id": id1
+                },
+                success: function(data) {
+
+                    console.log("sucessssss", data);
+                    document.getElementById("title1").value = data[0][0].title;
+                    document.getElementById("authname").value = data[0][0].author;
+                    document.getElementById("desc").value = data[0][0].description;
+                    document.getElementById("rest").value = data[0][0].restriction;
+                    var temp = "";
+                    for (var i = 0; i < data[1].length; i++) {
+                        temp += data[1][i].doctype + ' , ';
+                    }
+                    document.getElementById("docType").value = temp.slice(0, -2);
+                    temp = "";
+                    for (var i = 0; i < data[2].length; i++) {
+                        temp += data[2][i].industry + ' , ';
+                    }
+                    document.getElementById("industry").value = temp.slice(0, -2);
+                    temp = "";
+                    for (var i = 0; i < data[3].length; i++) {
+                        temp += data[3][i].business + ' , ';
+                    }
+                    document.getElementById("business").value = temp.slice(0, -2);
+                    temp = "";
+                    for (var i = 0; i < data[4].length; i++) {
+                        temp += data[4][i].technology + ' , ';
+                    }
+                    document.getElementById("tech1").value = temp.slice(0, -2);
+
+                    temp = "";
+                    for (var i = 0; i < data[5].length; i++) {
+                        temp += data[5][i].restriction + ' , ';
+                    }
+                    document.getElementById("rest").value = temp.slice(0, -2);
+
+                    /* alert($('tech1').val());*/
+
+                }
+            });
+            $('#tag1').modal('show');
+          
+
+        }
+        var fileIdForModelBox=0;
+        function editFile(fileId){
+           
+            fileIdForModelBox=fileId;
+            
+            $.ajax({
+            url: '/getind',
+           type: 'post',
+           dataType: 'json',
+            success: function(industry) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField" id="my-selectII" required name="i_name" maxlength="50">';
+                   
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                           str=str+ '<option value="'+industry[0][i].values_id+'">'+industry[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+              
+                    $('#ii').html(str);
+                 
+            }
+        });
+     
+         $.ajax({
+            url: '/getdoc',
+            type: 'post',
+            dataType: 'json',
+            success: function(document) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField" id="my-selectDD" required name="i_name" maxlength="50">';
+                   
+                      if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                           str=str+ '<option value="'+document[0][i].values_id+'">'+document[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#dd').html(str);
+               
+            }
+        });
+  
+         $.ajax({
+            url: '/getbus',
+             type: 'post',
+            dataType: 'json',
+             success: function(business) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField" id="my-selectBB" required name="i_name" maxlength="50">';
+                   
+                      if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                           str=str+ '<option value="'+business[0][i].values_id+'">'+business[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#bb').html(str);
+                 
+            }
+        });
+
+         $.ajax({
+            url: '/gettec',
+          
+            type: 'post',
+             dataType: 'json',
+             success: function(technology) {
+                 var str='<select multiple = "multiple" class="multiplebox clearField" id="my-selectTT" required name="i_name" maxlength="50">';
+                   
+                      if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                           str=str+ '<option value="'+technology[0][i].values_id+'">'+technology[0][i].values+'</option>';
+                            }}}
+                    str=str+'</select>'; 
+                    $('#tt').html(str);
+                  
+            }
+        }); 
+        
+         setTimeout(function() {
+           $('#editRole').modal('show');
+                              
+        $.ajax({
+           url: '/viewFileDetails',
+                type: 'post',
+                data: {
+                    "id": fileId
+                },
+            dataType: 'json',
+            success: function(data) {
+                      var arr1 = [];
+                      var docarray=[];
+                      var indarray=[];
+                      var busarray=[];
+                      var tecarray=[];
+                      var resarray=[];
+                      $("#file_title").val(data[0][0].title);
+                      $("#author_name").val(data[0][0].author);
+                      $("#file_description").val(data[0][0].description);
+
+
+                    for(var i=1;i<data.length;i++){
+                       
+                               for(var j=0;j<data[i].length;j++){
+                                if(i==1){
+                                        docarray.push(data[i][j].id);
+                                }
+                                 if(i==2){
+                                         indarray.push(data[i][j].id);
+                                }
+                                if(i==3){
+                                     busarray.push(data[i][j].id);
+                                }   
+                                if(i==4){
+                                     tecarray.push(data[i][j].id);
+                                }
+                                if(i==5){
+                                     resarray.push(data[i][j].id);
+                                }
+
+                                    }
+                    }
+                     $('#my-selectII').val(indarray);
+                        $("#my-selectII").multipleSelect({
+            width: '100%'
+        }); 
+                                $('#my-selectBB').val(busarray);
+                        $("#my-selectBB").multipleSelect({
+            width: '100%'
+        });   
+                         $('#my-selectDD').val(docarray);
+                        $("#my-selectDD").multipleSelect({
+            width: '100%'
+        });   
+                         $('#my-selectTT').val(tecarray);
+                         $("#my-selectTT").multipleSelect({
+            width: '100%'
+        }); 
+                          $('#my-selectRR').val(resarray);
+                           $("#my-selectRR").multipleSelect({
+            width: '100%'
+        });  
+                    
+                     
+                }
+        });
+               
+            },500);
+        }
+ 
+
+       function docValidation() {
+
+            var rolename = $('#rl_name').val();
+            var indus = $('#my-selectII').val();
+            var bus = $('#my-selectBB').val();
+            var  doc=$('#my-selectDD').val();
+            var tec=$('#my-selectTT').val();
+            var restrict=$('#my-selectRR').val();
+            if ($('#file_title').val().trim()==""){
+                alert("Please Enter valid File Title!");
+                return false;
+            }
+             if ($('#author_name').val().trim()==""){
+                alert("Please Enter valid Author Name!");
+                return false;
+            }     
+
+            if(indus==null) {
+                alert("Please select any Industry name! ");
+                return false;
+            }
+            if (bus ==null) {
+                alert("Please select any User Department!");
+                return false;
+            }
+            if (doc== null) {
+                alert("Please select any Document Type!");
+                return false;
+            }
+             if (tec== null) {
+                alert("Please select any Application Area!");
+                return false;
+            }   
+             if (restrict== null) {
+                alert("Please select any Restriction Level!");
+                return false;
+            }  
+
+            submitFileChanges();
+    }
+var arr1=[];
+var arr2=[];
+var arr3=[];
+var arr4=[];
+var arr5=[];
+function submitFileChanges(){
+               
+      var ihide=$("#<%=industry[0].id%>").val()==""?0:$("#<%=industry[0].id%>").val();
+      var bhide=$("#<%=business[0].id%>").val()==""?0:$("#<%=business[0].id%>").val();
+      var dhide=$("#<%=document[0].id%>").val()==""?0:$("#<%=document[0].id%>").val();
+      var thide=$("#<%=technology[0].id%>").val()==""?0:$("#<%=technology[0].id%>").val();
+      var rhide=$("#<%=restriction[0].id%>").val()==""?0:$("#<%=restriction[0].id%>").val();
+           $.ajax({
+            url: '/fileDetialsUpdate',
+            type: 'post',
+            data: {  
+                 
+              'fileid' :  fileIdForModelBox,
+              'fileTitle':$('#file_title').val(),
+              'description':$('#file_description').val(),
+              'fileAuthor':$('#author_name').val(),
+              'industry': $("#my-selectII").val().toString(),
+              'business':$("#my-selectBB").val().toString(),
+              'doctypes' :$("#my-selectDD").val().toString(),
+              'technology':$("#my-selectTT").val().toString(),
+              'rLevel':$("#my-selectRR").val().toString(),
+              'industryhide':1,
+              'businesshide':2,
+              'doctypehide':3,
+              'newTechide':4,
+              'rLevelhide' :5 ,
+               },
+           success: function(data) {
+            
+            alert("updated Successfully");
+             
+              $("#btn-cancel").click();
+
+             document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(1).innerHTML= $('#file_title').val();
+           /* document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(2).innerHTML =$('#author_name').val();*/
+
+
+          
+            },
+                    dataType: 'JSON',                
+        });
+      }
+ var myBackup = $('#editRole').clone();    
+    // Delegated events because we make a copy, and the copied button does not exist onDomReady
+    $('body').on('click','#cancel',function() {
+         setTimeout(function(){ $('#editRole').remove();
+        var myClone = myBackup.clone();
+        $('body').append(myClone); },700);
+    });     
+
+
+
+    </script>
+
+<% include ../partials/footer %>
+
+</html>

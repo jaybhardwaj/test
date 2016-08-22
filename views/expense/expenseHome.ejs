@@ -4,6 +4,9 @@
     <% include ../partials/head %>
         <% include expHeader.ejs %>
             <% include ../partials/adminheader %>
+            <script type="text/javascript" src="https://parall.ax/parallax/js/jspdf.js"></script>
+
+            <script type="text/javascript" src="/js/html2canvas.min.js"></script>
                 <style>
                     .dataTables_filter,
                     .dataTables_length {
@@ -30,6 +33,7 @@
                         $("#searchbox").keyup(function() {
                             $("#data_table").dataTable().fnFilter(this.value);
                         });
+                         $("#printtable").dataTable();
                         $("#bugtable1").dataTable();
                         $("#searchbox11").keyup(function() {
                             $("#bugtable1").dataTable().fnFilter(this.value);
@@ -69,7 +73,7 @@
                         //.datepicker
                         // ({ dateFormat: "yy-mm-dd" }).val();  
                         /* code for datepicher*/
-                        jQuery('.datepicker').datetimepicker({
+                       /* jQuery('.datepicker').datetimepicker({ 
                             i18n: {
                                 de: {
                                     months: [
@@ -77,15 +81,32 @@
                                         'Mai', 'Juni', 'Juli', 'August',
                                         'September', 'Oktober', 'November', 'Dezember',
                                     ],
-                                    dayOfWeek: [
-                                        "So.", "Mo", "Di", "Mi",
-                                        "Do", "Fr", "Sa.",
-                                    ]
-                                }
+                                   dayOfWeek: [ "So.", "Mo", "Di", "Mi","Do", "Fr", "Sa.",],
+                                },
                             },
                             timepicker: false,
                             format: 'd-m-Y'
-                        });
+                           
+                        });*/
+                      
+                            
+                             //return shortDate;
+                       
+                        ///****new ///
+                        var a=DisableMonday();
+                        ab=new Date(a);
+                        $('.datepicker').datetimepicker({
+                           timepicker: false,
+                            format: 'd-m-Y',
+                             minDate: ab
+                          // minDate:'2016-06-07'
+                            });
+                            
+                          /*  $( ".datepicker" ).datepicker({
+                               beforeShowDay: DisableSpecificDates
+                             });*/
+                                
+                        ///88bds//
 
                         /*for DataTable*/
                         $('#cli').addClass('hide');
@@ -121,6 +142,13 @@
 
                     });
                     /*date function*/
+                     function DisableMonday() {
+                         var date= new Date();
+                           return  date.setDate(date.getDate()-47);
+                       }
+
+
+
                     var ab = $(function() {
                         var formatted_date = function(date) {
                             var m = ("0" + (date.getMonth() + 1)).slice(-2); 
@@ -195,7 +223,7 @@
                         $('.inrs').removeClass('hide');
                         var expenseType = id;
                         if (expenseType == 1) {
-
+                            
                             $("#myModal1").modal('show');
                         }
                         if (expenseType == 2) {
@@ -206,6 +234,16 @@
                         }
                         if (expenseType == 5) {
                             $("#myModal4").modal('show');
+                             if($("#rfdtypeof").val()==2){
+                          $("#deasign").addClass('hide');
+                          $("#totalkm").html(''); 
+                          $("#totalkm").append("Parking Fee");
+                        }
+                          if($("#rfdtypeof").val()==1){
+                          $("#deasign").removeClass('hide');
+                          $("#totalkm").html(''); 
+                          $("#totalkm").append("Total km Travel");
+                        }
                         }
                         if (expenseType == 3) {
                             $("#myModal6").modal('show');
@@ -218,6 +256,20 @@
                         }
                     }
 
+                 function  beforeShowDay(date) {
+                      var dd = date.getDate();
+                      var mm = date.getMonth()+1; //January is 0!
+                      var yyyy = date.getFullYear();
+                      var shortDate = mm+'/'+dd+'/'+yyyy;
+                      var test = "2016/06/20";
+                      if (shortDate < test) { alert('jai mata di');
+                       return [false, "" ];
+
+                      } else {
+                    return [true, "" ];
+                    }
+                   };
+
                     /*end*/
                     function datepicker1() {
 
@@ -229,6 +281,21 @@
                         //document.getElementById("datebutton").focus();
 
                     }
+
+                 //jai bhai
+
+                 function printDiv(divName) {
+                var printContents = document.getElementById(divName).innerHTML;
+                var originalContents = document.body.innerHTML;
+
+                  document.body.innerHTML = printContents;
+
+                window.print();
+
+               document.body.innerHTML = originalContents;
+              }
+                 //jai bahi
+
 
                     function datepickerforotherUser() {
                         document.getElementById("datebuttonuser").disabled = false;
@@ -422,46 +489,60 @@
                             $('#hotel').trigger("reset");
                             $("#myModal1").modal('show');
                             $("#hfornightDate").val($("#datebutton").val());
+                            $("#exthotel").val(0);
+                            $("#flaghotel").val(0);
                             $("#typeEx").val(0);
                         }
                         if (expenseType == 2) {
                             $('#travelf').trigger("reset");
                             $("#myModal2").modal('show');
                             $("#tfornightDate").val($("#datebutton").val());
+                            $("#exttravel").val(0);
+                            $("#flagtravel").val(0);
                             $("#typeEx").val(0);
                         }
                         if (expenseType == 4) {
                             $('#phonef').trigger("reset");
                             $("#myModal3").modal('show');
                             $("#phfornightDate").val($("#datebutton").val());
+                            $("#extphone").val(0);
+                            $("#exthotel").val(0)
+                             $("#flagphone").val(0);;
                             $("#typeEx").val(0);
                         }
                         if (expenseType == 5) {
                             $('#rsdf').trigger("reset");
                             $("#myModal4").modal('show');
                             $("#rsfornightDate").val($("#datebutton").val());
+                            $("#extrsd").val(0);
+                            $("#flagrsd").val(0);
                             $("#typeEx").val(0);
                         }
                         if (expenseType == 3) {
                             $('#foodf').trigger("reset");
                             $("#myModal6").modal('show');
                             $("#ffornightDate").val($("#datebutton").val());
+                            $("#extfood").val(0);
+                            $("#flagfood").val(0);
                             $("#typeEx").val(0);
                         }
                         if (expenseType == 6) {
                             $('#deamf').trigger("reset");
                             $("#myModal5").modal('show');
                             $("#defornightDate").val($("#datebutton").val());
+                            $("#extperdiem").val(0);
+                             $("#flagperdiem").val(0);
                         }
                         if (expenseType > 6) {
                             $('#otherf').trigger("reset");
                             $('#otherlavel').html('');
-
+                              
                             $("#myModal7").modal('show');
                             $('#otherlavel').append($("#typeEx option:selected").text());
                             $('#anyotherex').val($('#typeEx').val());
                             $("#ofornightDate").val($("#datebutton").val());
                             $("#typeEx").val(0);
+                            $("#flagother").val(0);
                         }
                     }
 
@@ -547,7 +628,7 @@
                             dataType: 'json',
                             success: function(users1) {
                                 //alert(users1);
-
+                                 $('#rasebutton').addClass('hide');
                                 var users = users1[0];
                                 var ref = $('#data_table').DataTable();
                                 $("#searchbox").keyup(function() {
@@ -561,6 +642,7 @@
                                         log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id=" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description + "</td>" + "<td >" + users[i].tripAssignment + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
                                         if (((users[i].ClaimedStatus > 0) || (users[i].ClaimedStatus == 0) || (users[i].ClaimedStatus == 101)) && ((users[i].Submitted == 0) || (users[i].flag == 2))) {
                                            actualDate();
+                                          actualDateforflag2();
                                             log = log + "<a  style='padding-left:6px' ></a><input type='hidden' value=" + users[i].id + " id='a" + users[i].id + "'><span id='a1'  class='glyphicon glyphicon-trash' style='color:red;height:10px' onclick='DeleteExpense(" + users[i].expenseType + ',' + users[i].expId + ',' + users[i].expenseclaimId + ");' data-target='#myModal1' title ='Delete Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value=" + users[i].id + " id='a" + users[i].id + "'><span id='a2'  class='glyphicon glyphicon-pencil' style='color:red;height:10px' onclick='selecthotelExpense(" + users[i].expenseType + ',' + users[i].expId + ',' + users[i].expenseclaimId + ");' title ='Edit Expense' ></span><a style='padding-left:6px' ></a><input type='hidden' value=" + users[i].id + " id='a" + users[i].id + "'><span id='a3'  class='glyphicon glyphicon-file' style='color:red;height:10px'  onclick='showAttechmentmodel(" + users[i].id + ");' title ='Attach Bill' ></span><a style='padding-left:6px' ></a><input type='hidden' value=" + users[i].id + " id='a" + users[i].id + "'><span id='a5' class='glyphicon glyphicon-copy' style='color:red;height:10px' onclick='selecthotelExpenseforCopy(" + users[i].expenseType + ',' + users[i].expId + ',' + users[i].expenseclaimId + ");' title ='Copy Expense' ></span><input type='hidden' value=" + users[i].expenseclaimId + " name='claimidforuser' id='ipn'>";
                                             if (users[i].anyFile != undefined) {
                                                 log = log + "<a href='/attach/" + users[i].anyFile + "'Download style='padding-left:6px' ><input type='hidden' value=" + +" id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-download-alt' style='color:red;height:10px'   title ='download Bill' ></span></a>";
@@ -595,7 +677,8 @@
                                         }
                                         if ((users[i].ClaimedStatus == 100) && (users[i].Submitted == 1) && (users[i].f1 != 0)) {
                                             showtotalExpense1();
-                                            log = log + "Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>";
+                                            printOption();
+                                            log = log + "Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span><input type='hidden' id='expjs' value="+users[i].expenseclaimId+"></td>";
                                         }
                                         if (((users[i].ClaimedStatus == 10) || (users[i].ClaimedStatus == 101))) {
                                            showtotalExpense();
@@ -763,6 +846,7 @@
                                     $('#rfdtotalkm').val(data.totalkmTravel);
                                     $('#rfdcu').val(data.currencyId);
                                     $('#rfdext').val(data.totalExpense);
+                                    $('#rateval').val(data.designationId);
                                     $("#flagrsd").val(0);
                                     showexpensDetailsforedit(typeid);
                                 }
@@ -901,6 +985,7 @@
                                     $('#rfdcu').val(data.currencyId);
                                     $('#rfdext').val(data.totalExpense);
                                     $("#extrsd").val(data.expId);
+                                    $('#rateval').val(data.designationId);
                                     $('#extclaimrsd').val(data.expenseclaimId);
                                     $("#flagrsd").val(1);
                                     showexpensDetailsforedit(typeid);
@@ -979,6 +1064,16 @@
                         $('#submitbut').addClass('hide');
 
                     }
+
+                    function actualDateforflag2() {
+                     var d = new Date(); 
+                     var first=new Date($('#hiddendatebutton').val());
+                      var dateforblast = new Date($('#hiddendatebutton').val());
+                        dateforblast.setDate(dateforblast.getDate() + 15); 
+                        if((d>=first)){
+                           showtotalExpense();
+                        }
+                    }
                     
                     function actualDate() {
                      var d = new Date(); 
@@ -991,7 +1086,7 @@
                     }
 
                     function showtotalExpense1() {
-
+                         $('#rasebutton').addClass('hide');
                         $('#explabel').addClass('hide');
                         $('#typeEx').addClass('hide');
                         $('#submitbutton').addClass('hide');
@@ -1138,6 +1233,10 @@
 
                                         log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" + +" id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-list-alt' style='color:black;height:10px' onclick='expensedescription(" + users[i].expenseclaimId + ")'   title ='description' ></span></a>";
                                         log = log + "<a  style='padding-left:6px' ><input type='hidden' value=" + +" id='a" + users[i].userId + "'> <span '  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-comment' style='color:#23527c;height:15px' onclick='showCommentandRemark(" + users[i].expenseclaimId + ")'   title =' Comment' ></span></a>";
+                                         if ((users[i].Status == 1) && (users[i].ClaimedStatus ==100))        
+                                        {       
+                                        log=log+'<input type="hidden" value='+users[i].sanctionedExpense+' id="sen'+users[i].expenseclaimId+'"><input type="hidden" value='+users[i].sanctionedDate+' id="sendate'+users[i].expenseclaimId+'"><span id="senmanu'+users[i].expenseclaimId+'" class="glyphicon glyphicon-folder-close" style="padding-left:10px;color:red" onclick="insertSancationedExpense('+users[i].expenseclaimId+')">';        
+                                        }
 
                                         if ((users[i].Status == 0) && ((users[i].ClaimedStatus != 101) || (users[i].ClaimedStatus != 10))) {
                                             log += "<a  style='padding-left:6px' ><input type='hidden' value=" + +" id='a" + users[i].userId + "'> <span id='a" + users[i].expenseclaimId + "'  data-toggle='modal' data-target='#myModal'  class='glyphicon glyphicon-ok-circle' style='color:green;height:10px' onclick=\"(approveExpense(" + users[i].expenseclaimId + ",'" + users[i].userEmail + "','" + users[i].ClaimedStatus + "','" + users[i].totalExpense + "','" + users[i].id + "',1))\"   title ='Click to Approve Expense' ></span></a>" +
@@ -1188,6 +1287,8 @@
                                         if ((users[i].ClaimedStatus == 10) || (users[i].ClaimedStatus == 101)) {
                                             log = log + "<span style='height:20px;font-size:10px;'>Rejected By Mr. <i style='color:#23527c'>" + users1[1][0].firstName + "</i></span></td>";
                                         }
+                                              
+
                                         if (users[i].Status == 100) {
                                             log = log + "<span id='c" + users[i].id + "' style='height:20px;font-size:10px;'>Rejected By Mr. <i style='color:#23527c'>" + users1[1][0].firstName + "</i></span><span class='glyphicon glyphicon-off' style='padding-left:20px;height:20px;color:red;font-size:10px;'></span></td>";
                                         }
@@ -1444,41 +1545,68 @@
                             method: 'POST',
 
                             success: function(data) {
+                                //alert(data[0].status1);
+                               
                                 if (data[0].f11 == 2) {
+                                    $('#rasebutton').addClass('hide');
                                     $('#submitbut').addClass('hide');
                                     $('#explabel').removeClass('hide');
                                     $('#typeEx').removeClass('hide');
                                     $('#submitbutton').removeClass('hide');
                                 } else if ((data[0].flag == 1) && (data[0].status1 > 0) && (data[0].status1 != 101)) {
+                                    $('#rasebutton').addClass('hide');
                                     $('#explabel').addClass('hide');
                                     $('#typeEx').addClass('hide');
                                     $('#submitbutton').addClass('hide');
                                     $('#submitbut').addClass('hide');
 
                                     if ((data[0].submit == 1) && (data[0].f11 != 2)) {
+                                        $('#rasebutton').addClass('hide');
                                         $('#submitbut').addClass('hide');
                                         $('#explabel').addClass('hide');
                                         $('#typeEx').addClass('hide');
                                         $('#submitbutton').addClass('hide');
-                                    } else {
-                                        $('#submitbut').addClass('hide');
                                     }
+
+                                     else {
+                                        $('#submitbut').addClass('hide');
+                                        $('#rasebutton').addClass('hide');
+                                    }
+                                     if(data[0].status1 == 100){
+                                    $('#explabel').addClass('hide');
+                                    $('#typeEx').addClass('hide');
+                                    $('#submitbutton').addClass('hide');
+                                    $('#submitbut').addClass('hide');
+                                    $('#rasebutton').removeClass('hide');   
+                                }
+
                                 } else {
+                                    $('#rasebutton').addClass('hide');
                                     $('#explabel').removeClass('hide');
                                     $('#typeEx').removeClass('hide');
                                     $('#submitbutton').removeClass('hide');
                                     $('#submitbut').addClass('hide');
                                     if ((data[0].submit == 1) && (data[0].status1 != 101)) {
+                                        $('#rasebutton').addClass('hide');
                                         $('#explabel').addClass('hide');
                                         $('#typeEx').addClass('hide');
                                         $('#submitbutton').addClass('hide');
                                         $('#submitbut').removeClass('hide');
                                     } else {
+                                        $('#rasebutton').addClass('hide');
                                         $('#submitbut').addClass('hide');
                                     }
                                 }
                             }
                         });
+                    }
+                    
+                    function printOption(){
+                        $('#rasebutton').removeClass('hide');
+                                        $('#explabel').addClass('hide');
+                                        $('#typeEx').addClass('hide');
+                                        $('#submitbutton').addClass('hide');
+                                       // $('#submitbut').removeClass('hide'); 
                     }
 
                     function toChecktheDate() {
@@ -1760,6 +1888,7 @@
                                 alert("Expense approved successfully.");
                                 $('#a'.concat(claimarray)).addClass('hide');
                                 $('#b'.concat(claimarray)).addClass('hide');
+                                $('#senmanu'.concat(claimarray)).removeClass('hide'); 
                                 $('#c'.concat(transId)).html('');
                                 $('#c'.concat(transId)).append('Approved');
                                 $("#typeExp option:selected").text($("#typeExp option:selected").text().replace("Pending", "Approved"));
@@ -2192,13 +2321,15 @@
                         } else if ($('#rfdreason').val().length < 1 || $.trim($("#rfdreason").val()) == "") {
                             alert("Reason for Travel Missing!");
                             return false;
-                        } else if ($("#rfdper").val() == "") {
+                        }
+                          else if(($("#rfdper").val() == "")&&($("#rfdtypeof").val()==1)){
                             alert("Per Km Rate Missing!");
                             return false;
-                        } else if ($('#rfdper').val() < 1) {
+                        } else if(($('#rfdper').val() < 1)&&($("#rfdtypeof").val()==1)){
                             alert("Please Enter Positive Value in Per Km Rate!");
                             return false;
-                        } else if ($("#rfdtotalkm").val() == "") {
+                        }
+                         else if ($("#rfdtotalkm").val() == "") {
                             alert("Total km Travel Missing!");
                             return false;
                         } else if ($('#rfdtotalkm').val() < 1) {
@@ -2351,6 +2482,19 @@
                             }
                         }
 
+                    }
+
+                    function tochangeTravelType(){
+                        if($("#rfdtypeof").val()==2){
+                          $("#deasign").addClass('hide');
+                          $("#totalkm").html(''); 
+                          $("#totalkm").append("Parking Fee");
+                        }
+                          if($("#rfdtypeof").val()==1){
+                          $("#deasign").removeClass('hide');
+                          $("#totalkm").html(''); 
+                          $("#totalkm").append("Total km Travel");
+                        }
                     }
 
 
@@ -2568,11 +2712,18 @@
 
                     function changeCurrencyforrsd() {
                         if ($("#rfdcu option:selected").attr('acualvalue') != 0) {
+                            if($("#rfdtypeof").val()==1){
                             var g = $('#rfdper').val();
                             var h = $('#rfdtotalkm').val();
                             var totalbill = $("#rfdcu option:selected").attr('acualvalue') * g * h;
                             $('#rfdext').val(totalbill);
-                            $('.inrs').removeClass('hide');
+                            $('.inrs').removeClass('hide');}
+                            if($("#rfdtypeof").val()==2){
+                                // var g = $('#rfdper').val();
+                            var h = $('#rfdtotalkm').val();
+                            var totalbill = $("#rfdcu option:selected").attr('acualvalue') * h;
+                            $('#rfdext').val(totalbill);
+                            $('.inrs').removeClass('hide');}
                         } else {
                             var g = $('#rfdper').val();
                             var h = $('#rfdtotalkm').val();
@@ -2622,7 +2773,115 @@
                         $('#otherex1').val('0');
                         $('.inrs').addClass('hide');
                     }
-                    /*end function dateVarify*/
+
+                    //jai
+                 function insertSancationedExpense(idk)
+                    {
+                         $("#sanctionedmodel").modal('show');
+                         $("#hideensession").val(idk);
+                         
+                         if($('#sendate'.concat(idk)).val()!=null){
+                           $('#sanamount').val($('#sen'.concat(idk)).val()); 
+                            $('#sandate').val($('#sendate'.concat(idk)).val()); 
+                         }
+                         else{
+                           $('#sanamount').val('');
+                           $('#sandate').val(''); 
+                         }
+                    }
+                    //jai
+
+                    function printtheExpense(){                      
+                         var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/printexpense';
+                        $.ajax({
+                            url: url1,
+                            method: 'POST',
+                            data: {
+                                data:$("#expjs").val()
+                            },
+                            success: function(data1) {
+                                $('#printmodel').modal('show');
+                                $('#empname').html('');
+                                $('#empcode').html('');
+                                $('#empapp').html('');
+                                $('#empsuper').html('');
+                                $('#empfrom').html('');
+                                $('#empto').html('');
+                                $('#emptotal').html('');
+                                 var from = data1[0][0].todate.split("-");
+                                   var f = from[2]+'-'+from[1]+'-'+from[0];
+                                $('#empname').append(data1[0][0].name);
+                                $('#empcode').append(data1[0][0].ecode);
+                                $('#empapp').append(data1[1][0].name);
+                                if(data1[2].length!=0){ 
+                                 $('#empsuper').append(data1[2][0].name);
+                                }
+                                 $('#empfrom').append(data1[0][0].fromdate);
+                                  $('#empto').append(f);
+                                  $('#emptotal').append(data1[0][0].totalExpense);
+                                  var log='';
+                                for (var i = 0; i < data1[3].length; i++) {
+                                        log = log + "<tr style='height:20px;color:black;font-size:14px;'  id='" + data1[3][i].id + "><input type='hidden' value='" + data1[3][i].description + "' id='l" + data1[3][i].description + "'>" + "<td style='font-size:14px;' align='center'>" + data1[3][i].description + "</td>" + "<td style='font-size:14px;' align='center'>" + data1[3][i].WBSName + "</td>" + "<td style='font-size:14px;' align='center'>" + data1[3][i].fromdate + "</td>" + "<td style='font-size:14px;' align='center'>" + data1[3][i].toDate + "</td><td style='font-size:12px;' align='center'>" + data1[3][i].totalExpense + "</td>";   
+                             }
+                             $('#bodyi').html(log);
+
+                            }
+                        });
+                    }
+  function changevaluedes(){
+   $('#rfdper').val($("#rateval option:selected").attr('ratevalue'));
+  }
+
+
+   function PrintElem(elem) {
+    Popup($('#'.concat(elem)).html());
+}
+
+function Popup(data) {
+    var mywindow = window.open('', 'new div', 'height=1000,width=1300');
+    mywindow.document.write('<html><head><title></title>');
+   // mywindow.document.write('<link rel="stylesheet" href="css/midday_receipt.css" type="text/css" />');
+    mywindow.document.write( "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\" media=\"print\"/>" );
+
+    mywindow.document.write('</head><body ><div class="row"><center>Expense Details<hr></center></div>');
+    mywindow.document.write(data);
+    mywindow.document.write('</body></html>');
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
+ function validatethesensen()       
+                    {  
+                    var idesk=$("#hideensession").val();     
+                       if($("#sanamount").val()==''){       
+                        alert("field required");        
+                       }        
+                      else if($("#sandate").val()==''){     
+                        alert("field required");        
+                       }        
+                       else{        
+                           var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/updatesencationAmount';        
+                        $.ajax({        
+                            url: url1,      
+                            method: 'POST',     
+                            data: {     
+                                samount:$("#sanamount").val(),      
+                                sdate:$("#sandate").val(),      
+                                clid:$("#hideensession").val()
+                                             },     
+                            success: function(data) {       
+                                alert("submit successfully");       
+                                $('.dismiss').click();  
+                                $('#senmanu'.concat(idesk)).addClass('hide');    
+                               // selecthotelExpenseforweek();      
+                            }       
+                        });     
+                       }        
+                    }
+
+
                 </script>
                 <style>
 
@@ -2649,15 +2908,7 @@
         </div>
         <div class='col-md-3'></div>
         <div class="col-md-1 hide " id='rasebutton' style="float:right;">
-            <table>
-                <tr>
-                    <td>
-                        <a id='raiseexp' href="/expensenew?expin=0"><img class="imageInc" src="../img/bug/addbug.png" class="shadow" style=" margin-left: 23px;" height="25px" title="Raise Expense" width="25px"></a><span id='notvalid' class='glyphicon glyphicon-exclamation-sign' onclick='thisAlert()' style='margin-left: 23px;font-size:25px;color:red;' title="you can not raise expense for this fortnight"></span></td>
-                </tr>
-                <tr>
-                    <td><span id='raise' style='font-size:10px;color:white;'>Raise Expense</span></td>
-                </tr>
-            </table>
+         <button type='button' id="print" class="form-control" style="margin-top:2px;margin-bottom:2px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="printtheExpense()" value='Print'>Preview</button>   
         </div>
     </div>
 
@@ -2810,6 +3061,7 @@
                                                                     Approved by manager</td>
                                                                     <% }%>
                                                                         <%  if((expenseDetails[i].ClaimedStatus==100)&&(expenseDetails[i].Submitted==1)&&(expenseDetails[i].f1!=0)){%>
+                                                                         <input type='hidden' id='expjs' value='<%=expenseDetails[i].expenseclaimId%>'>
                                                                             Approved by finance<span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved'></span></td>
                                                                             <% }%>
                                                                                 <%if(((expenseDetails[i].ClaimedStatus==10)||(expenseDetails[i].ClaimedStatus==101))&&(expenseDetails[i].f1==0)){%>
@@ -3118,7 +3370,7 @@
                             <label class="form-Label">Rate Per Day:<span Style="font-size:10px;margin-bottom:10px; color:red"></span></label>
                         </div>
                         <div class="col-md-4">
-                            <input type="number" min="1" maxlength="45" class="form-text-box" id="travelrate" name="TravelRatePerDay" onblur="changeCurrencyforTravel()" required/>
+                            <input type="number" min="1" maxlength="45" class="form-text-box" id="travelrate" name="TravelRatePerDay" onblur="" required/>
                         </div>
                         <div class="col-md-3 hide">
                             <label class="form-Label">If Not Then Other:</label>
@@ -3134,7 +3386,7 @@
                             <label class="form-Label">Total Days:<span Style="font-size:10px;margin-bottom:10px; color:red"></span></label>
                         </div>
                         <div class="col-md-4">
-                            <input type="number" min="1" maxlength="45" class="form-text-box" id="traveltday" name="travelTotalDay" onblur="changeCurrencyforTravel()" required/>
+                            <input type="number" min="1" maxlength="45" class="form-text-box" id="traveltday" name="travelTotalDay" onblur="" required/>
                         </div>
                     </div>
 
@@ -3363,16 +3615,38 @@
 
                     <div class="col-md-12 a" style="margin-top:20px;margin-down:20px;">
                         <div class="col-md-2">
-                            <label class="form-Label">Type of vehicle:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
+                            <label class="form-Label">Type:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
-                            <select class="form-text-box" id='rfdtypeof' name="rsdvehicle" required/>
+                            <select class="form-text-box" id='rfdtypeof' onclick="tochangeTravelType()" name="rsdvehicle" required/>
+                            <option value="">--Select--</option>
+                            <option value="1">KM</option>
+                            <option value="2">Parking</option>
+                       
+
+
+                                    </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-Label">Reason :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" maxlength="45" class="form-text-box" id="rfdreason" name="rsdReason" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 a" style="margin-top:10px;margin-down:20px;" id="deasign">
+                      <div class="col-md-2">
+                            <label class="form-Label">Select Designation:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-text-box" id='rateval' name="rsddes" onchange="changevaluedes()" required/>
                             <option value="">--Select--</option>
 
-                            <%for(var i=0;i<travelType.length;i++)
+                            <%for(var i=0;i<designation.length;i++)
                         {%>
-                                <option value="<%=travelType[i].id%>">
-                                    <%=travelType[i].description%>
+                                <option value="<%=designation[i].id%>" ratevalue="<%=designation[i].maximumBillableMandetory%>">
+                                    <%=designation[i].description%>
                                 </option>
                                 <%}%>
 
@@ -3380,19 +3654,10 @@
                                     </select>
                         </div>
                         <div class="col-md-2">
-                            <label class="form-Label">Reason for Travel:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" maxlength="45" class="form-text-box" id="rfdreason" name="rsdReason" required />
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 a" style="margin-top:10px;margin-down:20px;">
-                        <div class="col-md-2">
                             <label class="form-Label">Per Km Rate :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
-                            <input type="number" min="1" maxlength="45" class="form-text-box" id="rfdper" name="rsdKmRate" onblur="changeCurrencyforrsd()" required/>
+                            <input type="number" min="1" maxlength="45" class="form-text-box" id="rfdper" name="rsdKmRate" onblur="changeCurrencyforrsd()" readonly="readonly" required/>
                         </div>
 
                         <div class="col-md-3 hide">
@@ -3404,17 +3669,18 @@
                         <!--/div>
 
                     <div class="col-md-12 a"-->
-                        <div class="col-md-2">
-                            <label class="form-Label">Total km Travel:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="number" min="1" maxlength="45" class="form-text-box" id="rfdtotalkm" name="rsdtotal" onblur="changeCurrencyforrsd()" required/>
-                        </div>
+                        
                     </div>
 
 
 
                     <div id="d1" class="col-md-12 a " style="margin-top:10px;margin-down:20px;">
+                    <div class="col-md-2">
+                            <label id="totalkm" class="form-Label">Total km Travel:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" min="1" maxlength="45" class="form-text-box" id="rfdtotalkm" name="rsdtotal" onblur="changeCurrencyforrsd()" required/>
+                        </div>
                         <div class="col-md-2">
                             <label class="form-Label">Currency:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
@@ -3431,15 +3697,16 @@
                                 
                             </select>
                         </div>
-
-                        <div class="col-md-2">
+                    </div>
+                    <div id="" class="col-md-12 a " style="margin-top:10px;margin-down:20px;">
+                     <div class="col-md-2">
                             <label class="form-Label">Total Expense :<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
                         </div>
                         <div class="col-md-4">
                             <input type="number" min="1" step="any" maxlength="45" class="form-text-box" id="rfdext" name="rsdtex" required/>
                             <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                         </div>
-                    </div>
+                        </div>
                 </div>
 
                 <div id="footer" class="modal-footer" style="border-top:0px;">
@@ -4146,9 +4413,119 @@
 
     </form>
 
+      <form action="/file" method="post" name="rbug" enctype="multipart/form-data">
+      <div>
+        <div class="modal fade clsContent" id="printmodel" role="dialog" style="border-style: solid;
+    border-color:black;">
+
+            <div style="height:auto;width:800px;margin-left:250px;margin-top:0px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:12px;"><b>Expense Details</b></label>
+                        <span data-dismiss="modal" class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                </div>
+
+                <div class="col-md-12" style="margin-bottom: 10px" id="contentdetails">
+                <table class="table" style="width:100%">
+                    <tr style="height:50px">
+                        <td class="form-Label">Employee Name :</td>
+                        <td id="empname"></td>
+                         <td class="form-Label">Employee Code :</td>
+                        <td id="empcode"></td> 
+                    </tr>
+                     <tr style="height:50px">
+                        <td class="form-Label">Supervisor Name :</td>
+                        <td id="empsuper"></td>
+                         <td class="form-Label">Approver :</td>
+                        <td style="width:300px" id="empapp"></td> 
+                    </tr>
+                     <tr style="height:50px">
+                        <td class="form-Label">Expense from Date :</td>
+                        <td id="empfrom"></td>
+                         <td class="form-Label">Expense To Date :</td>
+                        <td id="empto"></td> 
+                    </tr>
+                     <tr style="height:50px">
+                        <td class="form-Label">Total Expense :</td>
+                        <td id="emptotal"></td> 
+                    </tr>
+                </table>
+                  <table style="width:100%; border: 1px solid black;" class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0">
+                            <thead>
+                                <th style='font-size:14px;background-color:grey;color:white'>Expense Type</th>
+                                <th style='font-size:14px;background-color:grey;color:white'>Trip/Assignment</th>
+                                <th style='font-size:14px;background-color:grey;color:white'>From Date</th>
+                                <th style='font-size:14px;background-color:grey;color:white'>To Date</th>
+                                <th style='font-size:14px;background-color:grey;color:white'>Amount</th>
+                            </thead>
+                            <tbody id="bodyi"></tbody>
+                        </table>
+                        
+                </div>
+                <div class="row"><center>
+                <span title="Click to print" class="fa fa-print" onclick="PrintElem('contentdetails')" style="color:black;font-size:32px"></span></center>
+                </div>
+            </div>
+        </div>
+      </div>
+    </form>
+
+     <form action="/fileAtt" method="post" name="rb" enctype="multipart/form-data">
+        <div class="modal fade" id="sanctionedmodel" role="dialog" style="border-style: solid;
+    border-color:black;width: 100%">
+
+            <div style="height:auto;width:500px;margin-left:400px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
+
+                <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
+                    <center>
+                        <label id="head4" class="modal-title" style="color:white;font-size:12px;"><b>Sanction Details</b></label>
+                        <span data-dismiss="modal" class="glyphicon glyphicon-remove" style='height=20px;float:right;color:black;'></span>
+                    </center>
+                </div>
+
+                <div class="col-md-12" id='show' style="margin-bottom: 10px">
+                 <table class="table"  >
+                  <tr>
+                            <td>
+                                <td>
+                                    <label class="form-Label">Sanctioned Amount: *</label>
+                                </td>
+                                <td>
+                                     <input type='number' maxlength="50" name="sanamount" class="form-text-box" id="sanamount" />
+                                </td>
+                            </td>
+                   </tr>
+                   <tr>         
+                            <td>
+                                <td>
+                                    <label class="form-Label">Sanctioned Date: *</label>
+                                </td>
+                                <td>
+                                    <input type='text' class="form-text-box datepicker" maxlength="50" name="sandate" class="form-text-box" id="sandate" />
+                                </td>
+                            </td>
+
+                  </tr>
+                 </table>
+                 <input type="hidden" id="hideensession">
+                 <input type="hidden" id="hidenmanu">
+                 <center>
+                 <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default dismiss"  >Cancel</button>
+                    <a onclick="return validatethesensen()" class="btn btn-default"  >Submit</a>
+                 </center>
+                </div>
+                <div style='width:10px'><span style="width:10px"></span></div>
+            </div>
+        </div>
+
+    </form>
+
     <!--end Description Form-->
 
 </body>
 
 </html>
 <% include ../partials/footer.ejs %>
+

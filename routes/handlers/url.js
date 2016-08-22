@@ -612,6 +612,11 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 
 //------------------------------------------Asset-------------------------------
+
+
+
+
+
 	inventory:function(req,res,next){
 		console.log("in url inven");
 		if(req.session.modules.indexOf(config.Asset)>=0)
@@ -825,6 +830,22 @@ if(req.session.modules.indexOf(config.Asset)>=0)
 			res.redirect('/portal')
 	}
     },
+ 
+ setpageTransactionsasset: function(req,res,next){
+
+
+if(req.session.modules.indexOf(config.Asset)>=0)
+		 	{
+     	        req.page='assignasset';
+        req.userid='0';
+        next();
+  }
+  else
+	{
+			res.redirect('/portal')
+	}
+    },
+
 setpageAssignSoftware:     function(req,res,next){
 
 
@@ -1060,3 +1081,5 @@ error:function(req,res,next){
     	next();
 	}
 }
+
+

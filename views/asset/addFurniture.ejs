@@ -63,7 +63,7 @@
         <td><td>
           <label for="invoiceAmt" class="form-Label">Invoice Amt.<sup class="astrick">*</sup></label>
           </td><td>
-            <input type="number" maxLength="12"  name="invoiceAmt" class="form-text-box" id="invoiceAmt"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
+            <input type="number" maxLength="12"  name="invoiceAmt" class="form-text-box" id="invoiceAmt" onblur="calulateunitprice();" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
           </td>
         </td>
         <td><td>
@@ -91,7 +91,7 @@
       <td><td>
         <label for="uprice" class="form-Label">Unit Price: <sup class="astrick">*</sup></label>
         </td><td>
-          <input type="text" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-text-box" id="uprice"   placeholder="Unit Price">
+          <input type="text" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-text-box" id="uprice" readonly="readonly"  placeholder="Unit Price">
         </td>
       </td>
       <td></td>
@@ -119,8 +119,12 @@
 jQuery('.date').datetimepicker({
  
   timepicker:false,
-  format:'Y-m-d'
+  format:'d/m/Y'
 });
+
+function calulateunitprice(){
+  $('#uprice').val((parseInt($('#invoiceAmt').val()))/parseInt($('#qty').val()));
+}
 
   function validate(){
     var inamount=$('#invoiceAmt').val();

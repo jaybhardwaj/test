@@ -152,7 +152,68 @@
                       //my_manager_isRetailer=data[3][0].isRetailer;
                         
                        console.log("data is",data);
-                        for (var i = 0; i < curr_wbsnm.length + 1; i++) { //alert("hiiii"+temp);
+
+                        for (var i = 0; i < curr_wbsnm.length + 3; i++) { //alert("hiiii"+temp);
+                            for (var l = 0; l < data.length; l++) {
+var z=0;
+                         for (var j = 0; j <= temp+1 ; j++) {
+
+                                        if(i == curr_wbsnm.length + 1)
+                                        {
+                                             $('#id' + j+'_'+ i).val(0);
+                                            var w1='';
+                                                    try{
+                                                 w1=new Date(data[3][z].date);
+
+                                                  }
+                                                  catch(e)
+                                                  {
+
+                                                      w1='';
+                                                  }
+
+                                                  var w2=new Date($('#t_h' + j).val());
+
+                                                  console.log('j is',j,'w1',w1,'w2',w2)
+
+var day1=new Date(w1);
+var day2= new Date(w2);
+                                            if(day1.getDate()==day2.getDate()){
+                                                 
+                                                console.log("i am in");
+                                        $('#id' + j+'_'+ i).val(data[3][z].Thumbhours);
+                                         z++; 
+                                    }
+                                    else
+                                       $('#id' + j+'_'+ i).val(0);
+
+}
+                                 if(j==temp+1 && i == curr_wbsnm.length + 1){
+                                     try{
+ $('#id' + j+'_'+ i).val(data[4][0].totalThumbhours ||0);
+ //$('#id' + j+'_'+ i).val(10);
+                                  }
+                                  catch(e)
+                                  {
+ $('#id' + j+'_'+ i).val(0);
+                                  }
+                                 }
+
+                                    
+/*
+                                  try{
+ $('#id' + j+'_'+ i).val(data[4][0].totalThumbhours ||0);
+                                  }
+                                  catch(e)
+                                  {
+ $('#id' + j+'_'+ i).val(0);
+                                  }
+*/
+                                   
+                                }
+                            }
+                        }
+                        for (var i = 0; i < curr_wbsnm.length + 3; i++) { //alert("hiiii"+temp);
                             for (var l = 0; l < data[0].length; l++) {
 
                                 if (data[0][l].timeAssignmentId == $('#id_asmt' + i).val()) {
@@ -468,7 +529,7 @@ function parseDate(input) {
                 var a3 = '';
                 var a = '';
                 var b = '';
-                for (var j = 0; j <= no_of_asgmnt + 1; j++) {
+                for (var j = 0; j <= no_of_asgmnt + 2; j++) {
 
                     if (j == 0) {
                         a1 = a1 + '<tr style="color:#10104E;font-size: 13px;font-weight:700;"><td style="max-width:200px"><input type="text"  style="width:200px;height:49px; text-align: center;" value="Assignment" disabled></td>';
@@ -535,40 +596,44 @@ function parseDate(input) {
                          b='<tr>'+a1+'<tr>';
                     }
 
-                    for (var i = 0; i <= temp + 1; i++) {
+                    for (var i = 0; i <= temp + 1; i++) {                      
                         a = a + '';
-                        /*if(i==0 && j<no_of_asgmnt+2 && j==0)
-                         {
-                          a=a+'<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id'+j+'" value="$" ><input type="text"  style="width:200px;  text-align:left;   background-color: rgba(125, 51, 61, 0);color: rgb(254, 254, 254); " value="vacation"  disabled></td>'
-                         }
-                        if(i==0 && j<no_of_asgmnt+2 && j==1)
-                         {
-                           a=a+'<td style="max-width:200px; background-color:rgba(51, 60, 125, 0.62);"><input type="hidden" id="id'+j+'" value="@" ><input type="text"  style="width:200px;  text-align:left;   background-color: rgba(125, 51, 61, 0);color: rgb(254, 254, 254); " value="holiday"  disabled></td>'
-                         }*/
-                        if (i == 0 && j < no_of_asgmnt) {
-                            b = b + '<td style="max-width:200px; background-color:#d0eaf0;"><input type="hidden" id="id_asmt' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px; color: #000000;text-align: center;height:20px" value="' + curr_wbsnm[j] + '" disabled></td>';
+                     
+                        if (i == 0 && j < no_of_asgmnt /*&& j>0*/ ) {
+                            b = b + '<td style="max-width:200px;"><input type="hidden" id="id_asmt' + j + '" value="' + curr_asgnmnt_id[j] + '" ><input  type="text"  style="width:200px; color: #000000;text-align: center;height:20px" value="' + curr_wbsnm[j] + '" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt) {
-                            b = b + '<td style="max-width:200px"><input type="hidden" id="id_asmt' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></td>';
+                            b = b + '<td style="max-width:200px;font-weight:700;"><input type="hidden" id="id_asmt' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt + 1) {
-                            b = b + '<td style="max-width:200px"><input  type="text"  style="width:200px; color: #000000;text-align: center;font-weight:700;" value="Work Schedules" disabled></td>'
+                            b = b + '<td style="max-width:200px;font-weight:700"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Thumb Hours" disabled></input></td>'
                         }
-                        if (i < 31 && j == no_of_asgmnt + 1) {
-                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '_' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </td>'
+                        if (i == 0 && j == no_of_asgmnt + 2) {
+                            b = b + '<td style="max-width:200px;font-weight:700"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Work Schedules" disabled></input></td>'
+                        }
+                        if (i < temp+1 && j == no_of_asgmnt + 2) {
+                            a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '_' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
                         } else
-                        if (i < 31 && j == no_of_asgmnt) {
-                            a = a + ' <td> <input disabled id="id' + i + '_' + j + '" value="0"  type="text" style="width:60px; text-align:center;"> </td>'
+                        if (i < temp+1 && j == no_of_asgmnt ) {
+                         // alert("value =0")
+                            a = a + ' <td><input disabled id="id' + i + '_' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center; " onkeypress="return isNumber(event)"></input> </td>'
+                        }
+                        else
+                        if (i < temp+1 && j == no_of_asgmnt+1 ) {
+                         // alert("value =0")
+                            a = a + ' <td><input disabled id="id' + i + '_' + j + '" value="" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center; " onkeypress="return isNumber(event)"></input> </td>'
                         } else
                         if (i == temp + 1) {
-                            a = a + '<td><input id="id' + i + '_' + j + '" disabled type="text" style="width:60px; text-align:center; color:#10104E;font-weight:700" value="0" > </td> '
+                            console.log("this is final",i,"_",j);
+                            a = a + '<td><input id="id' + i + '_' + j + '" disabled  type="text" style="width:60px; text-align:center; " value="0" font-weight:700" ></input> </td> '
                         } else 
                         /*if(curr_wbsnm[j]=='Holiday')
                         {
-                           a = a + '<td><input  readonly id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value=""   onkeypress="return isNumber(event)"> </td> '
+                           a = a + '<td><input  readonly id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center; " value=""   onkeypress="return isNumber(event)"></input> </td> '
                         }
-                          else*/{
-                            a = a + '<td><input id="id' + i + '_' + j + '" type="number" readonly="true" class="abc text-hover numeric clearAllfield"  style="width:60px; text-align:center;" value="" onKeyUp="sum(' + i + ',' + j + ')"> </td> '
+                          else*/
+                        {
+                            a = a + '<td><input  id="id' + i + '_' + j + '" type="number"  class="abc text-hover numeric clearAllfield "  style="width:60px; text-align:center; " value="" onblur="sum(' + i + ',' + j + ')" onkeypress="return isNumber(event)"></input> </td> '
                         }
 
                     }
@@ -820,7 +885,7 @@ function parseDate(input) {
 
     function disableHoliday() {
         //alert(" i main disable holiday ");
-        var k = curr_wbsnm.length + 1;
+        var k = curr_wbsnm.length + 2;
         //////console.log(k,"hi i am in disableHoliday");
         for (var i = 0; i < temp + 1; i++) {
             var ddy = $('#t_h' + i).val();
@@ -1173,3 +1238,4 @@ function parseDate(input) {
 
 </body>
 </html>
+

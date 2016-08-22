@@ -1,11 +1,12 @@
  'use strict';
    
 var modelPortal = require('../../model/modelPortal');
-var portalJsForProjectmngmt = require('../../public/js/portalProject.js');
 var mailTemplates = require('../../lib/mailtemplates');
 var randomString = require('../../lib/common').generateRandomString;
 var flag = require('../../config/config').flagUsed;
 var configEmail=require('../../config/config').mailconfig;
+var schedulers=require('../../lib/schedulers');
+var xlsxparser = require('excel-parser');
 var path = require('path');
 var fs = require('fs');
 var textract = require('textract');
@@ -56,9 +57,8 @@ var locationId = [],
  var PPT = require('ppt');
  var holidayArrDateTimeArr = [];
  var saturdayOffFlag      = 1;
+
 var excel = require('node-excel-export');
-
-
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -113,6 +113,11 @@ var excel = require('node-excel-export');
             notification=0;assignedTo=0;flag=0; type=req.body.moduleType;
         }
 
+	if( typeof(req.body.status) == 'string'  && (req.body.status == 0 || req.body.status == 1)){
+        notificationForApproveReject=111;
+     }
+
+
         modelPortal.notification(edit,notificationForApproveReject,type,notification,assignedTo,flag,req.session.userId, req.session.retailerId,function(err, result) {
              if (err) {
                 console.log(err);
@@ -146,6 +151,29 @@ var excel = require('node-excel-export');
 
 
 
+
+ resetNotification: function(req, res, next) {
+
+        var flag=0;
+        var notification=0,type,assignedTo=0,edit=10,notificationForApproveReject=0;
+
+            if(typeof(req.body.moduleType)=='undefined'){ 
+             type='home';  assignedTo=0; notification=0; flag=0; 
+        }
+        modelPortal.notification(edit,notificationForApproveReject,type,notification,assignedTo,flag,req.session.userId, req.session.retailerId,function(err, result) {
+             if (err) {
+                console.log(err);
+                 next(err);
+                 res.json('0');
+             } else {
+                
+                req.session.notification=result[0][0];
+                console.log('resetNotification----------------------------------',req.session.notification);
+                next();  
+             }
+         });
+     },
+
     customRolesExist: function(req, res, next) {
          modelPortal.customRolesExist(req.session.userId,req.session.roleId, req.session.retailerId,req.body.roleName,function(err, result) {
              if (err) {
@@ -170,8 +198,10 @@ var excel = require('node-excel-export');
      } ,
         
     checkPassword: function(req, res, next) {
+        console.log('hellossss');
          modelPortal.checkPassword(req.body.userid,req.body.password,0,function(err, result) {
              if (err) {
+                console.log(err)
                  next(err);
 
              } else { 
@@ -277,8 +307,11 @@ var excel = require('node-excel-export');
                      req.session.modules=result[1].map(function(v){
                         return v.id;
                      }); 
-                     if(req.session.isRetailer)       
-                     res.redirect('/mailServerInfo');
+                     if(req.session.isRetailer)  
+                     {
+                        res.redirect('/mailServerInfo');
+                     }     
+                     
                      else{
                        
                         res.redirect('/changePassWordPage');
@@ -1569,6 +1602,7 @@ getRolesInfo : function(req,res,next){
        res.json(allRoleresult);
     });
 },
+/*********added by saurav********/
 
 Docmaster:function(req,res,next){
         modelPortal.Docmaster(req.session.userId,req.session.roleId,req.session.retailerId,req.body.type,req.body.oldname,req.body.name,req.body.flag,req.session.croleId,function(err,result){
@@ -2348,8 +2382,12 @@ changeAssignmentStatus: function(req, res, next) {
      },
 
      //------------------------------------------Asset----------------------------------------------
+
+
+
+
      
-    inventory:function(req,res,next){ 
+   inventory:function(req,res,next){ 
         req.type=-1;
            modelPortal.inventory(req.type,req.session.userId,req.session.retailerId,
             function(error, result){
@@ -2451,6 +2489,18 @@ changeAssignmentStatus: function(req, res, next) {
         });
     },
 //new 4 hardware
+
+  showinfoOfInventory:function(req,res,next){
+          console.log(req.body);
+        modelPortal.showinfoOfInventory(req.body.flag,req.body.astId,req.body.coid,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result[0]);
+           console.log(result);
+        });
+    },
+
     updateHardware:function(req,res,next){
 
         modelPortal.updateHardware('null',req.body.order,
@@ -2524,7 +2574,7 @@ getViewHardware:function(req,res,next){
                 }
          });
      },
-       addHardware:function(req,res,next){
+     addHardware:function(req,res,next){
         console.log('jaimata di',req.body);
         var datastring=req.body.attr;
        
@@ -2619,10 +2669,23 @@ getViewHardware:function(req,res,next){
                 next(error);
             }else{
             req.resultdelete=result;
+           // res.json(result[0][0].delflag);
+           // console.log('jai mata di software',result[0][0].delflag);
             next();}
         });
     },
 
+     deletesoft: function(req,res,next){
+     console.log('fsfsssjps')
+        modelPortal.deletesoft(req.body.id,function(error,result){
+            if(error){
+                next(error);
+            }else{
+                res.json(result[0][0].delflag);
+                console.log(result[0][0].delflag);
+            }
+        });
+    },
 
     deletehardware: function(req,res,next){
 
@@ -2630,7 +2693,7 @@ getViewHardware:function(req,res,next){
             if(error){
                 next(error);
             }else{
-                res.json('success');
+                res.json(result[0][0].delflag);
             }
         });
     },
@@ -2688,7 +2751,7 @@ getViewHardware:function(req,res,next){
 
     updateSoft:function(req,res,next){
 
-        modelPortal.updatesoft('null',
+        modelPortal.updatesoft(req.body.htype,
             req.body.htype,
     req.body.vendor,req.body.Invoicedate,
     req.body.name,req.body.test5,
@@ -2782,9 +2845,10 @@ getViewHardware:function(req,res,next){
             if(error){
               next(error);
             return;}
-            req.resultAttribute=resultAttribute;
+            res.json(resultAttribute);
+            //req.resultAttribute=resultAttribute;
             ////console.log(req.resultAttribute);
-            next();
+          //  next();
         });
     },
 
@@ -2799,7 +2863,7 @@ getViewHardware:function(req,res,next){
     },
 
     getAccessories:function(req,res,next){
-        modelPortal.getAccessories(req.body.cid,req.session.retailerId,function(error,resultType){
+        modelPortal.getAccessories(req.body.cid,req.session.retailerId,req.body.uid,function(error,resultType){
            if(error){
               next(error);
             return;}
@@ -2820,7 +2884,7 @@ getViewHardware:function(req,res,next){
      saveAssignment:function(req,res,next){
         ////console.log(req.body);
         modelPortal.saveAssignment(req.body.cid,req.body.lid
-            ,req.body.uid,req.body.tid,req.body.aflag,req.body.adate,
+            ,req.body.uid,req.body.tid,req.body.aflag,req.body.adate,req.body.assignHdwrid,
             function(error,result){
                if(error){
               
@@ -2849,12 +2913,24 @@ if(error){
             next(); 
         });
 },
-getAssignedAssets:function(req,res,next){
+getAssignedAssets:function(req,res,next){ 
 modelPortal.getAssignedAssets(req.body.atid,req.body.uid,req.body.flag,function(error,resultAssigned){
 if(error){
               next(error);
             return;}
             req.resultAssigned=resultAssigned;
+            next(); 
+});
+},
+
+
+assignedAssets:function(req,res,next){  
+modelPortal.assignedAssets(req.session.userId,function(error,resultAssigned){
+if(error){
+              next(error);
+            return;}
+            req.resultAssigneds=resultAssigned;
+            console.log('jai mata',resultAssigned);
             next(); 
 });
 },
@@ -2869,6 +2945,81 @@ if(error){
             next(); 
 });
 },
+
+//jay
+
+ selectAdminData:function(req,res,next){
+
+        modelPortal.selectAdminData(req.session.retailerId,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result[0]);
+        });
+    },
+
+sendmailtouser:function(req,res,next){
+
+        modelPortal.sendmailtouser(req.body.userdetail,function(error,result){
+            if(error){
+                next(error);
+            }
+            if(req.body.flag==1)
+            {
+              mailTemplates.sendmailtouserabouttranscation(result[0][0].name,result[0][0].mail,function(error, resultMail) { 
+             });
+          }
+          else
+          {
+            mailTemplates.acknowledgeassetunassignment(result[0][0].name,result[0][0].mail,function(error, resultMail) { 
+             });
+          }
+        
+          });
+    },
+
+
+ 
+
+    sendmailtoadmin:function(req,res,next){
+        console.log('jayyyyyy');
+        modelPortal.getsoftwareexpirtdetails(req.session.retailerId,function(error,result){
+            if(error){
+                next(error);
+            }
+             var str1='';
+            for(var i=0;i<result[1].length;i++)
+            {
+              str1=str1+result[1][i].softname+',';
+            }
+            for(var i=0;i<result[0].length;i++)
+          {
+              mailTemplates.sendmailtoadminaboutsoftexpiry(result[0][i].name,result[0][i].mail,str1,function(error, resultMail) { 
+             });
+          }
+
+          });
+    },
+
+
+    sendemail:function(req,res,next){
+        
+mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,req.body.Subject,req.body.adminemailid,req.body.assetname,req.body.msg ,function(error, resultMail) {
+ 
+            if(error){
+                next(error);
+            }
+           res.json('success');
+        });
+    },
+
+//jay
+
+
+
+
+
+
 
 
 //--------------------------------------asset end---------------------------------
@@ -2934,6 +3085,20 @@ if(error){
              next();
          });
      },
+
+       updatesencationAmount: function(req, res, next) {
+
+              modelPortal.updatesencationAmount(req.body.samount,req.body.sdate,req.body.clid, function(errorRoles, result) {
+             if (errorRoles) {
+                 next(errorRoles);
+                 
+             }
+
+            res.json("success");
+             
+           });
+         },
+
 
         insertExpenseAttachment: function(req, res, next) {
 
@@ -3028,8 +3193,8 @@ if(error){
              next();
          });
      },
-
-        approveExpense: function(req, res, next) {
+       //jay
+           approveExpense: function(req, res, next) {
 
          var status=req.body.status1;
          if(status==0){
@@ -3039,6 +3204,10 @@ if(error){
         if(status==1){
          var reason=req.session.firstname;
          mailTemplates.approveExpense(req.body.toemail,req.session.firstName,function(error, resultMail){});
+       }
+       if(req.session.roleId==5 && status==1)
+       {
+        mailTemplates.approveExpenseByFm(req.body.toemail,req.session.firstName,function(error, resultMail){});
        }
          modelPortal.toApproveExpense(req.body.claimarray,req.session.roleId,req.session.userId,req.body.status1,req.body.transId,req.body.remark, function(errorRoles, result) {
              if (errorRoles) {
@@ -3053,7 +3222,7 @@ if(error){
                }
          });
      },
-
+//jay
        getMaxBillExpense: function(req, res, next) {
 
          modelPortal.togetMaxBillExpense(req.body.Id,req.session.retailerId, function(errorRoles, result) {
@@ -3116,6 +3285,21 @@ if(error){
 
              res.json(result[0]);
             //console.log(result[0]);
+         });
+     },
+
+
+       printexpense: function(req, res, next) {
+        console.log('jai mata di',req.body.data,req.session.userId);
+         modelPortal.toprintexpense(req.body.data,req.session.userId, function(errorRoles, result) {
+             if (errorRoles) {
+                 next(errorRoles);
+                 console.log(errorRoles); 
+
+             }
+             console.log('jai mata di portal',result);
+             res.json(result);
+             
          });
      },
 
@@ -3211,7 +3395,8 @@ insertExpense: function(req, res, next) {
   }
 
     if((exp==5)&&(flag==0)){
-    modelPortal.insertRsdExpense(form.travelexpensetypeid,form.rsdtrip,form.rsdFromDate,form.rsdToDate,form.rsdvehicle,form.rsdReason,form.rsdifnot,form.rsdKmRate,form.rsdtotal,form.rsdCurrency,form.rsdtex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
+        console.log(form.rsddes);
+    modelPortal.insertRsdExpense(form.travelexpensetypeid,form.rsdtrip,form.rsdFromDate,form.rsdToDate,form.rsdvehicle,form.rsdReason,form.rsdifnot,form.rsdKmRate,form.rsdtotal,form.rsdCurrency,form.rsdtex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,form.rsddes,function(errorRoles, result){
      if (errorRoles) {
                  next(errorRoles);
               
@@ -3228,7 +3413,7 @@ insertExpense: function(req, res, next) {
         form.rsdReason,form.rsdifnot,form.rsdKmRate,
         form.rsdtotal,form.rsdCurrency,form.rsdtex,
         req.session.userId,req.session.userId,parseInt(form.exthotel),
-        parseInt(form.extclaimrsd),function(errorRoles, result){
+        parseInt(form.extclaimrsd,form.rsddes),function(errorRoles, result){
     if (errorRoles) {
                  next(errorRoles);
                  return;
@@ -3677,7 +3862,7 @@ addUser: function(req, res, next) {
             req.body.hdnUserId, req.body.firstName, req.body.lastName, req.body.emailId, req.body.contactNumber, billingRate,
              req.body.userRole, req.body.manager, req.body.defaultModule, req.body.customRole,encriptPass,
             req.body.ecode,req.body.designation,req.body.level,modules,req.body.doj,req.body.dob,req.body.doc,rtype,
-          req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,function(err, result) {
+          req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,req.body.assetrole,function(err, result) {
              if (err) {
                  next(err);
              } else {
@@ -3719,7 +3904,60 @@ addUser: function(req, res, next) {
     });
    },
     //--------------------------------------TimeSheet--------------------
-     getTimeSheetData: function(req,res,next){
+ 
+uploadattendance: function(req, res, next) {
+         var absolute_path = [];
+         for (var i = 0; i < req.files.length; i++) {
+
+             absolute_path[i] = path.join(__dirname, '../../public/attach/' + req.files[i].originalname);
+
+         }
+
+         fs.rename(req.files[0].path, absolute_path[0], function(err) {
+             xlsxparser.parse({
+                 inFile: absolute_path[0],
+                 worksheet: 1
+             }, function(err, results1) {
+                 if (err) {
+                     console.log("Error in excelfile", err);
+                     // res.redirect('/manager/uploadUsers?errorMsg=1');
+                 } else {
+                     fs.rename(req.files[1].path, absolute_path[1], function(err) {
+
+
+                         xlsxparser.parse({
+                             inFile: absolute_path[1],
+                             worksheet: 1
+                         }, function(err, results) {
+                             if (err) {
+                                 console.log("Error in excelfile", err);
+                                 // res.redirect('/manager/uploadUsers?errorMsg=1');
+                             } else {
+
+                                console.log('results areeeeeeeeeeeee',results1)
+                                    modelPortal.uploadattendance(req.session.userId,req.session.roleId,req.session.retailerId,results1,results,function(err,result){
+                                        if(err){
+                                            next(err)
+                                        }else{
+                                           
+                                        res.redirect('/timesheet?flag=0')
+                                        }
+                                       });
+                             }
+
+                         });
+
+                     });
+
+
+                 }
+
+             });
+
+         });
+
+    },
+    getTimeSheetData: function(req,res,next){
 
         var query = require('url').parse(req.url, true).query;
         console.log("flag for flag_owntimesheet is==--======",query.flag);
@@ -4059,11 +4297,13 @@ addUser: function(req, res, next) {
                     recEmail.push(result[4][i].userEmail);
                 }
          recEmail = recEmail.join(','); 
-         req.body.Location =req.body.locationName;
+         req.body.Location =req.body.Location;
 
          if(hrarr.indexOf(3)!=-1){            //hm
           if(flag==0){ 
-              mailTemplates.hrMailer(0,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
+
+            console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',result)
+              mailTemplates.hrMailer(0,recEmail,result[6][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
             res.redirect('/allrequisitions?flag=1');
               }
               else if(flag==1){
@@ -4383,7 +4623,7 @@ addUser: function(req, res, next) {
             totalFiles[req.session.userId] = 0;
 
         }
-        modelPortal.parserTable(parseInt(req.body.count),countFiles[req.session.userId],function(err,result){
+        modelPortal.parserTable(parseInt(req.body.count),countFiles[req.session.userId],req.session.retailerId,function(err,result){
             if(err){
 
             }
@@ -4833,6 +5073,20 @@ upload_resume:function(req,res,next){
                 } 
         });
     },
+
+        quickdeletecandidate:function(req,res,next){
+      console.log("quickdeletecandidate portalsssssssssssssssssssssssssssssssssssssssssss");
+        modelPortal.quickdeletecandidate(req.session.userId,req.session.roleId,req.session.retailerId,req.body.allcdid,function(err,result){
+            if(err){
+                console.log("there is an error",err);
+            }   
+            else{
+                     res.json(result);
+                } 
+        });
+    },
+
+
     getallmanager:function(req,res,next){
         //////console.log("addQuickTag portal");
         modelPortal.getallmanager(req.session.userId,req.session.roleId,req.session.retailerId,
@@ -5137,6 +5391,8 @@ upload_resume:function(req,res,next){
                 } 
         });
     },
+
+
     task :function(req,res,next){
 
        var query = require('url').parse(req.url, true).query;
@@ -5297,6 +5553,8 @@ if(!req.treeComponent.length) {
              else{
               req.collaborateId       =  result[15][0].collaborateIds;          
                  }
+                 console.log('result 16 is',result[17]);
+                 req.changedEle = result[17];
              next();
                 } 
         });
@@ -5316,7 +5574,9 @@ modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
                 } 
         });
    },
-  saveTask :function(req,res,next){
+
+
+saveTask :function(req,res,next){
       modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.body.userId,req.body.commentString,req.body.collaborateId,function(err,result){
             if(err){
                 ////console.log("there is an error",err);
@@ -5363,7 +5623,7 @@ modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
 
 
 },
-
+	
 
 projStatus :function(req,res,next){
 
@@ -5390,7 +5650,6 @@ modelPortal.projStatus(req.session.retailerId,function(err,result){
 
 
 },
-
 getAllTreeForProjStatus:function(req,res,next){
 
 modelPortal.getAllTreeForProjStatus(req.body.proId,function(err,result){
@@ -5408,9 +5667,11 @@ modelPortal.getAllTreeForProjStatus(req.body.proId,function(err,result){
 
 
 },
+
+
 insNewVer :function(req,res,next){
 
-modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.session.userId,function(err,result){
+modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.session.userId,req.body.changedEle,function(err,result){
             if(err){
              //console.log("there is an error",err);
                     }   
@@ -5422,13 +5683,13 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
 
 },
 
+
 createExcelProj:function(req,res,next){
 
 
 createExcelHere(res,JSON.parse(req.body.projData),JSON.parse(req.body.bigArr),req.body.mailFlag,JSON.parse(req.body.receiverMail));
 
 },
-
 
      
 
@@ -5587,7 +5848,7 @@ function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
     var dateForYear = new Date();
     var yearForYear = dateForYear.getFullYear();
     yearForYear = yearForYear + '';
-    var CurrentYearArr = [yearorYear, yearForYear[0] + 'k' + yearForYear.slice(2, 3), yearForYear.slice(2, 3), "'" + yearForYear.slice(2, 3)];
+    var CurrentYearArr = [yearForYear, yearForYear[0] + 'k' + yearForYear.slice(2, 3), yearForYear.slice(2, 3), "'" + yearForYear.slice(2, 3)];
     var textarr = [];
     textarrNewLine.forEach(function(eachElement) {
         var array = eachElement.split(' ');
@@ -6226,7 +6487,7 @@ function blankentry(targetPath, req) {
 }
 
 
-/*function getDateTime(timeStamp,dateTimeLength) {
+function getDateTime(timeStamp,dateTimeLength) {
     var originalArr = [[],[]];
 for(var i = 0;i<2;i++){
       for(var j =0;j<dateTimeLength+1;j++){
@@ -6241,7 +6502,7 @@ for(var i=0;i<timeStamp.length;i++){
     ////console.log('StartDate is ',timeStamp[i].startDate,'endDate is',timeStamp[i].endDate); 
 }
 
-    /*****************Today date Calculation**************************
+    /*****************Today date Calculation**************************/
       var nowDateTime = new Date();
  var nowDateTimeForEmptyStartEndDate = nowDateTime;
     var nowDateTimeArr = [];
@@ -6255,7 +6516,7 @@ for(var i=0;i<timeStamp.length;i++){
 
 
 
-    /********************************Actual completetion********************************
+    /********************************Actual completetion********************************/
 
     var compInc = 0;
     var completeArr = setAllValuesInArray();
@@ -6264,7 +6525,7 @@ for(var i=0;i<timeStamp.length;i++){
 
 
 
-/**insert here*
+/**insert here*/ 
  for (var inc = 0; inc < timeStamp.length; inc++) { //if-else
        if (inc != timeStamp.length - 1) {
            while (timeStamp[inc].project == timeStamp[inc + 1].project) {
@@ -6374,7 +6635,7 @@ for(var i=0;i<timeStamp.length;i++){
 
    }
 
- /******End*******
+ /******End*******/
 
 
 
@@ -6388,7 +6649,7 @@ for(var inc=0;inc<completeArr.length;inc++){
 
 
 
-    /******************Asli Estimated Calculation***************************
+    /******************Asli Estimated Calculation***************************/
         var sumEff = 0,sumEffTotal = 0 ;
    for (var inc = 0; inc < timeStamp.length; inc++) {
 
@@ -6456,7 +6717,386 @@ originalArr[i][j] = Math.round(originalArr[i][j]);
 
 }
 
-*/
+
+
+
+
+function getEffNumberOfDays(EndDateTime,StartDateTime){
+    if(!EndDateTime||!StartDateTimeInTime){
+        return 0;
+    }
+var EndDateTimeValue =  EndDateTime.split('/');
+var StartDateTimeValue = StartDateTime.split('/');
+if(EndDateTimeValue.length<3||StartDateTimeValue.length<3){
+    return 0;
+} 
+if(StartDateTimeValue[2].length==2){ StartDateTimeValue[2] = '20' + StartDateTimeValue[2];}
+if(EndDateTimeValue[2].length==2){ EndDateTimeValue[2] = '20' + EndDateTimeValue[2];}
+
+
+var endDateTimeInTime = new Date(parseInt(EndDateTimeValue[2]),parseInt(EndDateTimeValue[1]), parseInt(EndDateTimeValue[0]));
+    endDateTimeInTime = endDateTimeInTime.getTime();
+
+    var StartDateTimeInTime =   new Date(parseInt(StartDateTimeValue[2]),parseInt(StartDateTimeValue[1]), parseInt(StartDateTimeValue[0]));
+       StartDateTimeInTime  = StartDateTimeInTime.getTime();
+
+
+   ////console.log('EndDateTimeInTime is',endDateTimeInTime,'StartDateTimeInTime is',StartDateTimeInTime,'diff is',endDateTimeInTime-StartDateTimeInTime);
+
+if((endDateTimeInTime-StartDateTimeInTime)<0){
+return 0;
+}
+return (endDateTimeInTime - StartDateTimeInTime);
+
+
+
+}
+
+
+
+
+
+function setAllValuesInArray(){
+
+
+  var arr = [];
+for(var i = 0;i<200;i++){
+  arr[i] = 0;
+}
+return arr;
+}
+
+
+   function addSum(projTreeArr){
+   
+   var sumArr =  setAllValuesInArray();
+for(var i=0;i<projTreeArr.length;i++){
+    var effInHrsHereIs = parseeIntForNan(projTreeArr[i].effortInHrs);
+   sumArr[projTreeArr[i].project] =  sumArr[projTreeArr[i].project] + effInHrsHereIs;
+}
+   return sumArr;
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+function getPercentage(wbs,totalEffort,projTreeArr){
+       var proj = setAllValuesInArray();
+for(var i = 0;i<projTreeArr.length;i++){
+    try{
+ proj[projTreeArr[i].project]  =  (wbs[projTreeArr[i].project]/totalEffort[projTreeArr[i].project])*100; 
+   }
+
+   catch(err){
+               
+        proj[projTreeArr[i].project]  =  0;
+    }
+ 
+}
+return proj;
+
+}
+
+
+
+function MathRound(num){
+  return  (Math.round(num)*100)/100;
+}
+
+
+function calculateActualCompletion(RawData){
+  var bigArr = setAllValuesInArray();
+  var sumArr =  setAllValuesInArray();
+for(var i=0;i<RawData.length;i++){
+    var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
+   sumArr[RawData[i].project] =  sumArr[RawData[i].project] + effInHrsHereIs;
+}
+
+
+for(var i=0;i<sumArr.length;i++){
+  if(sumArr[i]==0){
+    sumArr[i] = 100;
+  }
+}
+
+for(var i = 0 ;i<RawData.length;i++){
+  var percCompleted = parseeIntForNan(RawData[i].percCompleted);
+  var effInHrsHereIs = parseeIntForNan(RawData[i].effortInHrs);
+  var sumArrthis     = sumArr[RawData[i].project];
+ console.log('percCompleted is',percCompleted,'dsasdasdasd',RawData[i].percCompleted,'effortInHrs',RawData[i].effortInHrs,'proj',RawData[i].project,'sumArrthis is',sumArrthis);
+bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((effInHrsHereIs*percCompleted)/sumArrthis);
+
+console.log('bigArr[RawData[i].project] is',bigArr[RawData[i].project]);
+
+}
+
+for(var i = 0;i<bigArr.length;i++){
+  //bigArr[i] = bigArr[i]*100;
+  bigArr[i] = MathRound(bigArr[i]);
+}
+
+
+return bigArr;
+
+}
+
+
+
+function parseeIntForNan(data){
+if(isNaN(data)||data==null){
+  return 0;
+}
+
+else return parseInt(data);
+
+}
+
+function calculateEffCompletion(RawData){
+
+  var bigArr = setAllValuesInArray();
+var nowDate = new Date();
+var dd  =   nowDate.getDate();
+var mm  =   nowDate.getMonth() + 1;
+var yy  =    nowDate.getFullYear();
+var nowDate  = dd+'/'+mm+'/'+yy;
+for(var i =0;i<RawData.length;i++){
+ 
+ var startDate  = RawData[i].newPlannedStartDate
+  var endDate    = RawData[i].newPlannedEndDate
+ startDate       = startDate.split('/');
+ endDate         = endDate.split('/');
+ if(startDate[2].length==2){
+    startDate[2]  = '20' + startDate[2];
+ }
+ if(endDate[2].length==2){
+endDate[2] = '20' + endDate[2]
+
+ }
+ startDate       = startDate[0] +'/'+startDate[1] +'/'+startDate[2];
+ endDate         = endDate[0] + '/' +endDate[1] + '/' +endDate[2];
+var numberOfDays  = calculateEffDays(endDate,startDate);
+var numberOfDays2 = calculateEffDays(nowDate,startDate);
+console.log()
+bigArr[RawData[i].id]  = MathRound((numberOfDays2*100)/numberOfDays);
+}
+
+
+return bigArr;
+
+}
+
+function calculateEffDays(sDateNew,sDateOld){
+  var effDays = 1;
+  sDateOld = sDateOld.split('/');
+  sDateNew =  sDateNew.split('/');
+   if(sDateOld.length==2){
+     sDateOld[2] = '20' + sDateOld[2];
+   }
+   if(sDateNew.length==2){
+    sDateNew[2] = '20' + sDateNew[2];
+   }
+   sDateNew[1] = (sDateNew[1] -1) + '';
+   sDateOld[1]  = (sDateOld[1] - 1)+ '';
+
+
+var sDateNew2 = new Date(sDateNew[2],sDateNew[1],sDateNew[0]);
+var sDateOld2 = new Date(sDateOld[2],sDateOld[1],sDateOld[0]);
+//sDateNew2 = sDateNew2.toString();
+//sDateOld2 = sDateOld2.toString();
+//debugger;
+ var d = sDateOld[0];
+var m = sDateOld[1];
+var y = sDateOld[2];
+    
+
+  while(sDateNew2>sDateOld2){
+   sDateOld2 = new Date(y,m,d++);
+   if(calculateHoliday(sDateOld2)){
+     effDays++;
+   }
+   
+  }
+
+  while(sDateNew2<sDateOld2){
+  sDateOld2 = new Date(y,m,d--);
+   if(calculateHoliday(sDateOld2)){
+     effDays--;
+   }
+  } 
+
+  return effDays;
+
+}
+
+
+
+
+
+
+function  calculateHoliday(date){
+
+ var weekEnds;
+ if(!saturdayOffFlag){
+ weekEnds =[0];
+}
+else {
+       weekEnds = [0,6];     
+    
+  }
+
+ var m = date.getMonth();
+    var d = date.getDate();
+    var y = date.getFullYear();
+    var day = date.getDay();
+    var dateTime = date.getTime();
+   // debugger;
+  //  console.log('date is',d,' ',m,' ',y);
+  if(saturdayOffFlag==1){
+        weekEnds = [0,6]    
+    }
+else if(saturdayOffFlag ==0){
+       weekEnds = [0];
+     }
+ 
+if(holidayArrDateTimeArr.indexOf(dateTime)!=-1){
+    return false;
+}
+else if(weekEnds.indexOf(day)!=-1){
+              return false;
+        }
+
+    else {
+        return true;
+         }
+
+
+
+}
+
+
+
+
+
+function totalHoursBookedFromWbs(RawData){
+
+var bigArr = setAllValuesInArray();
+
+
+for(var i = 0;i<RawData.length;i++){
+
+bigArr[RawData[i].projectId]  = RawData[i].effortInHrs;
+}
+ return bigArr;
+
+}
+
+
+function calculatePercentageCompletedOnHoursBooked(wbsHours,hoursFromTree){
+
+var bigArr = setAllValuesInArray();
+var effortHrs = setAllValuesInArray();
+
+for(var i = 0 ;i<hoursFromTree;i++){
+  effortHrs[hoursFromTree[i].project] = effortHrs[hoursFromTree[i].project] + hoursFromTree[i].effortInHrs; 
+}
+
+for(var i = 0;i<hoursFromTree;i++){
+
+if(hoursFromTree[i].effortInHrs==0){
+   bigArr[hoursFromTree[i].project]  = 0;
+}
+
+else{
+          
+        bigArr[hoursFromTree[i].project] = (wbsHours[hoursFromTree[i].project]*100)/effortHrs[hoursFromTree[i].project];
+
+    }
+
+}
+return bigArr;
+
+}
+
+
+
+function calculateActualEndDate(RawData){
+var bigArr = setAllValuesInArray();
+for(var i =0;i<RawData.length;i++){
+    console.log('RawData[i].actEndDate is',RawData[i].actEndDate,'bigArr[RawData[i].id] is ',bigArr[RawData[i].id]);
+if(RawData[i].actEndDate==null||RawData[i].actEndDate==''){
+    console.log('in if');
+  bigArr[RawData[i].project] = 'alpha';
+}
+else if(bigArr[RawData[i].project]!='alpha'){
+    console.log('in else');
+  bigArr[RawData[i].project]  = maxOf(bigArr[RawData[i].project],RawData[i].actEndDate);
+  console.log('bigArr[RawData[i].id] ',bigArr[RawData[i].project],'actEndDate is ',RawData[i].actEndDate);
+
+}
+else{
+    console.log('work hard in silence');
+}
+
+}
+
+for(var i = 0;i<bigArr.length;i++){
+            if(bigArr[i]==0||bigArr[i]=='alpha'){
+                bigArr[i] = '';
+            }
+ }
+ //console.log('bigArr is',bigArr);
+ return bigArr;
+
+}
+
+
+function maxOf(date1,date2){
+if(date1==0||date1=='0'){
+  return date2
+}
+
+var dateTime1 = conVertToDateTime(date1);
+var dateTime2 = conVertToDateTime(date2);
+
+if(dateTime1>dateTime2){
+  return date1;
+}
+else{
+         return date2;
+ }
+
+}
+
+function conVertToDateTime(date1){
+   var date1Arr =  date1.split('/');
+
+if(date1Arr[2].length==2){
+  date1Arr[2] = '20'+date1Arr[2];
+}
+  var DateTime = new Date(date1Arr[2],date1Arr[1],date1Arr[0]);
+  return DateTime; 
+
+
+}
+
+
+
+
+
+
+/***************************task*****************************/
+    
+
+/****************************************task************************************/
+
 
 
 
@@ -6499,6 +7139,7 @@ for(var i =0;i<RawData.length;i++){
 }
 return RawData;
 }
+
 
 function createExcelHere(res,projectData,bigArr,mailFlag,receiverMail){
 var projName = projectData[0];
@@ -6772,7 +7413,8 @@ fs.rename(tempPath, targetPath, function(err){
             if (err) 
                 next(err)
             else{
-                if(mailFlag){
+                console.log('mailFlag is ',mailFlag);
+                if(mailFlag==1){
                    sendAsMail(nameStr,targetPath,res,receiverMail);
                 }
 
@@ -6807,6 +7449,8 @@ mailTemplates.projectAttachFile(receiverMail.join(),attachData,function(err,resu
 
 
 }
+
+
 
 
 

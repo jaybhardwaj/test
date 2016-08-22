@@ -45,7 +45,7 @@
                         <th style="text-align:center">Raised By</th>
                         <th style="text-align:center">Assigned To</th>
                         <th style="text-align:center">Status</th>
-                        <th style="text-align:center">Action</th>
+                        <th style="text-align:center; width:200px">Action</th>
                         <th class="hide">xcx</th>
                     </tr>
                 </thead>
@@ -92,26 +92,26 @@
                             <td>
                                 <span>
                                 <%if(myRmsRole.indexOf(3)>=0||myRmsRole.indexOf(5)>=0){%>
-                                <i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy Requisition" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i>
+                                <i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:1%;" title = "Copy Requisition" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i>
                                 </span>
                                 <span style="padding-right:5px;padding-left:5px">
-                                <i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit Requisition"></i>
+                                <i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>" style="color:gray;margin:1%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit Requisition"></i>
                                 </span>
                                 <span>
                                  <%if(pdetails[i].isConfirmed!=-2&&pdetails[i].isConfirmed!=2&&pdetails[i].createdBy==userId){%>
-                                <i class="glyphicon glyphicon-trash" id = "trash_<%=i%>" style = "color:gray;margin:2%;" title = "Delete Requisition" onclick = "delteRequisition(this.id)"></i>
+                                <i class="glyphicon glyphicon-trash" id = "trash_<%=i%>" style = "color:gray;margin:1%;" title = "Delete Requisition" onclick = "delteRequisition(this.id)"></i>
                                 <%}%>
                                 </span>
-                                <br>
+                               
                                 <%}%>
                                 <%if(myRmsRole.indexOf(6)>=0){%> 
                                  <%if(pdetails[i].isConfirmed ==1){ %>
-                                <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove"  onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i>
-                                    <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i>
+                               <span> <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove"  onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i></span>
+                                    <span><i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i></span>
                                 <%}}else if(myRmsRole.indexOf(5)>=0){%>
                                     <%if(pdetails[i].createdBy!=userId&&(pdetails[i].isConfirmed == 0)){ %>
-                                     <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove"  onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i>
-                                    <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i>
+                                    <span> <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove"  onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i></span>
+                                   <span> <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i></span>
                                     <%}}%>
                             </td>
 
@@ -526,7 +526,7 @@
                             },
                             method: 'post',
                             success: function(data) {
-                             
+                             console.log('datassssss',data);
                                  flage = flag;
                                 var ide = id;
                                 var cities = JSON.parse(JSON.stringify(data.result[0]));
@@ -534,6 +534,7 @@
                                 var admin = JSON.parse(JSON.stringify(data.result[2]));
                                 var desig = JSON.parse(JSON.stringify(data.result[3]));
                                 var info = JSON.parse(JSON.stringify(data.result[5]));
+                                console.log(info)
                                 var dviewinfo = JSON.parse(JSON.stringify(data.result[9]));
                                 var prio = JSON.parse(JSON.stringify(data.result[4]));
                                 var arstr = [];

@@ -1,3 +1,4 @@
+
   <!DOCTYPE html>
 <html lang="en">
 
@@ -119,6 +120,7 @@ thead tr th {
 
         <ul class="nav nav-pills nav-stacked menu"  style="text-align:left">
           <%if(myModules.indexOf(1)>=0){%>
+          <%if(roleid == 1){%>
           <li class="b">
             <a  onClick="openDiv(0)">
               <i class="fa fa-bug" aria-hidden="true"></i> 
@@ -126,8 +128,9 @@ thead tr th {
               
             </a>
           </li>
-          <%}%> 
+          <%}}%> 
           <%if(myModules.indexOf(6)>=0){%>
+          <%if(roleid == 1){%>
           <li class="d">
             <a  onClick="openDiv(1)">
               
@@ -136,16 +139,18 @@ thead tr th {
               
             </a>
           </li>
-          <%}%>
+          <%}}%>
           <%if(myModules.indexOf(2)>=0){%> 
+          <%if(roleid == 1){%>
           <li class="t">
             <a  onClick="openDiv(2)">
                <i class="fa fa-calendar" aria-hidden="true"></i> TimeSheet
              
             </a>
           </li>
-           <%}%> 
+           <%}}%> 
            <%if(myModules.indexOf(3)>=0){%>
+           <%if(roleid == 1){%>
           <li class="e">
             <a  onClick="openDiv(3)">
               
@@ -153,20 +158,23 @@ thead tr th {
               
             </a>
           </li>
-          <%}%> 
+          <%}}%> 
           <%if(myModules.indexOf(4)>=0){%>
+          <%if((roleid==1)||(assetrole== 1)){%>
            <li class="a">
             <a  onClick="openDiv(4)">
                <i class="fa fa-desktop" aria-hidden="true"></i> Asset
               
             </a>
           </li>
-          <%}%> 
+          <%}}%>
+          <%if(roleid == 1){%> 
           <li class="o">
             <a  onClick="openDiv(5)">
             <i class="fa fa-square" aria-hidden="true"></i> Others           
             </a>
           </li>
+          <%}%>
         </ul>
     </div>
     <div class="col-md-8" id="hideItinOnLoad1">
@@ -1035,40 +1043,60 @@ thead tr th {
                         <%if(expenseType[i].code==3){%>
                            <th  style="text-align:center">Travel Mode</th>
                         <%}%>
+                          <%if(expenseType[i].code==4){%>
+                           <th  style="text-align:center">Designation</th>
+                           <th  style="text-align:center">Rate/Km</th>
+                        <%}%>
                         <th  style="text-align:center">Action</th>
                         </tr>                        
                         <% for(var j=0;j<expenseMaster.length;j++){%>                      
                           <%if(expenseType[i].code==expenseMaster[j].code){%>
                            <tr id="expenseEdit_<%=expenseMaster[j].id%>"  class="hide">
                               <td>
-                              <%//if(expenseMaster[j].id<=7){%> <!-- Mayur ask Manu-->
-                           <%//=expenseMaster[j].description%>
-                            <%//}else{%>
-                             <input type="text"  maxlength="30" id="expMasterData_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>"  value="<%=expenseMaster[j].description%>">                              
-                            <%//}%>
+                              <%if(expenseMaster[j].id<=7){%> <!-- Mayur ask Manu-->
+                           <%=expenseMaster[j].description%>
+                            <%}else{ %>
+                            <%if(expenseType[i].code==4){%>
+                            
+                             <select class=""  id="expMasterdes_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>" name=""  style="" value="<%=expenseMaster[j].description%>" selected>
+                                  <option value="0">Select Type</option>
+                                   <%for(var k=0;k<expdepartment2.length;k++){%> 
+                            <option value="<%=expdepartment2[k].description1%>" <%if(expenseMaster[j].description==expdepartment2[k].description1){%> selected<%}%>><%=expdepartment2[k].description1%></option>
+                                    <%}%> 
+                              </select>
+                              </td>
+                             
+                            <%}else{%>
+                             <input type="text"  maxlength="30" id="expMasterData_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>"  value="<%=expenseMaster[j].description%>">  
+                            <%}}%>
+                            
                           </td>
-                          <%if(expenseType[i].code==1){%>
+                         <%if((expenseType[i].code==1)||(expenseType[i].code==4)){%>
+                           <%if(expenseType[i].code==1){%>
                           <td>
                           <select id="isMandatory_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>" onChange="toggeleBillBox(<%=expenseMaster[i].code%>,<%=expenseMaster[j].id%>,1)">
               <option value="1" <%if(expenseMaster[j].minimumBillableMandetory==1){%>selected<%}%>>Yes</option>
               <option  value="0" <%if(expenseMaster[j].minimumBillableMandetory!=1){%>selected<%}%>>No</option>
                           </select>   
                           </td>                         
+                          <%}if((expenseType[i].code==1)||(expenseType[i].code==4)){%>                        
                             <td>
-                            <input  type="number" min="0"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="6" min="1" id="maxBillAmnt_<%=expenseMaster[i].code%>_<%=expenseMaster[j].id%>" placeholder="@max Amount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
+                            <input  type="number" min="0"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="6" min="1" id="maxBillratedes_<%=expenseType[i].code%>_<%=expenseMaster[j].id%>" placeholder="@max Amount" value="<%=expenseMaster[j].maximumBillableMandetory%>">
                             </td>
-                          <%}%>                                                 
+                          <%}}%>                                                  
                            <td>                                                  
                             <span class="glyphicon glyphicon-floppy-disk"  onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,1)"></span>                      
                          </td>
                          </tr> 
                         <tr id="expenseShow_<%=expenseMaster[j].id%>"> 
                           <td><%=expenseMaster[j].description%></td>
+                          <%if((expenseType[i].code==1)||(expenseType[i].code==4)){%>
                             <%if(expenseType[i].code==1){%>
                             <%if(expenseMaster[j].minimumBillableMandetory==1){%>
-                            <td>Yes</td><%}else{%><td>No</td><%}%>
+                            <td>Yes</td><%}else{%><td>No</td><%}}%>
+                             <%if((expenseType[i].code==1)||(expenseType[i].code==4)){%>
                             <td><%=expenseMaster[j].maximumBillableMandetory%></td>
-                          <%}%>                          
+                          <%}}%>                           
                           <td>                          
                               <span class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="showEditExpMaster(<%=expenseType[i].code%>,<%=expenseMaster[j].id%>,0)"></span>                          
                           </td>
@@ -1081,7 +1109,17 @@ thead tr th {
                       <table  style="margin:5px">
                          <tr>
                          <td >
-                         <input type="text" style="width:95%" id="expMasterData_<%=expenseType[i].code%>" maxlength="30" min="1" class="form-control" placeholder="@expence type"></td>
+                         <%if(expenseType[i].code==4){%>
+                         
+                         <select class="form-control"  id="expMasterdes_<%=expenseType[i].code%>" name="">
+                                  <option value="0">Select Type</option>
+                         <%for(var k=0;k<expdepartment2.length;k++){%> 
+                         <option value="<%=expdepartment2[k].description1%>"><%=expdepartment2[k].description1%></option> <%}%>        
+                              </select></td>
+                               <td    style="padding-right: 4%;"><input  type="number" min="1"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="1" maxlength="3" id="maxBillratedes_<%=expenseType[i].code%>" class="form-control" placeholder="@max Amount "></td>
+                         <%}else{%>
+                         <input type="text" style="width:95%" id="expMasterData_<%=expenseType[i].code%>" maxlength="30" min="1" class="form-control" placeholder="@expence type"></td><%}%>
+                          <%if(expenseType[i].code==1){%>
                           <%if(expenseType[i].code==1){%>
                          <td>
                            <select id="isMandatory_<%=expenseType[i].code%>" class="form-control" onchange="toggeleBillBox(<%=expenseType[i].code%>,-1,0)" >
@@ -1090,8 +1128,9 @@ thead tr th {
                              <option value="2">No</option>
                            </select>
                          </td>
+                         <%}if(expenseType[i].code==1){%>
                          <td    style="padding-right: 4%;"><input  type="number" min="0"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="1" maxlength="3" id="maxBillAmnt_<%=expenseType[i].code%>" class="form-control" placeholder="@max Amount "></td>
-                         <%}%>
+                         <%}}%>
                       <td><span class="glyphicon glyphicon-plus-sign"  onClick="addExpenseMaster(<%=expenseType[i].code%>,0,0)" style="font-size:18px;padding-top:5px"></span></td>
                       </tr>
                       </table> 
@@ -1214,7 +1253,7 @@ thead tr th {
                 <input placeholder="Enter Role Name Here" type="text" maxlength="30"  style="width:100%" class="form-control" id="editRoleId" name="editRoleId" />
                </div>
             </div> 
-		    <div style="">
+        <div style="">
 
             <div class="col-md-12 a"  style="padding-top:2%"> 
                <div class="col-md-5">
@@ -1293,7 +1332,7 @@ thead tr th {
                       </div>
                     </div>
             </div>
-	</div>
+  </div>
            <div class="modal-footer">
                 <center>
                          <button id='cancel' type="reset" data-dismiss="modal"  class="btn">Cancel</button>
@@ -1324,6 +1363,12 @@ thead tr th {
     var divName=["Bug","Document","TimeSheet","Expense","Asset","Others"];
     var navName=["b","d","t","e","a","o"];
     var moduleTemp=<%-JSON.stringify(myModules)%>;
+    if((<%=roleid%>!=1)&&(<%=assetrole%>== 1)){
+        if(moduleTemp.indexOf(4)>=0){
+        openDiv(4);
+        }
+    }
+    if(<%=roleid%>==1){
     if(moduleTemp.indexOf(1)>=0){
         openDiv(0);
     }
@@ -1335,13 +1380,14 @@ thead tr th {
     }
     else if(moduleTemp.indexOf(3)>=0){
         openDiv(3);
-    }
+    }   
     else if(moduleTemp.indexOf(4)>=0){
         openDiv(4);
     }
     else{
         openDiv(5);
     }
+  }
    // 
     function openDiv(id){
      
@@ -2401,12 +2447,29 @@ function addSchedule(){
 }
      //-----------------------Expense-------------------------
      function toggeleBillBox(code,id,flag){  
-     if(!flag){  
-         if($('#isMandatory_'+code).val()!=1){
-           $('#maxBillAmnt_'+code).addClass("hide"); 
-           //$('#maxBillAmnt_'+code).val('');
+      if(code==4){
+        if(flag==1){
+         $('#maxBillAmnt_'+code).addClass("hide"); 
+         $('#isMandatory_'+code).addClass("hide");
+         $('#expMasterdes_'+code).removeClass("hide"); 
+         $('#maxBillratedes_'+code).removeClass("hide");
+          $('#isMandatory_'+code+'_'+id).addClass("hide");
+          $('#maxBillAmnt_'+code+'_'+id).addClass("hide");
+          $('#isMandatory_'+code).addClass("hide");
+        }
+        else{
+          $('#expMasterdes_'+code+'_'+id).removeClass("hide");
+          $('#maxBillratedes_'+code+'_'+id).removeClass("hide"); 
+        }
+      }
+     else if(!flag){
+          if($('#isMandatory_'+code+'_'+id).val()==1){ 
+         $('#maxBillAmnt_'+code+'_'+id).removeClass("hide");
+         $('#maxBillAmnt_'+code).removeClass("hide"); 
           }
           else{
+  
+          $('#maxBillAmnt_'+code+'_'+id).removeClass("hide");
           $('#maxBillAmnt_'+code).removeClass("hide");  
           }
       }
@@ -2416,18 +2479,20 @@ function addSchedule(){
             //$('#maxBillAmnt_'+code+'_'+id).val('');
           }
           else{
+          
            $('#maxBillAmnt_'+code+'_'+id).removeClass("hide"); 
           }
       }
      }
 
  function showEditExpMaster(code,id,flag){ 
-        if(code==1){
+      if((code==1)||(code==4)){
           toggeleBillBox(code,id,flag);
         } 
-        if($('#isMandatory_'+code+'_'+id).val()==0){
-            $('#maxBillAmnt_'+code+'_'+id).addClass("hide");
-  }      
+        if(($('#isMandatory_'+code+'_'+id).val()==0)||(code!=4)){
+          
+           // $('#maxBillAmnt_'+code+'_'+id).addClass("hide");
+        }      
     if(!flag){
         $('#expenseEdit_'+id).toggleClass("hide"); 
         $('#expenseShow_'+id).toggleClass("hide");  
@@ -2442,6 +2507,21 @@ function addSchedule(){
   }
 function addExpenseMaster(code,id,flag){
   if(!flag){
+    if(code==4){
+     if($('#expMasterdes_'+code).val()==0){
+       alert("Please select type !");
+       return false;
+     }
+      else if($('#maxBillratedes_'+code).val==""){
+        alert('Please fill the Amount !');
+        return false;
+      }
+       else if($('#maxBillratedes_'+code).val=="0"){
+        alert('Amount can  not be equal to 0 !');
+        return false;
+      }
+       
+    }else{
        if($('#expMasterData_'+code).val().trim().length<1)
         {
             alert("This field cannot be blank");
@@ -2462,19 +2542,43 @@ function addExpenseMaster(code,id,flag){
           }
         }
       }
+    }
 }
 else{
+  if(code==4){
+      if($('#expMasterdes_'+code+'_'+id).val()==0){
+       alert("Please select type !");
+       return false;
+     }
+      else if($('#maxBillratedes_'+code+'_'+id).val==""){
+        alert('Please fill the Amount !');
+        return false;
+      }
+       else if($('#maxBillratedes_'+code+'_'+id).val=="0"){  
+        alert('Amount can  not be equal to 0 !');
+        return false;
+      }
+
+  }
+  else{
   if($('#expMasterData_'+code+'_'+id).val().trim().length<1)
   {
      alert("This field cannot be blank");
     return false;
   }
 }
+}
 
 var desc,billM,billa,ty;
 var c1='',c2='',c3='',c4='',c5='',edValue;
 if(flag){
-  desc=$('#expMasterData_'+code+'_'+id).val().trim();//Mayur
+  if(code==4){
+   billa=$('#maxBillratedes_'+code+'_'+id).val();
+   desc=$('#expMasterdes_'+code+'_'+id).val();
+   billM=0;
+  }
+  else{
+  desc=$('#expMasterData_'+code+'_'+id).val().trim();
   billM=$('#isMandatory_'+code+'_'+id).val();
   billa=$('#maxBillAmnt_'+code+'_'+id).val();
   ty=code+'_'+id;
@@ -2486,8 +2590,16 @@ if(flag){
         c5='selected';
         c4='No';
       }
+    }
 }
 else{
+   if(code==4){
+   billa=$('#maxBillratedes_'+code).val();
+   desc=$('#expMasterdes_'+code).val();
+   billM=0;
+  
+  }
+  else{
   desc=$('#expMasterData_'+code).val().trim();  //Mayur
   billM=$('#isMandatory_'+code).val();
   billa=$('#maxBillAmnt_'+code).val();
@@ -2500,6 +2612,7 @@ else{
         c5='selected';
         c4='No';
       }
+    }
 }
 if(billa>100000){
   alert("Error : Max Bill Amount Limit Is 100000");
@@ -2509,6 +2622,7 @@ if(billa<0){
   alert("Error :  Bill Amount cannot be negetive");
   return ;
 }
+
   $.ajax({
     url:'/insertExpenseMaster',
         data: {
@@ -2520,38 +2634,75 @@ if(billa<0){
          "edit":flag,
          "idmaster":id
         },
-    method: 'POST',
+      method: 'POST',
     success: function(data) {  
       console.log("data is ----   ",data);
-      if(code==1){
+      if((code==1)||(code==4)){
+        if(code==1){
          if($('#maxBillAmnt_'+ty).val().length<1){
           edValue=0;
          }
          else{
           edValue=$('#maxBillAmnt_'+ty).val();
+         }}
+         else{
+           edValue=$('#maxBillratedes_'+ty).val();
          }
         c1=' <td><select id="isMandatory_'+code+'_'+id+'" onChange="toggeleBillBox('+code+','+id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input  type="number" min="0"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="maxBillAmnt_'+code+'_'+id+'" placeholder="@max Amount" maxlength="10" value="'+edValue+'"></td>'; 
-
+        if(code==1){
         c3='<td>'+c4+'</td><td>'+edValue+'</td>';
+      }
+      if(code==4){
+        c3='<td>'+billa+'</td>';
+      }
       }      
       if(data[0].flag==0)
       {        
-        alert('Expense Created successfully.'); 
+        alert('Expense Created successfully.');
+          if(code==4){
+        c1='<td> <select class=""  id="expMasterdes_'+code+'_'+data[0].id+'"  selected> <option value="0">Select Type</option>  <%for(var k=0;k<expdepartment2.length;k++){%> <option value="<%=expdepartment2[k].description1%>" <%if('+desc+'==expdepartment2[k].description1){%> selected<%}%>><%=expdepartment2[k].description1%></option><%}%>  </select>';  
+        cp='<td><input  type="number" min="0"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="maxBillratedes_'+code+'_'+data[0].id+'" placeholder="@max Amount" maxlength="10" value="'+billa+'"></td>';
+        $('#expTable_'+code).append('<tr id="expenseEdit_'+data[0].id+'" class="hide">'+c1+''+cp+'<td><span class="glyphicon glyphicon-floppy-disk"  onClick="showEditExpMaster('+code+','+data[0].id+',1)"></span></td></tr><tr id="expenseShow_'+data[0].id+'"><td>'+desc+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="showEditExpMaster('+code+','+data[0].id+',0)"></span></td></tr>');
+         $("#expMasterdes_"+code+'_'+data[0].id+" option").each(function(){
+         if($(this).text()==desc){
+          $(this).attr("selected","selected");
+         }
+       });
+
+        $('#expMasterdes_'+code).val('0');
+        $('#maxBillratedes_'+code).val('');
+      } 
         if(code==1){
         c1=' <td><select id="isMandatory_'+code+'_'+data[0].id+'" onChange="toggeleBillBox('+code+','+data[0].id+',1)"><option value="1" '+c2+'>Yes</option><option  value="0" '+c5+'>No</option></select></td><td><input  type="number" min="0"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="maxBillAmnt_'+code+'_'+data[0].id+'" placeholder="@max Amount" maxlength="10" value="'+edValue+'"></td>'; 
-}
+      }
+      if(code!=4){
         $('#expTable_'+code).append('<tr id="expenseEdit_'+data[0].id+'" class="hide"><td id="abc"><input type="text" class="abc" id="expMasterData_'+code+'_'+data[0].id+'" maxlength="30" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk"  onClick="showEditExpMaster('+code+','+data[0].id+',1)"></span></td></tr><tr id="expenseShow_'+data[0].id+'"><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="showEditExpMaster('+code+','+data[0].id+',0)"></span></td></tr>');  
         $('#maxBillAmnt_'+ty).val('');
-        $('#expMasterData_'+ty).val('');
+        $('#expMasterData_'+ty).val('');}
       }
 
      else if(data[0].flag==1000)
       {
         alert('Expense Updated Successfully');
+       if(code==4){
+         c1='<td> <select class=""  id="expMasterdes_'+code+'_'+data[0].id+'"  selected> <option value="0">Select Type</option>  <%for(var k=0;k<expdepartment2.length;k++){%> <option value="<%=expdepartment2[k].description1%>" <%if('+desc+'==expdepartment2[k].description1){%> selected<%}%>><%=expdepartment2[k].description1%></option><%}%>  </select>';  
+        cp='<td><input  type="number" min="0"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="maxBillratedes_'+code+'_'+data[0].id+'" placeholder="@max Amount" maxlength="10" value="'+billa+'"></td>';
+        $('#expenseEdit_'+id).html(c1+cp+'<td><span class="glyphicon glyphicon-floppy-disk"  onClick="showEditExpMaster('+code+','+id+',1)"></span></td>');        
+        $('#expenseEdit_'+id).toggleClass("hide");
+        $('#expenseShow_'+id).html('><td>'+desc+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="showEditExpMaster('+code+','+id+',0)"></span></td>');
+        $('#expenseShow_'+id).toggleClass("hide");
+           $("#expMasterdes_"+code+'_'+data[0].id+" option").each(function(){
+         if($(this).text()==desc){
+          $(this).attr("selected","selected");
+         }
+       });
+
+       }
+       else{
         $('#expenseEdit_'+id).html('<td id="abc"><input type="text" class="abc" id="expMasterData_'+code+'_'+id+'" maxlength="30" value="'+$('#expMasterData_'+ty).val()+'"></td>'+c1+'<td><span class="glyphicon glyphicon-floppy-disk"  onClick="showEditExpMaster('+code+','+id+',1)"></span></td>');        
         $('#expenseEdit_'+id).toggleClass("hide");
-        $('#expenseShow_'+id).html('><td>'+$('#expMasterData_'+ty).val()+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="showEditExpMaster('+code+','+id+',0)"></span></td>');
-        $('#expenseShow_'+id).toggleClass("hide");
+        $('#expenseShow_'+id).html('><td>'+desc+'</td>'+c3+'<td><span class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="showEditExpMaster('+code+','+id+',0)"></span></td>');
+        $('#expenseShow_'+id).toggleClass("hide");}
       }
       else
       {
@@ -3470,4 +3621,6 @@ if(billa<0){
 
    </body>
    </html>
+
+
 

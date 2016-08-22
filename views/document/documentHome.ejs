@@ -12,9 +12,9 @@
 }
 
 .fileUplaodDivClass{
+
       border-radius:15px;
       background: rgba(133,148,119,0.29);
-     
       padding:0px;
       
 }
@@ -271,8 +271,8 @@
     <div class="col-md-9" style="width:81%">
 
         <table>
-            <tr id="advanceSearch" ><td style="color: #f05f40;font-size: 13px;width:200px">Advance Search</td></tr>
-            <tr class="advanceSearch hide">
+		<tr id="advanceSearch"><td style="width:200px;font-size:13px;color:#f05f40">Advance Search</td></tr> 
+           <tr class="advanceSearch hide">
             <td><label class="form-Label ">Industry:</label></td>
             <td class="tdClassTextBox"> <select id="select1" multiple="multiple" required name="industry1" class="form-text-box">
                                               <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
@@ -459,7 +459,7 @@
                             <label class="form-Label" >Industry :</label>
                         </div>
                         <div class="col-md-8">
-                             <textarea class="form-text-box" name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                            <textarea class="form-text-box" name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
                            
 
                         </div>
@@ -469,7 +469,8 @@
                             <label class="form-Label" >User Department:</label>
                         </div>
                         <div class="col-md-8">
-                             <textarea class="form-text-box" name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                              <textarea class="form-text-box" name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                           
                            
                         </div>
                     </div>
@@ -479,7 +480,7 @@
                             <label class="form-Label" >Document Type:</label>
                         </div>
                         <div class="col-md-8">
-                             <textarea class="form-text-box" name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                            <textarea class="form-text-box" name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
                           
                         </div>
                     </div>
@@ -490,7 +491,7 @@
                             <label class="form-Label" >Application Area:</label>
                         </div>
                         <div class="col-md-8">
-                             <textarea class="form-text-box" name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                            <textarea class="form-text-box" name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
                            
 
 
@@ -502,7 +503,7 @@
                             <label class="form-Label" >Restriction Lavel:</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea class="form-text-box"  id="rest" value="" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" name="fname" readonly>
+                           <textarea class="form-text-box"  id="rest" value="" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" name="fname" readonly>
                         </textarea>
                         </div>
                     </div>
@@ -772,13 +773,11 @@ function downloadFile(rowid,fileid){
       
         var otable;
         $(document).ready(function() {
-          /*  $(".advanceSearch").click({
-                $(".advanceSearch").toggleClass("hide");
-            });*/
-            $("#advanceSearch").click(function(){
+                
+	$("#advanceSearch").click(function(){
                 $(".advanceSearch").toggleClass("hide");
             });
-                
+
              $(".star").on({
     mouseenter: function () {
         var getId=$(this).attr("id").split("-");
@@ -965,13 +964,12 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                         charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a onclick="downloadFile(row_'+tabledata[i].id+','+tabledata[i].id+')"  download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate +'</td><td>' ;
                                 if(tabledata[i].Rating==null){
                                var rateString= "not yet rated." ;
-                               }
-                               else{
-                                    var rateString="";
+                                }else{
+                                   var rateString="";
                                     for(var k=0;k<tabledata[i].Rating;k++){
                                         rateString+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></i>' ;
                                      }
-                               }
+                                }
                            
                                 charstr+=rateString+'</td><td>';
                                 for(var a=1;a<=5;a++){

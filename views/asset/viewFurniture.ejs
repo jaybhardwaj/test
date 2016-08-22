@@ -74,7 +74,7 @@
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content" id="express2" style="width:1000px;margin-left: -33%">
-        <div class="modal-header" style="background-color:#f05f40;height: 20px">
+        <div class="modal-header" style="background-color:#f05f40;height: 40px">
           <span id="closeedit"  class='close closeedit' data-dismiss="modal" style='float:right;'title ='Close' > &times;  </span>
           <center><label id="head4" class="modal-title"  style="color:white;">Edit Furniture</label>
         
@@ -133,7 +133,7 @@
                 <label class="form-Label" >Invoice Amount:<sup class="astrick">*</label>
               </td><td>
                
-                <input type="number" maxLength="12"  name="invoiceAmt" class="form-text-box" id="invoiceAmt"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
+                <input type="number" maxLength="12"  name="invoiceAmt" class="form-text-box" id="invoiceAmt" onblur="calulateunitprice();"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
               </td>
             </td> <td><td>
                 <label class="form-Label" >Delivery Date:<sup class="astrick">*</label>
@@ -147,7 +147,7 @@
               </td>
               <td>
                 
-                <input name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-text-box" id="uprice"   placeholder="Unit Price">
+                <input readonly="readonly" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-text-box" id="uprice"   placeholder="Unit Price">
               </td>
             </td></tr><tr>
              <td><td>
@@ -176,8 +176,8 @@
             <div class="modal-footer" style="border-top:0px;">
               <center>
               <input type="text" class="hide" value="" id="hdnId" name="hdnId">
-                <button id="cancel"type="reset"data-dismiss="modal"class="btn  "  >Cancel</button>
-                <input type="submit" onclick="return validate()"class="btn  "  value="Submit">
+                <button id="cancel"type="reset"data-dismiss="modal"class="btn  " style="margin-top: 10px" >Cancel</button>
+                <input type="submit" onclick="return validate()"class="btn  "  value="Submit" style="margin-top: 10px">
               </center>
             </div>
           </div>
@@ -188,6 +188,11 @@
     <!--end of modal-->
 
 <script>
+
+function calulateunitprice(){
+  $('#uprice').val((parseInt($('#invoiceAmt').val()))/parseInt($('#qty').val()));
+}
+
 $(document).ready(function(){
 
     
@@ -210,7 +215,7 @@ $(document).ready(function(){
        
 jQuery('.date').datetimepicker({
    timepicker:false,
-  format:'Y-m-d'
+  format:'d/m/Y'
 });
 
  function del(id){ //alert(id);

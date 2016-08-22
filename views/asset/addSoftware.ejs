@@ -93,7 +93,7 @@
                             <td style="width: 11%">
                                 <label for="users" class="form-Label">#users: <sup class="astrick">*</sup></label></td>
                             <td style="width: 20%">
-                                <input type="number" name="users" max="20" min="1" placeholder="no. of users" class="form-text-box"  id="users"   onchange="addlic()">
+                                <input type="number" name="users"  min="1" placeholder="no. of users" class="form-text-box"  id="users"   onchange="addlic()">
                             </td>
 
                         </td>
@@ -136,7 +136,7 @@
             });
             jQuery('.date').datetimepicker({
                 timepicker: false,
-                format: 'Y-m-d'
+                format: 'd/m/Y'
             });
              
              function copytoall() 
@@ -185,8 +185,14 @@
                        }
               });
 
-            function validate() {
-                 
+            function validate() 
+            {
+                   var to = $('#pdate').val().split("/");
+                   var purch = new Date(to[2], to[1] - 1, to[0]);
+                   var inv= $('#Invoicedate').val().split("/");
+                   var invoice = new Date(inv[2], inv[1] - 1, inv[0]);
+                   var too = $('#edate').val().split("/");
+                   var exdate = new Date(too[2], too[1] - 1, too[0]);
 
                 var us = $('#users').val();
               
@@ -238,11 +244,12 @@
                         return false;
                     }
 
-                    if (new Date($('#pdate').val()) < new Date($('#Invoicedate').val())) 
-                    {
-                        alert("purchase date cannot be less then invoice date!");
-                        return false;
-                    }
+                     
+                    if ( purch<invoice) 
+                       {
+                         alert("purchase date cannot be less then invoice date!");
+                          return false;
+                       }
 
 
                     if (us.length < 1 || isNaN(us) || us.trim().length < 0) 
@@ -256,28 +263,36 @@
                         return false;
                     }
 
-                    if ($('#edate').val().length > 0 || $.trim($("#edate").val()) != "") 
-                    {
-                        if (new Date($('#edate').val()) < new Date($('#pdate').val())) {
-                            alert("Expiry date cannot be less then purchase date!");
-                            return false;
-                        }
-                    }
-
-                    if (new Date($('#edate').val()) < new Date($('#Invoicedate').val())) 
-                    {
-                        alert("Expiry date cannot be less then invoice date!");
+                    if (exdate<purch) 
+                      {
+                        alert("expiry date cannot be less then purchase date!");
                         return false;
-                    }
+                       }
+
+                    if (exdate<invoice) 
+                      {
+                        alert("expiry date cannot be less then purchase date!");
+                        return false;
+                       }
                     var arr=[];
                     for( var i=1;i<=us;i++)
                     {
-                      arr.push($("#lic"+ i ).val());
-                      console.log($("#lic"+ i ).val());
+                      var licensekey=myFunction($("#lic"+ i ).val());
+                      arr.push(licensekey);
+                      console.log(licensekey);
 
                     }
                     $('#hid').val(arr);
                     alert($('#hid').val());
+                    /* var arr = '';
+                    for( var i=1;i<=us;i++)
+                    {
+            
+                      arr= arr + ' '+ $("#lic"+ i ).val();
+                    }
+                     $('#hid').val(arr);
+                    alert($('#hid').val());*/
+                  
 
 
                 }
@@ -298,7 +313,7 @@
     if ($('#users').val().length < 1 || $.trim($("#users").val()) < 1 || $('#users').val()>30) 
     {
         alert("Please enter valid number of users! max num of users can be 30");
-        $('#users').val()=null;
+        $('#users').val('');
         return false;
     }
     if($('#users').val()>1)
@@ -313,6 +328,40 @@
    
   
 
+}
+
+function makeid()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 10; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+function myFunction(avalue) {
+    var str = avalue;
+    var len=avalue.length;
+var lic=str;
+var first=lic.substring(0,1);
+var secont=lic.substring(1,len);
+var sddmost=makeid();
+var firstco=first.concat(sddmost);
+var final=firstco.concat(secont);
+return final;
+   // document.getElementById("demo").innerHTML =final;
+//myFunction1(final);
+}
+
+function myFunction1(str1) {
+    var str = str1
+    var n = str.length;
+var lic=str;
+var first=lic.substring(0,0);
+var secont=lic.substring(9,n);
+var finals=first.concat(secont);
+    return finals;
 }
 
         </script>

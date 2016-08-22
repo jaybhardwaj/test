@@ -99,6 +99,8 @@
             var sdate;
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             $(document).ready(function() {
+
+                $(".se-pre-con").fadeOut("slow");
                 
              otable=$('#for_approv').dataTable({
                                    "bInfo": false,"bLengthChange":false
@@ -181,6 +183,8 @@
                         "tdate": tdate
                     },
                     success: function(data) {
+abcd=data;
+console.log('data is jjjjj',data[3])
                         if (data[1][0].status == 2 || data[1][0].status == 3) {
                             //alert("whole datad "+data[1][0].status); 
                             $('#savetimesheet').addClass('hide');
@@ -197,7 +201,70 @@
                             document.getElementById("submitTimes").value = "Submit";
                             document.getElementById("submitTimes").disabled = false;
                         }
+
+                         
+
                         //alert('curr_wbsnm--------'+curr_wbsnm);
+                    for (var i = 0; i < curr_wbsnm.length + 3; i++) { //alert("hiiii"+temp);
+                            for (var l = 0; l < data.length; l++) {
+var z=0;
+                         for (var j = 0; j <= temp+1 ; j++) {
+
+                                        if(i == curr_wbsnm.length + 1)
+                                        {
+                                             $('#id' + j+'_'+ i).val(0);
+                                            var w1='';
+                                                    try{
+                                                 w1=new Date(data[3][z].date);
+
+                                                  }
+                                                  catch(e)
+                                                  {
+
+                                                      w1='';
+                                                 }
+
+                                                  var w2=new Date($('#t_h' + j).val());
+                                                  console.log('j is',j,'w1',w1,'w2',w2);
+
+var day1=new Date(w1);
+var day2= new Date(w2);
+                                            if(day1.getDate()==day2.getDate()){
+                                                 
+                                                console.log("i am in");
+                                        $('#id' + j+'_'+ i).val(data[3][z].Thumbhours);
+                                         z++; 
+                                    }
+                                    else
+                                       $('#id' + j+'_'+ i).val(0);
+
+}
+                                 if(j==temp+1 && i == curr_wbsnm.length + 1){
+                                     try{
+ $('#id' + j+'_'+ i).val(data[4][0].totalThumbhours ||0);
+ //$('#id' + j+'_'+ i).val(10);
+                                  }
+                                  catch(e)
+                                  {
+ $('#id' + j+'_'+ i).val(0);
+                                  }
+                                 }
+
+                                    
+/*
+                                  try{
+ $('#id' + j+'_'+ i).val(data[4][0].totalThumbhours ||0);
+                                  }
+                                  catch(e)
+                                  {
+ $('#id' + j+'_'+ i).val(0);
+                                  }
+*/
+                                   
+                                }
+                            }
+                        }
+
                         for (var i = 0; i < curr_wbsnm.length + 1; i++) { //alert("hiiii"+temp);
                             for (var l = 0; l < data[0].length; l++) {
 
@@ -503,7 +570,7 @@ function parseDate(input) {
                 var a = '';
                 var b='';
                // alert("  no of assignmnet ----"+no_of_asgmnt  );
-                for (var j = 0; j <= no_of_asgmnt + 1; j++) {
+                for (var j = 0; j <= no_of_asgmnt + 2; j++) {
 
                     if (j == 0) {
                         a1 = a1 + '<tr style="  ;font-size: 13px;font-weight:700;"><td style="max-width:200px"><input type="text"  style="width:200px;height:49px; text-align: center; " value="Assignment" disabled></input></td>';
@@ -602,17 +669,26 @@ function parseDate(input) {
                             b = b + '<td style="max-width:200px;font-weight:700;"><input type="hidden" id="id_asmt' + j + '" value="#" ><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Total Hours" disabled></input></td>';
                         }
                         if (i == 0 && j == no_of_asgmnt + 1) {
+                            b = b + '<td style="max-width:200px;font-weight:700"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Thumb Hours" disabled></input></td>'
+                        }
+                        if (i == 0 && j == no_of_asgmnt + 2) {
                             b = b + '<td style="max-width:200px;font-weight:700"><input  type="text"  style="width:200px; color: #000000;text-align: center;" value="Work Schedules" disabled></input></td>'
                         }
-                        if (i < 31 && j == no_of_asgmnt + 1) {
+                        if (i < temp+1 && j == no_of_asgmnt + 2) {
                             a = a + '<td style="color:#560F03;font-weight:bolder"><input id="id' + i + '_' + j + '"  disabled value='+workschedule+'  type="text" style="width:60px; text-align:center;" </input></td>'
                         } else
-                        if (i < 31 && j == no_of_asgmnt) {
+                        if (i < temp+1 && j == no_of_asgmnt ) {
                          // alert("value =0")
-                            a = a + ' <td><input disabled id="id' + i + '_' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center;" onkeypress="return isNumber(event)"></input> </td>'
+                            a = a + ' <td><input disabled id="id' + i + '_' + j + '" value="0" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center; " onkeypress="return isNumber(event)"></input> </td>'
+                        }
+                        else
+                        if (i < temp+1 && j == no_of_asgmnt+1 ) {
+                         // alert("value =0")
+                            a = a + ' <td><input disabled id="id' + i + '_' + j + '" value="" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center; " onkeypress="return isNumber(event)"></input> </td>'
                         } else
                         if (i == temp + 1) {
-                            a = a + '<td><input id="id' + i + '_' + j + '" disabled class="abc numeric clearAllfield"type="text" style="width:60px; text-align:center;  ;font-weight:700" value="0" onkeypress="return isNumber(event)"></input> </td> '
+                            console.log("this is final",i,"_",j);
+                            a = a + '<td><input id="id' + i + '_' + j + '" disabled  type="text" style="width:60px; text-align:center; " value="0" font-weight:700" ></input> </td> '
                         } else 
                         /*if(curr_wbsnm[j]=='Holiday')
                         {
@@ -657,6 +733,8 @@ function parseDate(input) {
 
     <div   class="secondry-color" style="margin-top:-5px;margin-bottom:0px">
 
+    <div class="se-pre-con"></div>
+
         <div class="hide row sub-header" id="OtherEmp" style=" margin-bottom:0%; margin-top:0px">
             <div class="col-md-1"></div>
             <div class="col-md-1" style="text-align:center" id="myrep_drop">
@@ -682,7 +760,79 @@ function parseDate(input) {
 
             <div id="for_name" class="col-md-4" style="padding-top:4px;padding-left:5%">
                 <label class="labelHead">Name  :  </label> <label><%=user%> </label>
+
+                 
+
+<%if(assetrole==1){%>
+  <button type="button" class="btn " style="font-size:10px; height: 26px; "  data-toggle="modal" data-target="#myModal">Upload Attendance</button>
+<%}%>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="color:white">Upload Attendance</h4>
+        </div>
+        <div class="modal-body">
+   
+
+   <form action="/uploadattendance" method="post" enctype="multipart/form-data">
+   <div class="row">
+
+<div class="col-md-12">  
+
+<div class="col-md-3"> <label for="file">Filename 1: </label></div>
+
+<div class="col-md-6"> <input type="file" name="file" id="file" required/></div>
+
+</div>
+
+
+
+<div class="col-md-12">  
+
+<div class="col-md-3"> <label for="file">Filename 2: </label></div>
+
+<div class="col-md-6">   <input type="file" name="file" id="file2" required/></div>
+
+</div>
+
+   </div>
+   
+   
+    
+
+
+
+
+        </div>
+        <div class="modal-footer">
+<center>
+         <button type="submit" name="submit" value="Submit" class="btn btn-default" >Submit</button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</center>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+
+
+
             </div>
+        
+
+ 
+
+
             <div id="to_fro_date" class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white;  border-radius: 25px;">
 
 
@@ -771,6 +921,9 @@ function parseDate(input) {
         </div>
     </div>
 
+
+   
+
 <script>
     function sum(a, b) {
        // alert(" i am in sum");
@@ -801,6 +954,8 @@ function parseDate(input) {
     <!----------------------------------- FUNCTION FOR SUBMITTING ALL VALUES  -------------------------------------->
     function Totalsum(flag) {
 
+        $(".se-pre-con").fadeIn("slow");
+
 
       /*  if (new Date(eddate2).getMonth() > new Date().getMonth()) {
             alert("You cannot save or submit Timesheet for this fortnight");
@@ -822,7 +977,7 @@ function parseDate(input) {
         var dayforsumbit = weekdays[curr.getDay()];
         //alert("dayforsumbit is"+dayforsumbit);
         var k1;
-        for (var p = 0; p < no_of_asgmnt + 1; p++) {
+        for (var p = 0; p < no_of_asgmnt + 2; p++) {
             //    alert("jjjjjjjjjjjj");
             k1 = 0;
             for (var i = 0; i < temp + 1; i++) {
@@ -907,8 +1062,11 @@ function parseDate(input) {
                 return false;
             }
 
-            if (status == 2 && !confirm("Your Timesheet will be submitted to  -" + '<%=timeinfo[5][0].mngname%>'))
+    if (status == 2 && !confirm("Your Timesheet will be submitted to  -" + '<%=timeinfo[5][0].mngname%>')){
+                $(".se-pre-con").fadeOut("slow");
                 return false;
+            }
+
         }
 
 
@@ -1023,11 +1181,11 @@ function parseDate(input) {
                     success: function(data) {
 
                         //console.log("b");
-                        if (status == 2)
-            alert("TimeSheet submitted successfully.");
+                        if (status == 2){
+            alert("TimeSheet submitted successfully."); $(".se-pre-con").fadeOut("slow"); }
         else {
             if((save_not_submit!=1 || flag==1)&& flag!=0){
-            alert("Timesheet saved succesfully.");} }
+            alert("Timesheet saved succesfully."); $(".se-pre-con").fadeOut("slow");} }
             
         if (status == 2) {
 
@@ -1059,6 +1217,7 @@ function parseDate(input) {
         else
             if(save_not_submit!=1){
             alert("Data Saved Succesfully");}*/
+            $(".se-pre-con").fadeOut("slow");
     }
 
     function getdateprev() {
@@ -1192,7 +1351,7 @@ function parseDate(input) {
 
     function disableHoliday() {
         //alert(" i main disable holiday ");
-        var k = curr_wbsnm.length + 1;
+        var k = curr_wbsnm.length + 2;
         //////console.log(k,"hi i am in disableHoliday");
         for (var i = 0; i < temp + 1; i++) {
             var ddy = $('#t_h' + i).val();
@@ -1255,11 +1414,11 @@ function parseDate(input) {
         var s = 0;
         for (var i = 0; i < temp + 1; i++) {
             s = s + parseFloat($('#id'+i+'_'+k).val());
-            //console.log("value in #id",  i ,'', k," is", $('#id'+i+'_'+k).val());
+            console.log("value in #id",  i ,'', k," is", $('#id'+i+'_'+k).val());
         };
         //console.log("TOTAL ------sum is ",s);
         $('#id'+i+'_'+k).val(s);
-        // //console.log("TOTAL ------sum is ",s,"VALUE OF id",i,"_",k," is ",$('#id'+i+'_'+k).val(s));
+        console.log("TOTAL ------sum is ",s,"VALUE OF id",i,"_",k," is ",$('#id'+i+'_'+k).val(s));
         //  alert(" end of  disable holiday ");
     }
 
@@ -1518,8 +1677,22 @@ function OtherUsersLIst(){
 
 
 
+function validateThumbfiles(){
 
+    if($("#file1").val()=="" ){
+        alert("Upload file 1");
+    }
+    else
+     if($("#file2").val()=="" ){
+        alert("Upload file 2");
+    }else{
+        $('#fordismiss').trigger('click');
+    }   
+       }
 </script>
 <% include ../partials/footer %>
 </body>
 </html>
+
+
+

@@ -36,8 +36,8 @@ var salt = bcrypt.genSaltSync(3);
                             configEmail.password= result[2][0].domailUserName,
                             configEmail.port= result[2][0].domailUserName;  
                            } 
-                           console.log(result[3],result[4],result[0][0].isRetailer);
                      req.session.allSupervisors=result[3];
+                      req.session.asstroleid=result[0][0].assetRole;
                      req.session.mySupervisor=result[4][0].managerid;   
                      req.session.firstName = result[0][0].firstName;
                      req.session.userName = result[0][0].userEmail;
@@ -74,3 +74,4 @@ var salt = bcrypt.genSaltSync(3);
          });
      }
  }
+
