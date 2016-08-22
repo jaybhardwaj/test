@@ -1,12 +1,11 @@
  'use strict';
    
 var modelPortal = require('../../model/modelPortal');
+//var excel = require('node-excel-export');
 var mailTemplates = require('../../lib/mailtemplates');
 var randomString = require('../../lib/common').generateRandomString;
 var flag = require('../../config/config').flagUsed;
 var configEmail=require('../../config/config').mailconfig;
-var schedulers=require('../../lib/schedulers');
-var xlsxparser = require('excel-parser');
 var path = require('path');
 var fs = require('fs');
 var textract = require('textract');
@@ -58,7 +57,6 @@ var locationId = [],
  var holidayArrDateTimeArr = [];
  var saturdayOffFlag      = 1;
 
-var excel = require('node-excel-export');
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -1770,7 +1768,7 @@ Docmaster:function(req,res,next){
                  } else { 
 
                      req.projectResults=result[0];
-
+                     req.efforts       = result[1]; 
              next();
                  }
              });
@@ -2946,74 +2944,8 @@ if(error){
 });
 },
 
-//jay
-
- selectAdminData:function(req,res,next){
-
-        modelPortal.selectAdminData(req.session.retailerId,function(error,result){
-            if(error){
-                next(error);
-            }
-           res.json(result[0]);
-        });
-    },
-
-sendmailtouser:function(req,res,next){
-
-        modelPortal.sendmailtouser(req.body.userdetail,function(error,result){
-            if(error){
-                next(error);
-            }
-            if(req.body.flag==1)
-            {
-              mailTemplates.sendmailtouserabouttranscation(result[0][0].name,result[0][0].mail,function(error, resultMail) { 
-             });
-          }
-          else
-          {
-            mailTemplates.acknowledgeassetunassignment(result[0][0].name,result[0][0].mail,function(error, resultMail) { 
-             });
-          }
-        
-          });
-    },
 
 
- 
-
-    sendmailtoadmin:function(req,res,next){
-        console.log('jayyyyyy');
-        modelPortal.getsoftwareexpirtdetails(req.session.retailerId,function(error,result){
-            if(error){
-                next(error);
-            }
-             var str1='';
-            for(var i=0;i<result[1].length;i++)
-            {
-              str1=str1+result[1][i].softname+',';
-            }
-            for(var i=0;i<result[0].length;i++)
-          {
-              mailTemplates.sendmailtoadminaboutsoftexpiry(result[0][i].name,result[0][i].mail,str1,function(error, resultMail) { 
-             });
-          }
-
-          });
-    },
-
-
-    sendemail:function(req,res,next){
-        
-mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,req.body.Subject,req.body.adminemailid,req.body.assetname,req.body.msg ,function(error, resultMail) {
- 
-            if(error){
-                next(error);
-            }
-           res.json('success');
-        });
-    },
-
-//jay
 
 
 
@@ -3085,20 +3017,6 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              next();
          });
      },
-
-       updatesencationAmount: function(req, res, next) {
-
-              modelPortal.updatesencationAmount(req.body.samount,req.body.sdate,req.body.clid, function(errorRoles, result) {
-             if (errorRoles) {
-                 next(errorRoles);
-                 
-             }
-
-            res.json("success");
-             
-           });
-         },
-
 
         insertExpenseAttachment: function(req, res, next) {
 
@@ -3193,8 +3111,8 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              next();
          });
      },
-       //jay
-           approveExpense: function(req, res, next) {
+
+        approveExpense: function(req, res, next) {
 
          var status=req.body.status1;
          if(status==0){
@@ -3204,10 +3122,6 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
         if(status==1){
          var reason=req.session.firstname;
          mailTemplates.approveExpense(req.body.toemail,req.session.firstName,function(error, resultMail){});
-       }
-       if(req.session.roleId==5 && status==1)
-       {
-        mailTemplates.approveExpenseByFm(req.body.toemail,req.session.firstName,function(error, resultMail){});
        }
          modelPortal.toApproveExpense(req.body.claimarray,req.session.roleId,req.session.userId,req.body.status1,req.body.transId,req.body.remark, function(errorRoles, result) {
              if (errorRoles) {
@@ -3222,7 +3136,7 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
                }
          });
      },
-//jay
+
        getMaxBillExpense: function(req, res, next) {
 
          modelPortal.togetMaxBillExpense(req.body.Id,req.session.retailerId, function(errorRoles, result) {
@@ -3285,21 +3199,6 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
 
              res.json(result[0]);
             //console.log(result[0]);
-         });
-     },
-
-
-       printexpense: function(req, res, next) {
-        console.log('jai mata di',req.body.data,req.session.userId);
-         modelPortal.toprintexpense(req.body.data,req.session.userId, function(errorRoles, result) {
-             if (errorRoles) {
-                 next(errorRoles);
-                 console.log(errorRoles); 
-
-             }
-             console.log('jai mata di portal',result);
-             res.json(result);
-             
          });
      },
 
@@ -3395,8 +3294,7 @@ insertExpense: function(req, res, next) {
   }
 
     if((exp==5)&&(flag==0)){
-        console.log(form.rsddes);
-    modelPortal.insertRsdExpense(form.travelexpensetypeid,form.rsdtrip,form.rsdFromDate,form.rsdToDate,form.rsdvehicle,form.rsdReason,form.rsdifnot,form.rsdKmRate,form.rsdtotal,form.rsdCurrency,form.rsdtex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,form.rsddes,function(errorRoles, result){
+    modelPortal.insertRsdExpense(form.travelexpensetypeid,form.rsdtrip,form.rsdFromDate,form.rsdToDate,form.rsdvehicle,form.rsdReason,form.rsdifnot,form.rsdKmRate,form.rsdtotal,form.rsdCurrency,form.rsdtex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
      if (errorRoles) {
                  next(errorRoles);
               
@@ -3413,7 +3311,7 @@ insertExpense: function(req, res, next) {
         form.rsdReason,form.rsdifnot,form.rsdKmRate,
         form.rsdtotal,form.rsdCurrency,form.rsdtex,
         req.session.userId,req.session.userId,parseInt(form.exthotel),
-        parseInt(form.extclaimrsd,form.rsddes),function(errorRoles, result){
+        parseInt(form.extclaimrsd),function(errorRoles, result){
     if (errorRoles) {
                  next(errorRoles);
                  return;
@@ -3904,60 +3802,7 @@ addUser: function(req, res, next) {
     });
    },
     //--------------------------------------TimeSheet--------------------
- 
-uploadattendance: function(req, res, next) {
-         var absolute_path = [];
-         for (var i = 0; i < req.files.length; i++) {
-
-             absolute_path[i] = path.join(__dirname, '../../public/attach/' + req.files[i].originalname);
-
-         }
-
-         fs.rename(req.files[0].path, absolute_path[0], function(err) {
-             xlsxparser.parse({
-                 inFile: absolute_path[0],
-                 worksheet: 1
-             }, function(err, results1) {
-                 if (err) {
-                     console.log("Error in excelfile", err);
-                     // res.redirect('/manager/uploadUsers?errorMsg=1');
-                 } else {
-                     fs.rename(req.files[1].path, absolute_path[1], function(err) {
-
-
-                         xlsxparser.parse({
-                             inFile: absolute_path[1],
-                             worksheet: 1
-                         }, function(err, results) {
-                             if (err) {
-                                 console.log("Error in excelfile", err);
-                                 // res.redirect('/manager/uploadUsers?errorMsg=1');
-                             } else {
-
-                                console.log('results areeeeeeeeeeeee',results1)
-                                    modelPortal.uploadattendance(req.session.userId,req.session.roleId,req.session.retailerId,results1,results,function(err,result){
-                                        if(err){
-                                            next(err)
-                                        }else{
-                                           
-                                        res.redirect('/timesheet?flag=0')
-                                        }
-                                       });
-                             }
-
-                         });
-
-                     });
-
-
-                 }
-
-             });
-
-         });
-
-    },
-    getTimeSheetData: function(req,res,next){
+     getTimeSheetData: function(req,res,next){
 
         var query = require('url').parse(req.url, true).query;
         console.log("flag for flag_owntimesheet is==--======",query.flag);
@@ -5368,6 +5213,7 @@ upload_resume:function(req,res,next){
     },
      //----------------------------------Project Management System----------------------------
       getAllResources:function(req,res,next){
+        console.log("portal 1");
        
         modelPortal.getAllResources(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
@@ -5377,6 +5223,8 @@ upload_resume:function(req,res,next){
             else{
                         req.reqResources=result;
                         next();
+                            console.log("portal 2");
+
                 } 
         });
     },
@@ -7449,7 +7297,6 @@ mailTemplates.projectAttachFile(receiverMail.join(),attachData,function(err,resu
 
 
 }
-
 
 
 

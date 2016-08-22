@@ -77,10 +77,10 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             sql: 'call usp_checkPassword(?,?)',
             values: [emailId,flag]
         };
-        console.log('qqqqqqqqq',query1)
+        console.log('qqqqqqqqq',query1);
         mysql(query1, function(err, result) {
-             console.log('errrrrrrrrrr',err)
-            console.log("ss----------- ",query1,result);
+             console.log('errrrrrrrrrr',err);
+            console.log("ss----------- ",result);
             callback(err, result);
         });
     },
@@ -1769,43 +1769,7 @@ mysql(q,function(err,result){
 
 },
 
-//jay
-selectAdminData:function(id,callback){
-    var q={
-        sql:'call IssueAddressing(?)',
-        values:[id]
-    };
-    console.log(q);
-    mysql(q,function(err,result){
-        callback(err,result);
-    }); 
-},
 
-sendmailtouser:function(id,callback){
-    var q={
-        sql:'call getassetuser(?)',
-        values:[id]
-    };
-    console.log(q);
-    mysql(q,function(err,result){
-        callback(err,result);
-    }); 
-},
- 
-
-getsoftwareexpirtdetails:function(id,callback){
-    var q={
-        sql:'call softwareExpiryDateNotification(?)',
-        values:[id]
-    };
-    console.log(q);
-    mysql(q,function(err,result){
-        callback(err,result);
-    }); 
-},
-
-
-//jay
 
 
 
@@ -1818,16 +1782,6 @@ getsoftwareexpirtdetails:function(id,callback){
         var query = {
             sql: 'call usp_reSubmitrejectExpense(?)',
             values: [cid]
-        };
-        mysql(query, function(err, result) {
-            callback(err, result);
-        });
-    },
-
-       updatesencationAmount:function(amount,date,expensecid,callback) {
-        var query = {
-            sql: 'call Ex_updateSessionAmount(?,?,?)',
-            values:[amount,date,expensecid]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -1961,17 +1915,6 @@ getsoftwareexpirtdetails:function(id,callback){
         };
         mysql(query, function(err, result) {
             callback(err, result);
-        });
-    },
-
-      toprintexpense: function(expenseid,userid,callback) {
-        var query = {
-            sql: 'call Ex_printExpense(?,?)',
-            values: [expenseid,userid]
-        };
-        mysql(query, function(err, result) {
-            callback(err, result);
-            console.log(result);
         });
     },
 
@@ -2117,23 +2060,23 @@ getsoftwareexpirtdetails:function(id,callback){
         });
     },
 
-       insertRsdExpense: function( travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,retailerId,fornightDate,desig,callback) {
+       insertRsdExpense: function( travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,retailerId,fornightDate,callback) {
         var query = {
-            sql: 'call usp_insertExpenseforRSD_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values:[travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,retailerId,fornightDate,desig]
+            sql: 'call usp_insertExpenseforRSD_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values:[travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,retailerId,fornightDate]
         };
         mysql(query, function(err, result) {
             callback(err, result);
         });
     },
 
-       updateRsdExpense: function( travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,exthotel,extclaimhotel,desig,callback) {
+       updateRsdExpense: function( travelexpensetypeid,rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,userid1,exthotel,extclaimhotel,callback) {
         var query = {
-            sql: 'call usp_updateExpenseforRSD_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            sql: 'call usp_updateExpenseforRSD_rsandinr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values:[travelexpensetypeid,
             rsdtrip,rsdFromDate,rsdToDate,rsdvehicle,rsdReason,
             rsdifnot,rsdKmRate,rsdtotal,rsdCurrency,rsdtex,userid,
-            userid1,exthotel,extclaimhotel,desig]
+            userid1,exthotel,extclaimhotel]
         };
         mysql(query, function(err, result) {
             callback(err, result);
@@ -2498,29 +2441,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
     });
   },
    //--------------------------------TimeSheet-------------------------
-      
-
-      uploadattendance: function(userId,roleId,retailerId,result0,result1,callback){
-
-        var finalresult=result0.concat(result1);
-         var query={
-          sql:'INSERT INTO t_stg_Attendance(empcode,logintime,attr1,attrr2,attr3,attr4)  VALUES ?;',
-          values:[finalresult]
-        };
-        mysql(query, function(err, result) {
-            //callback(err, result);
-     var query1={
-          sql:'call usp_job_uploadAttendance(?)',
-          values:[userId]
-        };
-
-        mysql(query1, function(err1, result1) {
-            callback(err1, result1);
-        });
-
-        });
-      },
-getTimeSheetData: function(userId,roleId,retailerId,callback){
+      getTimeSheetData: function(userId,roleId,retailerId,callback){
         var query={
           sql:'call usp_time_getTime(?,?)',
           values:[userId,retailerId]
@@ -3495,7 +3416,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         //----------------------------------------Project Management System------------------------------
     getAllResources : function (userId,roleId,retailerId,callback){       
      var q ={
-          sql: 'call usp_pro_getAllResources(?)',
+          sql: 'call usp_proj_getAllResources(?)',
         values: [retailerId]
        
         };
@@ -3662,5 +3583,4 @@ saveTask : function (proId,version,updateQ,submitFlag,remarks,userId,commentStri
 
 
 }
-
 

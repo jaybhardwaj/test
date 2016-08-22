@@ -528,11 +528,10 @@ case 'viewInventory':
                
  
 //---------------------------------Expense------------------------------------------
-			
-	case 'expenseHome' :
+			case 'expenseHome' :
 
 				res.render('expense/expenseHome',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10],assetrole:req.session.asstroleid,designation:req.resultExpense[10]});
+					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10],assetrole:req.session.asstroleid});
 				console.log(req.resultExpense[8],req.resultExpense[9]);
 
 				break;
@@ -561,7 +560,7 @@ case 'viewInventory':
                 case 'expenseOther' :
 
 				res.render('expense/expenseHome',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:1,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10],assetrole:req.session.asstroleid,designation:req.resultExpense[11]});
+					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:1,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10],assetrole:req.session.asstroleid});
 
 				break;     
 
@@ -569,21 +568,18 @@ case 'viewInventory':
 				res.render('expense/expenseMaster',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpensemaster[0],role:req.resultRoles[0],expenseMasterType:req.resultExpensemaster[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0 ,assetrole:req.session.asstroleid});
 				break;
-			
-				/*end expense Jogendra singh/expdepartment:req.resultExpensemaster[2],/limit: req.session.limit,*/
+				/*end expense Jogendra singh*/
 				<!--- added by saurav   -->
 				case 'masters':
-				console.log("master render-----------",req.resultExpensemaster[2]);
+				console.log("master render-----------");
 			     var flag=req.flag==null?0:req.flag;
-
-
-res.render('masters',
+			   res.render('masters',
 			   	{		notification:req.session.notification,    timesheet1:req.timesheet,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,
 			   		bugMaster:req.bugMaster,otherMaster:req.otherMaster,
 			   		bugMasterSubData:req.bugMasterSubData,
 			   		hideFlag:1,expenseMaster:req.resultExpensemaster[0],
-			   		expenseType:req.resultExpensemaster[1], expdepartment2:req.resultExpensemaster[2],
+			   		expenseType:req.resultExpensemaster[1],
 			   		roleid:req.session.roleId,
 			   		logo:req.session.logo,user:req.session.firstName,
 			   		limit: req.session.limit,
@@ -799,15 +795,14 @@ case 'task':
 					submittedProject:req.submittedProject,submittedVersion:req.submittedVersion,userId:req.userId ,userFlag:req.userFlag,holidayArr:req.holidayArr,allcommentsSet:req.allcommentsSet,usersAll:req.usersAll,collaborateId:req.collaborateId,collFlag:req.collFlag,isCreaterFlag:req.isCreaterFlag,changedEleFromDb:req.changedEle,assetrole:req.session.asstroleid});
 
             break;
-
-                case 'resource':
+          case 'resource':
              res.render('project/resourceView', {	 	notification:req.session.notification,                  
                 role: req.session.roleId,
                 Name: ' ',
                 myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule,allResources:req.reqResources,assetrole:req.session.asstroleid
+	                defaultModule:req.session.defaultModule,allResources:req.reqResources
 	            });
             break;
 
@@ -834,7 +829,6 @@ case 'task':
 		}
 	}
 }
-
 
 
 

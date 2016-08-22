@@ -80,12 +80,6 @@ app.post('/blockUser',portal.blockUser);
     //app.get('/Documenterror',url.Documenterror,render.redirect);
   
 //------------------------------------------Asset-------------------------------
-//jay
-app.post('/selectAdminData',portal.selectAdminData);
-app.post('/sendmailtouser',portal.sendmailtouser);
-app.post('/sendemail',portal.sendemail);
-app.post('/printexpense', portal.printexpense);
-//jay
 app.get('/inventory',url.inventory,portal.inventory,render.redirect);
 app.post('/inventory',portal.inventoryAjax);
 app.get('/transaction',url.setpageTransactions,portal.getUser,portal.getAssignedAssetsHome,render.redirect);
@@ -142,7 +136,6 @@ app.get('/AssignAsset',url.setpageTransactionsasset,portal.getUser,portal.assign
 	app.get('/expense',url.setExpense, portal.getExpense,portal.getRole,render.redirect);
 	app.get('/expensenew',url.setNewExpense, portal.getNewExpense,portal.getRole,render.redirect);
 	//app.post('/insertExpense',url.setexpensehomenewbyInsert, portal.insertExpense,portal.getRole,render.redirect);
-   app.post('/insertExpense', portal.insertExpense);
 	app.post('/insertExpense', portal.insertExpense);
 	app.post('/fileAttechment',upload.single('comment-upload'),url.setexpensehomenew, portal.insertExpenseAttachment,portal.getRole,render.redirect);	
     app.post('/deleteExpense',url.setNewExpense, portal.deleteExpense,portal.getRole);
@@ -153,7 +146,6 @@ app.get('/AssignAsset',url.setpageTransactionsasset,portal.getUser,portal.assign
     app.post('/ShowExpenseWeekBy',url.setNewExpense, portal.getExpenseWeekBy,portal.getRole);
     app.get('/expensemaster',url.setExpenseMaster, portal.select_ExpenseMaster,portal.getRole,render.redirect);
     app.post('/insertExpenseMaster', portal.insert_Expense);
-    app.post('/updatesencationAmount', portal.updatesencationAmount);
    // app.post('/expensemaster',url.setNewExpense, portal.update_Expense,portal.getRole,render.redirect);
     app.post('/expenseUser',url.setNewExpense, portal.selectByExpenseUser,portal.getRole);
     app.post('/getexpensemaster',url.setExpenseMaster, portal.selectExpensebyId,portal.getRole);
@@ -170,7 +162,6 @@ app.get('/AssignAsset',url.setpageTransactionsasset,portal.getUser,portal.assign
     app.post('/getBillableUsers', portal.getBillableUsers,portal.getRole);
 
    //---------------------------------TimeSheet-----------------------------------------
- app.post('/uploadattendance',upload.array('file',2),portal.uploadattendance);
 	app.get('/timesheet',url.fillTimeSheet,portal.getTimeSheetData,render.redirect);
     app.post('/submitTimesheet', portal.notification, portal.submitTimesheet);
      app.post('/submitTimesheetAssignment',portal.submitTimesheetAssignment);
@@ -451,7 +442,6 @@ app.get('/json1', function(req, res, next){
 
 
 }
-
 
 
 
