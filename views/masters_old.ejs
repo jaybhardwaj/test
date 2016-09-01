@@ -138,7 +138,8 @@
                           </td>
                           <td>
                             <%if(customrole[i].Active==0){%> <span style='margin-left:5%;color:red;height:10px;' class='glyphicon glyphicon-remove-sign ' title="click to active" onClick="docActiveInactive(<%=customrole[i].id%>,1);"></span>
-                            <%}
+                              <!-- <span class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="getrole(<%=customrole[i].id%>)"   style="margin-left:5%"></span>  -->
+                              <%}
                                  else{%> <span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser(<%=customrole[i].id%>)" data-toggle='modal' data-target='#viewrole' title="users assigned"></span> <span style='margin-left:5%;color:green;height:10px' class='glyphicon glyphicon-ok ' title="click to  inactive" onClick="docActiveInactive(<%=customrole[i].id%>,0)"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick='getrole(<%=customrole[i].id%>)'></span>
                                 <%}%>
                           </td>
@@ -188,9 +189,7 @@
                         <td><input type="text" id="indTableAdd" maxlength="30" class="form-control" placeholder="@add Industry "></td>
                         <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('ind',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
                       </tr>
-                       <tr><td><div class="fLeft"><span class="error" id="errorTecTableAdd_ind"></span></div></td><td></td></tr>
                     </table>
-                    <div class="text-center"><span id="errorTecTableApp_ind" class="error"></span><span class="success" id="successTecTableApp_ind"></span></div>
                   </center>
                 </div>
               </div>
@@ -233,9 +232,7 @@
                         <td><input type="text" id="busTableAdd" maxlength="30" class="form-control" placeholder="@add User Department "></td>
                         <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('bus',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
                       </tr>
-                       <tr><td><div class="fLeft"><span class="error" id="errorTecTableAdd_bus"></span></div></td><td></td></tr>
                     </table>
-                    <div class="text-center"><span id="errorTecTableApp_bus" class="error"></span><span class="success" id="successTecTableApp_bus"></span></div>
                   </center>
                 </div>
               </div>
@@ -278,9 +275,7 @@
                         <td><input type="text" id="docTableAdd" maxlength="30" class="form-control" placeholder="@add Document "></td>
                         <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('doc',3)" style="font-size:18px;padding-left:14px;padding-top:5px"></span></td>
                       </tr>
-                      <tr><td><div class="fLeft"><span class="error" id="errorTecTableAdd_doc"></span></div></td><td></td></tr>
                     </table>
-                    <div class="text-center"><span id="errorTecTableApp_doc" class="error"></span><span class="success" id="successTecTableApp_doc"></span></div>
                   </center>
                 </div>
               </div>
@@ -306,7 +301,7 @@
                             <%if(technology[0][i].Active==0){%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' onClick=confirmBox2('"tec_<%=i%>",1','docsave',2) title="click to active"></span>
                               <!-- <span  style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="docsave('tec_'+<%=i%>,4)"></span> -->
                               <%}
-                                 else{%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to inactive" onClick=confirmBox2('"tec_<%=i%>",0','docsave',1)></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick="docsave('tec_<%=i%>',4)"></span>
+                                 else{%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' onClick=confirmBox2('"tec_<%=i%>",0','docsave',1)" title="click to inactive"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onClick="docsave('tec_<%=i%>',4)"></span>
                                 <%}%>
                           </td>
                         </tr>
@@ -315,7 +310,6 @@
                           <td> <span class="glyphicon glyphicon-floppy-disk" onClick="docsave('tec_<%=i%>',2)"></span> </td>
                         </tr>
                         <%}%>
-                       <!--  <tr><td><div class="fLeft"><span class="error" id="errorTecTableAdd_tec"></span></div></td><td></td></tr> -->
                     </table>
                   </div>
                   <center>
@@ -324,9 +318,9 @@
                           <td><input type="text" id="tecTableAdd" maxlength="30" class="form-control" placeholder="@add Application Area "></td>
                           <td><span class="glyphicon glyphicon-plus-sign" onClick="docsave('tec',3)" style="font-size:18px;padding-left:14px;padding-top:5px" title="click to add"></span></td>
                       </tr>
-                      <tr><td><div class="fLeft"><span class="error" id="errorTecTableAdd_tec"></span></div></td><td></td></tr>
+                      <tr><td><div class="fLeft"><span class="error" id="errorTecTableAdd"></span></div></td><td></td></tr>
                     </table>
-                    <div class="text-center"><span id="errorTecTableApp_tec" class="error"></span><span class="success" id="successTecTableApp_tec"></span></div>
+                    <div class="text-center"><span id="errorTecTableApp" class="error"></span><span class="success" id="successTecTableApp"></span></div>
                   </center>
                 </div>
               </div>
@@ -451,9 +445,9 @@
                                 <%=assetType[1][i].type%>
                               </td>
                               <td>
-                                <%if(assetType[1][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to Inactive" onclick=confirmBox2('"at_<%=i%>",1,1,activeCheckFlag','assetStatus',1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("at_<%=i%>",3,1,activeCheckFlag)></span>
+                                <%if(assetType[1][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to Inactive" onclick=confirmBox2('"at_<%=i%>",1,1,activeCheckFlag', "assetStatus",1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus( "at_<%=i%>",3,1,activeCheckFlag)></span>
                                   <%}
-                                       else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' title="click to Inactive" onclick=confirmBox2('"at_<%=i%>",2,1,activeCheckFlag','assetStatus',2);></span>
+                                       else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' title="click to Inactive" onclick=confirmBox2( '"at_<%=i%>",2,1,activeCheckFlag', "assetStatus",2);></span>
                                     <!-- <span  style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick=assetStatus("at_<%=i%>",3,activeCheckFlag)></span> -->
                                     <%}%>
                               </td>
@@ -519,9 +513,9 @@
                                 <%=assetType[2][i].attribute%>
                               </td>
                               <td>
-                                <%if(assetType[2][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to Inactive" onclick=confirmBox2('"bt_<%=i%>",1,2,activeCheckFlag','assetStatus',1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("bt_<%=i%>",3,2,activeCheckFlag)></span>
+                                <%if(assetType[2][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to Inactive" onclick=confirmBox2( '"bt_<%=i%>",1,2,activeCheckFlag', 'assetStatus',1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus( "bt_<%=i%>",3,2,activeCheckFlag)></span>
                                   <%}
-                                       else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' title="click to active" onclick=confirmBox2('"bt_<%=i%>",2,2,activeCheckFlag','assetStatus',2);></span>
+                                       else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign' title="click to active" onclick=confirmBox2( '"bt_<%=i%>",2,2,activeCheckFlag', 'assetStatus',2);></span>
                                     <!-- </span></a><span  style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick=assetStatus("bt_<%=i%>",3,2,activeCheckFlag)></span> -->
                                     <%}%>
                               </td>
@@ -570,9 +564,9 @@
                                 <%=assetType[3][i].name%>
                               </td>
                               <td>
-                                <%if(assetType[3][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to Inactive" onclick=confirmBox2('"ct_<%=i%>",1,3,activeCheckFlag','assetStatus',1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus("ct_<%=i%>",3,3,activeCheckFlag)></span>
+                                <%if(assetType[3][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to Inactive" onclick=confirmBox2( '"ct_<%=i%>",1,3,activeCheckFlag', 'assetStatus',1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus( "ct_<%=i%>",3,3,activeCheckFlag)></span>
                                   <%}
-                                       else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'  title="click to active" onclick=confirmBox2('"ct_<%=i%>",2,3,activeCheckFlag','assetStatus',2);></span>
+                                       else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'  title="click to active" onclick=confirmBox2( '"ct_<%=i%>",2,3,activeCheckFlag', 'assetStatus',2);></span>
                                     <!-- <span  style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick=assetStatus("ct_<%=i%>",3,3,activeCheckFlag)></span> -->
                                     <%}%>
                               </td>
@@ -625,7 +619,7 @@
                                 <td>
                                   <%=assetType[4][i].name%>
                                 </td>
-                                <td><img src="../img/project/blackdustbin.jpg"  title="Delete" onclick=confirmBox2('1,"dt_<%=i%>"','deleterAttributeValMapping',4);></td>
+                                <td><img src="../img/project/blackdustbin.jpg"  title="Delete" onclick=confirmBox2('1,"dt_<%=i%>"',deleterAttributeValMapping,4);></td>
                               </tr>
                               <%}%>
                           </tbody>
@@ -679,7 +673,7 @@
                                 <td>
                                   <%=assetType[5][i].attributeName%>
                                 </td>
-                                <td><a onclick=confirmBox2('2,"dt_<%=i%>"','deleterAttributeValMapping',4);>Delete</a></td>
+                                <td><a onclick=confirmBox2( '2,"dt_<%=i%>"',deleterAttributeValMapping,4);>Delete</a></td>
                               </tr>
                               <%}%>
                           </tbody>
@@ -741,9 +735,9 @@
                                   <%=assetType[6][i].name%>
                                 </td>
                                 <td>
-                                  <%if(assetType[6][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to Inactive" onclick=confirmBox2('"et_<%=i%>",1,6,activeCheckFlag','assetStatus',1);> </span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus( "et_<%=i%>",3,6,activeCheckFlag)></span>
+                                  <%if(assetType[6][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok' title="click to Inactive" onclick=confirmBox2( '"et_<%=i%>",1,6,activeCheckFlag', 'assetStatus',1);> </span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus( "et_<%=i%>",3,6,activeCheckFlag)></span>
                                     <%}
-                                          else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'  title="click to active" onclick=confirmBox2('"et_<%=i%>",2,6,activeCheckFlag','assetStatus',2);></span>
+                                          else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'  title="click to active" onclick=confirmBox2( '"et_<%=i%>",2,6,activeCheckFlag', 'assetStatus',2);></span>
                                       <!-- <span  style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit" onclick=assetStatus("et_<%=i%>",3,6,activeCheckFlag)></span> -->
                                       <%}%>
                                 </td>
@@ -793,9 +787,9 @@
                                     <%=assetType[7][i].name%>
                                   </td>
                                   <td>
-                                    <%if(assetType[7][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok'  title="click to Inactive" onclick=confirmBox2('"ft_<%=i%>",1,7,activeCheckFlag','assetStatus',1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus( "ft_<%=i%>",3,7,activeCheckFlag)></span>
+                                    <%if(assetType[7][i].active==1){%> <span style='color:green;height:10px' class='glyphicon glyphicon-ok'  title="click to Inactive" onclick=confirmBox2( '"ft_<%=i%>",1,7,activeCheckFlag', 'assetStatus',1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick=assetStatus( "ft_<%=i%>",3,7,activeCheckFlag)></span>
                                       <%}
-                                             else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'  title="click to active" onclick=confirmBox2('"ft_<%=i%>",2,7,activeCheckFlag','assetStatus',2);></span>
+                                             else{%> <span style='color:red;height:10px' class='glyphicon glyphicon-remove-sign'  title="click to active" onclick=confirmBox2( '"ft_<%=i%>",2,7,activeCheckFlag', 'assetStatus',2);></span>
                                         <%}%>
                                   </td>
                                 </tr>
@@ -1279,10 +1273,9 @@
       var oldname ;
       function docsave(docid,flag){
       resetError();  
-              alert(docid);
-      var errorTecTableAdd= $('#errorTecTableAdd_'+docid); 
-      var successTecTableApp= $('#successTecTableApp'+docid);
-      var errorTecTableApp = $('#errorTecTableApp'+docid);
+      var errorTecTableAdd= $('#errorTecTableAdd'); 
+      var successTecTableApp= $('#successTecTableApp');
+      var errorTecTableApp = $('#errorTecTableApp');
       var ii=0;
       arr1=["ind","doc","bus","tec"];
       arr2=['indh','doch','bush','tech'];
@@ -1297,6 +1290,8 @@
               var divtext='#'+arr2[i]+'_'+doc[1];
               var aa='#'+arr1[i]+'text_'+doc[1]
               oldname=$(aa).val();
+             
+      
           }
         }
       }
@@ -1306,6 +1301,7 @@
         {
           if(doc[0]==arr1[i])
           {
+           
               var divtext='#'+arr2[i]+'_'+doc[1];
               var aa='#'+arr1[i]+'text_'+doc[1];
               oldname=$(aa).val();
@@ -1324,6 +1320,7 @@
           {
                 
                   var labelid='#'+arr1[i]+'label_'+arr3[i];
+                
                 var divtext='#'+arr2[i]+'_'+doc[1];
                 var textid='#'+arr1[i]+'text_'+doc[1];
                 var divlabel='#'+arr1[i]+'_'+doc[1];
@@ -1335,6 +1332,7 @@
                      type=3;
                   else  if(doc[0]=="tec")
                      type=4;
+              
                 if($(textid).val().trim().length>0){
                     $.ajax({
                     url: 'Docmaster',
@@ -1347,6 +1345,7 @@
                          },
                     dataType :'json',              
                     success: function (data) {
+                    
                      if(data[0][0].active1==2){
                         alert("already exist");
                      }
@@ -1354,6 +1353,7 @@
                     var d=docid.split('_');
                     var tempid=d[0]+'label_'+d[1];
                     var tempvalid='#'+tempid ;
+                   
                       $(tempvalid).text(data[0][0].inname);
                     
                     $(divtext).addClass('hide');
@@ -1367,6 +1367,8 @@
                   errorTecTableApp.text("please provide valid input");
                  }
                }
+                
+                
           }
         }
       
@@ -1408,8 +1410,7 @@
                    
                     if(data[0][0].active1==3)
                     {
-                      errorTecTableAdd.text("already exist");
-                      
+                      alert("already exist");
                     }
                     else
                     forAll(tableid,add,rowid,textid,rowhid,func,flag);
@@ -1420,6 +1421,9 @@
                   }
                 else
                   errorTecTableAdd.text("Required Field");
+                  
+      
+           
           }
         }
       }
@@ -1455,9 +1459,7 @@
                     if(flag==0){
                     if(data[0][0].active1==1)
                     {
-
-                      errorTecTableApp.text("You cannot inactive this type as it is bind with custome role");
-                      commonTimeOut(errorTecTableApp);
+                      alert("you cannot inactive this type as it is bind with custome role");
                     }
                     else
                     {

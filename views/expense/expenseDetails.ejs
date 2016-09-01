@@ -19,10 +19,12 @@
  </style>
 </header>
 <script type="text/javascript">
+ var arrmonth=["sas","January","February","March","April","May","Jun","July","August","September","October","November","December"];
 var array=[];
 /*document id for data table and datepicher*/
 var str1='';
 $(document).ready(function() {
+  $(".se-pre-con").fadeOut("slow");
 $('.otherexp-img-add').addClass('active');
 
 //showstatus(); 
@@ -127,28 +129,22 @@ var formatted_date = function(date){
         var day = curr_date.getDay();
                  
         var diff = curr_date.getDate();  // - day + (day == 0 ? -6:1); // 0 for sunday
-         if(diff<16) {      
-        var week_start_tstmp = curr_date.setDate(1);           
-         }
-         else{
-          week_start_tstmp = curr_date.setDate(16); 
-         }         
-        var week_start = new Date(week_start_tstmp);
-                 
-        var week_start_date =formatted_date(week_start);
-                 
-        var week_end  = new Date(week_start_tstmp);  // first day of week 
-                 
-        week_end = new Date (week_end.setDate(week_end.getDate() + 6));
-         var stardate= ("0"+ week_start.getDate()).slice(-2)+'-'+("0"+ (week_start.getMonth()+1)).slice(-2)+'-'+week_start.getFullYear();
-         //alert(stardate);       
-        var week_end_date =formatted_date(week_end);
-      //alert('sjdshgdgsh');
-        date=week_start_date + ' to '+week_end_date;    // date range for current week
-        $('#datebutton').val(stardate);
-        $('#datebuttonuser').val(stardate);
-        $('#hiddendatebuttonuser').val(week_start_date);
-        $('#hiddendatebutton').val(week_start_date);
+             if (diff < 16) {
+                            var week_start_tstmp = curr_date.setDate(15);
+                        } else {
+                            week_start_tstmp = curr_date.setDate(31);
+                        }
+                        var week_start = new Date(week_start_tstmp);
+                        var week_start_date = formatted_date(week_start);
+                        var week_end = new Date(week_start_tstmp); 
+                        week_end = new Date(week_end.setDate(week_end.getDate() + 6));
+                        var stardate = ("0" + week_start.getDate()).slice(-2) + '-' + arrmonth[parseInt(week_start.getMonth() + 1)]+ '-' + week_start.getFullYear();       
+                        var week_end_date = formatted_date(week_end);
+                        date = week_start_date + ' to ' + week_end_date; 
+                        $('#datebutton').val(stardate);
+                        $('#datebuttonuser').val(stardate);
+                        $('#hiddendatebuttonuser').val(week_start_date);
+                        $('#hiddendatebutton').val(week_start_date);
      //alert(date);
        /*
          var week_end_date =formatted_date(new Date());hiddendatebuttonuser // limit current week date range upto current day.
@@ -184,31 +180,50 @@ $('#claimeid').val(id);
 }
 /*end*/
 /*date function in javascript*/
-function datepicherforUser(){
-  
-        var date = $('#datebuttonuser').val();
-    var newdate = new Date(date);
+   function datepicherforUser() {
 
-    //newdate.setDate(newdate.getDate() + 15);
-    if(newdate.getDate()<16){
-    
-    // var dd =("0"+newdate.getDate()).slice(-2);
-    var dd=("0"+1)
-    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
-    var y = newdate.getFullYear();}
-    else{
-      var dd=(""+16)
-    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
-    var y = newdate.getFullYear();
-    }
+                        var date = $('#datebuttonuser').val();
+                        var newdate = new Date(date);
+                        if (newdate.getDate() < 16) {
+                            var dd = ("0" + 15)
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        } else {
+                               if((newdate.getMonth() + 1)==2){
+                            var dd = ('28').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                      
+                            if(((newdate.getMonth() + 1)%2==0)&&((newdate.getMonth() + 1)<7)&&((newdate.getMonth() + 1)!=2)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2!=0)&&((newdate.getMonth() + 1)<=7)&&((newdate.getMonth() + 1)!=2)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2==0)&&((newdate.getMonth() + 1)>=7)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2!=0)&&((newdate.getMonth() + 1)>7)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                        }
+                        var someFormattedDate = dd + '-' + arrmonth[parseInt(mm)]  + '-' + y;
+                        var someFormattedDate1 = y + '-' + mm + '-' + dd;
+                        document.getElementById('datebuttonuser').value = someFormattedDate.toString();
+                        document.getElementById('hiddendatebuttonuser').value = someFormattedDate1.toString();
+                        showexpensDetailsofuser();
+                       
 
-    var someFormattedDate = dd + '-' + mm + '-' + y;
-     var someFormattedDate1 = y + '-' + mm + '-' + dd;
-    document.getElementById('datebuttonuser').value = someFormattedDate.toString();
-     document.getElementById('hiddendatebuttonuser').value = someFormattedDate1.toString();
-    showexpensDetailsofuser();
-    
-      }
+                    }
 function datepicher(){
    $(".dateRangePicker").on("change",function(){
         var selected = $(this).val();
@@ -309,72 +324,120 @@ function getdateprev() {
      selecthotelExpenseforweek();
 }
 
-function getdateuser() {
-  //alert('dashgfdhsd');
-    var tt = $('#hiddendatebuttonuser').val();
+    function getdateuser() {
+                        var tt = $('#hiddendatebuttonuser').val();
 
-    var date = new Date(tt);
-    var newdate = new Date(date);
+                        var date = new Date(tt);
+                        var newdate = new Date(date);
+                       if ((newdate.getDate() > 15) && (("0" + (newdate.getMonth() + 1)).slice(-2) != 13)) {
+                         var dd = ('15').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 2)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
 
-    //newdate.setDate(newdate.getDate() + 15);
-   if((newdate.getDate()<16)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
-    
-     var dd =("0"+16).slice(-2);
-    var mm = ("0"+(newdate.getMonth() + 1)).slice(-2);
-    var y = newdate.getFullYear();
-  }
+                        if ((newdate.getDate() <= 15) && (("0" + (newdate.getMonth() + 1)).slice(-2) != 13)) {
+                                 if((newdate.getMonth() + 1)==2){
+                            var dd = ('28').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                      
+                            if(((newdate.getMonth() + 1)%2==0)&&((newdate.getMonth() + 1)<7)&&((newdate.getMonth() + 1)!=2)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2!=0)&&((newdate.getMonth() + 1)<=7)&&((newdate.getMonth() + 1)!=2)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2==0)&&((newdate.getMonth() + 1)>=7)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2!=0)&&((newdate.getMonth() + 1)>7)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                        }
 
-   if((newdate.getDate()>15)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
-     
-      var dd =("0"+1).slice(-2);
-    var mm = ("0"+(newdate.getMonth() + 2)).slice(-2);
-    var y = newdate.getFullYear();
-  }
-    
-      if((newdate.getDate()>1)&&(("0"+(newdate.getMonth() + 1)).slice(-2)==12)){
-      var dd =("0"+1).slice(-2);
-    var mm = ("0"+1).slice(-2);
-    var y = newdate.getFullYear()+1;
-  }
- 
-    
-    var someFormattedDate1 = dd + '-' + mm + '-' + y;
-    var someFormattedDate = y + '-' + mm + '-' + dd;
-    document.getElementById('datebuttonuser').value = someFormattedDate1.toString();
-      $('#hiddendatebuttonuser').val(someFormattedDate.toString());
-    showexpensDetailsofuser();
-}
+                        if ((newdate.getDate() >15) && (("0" + (newdate.getMonth() + 1)).slice(-2) == 12)) {
+                            var dd = ("0" + 15).slice(-2);
+                            var mm = ("0" + 1).slice(-2);
+                            var y = newdate.getFullYear() + 1;
+                        }
 
-function getdateprevuser() {
-  //alert('dashgfdhsd');
-    var tt = $('#hiddendatebuttonuser').val();
 
-    var date = new Date(tt);
-    var newdate = new Date(date);
 
-    //newdate.setDate(newdate.getDate() - 15);
-    if(newdate.getDate()<16){
-      
-    var dd =("0"+16).slice(-2);
-    var mm = ("0"+(newdate.getMonth())).slice(-2);
-    var y = newdate.getFullYear();
-  }
- if(("0"+(newdate.getMonth())).slice(-2)==00){
-    var dd =("0"+16).slice(-2);
-    var mm = ("0"+12).slice(-2);
-    var y = newdate.getFullYear()-1;
-     }
-    if(newdate.getDate()>15){
-       var dd =("0"+1).slice(-2);
-    var mm = ("0"+(newdate.getMonth()+1)).slice(-2);
-    var y = newdate.getFullYear();
-    }
-    var someFormattedDate1 = dd + '-' + mm + '-' + y;
-    var someFormattedDate = y + '-' + mm + '-' + dd;
-    document.getElementById('datebuttonuser').value = someFormattedDate1.toString();
-     $('#hiddendatebuttonuser').val(someFormattedDate.toString());
-    showexpensDetailsofuser();
-}
+                        var someFormattedDate1 = dd + '-' + arrmonth[parseInt(mm)] + '-' + y;
+                        var someFormattedDate = y + '-' + mm + '-' + dd;
+                        document.getElementById('datebuttonuser').value = someFormattedDate1.toString();
+                        $('#hiddendatebuttonuser').val(someFormattedDate.toString());
+                        showexpensDetailsofuser();
+                       
+                    }
+
+   function getdateprevuser() {
+                        var tt = $('#hiddendatebuttonuser').val();
+
+                        var date = new Date(tt);
+                        var newdate = new Date(date);
+                        if (newdate.getDate() < 16) {
+                            if (("0" + (newdate.getMonth())).slice(-2) != 00) {
+                                /*var dd = ("0" + 16).slice(-2);
+                                var mm = ("0" + (newdate.getMonth())).slice(-2);
+                                var y = newdate.getFullYear();*/
+                            if((newdate.getMonth())==2){
+                            var dd = ('28').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                      
+                            if(((newdate.getMonth())%2==0)&&((newdate.getMonth())<=6)&&((newdate.getMonth())!=2)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth())%2!=0)&&((newdate.getMonth())<=7)&&((newdate.getMonth())!=2)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth())%2==0)&&((newdate.getMonth() )>7)&&((newdate.getMonth())!=2)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth())%2!=0)&&((newdate.getMonth())>7)&&((newdate.getMonth())!=2)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+
+                            } else {
+                                var dd = ("0" + 31).slice(-2);
+                                var mm = ("0" + 12).slice(-2);
+                                var y = newdate.getFullYear() - 1;
+
+                            }
+                        } 
+
+                        if(newdate.getDate() > 16) {
+                            var dd = ("0" + 15).slice(-2);
+                            var mm = ("0" + (newdate.getMonth()+1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+
+                        var someFormattedDate1 = dd + '-' + arrmonth[parseInt(mm)] + '-' + y;
+                        var someFormattedDate = y + '-' + mm + '-' + dd;
+                        document.getElementById('datebuttonuser').value = someFormattedDate1.toString();
+                        $('#hiddendatebuttonuser').val(someFormattedDate.toString());
+                        showexpensDetailsofuser();
+                      
+                    }
 /*end*/
 /*function for show expense form according expense type*/
  function showexpensDetailsofuser11() {
@@ -396,7 +459,7 @@ showexpensDetailsofuser()
          $('#accordions').removeClass('hide');
          $('#accordionsdata').addClass('hide');
             var userId = $('#selectstatus').val();
-            var date1=$('#datebuttonuser').val();
+            var date1=$('#hiddendatebuttonuser').val();
             var flag=1;
             if (flag == 1) {
                 return ($.ajax({
@@ -472,7 +535,7 @@ showexpensDetailsofuser()
                                 log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Pending on Mr. <i style='color:#23527c'> "+users[i].firstName1+"</i></span><span class='numberCircle' style='padding-left:6px;padding-right:6px;height:15px;width:30px; border: 2px solid;border-radius: 100%;color:green;font-size:10px;' title='Approved on "+users[i].ClaimedStatus+" Lavel '>"+users[i].ClaimedStatus+"</span></td>";
                                  }
                                    if((users[i].ClaimedStatus==100)&&(users[i].Submitted==1)){
-                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by Mr. "+users[i].firstName1+"</span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved By Mr. <i style='color:#23527c'> "+users[i].firstName1+"</i>'></span></td>";
+                                log=log +"<span id='c"+users[i].id+"' style='height:20px;font-size:10px;'>Approved by Mr.<i style='color:#23527c'> "+users[i].firstName1+"</i></span><span class='glyphicon glyphicon-ok' style='padding-left:20px;height:20px;color:green;font-size:10px;' title='Final Approved '></span></td>";
                                  }
                                    if((users[i].ClaimedStatus==10)||(users[i].ClaimedStatus==101)){
                                 log=log +"<span style='height:20px;font-size:10px;'>Rejected by Mr. <i style='color:#23527c'> "+users[i].firstName1+"</i></span></td>";
