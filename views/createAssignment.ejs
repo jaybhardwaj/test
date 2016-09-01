@@ -1,0 +1,437 @@
+<html lang="en">
+ <% include ./partials/head %>
+ <% include ./partials/adminheader %>
+<head> 
+ <style type="text/css"> 
+  .dataTables_filter, .dataTables_length {
+     display: none;
+    }
+.glyphicon{
+color:black;
+ width:auto;
+ height:auto;
+}
+.ui-tagger
+{
+  width:100% !important;
+}
+
+.asmnt-btn{
+  margin-top:10px;
+  padding-top: 4px;
+  margin-bottom:10px;
+  margin-top:15px;
+}
+.asmnt-label{
+  style="font-size:14pt;color:#f05f40;"
+}
+.ui-multiselect-checkboxes {
+    position: relative ;
+    max-height: 121px;
+    overflow-y: scroll;
+}
+
+.ui-multiselect  {
+      width: 341px !important;
+}
+
+
+</style>
+
+
+</head>
+<body class=" "  >
+
+<div class="se-pre-con"></div>
+
+
+<div id="aa" class="secondry-color" style=" padding:2%" >
+ 
+<form id="addassignform"  method="post" onsubmit="" name="client" >
+                          <input type="hidden" name="flag" id="hid">
+                            <input type="hidden" name="ascode" id="ascodeid" value=''> 
+   <span class="modal-title" style="padding-left: 44%;padding-bottom: 1%">Create Assingment</span>  
+    <input type="hidden" value=""id='pcount'name='pcount'> 
+    <table class="table">
+  <tr>
+    <td>
+      <td><label class="form-label" style="margin-top: 2%;">Project Name:<sup class="astrick">*</sup></label></td>
+      <td>
+       <select  <%if(flag==1){%>disabled <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="pclient" id="procode" maxlength="50" onChange="getwbs();">
+                          <option disabled selected   value=0>Select</option>
+                              <% for(var i=0;i<allinfo[1].length;i++) {   %>  
+                                  <option <%if(flag==1){ 
+                                  if(allinfo[2][0].ProjectId==allinfo[1][i].id){
+                                      %>  selected <%}}%> value="<%=allinfo[1][i].id%>" ><%=allinfo[1][i].projectTitle%></option>');<%}%>
+
+               </select></td>
+    </td>
+    <td>
+      <td><label class="form-label" style="margin-top: 2%;">WBS Name:<sup class="astrick">*</sup></label></td>
+      <td  id="wbsDiv"> 
+        <select <%if(flag==1){%>disabled  <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()";>
+            <option disabled selected   value=0>Select</option>
+            <%if(flag==1){%>
+             <option selected value='<%=allinfo[2][0].WBSId%>'><%=allinfo[2][0].WBSName%></option>   <%}%> 
+      </select>
+    </td>
+    </td>
+    <td>
+      <td><label class="form-label" style="margin-top: 2%;">User:<sup class="astrick">*</sup></label></td>
+      <td id="asdDiv">
+       <select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important"> 
+       </select>
+        </td>
+    </td>
+    <td>
+      <td  <%if(flag==0 ){%> class="hide"<%}%> ><label class="form-label" style="margin-top:8px">Status:</label></td>
+      <td <%if(flag==0 ){%> class="hide"<%}%> >
+       <div class="radio" id="rad">
+              <input type="hidden" id="act" >
+                <label style="margin-right:9px"><input type="radio" style="margin-top:0px"   name="status" id="active" value='1' checked >Active</label>
+                <label><input type="radio" style="margin-top:0px" name="status" id="inactive" value='0' >InActive</label> 
+              </div>
+        </td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <td><label class="form-label">Start Date:<sup class="astrick">*</sup></label></td>
+      <td>
+         <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date"  id="datepicker" style="width: 86%; cursor: pointer; " onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%> required>
+           
+          
+      </td>
+    </td>
+    <td>
+      <td><label class="form-label">End Date:<sup class="astrick">*</sup></label></td>
+      <td> 
+      <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date" id="datepicker1" style="width: 86%; cursor: pointer;  " onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%> required>
+      </td>
+    </td>
+    <td>
+      <td><label class="form-label"></label></td>
+      <td></td>
+    </td>
+   <td></td>
+  </tr> 
+  <tr>
+            <td></td><td></td><td></td><td></td> 
+           <td></td><td></td><td></td><td></td>
+              <td></td><td></td>  
+          </tr>
+</table>
+ 
+       <center style="margin-bottom:1%"> 
+
+       <a href="/assignment">
+          <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
+          </a>
+
+          <input type="button" value="Submit" onclick="submitdata(<%=flag%>,<%=assignmentId%>);" name="submit" class="btn btn-primary" style="background-color: #f05f40 !important;">
+        
+
+        </center>
+        
+    </form>
+
+    <div  >  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;margin-bottom:10px;width: 13%">  
+            <table class="table table-hover table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" id="wbstable">  
+                 <thead>
+                    <tr style="font-size:12px">
+                        <th >WBS Name</th>
+                        <th >WBS Code</th>
+                        <th >Planned Start Date</th>
+                        <th >Planned End Date</th
+                    </tr>
+                </thead> 
+                <tbody id="tb">
+                </tbody>
+            </table>
+    </div>
+    
+    </div>
+     
+     </body>
+
+      <% include ./partials/footer %>  
+   
+
+     </html>
+   
+  
+<script>
+
+
+$(document).ready(function(){
+
+  $('.se-pre-con').fadeOut('slow');
+
+
+$("#asd").tagger({
+  'fieldWidth':"18em"
+});
+$('#procode').tagger({
+   'fieldWidth':"18em"
+});
+$('#wbs2').tagger({
+   'fieldWidth':"18em"
+});
+  $('.assignment-img').addClass('active');
+   dtable=$("#wbstable").DataTable({
+    'iDisplayLength':10,
+    "bFilter": true
+  });
+       $("#searchbox").keyup(function() {
+        dtable.fnFilter(this.value);
+      });
+  
+  console.log("going");
+   $("#datepicker").datetimepicker({
+                                       timepicker:false,
+                                       format:"m/d/y",
+                                       scrollMouse: false,
+                                       scrollInput: false
+  });
+  
+  $("#datepicker1").datetimepicker({
+                                       timepicker:false,
+                                       format:"m/d/y",
+                                       scrollMouse: false,
+                                       scrollInput: false
+  });
+         $("#hid").val(<%=flag%>);
+
+
+
+         if(<%=flag%>==1){
+wbsDetail();
+ }
+ 
+});       
+
+
+if(<%=flag%>==1){
+
+      var pid=$('#procode').val();
+     <% for (var i = 0; i < allinfo[4].length; i++)
+      { %>
+               if(pid=='<%=allinfo[4][i].projectId%>')
+                    { 
+                      $('#asd').append('<option value="<%=allinfo[4][i].id%>"><%=allinfo[4][i].firstName%></option>');}
+     <%}%>
+
+             $("#asd").val([<%if(flag==1){for(var i=0;i<allinfo[3].length;i++){%>"<%=allinfo[3][i].id%>",<%}}%>]).prop("selected", false);
+   $('#asd').tagger({fieldWidth: "18em"});
+
+   
+ }
+
+
+
+   function checkWBS(){
+    if($('#wbs2').val()==0){
+      alert("Please select a WBS first");
+      $( "#datepicker").datetimepicker("destroy");
+      $( "#datepicker1").datetimepicker("destroy");
+       wbsDetail();
+      return false;
+    }
+
+
+   }
+   function submitdata(flag,assignmentId){
+var alluser=[];
+    var startDt=document.getElementById("datepicker").value;
+var endDt=document.getElementById("datepicker1").value;
+
+
+    var s = document.getElementById("asd");
+  //  alert("length of s is"+s.options.length);
+    for (var i = 0; i < s.options.length; i++) {
+         if (s.options[i].selected == true) {
+           var user = s.options[i].value;
+           alluser.push(user);
+           
+         }
+        
+    } 
+
+    if($('#procode').val()==0)
+     {
+      alert("Please select a Project Title First"); 
+      return false;}
+    if($('#wbs2').val()==0)
+     { alert("Please select a WBS First"); 
+      return false;  }
+
+
+ for (var i = 0; i < s.options.length; i++) {
+         if (s.options[i].selected == true) {
+          
+           var user = s.options[i].value;
+           var wb=$('#wbs2').val();
+           console.log("selected user-----------",user);
+        //  alert("i am"+user+"going for assignment for wbs -"+wb);
+          <% for(var i=0;i<allinfo[5].length;i++){ %>
+
+            if('<%=allinfo[5][i].userId%>'==user && '<%=allinfo[5][i].WBSId%>'==wb){
+              alert('<%=allinfo[5][i].firstName%>'+" has been already asssigned a assignment on this document");
+              return false;
+            }
+           <% } %>
+           
+         }
+        
+    } 
+
+       if($('#datepicker').val()==null)
+     { alert("Please select a StartDate"); 
+      return false;  }
+     if($('#datepicker1').val()==null)
+     { alert("Please select a EndDate"); 
+      return false;  }
+
+    var r = document.getElementsByName("status")
+    var c = -1;
+    for(var i=0; i < r.length; i++){
+     if(r[i].checked) {
+      c = i; 
+                     }
+        }
+   if (c == -1)
+    { alert("please select status"); 
+     return false;}
+
+
+       if($('#asd').val()==null)
+     { alert("Please select Users"); 
+      return false;  }
+      
+      var text = $('#datepicker').val();
+      var text1 = $('#datepicker1').val();
+
+    if(text==''){alert("Please Select Assignment Start Date"); return false;}
+      if(text1==''){alert("Please Select Assignment End Date"); return false;}
+      if(new Date(text)>new Date(text1)){alert('Assignment End Date can not be less than Assignment Start Date');return false;}
+    
+var retailerid=<%=retailerId%>;
+var td= new Date();
+  var dd=td.getDate();
+  var mm=td.getMonth();
+  mm=mm+1;
+  var yr=td.getFullYear();
+  st_ed_date=mm+"/"+dd+"/"+yr;
+
+
+     $.ajax({        
+                         url:'/submitAssignment',
+                    type:'post',
+                    data:{
+                      "flag":flag,
+                      "assignmentId":assignmentId,
+                      "procode":$('#procode').val(),
+                      "wbs":$('#wbs2').val(),
+                      "user":alluser.toString(),
+                      "status":$("input[type='radio'][name='status']:checked").val(),
+                      "asdate":$('#datepicker').val(),
+                      "aedate":$('#datepicker1').val(),
+                        "curdat":st_ed_date,
+                      "retailerid":retailerid
+                    },
+
+                  success:function(data){
+
+                    if(flag==1){
+                      alert('Assignment Updated Successfully');
+                    }
+                    else{
+                      alert('Assignment Added Successfully');
+                    }
+                    window.location.href="/assignment";    
+
+                    $('.se-pre-con').fadeOut('slow');
+                    
+                    }
+                  });
+}
+function getwbs(){ 
+  $('#asd').tagger('destroy');
+  var pid=$('#procode').val();
+  $('#wbs2').html(''); 
+   $('#asd').html('');
+  var str='<select style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()">'+'<option value=0>Select</option>';
+        <%  for(var i=0;i<allinfo[3].length;i++)
+            {  
+        %>                  
+                     if(pid=='<%=allinfo[3][i].projectId%>')
+                    { str=str+'<option value="<%=allinfo[3][i].WBSId%>"><%=allinfo[3][i].WBSName%></option>';
+                
+              }
+
+ <%   }  %>
+str=str+'</select>';
+
+$('#wbsDiv').html(str);
+$('#wbs2').tagger({fieldWidth: "18em"});
+str='<select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important">';
+<%for (var i = 0; i < allinfo[2].length; i++) { %>
+   if(pid=='<%=allinfo[2][i].projectId%>')
+                    { 
+                         str=str+'<option value="<%=allinfo[2][i].id%>"><%=allinfo[2][i].firstName%></option>';
+                    }
+<%}%>
+                str=str+'</select>';
+                $('#asdDiv').html(str);
+                 $('#asd').tagger({fieldWidth: "18em"});
+                  if($('#wbs2').val()>0)
+                       wbsDetail();
+
+}
+function wbsDetail()
+   {
+         var wbsid=$('#wbs2').val();
+         $('#tb').html('');                 
+      if(wbsid>0)
+        {
+          if(<%=flag%>==1)
+           {
+             
+           }
+          else
+           {
+             <%for(var i=0;i<allinfo[3].length;i++)
+                  { %> 
+                     
+                     if(wbsid=='<%=allinfo[3][i].WBSId%>')
+                  {
+                      var tr=tr+'<tr><td><%=allinfo[3][i].WBSName%></td><td><%=allinfo[3][i].WBSCode%></td><td><%=allinfo[3][i].wplannedStartDate%></td><td><%=allinfo[3][i].wplannedEndDate%></td></tr>';
+                     
+                        
+                      var date = new Date('<%=allinfo[3][i].wplannedStartDate%>');
+                      var date1 = new Date('<%=allinfo[3][i].wplannedEndDate%>');
+                      $( "#datepicker").datetimepicker({timepicker:false,format:"m/d/y",
+                                                           minDate: date,maxDate: date1 });
+
+                 
+                      $( "#datepicker1").datetimepicker({timepicker:false,format:"m/d/y",
+                                                           minDate: date,maxDate: date1 });
+
+
+                  }
+                    
+                        $('#tb').html(tr);    
+               <%  }  %>
+           }
+                 
+      
+      }   
+    else
+    {
+
+      var tr=tr+'<tr style="text-align:center"><td colspan="4">No data available in table</td></tr>';
+
+      $('#tb').html(tr); 
+    }
+}
+</script>
