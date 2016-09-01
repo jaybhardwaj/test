@@ -842,6 +842,7 @@
                   </table>
                </div>
             </div>
+            <div class="text-center padTop10"><span class="error" id="errorTimesheetCommon"></span><span class="success" id="successTimesheetCommon"></span></div>
             <div class="row" style="margin-left: 40%;padding-top:10px;">
                <button type="button" id="resettimesheet" class="btn  " onClick="ClearAll()">Reset</button>
                <button type="button" class="btn  " id="savetimesheet" onClick="Totalsum(1)">Save</button>
@@ -853,6 +854,13 @@
       </div>
    </div>
    <script>
+   var resetError = function() {
+      $('.error').text("");
+      $('.success').text('');
+      }
+      var commonTimeOut= function(name,time) {
+      setTimeout(function(){ name.text(''); }, 5000);
+      }
       function sum(a, b) {
          // alert(" i am in sum");
           var k = 0;
@@ -881,7 +889,10 @@
       }
       <!----------------------------------- FUNCTION FOR SUBMITTING ALL VALUES  -------------------------------------->
       function Totalsum(flag) {
-      
+        resetError();
+         var successTimesheetCommon=$('#successTimesheetCommon');
+         var errorTimesheetCommon= $('#errorTimesheetCommon');
+  
           $(".se-pre-con").fadeIn("slow");
       
       
@@ -1039,7 +1050,8 @@
                   //console.log('b', data[0].i);
       
                   if(data[0].i=='6a'){
-                      alert(" You have already submitted TimeSheet");
+                      errorTimesheetCommon.text(" You have already submitted TimeSheet");
+                      commonTimeOut(errorTimesheetCommon);
                       return false;
                   }
       
@@ -1110,10 +1122,14 @@
       
                           //console.log("b");
                           if (status == 2){
-              alert("TimeSheet submitted successfully."); $(".se-pre-con").fadeOut("slow"); }
+              successTimesheetCommon.text("TimeSheet submitted successfully.");
+              commonTimeOut(successTimesheetCommon);
+               $(".se-pre-con").fadeOut("slow"); }
           else {
               if((save_not_submit!=1 || flag==1)&& flag!=0){
-              alert("Timesheet saved succesfully."); $(".se-pre-con").fadeOut("slow");} }
+              successTimesheetCommon.text("Timesheet saved succesfully.");
+              commonTimeOut(successTimesheetCommon);
+              $(".se-pre-con").fadeOut("slow");} }
               
           if (status == 2) {
       
@@ -1583,19 +1599,26 @@
       }
       
         function allowholiday(i,dnd){
-      
+          resetError();
+          var errorTimesheetCommon=$('#errorTimesheetCommon');
+                      
       //////console.log("dsdsds",$('#wkd' + i).val(),"sdsdsd",$('#wkd' + (i + 15)).val())
                       if (parseInt(dnd) < 16) {
-                              alert("Total Hours on "+ $('#wkd' + i).val() + " is less then "+workschedule+" hours");
+                        errorTimesheetCommon.text("Total Hours on "+ $('#wkd' + i).val() + " is less then "+workschedule+" hours");
+                        commonTimeOut(errorTimesheetCommon);
+                            
                               document.getElementById('timestatus').innerHTML = "Active";
                               return 1;
                           } else {
                               if(weekdy==1 || monthly==1){
-                              alert("Total Hours on "+$('#wkd'+i).val()+ " is less then "+workschedule+" hours");
+                              errorTimesheetCommon.text("Total Hours on "+$('#wkd'+i).val()+ " is less then "+workschedule+" hours");
+                              commonTimeOut(errorTimesheetCommon);
                                    
                               }
                               else
-                              {alert("Total Hours on "+$('#wkd'+(i + 15)).val()+ " is less then "+workschedule+" hours");}
+                              {
+                                errorTimesheetCommon.text("Total Hours on "+$('#wkd'+(i + 15)).val()+ " is less then "+workschedule+" hours");}
+                                commonTimeOut(errorTimesheetCommon);
                               document.getElementById('timestatus').innerHTML = "Active";
                               return 1;
                           
