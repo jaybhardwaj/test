@@ -137,9 +137,9 @@
                             <%=customrole[i].description%>
                           </td>
                           <td>
-                            <%if(customrole[i].Active==0){%> <span style='margin-left:5%;color:red;height:10px;' class='glyphicon glyphicon-remove-sign ' title="click to active" onClick="docActiveInactive(<%=customrole[i].id%>,1);"></span>
+                            <%if(customrole[i].Active==0){%> <span style='margin-left:5%;color:red;height:10px;' class='glyphicon glyphicon-remove-sign ' title="click to active" onClick=confirmBox2('<%=customrole[i].id%>,1','docActiveInactive',2);></span>
                             <%}
-                                 else{%> <span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser(<%=customrole[i].id%>)" data-toggle='modal' data-target='#viewrole' title="users assigned"></span> <span style='margin-left:5%;color:green;height:10px' class='glyphicon glyphicon-ok ' title="click to  inactive" onClick="docActiveInactive(<%=customrole[i].id%>,0)"></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick='getrole(<%=customrole[i].id%>)'></span>
+                                 else{%> <span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser(<%=customrole[i].id%>)" data-toggle='modal' data-target='#viewrole' title="users assigned"></span> <span style='margin-left:5%;color:green;height:10px' class='glyphicon glyphicon-ok ' title="click to  inactive" onClick=confirmBox2('<%=customrole[i].id%>,0','docActiveInactive',1);></span><span style="margin-left:5%" class="glyphicon glyphicon-pencil" title="click to edit" onclick='getrole(<%=customrole[i].id%>)'></span>
                                 <%}%>
                           </td>
                         </tr>
@@ -147,8 +147,11 @@
                     </table>
                   </div>
                   <center> <span class="glyphicon glyphicon-plus-sign" onClick="roleMulti()" style="font-size:18px;adding-top:5px"></span> </center>
+                  <div class="text-center"><span class="error" id="errorCustomRole"></span><span class="success" id="successcustomRole"></span></div>
                 </div>
+
               </div>
+
             </div>
             <div class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;">
               <div style=" text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% " onClick="showHide(6)">
@@ -285,7 +288,7 @@
                 </div>
               </div>
             </div>
-            <div class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;">
+            <div class="row" style="margin-left: 10%;margin-top:1%;margin-right: 10%;margin-bottom:7%">
               <div style=" text-align: center;border-radius: 25px;border:2px solid #f05f40;padding:1% " onClick="showHide(9)">
                 <a id="anchor" class="anchor" href="#tecdiv" data-toggle="collapse">
                   <center> <label>Application Area</label> <i class="glyphicon glyphicon-resize-full" style="float:right;padding-right:3%;"></i> </center>
@@ -1054,11 +1057,13 @@
                 <div class="col-md-5"> <label style="line-height:42px !important;">Role ID:<sup>*</sup></label> </div>
                 <div class="col-md-7"> <input placeholder="Enter Role Name Here" type="text" maxlength="30" style="width:100%" class="form-control" id="editRoleId" name="editRoleId" /> </div>
               </div>
-              <div style="">
+              <div>
                 <div class="col-md-12 a" style="padding-top:2%">
                   <div class="col-md-5"> <label style="line-height:42px !important;padding:0px">Custom Roles:<sup  style="color:red">*</sup></label> </div>
-                  <div class="col-md-7"> <input placeholder="Enter Role Name Here" type="text" maxlength="30" style="width:100%" class="form-control" id="rl_name" name="rname" /> </div>
-                </div>
+                  <div class="col-md-7"> <input placeholder="Enter Role Name Here" type="text" maxlength="30" style="width:100%" class="form-control" id="rl_name" name="rname" />
+                  <div class="fLeft"><span class="error" id="errorRl_name"></span></div></div>
+                   </div>
+
                 <div class="col-md-12 a">
                   <div class="col-md-5"><label style="line-height:42px !important;padding:0px">Industry:<sup  style="color:red">*</sup></label></div>
                   <div class="col-md-7"> <input type="hidden" id="<%=industry[0].id%>" maxlength="30" required name="industryhide" value="<%=industry[0].id%>">
@@ -1067,7 +1072,9 @@
                               if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
                            <%}}}%>
-                        </select> </div>
+                        </select> 
+
+                      </div> <div class="fLeft"><span class="error" id="errorMy_selectII"></span></div>
                   </div>
                 </div>
                 <div class="col-md-12 a">
@@ -1078,6 +1085,7 @@
                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
                            <%}}}%>
                         </select> </div>
+                     <div class="fLeft"><span class="error" id="errorMy_selectBB"></span></div>   
                   </div>
                 </div>
                 <div class="col-md-12 a">
@@ -1089,6 +1097,7 @@
                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
                            <%}}}%>
                         </select> </div>
+                        <div class="fLeft"><span class="error" id="errorMy_selectDD"></span></div>
                   </div>
                 </div>
                 <div class="col-md-12 a">
@@ -1101,6 +1110,7 @@
                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
                            <%}}}%>
                         </select> </div>
+                        <div class="fLeft"><span class="error" id="errorMy_selectTT"></span></div>
                   </div>
                 </div>
                 <div class="col-md-12 a">
@@ -1111,12 +1121,17 @@
                            <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                            <%}%>
                         </select> </div>
+                        <div class="fLeft"><span class="error" id="errorMy_selectRR"></span></div>
+
                   </div>
+                    <div class="text-center" style="padding-bottom:10px;"><span class="error" id="errorCustomeModelRoles"></span></div> 
                 </div>
               </div>
               <div class="modal-footer">
+
                 <center> <button id='cancel' type="reset" data-dismiss="modal" class="btn">Cancel</button> <button id='' class="btn" onClick="docValidation()">Submit</button> </center>
               </div>
+
             </div>
           </div>
         </div>
@@ -1279,7 +1294,6 @@
       var oldname ;
       function docsave(docid,flag){
       resetError();  
-              alert(docid);
       var errorTecTableAdd= $('#errorTecTableAdd_'+docid); 
       var successTecTableApp= $('#successTecTableApp'+docid);
       var errorTecTableApp = $('#errorTecTableApp'+docid);
@@ -1323,7 +1337,7 @@
           if(doc[0]==arr1[i])
           {
                 
-                  var labelid='#'+arr1[i]+'label_'+arr3[i];
+                var labelid='#'+arr1[i]+'label_'+arr3[i];
                 var divtext='#'+arr2[i]+'_'+doc[1];
                 var textid='#'+arr1[i]+'text_'+doc[1];
                 var divlabel='#'+arr1[i]+'_'+doc[1];
@@ -1348,7 +1362,10 @@
                     dataType :'json',              
                     success: function (data) {
                      if(data[0][0].active1==2){
-                        alert("already exist");
+                      var d=docid.split('_');
+                      var errorTecTableApp_1 = $('#errorTecTableApp_'+d[0]);
+                        errorTecTableApp_1.text("already exist");
+                        commonTimeOut(errorTecTableApp_1);
                      }
                      else{
                     var d=docid.split('_');
@@ -1358,7 +1375,9 @@
                     
                     $(divtext).addClass('hide');
                     $(divlabel).removeClass('hide');
-                    successTecTableApp.text("updated successfully");
+                    var successTecTableApp_1= $('#successTecTableApp_'+d[0]);
+                    successTecTableApp_1.text("Updated successfully");
+                    commonTimeOut(successTecTableApp_1);
                   }
                 }
                   });
@@ -1376,7 +1395,7 @@
         {
           if(doc==arr1[i])
           {
-                  
+                  var errorTecTableApp_doc=$('#errorTecTableApp_'+doc[0]);
                   arr3[i]=arr3[i]+1;
                    arr3[i]= parseInt($('#'+arr1[i]+'Table tr').length/2);
                    var tableid='#'+arr1[i]+'Table';
@@ -1408,11 +1427,12 @@
                    
                     if(data[0][0].active1==3)
                     {
-                      errorTecTableAdd.text("already exist");
+                      errorTecTableApp_doc.text("Already exist");
+                      commonTimeOut(errorTecTableApp_doc);
                       
                     }
                     else
-                    forAll(tableid,add,rowid,textid,rowhid,func,flag);
+                    forAll(tableid,add,rowid,textid,rowhid,func,flag,docid);
                   $(add).val('');
                 }
                 });
@@ -1482,15 +1502,16 @@
       
       
       }
-      function forAll(tableid,add,rowid,textid,rowhid,func,flag){
-      var successTecTableApp= $('#successTecTableApp');
-      var errorTecTableApp = $('#errorTecTableApp');  
+      function forAll(tableid,add,rowid,textid,rowhid,func,flag,docid){
+      
       if(flag==3){
         var row=rowid.split('_');
+        var successTecTableApp= $('#successTecTableApp_'+row[0]);
         var labelid=row[0]+'label_'+row[1];
              var str='<tr id="'+rowid+'"><td id ='+labelid+'>'+$(add).val()+'</td><td><span  style="color:green;height:10px" class="glyphicon glyphicon-ok"  onClick="docsave('+func+',0)" ></span><span   style="margin-left:5%" class="glyphicon glyphicon-pencil"  title="click to edit"  onClick="docsave('+func+',4)" ></span></td></tr>'+'<tr class="hide" id="'+rowhid+'"><td><input type="text" maxlength="30" id="'+textid+'" value="'+$(add).val()+'"></td><td><span class="glyphicon glyphicon-floppy-disk"  onClick="docsave('+func+',2)"</span></td></tr>';
              $(tableid).append(str);
              successTecTableApp.text("added successfully");
+            
        }
       
             
@@ -1709,34 +1730,47 @@
       
              var activeDocument=1;
       function docValidation() {
+        resetError();
               var rolename = $('#rl_name').val();
               var indus = $('#my-selectII').val();
               var bus = $('#my-selectBB').val();
               var  doc=$('#my-selectDD').val();
               var tec=$('#my-selectTT').val();
               var restrict=$('#my-selectRR').val();
+              var errorRl_name= $('#errorRl_name');  
+              var errorMy_selectBB = $('#errorMy_selectBB');
+              var errorMy_selectII = $('#errorMy_selectII');
+              var errorMy_selectDD = $('#errorMy_selectDD');
+              var errorMy_selectTT = $('#errorMy_selectTT');
+              var errorMy_selectRR = $('#errorMy_selectRR');          
               if (rolename.trim()==""){
-                  alert("Please Enter valid Role Name!");
+                  errorRl_name.text("Please Enter valid Role Name!");
+                  $('#rl_name').focus();
                   return false;
               }            
               if(indus==null) {
-                  alert("Please select any Industry name! ");
+                  errorMy_selectII.text("Please select any Industry name! ");
+                  $('#my-selectII').focus();
                   return false;
               }
               if (bus ==null) {
-                  alert("Please select any Business name!");
+                  errorMy_selectBB.text("Please select any Business name!");
+                  $('#my-selectBB').focus();
                   return false;
               }
               if (doc== null) {
-                  alert("Please select any Document Type!");
+                  errorMy_selectDD.text("Please select any Document Type!");
+                  $('#my-selectDD').focus();
                   return false;
               }
                if (tec== null) {
-                  alert("Please select any Technology Type!");
+                  errorMy_selectTT.text("Please select any Technology Type!");
+                  $('#my-selectTT').focus();
                   return false;
               }   
                if (restrict== null) {
-                  alert("Please select any Restriction Level!");
+                  errorMy_selectRR.text("Please select any Restriction Level!");
+                  $('#my-selectRR').focus();
                   return false;
               }  
       
@@ -1748,6 +1782,9 @@
       var arr4=[];
       var arr5=[];
       function addrole(){
+      var successcustomRole= $('#successcustomRole');  
+      var errorCustomRole = $('#errorCustomRole');
+      var errorCustomeModelRoles =$('#errorCustomeModelRoles');
       var newactiveDocument ;
       if(activeDocument==1)
       {
@@ -1783,26 +1820,28 @@
              success: function(data) {
             
                               if (data[0][0].flag == -1) {
-                                  alert('Something went wrong.');
+                                  errorCustomRole.text('Something went wrong.');
                               } else if (data[0][0].flag == 1) {
-                                  alert('Custom Role added successfully');
+
+                                  successcustomRole.text('Custom Role added successfully');     
+                                  commonTimeOut(successcustomRole);
                                   $('#cancel').click();
                                   $('#cstRoleTable').append('<tr id="role_'+data[1][0].id+'"><td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser('+data[1][0].id+')"data-toggle="modal" data-target="#viewrole"  title="users assigned"></span><span  style="color:green;margin-left:5%"  title="click to inActive"  class="glyphicon glyphicon-ok " onClick="docActiveInactive('+data[1][0].id+',0)"></span><span class="glyphicon glyphicon-pencil"  title="click to edit"   onClick="getrole('+data[1][0].id+')"    style="margin-left:5%"></span></td></tr>');
                                 } else if (data[0][0].flag == 3) {
-                                  alert('Custom Role is already exist.Please enter with different Custom Role.');
+                                  errorCustomeModelRoles.text('Custom Role is already exist.Please enter with different Custom Role.');
                               }else if(data[0][0].flag == 4){
-                                    alert('This Custome role cant be inactive , it is bind with Some Others user  ');
+                                    errorCustomRole.text('This Custome role cant be inactive , it is bind with Some Others user  ');
                                   }
                               else if ((data[0][0].flag =='2')||(data[0][0].flag =='5')) {
-                                  alert('Custom Roles update successfully.');
+                                  successcustomRole.text('Custom Roles update successfully.');
                               $('#editRole').modal('toggle');
                                   $("#RoleEdit").val($('#RoleEdit').val());
                                   if(newactiveDocument==0){
-                                    $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser('+cid+')"data-toggle="modal" data-target="#viewrole"  title="users assigned"></span><span  style="color:red;margin-left:10px;height:10px" class="glyphicon glyphicon-remove " title="click to active" onClick="docActiveInactive('+cid+',1)"></span><span class="glyphicon glyphicon-pencil"  onClick="getrole('+cid+')" style="margin-left:10px" title="click to edit"></span></td>');
+                                    $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser('+cid+')"data-toggle="modal" data-target="#viewrole"  title="users assigned"></span><span  style="color:red;margin-left:10px;height:10px" class="glyphicon glyphicon-remove " title="click to active" onClick=confirmBox2("'+cid+',1",docActiveInactive,2)></span><span class="glyphicon glyphicon-pencil"  onClick="getrole('+cid+')" style="margin-left:10px" title="click to edit"></span></td>');
                                   
                                     }
                                  else{
-                                  $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser('+cid+')"data-toggle="modal" data-target="#viewrole"  title="users assigned"></span><span  style="color:green;margin-left:10px;height:10px" class="glyphicon glyphicon-ok " title="click to inactive"  onClick="docActiveInactive('+cid+',0)"></span><span class="glyphicon glyphicon-pencil"  onClick="getrole('+cid+')"  title="click to edit"  style="margin-left:10px"></span></td>');
+                                  $('#role_'+cid).html('<td>'+$("#rl_name").val()+'</td><td><span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser('+cid+')"data-toggle="modal" data-target="#viewrole"  title="users assigned"></span><span  style="color:green;margin-left:10px;height:10px" class="glyphicon glyphicon-ok " title="click to inactive"  onClick=confirmBox2("'+cid+',0","docActiveInactive",1)></span><span class="glyphicon glyphicon-pencil"  onClick="getrole('+cid+')"  title="click to edit"  style="margin-left:10px"></span></td>');
                                   
                                 } 
                               } 
@@ -3491,11 +3530,13 @@ if(billa<0){
           });
       }
       function docActiveInactive(croleid,flag){
+        resetError();
+        var successcustomRole = $('#successcustomRole');
         if(flag==0)
          var  title="are you sure you want to Deactivate ? "
        else
         var  title="are you sure you want to Activate ? "
-         if(confirm(title)==true) 
+         
          $.ajax({
               url: '/docActiveInactive',
               type: 'post',
@@ -3505,14 +3546,14 @@ if(billa<0){
               },
               dataType: 'json',
               success: function(result){
-                console.log(result);
-                if(result[0][0].resultflag==-2){
-                      alert("updated Successfully");
+                  if(result[0][0].resultflag==-2){
+                      successcustomRole.text("updated Successfully");
+                      commonTimeOut(successcustomRole);
                       if(flag==0){
-                              document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='</span><span  style="color:red;margin-left:10px;height:10px" class="glyphicon glyphicon-remove-sign " title="click to active" onClick="docActiveInactive('+croleid+',1)"></span>';
+                              document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='</span><span  style="color:red;margin-left:10px;height:10px" class="glyphicon glyphicon-remove-sign " title="click to active" onClick=confirmBox2("'+croleid+',1","docActiveInactive",2);></span>';
                       }
                       else{
-                         document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='<span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser('+croleid+')"data-toggle="modal" data-target="#viewrole"  title="users assigned"></span><span  style="color:green;margin-left:10px;height:10px" class="glyphicon glyphicon-ok " title="click to inactive"  onClick="docActiveInactive('+croleid+',0)"></span><span class="glyphicon glyphicon-pencil"  onClick="getrole('+croleid+')"  title="click to edit"  style="margin-left:10px"></span>';
+                         document.getElementById("cstRoleTable").rows["role_"+croleid].cells.item(1).innerHTML='<span class="glyphicon glyphicon-user" style="height:10px" onClick="viewroleUser('+croleid+')"data-toggle="modal" data-target="#viewrole"  title="users assigned"></span><span  style="color:green;margin-left:10px;height:10px" class="glyphicon glyphicon-ok " title="click to inactive"  onClick=onClick=confirmBox2("'+croleid+',0","docActiveInactive",1);></span><span class="glyphicon glyphicon-pencil"  onClick="getrole('+croleid+')"  title="click to edit"  style="margin-left:10px"></span>';
                       }
                 }
                 else{
@@ -3555,8 +3596,8 @@ if(billa<0){
       $("#ModalAddMesage").html(messageBox);
       $("#activeBugMasterMessageModal").modal("show");
       }
-      var commonTimeOut= function(name) {
-      setTimeout(function(){ name.text(''); }, 3000);
+      var commonTimeOut= function(name,time) {
+      setTimeout(function(){ name.text(''); }, 4000);
       }
    </script>
    </body>
