@@ -362,7 +362,42 @@
 
                     }
 
+                    function fordatepichurselect(){
+                          var d = new Date();
+                        var m = ("0" + (d.getMonth() + 1)).slice(-2); 
+                        var dd = ("0" + d.getDate()).slice(-2); 
+                        var y = d.getFullYear();
+                        var currentdate = y + '-' + m + '-' + dd;
+                        var dateforbfirst = new Date($('#hiddendatebutton').val());
+                       // dateforbfirst.setDate(dateforbfirst.getDate()+ 15 );
+
+                        var enddatefor = new Date($('#hiddendatebutton').val());
+                        enddatefor.setDate(enddatefor.getDate() - 15);
+
+                        if ((new Date(currentdate) >= enddatefor) && (new Date(currentdate) <= dateforbfirst)) {
+
+                            $('#submitbut').addClass('hide');
+                            $('#submitbutton').removeClass('hide');
+                            $('#explabel').removeClass('hide');
+                            $('#typeEx').removeClass('hide');
+                        } else if (new Date(currentdate) <= dateforbfirst) {
+                            $('#submitbut').addClass('hide');
+                            $('#explabel').removeClass('hide');
+                            $('#typeEx').removeClass('hide');
+                            $('#submitbutton').addClass('hide');  
+                        } else {
+                            $('#submitbut').addClass('hide');
+                            $('#explabel').addClass('hide');
+                            $('#typeEx').addClass('hide');
+                            $('#submitbutton').addClass('hide');
+
+
+                        }
+
+                    }
+
                     function datepicher2() {
+                        // toChekRasieExpenseOrNotforNext();
                         var date = $('#datebutton').val();
                         var newdate = new Date(date);
 
@@ -406,12 +441,12 @@
                         var someFormattedDate1 = dd + '-' + arrmonth[parseInt(mm)] + '-' + y;
                         document.getElementById('datebutton').value = someFormattedDate1.toString();
                         $('#hiddendatebutton').val(someFormattedDate.toString());
-                         toChekRasieExpenseOrNotforNext();
+                        fordatepichurselect()
                         selecthotelExpenseforweek();
                     }
 
                     function getdate() {
-                       
+                        toChekRasieExpenseOrNotforNext();
                         var tt = $('#hiddendatebutton').val();
                         var date = new Date(tt);
                         var newdate = new Date(date);
@@ -462,7 +497,7 @@
                         var someFormattedDate1 = y + '-' + mm + '-' + dd;
                         document.getElementById('datebutton').value = someFormattedDate.toString();
                         $('#hiddendatebutton').val(someFormattedDate1.toString());
-                         toChekRasieExpenseOrNotforNext();
+                        
                         selecthotelExpenseforweek();
                     }
 
@@ -776,7 +811,7 @@
                     function selecthotelExpenseforweek() {
 
                         date = $('#hiddendatebutton').val();
-                        // alert(date);
+                        //actualDateforflag2();
 
                         var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/ShowExpenseWeekBy';
                         $.ajax({
@@ -1234,9 +1269,10 @@
                      var dateforblast=fir;
                       var first = new Date($('#hiddendatebutton').val());
                         first.setDate(first.getDate() - 15);
-                        
-                        if((d>first)){ //&&(d<=dateforblast)
+                      
+                        if((d>=first)){ //&&(d<=dateforblast)
                            showtotalExpense();
+                          // $('#submitbutton').addClass('hide');
                         }
                     }
                     
@@ -1646,12 +1682,13 @@
                         var y = d.getFullYear();
                         var currentdate = y + '-' + m + '-' + dd;
                         var dateforbfirst = new Date($('#hiddendatebutton').val());
-                       // dateforbfirst.setDate(dateforbfirst.getDate() );
+                       // dateforbfirst.setDate(dateforbfirst.getDate()+ 15 );
 
                         var enddatefor = new Date($('#hiddendatebutton').val());
                         enddatefor.setDate(enddatefor.getDate() + 15);
 
                         if ((new Date(currentdate) >= dateforbfirst) && (new Date(currentdate) <= enddatefor)) {
+
                             $('#submitbut').addClass('hide');
                             $('#submitbutton').removeClass('hide');
                             $('#explabel').removeClass('hide');
@@ -1679,14 +1716,17 @@
                         var currentdate = y + '-' + m + '-' + dd;
                         
                         var dateforbfirst = new Date($('#hiddendatebutton').val());
-                        dateforbfirst.setDate(dateforbfirst.getDate() - 15);
+                        dateforbfirst.setDate(dateforbfirst.getDate() - 30);
                         var enddatefor = new Date($('#hiddendatebutton').val());
-                       
+                        enddatefor.setDate(enddatefor.getDate() - 15);
+                      
                         if ((new Date(currentdate) >= dateforbfirst) && (new Date(currentdate) <= enddatefor)) {
+                           
                             $('#submitbutton').removeClass('hide');
                             $('#submitbut').addClass('hide');
                         }
                         else if (new Date(currentdate) <= enddatefor) {
+                           
                             $('#submitbut').addClass('hide');
                             $('#raiseexp').removeClass('hide');
                             $('#notvalid').addClass('hide');
@@ -2509,14 +2549,14 @@
                             return false;
                         }
                           else if(($("#rfdper").val() == "")&&($("#rfdtypeof").val()==1)){
-                            alert("Per Km Rate Missing!");
+                            alert("equired!");
                             return false;
                         } else if(($('#rfdper').val() < 1)&&($("#rfdtypeof").val()==1)){
                             alert("Please Enter Positive Value in Per Km Rate!");
                             return false;
                         }
                          else if ($("#rfdtotalkm").val() == "") {
-                            alert("Total km Travel Missing!");
+                            alert("Required Field Missing!");
                             return false;
                         } else if ($('#rfdtotalkm').val() < 1) {
                             alert("Please Enter Positive Value in Total km Travel!");
@@ -2674,17 +2714,18 @@
                         if($("#rfdtypeof").val()==2){
                           $("#deasign").addClass('hide');
                           $("#totalkm").html(''); 
-                          $("#totalkm").append("Parking Fee");
+                          $("#totalkm").append("Parking Fee:<span Style='font-size:10px;margin-bottom:10px; color:red'>*</span>");
                         }
                           if($("#rfdtypeof").val()==1){
                           $("#deasign").removeClass('hide');
                           $("#totalkm").html(''); 
-                          $("#totalkm").append("Total km Travel");
+                          $("#totalkm").append("Total km Travel:<span Style='font-size:10px;margin-bottom:10px; color:red'>*</span>");
                         }
                     }
 
 
                     function adddatahotel() {
+                        $(".sub").prop('disabled', true);
                         var data = $("#hotel").serializeArray();
                         var data1 = {};
                         for (s in data) {
@@ -2700,7 +2741,7 @@
                                 data: data2
                             },
                             success: function(data) {
-
+                                $(".sub").prop('disabled', false);
                                 $('.dismiss').click();
                                 selecthotelExpenseforweek();
 
@@ -2709,6 +2750,7 @@
                     }
 
                     function adddatatravel() {
+                        $(".sub").prop('disabled', true);
                         var data = $("#travelf").serializeArray();
                         var data1 = {};
                         for (s in data) {
@@ -2724,7 +2766,7 @@
                                 data: data2
                             },
                             success: function(data) {
-
+                                $(".sub").prop('disabled', false);
                                 $('.dismiss').click();
                                 selecthotelExpenseforweek();
                             }
@@ -2732,6 +2774,7 @@
                     }
 
                     function adddatafood() {
+                        $(".sub").prop('disabled', true);
                         var data = $("#foodf").serializeArray();
                         var data1 = {};
                         for (s in data) {
@@ -2747,7 +2790,7 @@
                                 data: data2
                             },
                             success: function(data) {
-
+                                $(".sub").prop('disabled', false);
                                 $('.dismiss').click();
                                 selecthotelExpenseforweek();
                             }
@@ -2757,6 +2800,7 @@
 
 
                     function adddataphone() {
+                        $(".sub").prop('disabled', true);
                         var data = $("#phonef").serializeArray();
                         var data1 = {};
                         for (s in data) {
@@ -2772,7 +2816,7 @@
                                 data: data2
                             },
                             success: function(data) {
-
+                                $(".sub").prop('disabled', false);
                                 $('.dismiss').click();
                                 selecthotelExpenseforweek();
                             }
@@ -2780,6 +2824,7 @@
                     }
 
                     function adddatarsd() {
+                        $(".sub").prop('disabled', true);
                         var data = $("#rsdf").serializeArray();
                         var data1 = {};
                         for (s in data) {
@@ -2795,7 +2840,7 @@
                                 data: data2
                             },
                             success: function(data) {
-
+                               $(".sub").prop('disabled', false);
                                 $('.dismiss').click();
                                 selecthotelExpenseforweek();
                             }
@@ -2803,6 +2848,7 @@
                     }
 
                     function adddataperdiem() {
+                        $(".sub").prop('disabled', true);
                         var data = $("#deamf").serializeArray();
                         var data1 = {};
                         for (s in data) {
@@ -2818,7 +2864,7 @@
                                 data: data2
                             },
                             success: function(data) {
-
+                               $(".sub").prop('disabled', false);
                                 $('.dismiss').click();
                                 selecthotelExpenseforweek();
                             }
@@ -2826,6 +2872,7 @@
                     }
 
                     function adddataother() {
+                        $(".sub").prop('disabled', true);
                         var data = $("#otherf").serializeArray();
                         var data1 = {};
                         for (s in data) {
@@ -2841,7 +2888,7 @@
                                 data: data2
                             },
                             success: function(data) {
-
+                               $(".sub").prop('disabled', false);
                                 $('.dismiss').click();
                                 selecthotelExpenseforweek();
                             }
@@ -3450,7 +3497,7 @@ function Popup(data) {
                 <div id="footer" class="modal-footer" style="border-top:0px;">
                     <center>
                         <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                        <button type="button" onclick="validateforhotel()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
+                        <button type="button" onclick="validateforhotel()" class="btn btn-default sub" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
                     </center>
                 </div>
             </div>
@@ -3611,7 +3658,7 @@ function Popup(data) {
                     <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
                             <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="button" onclick="validatefortravel()" class="btn btn-default " style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
+                            <button type="button" onclick="validatefortravel()" class="btn btn-default sub" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
                         </center>
                     </div>
                 </div>
@@ -3726,7 +3773,7 @@ function Popup(data) {
                 <div id="footer" class="modal-footer" style="border-top:0px;">
                     <center>
                         <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                        <button type="button" onclick="validateforphone()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
+                        <button type="button" onclick="validateforphone()" class="btn btn-default sub" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
                     </center>
                 </div>
             </div>
@@ -3900,7 +3947,7 @@ function Popup(data) {
                 <div id="footer" class="modal-footer" style="border-top:0px;">
                     <center>
                         <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                        <button type="button" onclick="validateforrsd()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
+                        <button type="button" onclick="validateforrsd()" class="btn btn-default sub" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
                     </center>
                 </div>
             </div>
@@ -4061,7 +4108,7 @@ function Popup(data) {
                 <div id="footer" class="modal-footer" style="border-top:0px;">
                     <center>
                         <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                        <button type="button" onclick="validatefordeim()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
+                        <button type="button" onclick="validatefordeim()" class="btn btn-default sub" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
                     </center>
                 </div>
             </div>
@@ -4173,7 +4220,7 @@ function Popup(data) {
                     <div id="footer" class="modal-footer" style="border-top:0px;">
                         <center>
                             <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                            <button type="button" onclick="validateforfood()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
+                            <button type="button" onclick="validateforfood()" class="btn btn-default sub" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
                         </center>
                     </div>
                 </div>
@@ -4287,7 +4334,7 @@ function Popup(data) {
                 <div id="footer" class="modal-footer" style="border-top:0px;">
                     <center>
                         <button id='cancel' type="reset" data-dismiss="modal" class="dismiss btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Cancel</button>
-                        <button type="button" onclick="validateforother()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
+                        <button type="button" onclick="validateforother()" class="btn btn-default sub" style="margin-top:10px;background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;color:white">Add</button>
                     </center>
                 </div>
             </div>

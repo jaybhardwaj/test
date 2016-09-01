@@ -2412,6 +2412,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
         };
        console.log(query);
         mysql(query, function(err, result) { 
+            console.log(err)
             callback(err, result);
         });
     },
