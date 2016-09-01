@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<% include ../partials/head %>
+<% include header.ejs %>
+ <% include ../partials/adminheader %>
+    <title>Raise Bug</title>
+
+
+ 
+        <style> 
+          /*  #titleg {
+                border-top-right-radius: 20px;
+                border-top-left-radius: 20px;
+            }*/
+            #raise {
+                border-radius: 10px;
+            }
+
+            .raiseBug{
+                padding-top:5px;
+                padding-bottom: 5px;
+
+            }
+        </style>
+
+    <div class="se-pre-con"></div>
+ 
+    <div class="secondry-color" style=" padding-top:1%;padding-bottom:2%"> 
+        <center>
+            <form onsubmit="return validateForm()" action="/addBug" method="post"  enctype="multipart/form-data" name="rbug" >
+
+                 <input type="text" name="flagNotification" class="hide" id="flagNotification" value=2 />
+            <input type="text" name="editNotification" class="hide" id="editNotification" value=0 />
+            <input type="text" name="moduleType" class="hide" id="moduleType" value='bug' />
+
+            
+                <div class="row" style="width:90%; ">
+                    <div class="col-md-3" style="height:100%;overflow-y:auto;max-height:433px">
+                        <center>
+                            <div class="main-box-raisebug box-size " style="width:auto; padding-bottom:2%;margin-top:4.5%;margin-bottom:5%;">
+                                <div class="row raiseBug" style="width:100%;height:auto;padding-top:5px;margin-left:-1px">
+                                    <div class="col-md-6">
+                                        <div style="width:100%;padding-top:11px;font-size:95%;margin-left:-39px"><b>Reported By</b></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4><span class="label label-info" style="padding-top:5%;padding-bottom:5%;font-size:57%"><b><%=user%></b></span></h4>
+                                    </div>
+                                </div>
+                                <div class="row raiseBug" style="  width:95%;height:auto;" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                       <div style="width:100%;"><label class="form-Label"> Project :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select onchange="Getalltech()" style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="project" id="proj" >
+                                            <option value="0">-select-</option>
+                                            <% for(var i=0;i<project.length;i++) { %>
+                   <option value="<%=project[i].id %>" <%if(bugSetting[0]==project[i].id){%>selected<%}%> >
+                                                    <%=project[i].projectTitle%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Status :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="status" id="status">
+                                            <option>New</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-6" style="" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Assinged To :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-6" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="assingedto" id="assingedto">
+                                          <!--    <option value="0">-Select-</option> -->  
+                                             <% for(var i=0;i<assingedto.length;i++) {  console.log(assingedto[i].id,"---------",bugSetting[1])  %>
+                                                     <option value="<%=assingedto[i].id%>" <%if(assingedto[i].id==bugSetting[1]){%>selected <%}%> >
+                                                    <%=assingedto[i].firstName %>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Priority :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="priority" id="priority">
+                                            <% for(var i=0;i<priority.length;i++) { %>
+                                                <option value="<%=priority[i].id %>" <%if(bugSetting[2]==priority[i].id){%>selected<%} else { if(priority[i].description1=="Medium" ){%>selected <%}}%>  >
+                                                        <%=priority[i].description1%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Severity :<sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="severity" id="severity">
+                                            <% for(var i=0;i<severity.length;i++) { %>
+                                                <option value="<%=severity[i].id %>"  <%if(bugSetting[3]==severity[i].id){%>  selected<%} else { if(severity[i].description1=="Medium" ){%>selected <%}}%>  >      <%=severity[i].description1%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Technology : <sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="technology" id="technology"> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Type : <sup class="astrick">*</sup></label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="type" id="type">
+                                            <% for(var i=0;i<type.length;i++) { %>
+                                                <option value="<%=type[i].id %>" <%if(bugSetting[5]==type[i].id){%>selected<%}%>>
+                                                    <%=type[i].description1%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div> 
+                                 <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-6" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Est. Effort :</label></div>
+                                    </div>
+                                    <div class="col-md-6" style="width:50%" align="right">
+                                        <input type="text" class="form-text-box" style="width:102%" name="estimatedEffort" placeholder="# Effort" maxlength="3">
+                                    </div>
+                                </div>
+
+                                 <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Actual Effort :  </label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <input type="text" class="form-text-box" style="width:102%" name="actualEffort" placeholder="# Effort" maxlength="3">
+                                    </div>
+                                </div>
+
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Detected By :</label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="detectedBy" id="detectedBy">
+                                           <option value="0">select</option> 
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                          <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-5" style="width:50%" align="left">
+                                        <div style="width:100%;"><label class="form-Label">Cycle :</label></div>
+                                    </div>
+                                    <div class="col-md-7" style="width:50%" align="right">
+                                        <select style="width:90px;font-size:85%;padding:3%;" class="form-text-box" name="cycle" id="cycle">
+                                          <option value="0">-select-</option>
+
+                                            <% for(var i=0;i<cycle.length;i++) { %>
+                                                <option value="<%=cycle[i].id %>" <%if(bugSetting[7]==cycle[i].id){%>selected<%}%>>
+                                                    <%=cycle[i].description1%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <hr style="max-width:100%;border-width:2px;border-color:#EDEDED">
+                                <div class="row raiseBug" style="width:95%;height:auto" align="left">
+                                    <div class="col-md-6" style="width:50%" align="left">
+                                        <div style="width:102%;"><label class="form-Label">Tentative Closure : </label></div>
+                                    </div>
+                                    <div class="col-md-6" style="width:50%;height:auto" align="right">
+                                        <input type="text" name="tentativeclouser" id="tentativeclouser" class="form-text-box" style="width:90px;font-size:85%;padding:3%;" placeholder="Select date ">
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                    <div class="col-md-9"  >
+                        <div style="padding-top:10px" id="">
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:100px"><label class="form-Label" style="padding-top: 8%;">Title :<sup class="astrick">*</sup></label></td>
+                                <td><input class="form-text-box" type="text" maxlength="75" name="titlebox" id="titlebox" style="width:100%" placeholder="Enter title/summary for new bug ... * "></td>
+                            </tr>
+                            <tr>
+                                <td><label class="form-Label" style="padding-top: 8%;">Linked Task :</label></td>
+                                <td><select style="width:100%;margin-top:1%" class="form-text-box" name="linkTo" id="linkTo">
+                             <option value="0">select</option>
+                             </select></td>
+                            </tr>
+                        </table> 
+                        </div>
+                        <div class="border-boxs" style="width:100%;padding-top:1%">
+                            <div style="width:100%">
+                                <textarea name="description" id="description"   rows="10"></textarea>
+                                 
+                            </div>
+                            <div class="row " style="padding-top:1%;padding-left:2.5%;" align="left">
+                            <div class="col-md-2">
+                                <i class="fa fa-file-image-o" aria-hidden="true" style="float: left"></i>
+                                Attach Files <b>(limit :10 mb)</b></div>
+                                <div class="col-md-4">
+                                    <input type="file" id="addBugUp" name="addBugUpload" class="upload" />
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-6" style="text-align:left">
+                                     <label style="padding-left:4%"><input type="checkbox" name="setting" id="setting" value="1"<%if(bugSetting[8]=='1'){%>checked="true"<%}%> />Remember Setting </label>
+                                     <input type="submit" class="btn" name="submit" id="raise" value="Raise Bug" style="margin-left:13%"> 
+                                </div>
+                               <div class="col-md-2"> 
+                               </div>
+                            </div>
+                             
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </center>
+    </div>
+
+<% include ../partials/footer%>
+
+
+    
+
+        <script>
+/*$(function() {
+    $( "#tentativeclouser" ).datepicker({ minDate: 0});
+  });
+  */
+        function validateForm() {
+            var titlebox = document.forms["rbug"]["titlebox"].value;
+            var editorContent = tinyMCE.get('description').getContent();
+          /*  var tentativeclouser = document.forms["rbug"]["tentativeclouser"].value;*/
+            var tech = document.forms["rbug"]["technology"].value;
+            var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+           // console.log("dsssssssf" + tech);
+
+            if (titlebox == null || titlebox == ""|| titlebox.trim().length<1) {
+                alert("Please provide valid title!");
+                return false;
+            }
+            
+            if (editorContent == '')
+            {
+                alert("Please provide valid description!");
+                return false;
+            }
+
+            if (!$( "#proj" ).val()) {
+                alert("No project exists! Please create a project first!");
+                return false;
+            }
+              if ($( "#proj" ).val()=="0") {
+                alert("Please select a project first!");
+                return false;
+            }
+            
+            if ($("#assingedto").val() == "0") {
+                alert("Select a user in Assigned to");
+                return false;
+            }    
+            
+
+            if ($("#technology").val() == "0") {
+                alert("Select a Technology");
+                return false;
+            }      
+           /* if (tech == "select") {
+                    alert("Please chose a Technology For this Bug");
+                return false;
+            }*/
+   /*         
+     if (tentativeclouser == null || tentativeclouser == "") {
+                alert("Please fill tentative Closure date!");
+                return false;
+            }
+*/
+            var input, file;
+            input = document.getElementById('addBugUp');
+            file = input.files[0];
+            var filename=$("#addBugUp").val();
+            var fileType=filename.split('.');
+            var fileType1=fileType[fileType.length-1];
+
+            if(editorContent.length >12000){
+                alert('Description length should not be more than 12000 characters');
+                return false;
+            }
+          
+            if(fileType1=='exe'||fileType1=='html'||fileType1=='ejs'){
+                alert("Error:exe , html , ejs file cannot be uploaded!");
+                return false;
+            }
+            if(file.size>10485760){
+                 alert("Error:File limit is 10 mb");
+                 return false ;
+            }
+          
+ 
+
+        }
+
+
+        $( document ).ready(function() {
+                    $('.se-pre-con').fadeOut('slow');
+
+             $('.raisebug-img').addClass('active');
+             var todate=new Date();
+            $("#tentativeclouser").datetimepicker({
+                 timepicker: false,
+                format: 'm/d/y',
+                 minDate:todate
+            });
+            Getalltech();
+
+
+
+        });
+
+
+  /*      $(function() {
+        //    $("#startdate").datepicker();
+            $("#tentativeclouser").datetimepicker();
+        });*/
+             
+        tinymce.init({ menubar:false,
+            selector: '#description',
+        });
+
+        function Getalltech(){
+           //  alert("in all tech success");          
+            var projId=$('#proj').val();
+            $.ajax({
+                url:'/getAlltech',
+                data:{'projectId':projId},
+                method: 'POST',
+                success: function(data) {
+                 //    alert("in all tech success");
+                     console.log("---------------data-----EJS---------","<%=bugSetting%>");
+                    if(data.length != 0){  
+                        //data=data[0];
+                        console.log(data)  ;
+                        $('#pStartDate').val(data[2].plannedStartDate);
+                        $('#pEndDate').val(data[2].plannedEndDate);
+                        $('#pEndDate').val();
+                        $('#technology').html('<option value=0>-Select-</option>');
+                        $('#assingedto').html('<option value=0>-Select-</option>');
+                        $('#detectedBy').html('<option value=0>-Select-</option>');
+
+                       //  $('#technology').append($("<option value=0>-Select-</option>");
+                      //  $('#assingedto').append($("<option value=0>-Select-</option>"); 
+                        var techs=false; 
+                        for(var i =0;i<data[0].length;i++){   
+                            if(data[0][i].id=='<%=bugSetting[4]%>'){
+                                    techs=true; 
+                                }
+                                else{
+                                    techs=false;
+                                }
+                            $('#technology')
+                            .append($("<option></option>")
+                            .attr("value",data[0][i].id).attr("selected",techs)             
+                            .text(data[0][i].description1));
+                                     
+                        }
+                        var asto=false; 
+                        for(var i =0;i<data[1].length;i++){   
+                             if(data[1][i].userId=='<%=bugSetting[1]%>'){
+                                    asto=true; 
+                                }
+                                else{
+                                    asto=false;
+                                }                         
+                            $('#assingedto')
+                            .append($("<option></option>")
+                            .attr("value",data[1][i].userId).attr("selected",asto)             
+                            .text(data[1][i].firstName));   
+                        }
+                         var dets=false; 
+                        for(var i =0;i<data[1].length;i++){   
+                            if(data[1][i].userId=='<%=bugSetting[6]%>'){
+                                    dets=true; 
+                                } 
+                                else{
+                                    dets=false;
+                                }
+                            $('#detectedBy')
+                            .append($("<option></option>")
+                            .attr("value",data[1][i].userId).attr("selected",dets)             
+                            .text(data[1][i].firstName));   
+                        } 
+                        $("#linkTo").html('');
+
+                       // <option value="0">select</option>';
+$('#linkTo').append($("<option></option>").attr("value",0)//.attr("selected",dets)       
+                            .text('Select task'));   
+
+                        for(var i =0;i<data[3].length;i++){    
+                            $('#linkTo')
+                            .append($("<option></option>")
+                            .attr("value",data[3][i].id)//.attr("selected",dets)             
+                            .text(data[3][i].name));   
+                        }
+                    }
+                },
+                dataType: 'JSON'
+            });
+        }
+
+        </script>
+
+        </body>
+        </html>
+

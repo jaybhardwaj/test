@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+    <style>
+   .user-list label select {
+    padding:0px;
+  }
+  .ms-drop ul > li label {
+    display: inline;
+  }
+  .user-list li label {
+    padding: 0px;
+  }
+  div .ui-multiselect-menu .ui-widget .ui-widget-content .ui-corner-all{
+  width: 310px !important;
+ }
+.ui-multiselect
+{
+  width:100% !important;
+      background-color: #FFFFFF !important;
+    margin-top: 15px !important;
+}
+  li > label > span{
+    margin-left: 4%;
+    font-size: 15px;
+    font-weight: 400;
+  }
+  div > button{
+    height:33px;
+  }
+  div > ul{
+    height:auto;
+  }
+  .sol-option{
+    margin-top: -7px !important;
+        margin-left: -37px;
+          padding-left: 10px!important;
+       
+  }
+  .sol-selection-container{
+    overflow-y: scroll;
+
+  }
+  .sol-label-text {
+    margin-top: -6px;
+    margin-left: 20px;
+}
+    .sol-checkbox{
+  margin-top: 0px !important;
+      margin-left: -18px!important;
+          left: 50px;
+    }
+
+        .marginAlign{
+            margin-top: 2%;
+        }
+        .form-table label {
+          display: inline-block;
+          margin: 0 0 -1px;
+          padding: 5%;
+          font-weight: 600;
+          text-align: center;
+          color: #524A4A;
+          border: 1px solid transparent;
+          font-size: 11px;
+      }
+    .modal-header {
+    min-height: 16.43px;
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+     background-color: #EAF7FF; 
+    height: 40px;
+    }
+    .sol-current-selection {
+    max-width: 150px;
+    padding: 0px 0;
+}
+    .sol-inner-container {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    height: 27px;
+    line-height: 30px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    position: relative;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    width: 90% !important;
+}
+.sol-container multiplebox sol-selection-top sol-active{
+  font-size: 10px;
+}
+    </style>
+</head>
+<body style="min-height:100px">
+  <div>
+    <% include ./partials/adminheader %>
+  </div>
+  <div class="container-fluid user-list  secondry-color"   style=" ">
+    <div class="modal-header" style="text-align:center">
+      <span class="modal-title">Provide user details</span>
+
+      <div class="hide" id="moreUser">
+  
+            <img  onclick="addEditUser(0,0)" style="float:right;margin-top:2%" title="Create More Users"  class="addNewPlus">
+
+         <span id="editNextUser" class="glyphicon glyphicon-chevron-right" onclick="addEditUser($('#hdnIdUser').val(),1,$('input:radio[name=tabs]:checked').val())" style="float:right;margin-right:2%;margin-top:2.5%" title="Edit next user" ></span>
+
+        <span id="editPreviousUser" class="glyphicon glyphicon-chevron-left" onclick="addEditUser($('#hdnIdUser').val(),0,$('input:radio[name=tabs]:checked').val())" style="float:right;margin-right:2%;margin-top:2.5%" title="Edit previous user" ></span>
+
+
+     </div>
+    </div>
+
+   <main> 
+      <input type="hidden" id="hdnId" name="hdnUserId" value="0"> 
+
+      <input type="hidden" id="hdnIdUser" name="hdnIdUser" value="0"> 
+
+      <input id="tab1" class="tabradio" type="radio" name="tabs"  value="1" checked>
+      <label for="tab1">Basic Details</label>
+      <input id="tab5" class="tabradio" type="radio" value="2"  name="tabs"> 
+      <label for="tab5" class="tabradioRole hide">Role</label> 
+        <input id="tab2" class="tabradio" type="radio" name="tabs" value="3" >
+        <label for="tab2">Finance</label> 
+        <input id="tab3" class="tabradio" type="radio" name="tabs" value="4" >
+        <label for="tab3">HR</label> 
+        <input id="tab4" class="tabradio" type="radio" name="tabs" value="5" >
+        <span style="float:right;margin-right:3%;margin-top:20px" id="spnName"></span>
+        <section id="content1">
+
+
+        <table class="table form-table" style="padding-bottom: 1%">
+          <tr>
+
+            <td>
+              <td><label class="form-Label">First Name:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="30" class="form-text-box" id="first-name"   name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> </td>
+      
+            <td>
+              <td><label class="form-Label">Last Name:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="20"   class="form-text-box" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" /></td>
+      
+            <td>
+              <td><label class="form-Label">Email:<sup  class="astrick">*</sup></label></td>
+              <td><input type="email" maxlength="150"   class="form-text-box" id="emailId" name="emailId" placeholder="abc@mydomain.com" /> </td>
+      
+            <td>
+              <td><label class="form-Label">Contact Number: </label></td>
+              <td><input type="number" maxlength="10"  class="form-text-box" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="contact-number" name="contact-number" placeholder="Contact Number" /></td>
+      
+          </tr>
+          <tr>
+            <td>
+              <td><label class="form-Label">Employee Code:<sup  class="astrick">*</sup></label></td>
+              <td><input type="text" maxlength="20"   class="form-text-box" id="ecode" name="ecode" placeholder="Employee Code" /></td>
+      
+            <td>
+              <td><label class="form-Label">Designation: </label></td>
+              <td><select class="form-text-box"   id='designation' name="designation"  >
+                <option value="0">Select Department</option>
+                  <%for(var i=0;i<department.length;i++){%>
+                <option value="<%=department[i].id%>">
+                   <%=department[i].description1%>
+                </option>
+                <%}%>
+              </select> 
+        
+            </td>
+            <td>
+              <td><label class="form-Label">Level:</label></td>
+              <td> <select class="form-text-box"   id='level' name="level"  >
+                <option value="0">Select Level</option>
+                <%for(var i=0;i<level.length;i++){%>
+                <option value="<%=level[i].id%>">
+                <%=level[i].description1%>
+                </option>
+                <%}%>
+              </select> </td>
+      
+            <td>
+              <td><label class="form-Label">Reporting To : </label></td>
+              <td> <select class="form-text-box"   id='manager' name="manager" style="width:164px !important;">
+                <option value='0' >--Select Supervisor--</option>
+                <%for(var i=0;i<report.length;i++){%>
+                <option value="<%=report[i].id%>">
+                <%=report[i].Name%>
+                </option>
+                <%}%>
+              </select></td>
+      
+          </tr>
+          <tr>
+          
+            <td  >
+              <td  ><label class="form-Label">Modules:<sup  class="astrick">*</sup></label></td>
+              <td  >
+              <select multiple = "multiple" class="multiplebox" name="modules" id="modules" style="" maxlength="50">
+                <%for(var i=0;i<modules.length;i++){ %>
+                <option value="<%=modules[i].id%>" 
+                  <%if(editflag==1){if(modules[i].id==userModule[i].moduleId){%> selected <%}}%> > 
+                  <%=modules[i].Name%>
+                </option>
+                <%}%>
+              </select>  
+              </td>
+              </td>
+            <td  >
+              <td  ><label class="form-Label">Default Module: </label></td>
+              <td  >  <select class="form-text-box"   id='default-module' name="defmod" >
+               <option>No Module Solelected</option>
+                </select> 
+               </td> 
+ </td>
+            <td>
+              <td><label class="form-Label">Role:<sup  class="astrick">*</sup></label></td>
+              <td><select class="form-text-box"   id='user-role' name="user-role"  >
+                <%for(var i=0;i<role.length;i++){%>
+                <%if(role[i].id==1||role[i].id==2||role[i].id==4||role[i].id==5){%>
+                <option value="<%=role[i].id%>"<%if(role[i].id==2){%>selected<%}%>>
+                  <%=role[i].roleName%>
+                </option>
+                  <%}}%>
+              </select> </td>
+      
+            <td>
+              <td> </td>
+              <td> </td>
+            </td>
+          </tr>
+           <tr>
+            <td></td><td></td><td></td><td></td> 
+           <td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td> 
+          </tr>
+        </table>
+        <center style="padding-bottom: 1%">
+          
+              <a href="/users">
+                 <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important">
+              </a>
+             
+             <button class="btn btn-primary" onclick="validBasicInfo1()" id="create-user">Submit</button>
+             
+             <input type="button"  value="Next"  onclick="changeTab(5)" class="btn btn-primary" style="background-color: #f05f40 !important;">
+            
+        </center>
+ 
+        </section>
+
+        <section id="content2">
+        <div class="row form-table" >
+           <div class="col-md-4">
+            <div class="col-md-6 " style="margin-top:-1%;"> <label style="margin-left:35%" >Resource Type :</label> </div>
+            <div class="col-md-6"> 
+              <select class="form-text-box" style="" id='isbill' name="isbill" style="width:200px !important;;">
+                <option value=0>Not Billable</option>
+                <option value=1>Is Billable</option>
+                
+              </select>  
+            </div>
+          </div>
+          <div class="col-md-4 a" id="billRate" style="margin-top: -0.4%">
+            <div class="col-md-6"> <label style="">Billable Rate :<sup style="color:red;">*</sup></label> </div>
+            <div class="col-md-6" style="margin-left: -12%;margin-top:1%"> <input type="number" min="1" maxlength="7" style="" class="form-text-box " placeholder="enter bill rate" id="billrate" name="billrate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeypress=" return checkBillrate(event)" /> </div>
+          </div> 
+        </div>
+        
+          <center style="padding-bottom: 1%;    margin-top: 2%;">
+           <button class="btn btn-primary" onclick="validFinance()">Save</button>
+          <input type="button"  value="Next"  onclick="changeTab(3)" class="btn btn-primary" style="background-color: #f05f40 !important;">
+           </center>
+     
+      </section>
+        <section id="content3">
+        <table class="table form-table">
+          <tr>
+            <td><label class="form-Label">Date of Joining:<sup  class="astrick">*</sup></label></td>
+            <td> <input name="doj" placeholder="MM/DD/YYYY"  class="form-text-box date" id="doj" readonly="true" ></td>
+            <td><label class="form-Label">Date of Confirmation:</label></td>
+            <td><input   placeholder="MM/DD/YYYY" class="form-text-box date" id="doc" name="doc" readonly="true" ></td>
+            <td> <label class="form-Label">Date of Birth:</label></td>
+            <td><input    placeholder="MM/DD/YYYY" class="form-text-box date" id="dob" name="dob"  readonly="true"></td>
+          </tr> 
+        </table>
+         <center>
+             <button class="btn btn-primary" style="margin-bottom:1%" onclick="validHr()">Save</button> </center> 
+     
+       
+        </section>
+
+
+        <section id="content5">        
+          <%for(var j=0;j<modules.length;j++){%>
+         
+                <%if(modules[j].Name=="Expense" ){%>
+                 <div class="row form-table hide" id="ExpenseDiv">
+                   <div class="col-md-4 ">
+                   <label style="margin-top:-3%;margin-left: 40%;">Approver(<%=modules[j].Name%>) :</label>
+                   </div>
+                    <div class="col-md-2 ">
+                    <select class="form-text-box" style="" id='expense' name="role1"><option value='0'>No</option> 
+                    <option value='1'>Yes</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2 ">
+                      <input type="number" maxlength="10" class="form-text-box" style=" " class="form-text-box" id="inNum" name="inNum" placeholder="Approve Limit" onkeypress="return specialCharacter(event)" /> 
+                </div>
+              </div>
+                  <%}%>
+
+                  <%if(modules[j].Name=="Time"){%>
+                   <div class="row form-table hide" id="TimeDiv">
+                      <div class="col-md-4 ">
+                         <label style="margin-top:-3%;margin-left: 40%;">Supervisor(<%=modules[j].Name%>) :</label>
+                       </div>
+                       <div class="col-md-2 ">
+                          <select class="form-text-box" style=" " id='time' name="role1" style=" "> <option value=0>No</option>
+                              <option value=1>Yes</option>
+                                              
+                          </select>
+                       </div>
+                    </div> 
+
+                    <%}%>
+
+                     <%if(modules[j].Name=="Asset"){%>
+                   <div class="row form-table hide" id="AssetDiv">
+                      <div class="col-md-4 ">
+                         <label style="margin-top:-3%;margin-left: 40%;">Role(<%=modules[j].Name%>) :</label>
+                       </div>
+                       <div class="col-md-2 ">
+                          <select class="form-text-box" style=" " id='AssetID' name="Assetrole" style=" "> 
+                            <option value=0>User</option>
+                              <option value=1>Admin</option>
+                                              
+                          </select>
+                       </div>
+                    </div> 
+
+                    <%}%>
+
+
+                   <% if(modules[j].Name=="Document" ){%>
+                <div class="row form-table hide" id="DocumentDiv"> 
+                   <div class="col-md-4 ">
+                    <label style="margin-top:-3%;margin-left: 40%;">custom Role(<%=modules[j].Name%>) :</label> 
+                   </div>
+                   <div class="col-md-2 ">
+                           <div id ="customeRoleDiv">
+                          <select class="form-text-box"  style="" id='crole' name="crole">
+                            <option selected="true" value="0">---  Select ---</option>
+                           <%for(var k=0;k<customRole[0].length;k++){%> 
+                            <option id="<%=customRole[0][k].id%>" value="<%=customRole[0][k].id%>"> <%=customRole[0][k].description%></option>
+                           <%}%> 
+                          </select>
+                          </div>
+                   </div>
+                </div>   
+                <%}%>
+
+               
+                <%if(modules[j].Name=="RMS"){%>
+                <div class="row form-table hide" id="RMSDiv"> 
+                    <div class="col-md-4 ">
+                        <label style="margin-top:-3%;margin-left: 40%;">Recruitment Roles(<%=modules[j].Name%>) :</label> 
+                    </div>
+                    <div class="col-md-2 ">
+                       <select class="multiplebox"  multiple="multiple" id='hrRole' name="crole"> 
+                       <%for(var k=0;k<hrRole.length;k++){%> 
+                        <option id="<%=hrRole[k].id%>" value="<%=hrRole[k].id%>"> <%=hrRole[k].roleName%></option>
+                       <%}%> 
+                      </select>
+                    </div>
+
+ <script type="text/javascript">
+   $("#hrRole").val([<%console.log("allUserHr",userHrRoles); if (editflag) { for(var i=0;i<userHrRoles.length;i++){ %>"<%=userHrRoles[i].hrRoleId%>",<%}}%>]).prop("selected", false); 
+</script>
+
+                    <div class="col-md-2 a">
+                          <select class="form-text-box"  style="" id='hodList' name="hodList" style="">
+                              <option selected="true" value="0">Select Hod</option>
+                            <%for(var i=0;i<allHod.length;i++){%>
+                              <option value="<%=allHod[i].id%>"><%=allHod[i].hodName%></option>  
+                              <%}%>              
+                          </select>
+                    </div>
+                </div>
+                <%}%>
+           
+                <%}%>
+            
+            <div class="modal-footer" style="border-top:0px;">
+              <center> <button type="button" id="btnuser" class="btn btn-primary"  onclick="validRole();">Save</button>
+              <input type="button"  value="Next"  onclick="changeTab(2)" class="btn btn-primary" style="background-color: #f05f40 !important;"> 
+              </center>
+            </div>
+          </section>
+        </main>
+      </div>
+      <footer>
+        <% include ./partials/footer %>
+      </footer>
+
+
+<script>
+var levelVar;
+var subFlag=0; 
+var aaa,temp1=0; 
+var pressButton=0;
+var users; 
+  var imparray = ["Bug","Time","Expense","Asset",'Project',"Document","RMS"];
+
+  function addEditUser(flag,flag12,tab1) {
+
+            var form = document.createElement("form");
+            if(flag==0) {form.action = '/createEditUser';}
+            else {form.action = '/next_prev_user';}
+            form.method = "POST";
+            form.style = "display: none";
+            var hdnId = document.createElement("input");
+            hdnId.type = "hidden";
+            hdnId.name = "hdnId";
+            hdnId.value = flag;
+            form.appendChild(hdnId);
+            if(flag !=0){
+              var flag1 = document.createElement("input");
+              flag1.type = "hidden";
+              flag1.name = "flag1";
+              flag1.value = flag12;
+              form.appendChild(flag1);
+
+              var tab = document.createElement("input");
+              tab.type = "hidden";
+              tab.name = "tab";
+              tab.value = tab1;
+              form.appendChild(tab);
+            }
+            
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+
+
+function getDefaultModule(){
+            var valueModules=$("#modules").val();
+            var a=[0,0,0,0,0];
+            if(!!valueModules)
+            for(i=0,length=valueModules.length;i<length;i++){
+              if(valueModules[i]=='2'){
+                $("#content5").removeClass("hide");
+                $(".tabradioRole").removeClass('hide');
+                $("#TimeDiv").removeClass('hide');
+                a[0]=1;
+              }
+              else  if(valueModules[i]=='3'){
+              $("#content5").removeClass("hide");
+                $(".tabradioRole").removeClass('hide');
+              $("#ExpenseDiv").removeClass('hide');
+                a[1]=1;
+              }
+              else  if(valueModules[i]=='6'){
+               $("#content5").removeClass("hide");
+               $(".tabradioRole").removeClass('hide');
+              $("#DocumentDiv").removeClass('hide');
+                a[2]=1;
+              }
+              else  if(valueModules[i]=='7'){
+                $("#content5").removeClass("hide");
+                $(".tabradioRole").removeClass('hide');
+               $("#RMSDiv").removeClass('hide');
+                a[3]=1;
+              }
+
+                    else  if(valueModules[i]=='4'){
+                $("#content5").removeClass("hide");
+                $(".tabradioRole").removeClass('hide');
+               $("#AssetDiv").removeClass('hide');
+                a[4]=1;
+              }
+
+
+            }
+            if(a[0]==0){
+               $("#TimeDiv").addClass('hide');
+            }
+            if(a[1]==0){
+               $("#ExpenseDiv").addClass('hide');
+            }
+            if(a[2]==0){
+               $("#DocumentDiv").addClass('hide');
+            }
+            if(a[3]==0){
+               $("#RMSDiv").addClass('hide');
+            } 
+                 if(a[4]==0){
+               $("#AssetDiv").addClass('hide');
+            } 
+
+            if( $("#AssetDiv").hasClass('hide') && $("#TimeDiv").hasClass('hide') && $("#ExpenseDiv").hasClass('hide') && $("#DocumentDiv").hasClass('hide') && $("#RMSDiv").hasClass('hide')){
+              $(".tabradioRole").addClass("hide");
+              $("#content5").addClass("hide");
+ 
+                
+            }
+                  var newArr=$('#modules').val();  
+                 var stringType ;
+                 var i=0;
+                 console.log(newArr);
+                 if(newArr!=null)
+                 for(i in newArr){
+                        var a= newArr[i];
+                        var b=imparray[a-1];
+                        stringType=stringType+'<option value='+a+'>'+b+'</option>';
+                        i++;
+                 }
+                 $('#default-module').html(stringType);
+}
+
+  $(document).ready(function(){
+ 
+     $("#hrRole").searchableOptionList();
+     $("#hrRole").change(function(){            
+            showHod();
+    });
+
+       var hrArr1=$('#hrRole').val();   
+        if(hrArr1!=null&&hrArr1.indexOf("3")>-1)  {  
+         $('#hodList').show();                
+        }
+        else{     
+           $('#hodList').hide();   
+        }
+
+        //alert('<%=tab%>');
+    
+        if(<%=tab%> ==1){$('#tab1').click();}
+        else if(<%=tab%> ==2){$('#tab5').click();}
+        else if(<%=tab%> ==3){$('#tab2').click();}
+        else if(<%=tab%> ==4){$('#tab3').click();}
+        else{$('#tab4').click();}
+    
+
+        setTimeout(function(){  var aaa=$('#inNum').val();
+        
+          if(aaa==0){
+            $('#expense').val(0);
+            $('#inNum').removeClass('show');
+            $('#inNum').addClass('hide');
+          }
+          },100);
+      
+
+    
+       $('#manager').tagger({
+        baseURL: '../img/'
+      , tabindexOffset: 400
+      , fieldWidth: null
+      });
+    
+
+
+          $('#isbill').on('change',function(){
+              if( $(this).val()==="1"){               
+                $("#billRate").removeClass("hide");
+                $("#billRate").addClass("show");
+              } 
+              else
+              {
+                $("#billRate").hide();
+               }
+    });
+    <%if(editflag==0){%>
+            $('#billRate').addClass("hide");
+            $('#inNum').addClass("hide");
+            $("#doj").datetimepicker({format: "m/d/y",timepicker:false,scrollMouse:false,scrollInput:false});
+            $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date(),scrollMouse:false,scrollInput:false});
+            $("#doc").datetimepicker({format: "m/d/y",timepicker:false,scrollMouse:false,scrollInput:false}); 
+            $('#editNextUser').addClass('hide');
+            $('#editPreviousUser').addClass('hide');
+    <%}%>
+    $("#modules").change(function(){            
+            getDefaultModule();
+    }); 
+
+    <%if(editflag!=0){%>  
+          getDefaultModule();
+        <% if(typeof(customRole[1][0]) !='undefined'){%>
+            $("#crole").val('<%=customRole[1][0].id%>');
+        <%}%>
+        setTimeout(function(){
+             
+              var a=new Date($("#doj").val());
+              var mm=a.getMonth();
+              var mm=mm+1;
+              var dd=a.getDate();
+              var yy=a.getFullYear();
+              if($("#doj").val()==''){
+                  var p ='01/01/1900';
+              }
+              else
+                  var p=mm+'/'+dd+'/'+yy;
+              var j=new Date(p);
+              $("#doj").datetimepicker({format: "m/d/y",timepicker:false,scrollMouse:false,scrollInput:false});
+              $("#dob").datetimepicker({format: "m/d/y",timepicker:false,maxDate:new Date(),scrollMouse:false,scrollInput:false});
+              $("#doc").datetimepicker({format: "m/d/y",timepicker:false,minDate:j,scrollMouse:false,scrollInput:false}); 
+        },100);
+    <%}%>
+
+
+    
+    $('#isbill').on('change',function(){
+                    if($('#isbill').val()==1){ 
+                    $('#billRate').removeClass("hide");
+                    $('#billRate').addClass("show");
+                        
+              } 
+               if($('#isbill').val()==0){ 
+                    $('#billRate').removeClass("show");
+                    $('#billRate').addClass("hide");
+                        }
+        });
+     $('#expense').on('change',function(){           
+          if( $(this).val()==1){
+             $("#inNum").removeClass("hide");
+             $("#inNum").addClass("show");
+          } else
+          {
+            $("#inNum").removeClass("show");
+            $("#inNum").addClass("hide");
+          }
+
+    });
+        $('.user-img').addClass('active');
+        $("#modules").searchableOptionList();
+         
+        if (<%=editflag%>) {
+            users = <%-JSON.stringify(users)%>;
+            var i = 0;
+
+            $("#first-name").val(users[i].firstName);
+            $("#last-name").val(users[i].lastName);
+            $("#emailId").val(users[i].userEmail);
+            $("#contact-number").val(users[i].contactNumber);
+            $('#billing-rate').val(users[i].billingAmount);
+            $('#isClient').val(users[i].isClient);
+            $('#hodList').val(users[i].hodId);
+            $('#clientId').val(users[i].clientId);
+            $('#custom-role').val(users[i].managerId);
+            $('#isbill').val(users[i].isBillable);
+            $('#billrate').val(users[i].billingAmount);
+            $('#expense').val(users[i].isApproval);
+            $('#inNum').val(users[i].approveLimit);
+            $('#doj').val(users[i].doj);
+            $('#dob').val(users[i].dob);
+            $('#doc').val(users[i].doc);
+            $('#rtype').val(users[i].rtype);
+            $('#ecode').val(users[i].ecode);
+            $('#default-module').val(users[i].defaultModuleId);
+            $("#user-role").val(users[i].roleId);
+            $("#create-user").text('Save');  
+            $('#hdnIdUser').val(<%=editflag%>);
+            $('#AssetID').val(users[i].assetRole);
+            var nametoshow='Name :'+ (users[i].firstName ||'')+' '+(users[i].lastName ||' ')+'('+(users[i].ecode||'')+')';
+            $("#spnName").html(nametoshow);
+           /* console.log(users);
+              if(users[i].isRetailer==1){
+               
+              $('.retailerEdit').hide();
+            }*/
+            //console.log(i,'--------',users[i].id);
+            //alert('hidden user id value-------'+$("#hdnIdUser").val());
+            //console.log($("#hdnIdUser").val());
+
+ $('#time').val(users[i].timeApproval);
+              if(users[i].isApproval)
+       {
+  
+             $("#inNum").removeClass("hide");
+             $("#inNum").addClass("show");
+       } 
+       else{
+                        $("#inNum").removeClass("show");
+                        $("#inNum").addClass("hide");
+       }
+       if(users[i].isBillable)
+       {
+                    $('#billRate').removeClass("hide");
+                    $('#billRate').addClass("show");
+               
+       } 
+      else{
+
+                    $('#billRate').removeClass("show");
+                    $('#billRate').addClass("hide");
+                  
+          }
+     if($('#isbill').val()==0){ 
+
+              $('#billrate').val('');
+                  }
+        }
+        $("#hdnId").val(<%=editflag%>);
+      
+        
+      if($('#clientId').val()==0){
+        $('#isClient').val(0);
+         $('#clientId').hide();
+      } 
+
+     /* if($('#hrRole').val().indexOf(3)==1){
+        $('#hodList').val(0);
+         $('#hodList').hide();
+      }  */
+    if($('#billrate').val()==""){
+      $('#billRate').removeClass('show');
+        $('#billRate').hide();
+        $('#isbill').val(0);
+       
+      } 
+
+    if($('#hdnId').val() != 0){
+                 $('#moreUser').removeClass('hide');
+               }
+
+
+
+    });
+    function specialCharacter(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("This special character or number is not allowed\n ");
+            return false;
+        }
+        return true;
+    }
+      function checkBillrate(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
+            alert("Error:This special character is not allowed \n");
+            return false;
+        }
+        return true;
+    }
+    function changeTab(prevOrNext) {
+              $("#tab" + prevOrNext).click();
+             }
+
+
+    function showClient(){
+      if($('#isClient').val()==1){
+       
+        $('#clientId').show();                
+        }
+        else{                  
+           $('#clientId').hide();   
+        }
+    }
+
+    function showHod(){
+      console.log($('#hrRole').val())
+    var hrArr=$('#hrRole').val();
+   
+    if(hrArr!=null&&hrArr.indexOf("3")>-1)  {   
+         $('#hodList').show();                
+        }
+        else{                  
+           $('#hodList').hide();   
+        }
+    }
+
+    function resetUserForm() {
+        $("#tab1").click();
+        $(".modal input, textarea").val("");
+        $(".modal select").val(0);
+        $('input[type="radio":checked]').each(function() {
+            $(this).checked = false;
+        });
+        $("#btnuser").text('Create User');
+        $("#hdnId").val('0');
+    }
+      check= checkFinal();
+      function validBasicInfo1() {
+        pressButton=1;
+        return validBasicInfo();
+      }
+      function validBasicInfo() { 
+             var retailerInfo = <%-JSON.stringify(retailerInfo[0].emailId)%>;
+             var validEmailAccRetailer= retailerInfo.substring(retailerInfo.indexOf('@')+1);
+             var userEmail=$('#emailId').val().trim();
+             var validUserEmail=userEmail.substring(userEmail.indexOf('@')+1);
+             if($("#first-name").val().trim()=='') {
+                if(pressButton==2 || pressButton==4 || pressButton==3){
+                  alert("In Basic details: first-name required !");
+                    return false;
+                }
+                alert('First Name is required !');
+                return false;
+            }
+            if ($("#last-name").val().trim() == '') {
+
+              if(pressButton==2 || pressButton==4|| pressButton==3){
+                alert("In Basic details: last-name required !");
+                  return false;
+                }
+                alert('Last Name is required');
+                return false;
+            }
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+            var numreg = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
+
+            if ($("#emailId").val().trim() == '' || !(re.test($("#emailId").val()))) {
+
+              if(pressButton==2 || pressButton==4|| pressButton==3 ){
+                    alert("In Basic details: Valid email id is required !");
+                    return false;
+              }
+              alert('Valid email id is required.');
+              return false;
+
+            }
+             if (validEmailAccRetailer != validUserEmail) {
+                  if(pressButton==2 || pressButton==4|| pressButton==3 ){
+                    alert("In Basic details: Valid email id is required !");
+                    return false;
+                  }
+                  else{ 
+                    alert('Email Id Should be of type @'+validEmailAccRetailer);
+                    return false;
+                }
+            }
+
+
+            var cno=$('#contact-number').val();
+            if( ($('#contact-number').val().trim()!='') &&(cno.length<10||cno.length>12||isNaN(cno)||cno.trim().length<1)) 
+            {   if(pressButton==2 || pressButton==4|| pressButton==3){
+              alert("In Basic details:Enter valid Contact number !");
+            return false;}
+                alert("Enter valid Contact number!");    
+              return false;
+            }
+            if ($("#ecode").val().trim() == '') {
+              if(pressButton==2 || pressButton==4|| pressButton==3){
+                alert("In Basic details:Employee code is required !");
+                 return false;
+              }else{
+                alert('Employee code is required !');
+                return false;
+              }  
+            }
+           
+           var str= $("#ecode").val().trim();     
+           var Exp = /((^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i;
+
+             if(!$('#modules').val())
+            {
+              if(pressButton==2 || pressButton==4|| pressButton==3){
+                alert("In Basic details:Please select Modules !");
+            return false;
+          }
+              alert('Please select Modules !');
+              return false;
+            }
+           check=checkFinal();
+           if(($("#hdnId").val()==0)&&(check)){
+              if(pressButton==1){addUser(1);}
+              else {return true;}
+            }
+            else{
+             if((pressButton==1)&&(check)){addUser(0);}
+              else {return true;}
+            }
+    }
+    function checkFinal(){
+             if(($("#hrRole").val()=='3') &&( $("#hodList").val()=='0') && ($('#modules').val().indexOf("7")>=0)){
+                alert('Error:In Role Details ,HOD is required');
+                return false;
+            }
+            else if(($("#expense").val()=='1') && ($("#inNum").val()=='') && ($('#modules').val().indexOf("3")>=0)){
+                 alert('Error:In Role Details , Expense limit is required');
+                return false;
+            }
+            else if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
+                alert('Error:In Role Details , Expense limit should be greated than 0');
+                return false;
+              } 
+            else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)&& ($('#modules').val().indexOf("2")>=0)){
+                    alert('Error:Enter Billrate greater than zero');
+                    return false;
+            }
+            else  if(($('#isbill').val()==1)&&($('#billrate').val()==0)){
+                    alert('Error:Enter Billrate greater than zero');
+                    return false;
+            }
+            else if(($('#doj').val()=='')&&($('#doc').val()!='')){
+                    alert("Error:In HR Details ,Please Enter Date of joining");
+                    return false;
+            
+            }           
+            else if(new Date($('#doj').val())>new Date($('#doc').val())){
+                  alert("Error:In HR Details ,Date of joining should note be greater then Date of confirmation");
+                  return false;
+            }
+            return true ;
+  }
+ function validRole(){ 
+          pressButton=4;  
+          subFlag=0;
+          var abc=validBasicInfo();
+          if((abc)&&(check)){
+              if($("#expense").val()=='1' && $("#inNum").val()==''){
+                alert('Error:Expense limit is required');
+                return false;
+              }
+              if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
+                alert('Error:Expense limit should be greated than 0');
+                return false;
+              }
+                if(($("#isClient").val()=='1') && ($("#clientId").val()=='0')&&($('#modules').val().indexOf("2")>=0)){
+                alert('Error:Client is required');
+                return false;
+              }
+               
+               if($("#hrRole").val()&&  ($("#hrRole").val().indexOf('3')>-1) && ($("#hodList").val()=='0')&&($('#modules').val().indexOf("7")>=0)){
+                alert('Error:HOD is required');
+                return false;
+              }  
+              return addUser(0);
+          } 
+      }
+
+      function validFinance(){
+              subFlag=0;
+              pressButton=2;
+              var abc=validBasicInfo();
+              if((abc)&&(check)){
+                   if($('#isbill').val()==1){
+                    
+                      if($('#billrate').val().length<1){
+                      alert('Error : please specify Billable Rate');
+                      return false;
+                      }
+              }
+            return addUser(0);
+            }
+
+      }
+
+
+     function validHr(){
+      pressButton=3;
+      var abc=validBasicInfo();
+      subFlag=100;
+      var text = $('#doj').val();
+      var comp = text.split('/');
+      var d = parseInt(comp[0], 10);
+      var m = parseInt(comp[1], 10);
+      var y = parseInt(comp[2], 10);
+      var date = new Date(y,m-1,d);
+      if((abc)&&(check)){
+     
+      var text = $('#doc').val();
+      var comp = text.split('/');
+      var d = parseInt(comp[0], 10);
+      var m = parseInt(comp[1], 10);
+      var y = parseInt(comp[2], 10);
+      var date = new Date(y,m-1,d);
+    
+      if($('#doj').val()==''){
+        alert("Error :please enter Date of joining ");
+        return false;
+      }
+      if(new Date($('#doj').val())>new Date($('#doc').val())){
+         subFlag=2;
+         alert("'Error :Date of joining should note be greater then Date of confirmation");
+         return false;
+      }
+        addUser(0);
+    }
+       
+      }
+    function addUser(temp) {
+ 
+      if($('#modules').val().indexOf("2")<0){
+          $("#time").val('0');
+      }  
+      if($('#modules').val().indexOf("3")<0){
+         $("#expense").val('0');
+          $("#inNum").val('0');
+      }
+      if($('#modules').val().indexOf("6")<0){
+        $("#crole").val('0');
+      }
+      if($('#modules').val().indexOf("7")<0){
+        $("#hrRole").val('0');
+        $("#hodList").val('0');
+        $("#hodList").addClass('hide');
+      }
+      var modules=$('#modules').val().toString();
+      
+      var hrRoleString='';
+      if($('#hrRole').val()){
+        hrRoleString=$('#hrRole').val().toString();
+    }
+    assetRole=$("#AssetID").val();
+         $.ajax({
+            url: '/addUser',
+            method: 'POST',
+            data: {
+                "firstName": $("#first-name").val(),
+                "lastName": $("#last-name").val(),
+                "emailId": $("#emailId").val(),  
+                "contactNumber": $("#contact-number").val(),
+                "isbill": $('#isbill').val(),
+                "billingRate": $('#billrate').val(),
+                "expense": $('#expense').val(),
+                "inNum": $('#inNum').val(),
+                "userRole": $("#user-role").val(),
+                "manager": $('#manager').val(),                        
+                "defaultModule": $('#default-module').val(),
+                "customRole": $('#custom-role').val(),
+                "hdnUserId": $("#hdnId").val(),
+                "ecode": $("#ecode").val(),
+                "designation": $("#designation").val(),
+                "level": $("#level").val(),
+                'modules':modules,
+                'isClient':$('#isClient').val(),
+                'clientId':$('#clientId').val(),
+                'hodId':$('#hodList').val(),
+                "doj":$('#doj').val(),
+                "dob":$('#dob').val(),
+                "doc":$('#doc').val(),
+                "rtype":$('#rtype').val(),
+                "crole":$('#crole').val(),
+                "timesheet":$('#time').val(),
+                "hrRole":hrRoleString,
+                "assetrole":assetRole
+            },
+            success: function(data) {
+              if(data[0][0].uid >0 )
+              {
+                 $("#hdnId").val(data[0][0].uid); 
+              }
+              else
+              {
+                if($("#hdnId").val()<=0)
+                $("#hdnId").val( <%=editflag%>); 
+              }
+                  if(data[0][0].flag==2){
+                    alert("Employee Code already exist! Please enter different Empolyee Code");                    
+                    return false;
+                  }
+                  
+                  else if (data[0][0].flag == 3) {
+                    alert('EmailId is already exist.Please register again with different email id.');
+                    return false;
+                }
+                else if(data[0][0].flag == 0){
+                    alert("User added successfully. Mail is sent on registered emailId.");
+                    if(subFlag==100){
+                      window.location.href="/users";
+                    }
+                  }
+                else if (data[0][0].flag == 1) {
+                      alert("User updated successfully.");
+                     if(subFlag==100){
+                    window.location.href="/users";
+                  }
+                 }
+                 if(data[0][0].flag == 0){
+                 $('#moreUser').removeClass('hide');
+               }
+               
+            },
+            dataType: 'JSON',
+        });
+  
+    }
+            if(<%=editflag%>){
+              <%console.log("m modules",userModule);%>
+            var newUser=<%-JSON.stringify(users)%>;
+            $("#modules").val([<%for(var i=0;i<userModule.length;i++){%>"<%=userModule[i].moduleId%>",<%}%>]).prop("selected", false); 
+            $("#level").val(newUser[0].level).prop("selected", false);
+            $("#manager").val(newUser[0].managerId).prop("selected", false);
+            $("#designation").val(newUser[0].designation).prop("selected", false);
+
+      }
+                
+          
+</script>
+
+  </body>
+
+</html>
+
+

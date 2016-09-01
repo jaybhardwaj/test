@@ -1,0 +1,736 @@
+<% include ../partials/head %>  
+    <% include ../partials/adminheader %>
+
+    <title>All Requisition</title>
+<style>
+.disabled1
+{
+    display: none !important;
+}
+    .dataTables_filter {
+     display: none;
+    }
+
+        thead th {
+            text-align: center;
+            background-color: #7FCEE6;
+            color: #4D4E50;
+        }
+        
+        td {
+            text-align: center;
+        }
+
+          .detailLabelTitle {
+            background-color: none;
+            color: #f05f40;
+            font-size: 14px;
+            font-weight: 2px;
+        }
+        
+        .detailLabelContent {
+            background-color: none;
+            color: black;
+            font-size: 12px;
+             
+        }
+           .col-md-4{
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+    </style>
+      <!---------------------------------View Detail modal box -------------------------------------->
+      <div class="modal fade" id="jdDetailModal" role="dialog">
+            <div class="modal-dialog modal-lg" style="">
+                <div class="modal-content" style=" ">
+                    <div class="modal-header"  >
+                        <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px">&times;</button>
+                        <center>
+                            <h4 id="dModalHeading" class="modal-title"  style="color:white">Requisition Details</h4></center>
+                    </div>
+                    <div class="modal-body" style="">
+
+                    <table style="" class="table">
+                        <tr>
+                            <td>
+                                <td><label class="form-Label">Job Title :</label></td>
+                                <td><label class="detailLabelContent" style=" " id="djobTitle"></label></td>
+                            </td>
+                            <td>
+                                <td><label class="form-Label">Designation :</label></td>
+                                <td><label class="detailLabelContent" style=" " id="ddesig"></label></td>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <td>    <label class="form-Label">Location :</label> </td>
+                                <td>
+                                    <label class="detailLabelContent" style=" " id="dlocation"></label> </td>
+                            </td>
+                            <td>
+                                <td><label class="form-Label">Skills :</label> </td>
+                                <td> 
+                                    <span class="detailLabelContent"  id="dskillsId"></span></td>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <td><label class="form-Label">Minimum Salary :</label></td>
+                                <td>
+                                    <label class="detailLabelContent" style=" " id="dminsal"></label></td>
+                            </td>
+                            <td>
+                                <td> <label class="form-Label">Maximum Salary :</label></td>
+                                <td> <label class="detailLabelContent" style=" " id="dmaxsal"></label> </td>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <td><label class="form-Label"># positions :</label>
+                                   </td>
+                                <td> <label class="detailLabelContent" style=" " id="dnoOfPositions"></label>  </td>
+                            </td>
+                            <td>
+                                <td><label class="form-Label">Years Of Experience  :</label>
+                                    </td>
+                                <td> <label class="detailLabelContent" style=" " id="dyox"></label></td>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <td><label class="form-Label">Suggested Interviewer :</label>
+                                    </td>
+                                <td><label class="detailLabelContent" style=" " id="drec"></label>  </td>
+                            </td>
+                            <td>
+                                <td> <label class="form-Label">Assigned HR  :</label>
+                                    </td>
+                                <td> <label class="detailLabelContent" style=" " id="dadminhr"></label></td>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <td>
+                                    <label class="form-Label">Expiry Date :</label> 
+                                </td>
+                                <td>
+                                     <label class="detailLabelContent" style=" " id="dexpiresOn"></label>
+                                </td>
+                            </td>
+                            <td>
+                                <td>  <label class="form-Label">Priority  :</label> </td>
+                                <td> <label class="detailLabelContent" style=" " id="dpriority"></label></td>
+                            </td>
+                             
+                        </tr>
+                    </table>
+
+
+                        <div id="" class="row" style="margin-top:10px;background-color:white;">
+                            
+                                <ul class="nav nav-tabs" style="background-color:none;font-size:13px">
+                                    <li class="active"><a data-toggle="tab" style="color:grey" href="#ddiscription">Job Description</a></li>
+                                    <li><a data-toggle="tab" style="color:grey" href="#dhistory">History</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="ddiscription" class="tab-pane fade in active" style="margin-top:2%;">
+                                    </div>
+                                    <div id="dhistory" class="tab-pane fade" style="height:100px;overflow-y:scroll;margin-top:2%;">
+
+                                            <table id="dhistoryTable" style="font-size:12px;">
+                                            </table>
+
+                                            <p></p>
+                                    </div>
+                                </div>
+                            
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+ 
+
+
+
+
+
+        <!---------------------------------Copy/Edit modal box -------------------------------------->
+        <div class="modal fade" id="mymodal" role="dialog" style="top:-23px; " data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="margin:0px;">
+                    <div class="modal-header" style="background-color:#f05f40;height:40px">
+                        <button type="button" onClick="window.location.href='/reqHod'" class="close"  style="margin-top:-10px">&times;</button></a>
+                        <center>
+                            <h4 id="ModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top:-5px"></h4></center>
+                    </div>
+                    <div class="modal-body" >
+                        <form onsubmit='return validateForm()' id="raise-requisition" name="myform" class="max-width" method="post" action="/raiseRequisition" style="">
+
+
+                            <div class="row" style="margin-top:1%;margin-bottom:1%">
+                                <div class="col-md-1 col-md-offset-5" id="submitButton">
+                                    <!-- <button type="submit" class="button bt-small" style="width:200%"><i class="fa fa-save"></i> Submit</button> -->
+                                </div>
+                            </div> 
+          <div class="row ">
+                <div class="col-md-4 ">
+                    <div class="col-md-4">
+                    <label class="form-Label">Job Title:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="JobTitle" type="text" id="jobTitle" class="form-text-box addUsed addDisable" style="width:100%" maxlength="250" required>
+                    </div>        
+                </div>
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Designation:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                     <select id="browsers" style="width:100%;" class="form-text-box addUsed addDisable" name="designation" required>
+                            
+                            <%for(var i = 0 ;i<designation.length;i++){%>
+                                <option id="skillsm_<%=designation[i].desigId%>" value="<%=designation[i].desigId%>">
+                                    <%=designation[i].desigName%>
+                                </option>
+                                <%}%>
+                        </select>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Skills:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8" >
+                    <select max-size="1" multiple class="form-text-box " style="max-height:9%;overflow-y:auto;width:100%" id='skillsId' name="skills">
+                            
+                            <%for(var i = 0 ;i<skills.length;i++){%>
+                                <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>"><%=skills[i].skills%></option>
+                                <%}%>
+                        </select>
+                        <label id="skillLabel" class="hide"></label>
+                    </div>        
+                </div>
+            </div> 
+             <div class="row" style="margin-top:5px" >
+               <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Location:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                      <select name="Location" id="location" class="form-text-box addUsed addDisable" style="width:100%;" required>
+                            
+                            <%for(var i = 0 ;i<cities.length;i++){%>
+                                <option id="skills_<%=cities[i].id%>" value="<%=cities[i].id%>">
+                                    <%=cities[i].location%>
+                                </option>
+                                <%}%>
+                        </select>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">#positions:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                     <input type = 'text'  style = 'display:none;' id = 'locationnameId' name = 'locationName'>
+                      <input name="NoOfPostions" placeholder="no. of positions" class="form-text-box" id="nop" type="number" style="width:100%" required max="9999999" min="1" required>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Experience:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="YearsOfExp"  class="form-text-box addUsed addDisable" id="yox" placeholder="Yrs" type="text" step="0.1" style="width:100%" maxlength="10"   required>
+                    </div>        
+                </div>
+            </div>
+          <div class="row" style="margin-top:5px">
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Expires On:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input style=" width:100%" class="form-text-box" placeholder="no. of positions" name="ExpiresOn" id="expiresOn" type="text" required>
+                    </div>        
+                </div>
+                  <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Admin-HR:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                   <select name="adminhr" id="adminhr" class="form-text-box addUsed addDisable" style="width:100%;" required>
+                    
+                        <%for(var i = 0 ;i<adminhr.length;i++){%>
+                            <option id="skills_<%=adminhr[i].id%>" value="<%=adminhr[i].id%>">
+                                <%=adminhr[i].firstName%>
+                            </option>
+                            <%}%>
+                    </select>
+                    </div>        
+                </div>
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Priority :</label>
+                    </div>
+                    <div class="col-md-8">
+                     <select name="mailPriority" class="form-text-box addUsed " id="priority" style="width:100%;"  >
+                     <option>select</option>
+                            <%for(var i = 0 ;i<priority.length;i++){%>
+                                <option id="priority_<%=priority[i].id%>" value="<%=priority[i].id%>">
+                                    <%=priority[i].priority%>
+                                </option>
+                                <%}%>
+                        </select>
+                    </div>        
+                </div>
+            </div>
+             <div class="row" style="margin-top:5px">
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Minimum Salary:</label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="MinimumSalary" id="minsal" class="form-text-box addUsed addDisable" placeholder="min. salary" type="number" style="width:100%" min="1" max="1000000000"  >
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Maximum Salary: </label>
+                    </div>
+                    <div class="col-md-8">
+                     <input name="MaximumSalary" id="maxsal" class="form-text-box addUsed addDisable" placeholder="max. salary" type="number" style="width:100%" min="1" max="10000000000"  >
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Suggested Interviewer:</label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="RecruiterName" class="form-text-box addUsed addDisable" id="rec" type="text" style="width:100%" maxlength="50" placeholder="name of Interviewer"  >
+                    </div>        
+                </div>
+            </div>          
+            <div class="row" style="margin:1%">
+                <ul class="nav nav-tabs" style="background-color:none;font-size:13px">
+                    <li class="active"><a data-toggle="tab" style="color:grey" href="#jd">Job Description</a></li>
+                    <li><a data-toggle="tab" style="color:grey" href="#history">History</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="jd" class="tab-pane fade in active" style="margin-top:2%;">
+                        <textarea class="ckeditor" name="Description" row="3" id="Description" maxlength="4000" placeholder="JobDescription"></textarea>
+                        (max. 4000 characters.)
+                    </div>
+                    <div id="history" class="tab-pane fade" style="height:100px;overflow-y:scroll;margin-top:2%"> 
+                        <table id="historyTable" style="font-size:12px; ;">
+                        </table>
+
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <!--new-->
+                         <input name="flag" id="flag1" type="text" style="width:100%" class="hide">
+                                            <input name="ide" id="ide" type="text" style="width:100%" class="hide">   
+
+                            <div class="row" style="margin-top:2%; ">
+                                <div class="col-md-1 col-md-offset-5" id="submitButton">
+                                    <button type="submit" class="btn" style="width:200%"><i class="fa fa-save"></i> Submit</button>
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-----------------------------Main Page Content-------------------------->
+    <div class="secondry-color"   style="padding-top:4%;overflow: hidden;">
+ 
+    <div style="margin:1% ;margin-top: 0px">
+        <label id="" class="modal-title" style="padding-left:45%;padding-bottom:1%" > All Requisition </label> 
+        <input type="text" class="form-text-box" placeholder="search in this table" style="width:15%;float:right" id="searchbox">
+        
+        <table id="allrequisition" class="table cell-border" style="font-size:13px;width:100%;">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Skills</th>
+                    <th># Positions</th>
+                    <th>Experience</th>
+                    <th>Admin HR</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody style="margin-top:7%;padding-top:7%" id="tbodyReq">
+                <%for(var i=0;i<pdetails.length;i++){%>
+                    <tr id="row_<%=pdetails[i].id%>">
+                        <td style="">
+                            <a onclick="reqData(<%=pdetails[i].id%>,'show',7)" data-toggle="modal" data-target="#jdDetailModal" style="color:black;cursor:pointer">
+                                <%=pdetails[i].title%>
+                            </a>
+                        </td>
+                        <td>
+                            <%=pdetails[i].skills%>
+                        </td>
+                        <td style="width:10%">
+                            <%=pdetails[i].positions%>
+                        </td>
+                        <td style="width:10%">
+                            <%=pdetails[i].experience%>
+                        </td>
+
+                        <td id="assign_<%=pdetails[i].id%>">
+                            <%if(pdetails[i].assignedToName!=null){%>
+                                <%=pdetails[i].assignedToName%>
+                                    <%}else{%>--
+                                        <%}%>
+                        </td>
+                        <%if(pdetails[i].isConfirmed==2){%>
+                            <td><i class="fa fa-check" style="font-size:130%;color:green" title="Approved"></i></td>
+                            <td>
+                                <span><i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i></span><span style="padding-right:5px;padding-left:5px"><i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit">
+                                </td>
+                                <%}else if(pdetails[i].isConfirmed==-1||pdetails[i].isConfirmed==-2){%>
+                                    <td><i class="fa fa-times" style="font-size:130%;color:red" title="Rejected"></i></td>
+                                    <td></td>
+                                <%}else if(pdetails[i].isConfirmed==1){%>
+                                <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:black" title="Pending for 2nd Level of approval"></i>
+                                </td>
+                                    <td>
+                                         <span><i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i></span><span style="padding-right:5px;padding-left:5px"><i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit">
+                                    </td>    
+                                <%}else if(pdetails[i].isConfirmed==0){ %>
+                                    <%if(pdetails[i].createdBy==id){  %>
+                                        <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:black" title="Pending for 2nd Level of approval"></i>
+                                        </td>
+                                        <td><span><i class="glyphicon glyphicon-book" id="clone_<%=i%>" data-toggle='modal' data-target='#mymodal' style = "color:gray;margin:2%;" title = "Copy" onclick = "reqData(<%=pdetails[i].id%>,'copy',<%=pdetails[i].isConfirmed%>)"></i></span><span style="padding-right:5px;padding-left:5px"><i class="glyphicon glyphicon-pencil" data-toggle='modal' data-target='#mymodal' id="pencil_<%=i%>"style="color:gray;margin:2%;" onclick="reqData(<%=pdetails[i].id%>,'edit',<%=pdetails[i].isConfirmed%>)" title="Edit"></i></span><span><i class="glyphicon glyphicon-delete" id = "trash_<%=i%>" style = "color:gray;margin:2%;" title = "Delete" onclick = "delteRequisition(this.id)"></i></span></td>
+                            <%}else{%>
+                                <td><i class="fa fa-ellipsis-h" style="font-size:130%;color:grey" title="Pending for your approval"></i></td>
+                                <td>
+                                    <i class="glyphicon glyphicon-ok" style="font-size:130%;cursor:pointer;color:#10980E" title="Click to Approve" id="toApprove" onclick="updateStatusReq(1,<%=pdetails[i].id%>)"></i>
+                                    <i class="glyphicon glyphicon-remove" style="font-size:130%;cursor:pointer;color:#DC2F2F;margin-left:10px" title="Click to Reject" onclick="updateStatusReq(0,<%=pdetails[i].id%>)"></i>
+                                </td>
+                                <%}}else {%>
+                                    <td></td>
+                                    <td></td>
+                                    <%}%>
+
+                    </tr>
+                    <%}%>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+
+    <!--PAGE CONTENT ENDS-->
+<%include menu1.ejs%>
+<% include ../partials/footer %>   
+            <script type="text/javascript">
+                var str1;var flage;
+                    tinymce.init({
+                        selector: '#Description',
+                        menubar:false
+                    });  
+               function validateForm() { 
+                        if(!$('#jobTitle').val().trim().length){
+                        alert("Please fill Job Title!");
+                        return false;
+                    }
+                 /*    var strLocation = '#location_'+$('#locationId').val()
+                    $('#locationnameId').val($(strLocation).html().trim()); */
+                           console.log($('#minsal').val() + '      ' + $('#maxsal').val());
+
+                    if(!$('#yox').val().trim().length){
+                        alert("Please fill Experience!");
+                        return false;
+                    }
+                    if ($('#minsal').val()-$('#maxsal').val()>0) {
+                        alert("Minimum Salary must be less than Maximum Salary!");
+                        return false;
+                    }
+                    if ($('#skillsId').val() == null) {
+                        alert('Please select a skill!');
+                        return false;
+                    }
+                  /*    if($('#jobType').val()<1){
+                        alert("Select Job Type");
+                        return false;
+                        }*/
+                        var decode = tinyMCE.activeEditor.getContent();
+                        decode = decode.replace(/&nbsp;/g, '');
+                        decode = decode.replace(/<p>/g, '');
+                        var find = '</p>';
+                        var re = new RegExp(find, 'g');
+                        decode = decode.replace(re, '');
+                        decode = decode.trim();
+                        if (decode == '') {
+                            alert('Please fill in some description!');
+                            return false;
+                        }
+                        if (decode.length > 4000) {
+                            alert('Description can not be more than 4000 characters!');
+                            return false;
+                        }  
+                         
+                        if (flage == 'copy') { 
+                            var arstr2 = [];
+                            arstr2[0] = $('#jobTitle').val();
+                            arstr2[1] = $("#location").val();
+                            arstr2[2] = $('#expiresOn').val();
+                            arstr2[3] = $('#yox').val();
+                            arstr2[4] = $('#nop').val();
+                            var str2 = arstr2.toString();   
+                          /*  if (str1 == str2) {
+                                alert('You cannot create duplicate JD!')
+                                return false;
+                            } */
+                        }
+                        $('.addDisable').attr('disabled', false);   
+                         $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
+                        $('.addDisable').removeAttr('disabled');
+                        $(".chosen-select").removeAttr('disabled');
+                        $('input ,  select').removeAttr('disabled');
+ 
+                    }
+                   
+                function reqData(id, flag, con) {
+                     if (flag == 'copy') {
+                            $('#ModalHeading').html("Raise Requisition");
+                        }
+                        if (flag == 'edit') {
+                            $('#ModalHeading').html("Edit Requisition");
+                        }
+                        // ce = flag;
+                        $('#flag1').val(flag);
+                        $('#ide').val(id);
+                        $.ajax({
+                            url: 'reqData',
+                            data: {
+                                'id': id
+                            },
+                            method: 'post',
+                            success: function(data) {
+                             
+                                 flage = flag;
+                                var ide = id;
+                                var cities = JSON.parse(JSON.stringify(data.result[0]));
+                                var skill = JSON.parse(JSON.stringify(data.result[1]));
+                                var admin = JSON.parse(JSON.stringify(data.result[2]));
+                                var desig = JSON.parse(JSON.stringify(data.result[3]));
+                                var info = JSON.parse(JSON.stringify(data.result[5]));
+                                var dviewinfo = JSON.parse(JSON.stringify(data.result[9]));
+                                var prio = JSON.parse(JSON.stringify(data.result[4]));
+                                var arstr = [];
+                                test = info;
+                               arstr[0]=info[0].title;
+                               arstr[1]=info[0].location;
+                               arstr[2]=info[0].expireDate;
+                               arstr[3]=info[0].Experience;
+                               arstr[4]=info[0].positions;
+                               str1=arstr.toString(); 
+
+                                    $("#location").val(info[0].location);
+                                    $("#adminhr").val(info[0].adminHr);
+                                    $("#browsers").val(info[0].designation); 
+                                    $('#jobTitle').val(info[0].title);
+                                    $('#nop').val(info[0].positions);
+                                    $('#minsal').val(info[0].minimumSalary);
+                                    $('#maxsal').val(info[0].maximumSalary);
+                                    $("#priority").val(info[0].priority);
+                                    $('#expiresOn').val(info[0].expireDate);
+                                    tinyMCE.activeEditor.setContent(info[0].description);
+                                    //$('#Description').html(info[0].description);
+                                    $('#yox').val(info[0].Experience);
+                                    $('#rec').val(info[0].recruiter);
+                                    $('#jobType').val(info[0].jobType);
+                                    $('#history').val(info[0].jobType);
+                                    var arr = [];
+                                    for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
+                                      
+                                        arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skill
+                                        $('#skills_' + JSON.parse(JSON.stringify(data.result[6]))[i].skill).prop('selected', true);
+                                    } 
+                                     $('#skillsId').tagger({
+                                        preselectedTags: arr,
+                                        fieldWidth:'12em'
+                                        }); 
+                                      $('#historyTable').html('');
+                                    var counter = 1;
+                                    var cname;
+                                    var desc; 
+                                    for (var i = 0; i < data.result[8].length; i++) {
+                                         desc = data.result[8][i].description;
+                                         //console.log("Hiss ",desc);
+                                        $('#historyTable').append("<tr style=padding-top:2%;width:100%;float:left;font-size:14px;color:grey><td style=color:black>" + counter++ + ".</td><td>\t" + data.result[8][i].name + " has edited <b style=color:black>" + data.result[8][i].columnName + "</b> to " + desc + " on <b>" + data.result[8][i].date.slice(0, 10) + "</b> </td></tr></br>");
+                                    }
+
+                                //--------------View Detail Pop-Up
+                               if (con == 7) {
+                                    $('#ModalHeading').html("Requisition Details");
+                                  
+                                    $('#djobTitle').html(dviewinfo[0].title);
+                                    $('#dnoOfPositions').html(dviewinfo[0].positions);
+                                    $('#dminsal').html(dviewinfo[0].minimumSalary);
+                                    $('#dmaxsal').html(dviewinfo[0].maximumSalary);
+                                    $('#drec').html(dviewinfo[0].recruiter);
+                                    $('#dexpiresOn').html(dviewinfo[0].expireDate);
+                                    $('#dyox').html(dviewinfo[0].Experience)
+                                    $("#ddesig").html(dviewinfo[0].designation);
+                                    $('#dpriority').html(dviewinfo[0].priority);
+                                    $("#dlocation").html(dviewinfo[0].location);
+                                    $("#djobType").html(dviewinfo[0].type);
+                                    $("#dadminhr").html(dviewinfo[0].adminHr);
+
+                                    var arr = [];
+                                    for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
+                                        arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skillName;
+                                    }
+                                    $('#dskillsId').html(arr.toString());
+                                    $("#ddiscription").html(dviewinfo[0].description);
+                                    //-----History Div---------
+                                    $('#dhistoryTable').html('');
+                                    var counter = 1;
+                                    var cname;
+                                    var desc;
+                                    
+                                    for (var i = 0; i < data.result[8].length; i++) {
+                                        desc = data.result[8][i].description;
+                                        $('#dhistoryTable').append("<tr style=padding-top:2%;width:100%;float:left;font-size:14px;color:grey><td style=color:black>" + counter++ + ".</td><td>\t" + data.result[8][i].name + " has edited <b style=color:black>" + data.result[8][i].columnName + "</b> to " + desc + " on <b>" + data.result[8][i].date.slice(0, 10) + "</b> </td></tr></br>");
+                                    }
+                                } 
+                                if (flag == "copy") {
+                                    //free to edit
+                                    $('.addUsed').addClass("used");
+                                    $('.addDisable').attr('disabled', false);  
+                                    $(".tagger").removeClass("disabled1");
+
+                                }
+                                if (flag == "edit") {
+                                    
+                                    if (con == 0) { // show everything and edit everything
+                                        $('.addUsed').addClass("used");
+                                        $('.addDisable').attr('disabled', false); 
+                                        $('#skillsId').removeClass("hide"); 
+                                         $(".tagger").removeClass("disabled1");
+                                    }
+                                    if (con == 2 ) {
+                                        //partial editing is allowed
+                                        
+                                        $('.addUsed').addClass("used");
+                                        $('.addDisable').attr('disabled', true);
+                                        $('#skillsId').removeClass("hide");
+                                        $(".addDisable").css("color", "grey"); 
+                                        var arr = [];
+                                    for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
+                                        arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skillName;
+                                    }
+                                    $('#skillLabel').html(arr.toString());
+                                    
+                                     $('#skillsId').tagger({
+                                       fielddisplay:"none"
+                                        }).css("display","none"); 
+
+                                        $(".tagger").addClass("disabled1");
+                                    //$('#skillsId').addClass("hide");
+                                    $('#skillLabel').removeClass("hide");
+                                    }
+                                }
+                            }
+                        });
+                }
+
+
+
+                function updateStatusReq(flag, jdid) {
+                    if(flag==0){
+                        if (!confirm('Are you sure you want to REJECT this Requisition')) {
+                        return false;
+                        }
+                    }
+                    if(flag==1){
+                        if (!confirm('Are you sure you want to APPROVE this Requisition')) {
+                        return false;
+                        }
+                    }  
+                   // alert(flag);                  
+                    $.ajax({
+                        url: '/updateStatusReq',
+                        data: {
+                            'jdid': jdid,
+                            'flag': flag,
+                            'approve': "hod",
+                        },
+                        method: 'post',
+                        success: function(data) {
+                                console.log(data);
+                            if(data[3][0].flag==0){
+                                alert("This Requisition is already deleted!")
+                            }  
+                            else{
+                               alert("Requisition Approved successfuly!") 
+                                location.reload();
+                            }                    
+                            //location.reload();
+                        }
+                    });
+                }
+
+
+
+                var dataTable = $("#allrequisition").dataTable({
+                    "showNEntries": false,
+                    // "dom": '<"top"i>rt<"bottom"flp><"clear">',
+                    "bFilter": true,
+                    "bLengthChange": false,
+                    "bSort": true,
+                    "aaSorting": [
+                        [5, "desc"]
+                    ],
+                    "columnDefs": [{
+                        className: "dt-body-left",
+                        "targets": [6]
+                    }]
+                });
+
+                $("#searchbox").keyup(function() {
+                    dataTable.fnFilter(this.value);
+                });
+
+                $(document).ready(function() {
+ $('.reqhod-img').addClass("active");
+                       var todate=new Date();
+                        jQuery('#expiresOn').datetimepicker({
+                            i18n: {
+                                de: {
+                                    months: [
+                                        'Januar', 'Februar', 'März', 'April',
+                                        'Mai', 'Juni', 'Juli', 'August',
+                                        'September', 'Oktober', 'November', 'Dezember',
+                                    ],
+                                    dayOfWeek: [
+                                        "So.", "Mo", "Di", "Mi",
+                                        "Do", "Fr", "Sa.",
+                                    ]
+                                }
+                            },
+                            timepicker: false,
+                            format: 'd.m.Y',
+                            minDate:todate
+                        });
+                    if (<%=flag==1%>) {
+                        alert('Requisition created!');
+                    }
+                    if (<%=flag==0%>) {
+                        alert('Requisition edited!');
+                    }
+                });
+            </script>
+          

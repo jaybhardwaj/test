@@ -1,0 +1,285 @@
+<% include ../partials/head %>  
+    <% include ../partials/adminheader %>
+
+<title>Raise Requisition</title>
+
+<script> 
+        tinymce.init({
+            selector: '#Description'
+        });
+ </script>
+ <style type="text/css">
+	label{
+	    margin-top :5px;
+	}
+
+ 
+ </style>
+ <div class="secondry-color" style=" margin-top:3%;overflow: hidden;">
+   <center> <label id="" class="modal-title" style="padding: 1%">Raise Requisition </label></center>
+    <div style="margin:0px">
+        <form onsubmit='return validateForm()' id="raise-requisition" name="myform" class="max-width" method="post" action="/raiseRequisition" >
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Job Title :<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input type="text" style="width: 100%" name="JobTitle" id="jobTitle" class="form-text-box" placeholder="job title"  maxlength="100" required>
+                    </div>        
+                </div>
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Designation :<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                     <select id="browsers" style="width: 100%" name="designation" class="form-text-box"   required>
+                                <option value="">select</option>
+                                <%for(var i = 0 ;i<desig.length;i++){%>
+                                    <option value="<%=desig[i].desigId%>">
+                                        <%=desig[i].desigName%>
+                                    </option>
+                                    <%}%>
+                            </select>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Skills :<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <select size="1" multiple class="form-text-box" placehoder="select skills" style="width:150px" id='skillsId'  name="skills" >
+                                <%for(var i = 0 ;i<skills.length;i++){%>
+                                    <option value="<%=skills[i].id%>">
+                                        <%=skills[i].skills%>
+                                    </option>
+                                    <%}%>
+                                        <option></option>
+                            </select>
+                    </div>        
+                </div>
+            </div> 
+            <div class="row" style="margin-top:5px" >
+               <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Location :<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <select name="Location" id="locationId" class="form-text-box" style="width:100%;" required>
+                        <option value=''>select</option>
+                        <% for (var i = 0; i <cities.length; i++) {%>
+                            <option value="<%=cities[i].id%>" id = 'location_<%=cities[i].id%>'>
+                                <%=cities[i].location%>
+                            </option>
+                            <%}%>
+                     </select>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label"># positions :<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                     <input type = 'text'  style = 'display:none;' id = 'locationnameId' name = 'locationName'>
+                      <input name="NoOfPostions" placeholder="Positions" class="form-text-box" id="nop" type="number" style="width:100%" required max="9999999" min="1" required/>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Experience :<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="YearsOfExp"  class="form-text-box" id="yox" placeholder="Experience" type="text"  style="width:100%" maxlength="10"   required/>
+                    </div>        
+                </div>
+            </div>
+            <div class="row" style="margin-top:5px">
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Expires On:<sup class="astrick">*</sup></label>
+                    </div>
+                    <div class="col-md-8">
+                    <input style=" width:100%" class="form-text-box" placeholder="Date of Expiry" name="ExpiresOn" id="expiresOn" type="text" required/>
+                    </div>        
+                </div>
+                  <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Admin-HR :<sup class="astrick">*</sup> </label>
+                    </div>
+                    <div class="col-md-8">
+                   <select name="adminhr" class="form-text-box" id="" style="width:100%;" required>
+                                <option value=''>select</option>
+                                <% for (var i = 0; i < adminhr.length; i++) {%>
+                                    <option value="<%=adminhr[i].id%>">
+                                        <%=adminhr[i].firstName%>
+                                    </option>
+                                    <%}%>
+                            </select>
+                    </div>        
+                </div>
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Priority :</label>
+                    </div>
+                    <div class="col-md-8">
+                    <select name="mailPriority" class="form-text-box" id="priority" style="width:100%;"  >
+                                <option value=''>select</option>
+                                <option value="1">Urgent</option>
+                                <option value="2">Normal</option>
+                    </select>
+                    </div>        
+                </div>
+            </div>
+            <div class="row" style="margin-top:5px">
+                 <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Minimum Salary: </label>
+                    </div>
+                    <div class="col-md-8">
+                    
+                    <input name="MinimumSalary" class="form-text-box" placeholder="p.a" id="minsal" type="number" style="width:100%" min="1" max="1000000000"   />
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Maximum Salary: </label>
+                    </div>
+                    <div class="col-md-8">
+                     <input name="MaximumSalary" class="form-text-box" placeholder="p.a" id="maxsal" type="number" style="width:100%" min="1" max="1000000000"   />
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Suggested Interviewer:</label>
+                    </div>
+                    <div class="col-md-8">
+                    <input name="RecruiterName" class="form-text-box" placeholder="interviewer" id="RecruiterName" type="text" style="width:100%" maxlength="50"  />
+                    </div>        
+                </div>
+            </div>
+             <div class="row" style=" ">
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                    <label class="form-Label">Type: </label>
+                    </div>
+                    <div class="col-md-8">
+                    <select name="jobType" class="form-text-box"  id="jobType" style="width:100%;"  >
+                                <option value=" ">select</option>
+                                <option value="1">Contractual</option>
+                                <option value="2">Permanent</option>
+                    </select>
+                    </div>        
+                </div>          
+            </div>
+            <div class="row" style="margin-top:1%;margin-left:1%">
+                <div class="col-md-1" style="padding-left: 0px">
+                <label style="float: left" class="form-Label">Job Description:<sup class="astrick">*</sup></label>          
+                </div>
+                    <div class="col-md-11" style="padding-left: 30px;width: 90.5%">
+                      <textarea name="Description" id="Description"   placeholder="JobDescription" style="width:90%" ></textarea>
+                      (max. 4000 characters.)
+                    </div>               
+            </div>
+            <div class="row" style="margin-top:1%; ">
+                <div class="col-md-1 col-md-offset-6"  >
+                    <button type="submit" class="button btn" style="width:127%"><i class="fa fa-save"></i> Submit</button>
+                </div>
+            </div>
+        </form>
+       </div>
+        <!--max div-->
+    </div>
+</body>
+    <!--PAGE CONTENT ENDS-->
+<%include menu1.ejs%>
+<% include ../partials/footer %> 
+ 
+            <script>
+                function validateForm() {
+                    if(!$('#jobTitle').val().trim().length){
+                        alert("Please fill Job Title");
+                        return false;
+                    }
+                    var strLocation = '#location_'+$('#locationId').val()
+                    $('#locationnameId').val($(strLocation).html().trim());
+                           console.log($('#minsal').val() + '      ' + $('#maxsal').val());
+
+                    if(!$('#yox').val().trim().length){
+                        alert("Please fill Experience");
+                        return false;
+                    }
+                    if($('#minsal').val().length){
+                        if($('#maxsal').val().length){
+                            if ($('#minsal').val()-$('#maxsal').val()>0) {
+                                alert("Minimum Salary must be less than Maximum Salary");
+                                return false;
+                            }
+                        }
+                    }
+                    if ($('#skillsId').val() == null) {
+                        alert('Please select a skill from dropdown');
+                        return false;
+                    }
+                    /*  if($('#jobType').val()<1){
+                        alert("Select Job Type");
+                        return false;
+                        }*/
+                    var decode = tinyMCE.activeEditor.getContent();
+                    decode = decode.replace(/&nbsp;/g, '');
+                    decode = decode.replace(/<p>/g, '');
+                    var find = '</p>';
+                    var re = new RegExp(find, 'g');
+                    decode = decode.replace(re, '');
+                    decode = decode.trim();
+                    if (decode == '') {
+                        alert('Please fill in some description');
+                        return false;
+                    }
+                    if (decode.length > 100000) {
+                        alert('Description is too long');
+                        return false;
+                    }
+
+                    return true;
+                }
+                var todate=new Date();
+                jQuery('#expiresOn').datetimepicker({
+                    i18n: {
+                        de: {
+                            months: [
+                                'Januar', 'Februar', 'März', 'April',
+                                'Mai', 'Juni', 'Juli', 'August',
+                                'September', 'Oktober', 'November', 'Dezember',
+                            ],
+                            dayOfWeek: [
+                                "So.", "Mo", "Di", "Mi",
+                                "Do", "Fr", "Sa.",
+                            ]
+                        }
+                    },
+                    timepicker: false,
+                    format: 'm/d/y',
+                    minDate:todate
+                });
+
+
+                $(document).ready(function() {
+                    $('#skillsId').tagger({
+                        "fieldWidth":"18.5em"
+                    });
+                    $('.raiseReq-img').addClass("active");
+                    $("#tinymce").prop('required', true);
+
+
+                    /*$('#Description').bind('keyup', function(e){ 
+                         alert($(this).val().length); 
+                    });
+*/
+                });
+               /* function imposeMaxLength(Object, MaxLen)
+                    {
+                        alert("asdas");
+                      return (Object.value.length <= MaxLen);
+                    }*/
+            </script> 
+            </html>
