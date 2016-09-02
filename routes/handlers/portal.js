@@ -874,19 +874,32 @@ if(req.body.colname == 'assingedToUserId'){
             next();
                   });
     },
-       filterBug: function(req, res, next) {   
-var tempstatus='';
+        filterBug: function(req, res, next) {  
+    
+    var tempstatus='';
     var tempseverity='';
     var temppriority='';
     var tempassingedto='';
     var temptechnology='';
-     var tempproject='';
+    var tempproject='';
     var status=req.body.status;
     var priority=req.body.priority;
     var severity=req.body.severity;
     var assingedto=req.body.assingedto;
     var technology=req.body.technology;
     var project=req.body.project;
+console.log("ewdxc****************************",req.body);
+//jayy
+    var bugId=req.body.bugId;
+    var title=req.body.title;
+    var estefforts=req.body.esteffort;
+    var acteffort=req.body.acteffort;
+    var crtdate=req.body.createdate;
+    var closedate=req.body.closedate;
+//jayyy end
+
+
+
     if( status==null)
     status='';
     if( priority==null)
@@ -897,6 +910,21 @@ var tempstatus='';
     assingedto='';
     if( technology==null)
     technology='';
+    
+    //jay
+    if( bugId==''|| bugId==null)
+    bugId='0';
+    if( title==''|| title==null)
+    title='0';
+    if( estefforts==''||estefforts==null)
+    estefforts='0';
+    if( acteffort==''||acteffort==null)
+    acteffort='0';
+    if( crtdate==''||crtdate==null)
+    crtdate='00/00/0000';
+    if( closedate==''||closedate==null)
+    closedate='00/00/0000';
+//jay end
 
 project=project?project:'';
 
@@ -909,9 +937,13 @@ project=project?project:'';
             req.body.assingedtois="in";
             req.body.technologyis="in";
             req.body.projectis="in";
+        
             status=query.status;
             project=query.pid;
         }
+
+
+
 
     if(status.constructor === Array){
         status.forEach(function(v,i) {
@@ -981,7 +1013,7 @@ project=project?project:'';
     }
 
 
-        modelPortal.filterBug(req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,req.session.userId,req.session.retailerId,req.session.roleId, function(errorActivity,resultFilterBug) {
+        modelPortal.filterBug(req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId, function(errorActivity,resultFilterBug) {
               if (errorActivity) {
                
                  next(errorActivity);
@@ -989,8 +1021,9 @@ project=project?project:'';
              }
             req.resultFilterBug=resultFilterBug;
             req.showSelect=req.body.showSelect;
-            next();
-                  });
+            console.log('*******************************************',resultFilterBug[8],resultFilterBug[7],resultFilterBug[9])
+             next();
+                   });
     },
 
      //--------------------------------------Bug End-------------------------------------------------

@@ -462,12 +462,12 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
             callback(err, result);
         });
     },
-    filterBug: function(statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project, userId, retailerId, roleId, callback){
+    filterBug: function(statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId, callback){
         var query = {
-            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project, userId, retailerId, roleId]
+            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId]
         };
-        //console.log('filter bug---',query);
+        console.log('filter bug************************',query);
         mysql(query, function(err, result) {
            
             callback(err, result);
