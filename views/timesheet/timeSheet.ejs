@@ -843,6 +843,7 @@
                </div>
             </div>
             <div class="text-center padTop10"><span class="error" id="errorTimesheetCommon"></span><span class="success" id="successTimesheetCommon"></span></div>
+            <div id="ModalAdd"></div>
             <div class="row" style="margin-left: 40%;padding-top:10px;">
                <button type="button" id="resettimesheet" class="btn  " onClick="ClearAll()">Reset</button>
                <button type="button" class="btn  " id="savetimesheet" onClick="Totalsum(1)">Save</button>
@@ -862,6 +863,9 @@
       setTimeout(function(){ name.text(''); }, 5000);
       }
       function sum(a, b) {
+        resetError();
+        var errorTimesheetCommon= $('#errorTimesheetCommon');
+        commonTimeOut(errorTimesheetCommon);
          // alert(" i am in sum");
           var k = 0;
           for (var i = 0; i < no_of_asgmnt; i++) {
@@ -877,7 +881,7 @@
               k = k + value;
               if (k > 24.0) {
                   ////console.log('k--',k);
-                  alert("time should not exceed than 24 hours");
+                  errorTimesheetCommon.text("time should not exceed than 24 hours");
                   $('#id' + a+'_'+ b).val(0);
                   sum(a, b);
                   return false;
@@ -931,9 +935,9 @@
           /* -------------------------------------------  validation ------------------------------------------------- */
       
           if (flag == 2) {
-              var r = $('#id' + i+'_'+ (p - 1)).val();
+              var r = $('#id' + i+'_'+ (p - 2)).val();
               var r2 = $('#id' + i+'_'+ p).val();
-              ////console.log("================", r, "***************", r2);
+              //console.log("================", r, "***************", r2);
       
               for (var i = 0; i < temp + 1; i++) {
                   var tdayhour = 0;
@@ -997,10 +1001,12 @@
       
       
              if ((status == 2) && (parseInt(r) < parseInt(r2))) {
-                  alert("your timesheet is incomlpete");
+              $(".se-pre-con").fadeOut("slow");
+                  errorTimesheetCommon.text("your timesheet is incomlpete");
+                  commonTimeOut(errorTimesheetCommon);
                   return false;
               }
-      
+             
       if (status == 2 && !confirm("Your Timesheet will be submitted to  -" + '<%=timeinfo[5][0].mngname%>')){
                   $(".se-pre-con").fadeOut("slow");
                   return false;
@@ -1008,25 +1014,7 @@
       
           }
       
-      
-      
-      /*
-          if (status == 2) {
-      
-              $('#savetimesheet').addClass('hide');
-              $('#resettimesheet').addClass('hide');
-              document.getElementById("submitTimes").value = "Submitted";
-              document.getElementById("submitTimes").disabled = true;
-              document.getElementById('timestatus').innerHTML = for_status[status];
-      
-          } else {
-              $('#savetimesheet').removeClass('hide');
-              $('#resettimesheet').removeClass('hide');
-      
-              document.getElementById("submitTimes").value = "Submit";
-              document.getElementById("submitTimes").disabled = false;
-              document.getElementById('timestatus').innerHTML = for_status[status];
-          }*/
+
           $.ajax({
               url: 'submitTimesheet',
               type: 'post',
@@ -1047,8 +1035,7 @@
               },
               success: function(data) {
       
-                  //console.log('b', data[0].i);
-      
+        
                   if(data[0].i=='6a'){
                       errorTimesheetCommon.text(" You have already submitted TimeSheet");
                       commonTimeOut(errorTimesheetCommon);
@@ -1060,23 +1047,9 @@
                   var wbsids = [];
                   var wbsname = [];
                   for (var j = 0; j < no_of_asgmnt; j++) {
-                      ////console.log(j);
+         
                       var tsid = data[0].i;
-                      /* if(j==0) 
-                       { 
-                        alluser.push('"$"');
-                       alluser.push('"$"');
-                       alluser.push(tsid); }
-                       else
-                        if(j==1)
-                        {alluser.push('"@"');
-                       alluser.push('"@"');
-                       alluser.push(tsid);
-      
-                        }
-                        
-                        else
-                         {*/
+
                       alluser.push(curr_asgnmnt_id[j]);
                       alluser.push(curr_wbs_id[j]);
                       alluser.push(tsid);
@@ -1106,9 +1079,7 @@
                   alluser = alluser.join(',');
                   while (alluser.indexOf('|,') != -1)
                       alluser = alluser.replace(',||,', '||');
-                  // +alert(alluser);
-                  ////console.log("this is timesheet id" + tsid);
-                  ////console.log("value of timesheet is ---" + temp);
+
       
                   $.ajax({
                       url: 'submitTimesheetAssignment',
@@ -1156,11 +1127,7 @@
                   });
               }
           });
-          /*if (status == 2)
-              alert("Data Submitted Successfully");
-          else
-              if(save_not_submit!=1){
-              alert("Data Saved Succesfully");}*/
+
               $(".se-pre-con").fadeOut("slow");
       }
       
@@ -1641,6 +1608,11 @@
           $('#fordismiss').trigger('click');
       }   
          }
+     function confirmBox(msg) { 
+     var confirmBox ='<div class="modal fade" id="activeTimesheetModal" role="dialog"><div class="modal-dialog"><div class="modal-content" id="activeTimesheetCnfrmMsgBox"> <div class="modal-header text-center" style="border-top:0px;"> <span>Message</span> </div><div class="modal-body text-center"> <span id="cMessage1">'+msg+'</span> </div><div class="modal-footer text-center" style="border-top:0px;"> <button id="activeTimesheetCloseMessage" type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:white;padding-top: 4px; width:100px;height:30px;margin-top:10px;" onclick="return false;">Cancel</button> <button id="activeTimesheetActive" type="button" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:white;padding-top: 4px; width:100px;height:30px;margin-top:10px;" onclick="return true;">Ok</button> </div></div></div></div>';
+      $("#ModalAdd").html(confirmBox);
+      $("#activeTimesheetModal").modal("show");
+      }
    </script>
    <script>
       function chosenSelectDropdown() {
