@@ -478,13 +478,13 @@ function addRow(currentId) {
     var newcurrentId = '#' + lastChildId + '_rowid_' + lastParentId;
 
     if (depth == 0) {
-        var str = '<tr id = "' + ultimateEndId + '_rowid_' + individualId + '" ><td></td><td class="phase paddingtd bold1"><img src= "../img/project/grey_button1.jpg" id = "' + ultimateEndId + '_sign_' + individualId + '" onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" class = "nameFieldClass"   style = "width: 90%;"></td><td class="images1 bold1"><img src= "../img/bug/addbug.png" id = "' + ultimateEndId + '_add_' + individualId + '"  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg" style = "margin-bottom:10px;"   height="15px" class="shadow" onclick = "deleteRow(this.id,1)" id = "' + ultimateEndId + '_del_' + individualId + '"  title="Delete" width="15px"></td><td class = "dateTempCss bold1 "><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_sDate_' + individualId + '" ></td><td class="dateTempCss bold1"><input type = "text " id = "' + ultimateEndId + '_eDate_' + individualId + '" class = "datePicker textBoxesCss"></td> <td class  = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActStartDate_' + individualId + '"></input></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActEndDate_' + individualId + '"></input></td><td class = "dateTempCss bold1"><input type = "text"  style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_actEndDate_' + individualId + '"></input></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = "' + ultimateEndId + '_eff_' + individualId + '" ><select id = "' + ultimateEndId + '_effType_' + individualId + '" class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss bold1 percCompletedClass"></td><td><select class = "ddDepClass"  id = "' + ultimateEndId + '_ddDep_' + individualId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + ultimateEndId + '_selectRS_' + individualId + '" ></td>';
+        var str = '<tr id = "' + ultimateEndId + '_rowid_' + individualId + '" ><td></td><td class="phase paddingtd bold1"><img src= "../img/project/grey_button1.jpg" id = "' + ultimateEndId + '_sign_' + individualId + '" onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><span class = "namefieldClassSpan"></span><input type = "text" class = "nameFieldClass"   style = "width: 90%;"></td><td class="images1 bold1"><img src= "../img/bug/addbug.png" id = "' + ultimateEndId + '_add_' + individualId + '"  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 bold1"><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg" style = "margin-bottom:10px;"   height="15px" class="shadow" onclick = "deleteRow(this.id,1)" id = "' + ultimateEndId + '_del_' + individualId + '"  title="Delete" width="15px"></td><td class = "dateTempCss bold1 "><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_sDate_' + individualId + '" ></td><td class="dateTempCss bold1"><input type = "text " id = "' + ultimateEndId + '_eDate_' + individualId + '" class = "datePicker textBoxesCss"></td> <td class  = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActStartDate_' + individualId + '"></input></td><td class = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActEndDate_' + individualId + '"></input></td><td class = "dateTempCss bold1"><input type = "text"  style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_actEndDate_' + individualId + '"></input></td><td class="effCSS bold1"><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = "' + ultimateEndId + '_eff_' + individualId + '" ><select id = "' + ultimateEndId + '_effType_' + individualId + '" class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss bold1 percCompletedClass"></td><td><select class = "ddDepClass"  id = "' + ultimateEndId + '_ddDep_' + individualId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + ultimateEndId + '_selectRS_' + individualId + '" ></td>';
     } else if (depth == 1) {
 
-        var str = '<tr id = "' + ultimateEndId + '_rowid_' + individualId + '" ><td></td><td class="task paddingtd"><img src= "../img/project/grey_button1.jpg" id = "' + ultimateEndId + '_sign_' + individualId + '" onclick = "collapseExpand(this.id,1)" class="minus " height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" class = "nameFieldClass"   style = "width: 90%;"></td><td class="images1 "><img src="../img/bug/addbug.png" id = "' + ultimateEndId + '_add_' + individualId + '"  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 "><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg"  style = "margin-bottom:10px;"    height="15px" class="shadow" onclick = "deleteRow(this.id,1)" id = "' + ultimateEndId + '_del_' + individualId + '"  title="Delete" width="15px"></td><td class = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = ' + ultimateEndId + '_sDate_' + individualId + ' ></td><td class="dateTempCss "><input type = "text " id = "' + ultimateEndId + '_eDate_' + individualId + '" class = "datePicker textBoxesCss"></td> <td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActStartDate_' + individualId + '"></input></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActEndDate_' + individualId + '"></input></td><td class = "dateTempCss "><input type = "text"  style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_actEndDate_' + individualId + '"></input></td><td class="effCSS "><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = "' + ultimateEndId + '_eff_' + individualId + '" ><select id = "' + ultimateEndId + '_effType_' + individualId + '" class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss  percCompletedClass"></td><td><select class = "ddDepClass"  id = "' + ultimateEndId + '_ddDep_' + individualId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + ultimateEndId + '_selectRS_' + individualId + '" ></td>';
+        var str = '<tr id = "' + ultimateEndId + '_rowid_' + individualId + '" ><td></td><td class="task paddingtd"><img src= "../img/project/grey_button1.jpg" id = "' + ultimateEndId + '_sign_' + individualId + '" onclick = "collapseExpand(this.id,1)" class="minus " height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><span class = "namefieldClassSpan"></span><input type = "text" class = "nameFieldClass"   style = "width: 90%;"></td><td class="images1 "><img src="../img/bug/addbug.png" id = "' + ultimateEndId + '_add_' + individualId + '"  class="shadow phaseImg" onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 "><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg"  style = "margin-bottom:10px;"    height="15px" class="shadow" onclick = "deleteRow(this.id,1)" id = "' + ultimateEndId + '_del_' + individualId + '"  title="Delete" width="15px"></td><td class = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = ' + ultimateEndId + '_sDate_' + individualId + ' ></td><td class="dateTempCss "><input type = "text " id = "' + ultimateEndId + '_eDate_' + individualId + '" class = "datePicker textBoxesCss"></td> <td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActStartDate_' + individualId + '"></input></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActEndDate_' + individualId + '"></input></td><td class = "dateTempCss "><input type = "text"  style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_actEndDate_' + individualId + '"></input></td><td class="effCSS "><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = "' + ultimateEndId + '_eff_' + individualId + '" ><select id = "' + ultimateEndId + '_effType_' + individualId + '" class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss  percCompletedClass"></td><td><select class = "ddDepClass"  id = "' + ultimateEndId + '_ddDep_' + individualId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + ultimateEndId + '_selectRS_' + individualId + '" ></td>';
 
     } else if (depth == 2) {
-        var str = '<tr id = "' + ultimateEndId + '_rowid_' + individualId + '" ><td></td><td class="subtask"><img src= "../img/project/button.png" id = "' + ultimateEndId + '_sign_' + individualId + '" onclick = "collapseExpand(this.id,1)" class="minus' + hideAddButtonClass + '" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><input type = "text" class = "nameFieldClass"   style = "width: 90%;"></td><td class="images1 "></td><td class="images1 "><span class="glyphicon glyphicon-comment"></span><img src="../img/project/blackdustbin.jpg"  style = "margin-bottom:10px;"   height="15px" class="shadow" onclick = "deleteRow(this.id,1)"  id = "' + ultimateEndId + '_del_' + individualId + '"  title="Delete" width="15px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = ' + ultimateEndId + '_sDate_' + individualId + ' ></td><td class="dateTempCss"><input type = "text " id = "' + ultimateEndId + '_eDate_' + individualId + '" class = "datePicker textBoxesCss"></td> <td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActStartDate_' + individualId + '"></input></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActEndDate_' + individualId + '"></input></td><td class = "dateTempCss "><input type = "text"  style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_actEndDate_' + individualId + '"></input></td><td class="effCSS "><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = "' + ultimateEndId + '_eff_' + individualId + '" ><select id = "' + ultimateEndId + '_effType_' + individualId + '" class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss  percCompletedClass"></td><td><select class = "ddDepClass"  id = "' + ultimateEndId + '_ddDep_' + individualId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + ultimateEndId + '_selectRS_' + individualId + '" ></td>';
+        var str = '<tr id = "' + ultimateEndId + '_rowid_' + individualId + '" ><td></td><td class="subtask"><img src= "../img/project/button.png" id = "' + ultimateEndId + '_sign_' + individualId + '" onclick = "collapseExpand(this.id,1)" class="minus' + hideAddButtonClass + '" height="18px" title="Add Phase" width="18px" style="margin-right:5px;"><span class = "namefieldClassSpan"></span><input type = "text" class = "nameFieldClass"   style = "width: 90%;"></td><td class="images1 "></td><td class="images1 "><span class="glyphicon glyphicon-comment"></span><img src="../img/project/blackdustbin.jpg"  style = "margin-bottom:10px;"   height="15px" class="shadow" onclick = "deleteRow(this.id,1)"  id = "' + ultimateEndId + '_del_' + individualId + '"  title="Delete" width="15px"></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = ' + ultimateEndId + '_sDate_' + individualId + ' ></td><td class="dateTempCss"><input type = "text " id = "' + ultimateEndId + '_eDate_' + individualId + '" class = "datePicker textBoxesCss"></td> <td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActStartDate_' + individualId + '"></input></td><td class = "dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_pActEndDate_' + individualId + '"></input></td><td class = "dateTempCss "><input type = "text"  style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + ultimateEndId + '_actEndDate_' + individualId + '"></input></td><td class="effCSS "><input type = "number"  class = " textboxEffEditAdd textboxEffEditAddJq"  id = "' + ultimateEndId + '_eff_' + individualId + '" ><select id = "' + ultimateEndId + '_effType_' + individualId + '" class = "selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss  percCompletedClass"></td><td><select class = "ddDepClass"  id = "' + ultimateEndId + '_ddDep_' + individualId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + ultimateEndId + '_selectRS_' + individualId + '" ></td>';
     }
     makeEmptyAjaxCall();
     if (newcurrentId == '#0_rowid_-1') { newcurrentId = '#tbody123'
@@ -607,7 +607,7 @@ $('.se-pre-con').fadeIn();
         },
 
         error: function() {
-            alert('Server Failure:Reloading Page for Refreshing info')
+            showMessage('Server Failure:Reloading Page for Refreshing info')
                 // window.location.href = '/task';
             counterForAjax--;
             ajaxFailureFlag = false;
@@ -709,7 +709,7 @@ var changedEle = changedEleArr.join();
             someThingUpdated = 0;
             //console.log('sucess');
             $('.se-pre-con').fadeOut('slow');
-            alert('New version created');
+            showMessage('New version created');
             updateArr = [];
 
             $('#verSel select').each(function() {
@@ -792,13 +792,13 @@ if($('#collaborateId').val()!=null){
 
             if (approveFlag) {
                 someThingUpdated = 0;
-                alert('Project approved successfully');
+                showMessage('Project approved successfully');
                 $('#statusSub').html('Approved');
 
                 submitted = 2;
                 hideAllOnSubmit();
             } else {
-                alert('Project has been rejected');
+                showMessage('Project has been rejected');
                 submitted = 3;
                 $('#statusSub').html('Rejected');
                 hideAllOnSubmit();
@@ -809,7 +809,7 @@ if($('#collaborateId').val()!=null){
 
         },
         error: function(data) {
-            alert('db error');
+            showMessage('db error');
             $('.se-pre-con').fadeOut('slow');
             updateArr = [];
         }
@@ -889,12 +889,12 @@ if(somethingZeroFlag)      { somethingUpdated = 0;}
             createNewVersion(submitFlag);
             return;
         } else if(someThingUpdated==0) {
-            alert('This version has already been submitted');
+            showMessage('This version has already been submitted');
             return;
 
         }
         else if(submitFlag==1){
-        alert('This version has already been submitted');
+        showMessage('This version has already been submitted');
             return;
         }
 
@@ -920,7 +920,7 @@ debugger;
 
     counterForRecursionAjax++;
     if (counterForRecursionAjax == 20) {
-        alert('Server error,Reloading page');
+        showMessage('Server error,Reloading page');
         return;
     }
 
@@ -934,7 +934,7 @@ debugger;
 
 
     if(submitted==2){
-     submitFlag = -1;//Code Added later 24 Jun requires more reasoning.
+     submitFlag = 2;//Code Added later 24 Jun requires more reasoning.
              }
               $('.se-pre-con').fadeIn('slow');
 createCommentString();
@@ -964,7 +964,7 @@ if($('#collaborateId').val()!=null){
             counterForRecursionAjax = 0;
             updateArr = [];
             if (submitFlag==1) {
-                alert('form has been submitted');
+                showMessage('form has been submitted');
                 submitted=1;
                 hideAllOnSubmit();
             }
@@ -1031,7 +1031,7 @@ function validationForSubmit() {
     }
 
     if (returnFalseFlag) {
-        alert('Please fill all fields');
+        showMessage('Please fill all fields');
         return false;
     } else {
         return true;
@@ -1127,7 +1127,7 @@ function editRow(rowId, AddFlag) {
     }
 
     if (depth == 0) {
-        var strForHtml = '<td></td><td class="phase paddingtd"><img src="' + buttonStr + '" id = "' + individualId + '_sign_' + parentId + '" onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="" width="18px" style="margin-right:5px;"><input type = "text" class = "nameFieldClass" style = "width: 90%;"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = "' + individualId + '_add_' + parentId + '"  class="shadow " onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 paddingtd "><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg"  style = "margin-bottom:10px;"   id = "' + individualId + '_del_' + parentId + '" onclick = "deleteRow(this.id,1)"     height="15px" class="shadow" title="Delete" width="15px"></td><td class="dateCSS  paddingtd dateTempCss bold1"><input type = "text"  id = "' + individualId + '_sDate_' + parentId + '" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss bold1"><input type = "text"  class = "datePicker textBoxesCss"  id = "' + individualId + '_eDate_' + parentId + '" ></td><td class  = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActStartDate_' + parentId + '"></input></td><td class = "dateTempCss bold1 "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActEndDate_' + parentId + '"></input></td><td class = "dateTempCss bold1 "><input type = "text" style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + individualId + '_actEndDate_' + parentId + '"></input></td><td class="effCSS bold1 "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd" id = ' + individualId + '_effType_' + parentId + '><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss percCompletedClass"></td><td><select class = "ddDepClass" id = "' + individualId + '_ddDep_' + parentId + '" >' + optStringDep + '></select></td><td id = "' + individualId + '_selectRS_' + parentId + '" class = "selectRS"></td>';
+        var strForHtml = '<td></td><td class="phase paddingtd"><img src="' + buttonStr + '" id = "' + individualId + '_sign_' + parentId + '" onclick = "collapseExpand(this.id,1)" class="minus" height="18px" title="" width="18px" style="margin-right:5px;"><span class = "namefieldClassSpan"></span><input type = "text" class = "nameFieldClass hide" style = "width: 90%;"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = "' + individualId + '_add_' + parentId + '"  class="shadow " onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 paddingtd "><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg"  style = "margin-bottom:10px;"   id = "' + individualId + '_del_' + parentId + '" onclick = "deleteRow(this.id,1)"     height="15px" class="shadow" title="Delete" width="15px"></td><td class="dateCSS  paddingtd dateTempCss bold1"><input type = "text"  id = "' + individualId + '_sDate_' + parentId + '" class = "datePicker textBoxesCss"></td><td class="dateCSS  dateTempCss bold1"><input type = "text"  class = "datePicker textBoxesCss"  id = "' + individualId + '_eDate_' + parentId + '" ></td><td class  = "dateTempCss bold1"><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActStartDate_' + parentId + '"></input></td><td class = "dateTempCss bold1 "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActEndDate_' + parentId + '"></input></td><td class = "dateTempCss bold1 "><input type = "text" style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + individualId + '_actEndDate_' + parentId + '"></input></td><td class="effCSS bold1 "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd" id = ' + individualId + '_effType_' + parentId + '><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss percCompletedClass"></td><td><select class = "ddDepClass" id = "' + individualId + '_ddDep_' + parentId + '" >' + optStringDep + '></select></td><td id = "' + individualId + '_selectRS_' + parentId + '" class = "selectRS"></td>';
 
     } else if (depth == 1) {
 
@@ -1146,13 +1146,13 @@ function editRow(rowId, AddFlag) {
         }
 
 
-        var strForHtml = '<td></td><td class="task paddingtd"><img src="' + buttonStr + '" id = "' + individualId + '_sign_' + parentId + '" onclick = "collapseExpand(this.id,1)" class="' + butClass + '" height="18px" title="" width="18px" style="margin-right:5px;"><input type = "text" class = "nameFieldClass" style = "width: 90%;"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = "' + individualId + '_add_' + parentId + '"  class="shadow " onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 paddingtd "><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg"  style = "margin-bottom:10px;"  id = "' + individualId + '_del_' + parentId + '" onclick = "deleteRow(this.id,1)"     height="15px" class="shadow" title="Delete" width="15px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_sDate_' + parentId + '" ></td><td class="dateCSS  dateTempCss"><input type = "text" id = "' + individualId + '_eDate_' + parentId + '" class = "datePicker textBoxesCss"></td><td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActStartDate_' + parentId + '"></input></td><td class = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActEndDate_' + parentId + '"></input></td><td class = "dateTempCss "><input type = "text" style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + individualId + '_actEndDate_' + parentId + '"></input></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd" id = ' + individualId + '_effType_' + parentId + '><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss percCompletedClass"></td><td><select class = "ddDepClass" id = "' + individualId + '_ddDep_' + parentId + '" >' + optStringDep + '></select></td><td id = "' + individualId + '_selectRS_' + parentId + '" class = "selectRS"></td>';
+        var strForHtml = '<td></td><td class="task paddingtd"><img src="' + buttonStr + '" id = "' + individualId + '_sign_' + parentId + '" onclick = "collapseExpand(this.id,1)" class="' + butClass + '" height="18px" title="" width="18px" style="margin-right:5px;"><span class = "namefieldClassSpan"></span><input type = "text" class = "nameFieldClass hide" style = "width: 90%;"></td><td class="images1  paddingtd "><img src="../img/bug/addbug.png" id = "' + individualId + '_add_' + parentId + '"  class="shadow " onclick = "addRow(this.id)" height="18px" title="Add Child" width="18px"></td><td class="images1 paddingtd "><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg"  style = "margin-bottom:10px;"  id = "' + individualId + '_del_' + parentId + '" onclick = "deleteRow(this.id,1)"     height="15px" class="shadow" title="Delete" width="15px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_sDate_' + parentId + '" ></td><td class="dateCSS  dateTempCss"><input type = "text" id = "' + individualId + '_eDate_' + parentId + '" class = "datePicker textBoxesCss"></td><td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActStartDate_' + parentId + '"></input></td><td class = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActEndDate_' + parentId + '"></input></td><td class = "dateTempCss "><input type = "text" style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + individualId + '_actEndDate_' + parentId + '"></input></td><td class="effCSS "><input type = "number" class = " textboxEffEditAdd textboxEffEditAddJq "><select class = "selectEffEditAdd" id = ' + individualId + '_effType_' + parentId + '><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss percCompletedClass"></td><td><select class = "ddDepClass" id = "' + individualId + '_ddDep_' + parentId + '" >' + optStringDep + '></select></td><td id = "' + individualId + '_selectRS_' + parentId + '" class = "selectRS"></td>';
 
 
     } else if (depth == 2) {
 
 
-        var strForHtml = '<td></td><td class="subtask "><img src="../img/project/button.png" id = "' + individualId + '_sign_' + parentId + '" onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="" width="18px" style="margin-right:5px;"><input type = "text" class = "nameFieldClass" style = "width: 90%;"></td><td class="images1 "></td><td class="images1 "><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg"   style = "margin-bottom:10px;"  id = ' + individualId + '_del_' + parentId + ' onclick = "deleteRow(this.id,1)"  height="15px" class="shadow" title="Delete" width="15px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" id = "' + individualId + '_sDate_' + parentId + '" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" id = "' + individualId + '_eDate_' + parentId + '" class = "datePicker textBoxesCss"></td><td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActStartDate_' + parentId + '"></input></td><td class = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActEndDate_' + parentId + '"></input></td><td class = "dateTempCss "><input type = "text" style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + individualId + '_actEndDate_' + parentId + '"></input></td><td class="effCSS "><input type = "number" class = "textboxEffEditAdd textboxEffEditAddJq"><select id = ' + individualId + '_effType_' + parentId + ' class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss percCompletedClass"></td><td><select class = "ddDepClass" id = "' + individualId + '_ddDep_' + parentId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + individualId + '_selectRS_' + parentId + '"></td>';
+        var strForHtml = '<td></td><td class="subtask "><img src="../img/project/button.png" id = "' + individualId + '_sign_' + parentId + '" onclick = "collapseExpand(this.id,1)" class="shadow donthide" height="18px" title="" width="18px" style="margin-right:5px;"><span class = "namefieldClassSpan"></span><input type = "text" class = "nameFieldClass hide" style = "width: 90%;"></td><td class="images1 "></td><td class="images1 "><span class="glyphicon glyphicon-comment" ></span><img src="../img/project/blackdustbin.jpg"   style = "margin-bottom:10px;"  id = ' + individualId + '_del_' + parentId + ' onclick = "deleteRow(this.id,1)"  height="15px" class="shadow" title="Delete" width="15px"></td><td class="dateCSS  paddingtd dateTempCss"><input type = "text" id = "' + individualId + '_sDate_' + parentId + '" class = "datePicker textBoxesCss"></td><td class="dateCSS dateTempCss "><input type = "text" id = "' + individualId + '_eDate_' + parentId + '" class = "datePicker textBoxesCss"></td><td class  = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActStartDate_' + parentId + '"></input></td><td class = "dateTempCss "><input type = "text" class = "datePicker textBoxesCss" id = "' + individualId + '_pActEndDate_' + parentId + '"></input></td><td class = "dateTempCss "><input type = "text" style = " width: 77%;" class = "datePicker textBoxesCss" id = "' + individualId + '_actEndDate_' + parentId + '"></input></td><td class="effCSS "><input type = "number" class = "textboxEffEditAdd textboxEffEditAddJq"><select id = ' + individualId + '_effType_' + parentId + ' class = " selectEffEditAdd"><option value = "1">Hrs</option><option value = "2">Days</option><option value = "3">Weeks</option><option value = "4">Months</option></select></td><td><input type = "number" class = "textBoxesCss percCompletedClass"></td><td><select class = "ddDepClass" id = "' + individualId + '_ddDep_' + parentId + '" >' + optStringDep + '></select></td><td class = "selectRS" id = "' + individualId + '_selectRS_' + parentId + '"></td>';
 
     }
 
@@ -1210,6 +1210,7 @@ function editRow(rowId, AddFlag) {
     rowId = individualId + '_rowid_' + parentId;
     $('#' + rowId + ' td')[0].innerHTML = serNumber;
     $('#' + rowId + ' td input')[0].value = nodeName;
+    $('#' + rowId + ' td .namefieldClassSpan').text(nodeName);
     $('#' + rowId + ' td input')[1].value = sDateName;
     $('#' + rowId + ' td input')[2].value = eDateName;
 
@@ -1262,7 +1263,7 @@ function editRow(rowId, AddFlag) {
          console.log(diff);
          if(diff<=0&&diff>-100000){
          $(function(){
-            alert('Error:Start Date cannot be greater than End Date');
+            showMessage('Error:Start Date cannot be greater than End Date');
           $.datepicker._clearDate(this);
           console.log(diff);
        }
@@ -1275,6 +1276,11 @@ function editRow(rowId, AddFlag) {
      }
    }
  }*/
+
+
+
+
+
  var newRowidusedHere = individualId +'_rowid_' +parentId
   if(userFlag){
  $('#tbody123 tr').hide();
@@ -1289,6 +1295,14 @@ deleteThisRowHereAndNow(newRowidusedHere)
 }
 //$('.glyphicon-comment').remove();
 },100);
+
+
+
+
+if(nodeName.trim()==""){
+$('#' + rowId + ' td .namefieldClassSpan').css("padding-left","70px");
+
+}
 
 
 }
@@ -1306,7 +1320,7 @@ function deleteThisRowHereAndNow(rowId){
 setTimeout(function(){  disableEverything(rowId);},1000);
      endDate = endDate.slice(0,x);
      $(endDateEle).val(endDate);
-     debugger;
+     //debugger;
     },500);
     }
     
@@ -1355,7 +1369,7 @@ function startDateEndDateValidation(datepickerthis) {
         if (sdateTime != '') {
             var diff = (((((edateTime - sdateTime) / 3600000) / 24) + 1) * 9);
             if (diff <= 0 && diff > -100000) {
-                alert('Error:Start Date cannot be greater than End Date');
+                showMessage('Error:Start Date cannot be greater than End Date');
                 $(datepickerthis).val('');
                 return true
        }
@@ -1436,7 +1450,7 @@ function findParentDate(inputTextBox, par2) {
     if (middleElement == 'actEndDate' || middleElement == 'pActStartDate' || middleElement == 'pActEndDate') {
         actualFlag = true;
     }
-    /*    alert(actualFlag);
+    /*    showMessage(actualFlag);
         debugger;*/
     if (parentId == '0') {
         depth = 0
@@ -1473,7 +1487,7 @@ function findParentDate(inputTextBox, par2) {
 
         }
         if (rowParentId == -1) {
-            alert('Js error in depth =2 findParentDate');
+            showMessage('Js error in depth =2 findParentDate');
         } else {
             if ($(rowParentId + ' td input').length) {
                 startDate = $(rowParentId + ' td input')[1].value;
@@ -1486,7 +1500,7 @@ function findParentDate(inputTextBox, par2) {
         }
 
     } else {
-        alert('JS error in depth = else  findParentDate');
+        showMessage('JS error in depth = else  findParentDate');
 
 
 
@@ -1589,7 +1603,7 @@ function findParentDate(inputTextBox, par2) {
             $('#submitId').attr('disabled', 'disabled');
             $('#saveId').attr('disabled', 'disabled');
         }
-        //alert(isManagerFlag+'   '+submitted);
+        //showMessage(isManagerFlag+'   '+submitted);
         else if (submitted == 2)
         {
             $('#statusSub').html('Accepted');
@@ -1654,8 +1668,9 @@ function findParentDate(inputTextBox, par2) {
 
 function deleteRow(rowId, editFlag) {
     /*deleteRRow*/
+  $('#tbody123 tr .open').click();
+if(someThingUpdated!=1) someThingUpdated = -1;
 
-someThingUpdated = -1
 showSaveSubmit();
     var value = rowId.split('_');
     var individualId = value[0];
@@ -1668,7 +1683,7 @@ showSaveSubmit();
         depth = 1;
     } else depth = 2;
     if (treeStructure[individualId].length) {
-        alert('Please delete all children first');
+        showMessage('Please delete all children first');
 return;}
 
 
@@ -1740,7 +1755,7 @@ return;}
         // console.log('Effort is ',newRowId);
 
         $('#' + parentId + '_sign_' + grandParentId).attr('src', '../img/project/grey_button1.jpg');
-        // alert(parentRowId);
+        // showMessage(parentRowId);
 
     }
 
@@ -1859,6 +1874,7 @@ $('.glyphicon-comment').click(commentIconClickFunction);
 
 addMailClassToTagger();
 addcollaborateClassToTagger();
+addcolHideClassOnTagger();
 },500)
        
 
@@ -1892,6 +1908,7 @@ addcollaborateClassToTagger();
             var nextEle = $(this).next()[0];
             var newId   = $(nextEle).attr("id");
               someThingUpdated = 1;
+              debugger;
          changedEleFunc(newId,9);
 
               showSaveSubmit();
@@ -2151,6 +2168,12 @@ addcollaborateClassToTagger();
 
 
         $('.nameFieldClass').on('focusout',focusoutFunctionNameField);
+        $(".namefieldClassSpan").click(function(){
+
+            $(this).addClass("hide");
+      $($(this).next()[0]).removeClass("hide").focus().click();
+
+     });
 /*
         $('.nameFieldClass').focusout(function() {
             var tdlVal = $(this).val();
@@ -2204,11 +2227,11 @@ dependantsArr[dependeArr[i][0]] = dependeArr[i][2];
 $(function() {
   var thHeight = $("#projTable th:first").height();
   $("table#projTable th").resizable({
-      handles: "e",
+    handles: 'e',
       minHeight: thHeight,
       maxHeight: thHeight,
+     
       resize: function (event, ui) {
-          $('.div1').css('width',$('#projTable').css('width'));
 
         var sizerID = "#" + $(event.target).attr("id") + "-sizer";
         $(sizerID).width(ui.size.width);
@@ -2259,7 +2282,13 @@ $('#collaborateId').tagger({
 
       })
 
+$('#hideColumnsId').tagger({
+        "fieldWidth":"20em", 
+        displayHierarchy: false
+      , indentMultiplier: 2, baseURL: './img/'
+       , placeholder: 'hide Columns',
 
+      });
 
 
 setTimeout(function(){
@@ -2610,7 +2639,7 @@ function changeActPlStDate(sDateEle, sDateOld) {
     var sDateNew = $(sDateEle).val();
     // debugger;
     var numberOfDays = calculateEffDays(sDateNew, sDateOld);
-    var alertFlag;
+    var showMessageFlag;
 
         if (dependancyCheckForChangePlannedStartDate(individualId, sDateEle)) {  // Changed Code of Dependency flow
             return;
@@ -2679,7 +2708,7 @@ function dependancyCheckForChangePlannedStartDate(rootIndividualId, sDateEle) {
                  $(sDateId).val('');
               }
  
-        alert('Pl Start Date cannot be before dependencies act End Date');
+        showMessage('Pl Start Date cannot be before dependencies act End Date');
         $(sDateEle).val('');
     }
    // debugger;
@@ -3231,6 +3260,8 @@ if(hasFlag){
  $(changedEle1).focusout(focusoutFunctionNameField);
  $(changedEle1).click(clickNameField);
   $(changedEle1).keypress(nameFieldClassKeyPressFunc);
+  $(changedEle1).val(value);
+   $(changedEle1).focusout();   // code added later 8 aug
  }
 
  else{
@@ -3243,10 +3274,13 @@ if(hasFlag){
     $(changedEle1).addClass('textAreaCheck');
     $(changedEle1).focusout(focusoutFunctionTextArea);
      $(changedEle1).focus();
+     $(changedEle1).val(value);
+     
 }
 
 
-$(changedEle1).val(value);
+
+
 
 }
 
@@ -3436,17 +3470,22 @@ $.ajax({
      success:function(data){
         var hrefStr = '/attach/projectReports/'+nameStr;
     $('.se-pre-con').fadeOut('slow');
-     if(!mailFlag){
+     if(mailFlag==0){
     $('#downloadHere').attr('href',hrefStr);
    window.location = $('#downloadHere').attr('href');
     }
-    else{
-        alert('mail sent');
+    else if(mailFlag==1){
+        showMessage('mail sent');
      sendProjExcelTo()
+    }
+
+    else if(mailFlag==2){
+        window.open(hrefStr);
+        //window.location.href = hrefStr
     }
      },
      error:function(err){
-      alert('server error');
+      showMessage('server error');
      // console.log('error is ',err);
     $('.se-pre-con').fadeOut('slow');
 
@@ -3634,9 +3673,9 @@ function downloadasExcel(mailFlag){
 
   $('#tbody123 tr .open').click();
 
-    if(mailFlag){
+    if(mailFlag==1){
         if($('#sendMailTo').val()==null){
-            alert('No receiptants selected');
+            showMessage('No receiptants selected');
             return;
         }
     }
@@ -3690,6 +3729,57 @@ function sendProjExcelTo(){
 function hideUnhideCollaborbutton(){
     $('.collaborateClass').toggleClass('hide');
 }
+function colHideOnChange(){
+
+$(".hideColumnsClass").toggleClass("hide");
+
+
+}
+function removeAddColumn(){
+var  AllCols = [1,3,4,7,8,10,11];
+var  hiddenArr =  $("#hideColumnsId").val();
+if(hiddenArr==null){
+    hiddenArr = [];
+}
+for(var i = 0;i<12;i++){
+if(AllCols.indexOf(i)!=-1){
+i = i.toString();
+if(hiddenArr.indexOf(i)!=-1){
+    var str = '#th'+i
+    $(str).addClass("hide");
+    hideAll(parseInt(i));
+}
+else{
+   var str = '#th'+i
+    $(str).removeClass("hide");   
+   UnhideAll(parseInt(i));
+}
+
+
+
+}
+
+}
+}
+
+function hideAll(childId){
+    childId--;
+var trArr = $("#tbody123 tr");
+for(var i =0;i<trArr.length;i++){
+$($(trArr[i]).children("td")[childId]).addClass("hide");
+}
+debugger;
+}
+
+function UnhideAll(childId){
+    childId--;
+
+var trArr = $("#tbody123 tr");
+for(var i =0;i<trArr.length;i++){
+$($(trArr[i]).children("td")[childId]).removeClass("hide");
+}
+debugger;
+}
 
 
 function addMailClassToTagger(){
@@ -3704,6 +3794,12 @@ function addcollaborateClassToTagger(){
     $(nextEle).css('display','');
 }
 
+function addcolHideClassOnTagger(){
+var nextEle = $('#hideColumnsId').next()[0];
+    $(nextEle).addClass('hide').addClass('hideColumnsClass');
+    $(nextEle).css('display','');
+
+}
 function initialiseCollaborateMultiSelect(){
 var collEleArr = $('#collaborateId option');
 if(!collArr.length){
@@ -3759,24 +3855,41 @@ var focusoutFunctionTextArea = function(){
 
 var focusoutFunctionNameField = function(){
 
-     var tdlVal = $(this).val();
+              var tdEle = $(this).parent('td');
+                 tdEle = $(tdEle).parent('tr');
+                tdEle = $(tdEle).attr('id');
+/*     
+var tdlVal = $(this).val();
             var tdEle = $(this).parent('td');
             var num = $(tdEle).prev()[0];
             num = num.innerHTML;
             tdEle = $(tdEle).parent('tr');
             tdEle = $(tdEle).attr('id');
 
-            updateAllArr(tdEle, 1);
 
             var value = tdEle.split('_');
             var individualId = value[0];
             $('.depDD_' + individualId).each(function() {
                 num = $(this).text().match(/\d{1,9}/i)[0];
                // console.log('num is', num);
-                var tdlValNew = num /*+ ' ' + tdlVal*/;
-                $(this).text(tdlValNew);
-            });
+                var tdlValNew = num /*+ ' ' + tdlVa;
+               // $(this).text(tdlValNew);
+            //});
+*/
+
+      
+   $(this).addClass("hide");
+
+   $($(this).prev()[0]).removeClass("hide").text($(this).val());
+   if($(this).val().trim()==""){
+    $($(this).prev()[0]).css("padding-left","70px");
+   }
+   else{
+     $($(this).prev()[0]).css("padding-left","0px");
+   }
+    debugger;
         
+updateAllArr(tdEle, 1);
 
 }
 
@@ -4059,5 +4172,32 @@ strikeout parent
 3)Send Mail
 4)Filter on each dates.
 
-*/
 
+
+s dadas
+
+sdsa
+d
+asd
+sad
+sa
+dsa
+da
+sd
+sad
+sad
+sad
+sa
+dsa
+d
+
+
+
+
+
+<span class = "namefieldClassSpan"></span>
+
+
+
+
+*/
