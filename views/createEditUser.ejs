@@ -747,8 +747,24 @@ function getDefaultModule(){
         }
         return true;
     }
-    function changeTab(prevOrNext) {
+    function changeTab(prevOrNext) { 
+           if(prevOrNext==3){
               $("#tab" + prevOrNext).click();
+             }
+             else{
+             if($('#modules').val()==null){
+          
+              $("#tab2").click();
+             }      
+            else if((($('#modules').val()[0]=="1")||($('#modules').val()[0]=="5"))&&($('#modules').val().indexOf("2")==-1)&&($('#modules').val().indexOf("3")==-1)&&($('#modules').val().indexOf("4")==-1)&&($('#modules').val().indexOf("6")==-1)){
+          
+             $("#tab2").click();
+             }
+             else{
+          
+              $("#tab" + prevOrNext).click();
+            }
+          }
              }
 
 
@@ -1030,7 +1046,7 @@ function getDefaultModule(){
                 "designation": $("#designation").val(),
                 "level": $("#level").val(),
                 'modules':modules,
-                'isClient':$('#isClient').val(),
+                'isClient':0,
                 'clientId':$('#clientId').val(),
                 'hodId':$('#hodList').val(),
                 "doj":$('#doj').val(),
