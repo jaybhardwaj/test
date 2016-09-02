@@ -130,20 +130,20 @@
         <div class="modal-body">
 <div class="col-sm-12">          
       <label class="form-label">Name:</label><sup class="astrick">*</sup>
-<input type="text" maxlength="40" class="form-text-box clearAll " id="cname" required />
+<input type="text" maxlength="40" class="form-text-box clearAll " id="cname" autofocus required tabindex="1"/>
 <div class="fLeft"><span class="error" id="errorCname"></span></div>
 </div>
 
 <div class="col-sm-12 height11"></div>
 <div class="col-sm-12">         
       <label class="form-label">Emailid:</label><sup class="astrick">*</sup>
-<input type="text" maxlength="40" class="form-text-box clearAll" id="cemail" required />
+<input type="text" maxlength="40" class="form-text-box clearAll" id="cemail" required tabindex="2"/>
 <div class="fLeft"><span class="error" id="errorCemail"></span></div>
 </div>
 <div class="col-sm-12 height11"></div>
 <div class="col-sm-12">         
       <label class="form-label">Contact Number:</label><sup class="astrick">*</sup>
-<input  type="number"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"   required />
+<input  type="number"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"   required tabindex="3"/>
 <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
 </div>
 <input type="text" maxlength="40" class="form-text-box clearAll hide" id="clientid" required />
@@ -154,8 +154,8 @@
 </div>        
 <div class="col-sm-12 height11"></div>
         <div class="modal-footer center">
-        <button type="button" class="btn" data-dismiss="modal" onclick="resetError();">Close</button>
-             <button type="button" class="btn " onclick="createEditContact()">Save</button>
+        <button type="button" class="btn" data-dismiss="modal" onclick="resetError();" tabindex="6">Close</button>
+             <button type="button" class="btn " onclick="createEditContact()" tabindex="5">Save</button>
           <div class="col-sm-12 height11"></div>
         </div>
 
@@ -527,6 +527,11 @@ dataType: 'JSON',
 
 $(".se-pre-con").fadeOut("slow");
 }
+$(document).on("keypress", '#ccontact', function(e) {
+   if(e.keyCode == 13) {
+         createEditContact();
+   }      
+  }); 
 
 </script>
 </body>
