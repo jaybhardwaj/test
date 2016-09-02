@@ -233,6 +233,11 @@ var locationId = [],
                  next(err);
 
              } else { 
+                console.log("============================= jai mata di",result);
+                 if(result[0][0].isActive==0){
+                   res.json("2");
+                 }
+                 else{
                    var hash=result[0][0].userPassword.toString();
                    if((bcrypt.compareSync(req.body.password,hash))&&(hash!=0)){
                     console.log("=============================",result);
@@ -245,7 +250,7 @@ var locationId = [],
                    else{
                      res.json("0");
                    }
-                    
+                  }  
              }
 
          });
