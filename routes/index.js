@@ -247,7 +247,7 @@ app.post('/insNewVer',portal.insNewVer);
 app.post('/createExcelProj',portal.createExcelProj);
 
 /*latest change by saurav*/
-    app.get('/changePassWordPage',url.changePassWordPage,render.redirect);
+    app.get('/changePassWordPage',portal.notification,url.changePassWordPage,render.redirect);
     app.post('/submitUserPassword',portal.submitUserPassword);
     /*----*/
 

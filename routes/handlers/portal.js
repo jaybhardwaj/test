@@ -152,18 +152,27 @@ var locationId = [],
                  next(err);
                  res.json('0');
              } else {
+
+                console.log('##########',result);
               
                 req.session.notification=null;
 
                 req.session.notification=result[0][0];
-               
-                if(req.body.editNotification==0){
-                    if(req.body.moduleTypeIndex=='index'){
+
+               var aa = req.body.editNotification;
+               var bb = req.body.moduleTypeIndex;
+
+                if(aa==0){
+                    if(bb=='index'){
                         res.json('0');
                     }
                     else{
                         next();
                     }
+                }
+                else if(aa == undefined){
+                    console.log('&&&&&&&&&&&&');
+                    next();
                 }
                 else{
                     res.json('0');
