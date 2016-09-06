@@ -6,7 +6,7 @@ var randomString = require('../../lib/common').generateRandomString;
 var flag = require('../../config/config').flagUsed;
 var configEmail=require('../../config/config').mailconfig;
 var schedulers=require('../../lib/schedulers');
-//var xlsxparser = require('excel-parser');
+var xlsxparser = require('excel-parser');
 var path = require('path');
 var fs = require('fs');
 
@@ -5452,7 +5452,7 @@ upload_resume:function(req,res,next){
     },
      //----------------------------------Project Management System----------------------------
       getAllResources:function(req,res,next){
-       
+        console.log("hello in here");
         modelPortal.getAllResources(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
             if(err){
@@ -5460,6 +5460,7 @@ upload_resume:function(req,res,next){
             }   
             else{
                         req.reqResources=result;
+                        console.log("say hello to my new friend ");
                         next();
                 } 
         });

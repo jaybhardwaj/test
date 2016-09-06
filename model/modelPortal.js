@@ -458,6 +458,7 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
             sql: 'call usp_bug_getAllTechnology(?,?,?)',
             values: [projectId,userId,retailerId]
         };
+        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -3495,14 +3496,14 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         //----------------------------------------Project Management System------------------------------
     getAllResources : function (userId,roleId,retailerId,callback){       
      var q ={
-          sql: 'call usp_pro_getAllResources(?)',
+          sql: 'call usp_proj_getAllResources(?)',
         values: [retailerId]
        
         };
         ////console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-                ////console.log(err);
+               console.log(err);
             }
             else {
             callback(err,result);

@@ -200,7 +200,7 @@ function updateAllArr(idUsed, isActiveFl) {
 
 
 $(document).ready(function() {
-
+$("#adMenu").addClass('hide');
  // $('.div1').css('width',$('#projTable').css('width'));
  $(".wrapper1").scroll(function(){
     $("#projTable2").scrollLeft($(".wrapper1").scrollLeft());

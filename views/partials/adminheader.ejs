@@ -17,7 +17,7 @@
             <%}%>
               <%if(myModules.indexOf(1)>=0){%>
                 <li id="noti_Container" class="modulemenu bug-tab">
-                  <div id="noti_Counter"></div>
+                  <div id="noti_Counter" class = "notiClass"></div>
                   <a id="bugAdminHeader" class="page-scroll " href="/bugHome"> <label class="header-title">BUG </label> </a>
                 </li>
                 <%}%>
@@ -38,7 +38,7 @@
                             <%}%>
                               <%if(myModules.indexOf(2)>=0){%>
                                 <li id="noti_Container_timesheet" class="modulemenu timesheet-tab">
-                                  <div id="noti_Counter_timesheet"></div> <a class="page-scroll " href="/timesheet?flag=0"><label class="header-title">TIMESHEET  </label></a> </li>
+                                  <div id="noti_Counter_timesheet" class = "notiClass"></div> <a class="page-scroll " href="/timesheet?flag=0"><label class="header-title">TIMESHEET  </label></a> </li>
                                 <%}%>
                                   <%if(myModules.indexOf(7)>=0){%>
                                     <li class="modulemenu rms-tab"> <a class="page-scroll " href="/rms"><label class="header-title">RMS  </label></a> </li>
@@ -169,18 +169,18 @@
                              </select> </div>
         </div>
         <div class="modal-footer" style="border-top:0px;padding:0px">
-          <center style="padding-top:6%"> <button id="cancel" type="reset" data-dismiss="modal" class="btn  ">Cancel</button> <a onclick="return saveSupervisor()" class="btn ">Submit</a> </center>
+          <center style="padding-top:6%"> <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-primary">Cancel</button> <a onclick="return saveSupervisor()" class="btn btn-primary">Submit</a> </center>
         </div>
       </div>
     </div>
   </div>
 </div>
 <center>
-  <div class="modal fade" id="changepass" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal fade " id="changepass" role="dialog">
+    <div class="modal-dialog" style="width:50%">
       <!-- Modal content-->
       <div class="modal-content" id="express2">
-        <div class="modal-header" style="background-color:#f05f40;"> <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px">&times;</button>
+        <div class="modal-header" style="background-color:#f05f40;"> <button type="button " class="close" data-dismiss="modal" style="margin-top:-10px">&times;</button>
           <center><label id="head4" class="modal-title" style="color:white; "> Change Password </label></center>
         </div>
         <div id="err" class="col-lg-6 col-sm-offset-3"></div>
@@ -197,8 +197,9 @@
             <div class="col-md-4"> <label style="line-height:42px !important;">Confirm Password:</label> </div>
             <div class="col-md-8"> <input type="password" maxlength="150" style="margin-top:10px;" class="form-control" id="confpass" name="confpass" /> </div>
           </div> <br/>
+          <div class="col-sm-12 height25"></div>
           <div class="modal-footer" style="border-top:0px;padding:0px;padding-top:5px">
-            <center style="padding-top:2%"> <button id="cancel" type="reset" data-dismiss="modal" class="btn  ">Cancel</button> <a onclick="return changePassword()" class="btn ">Submit</a> </center>
+            <center style="padding-top:2%"> <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-primary ">Cancel</button> <a onclick="return changePassword()" class="btn btn-primary">Submit</a> </center>
           </div>
         </div>
       </div>
@@ -366,6 +367,14 @@
       });
       return false;
     }
+
+$(".notiClass").each(function(){
+if($(this).text()==''){
+  $(this).hide();
+}
+});
+
+
   });
 
   function installModule() {

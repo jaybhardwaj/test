@@ -1,6 +1,6 @@
 <head> 
     <% include ../partials/head %>
-  
+  <%assetrole = 1%>
     <% include ../partials/adminheader %>
 
     <% include header %>
@@ -8,67 +8,125 @@
 </head>
 
 <style>
-	.row{margin:0%;
-		margin:0%;}
+  .row{margin:0%;
+    margin:0%;}
+
+    #proTable td{
+      border: 1px solid rgba(128, 128, 128, 0.41)
+    }
+    th{
+            border: 1px solid rgba(128, 128, 128, 0.41)
+
+    }
 </style>
 
-<html>	
+<html>  
 <script>
+var allresourceData = '<%=JSON.stringify(allResources[1])%>'.replace(/&#34;/g,'"');
+ var allresArr =  JSON.parse(allresourceData);
+var percCompleteArr = [];
+var effortArr        =[];
+
+for(var i = 0;i<allresArr.length;i++){
+     var newArr = [];
+     newArr[allresArr[i].project] = allresArr[i].perc 
+     percCompleteArr[allresArr[i].resources] = newArr
+     newArr = []; 
+     newArr[allresArr[i].project] = allresArr[i].effort; 
+     effortArr[allresArr[i].resources] = newArr
+}
+
 $(document).ready(function() {
   $('.resource-img').addClass('active');
  $('#resourceTable').dataTable();
   });
-function projectByResource(uid){
-	 $.ajax({   
-                    url:'/projectByResource',
-                    type:'post',
-                    data:{
-                      "resId":uid                     
-                    },
 
-                  success:function(data){
-                   console.log(" hi iam in success",data);
-                	 }
-                  });
+function effortArrFun(uid,proId){
+
+if(effortArr[uid]==undefined)
+  return 0;
+else if(effortArr[uid][proId]==undefined)
+  return 0;
+else 
+  return effortArr[uid][proId].toString().slice(0,5);
+
+}
+function percCompleteArrFun(uid,proId){
+
+if(percCompleteArr[uid]==undefined)
+  return 0;
+else if(percCompleteArr[uid][proId]==undefined||percCompleteArr[uid][proId]=="undefined")
+  return 0;
+else 
+  return percCompleteArr[uid][proId].toString().slice(0,5);
+
+}
+
+function projectByResource(uid){
+var thead = "";
+var idStr = '#uid_'+uid;
+var projectHtml = $($(idStr+ ' td')[1]).text();
+    projectHtml  = projectHtml.split(",");
+var proIdHtml    = $($(idStr+ ' td')[3]).text();
+    proIdHtml  = proIdHtml.split(",");
+var tbody = '';
+
+var tdStr = '';
+var sumEffort = 0;
+var sumPercEffort = 0;
+for(var i = 0;i<proIdHtml.length;i++){
+  tdStr = tdStr + '<tr><td>'+projectHtml[i]+'</td><td>'+effortArrFun(uid,proIdHtml[i])+'</td><td>'+percCompleteArrFun(uid,proIdHtml[i])+' %</td></tr>'
+  sumEffort += parseInt(effortArrFun(uid,proIdHtml[i]));
+  sumPercEffort += parseInt(effortArrFun(uid,proIdHtml[i]))*parseInt(percCompleteArrFun(uid,proIdHtml[i]));
+}
+if(!sumEffort){
+  sumPercEffort = 0;
+}
+else{
+sumPercEffort = sumPercEffort/sumEffort;
+}
+var Total = "Total";
+tdStr = tdStr + '<tr><td><b>'+Total+'</b></td><td><b>'+sumEffort+'</b></td><td><b>'+sumPercEffort+' %</b></td></tr>'
+$("#proTableBody").html(tdStr);
 }
 //$('#resourceTable').dataTable();
 </script>
-	<title>Resource Management</title>	
-	<body>
-	<div class="row secondry-color" style="  max-height: 500px;height: 500px">
-		<div class="row">
-		 <span class="modal-title" style="padding-left:40%"> List of All Resources</span>
-			 
-		</div>
-		<div style="padding: 2%">
-		 <table id="resourceTable" class="table stripe cell-border hover" >
-		 	<thead>
-		 		<tr>
-			 		<th>Resource Name</th>
-			 		<th>Project Name</th>
-			 		<th>Total Allocated</th>
-			 		<th>Action</th>
-		 		</tr>
-		 </thead>
-		<tbody>
-		 	<%console.log("List of All Resources",allResources);for(var i=0;i<allResources[0].length;i++){%>		 			
-		 		<tr>
-		 			<td><%=allResources[0][i].firstName%></td>
-			 		<td><%=allResources[0][i].projectTitle%></td>
-			 		<td><%=allResources[0][i].percentAllocated%></td>
-			 		<td> <a  data-toggle='modal' data-target='#vRes' onclick='projectByResource(<%=allResources[0][i].id%>)' style="cursor: pointer">View</a></td>		
-		 		</tr>
-		 	<%}%>
-		</tbody>
-	</table>
-	</div>
+  <title>Resource Management</title>  
+  <body>
+  <div class="row secondry-color" style="  max-height: 500px;height: 500px">
+    <div class="row">
+     <span class="modal-title" style="padding-left:40%"> List of All Resources</span>
+       
+    </div>
+    <div style="padding: 2%">
+     <table id="resourceTable" class="table stripe cell-border hover" >
+      <thead>
+        <tr>
+          <th>Resource Name</th>
+          <th>Project Name</th>
+          <th>Action</th>
+          <th class = "hide"></th>
+        </tr>
+     </thead>
+    <tbody>
+      <%console.log("List of All Resources",allResources);for(var i=0;i<allResources[0].length;i++){%>          
+        <tr id = "uid_<%=allResources[0][i].userId%>">
+          <td><%=allResources[0][i].firstName%>  <%=allResources[0][i].lastName%></td>
+          <td><%=allResources[0][i].projectTitle%></td>
+          <td> <a  data-toggle='modal' data-target='#vRes' onclick='projectByResource(<%=allResources[0][i].userId%>)' style="cursor: pointer">View</a></td>  
+          <td class = "hide"><%=allResources[0][i].proId%></td>   
+        </tr>
+      <%}%>
+    </tbody>
+  </table>
+  </div>
 </div>
 
 
-	</body>
+  </body>
 </html>
-		
- <% include ../partials/footer %>	
+    
+ <% include ../partials/footer %> 
 
 
    <!------------------------------editTask/addSubTask---------------------------->
@@ -78,27 +136,15 @@ function projectByResource(uid){
                 <div class="modal-content" id="express2">
                     <div class="modal-header" style="background-color:#f05f40;height:40px">
                        <center>
-                             <h4 id="taskModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top: -8px">Project Allocation</h4>
+                             <h4 id="taskModalHeading" class="modal-title" style="color:white;font-size:14pt;margin-top: -8px">Project Report</h4>
                               <button type="button" class="close" data-dismiss="modal" style="float:right;margin-top: -28px">&times;</button>
                              </center>
                     </div>
                     <div class="modal-body" id="iremarkdiv" style="margin:10px;min-height: 140px">
-                    <div class="row">
-                    <div class="col-md-4">
-                    	<label>Project1:</label><input type="number" placeholder="%" class="form-control"></input>	
-                    </div>
-                    <div class="col-md-4">
-                    	<label>Project2:</label><input type="number" placeholder="%" class="form-control"></input>	
-                    </div>
-                    <div class="col-md-4"> 
-                    	<label>Project3:</label><input type="number" placeholder="%" class="form-control"></input>	
-                    </div>
-                    </div>
-                    <div class="row" style="text-align: center;padding-top: 2%">
-                    	<hr style="border-color:#DADADA;max-width: 90%">
-                    	<label style="color:#DADADA">Total out of 100</label>
-                    </div>
-                     <span class="glyphicon glyphicon-floppy-disk" id="esave" title="save" data-dismiss="modal"   style="color: black;float: right;font-size: 18px;margin: 18px"></span>
+                    <table id='proTable' class='table stripe cell-border hover' >
+                      <thead><tr><th>Project Name</th><th> Effort (in hrs)</th><th> % Completed</th></tr></thead>
+                      <tbody id = "proTableBody"></tbody>
+                    </table>
                     </div>
                 </div>
             </div>
