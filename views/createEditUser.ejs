@@ -101,6 +101,7 @@
     <% include ./partials/adminheader %>
   </div>
   <div class="container-fluid user-list  secondry-color"   style=" ">
+    <div id="ModalAddMesage"></div>
     <div class="modal-header" style="text-align:center">
     <span title="Go To User List" onclick="document.location.href='/users';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;"  class="glyphicon glyphicon-arrow-left"></span>
       <span class="modal-title">Provide user details</span>
@@ -152,20 +153,20 @@
       
             <td>
               <td><label class="form-Label">Email:<sup  class="astrick">*</sup></label></td>
-              <td><input type="email" maxlength="150"   class="form-text-box" id="emailId" name="emailId" placeholder="abc@mydomain.com" /> </td>
-              <div class="fLeft"><span class="error" id="errorEmailId"></span></div>  
+              <td><input type="email" maxlength="150"   class="form-text-box" id="emailId" name="emailId" placeholder="abc@mydomain.com" />  <div class="fLeft"><span class="error" id="errorEmailId"></span></div>  </td>
+             
             <td>
               <td><label class="form-Label">Contact Number: </label></td>
               <td><input type="number" maxlength="10"  class="form-text-box" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="contact-number" name="contact-number" placeholder="Contact Number" />
               <div class="fLeft"><span class="error" id="errorContactNumber"></span></div>    
               </td>
-          
+            
           </tr>
           <tr>
             <td>
               <td><label class="form-Label">Employee Code:<sup  class="astrick">*</sup></label></td>
-              <td><input type="text" maxlength="20"   class="form-text-box" id="ecode" name="ecode" placeholder="Employee Code" /></td>
-             <div class="fLeft"><span class="error" id="errorEcode"></span></div>
+              <td><input type="text" maxlength="20"   class="form-text-box" id="ecode" name="ecode" placeholder="Employee Code" /><div class="fLeft"><span class="error" id="errorEcode"></span></div></td>
+             
             <td>
               <td><label class="form-Label">Designation: </label></td>
               <td><select class="form-text-box"   id='designation' name="designation"  >
@@ -253,6 +254,7 @@
               <td></td><td></td><td></td><td></td> 
           </tr>
         </table>
+        <div class="text-center"><span class="success" id="successUser"></span><span class="error" id="errorUser"></span></div>
         <center style="padding-bottom: 1%">
           
               <a href="/users">
@@ -282,8 +284,10 @@
           </div>
           <div class="col-md-4 a" id="billRate" style="margin-top: -0.4%">
             <div class="col-md-6"> <label style="">Billable Rate :<sup style="color:red;">*</sup></label> </div>
-            <div class="col-md-6" style="margin-left: -12%;margin-top:1%"> <input type="number" min="1" maxlength="7" style="" class="form-text-box " placeholder="enter bill rate" id="billrate" name="billrate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeypress=" return checkBillrate(event)" /> </div>
-            <div class="fLeft"><span class="error" id="errorBillRate"></span></div>
+            <div class="col-md-6" style="margin-left: -12%;margin-top:1%"> <input type="number" min="1" maxlength="7" style="" class="form-text-box " placeholder="enter bill rate" id="billrate" name="billrate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeypress=" return checkBillrate(event)" />
+             <div class="fLeft"><span class="error" id="errorBillRate"></span></div> 
+             </div>
+            
           </div> 
         </div>
         
@@ -297,11 +301,17 @@
         <table class="table form-table">
           <tr>
             <td><label class="form-Label">Date of Joining:<sup  class="astrick">*</sup></label></td>
-            <td> <input name="doj" placeholder="MM/DD/YYYY"  class="form-text-box date" id="doj" readonly="true" ></td>
+            <td> <input name="doj" placeholder="MM/DD/YYYY"  class="form-text-box date" id="doj" readonly="true" >
+            <div class="fLeft"><span class="error" id="errorDoj"></span></div>  
+            </td>
             <td><label class="form-Label">Date of Confirmation:</label></td>
-            <td><input   placeholder="MM/DD/YYYY" class="form-text-box date" id="doc" name="doc" readonly="true" ></td>
+            <td><input   placeholder="MM/DD/YYYY" class="form-text-box date" id="doc" name="doc" readonly="true" >
+              <div class="fLeft"><span class="error" id="errorDoc"></span></div>  
+            </td>
             <td> <label class="form-Label">Date of Birth:</label></td>
-            <td><input    placeholder="MM/DD/YYYY" class="form-text-box date" id="dob" name="dob"  readonly="true"></td>
+            <td><input    placeholder="MM/DD/YYYY" class="form-text-box date" id="dob" name="dob"  readonly="true">
+              <div class="fLeft"><span class="error" id="errorDob"></span></div>  
+            </td>
           </tr> 
         </table>
          <center>
@@ -326,6 +336,7 @@
                   </div>
                   <div class="col-md-2 ">
                       <input type="number" maxlength="10" class="form-text-box" style=" " class="form-text-box" id="inNum" name="inNum" placeholder="Approve Limit" onkeypress="return specialCharacter(event)" /> 
+                  <div class="fLeft"><span class="error" id="errorInNum"></span></div>    
                 </div>
               </div>
                   <%}%>
@@ -392,6 +403,7 @@
                         <option id="<%=hrRole[k].id%>" value="<%=hrRole[k].id%>"> <%=hrRole[k].roleName%></option>
                        <%}%> 
                       </select>
+                      <div class="fLeft"><span class="error" id="errorHrRole"></span></div>
                     </div>
 
  <script type="text/javascript">
@@ -828,6 +840,8 @@ function getDefaultModule(){
              var errorLastName = $('#errorLastName');
              var ErrorContactNumber= $('#ErrorContactNumber');
              var errorEmailId = $('#errorEmailId');
+             var errorEcode = $('#errorEcode');
+             var errorModules = $('#errorModules');
              var retailerInfo = <%-JSON.stringify(retailerInfo[0].emailId)%>;
              var validEmailAccRetailer= retailerInfo.substring(retailerInfo.indexOf('@')+1);
              var userEmail=$('#emailId').val().trim();
@@ -857,23 +871,35 @@ function getDefaultModule(){
 
             var numreg = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
 
-            if ($("#emailId").val().trim() == '' || !(re.test($("#emailId").val()))) {
+            if ($("#emailId").val().trim() == '') {
 
               if(pressButton==2 || pressButton==4|| pressButton==3 ){
-                    alert("In Basic details: Valid email id is required !");
+                    errorEmailId.text("Required field");
+
                     return false;
               }
-              alert('Valid email id is required.');
+              errorEmailId.text('Required field');
+              $("#emailId").focus();
               return false;
 
             }
+            if( $("#emailId").val().trim() != '' && !(re.test($("#emailId").val()))) {
+              if(pressButton==2 || pressButton==4|| pressButton==3 ){
+                    errorEmailId.text("Enter valid email");
+                    return false;
+              }
+              errorEmailId.text('Enter valid email');
+              $("#emailId").focus();
+              return false;
+            }
              if (validEmailAccRetailer != validUserEmail) {
                   if(pressButton==2 || pressButton==4|| pressButton==3 ){
-                    alert("In Basic details: Valid email id is required !");
+                    errorEmailId.text("Enter valid email");
                     return false;
                   }
                   else{ 
-                    alert('Email Id Should be of type @'+validEmailAccRetailer);
+                    errorEmailId.text('Email Should be of type @'+validEmailAccRetailer);
+                    $("#emailId").focus();
                     return false;
                 }
             }
@@ -881,18 +907,23 @@ function getDefaultModule(){
 
             var cno=$('#contact-number').val();
             if( ($('#contact-number').val().trim()!='') &&(cno.length<10||cno.length>12||isNaN(cno)||cno.trim().length<1)) 
-            {   if(pressButton==2 || pressButton==4|| pressButton==3){
-              alert("In Basic details:Enter valid Contact number !");
+            { 
+              $('#contact-number').focus();
+              if(pressButton==2 || pressButton==4|| pressButton==3){
+              ErrorContactNumber.text("Enter valid Contact number");
             return false;}
-                alert("Enter valid Contact number!");    
+                ErrorContactNumber.text("Enter valid Contact number");  
+
               return false;
             }
             if ($("#ecode").val().trim() == '') {
               if(pressButton==2 || pressButton==4|| pressButton==3){
-                alert("In Basic details:Employee code is required !");
+                $("#ecode").focus();
+                errorEcode.text("Required field");
                  return false;
               }else{
-                alert('Employee code is required !');
+                $("#ecode").focus();
+                errorEcode.text('Required field');
                 return false;
               }  
             }
@@ -903,10 +934,12 @@ function getDefaultModule(){
              if(!$('#modules').val())
             {
               if(pressButton==2 || pressButton==4|| pressButton==3){
-                alert("In Basic details:Please select Modules !");
+                errorModules.text("Required field");
+                $('#modules').focus();
             return false;
           }
-              alert('Please select Modules !');
+              errorModules.text('Required field');
+              $('#modules').focus();
               return false;
             }
            check=checkFinal();
@@ -920,48 +953,61 @@ function getDefaultModule(){
             }
     }
     function checkFinal(){
+      var errorInNum = $('#errorInNum');
+      var errorHrRole = $('#errorHrRole');
+      var errorIsbill = $('#errorIsbill');
+      var errorBillRate = $('#errorBillRate');
              if(($("#hrRole").val()=='3') &&( $("#hodList").val()=='0') && ($('#modules').val().indexOf("7")>=0)){
-                alert('Error:In Role Details ,HOD is required');
+                errorHrRole.text('HOD is required');
+                $("#hrRole").focus();
                 return false;
             }
             else if(($("#expense").val()=='1') && ($("#inNum").val()=='') && ($('#modules').val().indexOf("3")>=0)){
-                 alert('Error:In Role Details , Expense limit is required');
+                 errorInNum.text('Expense limit is required');
+                 $("#inNum").focus();
                 return false;
             }
             else if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
-                alert('Error:In Role Details , Expense limit should be greated than 0');
+                errorInNum.text('Expense limit should be greated than 0');
+                $("#inNum").focus();
                 return false;
               } 
             else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)&& ($('#modules').val().indexOf("2")>=0)){
-                    alert('Error:Enter Billrate greater than zero');
+                    errorBillRate.text('Required field');
+                    $('#billrate').focus();
                     return false;
             }
             else  if(($('#isbill').val()==1)&&($('#billrate').val()==0)){
-                    alert('Error:Enter Billrate greater than zero');
+                    errorBillRate.text('Enter Billrate greater than zero');
+                    $('#billrate').focus();
                     return false;
             }
-            else if(($('#doj').val()=='')&&($('#doc').val()!='')){
-                    alert("Error:In HR Details ,Please Enter Date of joining");
+            else if(($('#doj').val()=='') && ($('#doc').val()!='')){
+                    erroDoj.text("Required field");
+                    $('#doj').focus();
                     return false;
             
             }           
             else if(new Date($('#doj').val())>new Date($('#doc').val())){
-                  alert("Error:In HR Details ,Date of joining should note be greater then Date of confirmation");
+                  erroDoj.text("Date of joining should note be greater then Date of confirmation");
+                  $('#doj').focus();
                   return false;
             }
             return true ;
   }
  function validRole(){ 
+          var errorHrRole = $('#errorHrRole');
+          var errorInNum = $('#errorInNum');
           pressButton=4;  
           subFlag=0;
           var abc=validBasicInfo();
           if((abc)&&(check)){
               if($("#expense").val()=='1' && $("#inNum").val()==''){
-                alert('Error:Expense limit is required');
+                errorInNum.text('Expense limit is required');
                 return false;
               }
               if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
-                alert('Error:Expense limit should be greated than 0');
+                errorInNum.text('Expense limit should be greated than 0');
                 return false;
               }
                 if(($("#isClient").val()=='1') && ($("#clientId").val()=='0')&&($('#modules').val().indexOf("2")>=0)){
@@ -970,7 +1016,7 @@ function getDefaultModule(){
               }
                
                if($("#hrRole").val()&&  ($("#hrRole").val().indexOf('3')>-1) && ($("#hodList").val()=='0')&&($('#modules').val().indexOf("7")>=0)){
-                alert('Error:HOD is required');
+                errorHrRole.text('Error:HOD is required');
                 return false;
               }  
               return addUser(0);
@@ -996,6 +1042,9 @@ function getDefaultModule(){
 
 
      function validHr(){
+      var errorDoc = $('#errorDoc');
+      var errorDoj = $('#errorDoj');
+      var errorDob = $('errorDob');
       pressButton=3;
       var abc=validBasicInfo();
       subFlag=100;
@@ -1015,12 +1064,14 @@ function getDefaultModule(){
       var date = new Date(y,m-1,d);
     
       if($('#doj').val()==''){
-        alert("Error :please enter Date of joining ");
+        errorDoj.text("Required field");
+        $('#doj').focus();
         return false;
       }
       if(new Date($('#doj').val())>new Date($('#doc').val())){
          subFlag=2;
-         alert("'Error :Date of joining should note be greater then Date of confirmation");
+         errorDoj.text("Date of joining should not be greater then Date of confirmation");
+         $('#doj').focus();
          return false;
       }
         addUser(0);
@@ -1028,7 +1079,8 @@ function getDefaultModule(){
        
       }
     function addUser(temp) {
- 
+      var successUser= $('#successUser');
+      var errorUser = $('#errorUser');
       if($('#modules').val().indexOf("2")<0){
           $("#time").val('0');
       }  
@@ -1095,22 +1147,25 @@ function getDefaultModule(){
                 $("#hdnId").val( <%=editflag%>); 
               }
                   if(data[0][0].flag==2){
-                    alert("Employee Code already exist! Please enter different Empolyee Code");                    
+                    errorUser("Employee Code already exist! Please enter different Empolyee Code");
+                         commonTimeOut(errorUser);                    
                     return false;
                   }
                   
                   else if (data[0][0].flag == 3) {
-                    alert('EmailId is already exist.Please register again with different email id.');
+                    errorUser('EmailId is already exist.Please register again with different email id.');
+                    commonTimeOut(errorUser);
                     return false;
                 }
                 else if(data[0][0].flag == 0){
-                    alert("User added successfully. Mail is sent on registered emailId.");
+                    successUser("User added successfully. Mail is sent on registered emailId.");
+                    commonTimeOut(successUser);
                     if(subFlag==100){
                       window.location.href="/users";
                     }
                   }
                 else if (data[0][0].flag == 1) {
-                      alert("User updated successfully.");
+                      messageBox("User updated successfully.");
                      if(subFlag==100){
                     window.location.href="/users";
                   }
