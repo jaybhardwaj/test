@@ -11,6 +11,12 @@ module.exports = {
 		req.page='home';
 		next();
 	},
+
+    superAdmin:function(req,res,next){
+		req.page='superAdmin';
+		next();
+	},
+
 		setpage: function(req, res, next) {
 		req.page = 'success';
 		next();

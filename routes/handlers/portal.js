@@ -476,6 +476,11 @@ var locationId = [],
                      res.json(result); 
          });
      },
+
+   
+
+
+
  getClient: function(req, res, next) {
   
          modelPortal.getAllClient(req.clientid, req.session.roleId, req.session.retailerId,req.statusflag, function(err, resultClient) {
@@ -3913,7 +3918,54 @@ updateHoliday: function(req,res,next){
              next();
              }
          });
-     },  
+     },
+
+///superAdmin code
+
+    userStatusbyretailer: function(req, res, next) { 
+                modelPortal.userStatusbyretailer( req.body.retailerId ,
+                   function(err, result) {
+                     if (err) { 
+                         next(err);
+                         return;
+                     }  
+                   
+                     res.json(result); 
+         });
+     },
+
+      retailerfordesboard: function(req, res, next) { 
+              modelPortal.getallretailersDetails(function(err, result){
+                     if (err) {    
+                     }  
+                   
+                     res.json(result); 
+         });
+     },
+
+         blockretailer: function(req, res, next) { 
+                modelPortal.blockretailer( req.body.retailerId ,req.body.status,
+                   function(err, result) {
+                     if (err) {    
+                     }  
+                   
+                     res.json("success"); 
+         });
+     },
+
+  superAdmin: function(req, res, next) {
+         modelPortal.getallretailersDetails(function(err, result) {
+             if (err) {
+                 next(err);
+
+             } else {
+                req.resultretailer=result;
+                console.log("result for superAdmin");
+                next();
+             }
+         });
+     },
+
      
      userStatus: function(req, res, next) {
           

@@ -35,6 +35,7 @@ app.use(bodyParser({
   app.use(portal.resetNotification);
 	app.get('/', url.setpage, render.redirect);
 	app.get('/portal',url.home, portal.home,render.redirect);
+  app.get('/superAdmin',url.superAdmin, portal.superAdmin,render.redirect);
 	app.get('/logout', portal.logout,render.redirect);
 	app.post('/changePassword',portal.changePass);
 
@@ -43,7 +44,9 @@ app.use(bodyParser({
 	app.post('/addNewModules',portal.addNewModules);
 app.post('/sendMailClient',portal.updateClientPassword,portal.sendMailClient);
 app.post('/blockUser',portal.blockUser);
-	
+	app.post('/userStatusbyretailer',portal.userStatusbyretailer); 
+  app.post('/blockretailer',portal.blockretailer);  
+  app.post('/retailerfordesboard',portal.retailerfordesboard); 
 	//------------------------BUG-------------------------------------------------
 	
 	app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);

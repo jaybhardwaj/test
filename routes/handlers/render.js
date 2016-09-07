@@ -16,6 +16,13 @@ module.exports = {
 					logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
+				case 'superAdmin' :  
+				res.render('superAdmin',{allretailers:req.resultretailer,notification:req.session.notification,    
+					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,					 
+					isRetailer:req.session.isRetailer,hideFlag:1,module:req.result1,roleid:req.session.roleId,
+					logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,
+					isApp:req.session.isApprover,assetrole:req.session.asstroleid});
+				break;
 				case 'changePassWordPage' :
 				console.log("step last",req.session.modules);
 				res.render('changePassWordPage',{	notification:req.session.notification,    

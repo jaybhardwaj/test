@@ -2427,6 +2427,44 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             callback(err, result); 
         });
     },
+ 
+////super admin code
+
+      userStatusbyretailer: function(retailerid ,callback) {
+        var query = {
+            sql: 'call usp_userStatusByRetailer(?)',
+            values: [retailerid]
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+            console.log("error on admin page",result); 
+        });
+    },
+
+       blockretailer: function(retailerid , status,callback) {
+        var query = {
+            sql: 'call usp_blockretailer(?,?)',
+            values: [retailerid,status]
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+           console.log("error on admin page",query);  
+        });
+    },
+
+      getallretailersDetails: function(callback) {
+        var query = {
+            sql: 'call usp_getAllRetailerfordesboard()',
+            values: []
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+            console.log("error on admin page",result); 
+        });
+    },
+
+ ///super admin code   
+
     getModules : function(userId, roleId,retailerid, callback) {
         var query = {
             sql: 'call usp_getModules(?,?,?)',
