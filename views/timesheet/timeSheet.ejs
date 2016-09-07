@@ -7,6 +7,9 @@
    <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
    <style>
+   .marginR10 {
+    margin-right: 10px;
+   }
       .text-hover:hover{
       background-color: #ffb3b3;
       }
@@ -38,6 +41,10 @@
       }
    </style>
    <script>
+        var resettimesheetBtn='<button type="button" id="resettimesheet" class="btn marginR10" onClick="ClearAll()">Reset</button>';
+        var savetimesheetBtn='<button type="button" class="btn marginR10" id="savetimesheet" onClick="Totalsum(1)">Save</button>';
+        var submitTimesBtn ='<input id="submitTimes" type="button" style=" " class="btn marginR10" onClick="Totalsum(2)" value="Submit">';
+        var submitedTimesBtn ='<input id="submitedTimes" type="button" style=" " class="btn" value="Submitted" disabled>';
       var new1;
       var t = '';
       var no_of_asgmnt = 0;
@@ -166,7 +173,8 @@
       var retailerId = <%=retailerId%>;
       
       function checkUserTimesheet(userId, tdate) {
-      
+
+
          //  alert(" i  am in check user timesheet assignmnet");        
           $.ajax({
               url: 'checkUserTimesheet',
@@ -176,23 +184,27 @@
                   "tdate": tdate
               },
               success: function(data) {
-      abcd=data;
-      console.log('data is jjjjj',data[3])
+
                   if (data[1][0].status == 2 || data[1][0].status == 3) {
                       //alert("whole datad "+data[1][0].status); 
-                      $('#savetimesheet').addClass('hide');
-                      $('#resettimesheet').addClass('hide');
+                   /*   $('#savetimesheet').addClass('hide');
+                      $('#resettimesheet').addClass('hide');*/
                       /*document.getElementById("savetimesheet").disabled = true;
                       document.getElementById("resettimesheet").disabled = true;*/
-                      document.getElementById("submitTimes").value = "Submitted";
-                      document.getElementById("submitTimes").disabled = true;
+          /*            document.getElementById("submitTimes").value = "Submitted";
+                      document.getElementById("submitTimes").disabled = true;*/
+                      $('#showBtn').html(submitedTimesBtn);
+
                   } else {
-                      $('#savetimesheet').removeClass('hide');
-                      $('#resettimesheet').removeClass('hide');
+              /*        $('#savetimesheet').removeClass('hide');
+                      $('#resettimesheet').removeClass('hide');*/
                       /* document.getElementById("savetimesheet").disabled = false; 
                        document.getElementById("resettimesheet").disabled = false;*/
-                      document.getElementById("submitTimes").value = "Submit";
-                      document.getElementById("submitTimes").disabled = false;
+                     /* document.getElementById("submitTimes").value = "Submit";
+                      document.getElementById("submitTimes").disabled = false;*/
+                       $('#showBtn').html(resettimesheetBtn);
+                       $('#showBtn').append(savetimesheetBtn);
+                       $('#showBtn').append(submitTimesBtn);
                   }
       
                    
@@ -218,13 +230,13 @@
                                            }
       
                                             var w2=new Date($('#t_h' + j).val());
-                                            console.log('j is',j,'w1',w1,'w2',w2);
+                                            //console.log('j is',j,'w1',w1,'w2',w2);
       
       var day1=new Date(w1);
       var day2= new Date(w2);
                                       if(day1.getDate()==day2.getDate()){
                                            
-                                          console.log("i am in");
+                                          //console.log("i am in");
                                   $('#id' + j+'_'+ i).val(data[3][z].Thumbhours);
                                    z++; 
                               }
@@ -680,7 +692,7 @@
                       a = a + ' <td><input disabled id="id' + i + '_' + j + '" value="" class="abc numeric clearAllfield" type="text" style="width:60px; text-align:center; " onkeypress="return isNumber(event)"></input> </td>'
                   } else
                   if (i == temp + 1) {
-                      console.log("this is final",i,"_",j);
+                     // console.log("this is final",i,"_",j);
                       a = a + '<td><input id="id' + i + '_' + j + '" disabled  type="text" style="width:60px; text-align:center; " value="0" font-weight:700" ></input> </td> '
                   } else 
                   /*if(curr_wbsnm[j]=='Holiday')
@@ -844,11 +856,12 @@
             </div>
             <div class="text-center padTop10"><span class="error" id="errorTimesheetCommon"></span><span class="success" id="successTimesheetCommon"></span></div>
             <div id="ModalAdd"></div>
-            <div class="row" style="margin-left: 40%;padding-top:10px;">
+            <div id="showBtn" class="row" style="margin-left: 40%;padding-top:10px;"></div>
+        <!--     <div class="row" style="margin-left: 40%;padding-top:10px;">
                <button type="button" id="resettimesheet" class="btn  " onClick="ClearAll()">Reset</button>
                <button type="button" class="btn  " id="savetimesheet" onClick="Totalsum(1)">Save</button>
                <input id="submitTimes" type="button" style=" " class="btn " onClick="Totalsum(2)" value="Submit">
-            </div>
+            </div> -->
             <br>
             <br>
          </div>
@@ -1093,29 +1106,40 @@
       
                           //console.log("b");
                           if (status == 2){
+                              $(".se-pre-con").fadeOut("slow");
               successTimesheetCommon.text("TimeSheet submitted successfully.");
               commonTimeOut(successTimesheetCommon);
-               $(".se-pre-con").fadeOut("slow"); }
+             
+                }
           else {
               if((save_not_submit!=1 || flag==1)&& flag!=0){
+                     $(".se-pre-con").fadeOut("slow");
               successTimesheetCommon.text("Timesheet saved succesfully.");
               commonTimeOut(successTimesheetCommon);
-              $(".se-pre-con").fadeOut("slow");} }
+         
+
+            } }
               
           if (status == 2) {
-      
-              $('#savetimesheet').addClass('hide');
-              $('#resettimesheet').addClass('hide');
-              document.getElementById("submitTimes").value = "Submitted";
-              document.getElementById("submitTimes").disabled = true;
+
+                           $('#showBtn').html(submitedTimesBtn);
+/*      $('#showBtn').html(resettimesheetBtn);
+                       $('#showBtn').append(savetimesheetBtn);
+                       $('#showBtn').append(submitTimesBtn);
+                           $('#showBtn').html(submitedTimesBtn);*/
+           /*   document.getElementById("submitTimes").value = "Submitted";
+              document.getElementById("submitTimes").disabled = true;*/
               document.getElementById('timestatus').innerHTML = for_status[status];
       
           } else {
-              $('#savetimesheet').removeClass('hide');
+                        $('#showBtn').html(resettimesheetBtn);
+                       $('#showBtn').append(savetimesheetBtn);
+                       $('#showBtn').append(submitTimesBtn);
+           /*   $('#savetimesheet').removeClass('hide');
               $('#resettimesheet').removeClass('hide');
       
               document.getElementById("submitTimes").value = "Submit";
-              document.getElementById("submitTimes").disabled = false;
+              document.getElementById("submitTimes").disabled = false;*/
               document.getElementById('timestatus').innerHTML = for_status[status];
           }
                       }
@@ -1134,14 +1158,15 @@
       function getdateprev() {
           //Totalsum(1);
           // alert(" inside getdateprev date function");
-          
+          resetError();
+          $('#showBtn').html('');
           $('#savetimesheet').removeClass('hide');
           $('#resettimesheet').removeClass('hide');
           /*  document.getElementById("savetimesheet").disabled = false;
             document.getElementById("resettimesheet").disabled = false;*/
-          document.getElementById("submitTimes").disabled = false;
+      /*    document.getElementById("submitTimes").disabled = false;*/
           document.getElementById('timestatus').innerHTML = for_status[flag];
-          document.getElementById("submitTimes").value = "Submit";
+   /*       document.getElementById("submitTimes").value = "Submit";*/
           var tt = eddate2;
         //  alert("tt in getoprecious"+tt);
           var date = new Date(tt);
@@ -1194,7 +1219,8 @@
       }
       
       function getdateuser() {
-          
+        resetError();
+          $('#showBtn').html('');
            $(".fadeLeftIcon").addClass("hide");
          $(".leftIcon").removeClass("hide");
       
@@ -1202,9 +1228,9 @@
           $('#resettimesheet').removeClass('hide');
           /*document.getElementById("savetimesheet").disabled = false;
           document.getElementById("resettimesheet").disabled = false;*/
-          document.getElementById("submitTimes").disabled = false;
+       /*   document.getElementById("submitTimes").disabled = false;*/
           document.getElementById('timestatus').innerHTML = for_status[flag];
-          document.getElementById("submitTimes").value = "Submit";
+        /*  document.getElementById("submitTimes").value = "Submit";*/
           //alert('dashgfdhsd');
           var tt = eddate2;
          // alert("tt is "+eddate2);
@@ -1325,11 +1351,11 @@
           var s = 0;
           for (var i = 0; i < temp + 1; i++) {
               s = s + parseFloat($('#id'+i+'_'+k).val());
-              console.log("value in #id",  i ,'', k," is", $('#id'+i+'_'+k).val());
+             // console.log("value in #id",  i ,'', k," is", $('#id'+i+'_'+k).val());
           };
           //console.log("TOTAL ------sum is ",s);
           $('#id'+i+'_'+k).val(s);
-          console.log("TOTAL ------sum is ",s,"VALUE OF id",i,"_",k," is ",$('#id'+i+'_'+k).val(s));
+         // console.log("TOTAL ------sum is ",s,"VALUE OF id",i,"_",k," is ",$('#id'+i+'_'+k).val(s));
           //  alert(" end of  disable holiday ");
       }
       

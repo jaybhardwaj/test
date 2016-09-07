@@ -79,7 +79,28 @@
 		    padding: 3px;
     } 
 	</style>
+<div class="row" style="margin-top: 2%;margin-left: 5px">
+  <div class="col-md-1">   
+  <button class="btn btn-success buttonMenu " title = "Show/Hide Table column" ><span class="glyphicon glyphicon-eye-close" onclick = "colHideOnChange('selectCol')" value="showHide" style = "font-size:19px;position:relative"></span> </button>
 
+  </div>
+ <div class="col-md-11 hide" id="selectCol">
+ <select multiple="multiple" style="height:10px" class="form-text-box "  id ="hideColumnsId" maxlength="50" onchange="hidecol()">
+     <option value = "1">Bug ID</option>
+     <option value = "2">Title</option>
+     <option value = "3">Project</option>
+     <option value = "4">Status</option>
+     <option value = "5">Priority</option>
+     <option value = "6">Severity</option>
+     <option value = "7">Technology</option>
+     <option value = "8">Esti. Effort</option>
+     <option value = "9">Actual Effort</option>
+     <option value = "10">Assinged To</option>
+     <option value = "11">Created Date</option>
+     <option value = "12">Closure Date</option>
+   </select>
+</div>
+</div>
 
 <div class="se-pre-con"></div>
    <div class="secondry-color" style=" overflow-x:hidden ">
@@ -413,6 +434,14 @@ var radio=[];
 
  	$(document).ready(function(){ 
              
+$('#hideColumnsId').tagger({
+        "fieldWidth":"20em", 
+        displayHierarchy: false
+      , indentMultiplier: 2, baseURL: './img/'
+       , placeholder: 'Select Columns to Hide',
+
+      });
+
 
    $('#projects1').change(function() { 
                  }).multipleSelect({
@@ -855,6 +884,28 @@ function showhide(id) {
     var e = document.getElementById(id);
 $(e).toggleClass("hide");     
  }
+
+ function hidecol(){
+  var a=[];
+   a= $('#hideColumnsId').val();
+   var table = $('#data_table').DataTable();
+
+  for(var i=0;i<13;i++)
+  {
+    table.column(i).visible( true );  
+ }
+
+  for(var i=0;i<a.length;i++)
+  {
+    table.column(a[i]).visible( false );  
+ }  
+}
+ function colHideOnChange(id) {
+    var e = document.getElementById(id);
+$(e).toggleClass("hide"); 
+
+ }
+
 	</script>
 
 

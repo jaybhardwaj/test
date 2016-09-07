@@ -14,7 +14,7 @@
             input[type=number]::-webkit-inner-spin-button,
             input[type=number]::-webkit-outer-spin-button {
                 -webkit-appearance: none;
-                margin: 0;
+                margin: 0; 
             }
                        input[type=number] {
     -moz-appearance:textfield;
@@ -28,8 +28,17 @@
               height:auto; 
               width:977px;
             }
+            .marginR10 {
+                margin-right: 10px;
+            }
         </style>
         <script>
+
+               var ApprovedBtn='<input id="Approved" type="button" class="btn btn-primary marginR10" value="Approve" onClick="return ApporReject(3)">';
+
+                var RejectedBtn='<input id="Rejected" type="button"  class="btn btn-primary marginR10" value="Reject" data-toggle="modal" data-target="#tag">';
+
+                /*var BackBtn='<a href="/timesheet?flag=1"><button type="button" style="font-size:10px; width:77px" class="btn btn-primary">Back</button></a>';*/
             var new1;
             var t = '';
             var no_of_asgmnt = 0;
@@ -247,33 +256,51 @@ var day2= new Date(w2);
                             document.getElementById('timestatus').innerHTML = for_status[data[1][0].status];
                         }
                         if (data[1].length == 0 || data[1][0].status == 0) {
-                            // alert("this is for undefined");
+                             //alert("this is for undefined");
+                   /*         $('#Rejected').removeClass('btn btn-primary');
                             $('#Rejected').addClass('hide');
                             $('#Approved').addClass('hide');
+                            $('#Approved').removeClass('btn btn-primary');*/
+                                         $('#ApproveDiv').html('');
+                    /*    $('#ApproveDiv').html(BackBtn);*/
+      
                         }
                         if ((data[1][0].status == 3) && (<%=roleid%> == 1)) {
-                            $('#Approved').addClass('hide');
-                            $('#Rejected').removeClass('hide');
+                           /* $('#Approved').addClass('hide');
+                            $('#Rejected').removeClass('hide');*/
+                                   $('#ApproveDiv').html('');
+                        /*$('#ApproveDiv').html(BackBtn);*/
+                        $('#ApproveDiv').append(RejectedBtn);
                         }
 
                         if (data[1][0].status == 3 && (<%=roleid%> != 1)) {
-                            $('#Rejected').addClass('hide');
-                            $('#Approved').addClass('hide');
+                            /*$('#Rejected').addClass('hide');
+                            $('#Approved').addClass('hide');*/
+                                   $('#ApproveDiv').html('');
+                       /* $('#ApproveDiv').html(BackBtn);*/
                         }
 
 
                         if (data[1][0].status == 4) {
-                            $('#Approved').addClass('hide');
-                            $('#Rejected').addClass('hide');
+                                $('#ApproveDiv').html('');
+                      /*  $('#ApproveDiv').html(BackBtn);*/
+                         /*   $('#Approved').addClass('hide');
+                            $('#Rejected').addClass('hide');*/
 
                         }
                         if (data[1][0].status == 1) {
-                            $('#Rejected').addClass('hide');
-                            $('#Approved').addClass('hide');
+                            /*$('#Rejected').addClass('hide');
+                            $('#Approved').addClass('hide');*/
+                                  $('#ApproveDiv').html('');
+              /*          $('#ApproveDiv').html(BackBtn);*/
+                       
                         }
                         if (data[1][0].status == 2) {
-                            $('#Rejected').removeClass('hide');
-                            $('#Approved').removeClass('hide');
+                       /*     $('#Rejected').removeClass('hide');
+                            $('#Approved').removeClass('hide');*/
+                                  $('#ApproveDiv').html('');
+                        $('#ApproveDiv').html(ApprovedBtn);
+                        $('#ApproveDiv').append(RejectedBtn);
                         }
 
 
@@ -683,18 +710,9 @@ function parseDate(input) {
                 <label style="color:white; color:white;margin-left: -20px;">Status  :  </label>
                 <label style=" margin-left:-3px;" id="timestatus">Draft</label>
             </div>
-
-            <div class="col-md-3" style=" float: right; ">
-
-                <input id="Approved" type="button" class="btn btn-primary hide" value="Approve" onClick="return ApporReject(3)">
-
-                <input id="Rejected" type="button"  class="btn btn-primary hide" value="Reject" data-toggle='modal' data-target='#tag'>
-
-                <a href="/timesheet?flag=1">
-                    <button type="button" style="font-size:10px; width:77px" class="btn btn-primary" >  Back  </button>
-                </a>
-
-            </div>
+            <div class="col-sm-1" style="float:right"><a href="/timesheet?flag=1"><button type="button" style="font-size:10px; width:77px" class="btn btn-primary">Back</button></a></div>
+            <div class="col-md-2" style=" float: right; " id="ApproveDiv"></div>
+            
         </div>
 <hr style="max-width:100%">
 
@@ -1095,17 +1113,26 @@ function parseDate(input) {
                     ////console.log("--------------------werwerwe------------------");
                     document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
                     if ((data[0][0].status == 3) && (<%=roleid%> == 1)) {
-                        $('#Approved').addClass('hide');
-                        $('#Rejected').removeClass('hide');
+                   /*     $('#Approved').addClass('hide');
+                        $('#Rejected').removeClass('hide');*/
+                              $('#ApproveDiv').html('');
+            /*            $('#ApproveDiv').html(ApprovedBtn);*/
+                        $('#ApproveDiv').html(RejectedBtn);
                     }
 
                     if (data[0][0].status == 3 && (<%=roleid%> != 1)) {
-                        $('#Rejected').addClass('hide');
-                        $('#Approved').addClass('hide');
+                              $('#ApproveDiv').html('');
+                        $('#ApproveDiv').html(ApprovedBtn);
+                       /* $('#ApproveDiv').append(RejectedBtn);*/
+     /*                   $('#Rejected').addClass('hide');
+                        $('#Approved').addClass('hide');*/
                     }
                     if (data[0][0].status == 4) {
-                        $('#Rejected').addClass('hide');
-                        $('#Approved').removeClass('hide');
+                        $('#ApproveDiv').html('');
+                        $('#ApproveDiv').html(ApprovedBtn);
+                        $('#ApproveDiv').append(RejectedBtn);
+                        /*$('#Rejected').addClass('hide');
+                        $('#Approved').removeClass('hide');*/
                     }
                     ////console.log("kkkkkk");
                     getUserUnderSupervisor();
@@ -1143,12 +1170,16 @@ function parseDate(input) {
                     ////console.log("--------------------werwerwe------------------");
                     document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
                     if (data[0][0].status == 3) {
-                        $('#Approved').addClass('hide');
-                        $('#Rejected').removeClass('hide');
+                        $('#ApproveDiv').html('');
+                        $('#ApproveDiv').html(ApprovedBtn);
+                        /*$('#Approved').addClass('hide');
+                        $('#Rejected').removeClass('hide');*/
                     }
                     if (data[0][0].status == 4) {
-                        $('#Rejected').addClass('hide');
-                        $('#Approved').addClass('hide');
+                        $('#ApproveDiv').html('');
+                     /*   $('#ApproveDiv').html(BackBtn);*/
+                        /*$('#Rejected').addClass('hide');
+                        $('#Approved').addClass('hide');*/
                     }
                     ////console.log("kkkkkk");
                     getUserUnderSupervisor();
