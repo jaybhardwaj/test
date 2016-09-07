@@ -1,0 +1,3 @@
+function resetError() {
+	$('.error').text('');
+}

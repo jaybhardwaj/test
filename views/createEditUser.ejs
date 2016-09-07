@@ -140,26 +140,32 @@
 
             <td>
               <td><label class="form-Label">First Name:<sup  class="astrick">*</sup></label></td>
-              <td><input type="text" maxlength="30" class="form-text-box" id="first-name"   name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> </td>
+              <td><input type="text" maxlength="30" class="form-text-box" id="first-name"   name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" /> 
+              <div class="fLeft"><span class="error" id="errorFirstName"></span></div>  
+              </td>
       
             <td>
               <td><label class="form-Label">Last Name:<sup  class="astrick">*</sup></label></td>
-              <td><input type="text" maxlength="20"   class="form-text-box" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" /></td>
+              <td><input type="text" maxlength="20"   class="form-text-box" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" />
+              <div class="fLeft"><span class="error" id="errorLastName"></span></div>  
+              </td>
       
             <td>
               <td><label class="form-Label">Email:<sup  class="astrick">*</sup></label></td>
               <td><input type="email" maxlength="150"   class="form-text-box" id="emailId" name="emailId" placeholder="abc@mydomain.com" /> </td>
-      
+              <div class="fLeft"><span class="error" id="errorEmailId"></span></div>  
             <td>
               <td><label class="form-Label">Contact Number: </label></td>
-              <td><input type="number" maxlength="10"  class="form-text-box" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="contact-number" name="contact-number" placeholder="Contact Number" /></td>
-      
+              <td><input type="number" maxlength="10"  class="form-text-box" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="contact-number" name="contact-number" placeholder="Contact Number" />
+              <div class="fLeft"><span class="error" id="errorContactNumber"></span></div>    
+              </td>
+          
           </tr>
           <tr>
             <td>
               <td><label class="form-Label">Employee Code:<sup  class="astrick">*</sup></label></td>
               <td><input type="text" maxlength="20"   class="form-text-box" id="ecode" name="ecode" placeholder="Employee Code" /></td>
-      
+             <div class="fLeft"><span class="error" id="errorEcode"></span></div>
             <td>
               <td><label class="form-Label">Designation: </label></td>
               <td><select class="form-text-box"   id='designation' name="designation"  >
@@ -170,7 +176,7 @@
                 </option>
                 <%}%>
               </select> 
-        
+            <div class="fLeft"><span class="error" id="errorDesignation"></span></div>
             </td>
             <td>
               <td><label class="form-Label">Level:</label></td>
@@ -181,7 +187,9 @@
                 <%=level[i].description1%>
                 </option>
                 <%}%>
-              </select> </td>
+              </select>
+              <div class="fLeft"><span class="error" id="errorLevel"></span></div>
+              </td>
       
             <td>
               <td><label class="form-Label">Reporting To : </label></td>
@@ -192,12 +200,14 @@
                 <%=report[i].Name%>
                 </option>
                 <%}%>
-              </select></td>
+              </select>
+              <div class="fLeft"><span class="error" id="errorManager"></span></div>
+            </td>
       
           </tr>
           <tr>
           
-            <td  >
+            <td>
               <td  ><label class="form-Label">Modules:<sup  class="astrick">*</sup></label></td>
               <td  >
               <select multiple = "multiple" class="multiplebox" name="modules" id="modules" style="" maxlength="50">
@@ -208,13 +218,15 @@
                 </option>
                 <%}%>
               </select>  
+              <div class="fLeft"><span class="error" id="errorModules"></span></div>
               </td>
               </td>
-            <td  >
+            <td>
               <td  ><label class="form-Label">Default Module: </label></td>
               <td  >  <select class="form-text-box"   id='default-module' name="defmod" >
                <option>No Module Solelected</option>
                 </select> 
+                <div class="fLeft"><span class="error" id="errorDefaultModule"></span></div>
                </td> 
  </td>
             <td>
@@ -226,7 +238,9 @@
                   <%=role[i].roleName%>
                 </option>
                   <%}}%>
-              </select> </td>
+              </select>
+              <div class="fLeft"><span class="error" id="errorUserRole"></span></div>
+              </td>
       
             <td>
               <td> </td>
@@ -263,11 +277,13 @@
                 <option value=1>Is Billable</option>
                 
               </select>  
+              <div class="fLeft"><span class="error" id="errorIsbill"></span></div>
             </div>
           </div>
           <div class="col-md-4 a" id="billRate" style="margin-top: -0.4%">
             <div class="col-md-6"> <label style="">Billable Rate :<sup style="color:red;">*</sup></label> </div>
             <div class="col-md-6" style="margin-left: -12%;margin-top:1%"> <input type="number" min="1" maxlength="7" style="" class="form-text-box " placeholder="enter bill rate" id="billrate" name="billrate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeypress=" return checkBillrate(event)" /> </div>
+            <div class="fLeft"><span class="error" id="errorBillRate"></span></div>
           </div> 
         </div>
         
@@ -807,25 +823,34 @@ function getDefaultModule(){
         return validBasicInfo();
       }
       function validBasicInfo() { 
+             resetError();
+             var errorFirstName = $('#errorFirstName');
+             var errorLastName = $('#errorLastName');
+             var ErrorContactNumber= $('#ErrorContactNumber');
+             var errorEmailId = $('#errorEmailId');
              var retailerInfo = <%-JSON.stringify(retailerInfo[0].emailId)%>;
              var validEmailAccRetailer= retailerInfo.substring(retailerInfo.indexOf('@')+1);
              var userEmail=$('#emailId').val().trim();
              var validUserEmail=userEmail.substring(userEmail.indexOf('@')+1);
              if($("#first-name").val().trim()=='') {
                 if(pressButton==2 || pressButton==4 || pressButton==3){
-                  alert("In Basic details: first-name required !");
+                  errorFirstName.text("Required Field");
+                  $("#first-name").focus();
                     return false;
                 }
-                alert('First Name is required !');
+                errorFirstName.text('Required Field');
+                $("#first-name").focus();
                 return false;
             }
             if ($("#last-name").val().trim() == '') {
 
               if(pressButton==2 || pressButton==4|| pressButton==3){
-                alert("In Basic details: last-name required !");
+                errorLastName.text("Required Field");
+                $("#last-name").focus();
                   return false;
                 }
-                alert('Last Name is required');
+                errorLastName.text('Required Field');
+                $("#last-name").focus();
                 return false;
             }
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
