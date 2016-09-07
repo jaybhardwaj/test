@@ -62,13 +62,15 @@ sup {  color: red;  }
             <td>
             <input type="text" maxlength="40"  onkeypress="return specialCharacter(event)" 
             class="form-text-box " id="cname" name="cname" placeholder="Name" <%if((editflag==1)){%>value='<%=clientinfo[0].clientName%>'
-            <%}%> required />
+            <%}%>/>
+            <div class="fLeft"><span class="error" id="errorCname"></span></div>
             </td>
         </td>
         <td>
             <td><label class="form-Label">Client Abbriviate Name:<sup>*</sup> </label></td>
             <td><input type="text"   onkeypress="return specialCharacter(event)"  maxlength="45" class="form-text-box" id="cabbname" name="cabbname" placeholder="Abbrivated Name"  <%if((editflag==1)){%>value='<%=clientinfo[0].clientAbbName%>'
-            <%}%> required />
+            <%}%> />
+            <div class="fLeft"><span class="error" id="errorCabbname"></span></div>
             </td>
         </td>
         <td>
@@ -79,6 +81,7 @@ sup {  color: red;  }
           <option value="Gold" <% if((editflag==1) && "Gold"==clientinfo[0].category){%>selected<%}%>>Gold</option>
            <option value="Diamond" <% if((editflag==1) && "Diamond"==clientinfo[0].category){%>selected <%}%>>Diamond</option>
             </select>
+            <div class="fLeft"><span class="error" id="errorCategory"></span></div>
     </td>
         </td>
         <td>
@@ -91,36 +94,17 @@ sup {  color: red;  }
                                             </option>
                                             <%}%>
                                         </select>
+            <div class="fLeft"><span class="error" id="errorCal"></span></div>                                        
             </td>
         </td>
 
     </tr>
-    <!-- <tr>
-        
-        <td>
-            <td><label class="form-Label">Client Contact Person:<sup class="astrick">*</sup></label></td>
-            <td><input type="text"   maxlength="25" class="form-text-box"  onkeypress="return specialCharacter(event)"  id="ccontactperson" placeholder="Client Name" name="ccontactperson" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPerson%>'<%}%> required/> </td>
-        </td>
-        <td>
-            <td><label class="form-Label">Client Contact Email:<sup class="astrick">*</sup></label></td>
-            <td>
-                 <input type="email"   maxlength="100" placeholder="abc@example.com" class="form-text-box" id="ccperemail" name="ccperemail" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPersonEmail%>'
-                                            <%}%> /> 
-            </td>
-        </td>
-        <td>
-            <td><label class="form-Label">Client Contact Conatact:</label></td>
-            <td>
-            <input     maxlength="11" class="form-text-box" id="clconphone" placeholder="Contact No." name="clconphone" <%if((editflag==1)){%>value='<%=clientinfo[0].clientContactPhone%>'
-                                            <%}%> /> 
-                                            </td>
-        </td> 
-    </tr> -->
+
     <tr>
         <td>
             <td><label class="form-Label">Client Code:</label></td>
             <td><input type="text"   maxlength="45" class="form-text-box" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
-                                            <%}%> readonly /> </td>
+                                            <%}%> readonly /> <div class="fLeft"><span class="error" id="errorCcode"></span></div></td>
         </td>
         <td>
             <td><label class="form-Label">Location:</label></td>
@@ -130,11 +114,15 @@ sup {  color: red;  }
                                             <option value="<%=location[i].id%>" <%if(editflag==1&&clientinfo[0].location==location[i].id){%>selected<%}%> ><%=location[i].location%>
                                             </option>
                                             <%}%>
-                                        </select></td>
+                                        </select>
+            <div class="fLeft"><span class="error" id="errorLocation"></span></div>                            
+            </td>
         </td>
         <td>
             <td><label class="form-Label">Address:</label></td>
-            <td><textarea type="" placeholder="Client Address"   maxlength="300" height="103" style="resize:none;width: 150px;height: 66px" class="form-text-box" id="address" name="address" <%if((editflag==1)){ console.log(clientinfo[0].address);%>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea></td>
+            <td><textarea type="" placeholder="Client Address"   maxlength="300" height="103" style="resize:none;width: 150px;height: 66px" class="form-text-box" id="address" name="address" <%if((editflag==1)){ console.log(clientinfo[0].address);%>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea>
+                <div class="fLeft"><span class="error" id="errorAddress"></span></div>
+            </td>
         </td>
         <td>
             <td><label class="form-Label"></label></td>
@@ -148,7 +136,7 @@ sup {  color: red;  }
               <td></td><td></td><td></td><td></td> 
           </tr>  
 </table>          
- 
+ <div class="text-center"><span class="error" id="errorCreateClient"></span><span class="success" id="successCreateClient"></span></div>
                                 <center style="padding-bottom: 1%">
                                     <a href="/clients?inactive=false">
                                   <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
@@ -173,20 +161,31 @@ function specialCharacter(evt) {
         return true;
     }
 function validateForm(){
+    resetError();
+var errorCname = $('#errorCname');
+var errorCategory= $('#errorCategory');
+var errorCal= $('#errorCal');
+var errorCcode= $('#errorCcode');
+var errorLocation= $('#errorLocation');
+var errorAddress= $('#errorAddress');
+var errorCabbname= $('#errorCabbname');
+var errorCreateClient= $('#errorCreateClient');
+var successCreateClient= $('#successCreateClient');
 
-    if($('#cname').val().trim().length<=0){
-        alert('Please enter client name.');
+    if($('#cname').val().trim() == ""){
+        errorCname.text('Required field');
+        $('#cname').focus();
         return false;
     }
 
-    if($('#cabbname').val().trim().length<=0){
-        alert('Please enter client abbreviate name.');
+    if($('#cabbname').val().trim() == ""){
+        errorCabbname.text('Required field');
         return false;
     }
-    if($('#ccontactperson').val().trim().length<=0){
+   /* if($('#ccontactperson').val().trim() == ""){
         alert('Please enter client contact person.');
         return false;
-    }
+    }*/
    
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -216,8 +215,8 @@ function validateForm(){
                             success: function(data) { 
 
                                 temper=data[0][0].flagClient;
-                             
-                                    
+                                successCreateClient.text('Client created successfully');
+                                commonTimeOut(errorCreateClient);    
 
                                     }
                                  
@@ -225,15 +224,15 @@ function validateForm(){
                         
                    
                      if(temper==2){
-                                alert("enter different client name ");
+                                messageBox("enter different client name ");
                             return false ;
                         }
                         else
                            {
                             if($('#hiddeneditflag').val()==0)
-                                alert("Client created successfully.");
+                                messageBox("Client created successfully.");
                             else
-                                alert('Client details updated successfully.')
+                                messageBox('Client details updated successfully.')
 
                            }
              }

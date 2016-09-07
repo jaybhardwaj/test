@@ -64,10 +64,10 @@
                  <td>
                  <span <%if(clients[i].isActive==1){%> onclick="addEditClient(1,<%=clients[i].id%>)" class="glyphicon glyphicon-pencil" style="color:red;height:10px"  title="Edit Client" <%}%>></span>               
                     <a <%if(clients[i].isActive==1){%>
-                     onclick="actinact(<%=clients[i].id%>,1)"
+                     onclick=confirmBox2("<%=clients[i].id%>,1","actinact",1);
                       <%}
                        else{%>
-                        onclick="actinact(<%=clients[i].id%>,0)"
+                        onclick=confirmBox2("<%=clients[i].id%>,0","actinact",2);
                         <%}%> >
                         <span <%if(clients[i].isActive==1){
                             %>class="glyphicon  glyphicon-ok-sign" style="color:green;height:10px; width:10px;margin-left: 10px;" title="InActive Client" <%}
@@ -116,7 +116,8 @@
         
     </div>
 
-
+<div id="ModalAdd"></div>
+<div id="ModalAddMesage"></div>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -130,32 +131,32 @@
         <div class="modal-body">
 <div class="col-sm-12">          
       <label class="form-label">Name:</label><sup class="astrick">*</sup>
-<input type="text" maxlength="40" class="form-text-box clearAll " id="cname" autofocus required tabindex="1"/>
+<input type="text" maxlength="40" class="form-text-box clearAll " id="cname" autofocus tabindex="1"/>
 <div class="fLeft"><span class="error" id="errorCname"></span></div>
 </div>
 
 <div class="col-sm-12 height11"></div>
 <div class="col-sm-12">         
       <label class="form-label">Emailid:</label><sup class="astrick">*</sup>
-<input type="text" maxlength="40" class="form-text-box clearAll" id="cemail" required tabindex="2"/>
+<input type="text" maxlength="40" class="form-text-box clearAll" id="cemail" tabindex="2"/>
 <div class="fLeft"><span class="error" id="errorCemail"></span></div>
 </div>
 <div class="col-sm-12 height11"></div>
 <div class="col-sm-12">         
       <label class="form-label">Contact Number:</label><sup class="astrick">*</sup>
-<input  type="number"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"   required tabindex="3"/>
+<input  type="number"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"  tabindex="3"/>
 <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
 </div>
 <input type="text" maxlength="40" class="form-text-box clearAll hide" id="clientid" required />
-<input type="text" maxlength="40" class="form-text-box clearAll hide" id="flag"   required />
+<input type="text" maxlength="40" class="form-text-box clearAll hide" id="flag"/>
         </div>
 <div class="col-sm-12">        
 <div class="text-center"><span class="success" id="successMyModal"></span><span class="error" id="errorMyModal"></span></div>
 </div>        
 <div class="col-sm-12 height11"></div>
         <div class="modal-footer center">
-        <button type="button" class="btn" data-dismiss="modal" onclick="resetError();" tabindex="6">Close</button>
-             <button type="button" class="btn " onclick="createEditContact()" tabindex="5">Save</button>
+        <button type="button" class="btn" data-dismiss="modal" id="createCancelBtn" onclick="resetError();" tabindex="6">Close</button>
+             <button type="button" class="btn" id="createSaveBtn" onclick="createEditContact()" tabindex="5">Save</button>
           <div class="col-sm-12 height11"></div>
         </div>
 
@@ -188,7 +189,7 @@
                                         ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%">' + pdetails[i].Name + '</td><td>' + pdetails[i].emailId + '</td><td style = "width:10%">' + pdetails[i].contactNum + '</td><td style = "width:10%">' + pdetails[i].clientName + '</td><td  id = "con_' + i + '">' + pdetails[i].clientCode + '</td>';
                      
                      if(pdetails[i].isActive==1){
-                                       ch=ch+'</td><td ><i class="glyphicon glyphicon-pencil  " style = "font-size:130%;color:#555555" data-toggle="modal" data-target="#myModal"  title = "Edit" id = "edit_' + pdetails[i].id + '_' + i + '" onclick = "addEditContacts('+pdetails[i].id+','+pdetails[i].clientId+')"></i> <i class="glyphicon glyphicon-envelope" style = "font-size:130%;color:#555555; margin-left:10px"  title = "Send mail" id = "mail' + pdetails[i].id + '_' + i + '" onclick = "sendMail('+pdetails[i].id+')"></i><i class="glyphicon glyphicon-ban-circle" style = "font-size:130%;color:#555555; margin-left:10px"  title = "Block access" id = "block' + pdetails[i].id + '_' + i + '" onclick = "blockUser('+pdetails[i].id+')"></i></td></tr>';
+                                       ch=ch+'</td><td ><i class="glyphicon glyphicon-pencil  " style = "font-size:130%;color:#555555" data-toggle="modal" data-target="#myModal"  title = "Edit" id = "edit_' + pdetails[i].id + '_' + i + '" onclick = "addEditContacts('+pdetails[i].id+','+pdetails[i].clientId+')"></i> <i class="glyphicon glyphicon-envelope" style = "font-size:130%;color:#555555; margin-left:10px"  title = "Send mail" id = "mail' + pdetails[i].id + '_' + i + '" onclick=confirmBox2("'+pdetails[i].id+'","sendMail",6);></i><i class="glyphicon glyphicon-ban-circle" style = "font-size:130%;color:#555555; margin-left:10px"  title = "Block access" id = "block' + pdetails[i].id + '_' + i + '" onclick =confirmBox2("'+pdetails[i].id+'","blockUser",5);></i></td></tr>';
                                    }
                                    else
                                    {
@@ -245,12 +246,14 @@ var con=document.getElementById("client-contact-table").rows[rowId].cells.item(2
 
         function createEditContact()
         {
+
          resetError();  
           var errorCname = $('#errorCname');
           var errorEmail = $('#errorCemail');
           var errorContact = $('#errorCcontact'); 
           var errorMyModal= $('#errorMyModal');
           var successMyModal= $('#successMyModal');
+
 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
  var numreg = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
@@ -288,6 +291,13 @@ if($("#ccontact").val().trim().length!=0 && isNaN($("#ccontact").val()))
     $("#ccontact").focus();
     return ;
 }
+if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
+{
+    errorContact.text('Enter valid contact no');
+    $("#ccontact").focus();
+    return ;
+}
+
                          $.ajax({
                                 url: 'addeditClientContacts',
                                 data: {
@@ -308,7 +318,7 @@ if($("#ccontact").val().trim().length!=0 && isNaN($("#ccontact").val()))
                                         setTimeout(function(){
                                             successMyModal.text('');
                                             window.location.reload();
-                                        },3000);
+                                        },2000);
                                         
                                    }
                                    else
@@ -318,7 +328,7 @@ if($("#ccontact").val().trim().length!=0 && isNaN($("#ccontact").val()))
                                           setTimeout(function(){
                                             successMyModal.text('');
                                             window.location.reload();
-                                        },3000);
+                                        },2000);
                                     }
                                     else
                                     {
@@ -332,25 +342,19 @@ if($("#ccontact").val().trim().length!=0 && isNaN($("#ccontact").val()))
 
 function blockUser(id)
 {
+        $.ajax({
+                url: 'blockUser',
+                data: {
+                    'id':id
+                },
+                method: 'post',
+                success: function(pdetails) {
+                messageBox('User has been deactivated successfully.');
+                
+                window.location.reload();
+                }
+        });
 
- 
- if(confirm('Access for fusion will be revoked for this user. Do you want to continue?'))
-{
-                        $.ajax({
-                                url: 'blockUser',
-                                data: {
-                                    
-                                    'id':id
-
-                                },
-                                method: 'post',
-                                success: function(pdetails) {
-                                    console.log(pdetails)
-alert('User has been deactivated successfully.');
-window.location.reload();
-                                }
-                            });
-}
 
 
 }
@@ -438,8 +442,7 @@ $(window).bind('resize', function () {
         }
 
         function actinact(cid,flag){
-            var str=flag==0?"are you sure ?This client will be Activated ?":"are you sure ?This client will be DeActivated ?" ;
-            if(confirm(str)==true)
+
               $.ajax({
                     url: '/changeClientStatus',
                     type: 'post',
@@ -453,23 +456,21 @@ $(window).bind('resize', function () {
                                
                                 for(i=1;i<=10;i++){
                                    var tempnew=temp+i;
-                                    console.log('tttttttttttttttttt',tempnew,$(tempnew).text());
                                     array1.push($(tempnew).text());
                                 }
                                 if(flag==0)
                                  {
                           
-                                    str1= '<span onclick="addEditClient(1,'+cid+') " class="glyphicon glyphicon-pencil" style="color:red;height:10px"  title="Edit Client" ></span><span onclick="actinact('+cid+',1)" class="glyphicon  glyphicon-ok-sign" style="color:green;height:10px; width:10px;margin-left: 10px;" title="InActive Client"></span>';
+                                    str1= '<span onclick="addEditClient(1,'+cid+')" class="glyphicon glyphicon-pencil" style="color:red;height:10px"  title="Edit Client" ></span><span class="glyphicon  glyphicon-ok-sign" style="color:green;height:10px; width:10px;margin-left: 10px;" title="InActive Client" onclick=confirmBox2("'+cid+',1","actinact",1);></span>';
                                       array1.push(str1);
                                       oTable.fnUpdate(array1,temp);
 
                                  } 
                                  else{
-                                    str1= '<span onclick="actinact('+cid+',0)" class="glyphicon  glyphicon-remove-sign" style="color:red;height:10px; width:10px;margin-left: 10px;" title="InActive Client"></span>';
+                                    str1= '<span class="glyphicon glyphicon-remove-sign" style="color:red;height:10px; width:10px;margin-left: 10px;" title="InActive Client" onclick=confirmBox2("'+cid+',0","actinact",2)></span>';
                                      array1.push(str1);
                                       oTable.fnUpdate(array1,temp);
                                  }
-                                console.log('111111111111111111111111111',array1);
                         }
                         else
                         oTable.fnDeleteRow(temp); 
@@ -480,24 +481,19 @@ $(window).bind('resize', function () {
 
 
 function sendMail(id)
-{
-if(confirm('Mail will be send to for activation. Do you want to continue?'))
-{
+{ 
+              $('.se-pre-con').show();
                         $.ajax({
                                 url: 'sendMailClient',
                                 data: {
-                                    
                                     'id':id
-
                                 },
                                 method: 'post',
                                 success: function(pdetails) {
-                                    console.log(pdetails)
-alert('Mail has been sent successfully.')
+                                 $('.se-pre-con').hide();  
+                                messageBox('Mail has been sent successfully.')
                                 }
                             });
-}
-
 }
         </script>
 
