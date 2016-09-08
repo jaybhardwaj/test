@@ -5,7 +5,8 @@
 <body style="overflow-x:hidden"> 
 
 <div class="se-pre-con"></div>
-  
+<div id="ModalAdd">
+  <div id="ModalAddMesage"></div>
 <div class="row secondry-color" style="margin:0px;padding:0px;padding-top: 1% ">
  <!-- <form method="post" action="/wbsAssignmentInProjectWbs" method="post" class="login-form" id="form1" name="myForm"> -->
            <input type="text" name="wbshidden" class="hide" id="wbshidden" value=2 />
@@ -21,7 +22,9 @@
   <tr>
     <td>
       <td><label class="form-Label" style=" ">WBS Name :<sup>*</sup></label></td>
-      <td><input type="text" onblur="return allWbs();" onkeypress="return specialCharacter(event)" class="form-text-box" style=" " placeholder="-- Enter a WBS Name --" name="wbsname" id="wbsname" maxlength="25" onblur="myFunction(); checkprofield();" value=''></td>
+      <td><input type="text" onblur="return allWbs();" onkeypress="return specialCharacter(event)" class="form-text-box" style=" " placeholder="-- Enter a WBS Name --" name="wbsname" id="wbsname" maxlength="25" onblur="myFunction(); checkprofield();" value=''>
+        <div class="fLeft"><span class="error" id="errorWbsname"></span></div>
+      </td>
     </td>
     <td>
       <td><label class="form-Label" style=" ">WBS Code :</label> </td>
@@ -52,20 +55,28 @@
     <tr> 
     <td>
       <td><label class="form-Label" style=" ">Planned Start Date: <sup>*</sup> </label> </td>
-      <td> <input type="text" class="form-text-box" id="datepicker" maxlength="25" placeholder="Select Planned Start Date"  style=" " name="wbspsdate" value=''></td>
+      <td> <input type="text" class="form-text-box" id="datepicker" maxlength="25" placeholder="Select Planned Start Date"  style=" " name="wbspsdate" value=''>
+        <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>
+      </td>
     </td>
     <td>
       <td> <label class="form-Label" style=" ">Planned End Date: <sup>*</sup> </label> </td>
-      <td><input type="text" name="wbspedate" class="form-text-box" maxlength="25" placeholder="Select Planned End Date" id="datepicker1" style=" " value=''></td>
+      <td><input type="text" name="wbspedate" class="form-text-box" maxlength="25" placeholder="Select Planned End Date" id="datepicker1" style=" " value=''>
+        <div class="fLeft"><span class="error" id="errorWbspedate"></span></div>
+      </td>
     </td>
     
     <td>
       <td> <label class="form-Label" style=" ">Actual Start Date:</label> </td>
-      <td><input type="text" class="form-text-box" id="datepicker2" maxlength="25" style="width: 102% " placeholder="Select Actual Start Date"  name="wbsasdate" value=''></td>
+      <td><input type="text" class="form-text-box" id="datepicker2" maxlength="25" style="width: 102% " placeholder="Select Actual Start Date"  name="wbsasdate" value=''>
+        <div class="fLeft"><span class="error" id="errorDatepicker2"></span></div>
+      </td>
     </td>
      <td>
       <td><label class="form-Label" style=" ">Actual End Date: </label>  </td>
-      <td> <input type="text" class="form-text-box" id="datepicker3" maxlength="25" style="width: 102% " placeholder="Select Actual End Date" name="wbsaedate" value=''> </td>
+      <td> <input type="text" class="form-text-box" id="datepicker3" maxlength="25" style="width: 102% " placeholder="Select Actual End Date" name="wbsaedate" value=''>
+        <div class="fLeft"><span class="error" id="errorDatepicker3"></span></div>
+       </td>
     </td>
   </tr>
     <tr>
@@ -74,6 +85,7 @@
       <td>  
        <div style="float:left;width:46%; ">
                       <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Enter Effort" class="form-text-box" style=" " name="wbseffort" id="wbseffort" maxlength="5" min="0">
+                      <div class="fLeft"><span class="error" id="errorWbseffort"></span></div>
                   </div>
                   <div style="float:left;width:49%; ">
                       <select style="display:inline-block" id="wbseffort1" class="form-text-box" name="wbseffort1">
@@ -83,6 +95,7 @@
                             <option value=3>Man-Weeks</option>
                             <option value=4>Man-Months</option>
                        </select>
+                       <div class="fLeft"><span class="error" id="errorWbseffort1"></span></div>
                   </div> 
                   </td>
     </td>
@@ -156,7 +169,8 @@
     
     <td>
       <td><label class="form-label" style="margin-top: 2%;">User:<sup class="astrick">*</sup></label></td>
-      <td id="asdDiv">
+      <td>
+      <div id="asdDiv">
        <select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important">
                 <option disabled value=0>Select</option>
 
@@ -167,15 +181,9 @@
 
 
        </select>
-
-       <script>
-         if('<%=allUser1.length%>' <= 0){
-          alert('First assign users to the project');
-          window.location.href="/projectDetails";
-         }
-       </script>
-
-        </td>
+      </div>
+      <div class="fLeft"><span class="error" id="errorAsd"></span></div>
+     </td>
     </td>
     <td>
       <td  class="hide" ><label class="form-label" style="margin-top:8px">Status:</label></td>
@@ -192,7 +200,7 @@
       <td><label class="form-label">Start Date:<sup class="astrick">*</sup></label></td>
       <td>
          <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date"  id="datepicker21" style="width: 86%; " >
-           
+         <div class="fLeft"><span class="error" id="errorDatepicker21"></span></div>  
           
       </td>
     </td>
@@ -200,6 +208,7 @@
       <td><label class="form-label">End Date:<sup class="astrick">*</sup></label></td>
       <td> 
       <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date" id="datepicker22" style="width: 86%; " >
+      <div class="fLeft"><span class="error" id="errorDatepicker22"></span></div>  
       </td>
     </td>
 
@@ -209,7 +218,12 @@
 
         
 </div>
-
+  <% if(allUser1.length <= 0){ %>
+  <div class="text-center"><span class="error" id="errorProjectWbs">First assign users to the project</span></div>
+  <%   
+         }
+         %> 
+<div class="text-center"><span class="success" id="successProjectWbs"></span></div>
  <div class="row" id="wbssubmit" style="text-align: center;">
      <a href="/projectDetails">
         <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary">
@@ -659,18 +673,29 @@ $('#assign').on('change',function(){
         }
 
         function checkfield() {
-
+            resetError();
+            var errorWbsname = $('#errorWbsname');
+            var errorDatepicker = $('#errorDatepicker');
+            var errorDatepicker1 = $('#errorWbspedate');
+            var errorDatepicker2 = $('#errorDatepicker2');
+            var errorDatepicker2 = $('#errorDatepicker2');
+            var errorWbseffort = $('#errorWbseffort');
+            var errorWbseffort1 = $('#errorWbseffort1');
+            var errorDatepicker21 = $('#errorDatepicker21');
+            var errorDatepicker22 = $('#errorDatepicker22');
+            var errorAsd = $('#errorAsd');
             if ($('#wbsname').val().trim().length <= 0 || $('#wbsname').val() == '') {
-                alert("Please Enter WBS Name First");
+                errorWbsname.text("Please Enter WBS Name First");
+                $('#wbsname').focus();
                 return false;
             }
 
             if ($('#proname').val() == 0) {
-                alert("Please select a Project Id First");
+                messageBox("Please select a Project Id First");
                 return false;
             }
             if ($('#wbsowner').val() == '') {
-                alert("Please select a WBS Owner First");
+                messageBox("Please select a WBS Owner First");
                 return false;
             }
 
@@ -678,20 +703,20 @@ $('#assign').on('change',function(){
             var text = $('#datepicker').val();
             var date = new Date(text);
             if (date == 'Invalid Date') {
-                alert('Invalid  Planned Start Date');
+                errorDatepicker.text('Invalid  Planned Start Date');
                 return false;
             }
             var text = $('#datepicker1').val();
             var date = new Date(text);
             if (date == 'Invalid Date') {
-                alert('Invalid  Planned End Date');
+                errorDatepicker1.text('Invalid  Planned End Date');
                 return false;
             }
             var text = $('#datepicker2').val();
             var date = new Date(text);
             if (text != '') {
                 if (date == 'Invalid Date') {
-                    alert('Invalid  Actual Start Date');
+                    errorDatepicker.text('Invalid  Actual Start Date');
                     return false;
                 }
             }
@@ -699,7 +724,7 @@ $('#assign').on('change',function(){
             var date = new Date(text);
             if (text != '') {
                 if (date == 'Invalid Date') {
-                    alert('Invalid  Actual End Date');
+                    errorDatepicker.text('Invalid  Actual End Date');
                     return false;
                 }
             }
@@ -714,15 +739,15 @@ $('#assign').on('change',function(){
             var aedate = new Date(text3);
 
             if (text == '') {
-                alert('Please Select Planned Start Date');
+                errorDatepicker.text('Please Select Planned Start Date');
                 return false;
             }
             if (text1 == '') {
-                alert('Please Select Planned End Date');
+                errorDatepicker1.text('Please Select Planned End Date');
                 return false;
             }
             if (sdate > edate) {
-                alert('Planned End Date can not be less than Planned Start Date');
+                errorDatepicker1.text('Planned End Date can not be less than Planned Start Date');
                 return false;
             }
 
@@ -730,11 +755,11 @@ $('#assign').on('change',function(){
             if (text3 != '') {
                 if (text2 != '') {
                     if (asdate > aedate) {
-                        alert('Actual End Date can not be less than Actual Start Date');
+                        errorDatepicker3.text('Actual End Date can not be less than Actual Start Date');
                         return false;
                     }
                 } else {
-                    alert('Please Select Actual Start Date');
+                    errorDatepicker2.text('Please Select Actual Start Date');
                     return false;
                 }
             }
@@ -750,7 +775,7 @@ $('#assign').on('change',function(){
             }
 
             if (chosen == null) {
-                alert("Please select a WBS Status");
+                messageBox("Please select a WBS Status");
                 return false;
             }
 
@@ -759,13 +784,15 @@ $('#assign').on('change',function(){
                 var wbseffort1 = $('#wbseffort1').val();
                 if (wbseffort != '') {
                     if (wbseffort1 <= 0 ||  wbseffort1 == null) {
-                        alert('Please Select WBS Effort Type');
+                        errorWbseffort.text('Please Select WBS Effort Type');
+                        $('#wbseffort').focus();
                         return false;
                     }
                 }
                 else{
                   if(wbseffort1 > 0){
-                    alert('Please enter WBS effort value');
+                    errorWbseffort1.text('Please enter WBS effort value');
+                    $('#wbseffort1').focus();
                         return false;
                   }
                 }
@@ -773,10 +800,12 @@ $('#assign').on('change',function(){
             if($('#assign').val()!= 1){
 
                          if($('#datepicker21').val()==null)
-                       { alert("Please select Assignment Start Date"); 
+                       { errorDatepicker21.text("Please select Assignment Start Date"); 
+                       $('#datepicker21').focus();
                         return false;  }
                        if($('#datepicker22').val()==null)
-                       { alert("Please select Assignment End Date"); 
+                       { errorDatepicker22.text("Please select Assignment End Date"); 
+                         $('#datepicker22').focus();
                         return false;  }
 
                       var r = document.getElementsByName("astatus")
@@ -787,20 +816,23 @@ $('#assign').on('change',function(){
                                        }
                           }
                      if (c == -1)
-                      { alert("please select status"); 
+                      { messageBox("please select status"); 
                        return false;}
 
 
                          if($('#asd').val()==null)
-                       { alert("Please select Users for Assignment"); 
-                        return false;  }
+                       { 
+                        errorAsd.text("Please select Users for Assignment"); 
+                        $('#asd').focus();
+                        return false; 
+                        }
 
                         var text = $('#datepicker').val();
                         var text1 = $('#datepicker1').val();
 
-                        if(text==''){alert("Please Select Assignment Start Date"); return false;}
-                        if(text1==''){alert("Please Select Assignment End Date"); return false;}
-                        if(new Date(text)>new Date(text1)){alert('Assignment End Date can not be less than Assignment Start Date');return false;}
+                        if(text==''){errorDatepicker.text("Please Select Assignment Start Date"); return false;}
+                        if(text1==''){errorDatepicker1("Please Select Assignment End Date"); return false;}
+                        if(new Date(text)>new Date(text1)){errorDatepicker1.text('Assignment End Date can not be less than Assignment Start Date');return false;}
 
 
          }
@@ -809,7 +841,9 @@ $('#assign').on('change',function(){
         }
 
         function submitwbs() {
-            alert('WBS and Assignment created successfully'); 
+            resetError();
+            var successProjectWbs =$('#successProjectWbs');
+            successProjectWbs.text('WBS and Assignment created successfully'); 
 
             var td= new Date();
             var dd=td.getDate();
@@ -817,26 +851,20 @@ $('#assign').on('change',function(){
             mm=mm+1;
             var yr=td.getFullYear();
             st_ed_date=mm+"/"+dd+"/"+yr;
-
             //var alluser=[];
             var startDt=document.getElementById("datepicker21").value;
             var endDt=document.getElementById("datepicker22").value;
-
-
             var s = document.getElementById("asd");
           //  alert("length of s is"+s.options.length);
             for (var i = 0; i < s.options.length; i++) {
                  if (s.options[i].selected == true) {
                    var user = s.options[i].value;
                    alluser.push(user);
-                   
+             
                  }
                 
             } 
 
-            //console.log('user----',alluser);
-
-            //$('#wbshidden').val(13);
             $.ajax({
                 url: '/wbsAssignmentInProjectWbs',
                 type: 'post',
@@ -852,26 +880,24 @@ $('#assign').on('change',function(){
                         "curdat":st_ed_date,
                       "retailerid":$('#retailer').val()},
                 success: function(data) {
-
-                  console.log('aa----',data[0]);
-                  console.log('bb----',data[1]);
-
-
-                  var r = confirm("Do you want to create more WBS and Assignment?"); 
+                
+                var check1= '"/projectWbs?pid='+$('#proname').val()+'"';
+                confirmBox3("window.location.href="+check1,'window.location.href="/projectDetails"',8);
+                $('.se-pre-con').fadeOut('slow');  
+/*                  var r = confirm("Do you want to create more WBS and Assignment?"); 
                         if (r == false) {  
                             window.location.href="/projectDetails";
                             
                         }
                         else{
                           window.location.href="/projectWbs?pid="+$('#proname').val();
-                        }
-                    $('.se-pre-con').fadeOut('slow');
+                          $('.se-pre-con').fadeOut('slow');
+                        }*/
+                    
 
               }
 
             });
-
-
             //return false;
         }
 
@@ -900,7 +926,7 @@ $('#assign').on('change',function(){
             var charCode = (evt.which) ? evt.which : event.keyCode
                 /*if ( !(charCode > 47 && charCode < 58) || !(charCode > 64 && charCode < 91) || !(charCode == 96 || charCode == 123) ) {*/
             if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
-                alert("This special character or number is not allowed\n ");
+                messageBox("This special character or number is not allowed\n ");
                 return false;
             }
             return true;
