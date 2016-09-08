@@ -80,17 +80,7 @@ function checkedit(){
     }*/
     return true;
 }
-function checkactive(st){
-    if(st){var r = confirm("Do you want to make this project inactive ?");}
-    else{var r = confirm("Do you want to make this project active ?");}
-  
-    if (r == true) {
-        
-        return true;
-    } else {
-        return false;
-    }
-}
+
 
 function formatDate(date) {
                   date1=date.getFullYear();
@@ -411,18 +401,18 @@ $('#wbsTable').dataTable();
 
 
                 if (sdate > edate) {
-                    alert('Planned End Date can not be less than Planned Start Date');
+                    messageBox('Planned End Date can not be less than Planned Start Date');
                     return false;
                 }
 
                 if (waedate != '') {
                     if (wasdate != '') {
                         if (asdate > aedate) {
-                            alert('Actual End Date can not be less than Actual Start Date');
+                            messageBox('Actual End Date can not be less than Actual Start Date');
                             return false;
                         }
                     } else {
-                        alert('Please Select Actual Start Date');
+                        messageBox('Please Select Actual Start Date');
                         return false;
                     }
                 }
@@ -443,7 +433,7 @@ $('#wbsTable').dataTable();
 
 
                 if (sdate > edate) {
-                    alert('Planned End Date can not be less than Planned Start Date');
+                    messageBox('Planned End Date can not be less than Planned Start Date');
                     return false;
                 }
 
@@ -469,18 +459,18 @@ $('#wbsTable').dataTable();
 */
 
                 if (sdate > edate) {
-                    alert('Planned End Date can not be less than Planned Start Date');
+                    messageBox('Planned End Date can not be less than Planned Start Date');
                     return false;
                 }
 
                 if (aedate != '') {
                     if (asdate != '') {
                         if (pasdate > paedate) {
-                            alert('Actual End Date can not be less than Actual Start Date');
+                            messageBox('Actual End Date can not be less than Actual Start Date');
                             return false;
                         }
                     } else {
-                        alert('Please Select Actual Start Date');
+                        messageBox('Please Select Actual Start Date');
                         return false;
                     }
                 }
@@ -514,7 +504,7 @@ if(type==1){ //alert('bdbdbdbgd');
 
                     //console.log(data[0][0].msg);
                     if(data[0][0].msg==1){
-                        alert('Date validations of project are not according to WBS');
+                        messageBox('Date validations of project are not according to WBS');
                     }
 
                     /*else{
@@ -542,7 +532,7 @@ else if(type== 2){  //alert('fefe');
 
                     //console.log(data[0][0].msg);
                     if(data[0][0].msg==2){
-                        alert('Date validations of WBS are not according to Assignment');
+                        messageBox('Date validations of WBS are not according to Assignment');
                     }
 
                     /*else{
@@ -580,10 +570,25 @@ else if(type== 2){  //alert('fefe');
    }
  }
  
- function actinact(pid,flag,allpro){//alert('allpro---'+allpro);
+ function checkactive(st){
+  confirmBox
+    if(st){var r = confirm("Do you want to make this project inactive ?");}
+    else{var r = confirm("Do you want to make this project active ?");}
+  
+    if (r == true) {
+        
+        return true;
+    } else {
+        return false;
+    }
+}
 
- var r=checkactive(flag);
- if(r){
+function doactive(value1){
+  var check=value1.split(",");
+  var pid,flag,allpro;
+  pid = check[0];
+  flag = check[1];
+  allpro = check[2];
   $.ajax({
                 url: '/changeProjectStatus',
                 type: 'post',
@@ -595,8 +600,15 @@ else if(type== 2){  //alert('fefe');
                     projectStatus(flag);
                 }
 
-            });
-   }
+  });
+}
+
+ function actinact(pid,flag,allpro){
+ var chack1 = '"'+pid+','+flag+','+allpro+'"';
+ if(flag)
+ confirmBox2(chack1,"doactive",8);
+ else
+ confirmBox2(chack1,"doactive",9);
 }
 
 function projectAddEdit(projectId,flag) {
@@ -667,7 +679,8 @@ function showAll()
 <body>
 
 <div class="se-pre-con"></div>
-  
+  <div id="ModalAdd"></div>
+  <div id="ModalAddMesage"></div>
   <div class="secondry-color" style="padding-bottom:2%;padding-left :2%;padding-right:2%; ">   
 
  <div class="row"   style="padding-top:1%; max-width: 103% "> 

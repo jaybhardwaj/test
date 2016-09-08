@@ -43,7 +43,7 @@ color:black;
 <body class=" "  >
 
 <div class="se-pre-con"></div>
-
+<div id="ModalAddMesage"></div>
 
 <div id="aa" class="secondry-color" style=" padding:2%" >
  
@@ -65,23 +65,31 @@ color:black;
                                   if(allinfo[2][0].ProjectId==allinfo[1][i].id){
                                       %>  selected <%}}%> value="<%=allinfo[1][i].id%>" ><%=allinfo[1][i].projectTitle%></option>');<%}%>
 
-               </select></td>
+        </select>
+        <div class="fLeft"><span class="error" id="errorProcode"></span></div>
+      </td>
     </td>
     <td>
       <td><label class="form-label" style="margin-top: 2%;">WBS Name:<sup class="astrick">*</sup></label></td>
-      <td  id="wbsDiv"> 
+      <td>
+        <div id="wbsDiv"> 
         <select <%if(flag==1){%>disabled  <%}%> style="background-color:#FFFFFF;margin-top:3%;" class="form-text-box" name="wbs2" id="wbs2" maxlength="50" onchange="wbsDetail()";>
             <option disabled selected   value=0>Select</option>
             <%if(flag==1){%>
              <option selected value='<%=allinfo[2][0].WBSId%>'><%=allinfo[2][0].WBSName%></option>   <%}%> 
       </select>
+      </div>
+      <div class="fLeft"><span class="error" id="errorWbs2"></span></div>
     </td>
     </td>
     <td>
       <td><label class="form-label" style="margin-top: 2%;">User:<sup class="astrick">*</sup></label></td>
-      <td id="asdDiv">
+      <td>
+       <div id="asdDiv"> 
        <select class="form-text-box" name="asd" id="asd" multiple="multiple"style="height:300px !important"> 
        </select>
+     </div>
+       <div class="fLeft"><span class="error" id="errorAsd"></span></div>
         </td>
     </td>
     <td>
@@ -92,6 +100,7 @@ color:black;
                 <label style="margin-right:9px"><input type="radio" style="margin-top:0px"   name="status" id="active" value='1' checked >Active</label>
                 <label><input type="radio" style="margin-top:0px" name="status" id="inactive" value='0' >InActive</label> 
               </div>
+
         </td>
     </td>
   </tr>
@@ -99,15 +108,16 @@ color:black;
     <td>
       <td><label class="form-label">Start Date:<sup class="astrick">*</sup></label></td>
       <td>
-         <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date"  id="datepicker" style="width: 86%; cursor: pointer; " onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%> required>
-           
+         <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date"  id="datepicker" style="width: 86%; cursor: pointer; " onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentDate%>" <%}%>>
+       <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>         
           
       </td>
     </td>
     <td>
       <td><label class="form-label">End Date:<sup class="astrick">*</sup></label></td>
       <td> 
-      <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date" id="datepicker1" style="width: 86%; cursor: pointer;  " onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%> required>
+      <input type="text"  name="Edate" class="form-text-box datepicker" placeholder="choose a date" id="datepicker1" style="width: 86%; cursor: pointer;  " onClick="checkWBS()" readonly="true" <%if(flag==1){%> value="<%=allinfo[2][0].AssignmentEndDate%>"<%}%>>
+      <div class="fLeft"><span class="error" id="errorDatepicker1"></span></div>       
       </td>
     </td>
     <td>
@@ -122,7 +132,7 @@ color:black;
               <td></td><td></td>  
           </tr>
 </table>
- 
+ <div class="text-center"><span class="success" id="successCreateAssignment"></span><span class="error" id="errorCreateAssignment"></span></div>
        <center style="margin-bottom:1%"> 
 
        <a href="/assignment">
@@ -235,6 +245,7 @@ if(<%=flag%>==1){
       alert("Please select a WBS first");
       $( "#datepicker").datetimepicker("destroy");
       $( "#datepicker1").datetimepicker("destroy");
+
        wbsDetail();
       return false;
     }
@@ -242,6 +253,12 @@ if(<%=flag%>==1){
 
    }
    function submitdata(flag,assignmentId){
+    var errorDatepicker = $('#errorDatepicker');
+    var errorDatepicker1= $('#errorDatepicker1');
+    var errorProcode = $('#errorProcode');
+    var errorAsd = $('#errorAsd');
+    var errorWbs2 = $('#errorWbs2');
+    var errorCreateAssignment= $('#errorCreateAssignment');
 var alluser=[];
     var startDt=document.getElementById("datepicker").value;
 var endDt=document.getElementById("datepicker1").value;
@@ -258,12 +275,12 @@ var endDt=document.getElementById("datepicker1").value;
         
     } 
 
-    if($('#procode').val()==0)
+    if($('#procode').val()== "")
      {
-      alert("Please select a Project Title First"); 
+      errorProcode.text("Required field"); 
       return false;}
     if($('#wbs2').val()==0)
-     { alert("Please select a WBS First"); 
+     { errorWbs2.text("Required field"); 
       return false;  }
 
 
@@ -272,12 +289,10 @@ var endDt=document.getElementById("datepicker1").value;
           
            var user = s.options[i].value;
            var wb=$('#wbs2').val();
-           console.log("selected user-----------",user);
-        //  alert("i am"+user+"going for assignment for wbs -"+wb);
           <% for(var i=0;i<allinfo[5].length;i++){ %>
 
             if('<%=allinfo[5][i].userId%>'==user && '<%=allinfo[5][i].WBSId%>'==wb){
-              alert('<%=allinfo[5][i].firstName%>'+" has been already asssigned a assignment on this document");
+              errorCreateAssignment.text('<%=allinfo[5][i].firstName%>'+" has been already asssigned a assignment on this document");
               return false;
             }
            <% } %>
@@ -287,10 +302,10 @@ var endDt=document.getElementById("datepicker1").value;
     } 
 
        if($('#datepicker').val()==null)
-     { alert("Please select a StartDate"); 
+     { errorDatepicker.text("Please select a StartDate"); 
       return false;  }
      if($('#datepicker1').val()==null)
-     { alert("Please select a EndDate"); 
+     { errorDatepicker1.text("Please select a EndDate"); 
       return false;  }
 
     var r = document.getElementsByName("status")
@@ -301,20 +316,20 @@ var endDt=document.getElementById("datepicker1").value;
                      }
         }
    if (c == -1)
-    { alert("please select status"); 
+    { messageBox("please select status"); 
      return false;}
 
 
        if($('#asd').val()==null)
-     { alert("Please select Users"); 
+     { errorAsd.text("Please select Users"); 
       return false;  }
       
       var text = $('#datepicker').val();
       var text1 = $('#datepicker1').val();
 
-    if(text==''){alert("Please Select Assignment Start Date"); return false;}
-      if(text1==''){alert("Please Select Assignment End Date"); return false;}
-      if(new Date(text)>new Date(text1)){alert('Assignment End Date can not be less than Assignment Start Date');return false;}
+    if(text==''){errorDatepicker.text("Please Select Assignment Start Date"); return false;}
+      if(text1==''){errorDatepicker1.text("Please Select Assignment End Date"); return false;}
+      if(new Date(text)>new Date(text1)){errorDatepicker1.text('Assignment End Date can not be less than Assignment Start Date');return false;}
     
 var retailerid=<%=retailerId%>;
 var td= new Date();
@@ -326,7 +341,7 @@ var td= new Date();
 
 
      $.ajax({        
-                         url:'/submitAssignment',
+                    url:'/submitAssignment',
                     type:'post',
                     data:{
                       "flag":flag,
@@ -344,14 +359,16 @@ var td= new Date();
                   success:function(data){
 
                     if(flag==1){
-                      alert('Assignment Updated Successfully');
+                      messageBox2('Assignment Updated Successfully','window.location.href="/assignment"');
+                      /*alert('Assignment Updated Successfully');*/
                     }
                     else{
-                      alert('Assignment Added Successfully');
+                      messageBox2('Assignment Added Successfully','window.location.href="/assignment"');
+       /*               alert('Assignment Added Successfully');*/
                     }
-                    window.location.href="/assignment";    
+                    /*window.location.href="/assignment";    */
 
-                    $('.se-pre-con').fadeOut('slow');
+                    /*$('.se-pre-con').fadeOut('slow');*/
                     
                     }
                   });
