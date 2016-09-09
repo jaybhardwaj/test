@@ -143,9 +143,11 @@ app.get('/AssignAsset',url.setpageTransactionsasset,portal.getUser,portal.assign
 
 
 //---------------------------------Expense------------------------------------------
+
 	app.get('/expense',url.setExpense, portal.getExpense,portal.getRole,render.redirect);
 	app.get('/expensenew',url.setNewExpense, portal.getNewExpense,portal.getRole,render.redirect);
 	//app.post('/insertExpense',url.setexpensehomenewbyInsert, portal.insertExpense,portal.getRole,render.redirect);
+  app.post('/approverHome', portal.approverHome);
    app.post('/insertExpense', portal.insertExpense);
 	app.post('/insertExpense', portal.insertExpense);
 	app.post('/fileAttechment',upload.single('comment-upload'),url.setexpensehomenew, portal.insertExpenseAttachment,portal.getRole,render.redirect);	

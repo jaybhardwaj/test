@@ -657,7 +657,8 @@ res.render('masters',
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 				break ;
 				case 'raiseRequisition':
-				res.render('rms/raiseRequisition',{	notification:req.session.notification,    cities:req.hrRequisition[0],skills:req.hrRequisition[1]
+				console.log("jai mata di",req.hrRequisition[3],req.hrRequisition[0],req.hrRequisition[1]);
+				res.render('rms/raiseRequisition',{	notification:req.session.notification, cities:req.hrRequisition[0],skills:req.hrRequisition[1]
       ,role:req.session.hrRole,Name:'',adminhr:req.hrRequisition[2],desig:req.hrRequisition[3],priority:req.hrRequisition[4],
       myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});

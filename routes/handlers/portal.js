@@ -3170,6 +3170,21 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
          });
      },
 
+        approverHome: function(req, res, next) {
+         console.log('jai mata di bhai',req.body);
+         modelPortal.approverHome(req.body.userId,req.session.roleId,req.body.date1,req.session.userId ,function(errorRoles, result) {
+             if (errorRoles) {
+                 next(errorRoles);
+                
+             }
+
+             res.json(result);
+            
+         });
+     },
+
+     
+
         selectByExpenseAdmin: function(req, res, next) {
          ////console.log(req.body);
          modelPortal.toSelectByExpenseAdmin(req.body.userId,req.body.date1,req.session.retailerId ,function(errorRoles, result) {
@@ -4367,8 +4382,8 @@ uploadattendance: function(req, res, next) {
     },
 
     raiseRequisition1:function(req,res,next){
-             if(req.body.locationName!=undefined&&req.body.locationName!=null){
-                 req.body.locationName = req.body.locationName.trim();
+             if(req.body.Location!=undefined&&req.body.Location!=null){
+                 req.body.Location = req.body.Location.trim();
             }
             var flag=req.body.flag;
             //////console.log("POST raise requisition data",req.body);
@@ -4410,9 +4425,10 @@ uploadattendance: function(req, res, next) {
             {
                 req.body.Location = 0;
             }*/
-
+             console.log("before condition",req.body.skills,req.body.designation,req.body.designation);
             if(req.body.skills != undefined){
                 if(req.body.skills.length!=0){
+                    console.log("after condition",req.body.skills);
                      skills = JSON.stringify(req.body.skills).replace(']','')
                      skills = skills.replace('"','').replace("'","").replace("[","");
                     skills = skills.replace(/['"]+/g, '');
@@ -4554,14 +4570,15 @@ uploadattendance: function(req, res, next) {
         });
     }, 
     reqData : function(req,res,next){
-
+          console.log("edit reque. data",req.body);
             modelPortal.reqData(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,function(err,result){
                     if(err){
-                        //////console.log("there is an error",err);
+                        console.log("there is an error jogendra",err);
                     }   
                     else{
                         req.session.count = result[4][0].mailCounter;
                    req.session.count++;
+                    console.log("edit reque. data",result);
                      res.json({result:result});
                     }    
 

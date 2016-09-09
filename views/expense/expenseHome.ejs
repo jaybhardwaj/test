@@ -35,6 +35,7 @@
                             getBillableUsers();
                         });
                         $("#data_table").dataTable();
+                       //  $("#homeTable").dataTable();
                         $("#searchbox").keyup(function() {
                             $("#data_table").dataTable().fnFilter(this.value);
                         });
@@ -55,6 +56,13 @@
                             onSelect: function(dateText, inst) {
                                 datepicherforUser();
                                 document.getElementById("datebuttonuser").disabled = true;
+                            }
+                        });
+
+                         $('#datebuttonuserapp').datepicker({
+                            onSelect: function(dateText, inst) {
+                                datepicherforUserapp();
+                                document.getElementById("datebuttonuserapp").disabled = true;
                             }
                         });
 
@@ -141,6 +149,27 @@
                                 "width": "10%"
                             }]
                         });
+                         var oTable = $("#homeTable").dataTable({
+                            "bLengthChange": false,
+                            "paging": false,
+                            "binfo": false,
+                            "bDestroy": true,
+
+                            "aoColumnDefs": [{
+                                "bSortable": false,
+                                "aTargets": [-1]
+                            }],
+                            "autoWidth": false,
+                            "columns": [{
+                                "width": "10%"
+                            }, {
+                                "width": "10%"
+                            }, {
+                                "width": "10%"
+                            },  {
+                                "width": "10%"
+                            }]
+                        });
                         $("#searchbox").keyup(function() {
                             $("#data_table").dataTable().fnFilter(this.value);
                         });
@@ -178,7 +207,9 @@
                         date = week_start_date + ' to ' + week_end_date; 
                         $('#datebutton').val(stardate);
                         $('#datebuttonuser').val(stardate);
+                        $('#datebuttonuserapp').val(stardate);
                         $('#hiddendatebuttonuser').val(week_start_date);
+                        $('#hiddendatebuttonuserapp').val(week_start_date);
                         $('#hiddendatebutton').val(week_start_date);
                         getBillableUsers();
                     });
@@ -299,12 +330,18 @@
 
                document.body.innerHTML = originalContents;
               }
-                 //jai bahi
+                 
 
 
                     function datepickerforotherUser() {
                         document.getElementById("datebuttonuser").disabled = false;
                         document.getElementById("datebuttonuser").focus();
+
+                    }
+
+                      function datepickerforotherUserapp() {
+                        document.getElementById("datebuttonuserapp").disabled = false;
+                        document.getElementById("datebuttonuserapp").focus();
 
                     }
                     /*function for open attachment form*/
@@ -322,7 +359,7 @@
                         var date = $('#datebuttonuser').val();
                         var newdate = new Date(date);
                         if (newdate.getDate() < 16) {
-                            var dd = ("0" + 15)
+                            var dd = ('15');
                             var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
                             var y = newdate.getFullYear();
                         } else {
@@ -616,6 +653,192 @@
                         showexpensDetailsofuser();
                         getBillableUsers();
                     }
+
+                    /**for approver*/
+                          function datepickerforotherUser() {
+                        document.getElementById("datebuttonuser").disabled = false;
+                        document.getElementById("datebuttonuser").focus();
+
+                    }
+                    /*function for open attachment form*/
+
+                    function showAttechmentmodel(id) {
+                        // alert("submit attechment");
+                        $('#attachment').trigger("reset");
+                        $('#claimeid').val(id);
+                        $("#myModal10").modal('show');
+                    }
+                    /*end*/
+                    /*date function in javascript*/
+                    function datepicherforUserapp() {
+
+                        var date = $('#datebuttonuserapp').val();
+                        var newdate = new Date(date);
+                        if (newdate.getDate() < 16) {
+                            var dd = ('15');
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        } else {
+                               if((newdate.getMonth() + 1)==2){
+                            var dd = ('28').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                      
+                            if(((newdate.getMonth() + 1)%2==0)&&((newdate.getMonth() + 1)<7)&&((newdate.getMonth() + 1)!=2)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2!=0)&&((newdate.getMonth() + 1)<=7)&&((newdate.getMonth() + 1)!=2)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2==0)&&((newdate.getMonth() + 1)>=7)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2!=0)&&((newdate.getMonth() + 1)>7)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                        }
+                        var someFormattedDate = dd + '-' + arrmonth[parseInt(mm)]  + '-' + y;
+                        var someFormattedDate1 = y + '-' + mm + '-' + dd;
+                        document.getElementById('datebuttonuser').value = someFormattedDate.toString();
+                        document.getElementById('hiddendatebuttonuser').value = someFormattedDate1.toString();
+                        document.getElementById('datebuttonuserapp').value = someFormattedDate.toString();
+                        document.getElementById('hiddendatebuttonuserapp').value = someFormattedDate1.toString();
+                        //showexpensDetailsofuser();
+                        approverHome();
+                        getBillableUsers();
+
+                    }
+
+                        function getdateuserapp() {
+                        var tt = $('#hiddendatebuttonuser').val();
+
+                        var date = new Date(tt);
+                        var newdate = new Date(date);
+                       if ((newdate.getDate() > 15) && (("0" + (newdate.getMonth() + 1)).slice(-2) != 13)) {
+                         var dd = ('15').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 2)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+
+                        if ((newdate.getDate() <= 15) && (("0" + (newdate.getMonth() + 1)).slice(-2) != 13)) {
+                                 if((newdate.getMonth() + 1)==2){
+                            var dd = ('28').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                      
+                            if(((newdate.getMonth() + 1)%2==0)&&((newdate.getMonth() + 1)<7)&&((newdate.getMonth() + 1)!=2)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2!=0)&&((newdate.getMonth() + 1)<=7)&&((newdate.getMonth() + 1)!=2)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2==0)&&((newdate.getMonth() + 1)>=7)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth() + 1)%2!=0)&&((newdate.getMonth() + 1)>7)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth() + 1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                        }
+
+                        if ((newdate.getDate() >15) && (("0" + (newdate.getMonth() + 1)).slice(-2) == 12)) {
+                            var dd = ("0" + 15).slice(-2);
+                            var mm = ("0" + 1).slice(-2);
+                            var y = newdate.getFullYear() + 1;
+                        }
+
+
+
+                        var someFormattedDate1 = dd + '-' + arrmonth[parseInt(mm)] + '-' + y;
+                        var someFormattedDate = y + '-' + mm + '-' + dd;
+                        document.getElementById('datebuttonuser').value = someFormattedDate1.toString();
+                        $('#hiddendatebuttonuser').val(someFormattedDate.toString());
+                          document.getElementById('datebuttonuserapp').value = someFormattedDate1.toString();
+                        $('#hiddendatebuttonuserapp').val(someFormattedDate.toString());
+                       // showexpensDetailsofuser();
+                       approverHome();
+                        getBillableUsers();
+                    }
+
+                      function getdateprevuserapp() {
+                        var tt = $('#hiddendatebuttonuserapp').val();
+
+                        var date = new Date(tt);
+                        var newdate = new Date(date);
+                        if (newdate.getDate() < 16) {
+                            if (("0" + (newdate.getMonth())).slice(-2) != 00) {
+                                /*var dd = ("0" + 16).slice(-2);
+                                var mm = ("0" + (newdate.getMonth())).slice(-2);
+                                var y = newdate.getFullYear();*/
+                            if((newdate.getMonth())==2){
+                            var dd = ('28').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                      
+                            if(((newdate.getMonth())%2==0)&&((newdate.getMonth())<=6)&&((newdate.getMonth())!=2)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth())%2!=0)&&((newdate.getMonth())<=7)&&((newdate.getMonth())!=2)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth())%2==0)&&((newdate.getMonth() )>7)&&((newdate.getMonth())!=2)){
+                            var dd = ('31').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+                            if(((newdate.getMonth())%2!=0)&&((newdate.getMonth())>7)&&((newdate.getMonth())!=2)){
+                            var dd = ('30').slice(-2);
+                            var mm = ("0" + (newdate.getMonth())).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+
+                            } else {
+                                var dd = ("0" + 31).slice(-2);
+                                var mm = ("0" + 12).slice(-2);
+                                var y = newdate.getFullYear() - 1;
+
+                            }
+                        } 
+
+                        if(newdate.getDate() > 16) {
+                            var dd = ("0" + 15).slice(-2);
+                            var mm = ("0" + (newdate.getMonth()+1)).slice(-2);
+                            var y = newdate.getFullYear();
+                        }
+
+                        var someFormattedDate1 = dd + '-' + arrmonth[parseInt(mm)] + '-' + y;
+                        var someFormattedDate = y + '-' + mm + '-' + dd;
+                        document.getElementById('datebuttonuser').value = someFormattedDate1.toString();
+                        $('#hiddendatebuttonuser').val(someFormattedDate.toString());
+                         document.getElementById('datebuttonuserapp').value = someFormattedDate1.toString();
+                        $('#hiddendatebuttonuserapp').val(someFormattedDate.toString());
+                        //showexpensDetailsofuser();
+                        approverHome();
+                        getBillableUsers();
+                    }
+                    /***end of approver**/
 
                     function getdateprevuser() {
                         var tt = $('#hiddendatebuttonuser').val();
@@ -1237,7 +1460,12 @@
 
 
                     function otherExpense() {
-                        showexpensDetailsofuser();
+                        //showexpensDetailsofuser();
+                         $('#aprovediv').addClass('hide');
+                          $('#aprovedivapp').removeClass('hide');
+
+                        setTimeout(function(){  approverHome(); }, 100);
+                       
 
                         $(".otherexp-img").addClass("active");
                         $(".exphome-img").removeClass("active");
@@ -1245,10 +1473,10 @@
                         $('#accordionsdata').addClass('hide');
                         $('#totalandaddEX1').removeClass('hide');
                         $('#submitbutton').addClass('hide');
-                        $('#aprovediv').removeClass('hide');
+                       
                         $('#submitdiv').addClass('hide');
                         $('#datetablediv').removeClass('hide');
-                        $('#accordions').removeClass('hide');
+                        $('#accordions').addClass('hide');
 
                     }
 
@@ -1399,6 +1627,8 @@
                     function showexpensDetailsofuser() {
 
                         claimid = "";
+                       $('#aprovediv').removeClass('hide');
+                          $('#aprovedivapp').addClass('hide');
                         $('#datetablediv').removeClass('hide');
                         $('#accordions').removeClass('hide');
                         $('#accordionsdata').addClass('hide');
@@ -1407,6 +1637,7 @@
                         $('#typeEx').addClass('hide');
                         $('#submitbut').addClass('hide');
                         $('#submitbutton').addClass('hide');
+                        $('#backbuton').removeClass('hide');
                         var userId = $('#typeExp').val();
                         var date1 = $('#hiddendatebuttonuser').val();
                         var flag = 1;
@@ -1539,6 +1770,114 @@
 
                     }
 
+                    function back(){
+                        $('#aprovediv').addClass('hide');
+                          $('#aprovedivapp').removeClass('hide');
+                        $('#accordions').addClass('hide');
+                        $('#accordionshome').addClass('hide');
+                     approverHome()     
+                    }
+
+                    /*method for approver home*/
+                     function showExpenseforapprover(){
+                         $('#aprovediv').removeClass('hide');
+                          $('#aprovedivapp').addClass('hide');
+                        $('#accordions').removeClass('hide');
+                        $('#accordionshome').addClass('hide');
+                      $('#typeExp').val($('#typeExpapp').val());  
+                     showexpensDetailsofuser()   
+                     }
+
+                    function approverHome() {
+                        
+                        claimid = "";
+                        $('#backbuton').addClass('hide');
+                        $('#datetablediv').removeClass('hide');
+                        $('#accordionshome').removeClass('hide');
+                        $('#accordionsdata').addClass('hide');
+                        $('#totalandaddEX').addClass('hide');
+                        $('#explabel').addClass('hide');
+                        $('#typeEx').addClass('hide');
+                        $('#submitbut').addClass('hide');
+                        $('#submitbutton').addClass('hide');
+                        var userId = $('#typeExp').val();
+                        var date1 = $('#hiddendatebuttonuser').val();
+                       
+                        var flag = 1;
+                        if (flag == 1) {
+                            return ($.ajax({
+                                url: '/approverHome',
+                                type: 'post',
+                                data: {
+                                    userId: userId,
+                                    date1: date1
+                                },
+                                dataType: 'json',
+
+                                success: function(users1) {
+                                    var users = users1[0];
+                             
+
+                                    var log = '';
+
+                                    log = "<thead><tr style='font-size:12px' >" + "<th>Employee Name</th>" + "<th>Employee Code</th>" + "<th>Status</th>" + "<th>View Expense</th></tr></thead><tbody id='tablebody' >";
+
+                                    for (var i = 0; i < users.length; i++) {
+                                        claimid = claimid + users[i].expenseclaimedId + ",";
+                                      
+                                        log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].firstName + "' id='l" + users[i].firstName + "'>" + "<td >" + users[i].firstName + "</td>" + "<td >" + users[i].ecode + "</td>" + "<td >";
+                                        if(users[i].Status==1){
+                                        log = log + "Approved </td>";
+                                       }
+                                         else if(users[i].Status==0){
+                                         log = log + "Pending</td>";
+                                       }
+                                        else{
+                                         log = log + "Rejected</td>";
+                                       }
+                                          log = log + " <td><span class='glyphicon glyphicon-eye-open' onclick='showtheexpenseData("+users[i].id+")' style='font-size:15px;color:black;'></td>";
+
+                                        log = log + "</tr>";
+                                    }
+                                    log = log + "</tbody>";
+
+                                    $("#homeTable").dataTable().fnDestroy();
+                                    $("#homeTable").html('');
+
+                                    $("#homeTable").html(log);
+                                    $("#homeTable").dataTable({
+                                        "bLengthChange": true,
+                                        "paging": true,
+                                        "binfo": false,
+                                        "bDestroy": true,
+
+                                        "aoColumnDefs": [{
+                                            "bSortable": false,
+                                            "aTargets": [-1]
+                                        }],
+                                        "autoWidth": false,
+                                        "columns": [{
+                                            "width": "10%"
+                                        }, {
+                                            "width": "10%"
+                                        }, {
+                                            "width": "10%"
+                                        }, {
+                                            "width": "10%"
+                                        }]
+                                    });
+                                    $("#searchboxhome").keyup(function() {
+                                        $("#homeTable").dataTable().fnFilter(this.value);
+                                    });
+
+                                }
+
+                            }));
+                        }
+
+                    }
+                    /*end home approver*/
+
                     function array() {
                         str1 = "";
                         for (var i = claimid.length - 1; i >= 0; i--) {
@@ -1551,6 +1890,14 @@
                             $("#aprovediv").addClass('hide');
 
                         }
+                    }
+
+                    function showtheexpenseData(id){
+                        $('#accordionshome').addClass('hide');
+                         $('#aprovediv').removeClass('hide');
+                          $('#aprovedivapp').addClass('hide');
+                        $('#typeExp').val(id);
+                        showexpensDetailsofuser();
                     }
 
                     function hidethebuttons() {
@@ -2244,6 +2591,7 @@
                                 },
                                 success: function(data) {
                                     $('#typeExp').html(" ");
+                                    $('#typeExpapp').html(" ");
                                     var row = '';
                                     row = row + '<option value="0">-select-</option>';
                                     var j = 0;                                
@@ -2273,6 +2621,7 @@
                                     }
                                 
                                 $('#typeExp').append(row);
+                                $('#typeExpapp').append(row);
 
                             }
                         });
@@ -3187,10 +3536,13 @@ function Popup(data) {
             <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateuser()'>
             <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUser()'></span>
         </div>
+        <div class="col-md-1 hide" id='backbuton' style="float:right;">
+         <button type='button' id="back" class="form-control" style="margin-top:2px;margin-bottom:2px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="back()" value='back'>Back</button>   
+        </div>
     </div>
     <div class="col-md-2"> <button id="appbutton" style="margin-top:5px;" class="form-control hide" onclick="approvetheExpense(claimid,1)">Approve</button>
     </div>
-    <div class="col-md-2"><button class="form-control hide" style="margin-top:5px;" onclick="approvetheExpense(claimid,0)">Reject</button>
+    <div class="col-md-2"><button class="form-control hide" style="margin-top:5px;" onclick="back()">Back</button>
     </div>
 
     </div>
@@ -3314,6 +3666,7 @@ function Popup(data) {
         </div>
     </div>
 
+
     <div class="secondry-color hide" id="accordions">
         <div style="margin-left: 10px;margin-right: 10px">
             <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px">
@@ -3322,6 +3675,63 @@ function Popup(data) {
             </table>
         </div>
     </div>
+    <!--header-->
+    <div id="aprovedivapp" class="col-md-12 a hide" style="background-color:rgba(51, 60, 125, 0.62);margin-top:-.1%;">
+        <div class="col-md-2" style=" padding-left: 0px;">
+            <label style="line-height:20px !important;color:white;margin-left:20px;margin-top: 10px;font-size: 12px">Select User :</label>
+        </div>
+        <div class="col-md-2" style="padding-right: 142px">
+            <select class="form-text-box" id='typeExpapp' name="client" style="width: 175px;margin-top:5px;margin-bottom:5px;float:right;" onchange="showExpenseforapprover()">
+                      <option value=0>--Select--</option>                              
+                       <%for(var i=bilableusers.length-1;i>=0;i--)
+                        {   var y,w;
+                          if(bilableusers[i].Status==0){
+                         
+                           y= bilableusers[i].id; %> 
+                      <option value="<%=bilableusers[i].id%>">
+                        <%=bilableusers[i].firstName%> (Pending)
+ 
+                      </option>
+                        <%} if(bilableusers[i].Status==1)  { 
+                    
+                        if(y != bilableusers[i].id) {  w= bilableusers[i].id; %> 
+                        <option value="<%=bilableusers[i].id%>">
+                        <%=bilableusers[i].firstName%> (Approved)
+                      </option>
+                      <%} }if(bilableusers[i].Status==100){ 
+                        if((y != bilableusers[i].id)&&(w != bilableusers[i].id)) { %> 
+                        <option value="<%=bilableusers[i].id%>">
+ 
+                        <%=bilableusers[i].firstName%> (Rejected)
+                      </option>
+                      <%}}}%>                                
+               </select>
+        </div>
+        <div class='col-md-1'></div>
+        <div class="col-md-4" id="datetabledivapp" style="height:29px;width:270px;background-color:white;margin-top:3px;border-radius: 25px;">
+            <!-- <div class="" style="height:40px;width:50px">-->
+            <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuserapp()'>
+            <input type="hidden" id="hiddendatebuttonuserapp"><input disabled="disable" type='text' id="datebuttonuserapp" style="margin-top:3px;text-align: center;font-size:12px" class="shadow " value='' / onchange=" showexpensDetailsofuserapp()">
+
+            <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateuserapp()'>
+            <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUserapp()'></span>
+        </div>
+        <div class="col-md-1 hide" id='backbuton' style="float:right;">
+         <button type='button' id="backapp" class="form-control" style="margin-top:2px;margin-bottom:2px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="back()" value='back'>Back</button>   
+        </div>
+    </div>
+    <!--header end-->
+    <!--home page-->
+     <div class="secondry-color hide" id="accordionshome">
+        <div style="margin-left: 10px;margin-right: 10px">
+        <label style="width: 13%;margin-top: 10px;margin-bottom: 10px;color:#f04050;margin-left: 597px;">Expense Status</label>
+            <input class="form-text-box" type="text" placeholder="search in this table" id="searchboxhome" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px">
+            <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="homeTable">
+
+            </table>
+        </div>
+    </div>
+    <!--end home page-->
     <div id="totalandaddEX1" class="hide col-md-12 a" style="background-color:rgba(51, 60, 125, 0.62);height:36px; 
     border-bottom:solid #f05f40;"></div>
     <div id="totalandaddEX" class="col-md-12 a" style="background-color:rgba(51, 60, 125, 0.62);height:36px; 

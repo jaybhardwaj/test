@@ -1862,7 +1862,17 @@ getsoftwareexpirtdetails:function(id,callback){
         mysql(query, function(err, result) {
             callback(err, result);
         });
-    },
+    },  
+
+      approverHome: function(userId,roleid,date,mgId,callback) {
+        var query = {
+            sql: 'call Ex_getExpenseTypeforapprovehome(?,?,?,?)',
+            values: [userId,roleid,date,mgId]
+        };
+        mysql(query, function(err, result) {
+            callback(err, result);
+        });
+    }, 
 
      toSelectByExpenseAdmin: function(userId,date,mgId,callback) {
         var query = {

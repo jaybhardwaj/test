@@ -23,7 +23,7 @@
                          
               </select> 
 
-              <span id="download" class="glyphicon glyphicon-download" onclick="exportUsers('retailer')" style="margin-left:390px;cursor: pointer;font-size:19px" title="Download Retailer List" ></span>
+              <span id="download" class="glyphicon glyphicon-download" onclick="exportUsers('user')" style="margin-left:390px;cursor: pointer;font-size:19px" title="Download Users List" ></span>
 
 
                <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
@@ -46,7 +46,6 @@
                 </tbody>
             </table>
         </div>
-        <div id="ModalAdd"></div>
     </div>
     <footer>
         <% include ./partials/footer %>
@@ -107,7 +106,7 @@ $(window).bind('resize', function () {
             var row_id="#row_"+uid;
             var rowid="row_"+uid;
             if(flag==1){
-                
+                if(confirm("Are you sure you want to Deactivate this user?")){
                  $.ajax({
                     url: '/changeUserStatus',
                     type: 'post',
@@ -122,16 +121,16 @@ $(window).bind('resize', function () {
                         arr.push($(row_id+i).text());
                     } 
                     inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
-                      log="<a  onclick=confirmBox2('"+uid+",0','actinact',1);>"+inact+"</a>";
+                      log='<a  onclick= "actinact('+uid+',0)">'+inact+'</a>';
                     otable.fnUpdate([arr[0],arr[1],arr[2],arr[3],arr[4],log],row_id);
                     }
                 }
            });
-        
+        }
     }
         else
         {
-             
+             if(confirm("Are you sure you want to Activate this user?")){
              $.ajax({
                 url: '/changeUserStatus',
                 type: 'post',
@@ -146,17 +145,16 @@ $(window).bind('resize', function () {
                         arr.push($(row_id+i).text());
                     }
                 
-   
+                    console.log('arrrrrrrrrrrrrrrr',arr);
                      var act='<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span>';
 
-                     log='<a onclick=addEditUser('+uid+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a>';
-                     log+="<a onclick=confirmBox2('"+uid+",1','actinact',2);>"+act+"</a>";
+                     log='<a onclick=addEditUser('+uid+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+uid+',1)">'+act+'</a>';
                     
                     otable.fnUpdate([arr[0],arr[1],arr[2],arr[3],arr[4],log],row_id);
                 }
                 }
            });
-        
+        }
         }
                 }
 
@@ -180,11 +178,10 @@ function userStatus(){
                     log=log+ '<tr id=row_'+data[0][i].id+'><td id=row_'+data[0][i].id+'1'+'>'+data[0][i].firstName+'</td><td id=row_'+data[0][i].id+'2'+'>'+data[0][i].userEmail+'</td><td id=row_'+data[0][i].id+'6'+'>'+data[0][i].ecode+'</td><td id=row_'+data[0][i].id+'3'+'>'+data[0][i].contactNumber+'</td><td id=row_'+data[0][i].id+'4'+'>'+data[0][i].roleName+'</td><td id=row_'+data[0][i].id+'5'+'>'+ mgrname +'</td><td>';
                  //   if(data[0][i].isRetailer != 1) {
                             if (data[0][i].isActive) {
-                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a>';
-                                log+="<a onclick=confirmBox2('"+data[0][i].id+",1','actinact',1);>"+act+"</a>";
+                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+data[0][i].id+',1)">'+act+'</a>';
                               }
                             else if (data[0][i].isActive==0) {
-                              log+="<a onclick=confirmBox2('"+data[0][i].id+",0','actinact',2);>"+inact+"</a>";}
+                                            log+='<a  onclick= "actinact('+data[0][i].id+',0)">'+inact+'</a>';}
                                     }
                           /* else {
                                 log+='<span style="color:green;height:10px" class="glyphicon  glyphicon-ban-circle"></span>';
@@ -206,11 +203,10 @@ function userStatus(){
     <script>
     function exportUsers(type)
 {
-
   var status=$("#active").val();
 
      $(".se-pre-con").fadeIn("slow");
-var header=['Name','Email Id','Company Name','Contact Number'];
+var header=['Employee Code','Name','Email Id','Contact Number','Role','Supervisor','User Type','Status'];
 
 var url ='/exportToCsv';
 $.ajax({
@@ -229,19 +225,6 @@ dataType: 'JSON',
 
 $(".se-pre-con").fadeOut("slow");
 }
-function confirmBox2(value,name,flag) { 
-      var msg="";
-      if(flag == 2) {
-      msg +='Are you sure you want to Activate?';
-      } else if(flag == 1){
-      msg +='Are you sure you want to Dectivate?';  
-      } else if(flag == 4){ 
-      msg +='Are you sure you want to delete this mapping?';  
-      }
-      var confirmBox ='<div class="modal fade" id="activeBugMasterModal" role="dialog"><div class="modal-dialog" style="margin-top:18%;width:25%"><div class="modal-content" id="activeBugMasterCnfrmMsgBox"> <div class="modal-header text-center" style="border-top:0px;"> <span>Message</span> </div><div class="modal-body text-center"> <span id="cMessage1">'+msg+'</span> </div><div class="modal-footer text-center" style="border-top:0px;text-align: center;"> <button id="activeBugMasterCloseMessage" type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:white;padding-top: 4px; width:100px;height:30px;margin-top:10px;">Cancel</button> <button id="activeBugMasterActive" type="submit" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:white;padding-top: 4px; width:100px;height:30px;margin-top:10px;" onclick='+name+'('+value+');>Ok</button> </div></div></div></div>';
-      $("#ModalAdd").html(confirmBox);
-      $("#activeBugMasterModal").modal("show");
-      }
 </script>
 <style>
  
