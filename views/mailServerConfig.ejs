@@ -9,35 +9,43 @@
   <form autocomplete="off">
     <div class="row" style="margin-top:10px">
       <div class="col-md-6">
-        <div class="col-md-5"> <label class="form-label">SMTP Service:<sup style="color:red;">*</sup></label></div>
-        <div class="col-md-7" style=" "> <select id="smtp" class="form-text-box" style="" name="smtp" onchange="getValues()">
-      <option  value="Gmail">Gmail</option>
-      <option  value="Yahoo">Yahoo</option>
-      <option  value="Outlook">Outlook</option>
-      <option  value="other">other</option>
-    </select> </div>
+        <div class="col-md-5"><label class="form-label">SMTP Service:<sup style="color:red;">*</sup></label></div>
+        <div class="col-md-7">
+        <select id="smtp" class="form-text-box" style="" name="smtp" onchange="getValues()">
+          <option  value="Gmail">Gmail</option>
+          <option  value="Yahoo">Yahoo</option>
+          <option  value="Outlook">Outlook</option>
+          <option  value="other">other</option>
+        </select> 
+        <div class="fLeft2"><span class="error" id="errorSmtp"></span></div>
+        </div>
       </div>
       <div class="col-md-6">
         <div class="col-md-5"> <label class="form-label">Service Name:<sup style="color:red;">*</sup>  </label></div>
-        <div class="col-md-7" style=" "> <input type='text' class='form-text-box' id="domain" name='domain' placeholder="@gmail"> </div>
+        <div class="col-md-7"> <input type='text' class='form-text-box' id="domain" name='domain' placeholder="@gmail"> <div class="fLeft2"><span class="error" id="errorDomain"></span></div></div>
+        
       </div>
     </div>
     <div class="row" style="margin-top:10px">
       <div class="col-md-6">
         <div class="col-md-5"> <label class="form-label">Port No. :</label></div>
-        <div class="col-md-7"> <input type="text" class="form-text-box" id="port" name="port" placeholder=":0000"> </div>
+        <div class="col-md-7"> <input type="text" class="form-text-box" id="port" name="port" placeholder=":0000"><div class="fLeft2"><span class="error" id="errorPort"></span></div> </div>
+        
       </div>
       <div class="col-md-6">
         <div class="col-md-5"> <label class="form-label">SMTP User Name:</label></div>
-        <div class="col-md-7"> <input type="text" class="form-text-box" name="smtpUser" id="smtpUser" placeholder="SMTP Name" autocomplete="off" value=""> </div>
+        <div class="col-md-7"> <input type="text" class="form-text-box" name="smtpUser" id="smtpUser" placeholder="SMTP Name" autocomplete="off" value=""> <div class="fLeft2"><span class="error" id="errorSmtpUser"></span></div></div>
+        
       </div>
     </div>
     <div class="row" style="margin-top:10px">
       <div class="col-md-6">
         <div class="col-md-5"> <label class="form-label">SMTP Password: </label></div>
-        <div class="col-md-7"> <input type="password" class="form-text-box" name="smtppass" id="smtppass" placeholder="SMTP Password" autocomplete="off" value=""> </div>
+        <div class="col-md-7"> <input type="password" class="form-text-box" name="smtppass" id="smtppass" placeholder="SMTP Password" autocomplete="off" value=""><div class="fLeft2"><span class="error" id="errorSmtppass"></span></div> </div>
+        
       </div>
     </div>
+    <div class="col-sm-12 text-center"><span class="success" id="successSmtp"></span></div>
     <center style="margin-bottom:-14px"> <input type="button" id="" align="center" class="btn btn-success mailConfigbtn" onclick="smtpvalidation()" style="" value="Save" />&nbsp;&nbsp; </center>
   </form>
   <div class="col-sm-12 height11"></div> <span class="modal-title" style="padding-left:47%">Mail Test</span>
@@ -45,11 +53,13 @@
     <div class="row" style="margin-top:10px">
       <div class="col-md-6">
         <div class="col-md-5"> <label class="form-label">To :<sup style="color:red;">*</sup></label></div>
-        <div class="col-md-7" style=" "> <input type='email' class='form-text-box' id="toTestMail" name='toTestMail' maxlength="30" /> </div>
+        <div class="col-md-7"> <input type='email' class='form-text-box' id="toTestMail" name='toTestMail' maxlength="30"/>  <div class="fLeft2"><span class="error" id="errorToTestMail"></span></div></div>
+       
       </div>
       <div class="col-md-6">
         <div class="col-md-5"> <label class="form-label">Subject :<sup style="color:red;">*</sup>  </label></div>
-        <div class="col-md-7"> <input type='text' class='form-text-box' id="SubjectMailTest" name='SubjectMailTest' maxlength="30" /> </div>
+        <div class="col-md-7"> <input type='text' class='form-text-box' id="SubjectMailTest" name='SubjectMailTest' maxlength="30" /> <div class="fLeft2"><span class="error" id="errorSubjectMailTest"></span></div> </div>
+       
       </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -58,6 +68,7 @@
         <div class="col-md-7"> <textarea id="messageMailTest" maxlength="100" row="3" placeholder="enter 100 character only"></textarea> </div>
       </div>
     </div>
+    <div class="text-center"><span class="error" id="errorTestMail"></span><span class="success" id="successTestMail"></span></div>
     <div class="col-sm-12 height11"></div>
     <center style="margin-bottom:-14px"> <input type="button" align="center" class="btn btn-success mailConfigbtn" onclick="testMail();" value="Test Mail" /></center>
 
@@ -87,37 +98,41 @@
     return expr.test(email);
   };
 
-  function smtpvalidation() {
+function smtpvalidation() {
+resetError();    
+var errorSmtp = $('#errorSmtp');
+var errorPort = $('#errorPort');
+var errorSmtpUser = $('#errorSmtpUser');
+var errorSmtppass = $('#errorSmtppass');
+var errorDomain = $('#errorDomain');
+var successSmtp = $('#successSmtp');
     var username = $('#smtpUser').val().trim();
     var password = $('#smtppass').val().trim();
     var port = $('#port').val().trim();
     var service = $('#domain').val().trim();
-    if (username == '') {
-      alert("SMTP user name must be filled");
-      return false;
-    }
-    if (password == '') {
-      alert("Password must be Entered For Your SMTP Email");
-      return false;
-    }
     if ($('#smtp').val() == 'other') {
       if (service == '') {
-        alert("Enter Service Name For SMTP mail");
+        errorDomain.text("Required field");
         return false;
       }
       if (port == '') {
-        alert("Enter Domain Name For SMTP mail");
-        return false;
-      }
-      if (port == '') {
-        alert("Enter Domain Name For SMTP mail");
+        errorPort.text("Required field");
         return false;
       }
       if (isNaN(port)) {
-        alert("Enter Only Integer for Port Number");
+        errorPort.text("Enter Only Integer no.");
         return false;
       }
     }
+    if (username == '') {
+      errorSmtpUser.text("Required field");
+      return false;
+    }
+    if (password == '') {
+      errorSmtppass.text("Required field");
+      return false;
+    }
+
     $('.se-pre-con').show();
     $.ajax({
       url: '/mailServerConfigure',
@@ -130,7 +145,8 @@
       },
       success: function(data) {
         $('.se-pre-con').hide();
-        alert("updated Successfully");
+        successSmtp.text("updated Successfully");
+        commonTimeOut(successSmtp);
       },
       dataType: 'JSON',
     });
@@ -157,22 +173,27 @@
       $("#smtppass").val("");
     }
   }
-  var testMail = function() {
+var testMail = function() {
+resetError();
+var errorToTestMail = $('#errorToTestMail');
+var errorSubjectMailTest = $('#errorSubjectMailTest');
     var to = $('#toTestMail').val().trim();
     var subject = $('#SubjectMailTest').val();
     var message = $('#messageMailTest').val();
+    var successTestMail = $('#successTestMail');
+    var errorTestMail = $('#errorTestMail');
     if (to === "") {
       $('#toTestMail').focus();
-      alert("Required field");
+      errorToTestMail.text("Required field");
       return false;
     }
     if (to != "" && !validateEmail(to)) {
       $('#toTestMail').focus();
-      alert("Please enter valid email");
+      errorToTestMail.text("Please enter valid email");
       return false;
     } else if (subject == "") {
       $('#SubjectMailTest').focus();
-      alert("Required field");
+      errorSubjectMailTest.text("Required field");
       return false;
     } else {
       $('.se-pre-con').show();
@@ -190,9 +211,10 @@
             $('#toTestMail').val('');
             $('#SubjectMailTest').val('');
             $('#messageMailTest').val('');
-            alert("Mail Send Successfully");
+            successTestMail.text("Mail Send Successfully");
+            commonTimeOut(successTestMail);
           }
-          if (data === 1) alert("Mail Config Error");
+          if (data === 1){ errorTestMail.text("Mail Config Error");}
           $('#toTestMail').val('');
           $('#SubjectMailTest').val('');
           $('#messageMailTest').val('');

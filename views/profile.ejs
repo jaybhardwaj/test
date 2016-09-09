@@ -14,25 +14,35 @@
         <tr>
           <td>
             <td> <label class="form-Label">Company Name:<sup style="color:red;">*</sup></label> </td>
-            <td> <input type="text" class="form-text-box" maxlength="50" id="cname" name="cname" value="<%=info[0][0].companyName%>"> </td>
+            <td> <input type="text" class="form-text-box" maxlength="50" id="cname" name="cname" value="<%=info[0][0].companyName%>">
+              <div class="fLeft"><span class="error" id="errorCname"></span></div>
+            </td>
           </td>
           <td>
             <td> <label class="form-Label">First Name:<sup style="color:red;">*</sup></label> </td>
-            <td> <input type="text" class="form-text-box" maxlength="20" style="width: 100%;margin-left: ;" name="fname" id="fname" value="<%=info[0][0].firstName%>"> </td>
+            <td> <input type="text" class="form-text-box" maxlength="20" style="width: 100%;margin-left: ;" name="fname" id="fname" value="<%=info[0][0].firstName%>">
+              <div class="fLeft"><span class="error" id="errorFname"></span></div>
+            </td>
           </td>
           <td>
             <td> <label class="form-Label" style="margin-left: %;">Last Name:<sup style="color:red;">*</sup></label> </td>
-            <td> <input type="text" class="form-text-box" maxlength="20" style="width:" name="lname" id="lname" value="<%=info[0][0].lastName%>"> </td>
+            <td><input type="text" class="form-text-box" maxlength="20" style="width:" name="lname" id="lname" value="<%=info[0][0].lastName%>">
+              <div class="fLeft"><span class="error" id="errorLname"></span></div>
+            </td>
           </td>
           <td>
             <td> <label class="form-Label">Contact Number:<sup style="color:red;">*</sup></label> </td>
-            <td> <input type="number" style="margin-left: ;" class="form-text-box" name="cno" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="0" maxlength="11" id="cno" value="<%=info[0][0].contactNo%>"> </td>
+            <td> <input type="number" style="margin-left: ;" class="form-text-box" name="cno" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="0" maxlength="11" id="cno" value="<%=info[0][0].contactNo%>">
+               <div class="fLeft"><span class="error" id="errorcno"></span></div>
+            </td>
           </td>
         </tr>
         <tr>
           <td>
             <td> <label class="form-Label">Email Id:<sup style="color:red;">*</sup>	</label> </td>
-            <td> <label style="width: ;" maxlength="50" class="form-label" name="emailid" id="emailid"><%=info[0][0].emailId%></label> </td>
+            <td> <label style="width: ;" maxlength="50" class="form-label" name="emailid" id="emailid"><%=info[0][0].emailId%></label>
+              <div class="fLeft"><span class="error" id="errorEmailid"></span></div>
+            </td>
           </td>
           <td>
             <td> <label class="form-Label">Change Logo:</label> </td>
@@ -118,8 +128,9 @@
 					<%}%>
 				</div>
 					 -->
+      <div class="text-center"><span class="success" id="successProfileEdit"></span></div>     
       <div style="padding-top:1%;margin-left:4%">
-        <center> <input type="submit" id="" align="center" class="btn btn-success" onclick="return validation()" style="font-size:10px;width:9%;margin-top:5px;background-color:#f05f40;color:white" value="Save" /> </center>
+        <center> <input type="submit" id="" align="center" class="btn btn-success" onclick="return validation()" value="Save" /> </center>
       </div>
     </form>
   </div>
@@ -141,31 +152,44 @@
   }
 
   function validation() {
+    resetError();
+    var errorCname = $('#errorCname');
+    var errorFname = $('#errorFname');
+    var errorLname = $('#errorLname');
+    var errorPassword = $('#errorPassword');
+    var errorcno = $('#errorcno');
+    var successProfileEdit = $('#successProfileEdit');
     var cont = $('#cno').val();
     if ($('#cname').val() == '') {
-      alert("Company Name can not be left blank!");
+      errorCname.text("Required Field");
+      $('#cname').focus();
       return false;
     }
     if ($('#fname').val() == '') {
-      alert("First Name can not be left blank!");
+      errorFname.text("Required Field");
+      $('#fname').focus();
       return false;
     }
     if ($('#lname').val() == '') {
-      alert("Last Name can not be left blank!");
+      errorLname.text("Required Field");
+      $('#lname').focus();
       return false;
     }
     if ($('#cno').val() == '') {
-      alert("Field Contact Number can not be left blank!");
+      errorcno.text("Required Field");
+      $('#cno').focus();
+      return false;
+    } else if (cont.length == '' || cont.length < 10 || isNaN(cont)) {
+      errorcno.text("Enter Valid Contact No.");
+      $('#cno').focus();
       return false;
     }
     if ($('#password').val() == '') {
-      alert("Password can not be left blank!");
+      errorPassword.text("Required Field");
+      $('#password').focus();
       return false;
-    } else if (cont.length == '' || cont.length < 10 || isNaN(cont)) {
-      alert("Enter Valid Contact No.! ");
-      return false;
-    }
-    alert("Profile Updated Succesfully");
+    } 
+    successProfileEdit.text("Succesfully Updated");
   }
 
   function smtpvalidation() {
