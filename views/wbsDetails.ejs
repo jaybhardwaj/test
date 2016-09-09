@@ -110,7 +110,6 @@ function setValidation(id,date,date1,flag){//alert(flag)
                 type: 'post',
                 data: { "status": st },
                 success: function(data) {
-                    console.log('sssssssssssssssssssss', data);
                     var log = '',log1='',log2='';
                     
                     for (var i = data[0].length-1; i >=0 ; i--) {
@@ -147,7 +146,7 @@ function setValidation(id,date,date1,flag){//alert(flag)
                       if(data[0][i].wactualStartDate=='00/00/00'){data[0][i].wactualStartDate='';}
                       if(data[0][i].wactualEndDate=='00/00/00'){data[0][i].wactualEndDate='';}
                       //alert(date+' '+date1)
-                          log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows" id="abc_'+data[0][i].WBSId+'" onclick="getProjectAssignment('+data[0][i].WBSId+');"><td><input type="text" style="cursor: pointer;pointer-events:none;border:0px"   id="wbsname_'+data[0][i].WBSId+'" value="'+data[0][i].WBSName+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td><input style="cursor: pointer;border:0px"   type="text"  readonly="true" id="wpsdate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="wpedate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" readonly="true"  id="wasdate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"   value="'+data[0][i].wactualStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="waedate_'+data[0][i].WBSId+'" value="'+data[0][i].wactualEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td>';
+                          log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows" id="abc_'+data[0][i].WBSId+'" onclick="getProjectAssignment('+data[0][i].WBSId+');"><td><input type="text" style="cursor: pointer;pointer-events:none;border:0px"   id="wbsname_'+data[0][i].WBSId+'" value="'+data[0][i].WBSName+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td><input style="cursor: pointer;border:0px"   type="text"  readonly="true" id="wpsdate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="wpedate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" readonly="true"  id="wasdate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"   value="'+data[0][i].wactualStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"><div class="fLeft col-sm-12"><span class="error" id="errorWBS_'+data[0][i].WBSId+'"></span></div></td><td><input type="text" style="cursor: pointer;border:0px" readonly="true"  id="waedate_'+data[0][i].WBSId+'" value="'+data[0][i].wactualEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"><div class="col-sm-12 fLeft"><span class="error" id="errorWaedate_'+data[0][i].WBSId+'"></span></div></td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td>';
 
                             setValidation(data[0][i].WBSId,date,date1,1);
 
@@ -229,7 +228,6 @@ function actinact(wbsid,flag){
 
 
 function getProjectAssignment(wbsid){
-
   $(".rows").removeClass('active-row');
             $("#abc_"+wbsid).addClass('active-row');
 
@@ -361,93 +359,80 @@ function highlight(pid,aid,flag){
 }
 
  function checkWBS(wbsid){
+                resetError();
+                var errorstartWBS = $('#errorWBS_'+wbsid);
+                var errorWaedate = $('#errorWaedate_'+wbsid);
                 wbsname=$('#wbsname_'+wbsid).val();
-               wpsdate=$('#wpsdate_'+wbsid).val();
-               wpedate=$('#wpedate_'+wbsid).val();
+                wpsdate=$('#wpsdate_'+wbsid).val();
+                wpedate=$('#wpedate_'+wbsid).val();
                 wasdate=$('#wasdate_'+wbsid).val();
                 waedate=$('#waedate_'+wbsid).val();
                 var sdate = new Date(wpsdate);
                 var edate = new Date(wpedate);
                 var asdate = new Date(wasdate);
                 var aedate = new Date(waedate);
-
-                 /*if (wbsname.val().trim().length == 0 ||  wbsname == '') {
-                    alert("Please Enter WBS Name First");
-                    return false;
-                }*/
-
-
                 if (sdate > edate) {
-                    messageBox('Planned End Date can not be less than Planned Start Date');
+                    errorWaedate.text('Planned End Date can not be less than Planned Start Date');
                     return false;
                 }
 
                 if (waedate != '') {
                     if (wasdate != '') {
                         if (asdate > aedate) {
-                            messageBox('Actual End Date can not be less than Actual Start Date');
+                            errorWaedate.text('Actual End Date can not be less than Actual Start Date');
                             return false;
                         }
                     } else {
-                        messageBox('Please Select Actual Start Date');
+                        errorstartWBS.text('Please Select Actual Start Date');
                         return false;
                     }
                 }
 
                 return true;
  }
- function checkAssignment(asid){
-                asname=$('#asname_'+asid).val();
-               asdate=$('#assigndate_'+asid).val();
-               aedate=$('#assignedate_'+asid).val();
-                var sdate = new Date(asdate);
-                var edate = new Date(aedate);
-                //alert(sdate+' '+edate);
-                 /*if (asname.trim().length == 0 ||  asname == '') {
-                    alert("Please Enter WBS Name First");
-                    return false;
-                }*/
-
-
+ function checkAssignment(asid,wbsid){
+          resetError();
+          var errorstartWBS = $('#errorWBS_'+wbsid);
+          var errorWaedate = $('#errorWaedate_'+wbsid);
+          asname=$('#asname_'+asid).val();
+          asdate=$('#assigndate_'+asid).val();
+          aedate=$('#assignedate_'+asid).val();
+          var sdate = new Date(asdate);
+          var edate = new Date(aedate);
                 if (sdate > edate) {
-                    messageBox('Planned End Date can not be less than Planned Start Date');
+                    errorWaedate.text('Planned End Date can not be less than Planned Start Date');
                     return false;
                 }
 
                 return true;
  }
 
- function checkProject(projectId){
+ function checkProject(projectId,wbsId){
+  resetError();
+  var errorstartWBS = $('#errorWBS_'+wbsid);
+  var errorWaedate = $('#errorWaedate_'+wbsid);
   var pname=$('#pname_'+projectId).val();
-    var psdate=$('#psdate_'+projectId).val();//alert(psdate)
-    var pedate=$('#pedate_'+projectId).val();//alert(pedate)
-    var asdate=$('#asdate_'+projectId).val();
-    var aedate=$('#aedate_'+projectId).val();
-
-    var sdate = new Date(psdate);
-                var edate = new Date(pedate);
-                var pasdate = new Date(asdate);
-                var paedate = new Date(aedate);
-
-                 /*if (pname.val().trim().length == 0 ||  pname == '') {
-                    alert("Please Enter Project Name First");
-                    return false;
-                }
-*/
-
+  var psdate=$('#psdate_'+projectId).val();
+  var pedate=$('#pedate_'+projectId).val();
+  var asdate=$('#asdate_'+projectId).val();
+  var aedate=$('#aedate_'+projectId).val();
+  var sdate = new Date(psdate);
+  var edate = new Date(pedate);
+  var pasdate = new Date(asdate);
+  var paedate = new Date(aedate);
                 if (sdate > edate) {
-                    messageBox('Planned End Date can not be less than Planned Start Date');
+                    errorstartWBS.text('Planned End Date can not be less than Planned Start Date');
                     return false;
                 }
 
                 if (paedate != '') {
                     if (pasdate != '') {
                         if (asdate > aedate) {
-                            messageBox('Actual End Date can not be less than Actual Start Date');
+                            errorWaedate.text('Actual End Date can not be less than Actual Start Date');
                             return false;
                         }
                     } else {
-                        messageBox('Please Select Actual Start Date');
+                        errorstartWBS.text('Please Select Actual Start Date');
                         return false;
                     }
                 }
@@ -457,10 +442,13 @@ function highlight(pid,aid,flag){
 
 
 
-function changeProjectAssignment(projectId,wbsId,assignmentId,flag){ //alert(flag);
-  var a=checkWBS(wbsId);
-  var b=checkProject(projectId);
-var c=checkAssignment(assignmentId);
+function changeProjectAssignment(projectId,wbsId,assignmentId,flag){
+resetError();
+var errorstartWBS = $('#errorWBS_'+wbsid);
+var errorWaedate = $('#errorWaedate_'+wbsid);
+var a=checkWBS(wbsId);
+var b=checkProject(projectId,wbsId);
+var c=checkAssignment(assignmentId,wbsId);
 
   if(flag==1){
 
@@ -477,7 +465,6 @@ var c=checkAssignment(assignmentId);
                 type: 'post',
                 data: {"wid":wbsId,"wbsname":wbsname,"wpsdate":wpsdate,"wpedate":wpedate,"wasdate":wasdate,"waedate":waedate, "pid":0,"pname":"0","psdate":"0","pedate":"0","asdate":"0","aedate":"0","aid":0,"assignname":"0","assigndate":"0","assignedate":"0", "flag": flag },
                 success: function(data) {
-                   //$(".active-row").click();
                    wbsStatus();
                 }
 
@@ -503,16 +490,11 @@ var c=checkAssignment(assignmentId);
                 type: 'post',
                 data: { "wid":0,"wbsname":"0","wpsdate":"0","wpedate":"0","wasdate":"0","waedate":"0", "pid":projectId,"pname":pname,"psdate":psdate,"pedate":pedate,"asdate":"0","aedate":"0","aid":0,"assignname":"0","assigndate":"0","assignedate":"0", "flag": flag },
                 success: function(data) {
-                   //$(".active-row").click();
-
                    if(data[0][0].msg==1){
                         messageBox2('Date validations of project are not according to WBS','wbsStatus()');
                     }
                     if(data[0][0].msg!=1)
                     wbsStatus();
-                    /*else{
-                      alert('Project updated');
-                    }*/
                 }
 
             });
