@@ -17,6 +17,12 @@
     padding-right: 10px;
     padding-left: 24px;
    }
+   .billableHide{
+       display:none!important;
+   }
+   .isPlanReqHide{
+       display:none!important;
+   }
 </style>
 <title>task manaagement</title>
 <%
@@ -415,6 +421,8 @@ function addcolHideClassOnTagger(){
 var nextEle = $('#hideColumnsId').next()[0];
     $(nextEle).addClass('hide').addClass('hideColumnsClass');
     $(nextEle).css('display','');
+    $('.hideColumnsClass').css('position','relative').css('bottom', '-8px');
+    
 
 }
 
@@ -424,11 +432,63 @@ var nextEle = $('#hideColumnsId').next()[0];
 var otable = '';
 
 $(document).ready(function(){
-
  var tdArr = $('#projSummary tr td'); 
 setTimeout(function(){addcolHideClassOnTagger();
 
 },500);
+
+
+
+
+
+
+$('input[name = "billable"]').change(function(){
+var value = $('input[name = "billable"]:checked').val();
+
+if(value == "Yes"){
+  $(".YesBillable").parent('tr').removeClass("billableHide");
+  $(".NoBillable").parent('tr').addClass("billableHide");
+
+}
+else if(value == "No"){
+  $(".NoBillable").parent('tr').removeClass("billableHide");
+  $(".YesBillable").parent('tr').addClass("billableHide");
+
+
+}
+
+else if(value == "Both"){
+  $(".YesBillable").parent('tr').removeClass("billableHide");
+  $(".NoBillable").parent('tr').removeClass("billableHide");
+
+}
+
+debugger;
+
+
+});
+
+$('input[name = "planReq"]').change(function(){
+var value = $('input[name = "planReq"]:checked').val();
+
+if(value == "Yes"){
+$(".YesPlanReq").parent('tr').removeClass("isPlanReqHide");
+$(".NoPlanReq").parent('tr').addClass("isPlanReqHide");
+}
+else if(value == "No"){
+$(".NoPlanReq").parent('tr').removeClass("isPlanReqHide");
+$(".YesPlanReq").parent('tr').addClass("isPlanReqHide");
+}
+
+else if(value == "Both"){
+$(".NoPlanReq").parent('tr').removeClass("isPlanReqHide");
+$(".YesPlanReq").parent('tr').removeClass("isPlanReqHide");
+
+}
+debugger;
+  
+});
+
 
 var trArr = $('#projSummary tr');
 trArr.splice(0,1);
@@ -443,7 +503,28 @@ for(var i = 0 ;i<trArr.length;i++){
          else if(Num<0){
           $(tdEle).html('Not yet Started');
          }
-}
+         var trHtml = $(trArr[i]).html();
+         var strnew   = "00/00/00"
+           trHtml= trHtml.replace(/00\/00\/00/g,"-");
+           $(trArr[i]).html(trHtml); 
+
+
+    tdEle = $(trArr[i]).children('td')[15];
+        if($(tdEle).html()=="1"){
+           $(tdEle).addClass("YesBillable");
+        }
+        else {
+          $(tdEle).addClass("NoBillable"); 
+            }
+            tdEle = $(trArr[i]).children('td')[16];
+          if($(tdEle).html()=="1"){
+           $(tdEle).addClass("YesPlanReq");
+        }
+        else {
+          $(tdEle).addClass("NoPlanReq"); 
+            }
+
+} 
 
 
 
@@ -475,10 +556,10 @@ $('#hideColumnsId').tagger({
 <div class="se-pre-con"></div>
 
 <div class="col-md-12" style="background-color: antiquewhite;margin-left: 0px;padding-left: 2%;margin-right:0px;padding-bottom: 2%;overflow:none;margin-top: 20px;overflow-x: scroll;">
-	<div class = 'col-md-12' style = 'margin-top: 20px;padding-bottom: 10px;'>
-      <button class="btn btn-success buttonMenu " title = "collaborate with" onclick = "colHideOnChange()"><i class="fa fa-columns" aria-hidden="true" style = "font-size:19px;position:relative;left:0px"></i></button> 
+  <div class = 'col-md-12' style = 'margin-top: 20px;padding-bottom: 10px;'>
+      <button class="btn btn-success buttonMenu " style = "    position: relative;bottom: 6px;" title = "collaborate with" onclick = "colHideOnChange()"><i class="fa fa-columns" aria-hidden="true" style = "font-size:19px;position:relative;left:-1px"></i></button> 
   <select multiple="multiple" onchange= "removeAddColumn()" class="form-text-box " style="width:10%;" id ="hideColumnsId" maxlength="50">
-
+  
   <option value = "1">Project Name</option>
   <option value = "2">Project Manager</option>
   <option value = "3">Account Head</option>
@@ -494,8 +575,15 @@ $('#hideColumnsId').tagger({
   <option value = "13">Compl. Based On hrs Booked </option>
   <option value = "14">Open Bugs</option>
    <option id = "15">Closed Bugs</option>
+ 
  </select>
-	<table id = 'projSummary' class="table stripe cell-border hover">
+
+<span id = "IsbillableId" style = "margin-left:40px" ><b>Billable :</b></span>
+  <input type="radio" name="billable" value="Yes" > Yes <input type="radio" name="billable" value="No"> No <input type="radio" name="billable" value="Both" checked>  Both
+<span id = "IsPlanReq" style = "margin-left: 60px;"><b>Is plan required :</b></span>
+  <input type="radio" name="planReq" value="Yes"> Yes <input type="radio" name="planReq" value="No"> No  <input type="radio" name="planReq" value="Both" checked> Both
+</div>
+  <table id = 'projSummary' class="table stripe cell-border hover">
 <thead>
 <tr>
   <th id = "th1">Project Name</th>
@@ -513,6 +601,9 @@ $('#hideColumnsId').tagger({
   <th id = "th13">Compl. Based On hrs Booked </th>
   <th id = "th14">Open Bugs</th>
    <th id = "th15">Closed Bugs</th>
+   <th class = "hide">billable</th>
+   <th class = "hide">plan Required</th>
+
 </tr>
 
 
@@ -521,9 +612,12 @@ $('#hideColumnsId').tagger({
 <tbody id = "tbody123">
 <%for(var i = 0;i<projectDetails.length;i++){%>
 <tr><td><%=projectDetails[i].projectTitle%></td>
-  <td></td>
-    <td></td>
-    <td></td>
+  <td><%=projectDetails[i].accHead%></td>
+    <td><%=projectDetails[i].manager%></td>
+    <td><%=projectDetails[i].effortInHrs%>  
+    <%if(projectDetails[i].effortInHrs){%>
+                        Hrs
+                                      <%}%> </td>
 
 <td><%=projectDetails[i].newPlannedStartDate%></td>
     <td><%=projectDetails[i].newPlannedEndDate%></td>
@@ -537,13 +631,15 @@ $('#hideColumnsId').tagger({
 <td><%=actProjectCalculations[projectDetails[i].id]%> %</td> 
 <td><%=hoursFromTimesheetWbs[projectDetails[i].id]%></td>
   <td><%=calculatePercentageCompletedOnHoursBooked[projectDetails[i].id]%> %</td>
-  <td></td>
-  <td></td>
+  <td><%=projectDetails[i].openbug%></td>
+  <td><%=projectDetails[i].closedbug%></td>
+    <td class = "hide"><%=projectDetails[i].isBillable%></td>
+      <td class = "hide"><%=projectDetails[i].isPlanReq%></td>
 
 </tr>
 <%}%>
 </tbody>
-	
+  
 </table>
 </div>
 
@@ -560,7 +656,6 @@ $('#hideColumnsId').tagger({
  </body>
 
 </html>
-		<!-- sdsa dcav dsadsadsad-->
- <%include ../partials/footer %>	
+    
+ <%include ../partials/footer %>  
  
-

@@ -294,31 +294,23 @@ console.log('dependeArr is',dependeArr);
  <a class = "hide" style ="width:0;height:0" id = "downloadHere">sdsd</a>
   <button class="btn btn-success buttonMenu " title = "send project Excel to" onclick = "sendProjExcelTo()"><span class="glyphicon glyphicon-envelope spanMenu" ></span></button> 
   
-  <select multiple="multiple" class="form-text-box hide mailClass" style="width:10%;" id ="sendMailTo" maxlength="50">
+  <select multiple="multiple" class="form-text-box hide mailClass1"  style="width:10%;display:''" id ="sendMailTo" maxlength="50">
 <%for(var i =0;i<usersAll.length;i++){%>
 <option value = "<%=usersAll[i].userEmail%>"><%=usersAll[i].firstName%> <%=usersAll[i].lastName%></option>
 <%}%>
     </select>
- <button class="btn btn-success hide mailClass" alt = "send project Excel to" onclick = "downloadasExcel(1)">Send Mail</button>
+ <button class="btn btn-success hide" style ="display:none!important"  id  = "sendmailId" alt = "send project Excel to " onclick = "downloadasExcel(1)">Send Mail</button>
 
-  <span style="
-    margin-left: 2%;
-"> Show : </span>
-         <select class="form-control" style="width: auto;margin-top: -10%;display: INLINE;margin-right:2%" id="dueDate">
-              <option value="1" >All</option>
-              <option value="2" >Due Today</option>
-              <option value="3">Due Tommorow</option>
-              <option value="4">Due In next 7 Days</option>
-         </select>
-  <button class="btn btn-success buttonMenu " title = "send project Excel to" onclick = "hideUnhideCollaborbutton()"><span class="glyphicon glyphicon-user spanMenu" ></span></button> 
+  <button class="btn btn-success buttonMenu " title = "collaborate with" onclick = "hideUnhideCollaborbutton()"><span class="glyphicon glyphicon-user spanMenu" ></span></button> 
 
     <select multiple="multiple" onchange= "collOnChange()" class="form-text-box hide collaborateClass" style="width:10%;" id ="collaborateId" maxlength="50">
 <%for(var i =0;i<usersAll.length;i++){%>
 <option value = "<%=usersAll[i].id%>"><%=usersAll[i].firstName%> <%=usersAll[i].lastName%></option>
 <%}%>
     </select>
+   <button class="btn btn-success buttonMenu " id = "collButtonId" style = "display:none!important"title = "hide columns" onclick = "saveColl()">Collaborate</button> 
 
-      <button class="btn btn-success buttonMenu " title = "collaborate with" onclick = "colHideOnChange()"><i class="fa fa-columns" aria-hidden="true" style = "font-size:19px;position:relative;left:0px"></i></button> 
+      <button class="btn btn-success buttonMenu " title = "hide columns" onclick = "colHideOnChange()"><i class="fa fa-columns" aria-hidden="true" style = "font-size:19px;position:relative;left:0px"></i></button> 
 
   <select multiple="multiple" onchange= "removeAddColumn()" class="form-text-box " style="width:10%;" id ="hideColumnsId" maxlength="50">
 
@@ -330,6 +322,16 @@ console.log('dependeArr is',dependeArr);
 <option value = "10">Effort</option>
 <option value = "11">% Completion</option>
  </select>
+
+  <span style="
+    margin-left: 2%;
+"> Show : </span>
+         <select class="form-control" style="width: auto;margin-top: -10%;display: INLINE;margin-right:2%" id="dueDate">
+              <option value="1" >All</option>
+              <option value="2" >Due Today</option>
+              <option value="3">Due Tommorow</option>
+              <option value="4">Due In next 7 Days</option>
+         </select>
 <!--          <span style="margin-left: 1%;">Show Plan To :  </span>
    
 
@@ -391,7 +393,8 @@ console.log('dependeArr is',dependeArr);
   </div>
   <!--  <div style = ''> -->
    <button type="button" class="btn btn-success" id = 'saveId' style=" margin-bottom: -6%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:85%;" onclick="savethis(0,1)">Save</button>
-    <button type="button" class="btn btn-success"  id = 'submitId'  style=" margin-bottom: -1%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:1%;margin-left:91%;" onclick="savethis(1,1)">Submit</button>
+    <button type="button" class="btn btn-success"  id = 'submitId'  style="height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top:-1.7%;margin-left:91%;" onclick="savethis(1,1)">Submit</button>
+
 <!--     <div>
  --></body>
 </div>

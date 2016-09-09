@@ -1085,6 +1085,16 @@ error:function(req,res,next){
 	 changePassWordPage:function(req,res,next){
 		req.page = 'changePassWordPage';
     	next();
+	},		 
+	gantt:function(req,res,next){
+	 if(req.session.modules.indexOf(config.Project)>=0){
+		 	console.log("url task");
+		req.page="gantt";
+		next();
+	}
+	else{
+			res.redirect('/portal');
+		}	
 	}
 }
 

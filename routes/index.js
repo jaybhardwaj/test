@@ -242,6 +242,7 @@ app.post('/error',url.error,render.redirect);
  app.post('/addeditClientContacts',portal.addeditClientContacts);
 
 //-----------------------------------------Project------------------------------------------
+  app.get('/gantt',url.gantt,portal.gantt,render.redirect);
 app.get('/task',url.task,portal.task,render.redirect);
 app.get('/resourceView',url.resource,portal.getAllResources,render.redirect);
 app.post('/projectByResource',portal.projectByResource);
@@ -267,13 +268,12 @@ app.post('/createExcelProj',portal.createExcelProj);
       next();
     }
   });
-    app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,
-      portal.holidayhome,portal.select_ExpenseMaster,
-      portal.getDataAsset,
+    app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,portal.holidayhome,portal.select_ExpenseMaster,portal.getDataAsset,
       portal.getCustomRole,portal.getIndustry,portal.getBusiness,
       portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
       render.redirect);
 
+  
 
 //-------------------------Admin Routes----------------------------------------------------
 /* app.use(function(req, res,next) {

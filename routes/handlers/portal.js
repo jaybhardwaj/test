@@ -5534,7 +5534,7 @@ upload_resume:function(req,res,next){
         modelPortal.getAllResources(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
             if(err){
-                //////console.log("there is an error",err);
+            console.log("there is an error",err);
             }   
             else{
                         req.reqResources=result;
@@ -5745,6 +5745,7 @@ saveTask :function(req,res,next){
                 ////console.log("there is an error",err);
             }   
             else{
+                console.log("result is *****************************",result);
                    if(result.length>2){
                      var project   = result[0][0].projectTitle;
                       console.log('req body submitFlag',req.body.submitFlag);
@@ -5765,11 +5766,23 @@ saveTask :function(req,res,next){
                           }
 
                       }
-                      else{
+                      else if(req.body.submitFlag==3){
                              for(var i = 0 ;i<result[1].length;i++){
                         var email = result[1][i].email;
                         console.log('email123 is',email,'project123 is',project);
                           mailTemplates.projectRejectMan(email,project,req.session.firstName,req.body.remarks,function(err,result1){
+
+                          });    
+                          }
+ 
+
+                      }
+
+                      else if(req.body.submitFlag==1){
+                             for(var i = 0 ;i<result[1].length;i++){
+                        var email = result[1][i].email;
+                        console.log('email123 is',email,'project123 is',project);
+                          mailTemplates.projectSubmitMan(email,project,req.session.firstName,req.body.remarks,function(err,result1){
 
                           });    
                           }
@@ -5847,11 +5860,179 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
 },
 
 
+
+
+      gantt:function(req,res,next){
+  var query = require('url').parse(req.url, true).query;
+        var flag = query.flag;
+        var versionFlag = query.versionFlag;
+        if(flag==undefined){
+            flag = -1;
+        }
+
+        if(versionFlag==undefined){
+            versionFlag = 1;
+        }
+        //console.log('flag is',flag);
+        //console.log('retailerId is',req.session.retailerId,'userId is',req.session.userId);
+
+     modelPortal.task(flag,req.session.retailerId,versionFlag,req.session.userId,function(err,result){
+              console.log('in here');    
+            if(err){
+            console.log("there is an error",err);
+            }   
+            else{
+            req.treeComponent = result[0];
+         //   console.log('treeComponent is',req.treeComponent);
+            req.maxid         = result[1][0].endId;
+            req.minid         = result[1][0].startId;
+            req.flag          = flag;
+            req.ultimateEndId = result[2][0].ultimateendid;
+            req.projectDetails= result[3];
+            req.prId          = result[1][0].prId; 
+            req.Resources     =  result[4];
+            req.versionFlag   =  versionFlag;
+            req.userId       = req.session.userId;
+            if(!!result[5][0].version){
+                req.versionArr = result[5][0].version.split(',');
+                //console.log('version Arr is',req.versionArr);
+            }
+            else{
+                req.versionArr = [1];
+                versionFlag  =  1;
+               }
+
+            req.projectAndVersions = result[6];
+              
+
+       req.submittedProject = result[8];
+       req.submittedVersion = result[9];
+
+     if(req.submittedVersion.length==0){
+            req.submittedVersion  = [];
+         }
+
+         if(req.submittedProject.length==0){
+            req.submittedProject = [];
+         }
+         //console.log('projectDetails is ',req.projectDetails);
+            for(var i = 0;i<req.projectDetails.length;i++){
+                if(req.prId==req.projectDetails[i].id){
+                    req.prStartDate = req.projectDetails[i].newPlannedStartDate;
+                    req.prEndDate   = req.projectDetails[i].newPlannedEndDate;
+                    //console.log('prStartDate',req.prStartDate,'prEndDate',req.prEndDate);
+                     if(req.prStartDate){
+                        var temp = '';
+                        req.prStartDate = req.prStartDate.split('/');
+                        temp = req.prStartDate[0];
+                        req.prStartDate[0] = req.prStartDate[1];
+                        req.prStartDate[1] = temp;
+                        req.prStartDate = req.prStartDate.join('/');
+                        }
+                        //console.log('req endDate is',req.prEndDate);
+                       if(req.prEndDate){
+                         req.prEndDate = req.prEndDate.split('/');
+                         temp = req.prEndDate[0];
+                        req.prEndDate[0] = req.prEndDate[1];
+                        req.prEndDate[1] = temp;
+                        req.prEndDate = req.prEndDate.join('/');
+                           }
+                            break;
+                      }
+                   
+
+                }
+
+
+                    if(result[12].length){
+                        req.isManagerFlag = true;
+                        req.isCreaterFlag = false;
+                        req.userFlag = false;
+                            req.collFlag = false;
+
+                                         }
+
+                else if(result[7].length){
+                        req.isCreaterFlag = true;
+                        req.isManagerFlag = false;
+                           req.userFlag = false;
+                    req.collFlag = false;
+
+                                          }
+                else if(result[10].length){
+                           req.userFlag = true;
+                        req.isCreaterFlag = false;
+                        req.isManagerFlag = false;
+                            req.collFlag = false;
+
+                      var submitted;
+                          
+if(!req.treeComponent.length) {
+            submitted = 0;
+                              } 
+                        else {
+                   submitted = req.treeComponent[0].isSubmit;
+                             }
+          if(submitted != 2) {
+       req.treeComponent = [];
+                             }
+                        else {
+     
+                  req.treeComponent = findDataFromUserFlag(result[0],req.session.userId);
+                             }
+                                      }
+                                      else if(result[16].length){
+                        req.userFlag = false;
+                        req.isCreaterFlag = false;
+                        req.isManagerFlag = false;
+                        req.collFlag = true;
+
+                                      }
+                                  else{
+
+                        req.userFlag = false;
+                   req.isCreaterFlag = false;
+                  req.isManagerFlag = false;
+                    req.collFlag = false;
+
+                    req.treeComponent = [];
+
+                                     }
+     console.log('user flag is ',req.userFlag,'creater Flag is ',req.isCreaterFlag,'manager flag ',req.isManagerFlag);
+     
+                   req.holidayArr = [];
+                for(var i=0;i<result[11].length;i++){
+                   req.holidayArr.push(result[11][i].holidayDate);
+                                                    }
+            var allcommentsArrComment = [];
+            var allcommentsArrId     =  [];
+               req.allcommentsSet = result[13]; 
+            for(var i =0;i<result[13].length;i++) {
+             allcommentsArrId[i] =    result[13][i].treeId;
+             allcommentsArrComment[i] = result[13][i].comment;
+            }       
+            req.allcommentsArrComment = allcommentsArrComment;   
+            req.allcommentsArrId      = allcommentsArrId;  
+             req.usersAll    = result[14]; 
+             console.log('result[15] is ',result[15]);
+             if(!result[15].length){
+                req.collaborateId = '';
+             }
+             else{
+              req.collaborateId       =  result[15][0].collaborateIds;          
+                 }
+                 console.log('result 16 is',result[17]);
+                 req.changedEle = result[17];
+             next();
+                } 
+        });
+                        
+    },
+
+
 createExcelProj:function(req,res,next){
 
-
 createExcelHere(res,JSON.parse(req.body.projData),JSON.parse(req.body.bigArr),req.body.mailFlag,JSON.parse(req.body.receiverMail));
-
 },
 
      

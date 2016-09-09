@@ -21,6 +21,7 @@ var remarks;
 var changedEleArr = [];
 var beforeChanged = [];
 var newRowFlag = false;
+var collaborateSaveFlag = false;
 //console.log
 for (var i = 0; i < holidayArr.length; i++) {
     var holidayArrDateTime = holidayArr[i].split('/');
@@ -200,6 +201,7 @@ function updateAllArr(idUsed, isActiveFl) {
 
 
 $(document).ready(function() {
+
 $("#adMenu").addClass('hide');
  // $('.div1').css('width',$('#projTable').css('width'));
  $(".wrapper1").scroll(function(){
@@ -233,7 +235,6 @@ $("#adMenu").addClass('hide');
     initializeJquery();
   
   setTimeout(function(){ hideAllOnSubmit(); },1400);
-  
     }, 400);
 
     /*if(submitFlagForFunc==1){ setTimeout(function(){ hideAllOnSubmit();},400);}
@@ -607,7 +608,7 @@ $('.se-pre-con').fadeIn();
         },
 
         error: function() {
-            showMessage('Server Failure:Reloading Page for Refreshing info')
+            alert('Server Failure:Reloading Page for Refreshing info')
                 // window.location.href = '/task';
             counterForAjax--;
             ajaxFailureFlag = false;
@@ -709,7 +710,7 @@ var changedEle = changedEleArr.join();
             someThingUpdated = 0;
             //console.log('sucess');
             $('.se-pre-con').fadeOut('slow');
-            showMessage('New version created');
+            alert('New version created');
             updateArr = [];
 
             $('#verSel select').each(function() {
@@ -792,13 +793,13 @@ if($('#collaborateId').val()!=null){
 
             if (approveFlag) {
                 someThingUpdated = 0;
-                showMessage('Project approved successfully');
+                alert('Project approved successfully');
                 $('#statusSub').html('Approved');
 
                 submitted = 2;
                 hideAllOnSubmit();
             } else {
-                showMessage('Project has been rejected');
+                alert('Project has been rejected');
                 submitted = 3;
                 $('#statusSub').html('Rejected');
                 hideAllOnSubmit();
@@ -809,7 +810,7 @@ if($('#collaborateId').val()!=null){
 
         },
         error: function(data) {
-            showMessage('db error');
+            alert('db error');
             $('.se-pre-con').fadeOut('slow');
             updateArr = [];
         }
@@ -824,6 +825,9 @@ if($('#collaborateId').val()!=null){
 
 
 function savethis(submitFlag, joinFlag) {
+  $('.se-pre-con').fadeIn('slow');
+
+    if(!collaborateSaveFlag){
     $('#tbody123 tr').removeClass('bgYellow');
      $('#tbody123 tr .open').click();
 sleepFunctionForStoppingTime(100);
@@ -875,7 +879,7 @@ if(somethingZeroFlag)      { somethingUpdated = 0;}
 
     }
 
-    if ((submitted == 2) && (submitFlag == 1 || submitFlag == 0)) {
+    if ((submitted == 2)) { //If something updated is -1 it will go through it without any check points
              
         if (someThingUpdated==1) {
             var englishString = ''
@@ -889,13 +893,15 @@ if(somethingZeroFlag)      { somethingUpdated = 0;}
             createNewVersion(submitFlag);
             return;
         } else if(someThingUpdated==0) {
-            showMessage('This version has already been submitted');
+            alert('This version has already been submitted');
             return;
-
-        }
+          }
         else if(submitFlag==1){
-        showMessage('This version has already been submitted');
+        alert('This version has already been submitted');
             return;
+        }
+        else if(somethingUpdated==-1){
+            submitFlag = -1;
         }
 
 
@@ -920,7 +926,7 @@ debugger;
 
     counterForRecursionAjax++;
     if (counterForRecursionAjax == 20) {
-        showMessage('Server error,Reloading page');
+        alert('Server error,Reloading page');
         return;
     }
 
@@ -936,14 +942,20 @@ debugger;
     if(submitted==2){
      submitFlag = 2;//Code Added later 24 Jun requires more reasoning.
              }
-              $('.se-pre-con').fadeIn('slow');
 createCommentString();
-var collaborate = '';
+
+}
+else{
+updateArr = ''
+submitFlag = -1
+commentString = '';
+    }
+    var collaborate = '';
 if($('#collaborateId').val()!=null){
  collaborate  = $('#collaborateId').val().join();
 }
 //debugger;
-
+ debugger;
     $.ajax({
         url: '/saveTask',
         type: 'post',
@@ -964,7 +976,7 @@ if($('#collaborateId').val()!=null){
             counterForRecursionAjax = 0;
             updateArr = [];
             if (submitFlag==1) {
-                showMessage('form has been submitted');
+                alert('form has been submitted');
                 submitted=1;
                 hideAllOnSubmit();
             }
@@ -1031,7 +1043,7 @@ function validationForSubmit() {
     }
 
     if (returnFalseFlag) {
-        showMessage('Please fill all fields');
+        alert('Please fill all fields');
         return false;
     } else {
         return true;
@@ -1263,7 +1275,7 @@ function editRow(rowId, AddFlag) {
          console.log(diff);
          if(diff<=0&&diff>-100000){
          $(function(){
-            showMessage('Error:Start Date cannot be greater than End Date');
+            alert('Error:Start Date cannot be greater than End Date');
           $.datepicker._clearDate(this);
           console.log(diff);
        }
@@ -1369,7 +1381,7 @@ function startDateEndDateValidation(datepickerthis) {
         if (sdateTime != '') {
             var diff = (((((edateTime - sdateTime) / 3600000) / 24) + 1) * 9);
             if (diff <= 0 && diff > -100000) {
-                showMessage('Error:Start Date cannot be greater than End Date');
+                alert('Error:Start Date cannot be greater than End Date');
                 $(datepickerthis).val('');
                 return true
        }
@@ -1450,7 +1462,7 @@ function findParentDate(inputTextBox, par2) {
     if (middleElement == 'actEndDate' || middleElement == 'pActStartDate' || middleElement == 'pActEndDate') {
         actualFlag = true;
     }
-    /*    showMessage(actualFlag);
+    /*    alert(actualFlag);
         debugger;*/
     if (parentId == '0') {
         depth = 0
@@ -1487,7 +1499,7 @@ function findParentDate(inputTextBox, par2) {
 
         }
         if (rowParentId == -1) {
-            showMessage('Js error in depth =2 findParentDate');
+            alert('Js error in depth =2 findParentDate');
         } else {
             if ($(rowParentId + ' td input').length) {
                 startDate = $(rowParentId + ' td input')[1].value;
@@ -1500,7 +1512,7 @@ function findParentDate(inputTextBox, par2) {
         }
 
     } else {
-        showMessage('JS error in depth = else  findParentDate');
+        alert('JS error in depth = else  findParentDate');
 
 
 
@@ -1603,7 +1615,7 @@ function findParentDate(inputTextBox, par2) {
             $('#submitId').attr('disabled', 'disabled');
             $('#saveId').attr('disabled', 'disabled');
         }
-        //showMessage(isManagerFlag+'   '+submitted);
+        //alert(isManagerFlag+'   '+submitted);
         else if (submitted == 2)
         {
             $('#statusSub').html('Accepted');
@@ -1683,7 +1695,7 @@ showSaveSubmit();
         depth = 1;
     } else depth = 2;
     if (treeStructure[individualId].length) {
-        showMessage('Please delete all children first');
+        alert('Please delete all children first');
 return;}
 
 
@@ -1755,7 +1767,7 @@ return;}
         // console.log('Effort is ',newRowId);
 
         $('#' + parentId + '_sign_' + grandParentId).attr('src', '../img/project/grey_button1.jpg');
-        // showMessage(parentRowId);
+        // alert(parentRowId);
 
     }
 
@@ -2639,7 +2651,7 @@ function changeActPlStDate(sDateEle, sDateOld) {
     var sDateNew = $(sDateEle).val();
     // debugger;
     var numberOfDays = calculateEffDays(sDateNew, sDateOld);
-    var showMessageFlag;
+    var alertFlag;
 
         if (dependancyCheckForChangePlannedStartDate(individualId, sDateEle)) {  // Changed Code of Dependency flow
             return;
@@ -2708,7 +2720,7 @@ function dependancyCheckForChangePlannedStartDate(rootIndividualId, sDateEle) {
                  $(sDateId).val('');
               }
  
-        showMessage('Pl Start Date cannot be before dependencies act End Date');
+        alert('Pl Start Date cannot be before dependencies act End Date');
         $(sDateEle).val('');
     }
    // debugger;
@@ -3475,7 +3487,7 @@ $.ajax({
    window.location = $('#downloadHere').attr('href');
     }
     else if(mailFlag==1){
-        showMessage('mail sent');
+        alert('mail sent');
      sendProjExcelTo()
     }
 
@@ -3485,7 +3497,7 @@ $.ajax({
     }
      },
      error:function(err){
-      showMessage('server error');
+      alert('server error');
      // console.log('error is ',err);
     $('.se-pre-con').fadeOut('slow');
 
@@ -3675,7 +3687,7 @@ function downloadasExcel(mailFlag){
 
     if(mailFlag==1){
         if($('#sendMailTo').val()==null){
-            showMessage('No receiptants selected');
+            alert('No receiptants selected');
             return;
         }
     }
@@ -3722,16 +3734,58 @@ setTimeout(function(){$('.se-pre-con').fadeOut('slow');},100);
 }
 
 function sendProjExcelTo(){
+  if($('.mailClass').hasClass("hide")){
+            $('.tagger').addClass('hide');
+            $("#sendmailId , #collButtonId").css('cssText','display:none!important');
+           $('.mailClass').removeClass('hide');
+             $("#sendmailId").css('cssText','display:inline-block');
 
- $('.mailClass').toggleClass('hide');
+    }
+    else{
+         $('.tagger').addClass('hide');
+         $("#sendmailId , #collButtonId").css('cssText','display:none!important');
+         debugger;
+
+        }
+
+
 }
 
 function hideUnhideCollaborbutton(){
-    $('.collaborateClass').toggleClass('hide');
-}
-function colHideOnChange(){
+        if($('.collaborateClass').hasClass("hide")){
+             $('.tagger').addClass('hide');
+                         $("#sendmailId , #collButtonId").css('cssText','display:none!important');
 
-$(".hideColumnsClass").toggleClass("hide");
+             $('.collaborateClass').removeClass('hide');
+             $("#collButtonId").css('cssText','display:inline-block');
+
+    }
+    else{
+         $('.tagger').addClass('hide');
+         $("#sendmailId , #collButtonId").css('cssText','display:none!important');
+
+        }
+  }
+  
+
+
+  function saveColl(){
+     collaborateSaveFlag = true;
+     savethis(0,1);
+    }
+
+function colHideOnChange(){
+  if($('.hideColumnsClass').hasClass("hide")){
+        $('.tagger').addClass('hide');
+        $("#sendmailId , #collButtonId").css('cssText','display:none!important');
+       $('.hideColumnsClass').removeClass('hide');
+
+    }
+    else{
+         $('.tagger').addClass('hide');
+         $("#sendmailId , #collButtonId").css('cssText','display:none!important');
+
+        }
 
 
 }
@@ -3784,21 +3838,23 @@ debugger;
 
 function addMailClassToTagger(){
     var nextEle = $('#sendMailTo').next()[0];
-    $(nextEle).addClass('hide').addClass('mailClass');
-    $(nextEle).css('display','');
+    $(nextEle).addClass('hide').addClass("mailClass");
+    $(".mailClass2").css('cssText','display:none!important');
+    $(".tagger").css("position","relative").css("top","15px");
+    $(".mailClass").css("position","relative").css("top","15px");
+
 }
 
 function addcollaborateClassToTagger(){
     var nextEle = $('#collaborateId').next()[0];
     $(nextEle).addClass('hide').addClass('collaborateClass');
-    $(nextEle).css('display','');
+
 }
 
 function addcolHideClassOnTagger(){
 var nextEle = $('#hideColumnsId').next()[0];
     $(nextEle).addClass('hide').addClass('hideColumnsClass');
-    $(nextEle).css('display','');
-
+  $(".tagger").css("position","relative").css("top","15px");
 }
 function initialiseCollaborateMultiSelect(){
 var collEleArr = $('#collaborateId option');
