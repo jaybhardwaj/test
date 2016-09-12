@@ -4464,7 +4464,7 @@ uploadattendance: function(req, res, next) {
           if(flag==0){ 
 
             console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',result)
-              mailTemplates.hrMailer(0,recEmail,result[6][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
+              mailTemplates.hrMailer(0,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
             res.redirect('/allrequisitions?flag=1');
               }
               else if(flag==1){

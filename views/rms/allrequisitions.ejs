@@ -26,6 +26,12 @@
             padding-right: 5px;
             padding-left: 5px;
         }
+
+        .tagger{
+            width:154px;
+        }
+
+
    
     </style>
 
@@ -566,13 +572,18 @@
                                     for (var i = 0; i < JSON.parse(JSON.stringify(data.result[6])).length; i++) {
                                     
                                         arr[i] = JSON.parse(JSON.stringify(data.result[6]))[i].skill;
-                                        $('#skills_' + JSON.parse(JSON.stringify(data.result[6]))[i].skill).prop('selected', true);
+                                       // $("#skills_"+arr[i]).prop('selected', true);
+                                       //$('#skills_'+arr[i]).attr('selected','selected');
+                                      //  $("#data option[value='" + arr[i] + "']").attr("selected", 1);
                                        
                                     }
-                                     $('#skillsId').tagger({
-                                        preselectedTags: arr,
+
+                                    /* $('#skillsId').tagger({
                                         fieldWidth:'12em'
-                                        }); 
+                                        }); */
+                                        $('#skillsId').val(arr).tagger({
+                                        fieldWidth:'12em'
+                                        });
                                       $('#historyTable').html('');
                                     var counter = 1;
                                     var cname;
@@ -722,7 +733,7 @@ function updateStatusReq(flag,jdid){
             },
             method: 'post',
             success: function(data) {
-                if(data[2][0].flag==0){
+                if(data[3][0].flag==0){
                                 alert("This Requisition is already deleted!")
                             }  
                             else{
