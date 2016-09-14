@@ -364,17 +364,18 @@
 
 				<input type="text" name="bugDescription" id="bugDescription" class="hide">
 				<textarea style="float:left;width:101%"  maxlength="12000" id='description' class='form-control'></textarea>
-						
+				<div class="col-sm-12 text-center"><span class="error" id="errorBugDesc"></span><span class="success" id="successBugDesc"></span></div>
 					</div>
 					<div id="menu1" style="margin-left:-1%;width:102%" class="tab-pane fade">
 						<div id="overview" style="margin-bottom:1%;margin-top:10px"></div>
 					</div>
 					<div id="menu2" style="margin-left:-1%;width:102%" class="tab-pane fade">
-					<div >
+					<div>
 						<textarea maxlength="200" name='commenttext' style="margin-top:10px;resize:none" id='commenttext' class='form-control' rows=4 placeholder='Write your comment here ...'></textarea>
 						<input type='button' class="btn" value='Add Comment' id="commentd" style='margin-top:1%;' onclick='addcomment()'>
 						<div id="comment" style="overflow-y:auto;height:145px !important"></div>
 					</div>
+          <div class="col-sm-12 text-center"><span class="error" id="errorCommenttext"></span><span class="success" id="successCommenttext"></span></div>
 					</div>
 					<div id="menu3" style="margin-left:-1%;width:102%" class="tab-pane fade">
 						<div class="" style="margin-top:20px;margin-bottom:50px">
@@ -388,6 +389,7 @@
 						</div>
 							<div id="attachment"><p></p></div>				  
 					</div>
+ 
 				</div>
 			</div>
 		</div>
@@ -576,18 +578,16 @@ $('#hideColumnsId').tagger({
 	
   	//.........................Re Show  comment on comment button click................................
   	function showcomment(data) {
-  	console.log("recent comment added :",data)	;
-		$('#comment').html(''); 
-		$('#commCount').html(data[0].length);
-		var com='';
+    $('#comment').html(''); 
+    $('#commCount').html(data[0].length);
+    var com='';
 		for(var i=(data[0].length)-1;i>=0;i--) {
-			//alert(data[0][i].createdDate);
 			data[0][i].createdDate=new Date(data[0][i].createdDate);
 			var str=data[0][i].createdDate.toString();
 			com=com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%;'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left1%;'> By : "+data[0][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;background-color:#C7DEFE;max-height:100px; word-wrap: break-word;'>"+data[0][i].comments+"</div><br><div style='width:100%'></div></div>";
 		}
-		$('#comment').html(com);
-	}
+		  $('#comment').html(com);
+	  }
 		
 	function showattachment(data) {	
 	  	var att='';
@@ -625,9 +625,11 @@ $('#hideColumnsId').tagger({
 
 //.............save/add comment to database......................			
   	function addcomment() { 		 
- 		//var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin   + '/buguser' +'/addcomment';
+    resetError();  
+    var successCommenttext = $('#successCommenttext');
+    var errorCommenttext = $('#errorCommenttext');
 		if (!$.trim($("#commenttext").val())){
-			alert("please enter valid comment");
+			errorCommenttext.text("please enter valid comment");
 			return false;
 		} else
 		{	var comm={
@@ -767,7 +769,6 @@ $(".btndesc").removeClass('hide');
     		contentType: false, 
    			processData: false,
 			success: function(data) {
-				console.log("after upload :",data);
 				alert("File uploaded successfully!");
 				showattachment(data);
 			},
@@ -826,13 +827,16 @@ if(type=='effectiveEndDate')
 	}
 
 	function updatebugdescription() {
-var ds=tinyMCE.activeEditor.getContent();
+      resetError();
+      var errorBugDesc = $('#errorBugDesc');
+      var successBugDesc = $('#successBugDesc');
+      var ds=tinyMCE.activeEditor.getContent();
  			if(ds.trim().length<=0){
- 				alert("Description can not be left blank");
+ 				errorBugDesc.text("Please enter description");
  				return false;
  			}
  			if(ds.trim().length>12000){
- 				alert('Description length should not be more than 12000 characters');
+ 				errorBugDesc.text("Description length should't be more than 12000 characters");
  				return false;
  			}  
 	 		$.ajax(
@@ -845,7 +849,8 @@ var ds=tinyMCE.activeEditor.getContent();
 				url: '/updatebugdescription',
 				method: 'POST',
 				success: function() {	
-				alert("Bug description updated succesfully!");		
+				successBugDesc.text("Bug description updated succesfully!");		
+        commonTimeOut(successBugDesc);
 				},			 
 				dataType: 'JSON',
 			});
