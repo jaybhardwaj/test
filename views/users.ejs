@@ -11,7 +11,7 @@
 
 <div class="se-pre-con"></div>
 
-
+<div id="ModalAdd"></div>
     <div class="secondry-color" style="padding-bottom:2%;padding-left :2%;padding-right:2%;padding-top:1%; ">
      <div class="row" style=" max-width: 103%">
               <img  onclick="addEditUser(0)" title="Create New"  class="addNewPlus"> 
@@ -106,7 +106,7 @@ $(window).bind('resize', function () {
             var row_id="#row_"+uid;
             var rowid="row_"+uid;
             if(flag==1){
-                if(confirm("Are you sure you want to Deactivate this user?")){
+               /* if(confirm("Are you sure you want to Deactivate this user?")){*/
                  $.ajax({
                     url: '/changeUserStatus',
                     type: 'post',
@@ -121,16 +121,16 @@ $(window).bind('resize', function () {
                         arr.push($(row_id+i).text());
                     } 
                     inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
-                      log='<a  onclick= "actinact('+uid+',0)">'+inact+'</a>';
+                      log='<a onclick=confirmBox2("'+uid+',0","actinact",1);>'+inact+'</a>';
                     otable.fnUpdate([arr[0],arr[1],arr[2],arr[3],arr[4],log],row_id);
                     }
                 }
            });
-        }
+       /* }*/
     }
         else
         {
-             if(confirm("Are you sure you want to Activate this user?")){
+             /*if(confirm("Are you sure you want to Activate this user?")){*/
              $.ajax({
                 url: '/changeUserStatus',
                 type: 'post',
@@ -144,8 +144,6 @@ $(window).bind('resize', function () {
                     for(i=1;i<=6;i++){
                         arr.push($(row_id+i).text());
                     }
-                
-                    console.log('arrrrrrrrrrrrrrrr',arr);
                      var act='<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span>';
 
                      log='<a onclick=addEditUser('+uid+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+uid+',1)">'+act+'</a>';
@@ -154,7 +152,7 @@ $(window).bind('resize', function () {
                 }
                 }
            });
-        }
+       /* }*/
         }
                 }
 
@@ -178,10 +176,10 @@ function userStatus(){
                     log=log+ '<tr id=row_'+data[0][i].id+'><td id=row_'+data[0][i].id+'1'+'>'+data[0][i].firstName+'</td><td id=row_'+data[0][i].id+'2'+'>'+data[0][i].userEmail+'</td><td id=row_'+data[0][i].id+'6'+'>'+data[0][i].ecode+'</td><td id=row_'+data[0][i].id+'3'+'>'+data[0][i].contactNumber+'</td><td id=row_'+data[0][i].id+'4'+'>'+data[0][i].roleName+'</td><td id=row_'+data[0][i].id+'5'+'>'+ mgrname +'</td><td>';
                  //   if(data[0][i].isRetailer != 1) {
                             if (data[0][i].isActive) {
-                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+data[0][i].id+',1)">'+act+'</a>';
+                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a onclick=onclick=confirmBox2("'+data[0][i].id+',0","actinact",1);>'+act+'</a>';
                               }
                             else if (data[0][i].isActive==0) {
-                                            log+='<a  onclick= "actinact('+data[0][i].id+',0)">'+inact+'</a>';}
+                                            log+='<a onclick=confirmBox2("'+data[0][i].id+',1","actinact",2);>'+inact+'</a>';}
                                     }
                           /* else {
                                 log+='<span style="color:green;height:10px" class="glyphicon  glyphicon-ban-circle"></span>';
