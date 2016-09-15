@@ -901,6 +901,8 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         /*   result[0][0]={id:1 ,
       projectTitle: 'DummyProject'};*/
 //console.log(result);
+if(result[0].length>0){
+
             if(flag==1 && result[0][0].projectTitle=='DummyProject'){
 
                 ////console.log('i am in dummy project');
@@ -937,6 +939,41 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
     result[2]=[ { id: 383, description1: 'None' } ];
                 
             }
+        }
+        else{
+
+        result[0][0]={id:result[7][0].id ,
+      projectTitle: result[7][0].projectTitle,
+      pcode: result[7][0].pcode,
+      ptype: result[7][0].ptype,
+      description: result[7][0].pdescription,
+      plannedStartDate: result[7][0].plannedStartDate,
+      plannedEndDate: result[7][0].plannedEndDate,
+      actualStartDate: result[7][0].actualStartDate,
+      actualEndDate: result[7][0].actualEndDate,
+      pstatus: result[7][0].pstatus,
+      pcomplexity: result[7][0].pcomplexity,
+      plocation: result[7][0].plocation,
+      commercialHead: result[7][0].commercialHead,
+      accountHead: result[7][0].accountHead,
+      manager: result[7][0].manager,
+      teamLead: result[7][0].teamLead,
+      completed: result[7][0].completed,
+      isBillable: result[7][0].isBillable,
+      taxCode: result[7][0].taxCode,
+      poNumber: result[7][0].poNumber,
+      cname: result[7][0].cname,
+      locid: result[7][0].locid,
+      location: result[7][0].location,
+      clientName: abc,
+      description1: 'None',
+      technologyId: 405,
+      name: null,
+      userId: 0 };
+
+
+            
+        }
             
             callback(err, result);
         });
@@ -2480,6 +2517,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             sql: 'call usp_getModules(?,?,?)',
             values: [userId, roleId,retailerid]
         };
+        console.log("query is    ",query);
         mysql(query, function(err, result) {
             callback(err, result);
         });

@@ -86,7 +86,7 @@ var locationId = [],
  var holidayArrDateTimeArr = [];
  var saturdayOffFlag      = 1;
 
-//var excel = require('node-excel-export');
+var excel = require('node-excel-export');
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -769,14 +769,14 @@ filename=req.session.logo;
              }
              else{ 
                
-          }
+         
            mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,req.body.titlebox,function(error, resultMail) {
              if (error) {
                
              }
+}); 
 
-                
-        }); 
+    }
           next();    
            }); 
             
