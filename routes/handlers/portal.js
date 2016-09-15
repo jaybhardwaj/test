@@ -715,12 +715,13 @@ filename=req.session.logo;
     },
 
     addBug :function(req, res, next) {               
-       
+       console.log("************************************************************we are in portal ");
         var filename;
         var targetPath;
         var fname;
         if(req.file!=undefined)
         {
+            console.log("using browse case*********");
             var now = Date.now();;
             fname=req.file.originalname;
             var exet= fname.split('.');
@@ -736,9 +737,30 @@ filename=req.session.logo;
                 next(err)
               
           });
+
+          targetPath = 'attach/' +filename;
     
         }
-      
+        else{
+            console.log("using copy paste case*************");
+            var tempFileName=req.body.fileName;
+            var data = req.body.fileContent.replace(/^data:image\/\w+;base64,/, "");
+            var buf = new Buffer(data, 'base64');
+            var dir = './public/attach';
+            var dir2 = path.resolve(dir);
+        console.log('************ddir2 is ',dir2)
+
+            if (!fs.existsSync(dir2)){
+                fs.mkdirSync(dir2);
+            }
+            fs.writeFile(dir2+"/"+tempFileName, buf);
+            
+            var targetPath = 'attach'+"/"+tempFileName;
+            var fName        = req.body.fileName;
+            var filename      =  req.body.fileName;
+            }
+
+      console.log("final data**********",targetPath,filename,fname);
         modelPortal.addBug(req.body.estimatedEffort,req.body.actualEffort,req.body.linkTo,req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
             req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
             req.body.description,  targetPath, filename, fname,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){

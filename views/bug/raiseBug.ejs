@@ -238,6 +238,11 @@
                                 Attach Files <b>(limit :10 mb)</b></div>
                                 <div class="col-md-4">
                                     <input type="file" id="addBugUp" name="addBugUpload" class="upload" />
+
+
+
+                                  <input type = "text" id = "fileNameId" name = "fileName"  class = ""></input>
+                                   <input type = "text"  id = "fileContentId" name = "fileContent" class = ""></input>
                                 </div> 
                             </div>
                             <div class="col-md-12 height11"></div>
@@ -246,7 +251,14 @@
                                 <div class="col-md-6" style="text-align:left">
                                      <label style="padding-left:4%"><input type="checkbox" name="setting" id="setting" value="1"<%if(bugSetting[8]=='1'){%>checked="true"<%}%> />Remember Setting </label>
                                      <input type="submit" class="btn" name="submit" id="raise" value="Raise Bug" style="margin-left:13%"> 
+
+                                        
+
                                 </div>
+
+                                </form>
+            <canvas style="border:1px solid grey;margin-left: 645px;margin-top: -85px;background-color: white" name = "canvas_name" id="my_canvas2" width="200" height="100" ></canvas> 
+            <canvas style="border:1px solid grey;margin-left: 645px;margin-top: -41px" name = "canvas_name2" id="my_canvas" width="200" height="100" class = "hide"></canvas>
                                <div class="col-md-2"> 
                                </div>
                             </div>
@@ -254,7 +266,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            
         </center>
     </div>
 
@@ -268,6 +280,23 @@
     $( "#tentativeclouser" ).datepicker({ minDate: 0});
   });
   */
+
+
+/*var c = document.getElementById("my_canvas2");
+var ctx = c.getContext("2d");
+
+ctx.font = "15px Georgia";
+ctx.fillText("Press print screen", 40, 30);
+
+ctx.font = "20px Verdana";
+// Create gradient
+var gradient = ctx.createLinearGradient(0, 0, c.width, 0);
+gradient.addColorStop("0", "magenta");
+gradient.addColorStop("0.5", "blue");
+gradient.addColorStop("1.0", "red");
+// Fill with gradient
+ctx.fillStyle = gradient;
+ctx.fillText("Paste here-ctrl+v", 20, 60);*/
 
         function validateForm() {
             var titlebox = document.forms["rbug"]["titlebox"].value;
@@ -307,40 +336,64 @@
                 alert("Select a Technology");
                 return false;
             }      
-           /* if (tech == "select") {
-                    alert("Please chose a Technology For this Bug");
-                return false;
-            }*/
-   /*         
-     if (tentativeclouser == null || tentativeclouser == "") {
-                alert("Please fill tentative Closure date!");
-                return false;
-            }
-*/
+                    debugger;
+
+ 
             var input, file;
             input = document.getElementById('addBugUp');
+            if(input){
             file = input.files[0];
             var filename=$("#addBugUp").val();
             var fileType=filename.split('.');
             var fileType1=fileType[fileType.length-1];
 
+             if(file.size>10485760){
+                 alert("Error:File limit is 10 mb");
+                 return false ;
+            }
+                    }
+                    debugger;
+
+
             if(editorContent.length >12000){
                 alert('Description length should not be more than 12000 characters');
                 return false;
             }
+                    debugger;
+
           
             if(fileType1=='exe'||fileType1=='html'||fileType1=='ejs'){
                 alert("Error:exe , html , ejs file cannot be uploaded!");
                 return false;
             }
-            if(file.size>10485760){
-                 alert("Error:File limit is 10 mb");
-                 return false ;
-            }
-          
+                    debugger;
+
+           
+                  debugger;
+
+  appendImage();
+        debugger;
+          return true;
+        }
+       function appendImage(){
+        if(!$("#my_canvas").length){
+            return;
+        }
+     var fileName = 'screenshot'+'_'+Date.now();
+     var dataURL = document.getElementById('my_canvas').toDataURL();
+      $('#fileNameId').val(fileName);
+      $('#fileContentId').val(dataURL);
+
+      if(dataURL.length<2000){
+          dataURL = null;
+        $('#fileContentId').val(dataURL);
+      }
+      $("#my_canvas2").remove();
  
 
-        }
+      }
+
+        
 
 
         $( document ).ready(function() {
@@ -355,7 +408,10 @@
             });
             Getalltech();
 
-
+$("#addBugUp").change(function(){
+        $("#my_canvas").remove();
+        $("#my_canvas2").remove();
+    });
 
         });
 
@@ -445,6 +501,165 @@ $('#linkTo').append($("<option></option>").attr("value",0)//.attr("selected",det
                 dataType: 'JSON'
             });
         }
+
+
+
+  var CLIPBOARD = new CLIPBOARD_CLASS("my_canvas", true);
+     var CLIPBOARD2  = new CLIPBOARD_CLASS("my_canvas2", true);
+function CLIPBOARD_CLASS(canvas_id, autoresize) {
+var _self = this;
+var canvas = document.getElementById(canvas_id);
+var ctx = document.getElementById(canvas_id).getContext("2d");
+var ctrl_pressed = false;
+var command_pressed = false;
+var reading_dom = false;
+var text_top = 15;
+var pasteCatcher;
+var paste_mode;
+
+//handlers
+document.addEventListener('keydown', function (e) {
+    _self.on_keyboard_action(e);
+}, false); //firefox fix
+document.addEventListener('keyup', function (e) {
+    _self.on_keyboardup_action(e);
+}, false); //firefox fix
+document.addEventListener('paste', function (e) {
+    _self.paste_auto(e);
+    $("#addBugUp").remove();
+}, false); //official paste handler
+
+//constructor - prepare
+this.init = function () {
+    //if using auto
+    if (window.Clipboard)
+        return true;
+
+    pasteCatcher = document.createElement("div");
+    pasteCatcher.setAttribute("id", "paste_ff");
+    pasteCatcher.setAttribute("contenteditable", "");
+    pasteCatcher.style.cssText = 'opacity:0;position:fixed;top:0px;left:0px;';
+    pasteCatcher.style.marginLeft = "-20px";
+    pasteCatcher.style.width = "10px";
+    document.body.appendChild(pasteCatcher);
+    
+    // create an observer instance
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (paste_mode == 'auto' || ctrl_pressed == false || mutation.type != 'childList')
+                return true;
+
+            //if paste handle failed - capture pasted object manually
+            if(mutation.addedNodes.length == 1) {
+                if (mutation.addedNodes[0].src != undefined) {
+                    //image
+                    _self.paste_createImage(mutation.addedNodes[0].src);
+                }
+                //register cleanup after some time.
+                setTimeout(function () {
+                    pasteCatcher.innerHTML = '';
+                }, 20);
+            }
+        });
+    });
+    var target = document.getElementById('paste_ff');
+    var config = { attributes: true, childList: true, characterData: true };
+    observer.observe(target, config);
+}();
+//default paste action
+this.paste_auto = function (e) {
+    paste_mode = '';
+    pasteCatcher.innerHTML = '';
+    var plain_text_used = false;
+    if (e.clipboardData) {
+        var items = e.clipboardData.items;
+        if (items) {
+            paste_mode = 'auto';
+            //access data directly
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf("image") !== -1) {
+                    //image
+                    var blob = items[i].getAsFile();
+                    var URLObj = window.URL || window.webkitURL;
+                    var source = URLObj.createObjectURL(blob);
+                    this.paste_createImage(source);
+                }
+            }
+            e.preventDefault();
+        }
+        else {
+            //wait for DOMSubtreeModified event
+            //https://bugzilla.mozilla.org/show_bug.cgi?id=891247
+        }
+    }
+};
+//on keyboard press
+this.on_keyboard_action = function (event) {
+    k = event.keyCode;
+    //ctrl
+    if (k == 17 || event.metaKey || event.ctrlKey) {
+        if (ctrl_pressed == false)
+            ctrl_pressed = true;
+    }
+    //v
+    if (k == 86) {
+        if (document.activeElement != undefined && document.activeElement.type == 'text') {
+            //let user paste into some input
+            return false;
+        }
+        
+        if (ctrl_pressed == true && !window.Clipboard)
+            pasteCatcher.focus();
+    }
+};
+//on kaybord release
+this.on_keyboardup_action = function (event) {
+    //ctrl
+    if (event.ctrlKey == false && ctrl_pressed == true) {
+        ctrl_pressed = false;
+    }
+    //command
+    else if(event.metaKey == false && command_pressed == true){
+        command_pressed = false;
+        ctrl_pressed = false;
+    }
+};
+//draw image
+this.paste_createImage = function (source) {
+    var pastedImage = new Image();
+    pastedImage.onload = function () {
+        var idCanvas =   ctx.canvas.id ;
+         var canvas   = ctx.canvas;
+        if(autoresize == true && idCanvas=='my_canvas'){
+            //resize
+            canvas.width = pastedImage.width;
+            canvas.height = pastedImage.height;
+             ctx.drawImage(pastedImage, 0, 0);
+           debugger;
+        }
+        else if(autoresize == true && idCanvas=='my_canvas2')
+        {
+           
+             var canvas = ctx.canvas ;
+            var hRatio = canvas.width / pastedImage.width;
+            var vRatio = canvas.height / pastedImage.height;
+            var ratio  = Math.min ( hRatio, vRatio );
+            var centerShift_x = ( canvas.width - pastedImage.width*ratio ) / 2;
+            var centerShift_y = ( canvas.height - pastedImage.height*ratio ) / 2;
+            ctx.drawImage(pastedImage, 0,0, pastedImage.width, pastedImage.height,centerShift_x,centerShift_y,pastedImage.width*ratio, pastedImage.height*ratio);  
+           debugger;
+        }
+        else{
+            //clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        //ctx.drawImage(pastedImage, 0, 0);
+    };
+    pastedImage.src = source;
+};
+}
+
+
 
         </script>
 
