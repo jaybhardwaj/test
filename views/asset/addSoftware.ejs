@@ -87,7 +87,7 @@
             </div>
 
             <div class="row hide" id="lic">
-                <table class="table">
+                <table class="table" id="licTable">
 
                     <tr>
                         <td>
@@ -147,16 +147,16 @@
                  
                if ($("#check").is(':checked')) 
                 {
-                  var a=$('#lic1').val();
+                  var a=$('#lic0').val();
                   var us=$('#users').val();
-                  for( var i=2;i<=us;i++)
+                  for( var i=1;i<=us;i++)
                     {
                       $('#lic'+ i).val(a);
                      }
                   }
                  else
                   {
-                     for( var i=2;i<=us;i++)
+                     for( var i=1;i<=us;i++)
                     {
                       $('#lic'+ i).val('');
                      }
@@ -303,7 +303,7 @@
 
 
            function addlic() {
-    $("#license").html('');
+    $(".jay").html('');
     //var typ = document.getElementById('users');
     var typ=$('#users').val();
     if (typ == "0") 
@@ -317,7 +317,7 @@
         $('#users').val('');
         return false;
     }
-    if($('#users').val()>1)
+    /*if($('#users').val()>1)
     {
        $('#license').append('<div style="margin-left:15px"><label class="form-Label" style="padding-top:0px;">Copy 1st key to all</label><input type="checkbox" style="margin-left:70px" id="check" onclick="copytoall()"></div>');
     }
@@ -326,9 +326,39 @@
     {
       $('#license').append('<div class="col-md-2" style="margin-bottom:10px"><label for="key" class="form-Label" style="padding-top:0px;">Licence Key:'+ i +' <sup class="astrick">*</sup></label></div><div class="col-md-2" style="margin-bottom:10px"> <input type="text"  placeholder="licence key" class="form-text-box marginLeftRight" id="lic'+ i +'" ></input> </div>');   
     }
-   
+   */
+      if($('#users').val()>1)
+      {
+        var logstr='<tr class="jay"><td><td><label class="form-Label" style="padding-top:0px;">Copy 1st key to all</label></td><td><input type="checkbox" id="check" onclick="copytoall()"></td></td></tr>';
+       }
+       
+        if($('#users').val()==1)
+        {
+         var logstr='';    
+          }       //$('#licc').append('<table></table>');
+                  for(var i=0;i<typ;i++)
+                  {
+                    k=i+1;
+                    if(i%3==0)
+                    {
+                      if(i!=0){
+                        logstr=logstr+'</tr>';
+                    }
+    
+                    logstr=logstr+'<tr class="jay"><td><td><label for="key" class="form-Label">Licence Key:'+ k +' <sup class="astrick">*</sup> </label></td><td><input type="text" class="form-text-box" id="lic'+ i +'" ></td></td>'; 
+                   
+                    }
+                    else{
+                           
+                    
+                    logstr=logstr+'<td><td><label for="key" class="form-Label">Licence Key:'+ k +' <sup class="astrick">*</sup> </label></td><td><input type="text" class="form-text-box" id="lic'+ i +'" ></td></td>';   
+                  }
+              }
+             
+                $('#licTable').append(logstr);  
+        
   
-
+      
 }
 
 function makeid()

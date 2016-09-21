@@ -99,7 +99,7 @@
 <div class="modal fade" id="editstation" role="dialog">
     <div class="modal-dialog modal-lg">
         <!--- Modal content-->
-        <div class="modal-content" id="express1df" style="width: 1100px;margin-left: -11%">
+        <div class="modal-content" id="exp2" style="width: 1100px;margin-left: -11%">
             <div class="modal-header" style="background-color:#f05f40;">
                 <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Software</b></label>
                     <span id="closeedit" class='close closeedit' data-dismiss="modal" style='float:right;' title='Close'> &times;  </span>
@@ -108,11 +108,11 @@
             <div id="err" class="col-lg-6 col-sm-offset-3"></div>
             <div class="modal-body">
                 <div class="row" style="max-width: 100% overflow-y:auto" >
-                    <table class="table"  >
+                    <table class="table" id="editlisence"  >
                         <tr>
                             <td>
                                 <td>
-                                    <label class="form-Label">Software Type: *</label>
+                                    <label class="form-Label">Software Type: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
                                     <select id="typel" name="htype" class="form-text-box" value="" disabled="disable">
@@ -124,7 +124,7 @@
                             </td>
                             <td>
                                 <td>
-                                    <label class="form-Label">Name: *</label>
+                                    <label class="form-Label">Name: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
                                     <input type='text' maxlength="50" name="name" class="form-text-box" id="name" />
@@ -132,7 +132,7 @@
                             </td>
                             <td>
                                 <td>
-                                    <label class="form-Label">Vendor: *</label>
+                                    <label class="form-Label">Vendor: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
                                     <!-- <input type='text'maxlength="50" name="vendor"class="form-text-box" id="vendor"/> -->
@@ -151,7 +151,7 @@
                         <tr>
                             <td>
                                 <td>
-                                    <label class="form-Label">Invoice Date: *</label>
+                                    <label class="form-Label">Invoice Date: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
                                     <input type="" class="form-text-box date" id="Invoicedate" name="Invoicedate" />
@@ -167,18 +167,18 @@
                             </td>
                             <td>
                                 <td>
-                                    <label class="form-Label">Description: *</label>
+                                    <label class="form-Label">Description: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
                                     <textarea id='textarea' name="des" class="form-text-box"></textarea>
                                 </td>
                             </td>
                         </tr>
-                 
+                
                         <tr id="trrr">
                             <td>
                                 <td>
-                                    <label class="form-Label"># Users: *</label>
+                                    <label class="form-Label"># Users: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
                                     <input type="number" name="users" class="form-text-box" disabled="disable" id="users" />
@@ -187,7 +187,7 @@
                             <td>
                                 <td>
 
-                                    <label class="form-Label">Purchase Date: *</label>
+                                    <label class="form-Label">Purchase Date: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
                                     <input class="form-text-box date" id="pdate" name="pdate" />
@@ -195,14 +195,14 @@
                             </td>
                             <td>
                                 <td>
-                                    <label class="form-Label">Expiry Date:</label>
+                                    <label class="form-Label">Expiry Date: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
                                     <input class="form-text-box date " id="edate" name="edate" />
                                 </td>
                             </td>
                         </tr>
-                      
+                   
                                      
                                               
                     </table>
@@ -231,9 +231,12 @@
         }
     });
 
+
+  
+
     function edit(id) {
         //alert(id);
-         $("#licc").html('');
+         $(".jay").html('');
         $("#hdnId").val('');
         $.ajax({
             url: '/getEditStationary',
@@ -270,17 +273,33 @@
                 var typ=data[0][0].users;
                 var ty=data[0][0].licenceKey;
                 var tyt=ty.split(',');
+                var logstr='';
+                 //$('#licc').append('<table></table>');
                   for(var i=0;i<typ;i++)
                   {
                     k=i+1;
+                    if(i%3==0)
+                    {
+                      if(i!=0){
+                        logstr=logstr+'</tr>';
+                    }
+                      var updattedlic=myFunction1(tyt[i]);
+                    logstr=logstr+'<tr class="jay"><td><td><label for="key" class="form-Label">Licence Key:'+ k +' <sup class="astrick">*</sup> </label></td><td><input type="text" value="'+updattedlic+'" class="form-text-box" id="lic'+ i +'" ></td></td>'; 
+                   
+                    }
+                    else{
+                           
                     var updattedlic=myFunction1(tyt[i]);
-                    $('#licc').append('<div class="col-md-2" style="margin-bottom:10px"><label for="key" class="form-Label" style="padding-top:0px;">Licence Key:'+ k +' <sup class="astrick">*</sup> </label></div><div class="col-md-2" style="margin-bottom:10px"><input type="text" value="'+updattedlic+'" class="form-text-box marginLeftRight" id="lic'+ i +'" ></div>');   
+                    logstr=logstr+'<td><td><label for="key" class="form-Label">Licence Key:'+ k +' <sup class="astrick">*</sup> </label></td><td><input type="text" value="'+updattedlic+'" class="form-text-box" id="lic'+ i +'" ></td></td>';   
                   }
-                 
+              }
+             
+                $('#editlisence').append(logstr);  
             }
         });
         
     }
+ /*$('#licc').append('<div class="col-md-2" style="margin-bottom:10px"><label for="key" class="form-Label" style="padding-top:0px;">Licence Key:'+ k +' <sup class="astrick">*</sup> </label></div><div class="col-md-2" style="margin-bottom:10px"><input type="text" value="'+updattedlic+'" class="form-text-box marginLeftRight" id="lic'+ i +'" ></div>');*/
 
     $(document).ready(function() {
 

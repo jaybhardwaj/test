@@ -2559,6 +2559,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             sql: 'call usp_checkNextUser(?,?,?,?)',
             values: [flag1,userId, roleId, retailerId]
         };
+        console.log("next USER*****************************",query);
         mysql(query, function(err, result) {
             callback(err, result);
         });

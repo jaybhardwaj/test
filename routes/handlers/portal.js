@@ -86,7 +86,7 @@ var locationId = [],
  var holidayArrDateTimeArr = [];
  var saturdayOffFlag      = 1;
 
-var excel = require('node-excel-export');
+//var excel = require('node-excel-export');
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -3882,6 +3882,7 @@ updateHoliday: function(req,res,next){
                  return;
              }
              req.userid=resultUsers[0][0].id;
+             console.log("$$$$$$$$$$$$$",resultUsers[0][0].id);
              next();
             
          });
