@@ -1,0 +1,124 @@
+<html>
+<body>
+  <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css'>
+
+<script>
+function parseeIntForNan(data){
+if(isNaN(data)){
+  return 0;
+}
+else return parseInt(data);
+}
+var userName = '<%= user%>';
+var submittedProject = [];
+var submittedVersion =  [];
+<%for(var i = 0 ;i<submittedProject.length;i++){%>
+      submittedProject.push(<%=submittedProject[i].project%>);
+<%}%>
+
+<%for(var i = 0 ;i<submittedVersion.length;i++){%>
+      submittedVersion.push(<%=submittedVersion[i].version%>);
+<%}%>
+var isManagerFlag = <%=isManagerFlag%> ; 
+
+var calculateEndFlag = false; 
+var someThingUpdated = 0
+var submitted =  parseeIntForNan('<%=submitted%>');
+var newVersionToBeCreated = parseeIntForNan('<%=newVersionToBeCreated%>');
+var remarks = '';
+var tempEffortInDays;
+var effortIndays = [];
+var optStringDep = '<%=optStringDD%>';
+var userId      = parseeIntForNan('<%=userId%>');
+var realUserId  =  userId;
+var optionStr         = '<%=optionStr%>';
+var startDateOriginal = '<%=prStartDate%>';
+var endDateOriginal   = '<%=prEndDate%>';
+var startDate         = startDateOriginal;
+var endDate           = endDateOriginal;
+var userFlag          = <%=userFlag%>;
+var endDateInDatePicker ,startDateInDatePicker ;
+
+
+var allCommentsComments = [];
+var allCommentsId       = [];
+<%for(var i = 0;i<allcommentsSet.length;i++){%>
+  allCommentsComments[<%=i%>] = '<%=JSON.stringify(allcommentsSet[i].comment)%>';
+  allCommentsId[<%=i%>] = <%=allcommentsSet[i].treeId%>;
+
+<%}%>
+var allCommentsArr = [];
+/*var allcommentsArrComment = JSON.parse(allcommentsArrComment);
+console.log('aca',allcommentsArrComment);
+for(var i =0;i<allcommentsArrComment.length;i++){
+  allCommentsArr[allcommentsArrComment[i][0]] = allcommentsArrComment[i][1];
+}*/
+
+
+
+$(document).ready(function(){
+
+for(var i = 0;i<allCommentsComments.length;i++){
+    allCommentsComments[i] = $('#tbodyhidden123').html(allCommentsComments[i]).text().replace(/"/g,'');
+allCommentsArr[allCommentsId[i]] = allCommentsComments[i] ;    
+
+}
+
+
+
+});
+
+
+var allcommentsArr = [];
+var edateTime = '' ,sdateTime = '';
+var saturdayOffFlag = 1;/*Take Diff from this Date and Satdurday found diff must be multiple of 14.*/
+var ultimateEndId = parseeIntForNan('<%=ultimateEndId%>');
+var treeStructure = <%=JSON.stringify(treeStructure)%>;
+var dependeArr   =  <%=JSON.stringify(dependeArr)%>;
+var presentIdsArr = JSON.stringify(<%=presentIdsArr%>);
+<%console.log('**********hAr',holidayArr)%>
+       var holidayArrObj = '<%=JSON.stringify(holidayArr)%>'.replace(/&#34;/g,'"');
+         var holidayArr =  JSON.parse(holidayArrObj);
+        // console.log('holidayArrObj is',holidayArrObj,'holidayArr is',holidayArr);
+       /* holidayArr.forEach(function(element,index){
+             holidayArr[index] = element.replace("&#34;","'");
+        });*/
+//debugger;
+//holidayArr = [];
+
+
+<%if(Tree==''){%>
+ var Tree = '';
+
+  <%}else{%>
+
+	var Tree = '<%=Tree%>';
+<%}%>
+var projectId = parseeIntForNan('<%=prId%>') ;
+var version = parseeIntForNan('<%=version%>'); 
+var collaborateIdsFromDb = "<%=collaborateId%>";
+var collArr = [];
+if(collaborateIdsFromDb==null||collaborateIdsFromDb=='null');
+else{
+ collArr = collaborateIdsFromDb.split(','); 
+}
+var collFlag = <%=collFlag%>;
+var isCreaterFlag = <%=isCreaterFlag%>;
+//debugger;
+var newChangedEleArrFromDb = <%=JSON.stringify(changedElementsFromDb)%>
+
+
+</script>
+    
+<script src = '/js/proj_mngmt.js'></script>
+<style>
+.se-pre-con{
+  background-color: transparent!important;
+}
+</style>
+</body>
+</html>
+
+
+
+

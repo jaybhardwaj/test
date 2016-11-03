@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head> 
+      <% include ../partials/head %>
+       <% include assetheader %>
+       <% include ../partials/adminheader %>
+</head>
+
+<body style="overflow-x:hidden">
+   
+<div style=" padding-bottom:1%;padding-top:1%" class="secondry-color">
+  <div class="row"> 
+   <span title="Go To Furniture List" onclick="document.location.href='/viewFurniture';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;    padding-left: 37px;padding-left: 37px;"  class="glyphicon glyphicon-arrow-left"></span>
+    <span class="modal-title" style="padding-left:47%;">Add Furniture</span>
+  </div>
+   
+  <form class="form-horizontal" style="margin:1%; " action="/addFurniture" method="post">
+    <div class="row">
+      <table class="table">
+      <tr><td><td>
+          <label for="typel" class="form-Label">Name: <sup class="astrick">*</sup></label></td>
+         <td>
+            <input type="text" id="typel" class="form-text-box" maxlength="50" name="typel" placeholder="name"></td>
+          </td>
+       <td><td>
+          <label for="no" class="form-Label">Quantity: <sup class="astrick">*</sup></label></td>
+         <td>
+            <input name="no" class="form-text-box" type="number" min="1" maxLength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">  
+          </td>
+        </td>
+      <td><td>
+          <label for="vendor" class="form-Label">Vendor: <sup class="astrick">*</sup></label></td>
+          <!-- <td>
+            <input name="vendor"class="form-text-box" id="vendor" placeholder="Vendor">
+          </td> -->
+           <td>
+              <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
+              <option value='0' disabled selected>Select</option>
+               <% for(i=0;i<brand_vendor[1].length;i++){%>
+                <option value="<%=brand_vendor[1][i].id%>"><%=brand_vendor[1][i].name%></option>
+                <%}%>
+              </select> </td>
+        </td>
+        <td><td>
+          <label for="color" class="form-Label">Color </label>
+          </td>
+          <td>
+            <input type="text" maxlength="20" name="color" class="form-text-box" id="color" placeholder="Color">
+          </td>
+        </td></tr><tr>
+     <td><td>
+          <label for="invoiceNo" class="form-Label">Invoice No.<sup class="astrick">*</sup></label>
+         </td><td>
+            <input type="text" maxlength="30" name="invoiceNo" class="form-text-box" id="invoiceNo" placeholder="Invoice No.">
+          </td>
+        </td>
+        <td><td>
+          <label for="Invoicedate" class="form-Label">Invoice Date: <sup class="astrick">*</sup></label></td>
+          <td>
+            <input name="Invoicedate"class="form-text-box date" id="Invoicedate" placeholder="Invoice Date">
+          </td>
+        </td>
+        <td><td>
+          <label for="invoiceAmt" class="form-Label">Invoice Amt.<sup class="astrick">*</sup></label>
+          </td><td>
+            <input type="number" maxLength="12"  name="invoiceAmt" class="form-text-box" id="invoiceAmt" onblur="calulateunitprice();" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
+          </td>
+        </td>
+        <td><td>
+          <label for="brand" class="form-Label">Brand</label>
+          </td> <td>
+              <select  class="form-text-box" style=""  name="brand" id ="brand" onchange=""> 
+              <option value='0' disabled selected>Select</option>
+                <% for(i=0;i<brand_vendor[0].length;i++){%>
+                <option value="<%=brand_vendor[0][i].id%>"><%=brand_vendor[0][i].name%></option>
+                 <%}%>             
+              </select> </td>
+        </td></tr><tr>
+      <td><td>
+        <label for="order" class="form-Label">Purchased Order: <sup class="astrick">*</sup></label>
+       </td><td>
+          <input name="order" maxlength="30" class="form-text-box" id="order" placeholder="Purchased Order">
+        </td>
+      </td>
+      <td><td>
+        <label for="Deliverydate" class="form-Label">Delivery Date: <sup class="astrick">*</sup></label>
+        </td><td>
+          <input name="Deliverydate"class="form-text-box date" id="Deliverydate" placeholder="Delivery Date">
+        </td>
+      </td>
+      <td><td>
+        <label for="uprice" class="form-Label">Unit Price: <sup class="astrick">*</sup></label>
+        </td><td>
+          <input type="text" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-text-box" id="uprice" readonly="readonly"  placeholder="Unit Price">
+        </td>
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+
+      </tr>
+     </table>
+  </div>
+  <input type='text' class='hide'name ='flag'value="1">
+  <div class="form-group">
+    <div class="col-md-6 col-md-offset-5">
+      <a href="/viewFurniture"type="button"class="btn btn-default">Cancel</a>
+      <button type="submit" onclick="return validate()" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
+</div>
+
+<% include ../partials/footer %>
+<script>
+  $(document).ready(function() {
+            $('.asset-img').addClass('active');
+        });
+jQuery('.date').datetimepicker({
+ 
+  timepicker:false,
+  format:'d/m/Y'
+});
+
+function calulateunitprice(){
+  $('#uprice').val((parseInt($('#invoiceAmt').val()))/parseInt($('#qty').val()));
+}
+
+  function validate(){
+    var inamount=$('#invoiceAmt').val();
+    var up=$('#uprice').val();
+
+  if($('#typel').val().length<1||$.trim($("#typel").val()) =="") 
+    {
+      alert("Name is Missing!");    
+      return false;
+    }
+    if($('#qty').val().length<1||$.trim($("#qty").val()) ==""||$.trim($("#qty").val()) > 20) 
+    {
+      alert("Enter valid Quantity!");    
+      return false;
+    }
+    if($('#vendor').val().length<1||$.trim($("#vendor").val()) =="") 
+    {
+      alert("Vendor is Missing!");    
+      return false;
+    }
+    if($('#invoiceNo').val().length<1||$.trim($("#invoiceNo").val()) =="") 
+    {
+      alert("Invoice number is Missing!");    
+      return false;
+    }
+
+    if($('#Invoicedate').val().length<1||$.trim($("#Invoicedate").val()) =="") 
+    {
+      alert("Invoice date is Missing!");    
+      return false;
+    }
+    if(inamount.length<2||isNaN(inamount)||inamount.trim().length<1) 
+    {
+      alert("Enter valid Invoice Amount!");    
+      return false;
+    }
+    
+    if($('#order').val().length<1||$.trim($("#order").val()) =="") 
+    {
+      alert("Purchased Order is Missing!");    
+      return false;
+    }
+        
+    if($('#Deliverydate').val().length<1||$.trim($("#Deliverydate").val()) =="") 
+    {
+      alert("Delivery date is Missing!");    
+      return false;
+    }
+
+     if(new Date($('#Invoicedate').val())>new Date($('#Deliverydate').val()))
+              {
+                alert("Invoicedate Date is greater than Deliverydate Date");
+                return false;
+            }
+
+
+    if(up.length<2||isNaN(up)||up.trim().length<1) 
+    {
+      alert("Enter valid Unit Price!");    
+      return false;
+    }
+              
+             
+
+
+         
+  }
+</script>

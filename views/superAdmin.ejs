@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+
+    <% include ./partials/head %>
+     <% include ./partials/adminheader %>
+</head>
+
+<body>
+
+<!--div class="se-pre-con"></div-->
+
+    <div class="secondry-color" style="padding-bottom:2%;padding-left :2%;padding-right:2%;padding-top:1%; border-top:solid red;margin-top:67px ">
+     <div class="row" style=" max-width: 103%;">
+             
+              <span class="modal-title" style="padding-left:42%;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px">Retailers Details</span>
+             
+
+              <span id="download" class="glyphicon glyphicon-download" onclick="exportUsers('retailer')" style="margin-left:390px;cursor: pointer;font-size:19px" title="Download Retailer List" ></span>
+
+
+               <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%;margin-bottom: 10px;"> 
+  </div>
+   
+            <table class="table stripe cell-border hover" id="retailerTable">
+                <thead>
+                        <th>Name</th>
+                        <th>Email Id</th>
+                        <th>Company Name</th>
+                        <th>Contact number</th>
+                        <th>Action</th> 
+                </thead>
+                <tbody id="pr">
+                <%for(var i=0;i<allretailers[0].length;i++){%>
+                 <tr onclick="userStatus(<%=allretailers[0][i].id%>)">
+                 <td><%=allretailers[0][i].firstName%>  <%=allretailers[0][i].lastName%></td>
+                 <td><%=allretailers[0][i].emailId%></td>
+                 <td><%=allretailers[0][i].companyName%></td>
+                 <td><%=allretailers[0][i].contactNo%></td>
+                 <%if(allretailers[0][i].isActive==1){%>
+                 <td><span id="block" class="glyphicon glyphicon-ok-sign" onclick="blockretailer(<%=allretailers[0][i].id%>,0)" style="margin-left:0px;cursor: pointer;font-size:15px;color:green" title="Block Retailer" ></span></td>
+                 <%}else{%>
+                   <td><span id="block1" class="glyphicon glyphicon-remove-sign" onclick="blockretailer(<%=allretailers[0][i].id%>,1)" style="margin-left:0px;cursor: pointer;font-size:15px;color:red" title="UnBlock Retailer" ></span></td>
+                 <%}%>
+                 </tr>
+                 <%}%>
+                </tbody>
+            </table>
+              <div class="row" style=" max-width: 103%;  border-top:solid red;margin-top: 5px;border-width: 1px">
+             
+              <span class="modal-title" style="padding-left:42%;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px">Users Details</span>
+             
+
+              <span id="download" class="glyphicon glyphicon-download" onclick="exportUsers('user')" style="margin-left:390px;cursor: pointer;font-size:19px;margin-top: 3px;" title="Download User List" ></span>
+
+
+               <input class="form-text-box" type="text" placeholder="search in this table" id="searchboxuser" style="float:right;width: 13%;margin-bottom: 7px; margin-top: 3px;"> 
+  </div>
+
+               <div  class="row" style="max-width:103%;overflow-y:auto "> 
+            <table class="table stripe cell-border hover" id="usertable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email Id</th>
+                        <th>Employee Code</th>
+                        <th>Contact number</th>
+                        <th>Role</th>
+                        <th>Supervisor</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="pstatus">
+                 
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <footer>
+        <% include ./partials/footer %>
+    </footer>
+    <script>
+    
+    function userStatus(retailerId){
+         $.ajax({
+                url: '/userStatusbyretailer',
+                type: 'post',
+                data: { "retailerId":retailerId },
+                success: function(data) {
+                    console.log('sssssssssssssssssssss', data);
+                    var log = '',mgrname='';
+                    var act='<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span>';
+
+                var inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
+
+                for (var i=data[0].length-1;i>=0;i--){ 
+                    if(data[0][i].managerName == ""||data[0][i].managerName==null)
+                          mgrname=" No Concerned Manager";
+                    else 
+                          mgrname=data[0][i].managerName;
+                    log=log+ '<tr id=row_'+data[0][i].id+'><td id=row_'+data[0][i].id+'1'+'>'+data[0][i].firstName+'</td><td id=row_'+data[0][i].id+'2'+'>'+data[0][i].userEmail+'</td><td id=row_'+data[0][i].id+'6'+'>'+data[0][i].ecode+'</td><td id=row_'+data[0][i].id+'3'+'>'+data[0][i].contactNumber+'</td><td id=row_'+data[0][i].id+'4'+'>'+data[0][i].roleName+'</td><td id=row_'+data[0][i].id+'5'+'>'+ mgrname +'</td><td>';
+                 //   if(data[0][i].isRetailer != 1) {
+                          /* if (data[0][i].isActive) {
+                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+data[0][i].id+',1)">'+act+'</a>';
+                              }*/
+                           // else 
+
+                              if (data[0][i].isActive==0) {
+                                            log+='<a  onclick= "actinact('+data[0][i].id+',0)">'+inact+'</a>';}
+                                    
+                           else {
+                               log+='<a  onclick= "actinact('+data[0][i].id+',0)">'+act+'</a>';;
+                            }
+                }
+                otable1.fnDestroy();
+                $('#pstatus').html(log);
+                otable1=$('#usertable').dataTable({
+                     "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
+                    'iDisplayLength': 5,
+                    "order":[]
+                });
+                }
+            });
+}
+
+
+
+    function retailerStatus(status1){
+         $.ajax({
+                url: '/retailerfordesboard',
+                type: 'post',
+                data: { "status1":status1},
+                success: function(data) {
+                    console.log('sssssssssssssssssssss', data);
+                    var log = '',mgrname='';
+                    var act='<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span>';
+
+                var inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
+
+                for (var i=0;i<data[0].length;i++){ 
+                    log=log+ '<tr id=row_'+data[0][i].id+' onclick="userStatus('+data[0][i].id+')"><td id=row_'+data[0][i].id+'1'+'>'+data[0][i].firstName+' '+data[0][i].lastName+'</td><td id=row_'+data[0][i].id+'2'+'>'+data[0][i].emailId+'</td><td id=row_'+data[0][i].id+'6'+'>'+data[0][i].companyName+'</td><td id=row_'+data[0][i].id+'3'+'>'+data[0][i].contactNo+'</td><td>';
+                 //   if(data[0][i].isRetailer != 1) {
+                          /* if (data[0][i].isActive) {
+                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a  onclick= "actinact('+data[0][i].id+',1)">'+act+'</a>';
+                              }*/
+                           // else 
+
+                              if (data[0][i].isActive==0) {
+                                            log+='<a  onclick= "blockretailer('+data[0][i].id+',1)">'+inact+'</a>';}
+                                    
+                           else {
+                               log+='<a  onclick= "blockretailer('+data[0][i].id+',1)">'+act+'</a>';;
+                            }
+                }
+                otable.fnDestroy();
+                $('#pr').html(log);
+                otable=$('#retailerTable').dataTable({
+                     "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
+                    'iDisplayLength': 5,
+                    "order":[]
+                });
+                }
+            });
+}
+   // showuser
+   /* function set1() {
+          $.ajax({
+    url:'/userActive',
+    method: 'POST',
+    data: {
+              "active":$('#active').val(),
+    },
+
+    
+    success: function(data) {   
+       
+    },
+    dataType: 'JSON',
+  });
+    }*/
+    var otable='';
+        $(document).ready(function() {
+          ///$("#mainNav").addClass("hide");
+          $(".sub-header ").addClass("hide");
+          $("#bugAdminHeader").addClass('hide');
+           $("#cart").addClass('hide');
+          $("#noti_Counter").addClass('hide');
+            $(".page-scroll ").addClass('hide');
+             $("#noti_Counter_timesheet").addClass('hide');
+             // $(".header-title").addClass('hide');
+              // $(".header-title").addClass('hide');
+          $('.se-pre-con').fadeOut('slow');
+         otable=$('#retailerTable').dataTable({
+           'iDisplayLength':5,
+            "order":[],
+            "bDestroy": true, 
+            "info":false,
+          });
+     otable1=$('#usertable').dataTable({
+           'iDisplayLength': 5,
+            "order":[],
+            "bDestroy": true, 
+            "info":false,
+          });
+
+   $("#searchbox").keyup(function() {
+        otable.fnFilter(this.value);
+      });
+
+    $("#searchboxuser").keyup(function() {
+        otable1.fnFilter(this.value);
+      });
+$(window).bind('resize', function () {
+                otable.fnAdjustColumnSizing();
+              } );
+            $('.user-img').addClass('active');
+           
+        });
+
+  function blockretailer(retailerId,status){
+    var string;
+    if(status==0){
+     string="Are you sure to DeActivate the Retailer ?";
+    }
+    else{
+    string="Are you sure to Activate the Retailer ?";  
+    }
+     var a = confirm(string);
+         if (a == true) {
+                       
+      $.ajax({
+                url: '/blockretailer',
+                type: 'post',
+                data: { "retailerId":retailerId , "status":status},
+                success: function(data) {
+                  if(status==0){
+                  alert('Retailer successfully bolcked');
+                  retailerStatus(1);
+                } else {
+                  alert('Retailer successfully Unbolcked');
+                  retailerStatus(1);
+                }
+
+  }
+  });
+    }
+}
+ 
+    </script>
+
+    <script>
+    function exportUsers(type)
+   {
+  var status=$("#active").val();
+
+     //$(".se-pre-con").fadeIn("slow");
+var header=['Name','Email Id','Company Name','Contact Number'];
+
+var url ='/exportToCsv';
+$.ajax({
+url: url,
+method: 'POST',
+data : {"type":type,'status':status},
+success: function(data) {
+    console.log('bugdata',data)
+data.unshift(header);
+alasql("SELECT * INTO CSV('Retailer.csv') FROM ?",[data]);
+/*$(".se-pre-con").fadeOut("slow");
+$("#btnDownloadbug").prop('disabled', false);*/
+},
+dataType: 'JSON',
+});   
+
+//$(".se-pre-con").fadeOut("slow");
+}
+</script>
+<style>
+ 
+.dataTables_filter, .dataTables_length {
+     display: none;
+    }
+.glyphicon-ok-circle{
+  color:green!important;
+ }
+</style>
+
+</body>
+
+</html>

@@ -1,0 +1,941 @@
+   <!DOCTYPE html>
+<html lang="en">
+
+	<title>All Bug</title>
+	  <% include ../partials/head %>
+
+  <% include header %>
+  	   <% include ../partials/adminheader %>
+  	   
+  	   
+
+	<style>
+	.selectedBug{
+		border: 2px solid green;
+
+	} 
+
+.submit-with-icon {
+  background: transparent;
+    border: 0px;
+    padding: 0;
+    outline: 0;
+}
+
+
+	#headMenu{
+		float: right
+	}
+
+	 	#resizable 
+		{
+			min-width:100%;max-width:100% ;
+  		}
+ 
+  		.slidingpanel span
+  		{
+			font-size: 10px;
+			font-weight: 100;
+  		}
+
+  		#commentd {
+                border-radius: 10px;
+            }
+
+  		.ms-drop ul
+  		{
+  			max-height: 120px !important;
+  		}
+  	 
+  		.ms-drop{
+  			margin-left: -14px;
+  			width: 121%;
+  		}
+  	
+  		.ms-choice{
+  			margin-left: -14px;
+            width: 88px;
+            margin-top: 2px;
+            height: 21px;
+
+  
+
+  		}
+  		.ms-choice > div{
+  		    margin-top: 1px;
+    right: 0px;
+  		}
+  		.ms-choice > span {
+    position: relative;}
+    sup{
+    	color: white;
+    	 width: 40px;
+		   height: 40px;
+		   background: #2A9228; 
+		   -moz-border-radius: 20px; 
+		   -webkit-border-radius: 20px; 
+		   border-radius: 20px;
+		   margin-left: 5px;
+		    padding: 3px;
+    } 
+	</style>
+<div class="row" style="margin-top: 2%;margin-left: 5px">
+  <div class="col-md-1" style="    margin-top: -10px;">   
+  <button class="btn btn-success buttonMenu " title = "Show/Hide Table column" ><span class="glyphicon glyphicon-eye-close" onclick = "colHideOnChange('selectCol')" value="showHide" style = "font-size:19px;position:relative"></span> </button>
+
+  </div>
+ <div class="col-md-11 hide" id="selectCol">
+ <select multiple="multiple" style="height:10px" class="form-text-box "  id ="hideColumnsId" maxlength="50" onchange="hidecol()">
+     <option value = "1">Bug ID</option>
+     <option value = "2">Title</option>
+     <option value = "3">Project</option>
+     <option value = "4">Status</option>
+     <option value = "5">Priority</option>
+     <option value = "6">Severity</option>
+     <option value = "7">Technology</option>
+     <option value = "8">Esti. Effort</option>
+     <option value = "9">Actual Effort</option>
+     <option value = "10">Assinged To</option>
+     <option value = "11">Created Date</option>
+     <option value = "12">Closure Date</option>
+   </select>
+</div>
+</div>
+
+<div class="se-pre-con"></div>
+   <div class="secondry-color" style=" overflow-x:hidden ">
+     
+
+ <!-- jay -->
+
+
+<div>
+          Toggle column: <a class="toggle-vis" data-column="0">Name</a> - <a class="toggle-vis" data-column="1">Position</a> - <a class="toggle-vis" data-column="2">Office</a> - <a class="toggle-vis" data-column="3">Age</a> - <a class="toggle-vis" data-column="4">Start date</a> - <a class="toggle-vis" data-column="5">Salary</a>
+        </div>
+ <div class="row" style="padding:2%;padding-top:5px;padding-bottom:0px">
+  
+	
+<div style="overflow-x:auto; width:100%">
+<form action="/filterBug" onsubmit="return checkedBox()" method="post" class="checkl" id="myfilterform" >
+
+<div class="text-center">
+ <a href="javascript:showhide('advanceSearch')" > Advanced Search 
+</a>
+
+   <button type="submit" class="submit-with-icon"><span class="glyphicon glyphicon-search" onclick="submit" value="filter"></span></button>
+</div>
+
+        
+       <!-- 
+  <input type="submit" value="filter" style="color: black;"> -->
+      <input class="hide" id="allSelected" name="showSelect">
+            <table id="data_table" class="table-striped table-bordered" 	cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
+                <thead>
+                <tr>
+                    <th>S.No.</th>
+                   <th>Bug ID</th>
+                      <!-- <th id='column-header-1'>Column Header 1<div id='column-header-1-sizer'></div></th> -->
+                    <th id='column-header-1'>Title<div id='column-header-1-sizer'></div></th>
+                    <th id='column-header-2'>Project<div id='column-header-2-sizer'></div></th>
+                    <th id='column-header-3'>Status<div id='column-header-3-sizer'></div></th>
+                    <th id='column-header-4'>Priority<div id='column-header-4-sizer'></div></th>
+                    <th id='column-header-5'>Severity<div id='column-header-5-sizer'></div></th>
+                    <th id='column-header-6'>Technology<div id='column-header-6-sizer'></div></th>
+                    <th id='column-header-7'>Esti. Effort<div id='column-header-7-sizer'></div></th>
+                    <th id='column-header-8'>Actual Effort<div id='column-header-8-sizer'></div></th>
+                    <th id='column-header-9'>Assinged To<div id='column-header-9-sizer'></div></th>
+                    <th id='column-header-10'>Created Date<div id='column-header-10-sizer'></div></th>
+                    <th id='column-header-11'>Closure Date<div id='column-header-11-sizer'></div></th>
+              </tr>
+                 
+                  
+                  <tr id="advanceSearch" class = "hide">
+                 
+                   <td> </td>
+                  
+                    <td>
+                     
+						</div>
+                    <input type="text" name="bugId" style="border:none;width: 77px;color: black;margin-left: -11px;height: 18px;margin-top: 23px;"></td>
+                    <td>
+                    
+                    <input type="text" name="title" style="border:none;width: 77px;color: black;margin-left: -11px;height: 18px;margin-top: 23px;"></td>
+                    <td>
+                    <div  id="project" style="margin-left: -3px;" >
+							<input type="radio" name="projectis" checked="true" value="in" id="prois">Is <input type="radio" name="projectis" value="not in" id="proisnot">Is Not
+						</div>
+                    <select style="color: black" id="projects1" multiple="multiple" name="project"><% for(var i=0;i<project.length;i++) { %>
+                    <option value="<%=project[i].id%>"><%=project[i].projectTitle%></option>
+                    <%}%></select>
+                      
+                    </td>
+                    <td>
+                      <div id="status" style="margin-left: -3px;"> 
+							<input type="radio" name="statusis" checked="true" value="in" id="statusis">Is
+							<input type="radio" name="statusis" value="not in" id="statusisnot">Is Not
+						</div>
+                    <select style="color: black" id="status1" multiple="multiple" name="status">
+                    	<% for(var i=0;i<status.length;i++) { %>
+                    	<option value="<%=status[i].id%>"><%=status[i].description1%></option>
+                    	<%}%>
+                        </select>
+                       
+                    </td>
+                    <td>
+                    <div id="priority" style="margin-left: -3px;">
+							<input type="radio" name="priorityis" checked="true" value="in" id="priois">Is<input type="radio" name="priorityis" value="not in" id="proisnot">Is Not
+						</div>
+                    <select style="color: black" id="priority1" multiple="multiple" name="priority"><% for(var i=0;i<priority.length;i++) { %>
+                    <option value="<%=priority[i].id %>"><%=priority[i].description1%></option>
+                     <%}%>
+                    </select>
+                    
+                    </td>
+                    <td>
+                    <div id="severity" style="margin-left: -3px;">
+							<input type="radio" name="severityis" checked="true" value="in" id="sevis">Is<input type="radio" name="severityis" value="not in" id="sevisnot">Is Not
+						</div>
+                    <select style="color: black" id="severity1" multiple="multiple" name="severity"><% for(var i=0;i<severity.length;i++) { %>
+                     <option value="<%=severity[i].id %>" ><%=severity[i].description1%></option>
+                    <%}%>
+                    </select>
+                    
+                    </td>
+                    <td>
+                    <div id="technology" style="margin-left: -3px;">
+							<input type="radio" name="technologyis" checked="true" value="in" id="techis">Is <input type="radio" name="technologyis" value="not in" id="techisnot">Is Not
+						</div>
+                    <select style="color: black" id="technology1" multiple="multiple" name="technology"><% for(var i=0;i<technology.length;i++) { %>
+                    <option value="<%=technology[i].id %>" ><%=technology[i].description1%></option>
+                    <%}%>
+                    </select>
+                    
+                    </td>
+                     
+                    <td>
+                     
+                    <input type="text" style="border:none;width: 77px;color: black;height: 18px;margin-top: 23px"  name="esteffort"></td>
+                    <td>
+                     
+                    <input type="text" style="border:none;width: 77px;color: black;height: 18px;margin-top: 23px" name="acteffort"></td>
+                    <td>
+                     <div id="assingedto" style="margin-left: -3px;">
+							<input type="radio" name="assingedtois" checked="true" value="in" id="assis">Is<input type="radio" name="assingedtois" value="not in" id="assisnot">Is Not
+					 </div>
+                    <select style="border:none;width: 77px;color: black" id="assigned1" multiple="multiple" name="assingedto">
+                       <%for(var i=0;i<allusers.length;i++) {%>
+                    <option  value="<%=allusers[i].userId%>" ><%=allusers[i].Name%></option>
+                    <%}%>
+                    </select>
+                   
+                    </td>
+                    <td>
+                    <input type="text" style="border:none;width: 77px;color: black;margin-top: 23px;" id="createdDate" name="createdate"></td>
+                    <td>
+                    <input type="text" style="border:none;width: 77px;color: black;margin-top: 23px;" id="closureDate" name="closedate"></td>
+                    
+                   <!-- </form>  -->
+
+                </tr>
+                  
+                </thead>	
+                <tbody id="bugDetails">
+               
+                 <% var c=0;
+						 for(var j=0;j<bug.length;j++){   %>
+                        <tr class="rows" id="vbug-sbox_<%=j%>" checked="true" onclick="showdetails(<%=bug[j].id%>,<%=j%>)">
+                            <td align="center">
+								<%=++c%>
+                            </td>
+                            <td class="col-md-1" align="center" style="width:84px">
+                               <span><%=bug[j].id%></span> 
+                            </td>
+                            <td class="col-md-2">
+                                <input type="hidden" id="hiddentitle<%=j%>" onchange="updatebugdetails(<%=bug[j].id%>,this,'bugTitle')" value="<%=bug[j].bugTitle%>">
+                                <input type="text" id="bugtitle<%=j%>" style="width:100%;background-color:none;border:none" maxlength="75" onchange=" updatebugdetails(<%=bug[j].id%>,this,'bugTitle',<%=j%>)" value="<%=bug[j].bugTitle%>">
+                            </td>
+                            <td>
+                                <span><%=bug[j].projectTitle%></span>
+                            </td>
+                            <td class="col-md-1">
+                        <select  class="select-vbug"  onchange="updatebugdetails(<%=bug[j].id%>,this,'status')">
+             						<%  for(var i=0;i<status.length;i++) { %>
+									<% if(status[i].description1 != 'Close'){%>            					
+                    				<option value="<%=status[i].id%>" <%if(bug[j].status== status[i].id){%> selected <%}%>>
+										<%=status[i].description1%>    
+                    				</option> 
+                    				<%} else {%>
+
+                    					 <%if(status[i].description1 == 'Close' && (  bug[j].createdBy ==userid || roleid==1)){ console.log("for close");%>
+
+									<option value="<%=status[i].id%>" <%if(bug[j].status == status[i].id){%> selected <%}%>>
+										<%=status[i].description1%>    
+                    				</option> 
+                    				   	<%}       
+                    				   else{  if(status[i].description1 == 'Close'){%>
+                                <option disabled value="<%=status[i].id%>" <%if(bug[j].status == status[i].id){%> selected <%}%>>
+                    <%=status[i].description1%>    
+                            </option> 
+                        
+										<%}
+                      }
+                      }
+                      }%>
+               					</select> 
+                            </td>
+                            <td>
+                            	<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'priority')">
+                					<% for(var i=0;i<priority.length;i++) { %>
+               						<option value="<%=priority[i].id %>" <%if(bug[j].priority == priority[i].id){%> selected <%}%>>
+									<%=priority[i].description1%>    
+                					</option>
+                					<%}%>
+                				</select>
+                            </td>
+                            <td>
+                            	<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'severity')">
+       	        					<% for(var i=0;i<severity.length;i++) { %>
+                					<option value="<%=severity[i].id %>" <%if(bug[j].severity == severity[i].id){%> selected <%}%>>
+										<%=severity[i].description1%>    
+       	        					</option>
+                					<%}%>
+                				</select>
+                            </td>
+                            <td>
+                            	<select class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'technology')">
+                  					<% for(var i=0;i<technology.length;i++) { %>
+                    				<option value="<%=technology[i].id %>" <%if(bug[j].technology== technology[i].id){%> selected <%}%> >
+										<%=technology[i].description1%>    
+                    				</option>
+									<%}%>
+                				</select>
+                            </td>
+                            
+                                <td> 
+                            	<input class=""  id='estimatedEffort+<%=j%>' onblur="updatebugdetails(<%=bug[j].id%>,this,'estimatedEffort',this.id,'<%=bug[j].enddate%>')" value="<%=bug[j].estimatedEffort%>" style="border:none;width: 25px;"  >
+                            </td>
+                                <td> 
+                            	<input class=""  id='actualEffort+<%=j%>' onblur="updatebugdetails(<%=bug[j].id%>,this,'actualEffort',this.id,'<%=bug[j].enddate%>')" value="<%=bug[j].actualEffort%>" style="border:none;width: 25px;"  >
+                            </td>
+                            <td>
+                            	<select style="width:70%" class="select-vbug" onchange="updatebugdetails(<%=bug[j].id%>,this,'assingedToUserId')">
+                  					<%  for(var i=0;i<assingedto.length;i++) { %>
+ 									<% if(assingedto[i].projectId==bug[j].projectId){%>
+                  					<option value="<%=assingedto[i].userId%>" <%if(bug[j].assingedToUserId==assingedto[i].userId){%> selected <%}%>>
+							  		<%=assingedto[i].name%>   
+                  					</option>
+										<%}%>
+											<%}%>
+                				</select>
+                            </td>
+                            <td>
+                            	<%=bug[j].startdate%>
+                            </td>
+                            <td>
+
+ <input class="datepicker select-vbug11"  id='end+<%=j%>' onchange="updatebugdetails(<%=bug[j].id%>,this,'effectiveEndDate',this.id,'<%=bug[j].enddate%>')" style="border:none;width: 100%;" <% if(bug[j].enddate!='00/00/00'){%>value=<%=bug[j].enddate%> <%}else{%> value=''<%}%>>
+                            </td>
+                        </tr>
+
+                        <%}%>   	
+                </tbody>
+            </table>
+            </form>
+            </div>
+        </div>
+		
+
+		<div class="row secondry-color" style="width:98%;margin-left:1%;padding-top:5px;padding-bottom:1%;">
+			<div class="col-md-12" style=" height:auto;width:100%;padding-right:0px;padding-left:0px" >
+				<ul class="nav nav-tabs" style="background-color:none;font-size:13px">
+					<li class="active"><a data-toggle="tab" href="#home">Description</a></li>
+					<li><a data-toggle="tab" href="#menu1">Overview</a></li>
+					<li><a data-toggle="tab" href="#menu2">Comment<sup id="commCount"></sup></a></li>
+					<li><a data-toggle="tab" href="#menu3">Attachment<sup id="attCount"></sup></a></li> 
+				</ul>
+				<div class="tab-content" >
+
+					<input type="hidden" name="bugidhidden" id="bugidhidden" value=""/>
+					<div style="margin-left:-1%;width:102%" id="home" class="tab-pane fade in active">	
+					 	<div class="row" style="margin-top:10px">
+				    		<div class="col-md-1" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Title:</div>
+							<div class="col-md-2" id="title" style="padding-top:5px;font-size:12px"></div>
+							<div class="col-md-2" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Linked Task :</div>
+							<div class="col-md-6">
+							<select class="form-text-box" id="linkedTo" name="linkedTo">
+							<option value="0">Select task</option>>
+							<% for(var i=0;i<linkTo.length;i++) { %>
+                    				<option value="<%=linkTo[i].id %>"><%=linkTo[i].name%>    
+                    				</option>
+									<%}%>
+                			</select></div>
+							<div class="col-md-1" style=";margin-left:-1%;padding-top:5px;">
+								<button type="button" class="btn btn-primary btndesc hide" onclick="return updatebugdescription()"  style="float:right;height:auto;padding:3px 8px;margin-bottom:1%">Update</button>
+							</div>
+						</div>
+
+				<input type="text" name="bugDescription" id="bugDescription" class="hide">
+				<textarea style="float:left;width:101%"  maxlength="12000" id='description' class='form-control'></textarea>
+				<div class="col-sm-12 text-center"><span class="error" id="errorBugDesc"></span><span class="success" id="successBugDesc"></span></div>
+					</div>
+					<div id="menu1" style="margin-left:-1%;width:102%" class="tab-pane fade">
+						<div id="overview" style="margin-bottom:1%;margin-top:10px"></div>
+					</div>
+					<div id="menu2" style="margin-left:-1%;width:102%" class="tab-pane fade">
+					<div>
+						<textarea maxlength="200" name='commenttext' style="margin-top:10px;resize:none" id='commenttext' class='form-control' rows=4 placeholder='Write your comment here ...'></textarea>
+						<input type='button' class="btn" value='Add Comment' id="commentd" style='margin-top:1%;' onclick='addcomment()'>
+						<div id="comment" style="overflow-y:auto;height:145px !important"></div>
+					</div>
+          <div class="col-sm-12 text-center"><span class="error" id="errorCommenttext"></span><span class="success" id="successCommenttext"></span></div>
+					</div>
+					<div id="menu3" style="margin-left:-1%;width:102%" class="tab-pane fade">
+						<div class="" style="margin-top:20px;margin-bottom:50px">
+							<label class="" style="font-size:14px;color:#f05f40;margin-left:1.5%;">Upload File </label>
+					  		<form  id="form123" method="post" style="margin-left:1%;" enctype="multipart/form-data" name="comment">
+					  			<input type="file" id="fupUploadSheet" name="addBugAttachment" class="upload" onchange="UploadSheet()"/>
+					  			(Max. Size:2Mb)
+					  			
+							</form> 
+
+						</div>
+							<div id="attachment"><p></p></div>				  
+					</div>
+ 
+				</div>
+			</div>
+		</div>
+		</div>		
+
+	<%include ../partials/footer.ejs%>
+
+ 
+ <script> 
+
+ 
+
+
+        $('body').on('focus',".select-vbug11", function(){
+ 
+ 
+ $(this).datetimepicker({
+                 timepicker: false,
+                format: 'm/d/y',
+               
+            });});
+
+      function BugFilter()
+      {
+
+      }
+          
+function checkedBox(){
+var array = [];
+var radio=[];
+    $('.checkl  option:selected').each(function() {
+        array.push($(this).attr("id"));
+    });
+  
+    $('.checkl  :radio:checked').each(function() {
+       radio.push($(this).attr("id")); 
+    });
+    
+    array.push.apply(array,radio); 
+	    $("#allSelected").val(array); 
+	return true;
+
+}
+
+ 	$(document).ready(function(){ 
+             
+
+
+
+$('#hideColumnsId').tagger({
+        "fieldWidth":"20em", 
+        displayHierarchy: false
+      , indentMultiplier: 2, baseURL: './img/'
+       , placeholder: 'Select Columns to Hide',
+
+      });
+
+
+   $('#projects1').change(function() { 
+                 }).multipleSelect({
+                     width: '100%'
+                }); 
+
+   $('#status1').change(function() { 
+                 }).multipleSelect({
+                     width: '100%'
+                }); 
+   $('#priority1').change(function() { 
+                 }).multipleSelect({
+                     width: '100%'
+                }); 
+   
+    
+    $('#severity1').change(function() { 
+                 }).multipleSelect({
+                     width: '100%'
+                }); 
+   
+    $('#technology1').change(function() { 
+                 }).multipleSelect({
+                     width: '100%'
+                }); 
+                  
+    $('#assigned1').change(function() { 
+                 }).multipleSelect({
+                     width: '100%'
+                }); 
+             jQuery('#createdDate').datetimepicker({
+                            timepicker: false,
+                            format: 'd/m/Y'
+                        });
+               jQuery('#closureDate').datetimepicker({
+                            timepicker: false,
+                            format: 'd/m/Y'
+                        });
+                      $(function() {
+  var thHeight = $("table#data_table th:first").height();
+  $("table#data_table th").resizable({
+      handles: "e",
+      minHeight: thHeight,
+      maxHeight: thHeight,
+      minWidth: 40,
+      resize: function (event, ui) {
+        var sizerID = "#" + $(event.target).attr("id") + "-sizer";
+        $(sizerID).width(ui.size.width);
+      }
+  });
+});
+   otable = $("#data_table").DataTable({ 
+                "info":false,
+                "bSort":false,
+                "autoWidth": true,
+                "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+                "columnDefs": [  
+                                {"targets": 0,"width": "20px"},
+						        {"targets": 2,"width": "50px"},
+						        {"targets": [8,9,10,11],"width": "25px"},
+						        {"targets": [3,4,5,6,7],"width": "30px"}
+						       ]         
+            });
+
+
+ $('a.toggle-vis').on( 'click', function (e) {
+        e.preventDefault();
+ 
+        // Get the column API object
+        var column = otable.column( $(this).attr('data-column') );
+ 
+        // Toggle the visibility
+        column.visible( ! column.visible() );
+    } );
+
+ 		      
+
+   
+ 		$("#searchbox").keyup(function() {
+        otable.search(this.value).draw();
+
+      }); 
+ 		 otable.$('tr:first').click();
+ 		$('.se-pre-con').fadeOut('slow'); 
+		$('#download').removeClass("hide");
+		$('#downloadL').removeClass("hide");
+
+		var newArr="<%=showSelect%>".split(",");
+	  
+		$("input:radio").each(function () {
+			var currid=$(this).attr("id");
+			if(newArr.indexOf(currid)!=-1){
+				$(this).attr("checked",true);
+			}
+		});
+
+ 
+		document.getElementById("myfilterform").reset();  
+		$("#pro_93").addClass('selected');
+ 		 $('.viewbug-img').addClass('active');
+ 		 
+ 		$('.select-vbug').css('cursor', 'pointer');
+ 
+
+	
+      
+
+		//....................Side filter...................
+
+ 		$('.slider-arrow').click(function() {
+			if ($(this).hasClass('show')) {
+        		$(".slider-arrow, .slidingpanel").animate({
+          			left: "+=20%"
+        		},
+        		700, function () {
+          			// Animation complete.
+          		});
+          		$(this).html('Filter &laquo;').removeClass('show').addClass('hide1');
+      		} else 
+      		{
+        		$(".slider-arrow, .slidingpanel").animate({
+        			left: "-=20%"
+        		},700, function () {
+          			// Animation complete.
+          			});
+          		$(this).html('&laquo; Filter').removeClass('hide1').addClass('show');
+        	}
+    	});
+    	var todate=new Date();
+    	/*alert(todate);*/
+    	 $(".datepicker").datetimepicker({
+                 timepicker: false,
+                format: 'm/d/y',
+                minDate:todate
+            });
+		//$('.datepicker').datepicker();
+ 	});
+
+	tinymce.init({ menubar:false,
+        selector: '#description',
+        width: "100%",
+        toolbar:'undo redo | styleselect | bold italic | bullist | numlist'
+    });	 
+	
+  	//.........................Re Show  comment on comment button click................................
+  	function showcomment(data) {
+    $('#comment').html(''); 
+    $('#commCount').html(data[0].length);
+    var com='';
+		for(var i=(data[0].length)-1;i>=0;i--) {
+			data[0][i].createdDate=new Date(data[0][i].createdDate);
+			var str=data[0][i].createdDate.toString();
+			com=com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%;'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left1%;'> By : "+data[0][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;background-color:#C7DEFE;max-height:100px; word-wrap: break-word;'>"+data[0][i].comments+"</div><br><div style='width:100%'></div></div>";
+		}
+		  $('#comment').html(com);
+	  }
+		
+	function showattachment(data) {	
+	  	var att='';
+			$('#attCount').html(data.length); 
+		for(var i=(data.length)-1;i>=0;i--){ 
+			var deleteBtn=''
+			  if(data[i].userId=='<%=userid%>' || '<%=roleid%>'==1)
+				{
+					deleteBtn="<span class='glyphicon glyphicon-trash' style='float:right;margin:6px' title='Delete' onclick='deleteAttach("+data[i].id+")'></span>";
+				}
+				var dat=(new Date(data[i].createdDate).toString());
+				dat=dat.slice(0,24);
+			att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[i].id+"'><a href='"+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+"' download ><img src='"+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+"' style='width:100px;height:100px'></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+dat+"</div></div>"
+		 
+		}
+		$('#attachment').html(att);
+	}
+	function deleteAttach(attid){  
+		if(confirm("You Want to delete this attachment?")){
+		$.ajax({
+			data: {"aatachId":attid},
+			url: '/deleteBugAttach',
+			method: 'post',
+			success: function(data) {
+				$("#"+attid).html('');
+				$("#"+attid).attr("class",'');
+				$("#"+attid).attr("style",'');
+				alert("Attachment deleted Successfuly!");
+				var count=$('#attCount').text();
+				$('#attCount').html(count-1);
+			}
+		});
+	}
+	}
+
+//.............save/add comment to database......................			
+  	function addcomment() { 		 
+    resetError();  
+    var successCommenttext = $('#successCommenttext');
+    var errorCommenttext = $('#errorCommenttext');
+		if (!$.trim($("#commenttext").val())){
+			errorCommenttext.text("please enter valid comment");
+			return false;
+		} else
+		{	var comm={
+				data: {comment:$('#commenttext').val(),bugid:$("#bugidhidden").val()},
+				url: '/addComment',
+				method: 'POST',
+				dataType: 'JSON',
+				success:function(data){
+					if(data.length>0)
+					{ 
+						showcomment(data);
+					}
+				},
+			}
+			$.ajax(comm);
+		}
+		$('#commenttext').val('');
+	}
+
+
+//....................adding values to the respective DIV................
+  
+	function showdetails(bid,divId){
+		//alert(bid);
+		//$('.vbug-box').attr("color","yellow");
+		//$('.vbug-box').css("border","none");
+		//$("#vbug-sbox_"+divId).css("border-style","groove");
+		  $(".rows").css({"background-color":"white"});
+		$("#vbug-sbox_"+divId).css({"background-color":"#CBDDEA"});
+		//alert("show details"+bid)
+		$("#bugidhidden").val(bid);
+		//alert($("#bugidhidden").val());
+		$.ajax({
+			data: {"bugid":bid},
+			url: '/bugDetails',
+			method: 'post',
+			success: function(data) {
+			console.log("bug info:",data);	 
+				$('#title').html($("<label>"+data[0][0].bugTitle+"</label>"));
+				$('#linkedTo').val(data[0][0].linkedTask);
+				tinyMCE.activeEditor.setContent(data[0][0].bugDescription);
+				/*if(!data[0][0].enddate){
+					data[0][0].enddate="No End Date Assinged"
+				}
+				if(!data[0][0].CycleNo){
+					data[0][0].CycleNo="No Cycle";
+				}*/
+
+var over='';
+		over=over+"<table style='width:100%'><tr><td><label class='form-Label'>Project Title   : </label>"+data[0][0].projectTitle+"</td>";
+		over=over+"<td><label class='form-Label'>Assinged To   : </label> "+data[0][0].firstName+"</td>";
+		over=over+"<td><label class='form-Label'>Technology   : </label> "+data[0][0].technology+"</td>";
+		over=over+"<td><label class='form-Label'>Bug Status   : </label> "+data[0][0].statusName+"</td></tr>";
+		if(data[0][0].CycleNo){
+		over=over+"<td><label class='form-Label'>Cycle  : </label> "+data[0][0].CycleNo+"</td>";
+		}if(data[0][0].bugType){
+			over=over+"<td><label class='form-Label'>Bug Type   : </label> "+data[0][0].bugType+"</td>";
+		}if(data[0][0].detectedByName){
+			over=over+"<td><label class='form-Label'>Detected By   : </label> "+data[0][0].detectedByName+"</td>";
+		} if(data[0][0].enddate){
+			over=over+"<td><label class='form-Label'>Tentative Clouser    : </label> "+data[0][0].enddate+"</td>"
+		} 
+		over=over+"</tr></table>";
+		$("#overview").html(over);
+ 
+				$('#comment').html('');
+				$('#commCount').html(data[1].length);
+				var com='';
+
+				for(var i=(data[1].length)-1;i>=0;i--) { 
+					data[1][i].createdDate=new Date(data[1][i].createdDate);
+					var str=data[1][i].createdDate.toString();
+				   com=   com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left:1%;'>By : "+data[1][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;max-height:100px; word-wrap: break-word;background-color:#C7DEFE;'>"+data[1][i].comments+"</div><br><div style='width:100%'></div></div>";
+				}  
+				$('#comment').html(com); 
+				$('#attachment').html('');
+				$('#attCount').html(data[2].length);
+			  var att='';
+			 
+					  
+			  for(var i=(data[2].length)-1;i>=0;i--)
+				{  
+					 var deleteBtn=''
+			  if(data[0][0].createdBy=='<%=userid%>' || '<%=roleid%>'==1)
+				{
+					deleteBtn="<span class='glyphicon glyphicon-trash' style='float:right;margin:6px' title='Delete' onclick='deleteAttach("+data[2][i].id+")'></span>";
+				}
+				var dat=(new Date(data[2][i].createdDate).toString());
+				dat=dat.slice(0,24);
+				  att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[2][i].id+"'><a href='"+data[2][i].filePath.replace('/root/fusion/public/',' ')+"' download> <img src='"+data[2][i].filePath.replace('/root/fusion/public/',' ')+"' style='width:100px;height:100px'> </a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"
+					+data[2][i].firstName+" On:"
+					+dat+"</div></div>";
+
+					
+				}
+				$('#attachment').html(att);
+
+
+			if(data[0][0].createdBy=='<%=userid%>' || '<%=roleid%>'==1)
+			{
+$(".btndesc").removeClass('hide');
+					tinyMCE.get('description').getBody().setAttribute('contenteditable', true);
+
+			}
+			else{
+				$(".btndesc").addClass('hide');
+					tinyMCE.get('description').getBody().setAttribute('contenteditable', false);
+			}
+
+			},
+			dataType: 'JSON',
+		});
+	} 
+
+
+	// ............attechment start........................
+	function UploadSheet(){
+		//var data1=$('#fupUploadSheet').val();
+		var input, file;
+            input = document.getElementById('fupUploadSheet');
+            file = input.files[0];
+             if(file.size>2097152){
+                 alert("Error:File limit is 2 mb");
+                 return false ;
+            } 
+
+
+		var data1 = new FormData($('#form123')[0]);
+		var files = $("#fupUploadSheet").val();
+    	var id1=$("#bugidhidden").val();
+		data1.append('id',id1);
+	
+ 	 	$.ajax({
+  			url:'/bugAttachment',
+  	 		method: 'POST',
+    		data:data1,
+    		contentType: false, 
+   			processData: false,
+			success: function(data) {
+				alert("File uploaded successfully!");
+				showattachment(data);
+			},
+			dataType: 'JSON',
+		});
+	}
+	//....................Save bug details......................
+ 
+	function updatebugdetails(bugid,e,type,id,endate){
+ 	 
+if(type=='effectiveEndDate')
+   {     
+	var up ={
+		data: {"bugid":bugid,"value":e.value,"colname":type},
+			url: '/updatebugdetails',
+			method: 'POST',
+			success: function(data) {
+				showdetails(bugid);
+			 },
+			dataType: 'JSON',
+			};
+			$.ajax(up);
+
+
+			return;
+}
+
+	  	if ( e.value == null || e.value == ""|| e.value.trim().length < 1) {
+	  		alert("Please enter a valid title for bug!"); 
+	  		$('#bugtitle'+id).val($('#hiddentitle'+id).val());
+	  	} else 
+	  	{	
+	  	if(type=='assingedToUserId'&&confirm("Are you sure you want to change the assinged to ?")){
+	  		var up ={data: {"bugid":bugid,"value":e.value,"colname":type},
+			url: '/updatebugdetails',
+			method: 'POST',
+			success: function(data) {
+				showdetails(bugid);
+			 },
+			dataType: 'JSON',
+			};
+			$.ajax(up);
+		}
+		else{
+	  		var up ={data: {"bugid":bugid,"value":e.value,"colname":type},
+			url: '/updatebugdetails',
+			method: 'POST',
+			success: function(data) {
+				showdetails(bugid);
+			 },
+			dataType: 'JSON',
+			};
+			$.ajax(up);
+		}
+		}
+	}
+
+	function updatebugdescription() {
+      resetError();
+      var errorBugDesc = $('#errorBugDesc');
+      var successBugDesc = $('#successBugDesc');
+      var ds=tinyMCE.activeEditor.getContent();
+ 			if(ds.trim().length<=0){
+ 				errorBugDesc.text("Please enter description");
+ 				return false;
+ 			}
+ 			if(ds.trim().length>12000){
+ 				errorBugDesc.text("Description length should't be more than 12000 characters");
+ 				return false;
+ 			}  
+	 		$.ajax(
+			{
+				data: {
+					"bugid":$("#bugidhidden").val(),
+					"description": ds,
+					"linkedTo":$("#linkedTo").val()
+				},
+				url: '/updatebugdescription',
+				method: 'POST',
+				success: function() {	
+				successBugDesc.text("Bug description updated succesfully!");		
+        commonTimeOut(successBugDesc);
+				},			 
+				dataType: 'JSON',
+			});
+ 	} 
+
+function exportBug()
+{
+	 $(".se-pre-con").fadeIn("slow");
+var header=['S.No.', 'Title', 'Project', 'Status', 'Priority', 'Severity', 'Technology', 'Assinged To', 'Start Date', 'End Date'];
+
+var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/getAllBugtoexport';
+$.ajax({
+url: url,
+method: 'POST',
+data : {},
+success: function(bugData) { 
+bugData.unshift(header);
+alasql("SELECT * INTO CSV('bug_Report.csv') FROM ?",[bugData]);
+/*$(".se-pre-con").fadeOut("slow");
+$("#btnDownloadbug").prop('disabled', false);*/
+},
+dataType: 'JSON',
+});   
+
+$(".se-pre-con").fadeOut("slow");
+}
+
+ 
+function showhide(id) {
+    var e = document.getElementById(id);
+$(e).toggleClass("hide");     
+ }
+
+ function hidecol(){
+  var a=[];
+   a= $('#hideColumnsId').val();
+   var table = $('#data_table').DataTable();
+
+  for(var i=0;i<13;i++)
+  {
+    table.column(i).visible( true );  
+ }
+
+  for(var i=0;i<a.length;i++)
+  {
+    table.column(a[i]).visible( false );  
+ }  
+}
+ function colHideOnChange(id) {
+    var e = document.getElementById(id);
+$(e).toggleClass("hide"); 
+
+ }
+
+	</script>
+
+
+</body>
+</html>
+
+

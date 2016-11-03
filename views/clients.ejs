@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+    <style>
+   .dataTables_filter, .dataTables_length {
+     display: none;
+    }
+.glyphicon-ok-circle{ 
+  color:green!important;
+ }
+</style>
+</head>
+ <% include ./partials/adminheader %>
+<body id="client">
+<div class="se-pre-con"></div>
+    <div class="secondry-color" style="padding-bottom:2%;padding-left :2%;padding-right:2%;padding-bottom:2%; ">
+    
+ <div class="row"   style="padding-top:1%; max-width: 103%">
+
+   <img   onclick="addEditClient(0)" class="addNewPlus" > 
+  <select id="clientStatus"  style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" class="form-text-box" onChange="getClientsByStatus()">
+          <option value="1">Active</option>
+          <option value="2">Inactive</option>
+          <option value="3">All</option> 
+  </select> 
+  <span class="modal-title" style="padding-left:35%">Client Details</span> 
+  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
+
+    <span id="download" class="glyphicon glyphicon-download" onclick="exportClient('client')" style="margin-right:10px;cursor: pointer;font-size:19px;float:right" title="Download Clients List" ></span>
+    </div>
+     <div  class="row" style="max-width:103%;overflow-y:auto ">  
+  <table id="client-table" class="table stripe cell-border hover">  
+                 <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th> Abb Name</th>
+                        <th>Category</th>
+                        <th>Client_Account_Lead</th>
+                        <th>Location</th>
+                        <th>Address</th>
+                        <!-- <th>Contact Person</th>
+                        <th>Contact Person Email</th>
+                        <th>Contact Phone</th> -->
+                        <th>Action</th>
+
+                    </tr>
+                </thead> 
+                <tbody id="clientBody">
+               <%for(var i=0;i<clients.length;i++){ %>
+                 <tr onclick="getContacts('<%=clients[i].id%>',this.id)" id="row_<%=clients[i].id%>" class="rows">       
+                 <td id="row_<%=clients[i].id%>1"+><%=clients[i].clientCode%></td>
+                 <td id="row_<%=clients[i].id%>2"+ ><%=clients[i].clientName%></td>
+                 <td  id="row_<%=clients[i].id%>3"+  ><%=clients[i].clientAbbName%></td>
+                 <td  id="row_<%=clients[i].id%>4"+  ><%=clients[i].category%></td>
+                 <td id="row_<%=clients[i].id%>5"+  ><%=clients[i].leadName%></td>
+                 <td  id="row_<%=clients[i].id%>6"+  ><%=clients[i].locName%></td>
+                 <td  id="row_<%=clients[i].id%>7"+  ><%=clients[i].address%></td>
+           <!--       <td  id="row_<%=clients[i].id%>8"+  ><%=clients[i].clientContactPerson%></td>
+                 <td  id="row_<%=clients[i].id%>9"+  ><%=clients[i].clientContactPersonEmail%></td>
+                 <td  id="row_<%=clients[i].id%>10"+  ><%=clients[i].clientContactPhone%></td> -->
+                 <td>
+                 <span <%if(clients[i].isActive==1){%> onclick="addEditClient(1,<%=clients[i].id%>)" class="glyphicon glyphicon-pencil" style="color:red;height:10px"  title="Edit Client" <%}%>></span>               
+                    <a <%if(clients[i].isActive==1){%>
+                     onclick=confirmBox2("<%=clients[i].id%>,1","actinact",1);
+                      <%}
+                       else{%>
+                        onclick=confirmBox2("<%=clients[i].id%>,0","actinact",2);
+                        <%}%> >
+                        <span <%if(clients[i].isActive==1){
+                            %>class="glyphicon  glyphicon-ok-sign" style="color:green;height:10px; width:10px;margin-left: 10px;" title="InActive Client" <%}
+                             else{%>class="glyphicon  glyphicon-remove-sign" style="color:red;height:10px; width:10px; " title="Active Client"
+                            <%}%>>
+                        </span>
+                    </a>
+
+
+                   <span style="margin-left:10px;font-size:13px" class="glyphicon glyphicon-user" onclick="addEditContacts(0,'<%=clients[i].id%>')" title="Add client contact person"  data-toggle="modal" data-target="#myModal" ></span>
+                 </td>
+
+                 </tr>
+              <%}%>
+                </tbody>
+            </table>
+
+</div>
+
+
+
+<div class="row" >
+
+<div style="margin-bottom:10px">
+          <span class="modal-title" style="padding-left:45%;margin-top:10px">List of Client Contact Persons</span>
+          </div>
+
+             <table id="client-contact-table" class="table stripe cell-border hover">  
+                 <thead>
+                    <tr>                                         
+                        <th>Contact Person</th>
+                        <th>Contact Person Email</th>
+                        <th>Contact Phone</th>
+                         <th>Client Name</th>
+                        <th>Client Code</th>  
+                        <th>Action</th>
+
+                    </tr>
+                </thead> 
+                <tbody id="client-contact-body">
+              
+                </tbody>
+            </table>
+
+</div>
+        
+    </div>
+
+<div id="ModalAdd"></div>
+<div id="ModalAddMesage"></div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+         <h4 class="modal-title">Add/Edit client contact person</h4>
+        </div>
+        <div class="modal-body">
+<div class="col-sm-12">          
+      <label class="form-label">Name:</label><sup class="astrick">*</sup>
+<input type="text" maxlength="40" class="form-text-box clearAll " id="cname" autofocus tabindex="1"/>
+<div class="fLeft"><span class="error" id="errorCname"></span></div>
+</div>
+
+<div class="col-sm-12 height11"></div>
+<div class="col-sm-12">         
+      <label class="form-label">Emailid:</label><sup class="astrick">*</sup>
+<input type="text" maxlength="40" class="form-text-box clearAll" id="cemail" tabindex="2"/>
+<div class="fLeft"><span class="error" id="errorCemail"></span></div>
+</div>
+<div class="col-sm-12 height11"></div>
+<div class="col-sm-12">         
+      <label class="form-label">Contact Number:</label><sup class="astrick">*</sup>
+<input  type="number"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"  tabindex="3"/>
+<div class="fLeft"><span class="error" id="errorCcontact"></span></div>
+</div>
+<input type="text" maxlength="40" class="form-text-box clearAll hide" id="clientid" required />
+<input type="text" maxlength="40" class="form-text-box clearAll hide" id="flag"/>
+        </div>
+<div class="col-sm-12">        
+<div class="text-center"><span class="success" id="successMyModal"></span><span class="error" id="errorMyModal"></span></div>
+</div>        
+<div class="col-sm-12 height11"></div>
+        <div class="modal-footer center">
+        <button type="button" class="btn" data-dismiss="modal" id="createCancelBtn" onclick="resetError();" tabindex="6">Close</button>
+             <button type="button" class="btn" id="createSaveBtn" onclick="createEditContact()" tabindex="5">Save</button>
+          <div class="col-sm-12 height11"></div>
+        </div>
+
+      </div>
+      
+    </div>
+  </div>
+
+    <footer>
+        <% include ./partials/footer %>
+    </footer>
+        <script>
+
+        function getContacts(clientId,rowId){
+            $(".rows").removeClass('active-row');
+            $("#"+rowId).addClass('active-row');
+
+                            var ch = '';
+                            $.ajax({
+                                url: 'getClientContacts',
+                                data: {
+                                    'clientid': clientId
+                                },
+                                method: 'post',
+                                success: function(pdetails) {
+                                    console.log(pdetails)
+                                    if(otableclint != null)otableclint.fnDestroy();
+                                    $('#client-contact-body').html(ch);
+                                    for (var i = 0; i < pdetails.length; i++) {                                 
+                                        ch = ch+'<tr id = "row_'+pdetails[i].id + '"><td style = "width:40%">' + pdetails[i].Name + '</td><td>' + pdetails[i].emailId + '</td><td style = "width:10%">' + pdetails[i].contactNum + '</td><td style = "width:10%">' + pdetails[i].clientName + '</td><td  id = "con_' + i + '">' + pdetails[i].clientCode + '</td>';
+                     
+                     if(pdetails[i].isActive==1){
+                                       ch=ch+'</td><td ><i class="glyphicon glyphicon-pencil  " style = "font-size:130%;color:#555555" data-toggle="modal" data-target="#myModal"  title = "Edit" id = "edit_' + pdetails[i].id + '_' + i + '" onclick = "addEditContacts('+pdetails[i].id+','+pdetails[i].clientId+')"></i> <i class="glyphicon glyphicon-envelope" style = "font-size:130%;color:#555555; margin-left:10px"  title = "Send mail" id = "mail' + pdetails[i].id + '_' + i + '" onclick=confirmBox2("'+pdetails[i].id+'","sendMail",6);></i><i class="glyphicon glyphicon-ban-circle" style = "font-size:130%;color:#555555; margin-left:10px"  title = "Block access" id = "block' + pdetails[i].id + '_' + i + '" onclick =confirmBox2("'+pdetails[i].id+'","blockUser",5);></i></td></tr>';
+                                   }
+                                   else
+                                   {
+ch+='<td style="color:red">Blocked</td></tr>';
+                                   }
+                                    }
+
+
+                                    $('#client-contact-body').html(ch);
+      
+         otableclint=$('#client-contact-table').dataTable({
+               'iDisplayLength': 10,
+                "order":[],
+                "bDestroy": true, 
+                "info":false,
+            });
+
+
+                     
+                                }
+                            });
+
+
+
+
+
+        }
+         var resetError = function() {
+      $('.error').text("");
+      $('.success').text('');
+      }
+
+        function addEditContacts(id,clientId)
+        {
+
+var rowId="row_"+id;
+     $("#cemail").prop('disabled',false);
+$(".clearAll").val('');
+if(id>0)
+{
+    var name=document.getElementById("client-contact-table").rows[rowId].cells.item(0).innerHTML;
+var mail=document.getElementById("client-contact-table").rows[rowId].cells.item(1).innerHTML;
+var con=document.getElementById("client-contact-table").rows[rowId].cells.item(2).innerHTML;
+    $("#cname").val(name);
+    $("#ccontact").val(con);
+    $("#cemail").val( mail);
+     $("#cemail").prop('disabled',true);
+   
+}
+ $("#clientid").val(clientId);
+  $("#flag").val(id);
+
+        }
+
+        function createEditContact()
+        {
+
+         resetError();  
+          var errorCname = $('#errorCname');
+          var errorEmail = $('#errorCemail');
+          var errorContact = $('#errorCcontact'); 
+          var errorMyModal= $('#errorMyModal');
+          var successMyModal= $('#successMyModal');
+
+var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+ var numreg = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
+
+
+if($("#cname").val().trim().length<=0)
+{
+    $("#cname").focus();
+    errorCname.text('Required Field');
+    return ;
+}
+
+if($("#cemail").val().trim().length<=0)
+{
+    errorEmail.text('Required Field');
+    $("#cemail").focus();
+    return ;
+}
+
+if($("#cemail").val().trim().length !=0 && !(re.test($("#cemail").val())))
+{
+    errorEmail.text('Enter valid email-id');
+    $("#cemail").focus();
+    return ;
+}
+if($("#ccontact").val().trim().length <=0 )
+{
+    errorContact.text('Required Field');
+    $("#ccontact").focus();
+    return ;
+}
+if($("#ccontact").val().trim().length!=0 && isNaN($("#ccontact").val()))
+{
+    errorContact.text('Enter valid contact no');
+    $("#ccontact").focus();
+    return ;
+}
+if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
+{
+    errorContact.text('Enter valid contact no');
+    $("#ccontact").focus();
+    return ;
+}
+
+                         $.ajax({
+                                url: 'addeditClientContacts',
+                                data: {
+                                    'cname': $("#cname").val(),
+                                    'cemail': $("#cemail").val(),
+                                    'ccontact': $("#ccontact").val(),
+                                    'clientId':$("#clientid").val(),
+                                    'id':$("#flag").val()
+
+                                },
+                                method: 'post',
+                                success: function(pdetails) {
+                                    acd=pdetails;
+                                    console.log(pdetails)
+                                  if(pdetails[1][0].flag=='1')
+                                    {
+                                        successMyModal.text('Successfully Created');
+                                        setTimeout(function(){
+                                            successMyModal.text('');
+                                            window.location.reload();
+                                        },2000);
+                                        
+                                   }
+                                   else
+                                    if(pdetails[1][0].flag=='2')
+                                    {
+                                          successMyModal.text('Successfully Updated.');
+                                          setTimeout(function(){
+                                            successMyModal.text('');
+                                            window.location.reload();
+                                        },2000);
+                                    }
+                                    else
+                                    {
+                                        errorMyModal.text('Email id already exist');
+
+                                    }
+                                }
+                            });
+
+        }
+
+function blockUser(id)
+{
+        $.ajax({
+                url: 'blockUser',
+                data: {
+                    'id':id
+                },
+                method: 'post',
+                success: function(pdetails) {
+                messageBox('User has been deactivated successfully.');
+                
+                window.location.reload();
+                }
+        });
+
+
+
+}
+
+        function getClientsByStatus(){
+            if($("#clientStatus").val()==1){
+               
+                window.location.href="/clients?inactive=false";
+            }
+            else if($("#clientStatus").val()==2){
+               
+                window.location.href="/clients?inactive=true";
+            }
+           else  if($("#clientStatus").val()==3){
+                window.location.href="/clients?inactive=all";
+            }
+        }
+        var oTable ;
+        $(document).ready(function() {
+            $('.se-pre-con').fadeOut('slow');
+           
+           <%if(flagActive=="false"){%>
+            $('#clientStatus').val('1');
+            <%}%>
+
+             <%if(flagActive=="true"){%>
+            $('#clientStatus').val('2');
+            <%}%>
+
+             <%if(flagActive=="all"){%>
+            $('#clientStatus').val('3');
+            <%}%>
+
+             oTable = $('#client-table').dataTable({
+               'iDisplayLength': 10,
+                "order":[],
+                "bDestroy": true, 
+                "info":false,
+            });
+
+
+             otableclint=$('#client-contact-table').dataTable({
+               'iDisplayLength': 10,
+                "order":[],
+                "bDestroy": true, 
+                "info":false,
+            });
+
+
+                $("#searchbox").keyup(function() {
+        oTable.fnFilter(this.value);
+      });
+$(window).bind('resize', function () {
+                oTable.fnAdjustColumnSizing();
+              } );
+
+
+            $(window).bind('resize', function () {
+                oTable.fnAdjustColumnSizing();
+              } );
+            $('.client-img').addClass('active');
+
+            //$("#client-table tr:first").click();
+            oTable.$('tr:first').click();
+        });
+
+        function addEditClient(flag,cid) {
+            var form = document.createElement("form");
+            form.action = '/createEditClient';
+            form.method = "POST";
+            form.style = "display: none";
+            var hdnId = document.createElement("input");
+            var clientId=document.createElement("input");
+            hdnId.type = "hidden";
+            hdnId.name = "flag";
+            hdnId.value = flag;
+            clientId.type = "hidden";
+            clientId.name = "cid";
+            clientId.value = cid;
+            form.appendChild(hdnId);
+            form.appendChild(clientId);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+
+        function actinact(cid,flag){
+
+              $.ajax({
+                    url: '/changeClientStatus',
+                    type: 'post',
+                    data: { "cid": cid, "flag": flag },
+                    success: function(data) {
+                   var array1=[];
+                        var temp="#row_"+cid;
+                        var str1='';
+                        if($('#clientStatus').val()==3)
+                        {
+                               
+                                for(i=1;i<=10;i++){
+                                   var tempnew=temp+i;
+                                    array1.push($(tempnew).text());
+                                }
+                                if(flag==0)
+                                 {
+                          
+                                    str1= '<span onclick="addEditClient(1,'+cid+')" class="glyphicon glyphicon-pencil" style="color:red;height:10px"  title="Edit Client" ></span><span class="glyphicon  glyphicon-ok-sign" style="color:green;height:10px; width:10px;margin-left: 10px;" title="InActive Client" onclick=confirmBox2("'+cid+',1","actinact",1);></span>';
+                                      array1.push(str1);
+                                      oTable.fnUpdate(array1,temp);
+
+                                 } 
+                                 else{
+                                    str1= '<span class="glyphicon glyphicon-remove-sign" style="color:red;height:10px; width:10px;margin-left: 10px;" title="InActive Client" onclick=confirmBox2("'+cid+',0","actinact",2)></span>';
+                                     array1.push(str1);
+                                      oTable.fnUpdate(array1,temp);
+                                 }
+                        }
+                        else
+                        oTable.fnDeleteRow(temp); 
+                    }    
+            });
+        }
+
+
+
+function sendMail(id)
+{ 
+              $('.se-pre-con').show();
+                        $.ajax({
+                                url: 'sendMailClient',
+                                data: {
+                                    'id':id
+                                },
+                                method: 'post',
+                                success: function(pdetails) {
+                                 $('.se-pre-con').hide();  
+                                messageBox('Mail has been sent successfully.')
+                                }
+                            });
+}
+        </script>
+
+    <script>
+    function exportClient(type)
+{
+    var status=$("#clientStatus").val();
+    if(status=='2')
+      status=0;
+     $(".se-pre-con").fadeIn("slow");
+var header=['Client Code','Client Name','Abbreviation Name','Category','Client account lead','Location','Address','Status'];
+
+var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/exportToCsv';
+$.ajax({
+url: url,
+method: 'POST',
+data : {"type":type,'status':status},
+success: function(data) {
+    console.log('bugdata',data)
+data.unshift(header);
+alasql("SELECT * INTO CSV('Client.csv') FROM ?",[data]);
+/*$(".se-pre-con").fadeOut("slow");
+$("#btnDownloadbug").prop('disabled', false);*/
+},
+dataType: 'JSON',
+});   
+
+$(".se-pre-con").fadeOut("slow");
+}
+$(document).on("keypress", '#ccontact', function(e) {
+   if(e.keyCode == 13) {
+         createEditContact();
+   }      
+  }); 
+
+</script>
+</body>
+
+</html>
