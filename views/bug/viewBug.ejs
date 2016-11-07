@@ -417,11 +417,13 @@ $('ul.dropdown-menu li a').on('click', function (event) {
           <input type="hidden" name="bugidhidden" id="bugidhidden" value=""/>
           <div style="margin-left:-1%;width:102%" id="home" class="tab-pane fade in active">  
             <div class="row" style="margin-top:10px">
-                <div class="col-md-1" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Title:</div>
+                <div class="col-md-1" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Title :</div>
+
               <div class="col-md-2" id="title" style="padding-top:5px;font-size:12px"></div>
+              
               <div class="col-md-2" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Linked Task :</div>
               <div class="col-md-6">
-              <select class="form-text-box" id="linkedTo" name="linkedTo">
+              <select class="form-text-box" id="linkedTo" name="linkedTo" style="margin-top:5px">
               <option value="0">Select task</option>>
               <% for(var i=0;i<linkTo.length;i++) { %>
                             <option value="<%=linkTo[i].id %>"><%=linkTo[i].name%>    
@@ -429,9 +431,17 @@ $('ul.dropdown-menu li a').on('click', function (event) {
                   <%}%>
                       </select></div>
               <div class="col-md-1" style=";margin-left:-1%;padding-top:5px;">
-                <button type="button" class="btn btn-primary btndesc hide" onclick="return updatebugdescription()"  style="float:right;height:auto;padding:3px 8px;margin-bottom:1%">Update</button>
+                <button type="button" class="btn btn-primary " onclick="return updatebugdescription()"  style="float:right;height:auto;padding:3px 8px;margin-bottom:1px; margin-top:0px">Update</button>
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-2" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Raised By :</div>
+          
+              <div class="col-md-2" id="Raised_name " style="padding-top:5px;font-size:12px"><span id="asdf"></span>
+              </div>
+            </div>
+           
+            
 
         <input type="text" name="bugDescription" id="bugDescription" class="hide">
         <textarea style="float:left;width:101%"  maxlength="12000" id='description' class='form-control'></textarea>
@@ -951,6 +961,9 @@ $("input:checkbox").click(function(){
       console.log("bug info:",data);   
         $('#title').html($("<label>"+data[0][0].bugTitle+"</label>"));
         $('#linkedTo').val(data[0][0].linkedTask);
+        $('#asdf').text(data[0][0].createdByName);
+        console.log('name',data[0][0].createdByName);
+
         tinyMCE.activeEditor.setContent(data[0][0].bugDescription);
         /*if(!data[0][0].enddate){
           data[0][0].enddate="No End Date Assinged"

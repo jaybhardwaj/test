@@ -326,6 +326,7 @@ module.exports = {
 					resource:req.projectResults[5],flagForTab:req.projectResults[6],
 					tech:req.projectResults[2],manager:req.projectResults[4],teamlead:req.projectResults[5],
 					client:req.projectResults[3],name:req.projectResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
+				//console.log("allProjects-----",req.projectResults[7][4].assigntoall);
 				break;
 
 				case 'projectDetails12' :
