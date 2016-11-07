@@ -993,7 +993,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
             sql: 'call usp_addEditProject(?,?,?,?,?)',
             values: [pid,flag,userId,roleId,retailerId]
         };
-        //console.log('addeditproject--------',query);
+      //  console.log('addeditproject--------',query);
          var q='select companyName from t_retailer where id='+retailerId;
 
             mysql(q, function(e,r) {
@@ -1015,10 +1015,10 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
 //console.log(result);
 if(result[0].length>0){
 
+
             if(flag==1 && result[0][0].projectTitle=='DummyProject'){
 
-                ////console.log('i am in dummy project');
-                result[0][0]={id:result[7][0].id ,
+      result[0][0]={id:result[7][0].id ,
       projectTitle: result[7][0].projectTitle,
       pcode: result[7][0].pcode,
       ptype: result[7][0].ptype,
@@ -1051,10 +1051,10 @@ if(result[0].length>0){
     result[2]=[ { id: 383, description1: 'None' } ];
                 
             }
+          //  console.log("modelportal result for editing------project----",result);
+   
         }
         else{
-
-
 
         result[0][0]={id:result[7][0].id ,
       projectTitle: result[7][0].projectTitle,
@@ -1088,7 +1088,7 @@ if(result[0].length>0){
 
             
         }
-            
+          //  console.log("++++++++++++4",result);
             callback(err, result);
         });
     },

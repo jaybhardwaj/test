@@ -77,7 +77,7 @@ width:24% !important;
           <tr>
             <td>
               <td><label  style="padding:2%;color: #524A4A;font-size: 11px"> Project Name: <sup>*</sup> </label></td>
-              <td><input type="text"   placeholder=" -- Enter Project Name -- " class="form-text-box"  style="width:100%"  name="pname" id ="idpname" maxlength="50" onblur=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>' <%}%>>
+              <td><input type="text"   placeholder=" -- Enter Project Name -- " class="form-text-box"  style="width:100%"  name="pname" id ="idpname" maxlength="50" onblur=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>'<%}%>>
                 <div class="fLeft"><span class="error" id="errorIdpname"></span></div>
               </td>
             </td>
@@ -222,16 +222,15 @@ width:24% !important;
               </td>
         </tr>
           <tr>
-            <td>
+          
               <td style="width: 100px"><label   style="padding:2%;color: #524A4A;font-size: 11px">Actual Start Date :</label></td>
               <td><input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-text-box" id="datepicker2" style="margin-top:2%;background-color:white; background-color: rgb(255, 255, 255);width:96%" name="asdate" <%if(flag==1){if(name[0].actualStartDate !='00/00/00'){%>value='<%=name[0].actualStartDate%>' <%} else{%> value='' <%}}%> >
              </td>
-            </td>
-            <td>
+            
               <td style="width: 100px"><label  style="padding:2%;color: #524A4A;font-size: 11px">Actual End Date :</label></td>
               <td> <input type="text"  maxlength="20" placeholder=" -- Select Actual End Date" class= "form-text-box" id="datepicker3" style="background-color:white;margin-top:2%; background-color: rgb(255, 255, 255);width:96%" name="aedate"  <%if(flag==1){if(name[0].actualEndDate !='00/00/00'){%>value='<%=name[0].actualEndDate%>' <%} else{%> value='' <%}}%> ></td>
-            </td>
-            <td>
+            
+           
               <td style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Comercial Head</label></td>
               <td><select style="" class="form-text-box" id="pcommercialhead" name="pcommercialhead" >
                 <option   value='0' disabled selected>Select</option>
@@ -240,20 +239,55 @@ width:24% !important;
                   <%}%> 
               </select> 
              </td>
-            </td>
-            <td>
+            
+            
 
               <!-- <button class="btn btn-primary" id="selectAll" style="margin-bottom:4px">Select All</button>
               <button class="btn btn-primary"  id="selectNone">Select None</button> -->
               
-  <td style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Assign to All</label></td>
+  <td><label style="padding:2%;color: #524A4A;font-size: 11px">Account Lead:</label></td>
+              <td> <select class="form-text-box" id="paccounthead" name="paccounthead" >
+                <option value='0' selected disabled >Select</option>
+                <% for(var i=0;i<teamlead.length;i++) {%>
+                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].accountHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
+        <%}%> </select>
+        <div class="fLeft"><span class="error" id="errorPaccounthead"></span></div>
+             </td>
+          </tr>
+          <tr>
+          
+          
+              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Manager:</label></td>
+              <td> <select class="form-text-box" id ="pmanager" name="pmanager" >
+                <option value='0' selected disabled>Select</option>
+                <% for(var i=0;i<manager.length;i++) {%>
+                <option value="<%=manager[i].id%>"<%if(flag==1&&name[0].manager==manager[i].id){%>selected<%}%> ><%=manager[i].name%></option>
+               <%}%>
+              </select>
+              </td>
+            
+
+             
+              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Is Plan Required:</label></td>
+              <td> <select class="form-text-box" id ="planReq" name="planReq" >
+                <option value="1" selected>Yes</option>
+                <option value="0">No</option>
+              </select>
+              </td>
+            
+
+
+           
+              
+           
+            <td style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Assign to All</label></td>
              
  
               <td><select style="" id="assign" class="form-text-box" name="assign" onclick="AssigntoAll()">
-
+                
                   <option disabled="" selected="" value="2" >Select</option>
                   <option value="1" >Yes</option>
-                  <option value="0" selected="true"  >No</option>
+                  <option value="0"   >No</option>
                 </select></td>
 
 
@@ -276,44 +310,7 @@ width:24% !important;
             <div class="fLeft"><span class="error" id="errorPresource"></span></div>
                       
               </td>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Account Lead:</label></td>
-              <td> <select class="form-text-box" id="paccounthead" name="paccounthead" >
-                <option value='0' selected disabled >Select</option>
-                <% for(var i=0;i<teamlead.length;i++) {%>
-                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].accountHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
-        <%}%> </select>
-        <div class="fLeft"><span class="error" id="errorPaccounthead"></span></div>
-             </td>
-            </td>
-            <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Manager:</label></td>
-              <td> <select class="form-text-box" id ="pmanager" name="pmanager" >
-                <option value='0' selected disabled>Select</option>
-                <% for(var i=0;i<manager.length;i++) {%>
-                <option value="<%=manager[i].id%>"<%if(flag==1&&name[0].manager==manager[i].id){%>selected<%}%> ><%=manager[i].name%></option>
-               <%}%>
-              </select>
-              </td>
-            </td>
-
-             <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Is Plan Required:</label></td>
-              <td> <select class="form-text-box" id ="planReq" name="planReq" >
-                <option value="1" selected>Yes</option>
-                <option value="0">No</option>
-              </select>
-              </td>
-            </td>
-
-
-            <td>
-              <td><label class="form-label"></label></td>
-              <td></td>
-            </td>
+           
           </tr>
           <tr>
             <td></td><td></td><td></td><td></td> 
@@ -473,8 +470,20 @@ if( '<%=flag%>'=='1'){
            $('#pcomplexity').val('<%=name[0].pcomplexity%>');
             $('#planReq').val('<%=name[0].isPlanReq%>');
  //$('#completed').val('<%=name[0].completed%>');
-
-
+  //   alert('<%=name[0].assigntoall%>');
+       //alert("eeeeeeeeeeeeeeeeeeeeeeeee"+<%=allProjects[0].assigntoall%>);
+            if ('<%=name[0].assigntoall%>' == '1') {
+                        $('#assign').val('<%=name[0].assigntoall%>');
+                        $('#presourceDiv').addClass('hide');
+                         $('#resr').addClass('hide');
+                        //alert("1")
+                    } else {
+                      //alert("name[0].assigntoall")
+                       // alert("2");
+                        $("#assign").val('<%=name[0].assigntoall%>');
+                         $('#presourceDiv').removeClass('hide');
+                         $('#resr').removeClass('hide');
+                    }
 
 if('<%=name[0].projectTitle%>'=='DummyProject'){
         $('#idpname').attr('disabled',true);
@@ -516,7 +525,7 @@ getSelectedOptions($('#pclient').val());
                             string1+="<option value='<%=resource[i].id%>' selected><%=resource[i].name%></option>"  ;           
                        <%}%>
               string1+="</select>";
-              console.log(string1);
+            //  console.log(string1);
               $("#presourceDiv").html(string1);
                    $('#presource').tagger({
                     "fieldWidth":"13em"
@@ -531,7 +540,7 @@ getSelectedOptions($('#pclient').val());
                             string1+="<option value='<%=resource[i].id%>' ><%=resource[i].name%></option>"  ;           
                        <%}%>
               string1+="</select>";
-              console.log(string1);
+             // console.log(string1);
               $("#presourceDiv").html(string1);
                    $('#presource').tagger({
                     "fieldWidth":"13em"
@@ -547,7 +556,7 @@ getSelectedOptions($('#pclient').val());
 */
 
     $('#pclient').change(function() {
-       alert('1');
+       //alert('123');
     }); 
 
 function getSelectedOptions(cid){//alert(cid);
@@ -858,7 +867,7 @@ function getSelectedOptions(cid){//alert(cid);
 
 
             function addProject1(){
-              alert("going for suubmit");
+            //  alert("going for suubmit");
                             resetError();
                             var successProjectAddEdit = $('#successProjectAddEdit');
                             var pclient=$("#pclient").val().toString();
@@ -943,8 +952,8 @@ function specialCharacter(evt) {
      {
        $('#selectAll').click();
       $('#presourceDiv').addClass('hide');
-      $('#select1').addClass('hide');
-        $('#select2').addClass('hide');
+       // $('#select1').addClass('hide');
+       // $('#select2').addClass('hide');
          $('#resr').addClass('hide');
         
         
@@ -952,8 +961,8 @@ function specialCharacter(evt) {
     {
       $('#selectNone').click();
       $('#presourceDiv').removeClass('hide');
-      $('#select1').removeClass('hide');
-        $('#select2').removeClass('hide');
+     // $('#select1').removeClass('hide');
+     //   $('#select2').removeClass('hide');
      $('#resr').removeClass('hide');
         
     }

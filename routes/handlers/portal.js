@@ -2184,7 +2184,7 @@ addEditWbsDetails: function(req, res, next) {
 
      projectAddEdit: function(req, res, next) {
        
-       console.log("hiiii--------------------------++++++++++++++++++++++++++++++++_________________@@@@@@@@@@@2");
+      // console.log("hiiii--------------------------++++++++++++++++++++++++++++++++_________________@@@@@@@@@@@2",req.body);
            modelPortal.projectAddEdit(req.pid,req.flag,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 
@@ -2200,6 +2200,8 @@ addEditWbsDetails: function(req, res, next) {
                  else{
                 req.projectResults=result;
              
+
+           //  console.log("final project details---",req.projectResults);
              next();
 
 
