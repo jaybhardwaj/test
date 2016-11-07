@@ -97,6 +97,14 @@ module.exports = {
                 break;
                 
                 //------------------Dashboards <Phase1 : Not Lived> --------------------------
+                case 'vis_dashboard1' :
+                  console.log('jogi sSASAG',req.resultProfile);
+            	//req.session.firstName=req.resultProfile[0][0].firstName;
+            	//req.session.logo=req.resultProfile[0][0].logo;
+                res.render('Report',{ 	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:1,reportinfo:req.resultProfile,logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
+                break;
+
                 case 'vis_dashboard' :
             	req.session.firstName=req.resultProfile[0][0].firstName;
             	req.session.logo=req.resultProfile[0][0].logo;

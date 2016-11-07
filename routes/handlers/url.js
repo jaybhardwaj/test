@@ -116,7 +116,10 @@ module.exports = {
 	},
 
 
-
+setDashboard1: function(req, res, next) {
+		req.page = 'vis_dashboard1';
+		next();
+	},
 	
 //---------------------------Project-WBS-------------------------------------
 	

@@ -299,7 +299,89 @@ exportToCsv: function(type,status,userId, roleId,retailerid, callback){
             callback(err, result);
         });
     },
+//---------------------------------report------------------/
+reportpro:function(userId,retailerId,callback){
+        var query ={
+                sql: 'call usp_timesheetReportData(?,?)',
+                values :[ userId,retailerId]
+          };
+        mysql(query, function(err, result){
+            callback(err, result);
+        });
 
+},
+
+
+timesheetdragreport:function(userId,retailerId,wbs,project,date,fort,callback){
+    if(date==0){
+        var query ={
+                sql: 'call usp_timesheetReportData(?,?)',
+                values :[ userId,retailerId]
+          };
+      }
+     else if((date==1)&&(fort==0)){
+        var query ={
+                sql: 'call usp_timesheetReportDatagroupbyfortNightDate(?,?)',
+                values :[ userId,retailerId]
+          };
+      }
+      else  if((date==1)&&(fort==1)&&(wbs==0)){
+        var query ={
+                sql: 'call usp_timesheetReportDatagroupbywbs(?,?)',
+                values :[ userId,retailerId]
+          };
+      }
+     else if((date==1)&&(fort==1)&&(wbs==1)&&(project==0)){
+        var query ={
+                sql: 'call usp_timesheetReportDatagroupbyproject(?,?)',
+                values :[ userId,retailerId]
+          };
+      }
+
+       else if((date==1)&&(fort==1)&&(wbs==1)&&(project==1)){
+        var query ={
+                sql: 'call usp_timesheetReportDatagroupbycode(?,?)',
+                values :[ userId,retailerId]
+          };
+      }
+      else{
+         var query ={
+                sql: 'call usp_timesheetReportData(?,?)',
+                values :[ userId,retailerId]
+          };
+      }
+        mysql(query, function(err, result){
+            callback(err, result);
+        });
+
+},
+
+FilterDataForSelect:function(id,callback){
+    var q={
+        sql:'call usp_TimeSheetFilter(?)',
+        values:[id]
+    };
+    console.log(q);
+    mysql(q,function(err,result){
+        callback(err,result);
+    }); 
+},
+
+filterTimeSheetReport:function(EmpName,wbsName,hours,fDate,Empcode,proName,thumbhours,Billable,fortNightDate,YearMonth,retailerId,callback){
+   
+    var q={
+        sql:'call usp_getFilteredTimesheetReport(?,?,?,?,?,?,?,?,?,?,?)',
+        values:[EmpName,wbsName,hours,fDate,Empcode,proName,thumbhours,Billable,fortNightDate,YearMonth,retailerId]
+    };
+    console.log(q);
+mysql(q,function(err,result){
+    if(err){
+        console.log(err);
+    }
+        callback(err,result);
+     
+    });
+  },
     //------------------------Bug--------------------------
 
     bugHomeData: function(userId, roleId,retailerid, callback){

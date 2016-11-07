@@ -1,5 +1,5 @@
 'use strict'; 
-   
+var mysql = require('../lib/mysql').executeQuery;   
 var auth = require('./handlers/authentication');
 var portal = require('./handlers/portal');
 var render = require('./handlers/render');
@@ -47,8 +47,32 @@ app.post('/blockUser',portal.blockUser);
 	app.post('/userStatusbyretailer',portal.userStatusbyretailer); 
   app.post('/blockretailer',portal.blockretailer);  
   app.post('/retailerfordesboard',portal.retailerfordesboard); 
+  /*report*/
+     app.get('/reports',url.setDashboard,portal.profile,render.redirect);
+    app.get('/TimesheetReport',url.setDashboard1,portal.reportpro,render.redirect); 
+     app.post('/timesheetdragreport',portal.timesheetdragreport); 
+ app.post('/FilterDataForSelect',portal.FilterDataForSelect);
+app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
+
 	//------------------------BUG-------------------------------------------------
-	
+	app.post('/getBugList',function(req,res){
+    // console.log(req.body,'amit');
+    var startPoint = parseInt(req.body.start);
+    var endPoint =   parseInt(req.body.length);
+    console.log(startPoint,endPoint,'amit');
+    var query = {
+            sql: 'call usp_getBugList(?,?,?,?,?)',
+            values: [req.session.userId, req.session.roleId,req.session.retailerId,startPoint,endPoint]
+        };
+        mysql(query, function(err, result) {
+          // console.log('resssss',JSON.stringify(result))
+          var tempobj = JSON.stringify(result[0]);
+          var desiredObj = JSON.parse(tempobj);
+        // console.log(err, desiredObj,'saini');
+            res.send({"data":desiredObj});
+        });
+    
+  });
 	app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);
 	app.post('/getAllBugtoexport',portal.exportBug);
 	app.get('/viewBug',url.viewBug,portal.viewBug,render.redirect);

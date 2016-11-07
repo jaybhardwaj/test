@@ -181,6 +181,8 @@ $('ul.dropdown-menu li a').on('click', function (event) {
 
 </div>
 
+<!-- <%= JSON.stringify(bug) %>
+ -->
         
        <!-- 
   <input type="submit" value="filter" style="color: black;"> -->
@@ -292,13 +294,12 @@ $('ul.dropdown-menu li a').on('click', function (event) {
                     <td>
                     <input type="text" style="border:none;width: 77px;color: black;margin-top: 23px;" id="closureDate" name="closedate"></td>
                     
-                   <!-- </form>  -->
 
                 </tr>
                   
                 </thead>  
                 <tbody id="bugDetails">
-               
+               <!-- 
                  <% var c=0;
              for(var j=0;j<bug.length;j++){   %>
                         <tr class="rows" id="vbug-sbox_<%=j%>" checked="true" onclick="showdetails(<%=bug[j].id%>,<%=j%>)">
@@ -395,7 +396,7 @@ $('ul.dropdown-menu li a').on('click', function (event) {
                             </td>
                         </tr>
 
-                        <%}%>     
+                        <%}%>  -->    
                 </tbody>
             </table>
             </form>
@@ -505,9 +506,6 @@ var radio=[];
 }
 
   $(document).ready(function(){ 
-             
-
-
 
 $('#hideColumnsId').tagger({
         "fieldWidth":"20em", 
@@ -568,14 +566,200 @@ $('#hideColumnsId').tagger({
       }
   });
 });
-   otable = $("#data_table").DataTable({ 
+   otable = $("#data_table").DataTable({
+                "ajax": {
+                    url: '/getBugList',
+                    type: "POST"
+                },
+                "columns": [
+                { "data": "Sno" },
+                { "data": "id" },
+                { "data": "bugTitle" },
+                { "data": "projectTitle"},
+                { "data": "status" },
+                { "data": "priority" },
+                { "data": "severity" },
+                { "data": "technology"},
+                { "data": "estimatedEffort" },
+                { "data": "actualEffort" },
+                { "data": "assingedToUserId" },
+                { "data": "startdate"},
+                { "data": "enddate" },
+                ],
                 "info":false,
                 "bSort":false,
                 "autoWidth": true,
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+                "processing": true,
+                "serverSide": true,
+                "deferLoading": 30,
                 "columnDefs": [  
-                                {"targets": 0,"width": "20px"},
-                    {"targets": 2,"width": "50px"},
+                    {"targets": 0,"width": "20px"},
+                    {
+                      "targets": 2,
+                      "width": "50px",
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+                          return '<input type="hidden" id="hiddentitle'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'bugTitle'"+')" value="'+data+'">'+
+                                '<input type="text" id="bugtitle'+current_index+'" style="width:100%;background-color:none;border:none" maxlength="75" onchange=" updatebugdetails('+row.id+',this,'+"'bugTitle',"+current_index+')" value="'+data+'">';
+                      }
+                    },
+                    {
+                      "targets": 4,
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+                          var tempStatus = <%-JSON.stringify(status)%>;
+                          var tempOptions='';
+                          for(var i=0;i<tempStatus.length;i++) {
+                            if(tempStatus[i].description1 != 'Close'){
+                              if(data== tempStatus[i].id){
+                                tempOptions = tempOptions +'<option value="'+tempStatus[i].id+'" selected>'+tempStatus[i].description1+'</option>';
+                              }
+                              else{
+                                tempOptions = tempOptions +'<option value="'+tempStatus[i].id+'">'+tempStatus[i].description1+'</option>';
+                              }
+                                
+                            }
+                            else{
+                              var tempUserid = <%-JSON.stringify(userid)%>;
+                              var tempRoleid = <%-JSON.stringify(roleid)%>;
+                              if(tempStatus[i].description1 == 'Close' && (  row.createdBy ==tempUserid || tempRoleid==1)){
+                                console.log("for close");
+                                if(data == tempStatus[i].id){
+                                  tempOptions = tempOptions +'<option value="'+tempStatus[i].id+'" selected>'+tempStatus[i].description1+'</option>';
+                                }
+                              }
+                              else{
+                                if(tempStatus[i].description1 == 'Close'){
+                                  if(data == tempStatus[i].id){
+                                    tempOptions = tempOptions +'<option disabled value="'+tempStatus[i].id+'" selected>'+tempStatus[i].description1+'</option>';
+                                  }
+                                  else{
+                                    tempOptions = tempOptions +'<option disabled value="'+tempStatus[i].id+'">'+tempStatus[i].description1+'</option>';
+                                  }
+                                }
+                              }
+                              
+                            }
+                          }
+
+                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'priority'"+')">'+tempOptions+
+                          
+                        '</select>';
+                      }
+                    },
+                    {
+                      "targets": 5,
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+                          var tempPriorities = <%-JSON.stringify(priority)%>;
+                          var tempOptions='';
+                          for(var i=0;i<tempPriorities.length;i++) {
+                            if(data == tempPriorities[i].id){
+                                tempOptions = tempOptions +'<option value="'+tempPriorities[i].id+'" selected>'+tempPriorities[i].description1+'</option>';
+                            }
+                            else{
+                                tempOptions = tempOptions +'<option value="'+tempPriorities[i].id+'">'+tempPriorities[i].description1+'</option>';                        
+                            }
+                          }
+
+                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'priority'"+')">'+tempOptions+
+                          
+                        '</select>';
+                      }
+                    },
+                    {
+                      "targets": 6,
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+                          var tempSeverities = <%-JSON.stringify(severity)%>;
+                          var tempOptions='';
+                          for(var i=0;i<tempSeverities.length;i++) {
+                            if(data == tempSeverities[i].id){
+                                tempOptions = tempOptions +'<option value="'+tempSeverities[i].id+'" selected>'+tempSeverities[i].description1+'</option>';
+                            }
+                            else{
+                                tempOptions = tempOptions +'<option value="'+tempSeverities[i].id+'">'+tempSeverities[i].description1+'</option>';                        
+                            }
+                          }
+
+                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'severity'"+')">'+tempOptions+
+                          
+                        '</select>';
+                      }
+                    },
+                    {
+                      "targets": 7,
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+                          var tempTechnologies = <%-JSON.stringify(technology)%>;
+                          var tempOptions='';
+                          for(var i=0;i<tempTechnologies.length;i++) {
+                            if(data == tempTechnologies[i].id){
+                                tempOptions = tempOptions +'<option value="'+tempTechnologies[i].id+'" selected>'+tempTechnologies[i].description1+'</option>';
+                            }
+                            else{
+                                tempOptions = tempOptions +'<option value="'+tempTechnologies[i].id+'">'+tempTechnologies[i].description1+'</option>';                        
+                            }
+                          }
+
+                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'technology'"+')">'+tempOptions+
+                          
+                        '</select>';
+                      }
+                    },
+                    {
+                      "targets": 8,
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+
+                          return '<input class=""  id="estimatedEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'estimatedEffort'"+',this.id,'+"'"+row.enddate+"'"+')" value="'+data+'" style="border:none;width: 25px;"  >';
+                      }
+                    },
+                    {
+                      "targets": 9,
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+
+                          return '<input class=""  id="actualEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'actualEffort'"+',this.id,'+row.enddate+')" value="'+data+'" style="border:none;width: 25px;"  >';
+                      }
+                    },
+                    {
+                      "targets": 10,
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+                          var tempAssingedto = <%-JSON.stringify(assingedto)%>;
+                          var tempOptions='';
+                          for(var i=0;i<tempAssingedto.length;i++) {
+                            if(tempAssingedto[i].projectId==row.projectId){
+                              if(data==tempAssingedto[i].userId){
+                                tempOptions = tempOptions +'<option value="'+tempAssingedto[i].userId+'" selected>'+tempAssingedto[i].name+'</option>';
+                              }
+                              else{
+                                tempOptions = tempOptions +'<option value="'+tempAssingedto[i].userId+'">'+tempAssingedto[i].name+'</option>';
+                              }
+                                
+                            }
+                          }
+
+                          return '<select style="width:70%" class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'assingedToUserId'"+')">'+tempOptions+'</select>';
+                        }
+                    },
+                    {
+                      "targets": 12,
+                      "render": function(data,type,row){
+                          var current_index = row.Sno - 1;
+                          var tempEnddate;
+                          if(data !='00/00/00'){
+                            tempEnddate = data;
+                          }
+                          else{
+                            tempEnddate = '';
+                          }
+
+                          return '<input class="datepicker select-vbug11"  id="end'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'effectiveEndDate'"+',this.id,'+data+')" style="border:none;width: 100%;" '+tempEnddate+'>';
+                      }
+                    },
                     {"targets": [8,9,10,11],"width": "25px"},
                     {"targets": [3,4,5,6,7],"width": "30px"}
                    ]         
@@ -599,6 +783,8 @@ $("input:checkbox").click(function(){
 
       }); 
      otable.$('tr:first').click();
+     $('.paginate_button[data-dt-idx="2"]').click();
+$('.paginate_button[data-dt-idx="1"]').click();
     $('.se-pre-con').fadeOut('slow'); 
     $('#download').removeClass("hide");
     $('#downloadL').removeClass("hide");
@@ -862,7 +1048,7 @@ $(".btndesc").removeClass('hide');
   //....................Save bug details......................
  
   function updatebugdetails(bugid,e,type,id,endate){
-   
+   console.log(bugid,e,type,id,endate,'kkk');
 if(type=='effectiveEndDate')
    {     
   var up ={

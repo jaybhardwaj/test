@@ -87,6 +87,10 @@ var locationId = [],
  var saturdayOffFlag      = 1;
 
 //var excel = require('node-excel-export');
+/*report*/
+
+
+/*report*/
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -186,7 +190,55 @@ var locationId = [],
          });
      },
 
+reportpro: function(req, res, next) {               
+      var date ="2016-09-15 00:00:00"
+        modelPortal.reportpro(req.session.retailerId,date,function(error,result) {  
+              if (error) {
+                 next(error);
+                 return;
+             }
+            req.resultProfile=result;
+            next();
+              });
+    },
 
+
+    timesheetdragreport: function(req, res, next) {
+       console.log("hffsahgsfastimesheetrepot",req.body);             
+      var date ="2016-09-15 00:00:00"
+        modelPortal.timesheetdragreport(req.session.retailerId,date,req.body.wbs,req.body.project,req.body.date,req.body.fordate,function(error,result) {  
+              if (error) {
+                 next(error);
+                 return;
+             }
+            res.json(result);
+           
+              });
+    },
+
+
+    filterTimeSheetReport:function(req,res,next){
+
+        modelPortal.filterTimeSheetReport(req.body.EmpName,req.body.wbsName,req.body.hours,req.body.fDate,req.body.Empcode,req.body.proName,req.body.thumbhours,req.body.Billable,req.body.fortNightDate,req.body.YearMonth,req.session.retailerId,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result);
+           console.log("jamunaaaaaaaaaaaaaaaaaaaaaaaaaa^&^*&^(*&^%^&^*%&^%^&",result);
+        });
+    },
+
+
+FilterDataForSelect:function(req,res,next){
+
+        modelPortal.FilterDataForSelect(req.session.retailerId,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result);
+           //console.log("jamunaaaaaaaaaaaaaaaaaaaaaaaaaa^&^*&^(*&^%^&^*%&^%^&",result);
+        });
+    },
 
 
  resetNotification: function(req, res, next) {
