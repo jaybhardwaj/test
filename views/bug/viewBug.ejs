@@ -593,6 +593,15 @@ $('#hideColumnsId').tagger({
                 "processing": true,
                 "serverSide": true,
                 "deferLoading": 30,
+                "fnDrawCallback": function (oSettings) {
+                    $("#bugDetails tr").click(function() {
+                      console.log('tr click');
+                        var serial_number = $(this).children("td").first().text();
+                        var bug_id = $(this).find("td").eq(1).text();
+                        console.log(bug_id,serial_number);
+                        showdetails(bug_id,serial_number -1);
+                    });
+                },
                 "columnDefs": [  
                     {"targets": 0,"width": "20px"},
                     {
@@ -764,6 +773,7 @@ $('#hideColumnsId').tagger({
                     {"targets": [3,4,5,6,7],"width": "30px"}
                    ]         
             });
+
 $("input:checkbox:not(:checked)").each(function() {
     var column = otable.column( $(this).attr("name") );
     $(column).hide();
@@ -775,16 +785,17 @@ $("input:checkbox").click(function(){
 });
  
 
-          
-
-   
+           
     $("#searchbox").keyup(function() {
         otable.search(this.value).draw();
 
       }); 
      otable.$('tr:first').click();
-     $('.paginate_button[data-dt-idx="2"]').click();
-$('.paginate_button[data-dt-idx="1"]').click();
+     setTimeout(function(){
+      otable.ajax.reload();
+     },300);
+     // $('.paginate_button[data-dt-idx="2"]').click();
+     // $('.paginate_button[data-dt-idx="1"]').click();
     $('.se-pre-con').fadeOut('slow'); 
     $('#download').removeClass("hide");
     $('#downloadL').removeClass("hide");
