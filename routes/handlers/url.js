@@ -232,6 +232,7 @@ setDashboard1: function(req, res, next) {
 	}
 	},
 	viewBug: function(req,res,next){
+
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
 		req.page='viewBug';

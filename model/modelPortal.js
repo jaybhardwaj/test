@@ -575,15 +575,23 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
             callback(err, result);
         });
     },
-    filterBug: function(statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId, callback){
+    filterBug: function(req,res,statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength, callback){
         var query = {
-            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId]
+            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength]
         };
         console.log('filter bug************************',query);
         mysql(query, function(err, result) {
-           
-            callback(err, result);
+           if(err){
+                callback(err);
+           }
+           else{
+                var tempobj = JSON.stringify(result[7]);
+                var desiredObj = JSON.parse(tempobj);
+                // console.log(desiredObj,'bhola');
+                res.send({"data":desiredObj});
+            }
+            
         });
     },
 

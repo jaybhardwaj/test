@@ -30,7 +30,9 @@
     padding: 0;
     outline: 0;
 }
-
+.dataTables_paginate span a:last-of-type{
+  display: none !important;
+}
 
 
   #headMenu{
@@ -140,8 +142,8 @@
  </div>
  <a href="javascript:showhide('advanceSearch')" > Advanced Search 
 </a>
-
-   <button type="submit" class="submit-with-icon"><span class="glyphicon glyphicon-search" onclick="submit" value="filter"></span></button>
+ <!--  <button type="submit" onclick="filteron()" class="submit-with-icon"><span class="glyphicon glyphicon-search" onclick="submit" value="filter"></span></button>
+   <button class="submit-with-icon" onclick="filteron()"></button> -->
 </div> 
 </div>
 </div>
@@ -162,6 +164,19 @@ $('ul.dropdown-menu li a').on('click', function (event) {
         // Toggle the visibility
         column.visible( ! column.visible() );
     } );
+window.onload = function() {
+    $("#advanceSearch select,#advanceSearch input[type='radio'],#advanceSearch input[name='createdate'],#advanceSearch input[name='closedate']").change(function(){
+       otable.ajax.reload();
+     });
+
+    $("#advanceSearch input[type='text']").on( "blur", function(){
+       otable.ajax.reload();
+     });
+};
+
+ function filteron(){
+    otable.ajax.reload();
+  }
 </script>
 
 
@@ -180,7 +195,6 @@ $('ul.dropdown-menu li a').on('click', function (event) {
 
 
 </div>
-
 <!-- <%= JSON.stringify(bug) %>
  -->
         
@@ -435,7 +449,7 @@ $('ul.dropdown-menu li a').on('click', function (event) {
               </div>
             </div>
             <div class="row">
-              <div class="col-md-2" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Raised By :</div>
+              <div class="col-md-1" style ="padding-left:2%;padding-top:5px;color:#f05f40;"> By :</div>
           
               <div class="col-md-2" id="Raised_name " style="padding-top:5px;font-size:12px"><span id="asdf"></span>
               </div>
@@ -504,11 +518,9 @@ var radio=[];
     $('.checkl  option:selected').each(function() {
         array.push($(this).attr("id"));
     });
-  
     $('.checkl  :radio:checked').each(function() {
        radio.push($(this).attr("id")); 
     });
-    
     array.push.apply(array,radio); 
       $("#allSelected").val(array); 
   return true;
@@ -578,8 +590,28 @@ $('#hideColumnsId').tagger({
 });
    otable = $("#data_table").DataTable({
                 "ajax": {
-                    url: '/getBugList',
-                    type: "POST"
+                    url: '/filterBug',
+                    type: "POST",
+                    "data": function ( d ) {
+                          d.bugId = $("input[name='bugId']").val();
+                          d.priority = $("select[name='priority']").val() ? $("select[name='priority']").val().toString() :'';
+                          d.severity = $("select[name='severity']").val() ? $("select[name='severity']").val().toString() :'';
+                          d.assingedto = $("select[name='assingedto']").val() ? $("select[name='assingedto']").val().toString() :'';
+                          d.technology = $("select[name='technology']").val() ? $("select[name='technology']").val().toString() :'';
+                          d.project = $("select[name='project']").val() ? $("select[name='project']").val().toString() :'';
+                          d.title = $("input[name='title']").val();
+                          d.esteffort = $("input[name='esteffort']").val();
+                          d.acteffort = $("input[name='acteffort']").val();
+                          d.createdate = $("input[name='createdate']").val();
+                          d.closedate = $("input[name='closedate']").val();
+                          d.status = $("select[name='status']").val() ? $("select[name='status']").val().toString() :'';
+                          d.statusis = $("input[name='statusis']:checked").val();
+                          d.priorityis = $("input[name='priorityis']:checked").val();
+                          d.severityis = $("input[name='severityis']:checked").val();
+                          d.assingedtois = $("input[name='assingedtois']:checked").val();
+                          d.technologyis = $("input[name='technologyis']:checked").val();
+                          d.projectis = $("input[name='projectis']:checked").val();
+                      }
                 },
                 "columns": [
                 { "data": "Sno" },
@@ -602,15 +634,20 @@ $('#hideColumnsId').tagger({
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
                 "processing": true,
                 "serverSide": true,
-                "deferLoading": 30,
+                // "deferLoading": 30,
                 "fnDrawCallback": function (oSettings) {
                     $("#bugDetails tr").click(function() {
-                      console.log('tr click');
                         var serial_number = $(this).children("td").first().text();
                         var bug_id = $(this).find("td").eq(1).text();
                         console.log(bug_id,serial_number);
                         showdetails(bug_id,serial_number -1);
                     });
+                    $('.next').removeClass("disabled");
+                    $(".next").click(function() {
+                      $('.paginate_button.current').next().click();
+                    });
+                    $('tbody tr:first-child').click();
+                    
                 },
                 "columnDefs": [  
                     {"targets": 0,"width": "20px"},
@@ -640,8 +677,8 @@ $('#hideColumnsId').tagger({
                                 
                             }
                             else{
-                              var tempUserid = <%-JSON.stringify(userid)%>;
-                              var tempRoleid = <%-JSON.stringify(roleid)%>;
+                              var tempUserid = (<%-JSON.stringify(userid)%>) ? (<%-JSON.stringify(userid)%>):'' ;
+                              var tempRoleid = (<%-JSON.stringify(roleid)%>) ? (<%-JSON.stringify(roleid)%>):'' ;
                               if(tempStatus[i].description1 == 'Close' && (  row.createdBy ==tempUserid || tempRoleid==1)){
                                 console.log("for close");
                                 if(data == tempStatus[i].id){
@@ -662,7 +699,7 @@ $('#hideColumnsId').tagger({
                             }
                           }
 
-                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'priority'"+')">'+tempOptions+
+                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'status'"+')">'+tempOptions+
                           
                         '</select>';
                       }
@@ -776,7 +813,7 @@ $('#hideColumnsId').tagger({
                             tempEnddate = '';
                           }
 
-                          return '<input class="datepicker select-vbug11"  id="end'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'effectiveEndDate'"+',this.id,'+data+')" style="border:none;width: 100%;" '+tempEnddate+'>';
+                          return '<input class="datepicker select-vbug11"  id="end'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'effectiveEndDate'"+',this.id,'+"'"+data+"'"+')" style="border:none;width: 100%;" value="'+tempEnddate+'"">';
                       }
                     },
                     {"targets": [8,9,10,11],"width": "25px"},
@@ -800,6 +837,7 @@ $("input:checkbox").click(function(){
         otable.search(this.value).draw();
 
       }); 
+
      otable.$('tr:first').click();
      setTimeout(function(){
       otable.ajax.reload();
@@ -1072,20 +1110,29 @@ $(".btndesc").removeClass('hide');
   //....................Save bug details......................
  
   function updatebugdetails(bugid,e,type,id,endate){
-   console.log(bugid,e,type,id,endate,'kkk');
 if(type=='effectiveEndDate')
-   {     
-  var up ={
-    data: {"bugid":bugid,"value":e.value,"colname":type},
-      url: '/updatebugdetails',
-      method: 'POST',
-      success: function(data) {
-        showdetails(bugid);
-       },
-      dataType: 'JSON',
-      };
-      $.ajax(up);
+   {
 
+    var open_date = new Date($(e).parent().prev().text());
+    var close_date = new Date(e.value);
+    var timeDiff = Math.floor(close_date.getTime() - open_date.getTime());
+    var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); 
+    if(diffDays <0){
+      alert('Invalid Closure Date');
+      $(e).val('');
+    }
+    else{
+        var up ={
+        data: {"bugid":bugid,"value":e.value,"colname":type},
+          url: '/updatebugdetails',
+          method: 'POST',
+          success: function(data) {
+            showdetails(bugid);
+           },
+          dataType: 'JSON',
+          };
+          $.ajax(up);
+    }
 
       return;
 }
@@ -1095,16 +1142,22 @@ if(type=='effectiveEndDate')
         $('#bugtitle'+id).val($('#hiddentitle'+id).val());
       } else 
       { 
-      if(type=='assingedToUserId'&&confirm("Are you sure you want to change the assinged to ?")){
-        var up ={data: {"bugid":bugid,"value":e.value,"colname":type},
-      url: '/updatebugdetails',
-      method: 'POST',
-      success: function(data) {
-        showdetails(bugid);
-       },
-      dataType: 'JSON',
-      };
-      $.ajax(up);
+      if(type=='assingedToUserId'){
+        if(confirm("Are you sure you want to change the assinged to ?")){
+          var up ={data: {"bugid":bugid,"value":e.value,"colname":type},
+          url: '/updatebugdetails',
+          method: 'POST',
+          success: function(data) {
+            showdetails(bugid);
+           },
+          dataType: 'JSON',
+          };
+          $.ajax(up);
+        }
+        else{
+          console.log(e,$(e).find('option:selected').text(),'revert');
+        }
+        
     }
     else{
         var up ={data: {"bugid":bugid,"value":e.value,"colname":type},

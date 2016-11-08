@@ -747,7 +747,6 @@ filename=req.session.logo;
                  next(errorActivity);
                  return;
              }
-          
             req.resultViewBug=resultViewBug;
             next();
                   });
@@ -964,7 +963,7 @@ if(req.body.colname == 'assingedToUserId'){
             next();
                   });
     },
-        filterBug: function(req, res, next) {  
+        filterBug: function(req, res, next) {
     
     var tempstatus='';
     var tempseverity='';
@@ -1103,7 +1102,7 @@ project=project?project:'';
     }
 
 
-        modelPortal.filterBug(req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId, function(errorActivity,resultFilterBug) {
+        modelPortal.filterBug(req,res,req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId,req.body.start,req.body.length, function(errorActivity,resultFilterBug) {
               if (errorActivity) {
                
                  next(errorActivity);

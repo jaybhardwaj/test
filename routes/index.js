@@ -56,19 +56,15 @@ app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
 
 	//------------------------BUG-------------------------------------------------
 	app.post('/getBugList',function(req,res){
-    // console.log(req.body,'amit');
     var startPoint = parseInt(req.body.start);
     var endPoint =   parseInt(req.body.length);
-    console.log(startPoint,endPoint,'amit');
     var query = {
             sql: 'call usp_getBugList(?,?,?,?,?)',
             values: [req.session.userId, req.session.roleId,req.session.retailerId,startPoint,endPoint]
         };
         mysql(query, function(err, result) {
-          // console.log('resssss',JSON.stringify(result))
           var tempobj = JSON.stringify(result[0]);
           var desiredObj = JSON.parse(tempobj);
-        // console.log(err, desiredObj,'saini');
             res.send({"data":desiredObj});
         });
     
