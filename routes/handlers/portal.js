@@ -1951,15 +1951,20 @@ Docmaster:function(req,res,next){
 
      projectStatus: function(req, res, next) {
           
-           modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,
+           modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
 
+        var tempobj = JSON.stringify(result[0]);
+          var desiredObj = JSON.parse(tempobj);
+         
+            res.json({"data":desiredObj});
 
-                     res.json(result);
+
+                     // res.json(result);
              }
          });
      },
@@ -2046,6 +2051,26 @@ req.projectResults=result;
          });
      },
 
+// projectStatus: function(req, res, next) {
+          
+//            modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,
+//             function(err, result) {
+
+//              if (err) {
+//                  next(err);
+//              } else {
+
+//         var tempobj = JSON.stringify(result[0]);
+//           var desiredObj = JSON.parse(tempobj);
+  
+//             res.json({"data":desiredObj});
+
+
+//                      // res.json(result);
+//              }
+//          });
+//      },
+
      wbsDetails: function(req, res, next) {
          modelPortal.getWbsDetails(req.session.userId,req.session.roleId,req.session.retailerId,
              function(err, result) {
@@ -2061,14 +2086,18 @@ req.projectResults=result;
 
      wbsStatus: function(req, res, next) {
           
-           modelPortal.wbsStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,
+           modelPortal.wbsStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
+                var tempobj = JSON.stringify(result[0]);
+          var desiredObj = JSON.parse(tempobj);
+         console.log(err, desiredObj,'swapnil');
+            return res.json({"data":desiredObj});
 
-                     res.json(result);
+                    // res.json(result);
              }
          });
      },
@@ -2082,8 +2111,8 @@ req.projectResults=result;
                  next(err);
              } else {
 
-                     res.json('result');
-                    next();
+                     res.send('ok');
+                    // next();
              }
          });
      },

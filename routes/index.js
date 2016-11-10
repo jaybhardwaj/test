@@ -243,6 +243,24 @@ app.post("/interviewerInfo",portal.interviewerInfo);
 app.get("/interview",url.interview,render.redirect);
 app.post("/updateStatusReq",portal.updateStatusReq);
 
+ app.post('/wbsStatus',portal.wbsStatus);
+
+// app.post('/getWbsList',function(req,res){
+//         var query = {
+//             sql: 'call usp_getAllWbs(?,?,?,?,?)',
+//             values: [req.session.userId,req.session.roleId,req.session.retailerId,start,length]
+//         };
+//         mysql(query, function(err, result) {
+
+//             var tempobj = JSON.stringify(result[0]);
+//           var desiredObj = JSON.parse(tempobj);
+//         console.log(err, desiredObj,'swap');
+//             res.send({"data":desiredObj});
+
+//         });
+    
+//   });
+
 app.post("/getReleventTag",portal.getReleventTag);
 app.post("/removeTag",portal.removeTag);
 app.post("/getreleventState",portal.getreleventState);
@@ -373,7 +391,29 @@ app.post('/createExcelProj',portal.createExcelProj);
 
     
 	app.get('/projectDetails',url.setProject, portal.projectDetails,render.redirect);
-	app.post('/projectStatus', portal.projectStatus,render.redirect);
+	// app.post('/projectStatus', );
+
+  app.post('/getBugList',function(req,res){
+    // console.log(req.body,'amit');
+    var startPoint = parseInt(req.body.start);
+    var endPoint =   parseInt(req.body.length);
+    console.log(startPoint,endPoint,'amit');
+    var query = {
+            sql: 'call usp_getBugList(?,?,?,?,?)',
+            values: [req.session.userId, req.session.roleId,req.session.retailerId,startPoint,endPoint]
+        };
+        console.log(query);
+        mysql(query, function(err, result) {
+          // console.log('resssss',JSON.stringify(result))
+          var tempobj = JSON.stringify(result[0]);
+          var desiredObj = JSON.parse(tempobj);
+        // console.log(err, desiredObj,'saini');
+            res.send({"data":desiredObj});
+        });
+    
+  });
+  app.post('/projectStatus',portal.projectStatus);
+
 	app.post('/changeProjectStatus', portal.changeProjectStatus,render.redirect);
 	app.get('/addEditProject',url.setAddEditProject, portal.addEditProject,render.redirect);
 	app.post('/addEditPro',url.setAddEditPro,portal.addEditPro,render.redirect);
@@ -384,8 +424,11 @@ app.post('/createExcelProj',portal.createExcelProj);
 
 	app.get('/projectWbs',url.setProjectWbs,portal.projectWbs,render.redirect);
 
-	app.get('/wbsDetails',url.wbsDetails, portal.wbsDetails,render.redirect);
-	app.post('/wbsStatus', portal.wbsStatus,render.redirect);
+/*	app.get('/wbsDetails',url.wbsDetails, portal.wbsDetails,render.redirect);
+*/
+  app.get('/wbsDetails',url.wbsDetails,render.redirect);
+app.post('/wbsStatus', portal.wbsStatus);
+	// app.post('/wbsStatus', portal.wbsStatus,render.redirect);
 	app.post('/changeWbsStatus', portal.changeWbsStatus,render.redirect);
 	app.get('/addEditWbs',url.setAddEditWbs, portal.addEditWbs,render.redirect);
 	app.post('/addEditWbsDetails',url.setAddEditWbsDetails,portal.addEditWbsDetails,render.redirect);

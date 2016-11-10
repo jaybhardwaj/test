@@ -281,9 +281,13 @@ module.exports = {
 				case 'projectDetails11' :
 				res.redirect('/projectDetails');
 				break;
-				case 'wbsDetails' :
+				/*case 'wbsDetails' :
 				res.render('wbsDetails',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.wbsResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
+				break;*/
+				case 'wbsDetails' :
+				res.render('wbsDetails',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 		case 'addEditWbs' :
 				if(req.flagForProject==1){
