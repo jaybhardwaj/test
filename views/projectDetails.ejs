@@ -4,7 +4,7 @@
 <head>
     <% include ./partials/head %>
 <style>
-.dataTables_filter, .dataTables_length {
+.dataTables_filter{
      display: none;
     }
 .glyphicon-ok-circle{
@@ -22,21 +22,21 @@ $('.se-pre-con').fadeOut('slow');
     projectStatus(abc);
  $('.project-img').addClass('active');
 
-  otable=$('#bugtable').dataTable({
-    'iDisplayLength': 10,
-    "order":[],
-    "bDestroy": true, 
-    "info":false,
-  });
+  // otable=$('#bugtable').dataTable({
+  //   'iDisplayLength': 10,
+  //   "order":[],
+  //   "bDestroy": true, 
+  //   "info":false,
+  // });
 
-   $('#bugtable')
-          .on( 'page.dt',   function () { 
-                    //otable.$('tr').click();
-                    //otable.$('tr').addClass('hide');
-                    otable.$('tr').removeClass('hide');
+   // $('#bugtable')
+   //        .on( 'page.dt',   function () { 
+   //                  //otable.$('tr').click();
+   //                  //otable.$('tr').addClass('hide');
+   //                  otable.$('tr').removeClass('hide');
 
-           } )
-          .dataTable();
+   //         } )
+   //        .dataTable();
 
   wbstable=$('#wbsTable').dataTable({
     'iDisplayLength': 10,
@@ -62,13 +62,20 @@ $(window).bind('resize', function () {
 
   $('#pstatus11').change(function() {
             console.log($(this).val());
-            projectStatus($(this).val());
+          otable.ajax.reload();
+          //  projectStatus($(this).val());
         });
 
 
 
 
 });
+      <!-- Swapnil-->
+             
+
+
+
+  <!--code ends-->
 
 function checkedit(){
 /*  var r = confirm("Do you want to edit this project ?");
@@ -102,85 +109,147 @@ function formatDate(date) {
 
 
  function projectStatus(st){
-    
- 
-    $.ajax({
-                url: '/projectStatus',
-                type: 'post',
-                data: { "status": st },
-                success: function(data) {
-                     var log = '',log1='',log2='';
-                    
-                    for (var i = data[0].length-1; i >=0 ; i--) {
+  console.log('aaaa');
+    otable = $("#bugtable").DataTable({
+                "ajax": {
+                    url: '/projectStatus',
+                    type: 'POST',
+                    data: function(d){
+                      d.status=$("#pstatus11").val();
+                    }
+                },
+                "columns": [
+                { "data": "projectTitle" },
+                { "data": "pcode" },
+                { "data": "ptype" },
+                { "data": "plannedStartDate"},
+                { "data": "plannedEndDate" },
+                { "data": "lastupdatedby" },
+                { "data": "openbug" },
+                { "data": "closedbug"}
+                ],
+                "info":false,
+                "bSort":false,
+                "autoWidth": true,
+                "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+                  "processing": true,
+                  "serverSide": true,
+                 // "deferLoading": 30,
+                "columnDefs": [ 
+                     {
+                       "targets": 2,
+                        "render": function(data,type,row){
+                           
+                           if(data=='timeinmaterial')
+                           {
+                           return 'Time in Material';
+                            }
+                            else
+                              return 'Fixed Cost';
 
-                        if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
-                        if(data[0][i].pcode==null){data[0][i].pcode='';}
-                        if(data[0][i].ptype==0){data[0][i].ptype='';}
-                        if(data[0][i].ptype==2){data[0][i].ptype='Time';}
-                        if(data[0][i].ptype==1){data[0][i].ptype='Time & Expense';}
-                        if(data[0][i].plannedStartDate==null){data[0][i].plannedStartDate='';}
-                        if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
-                        if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
-                        if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
-                        if(data[0][i].lastupdatedby==null){data[0][i].lastupdatedby='';}
+                       }
+                     },
+                     {
+                      "targets": 8,
+                      "render":function(data,type,row){
+                        var my_html;
+                        if(row.isActive==1){
 
-                        if(data[0][i].actualStartDate=='00/00/00'){data[0][i].actualStartDate='';}
-                      if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
-
-
-                        log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><div class="col-sm-12 fLeft"><span class="error" id="errorPsdate_'+data[0][i].id+'"></span></div></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><span class="error" id="errorPedate_'+data[0][i].id+'"></span></div></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
-
-                        $('body').on('focus',"#psdate_"+data[0][i].id, function(){
-                          $(this).datetimepicker({
-                                timepicker:false,
-                                format:"m/d/y",
-                                    scrollMouse: false,
-                                    scrollInput: false
-                               });
-                      });
-                      $('body').on('focus',"#pedate_"+data[0][i].id, function(){
-                          $(this).datetimepicker({
-                                timepicker:false,
-                                format:"m/d/y",
-                                    scrollMouse: false,
-                                    scrollInput: false
-                               });
-                      });
-
-
-                            if(data[0][i].isActive==1){
-
-                              if(data[0][i].projectTitle != 'DummyProject'){
+                          if(row.projectTitle != 'DummyProject'){
                             
-                                log=log+'<td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
+                                my_html='<a  onclick="projectAddEdit('+row.id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+row.id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a>';
                             }
                             else{
-                              log=log+'<td></td>';
+                              my_html='';
                             }
                         }
                         else{
-                            log=log+'<td>   <a onclick=" actinact('+data[0][i].id+',0,0)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px;" title="Click to active"></span></a> </td>  </tr>';
+                            my_html='<a onclick=" actinact('+row.id+',0,0)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px;" title="Click to active"></span></a>';
                         }
 
-                    }
-                    otable.fnDestroy();
-                    $('#pstatus').html(log);
-                    otable=$('#bugtable').dataTable({
-                        'iDisplayLength': 10,
-                        "order":[]
-                        });
-                    otable.$('tr:first').click();
-                    otable.$('tr').addClass('hide');
-                    otable.$('tr:first').removeClass('hide');
+                         return my_html;
+                      }
+                     }
+ ]
+});
+ 
+    // $.ajax({
+    //             url: '/projectStatus',
+    //             type: 'post',
+    //             data: { "status": st },
+    //             success: function(data) {
+    //                  var log = '',log1='',log2='';
+                    
+    //                 for (var i = data[0].length-1; i >=0 ; i--) {
 
-		    otable.$('tr').removeClass('hide');
+    //                     if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
+    //                     if(data[0][i].pcode==null){data[0][i].pcode='';}
+    //                     if(data[0][i].ptype==0){data[0][i].ptype='';}
+    //                     if(data[0][i].ptype==2){data[0][i].ptype='Time';}
+    //                     if(data[0][i].ptype==1){data[0][i].ptype='Time & Expense';}
+    //                     if(data[0][i].plannedStartDate==null){data[0][i].plannedStartDate='';}
+    //                     if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
+    //                     if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
+    //                     if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
+    //                     if(data[0][i].lastupdatedby==null){data[0][i].lastupdatedby='';}
 
-                }
-                //$('#bugtable').on('page', function () {alert('grsfs')} );
+    //                     if(data[0][i].actualStartDate=='00/00/00'){data[0][i].actualStartDate='';}
+    //                   if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
+
+
+    //                     log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><div class="col-sm-12 fLeft"><span class="error" id="errorPsdate_'+data[0][i].id+'"></span></div></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><span class="error" id="errorPedate_'+data[0][i].id+'"></span></div></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
+
+    //                     $('body').on('focus',"#psdate_"+data[0][i].id, function(){
+    //                       $(this).datetimepicker({
+    //                             timepicker:false,
+    //                             format:"m/d/y",
+    //                                 scrollMouse: false,
+    //                                 scrollInput: false
+    //                            });
+    //                   });
+    //                   $('body').on('focus',"#pedate_"+data[0][i].id, function(){
+    //                       $(this).datetimepicker({
+    //                             timepicker:false,
+    //                             format:"m/d/y",
+    //                                 scrollMouse: false,
+    //                                 scrollInput: false
+    //                            });
+    //                   });
+
+
+    //                         if(data[0][i].isActive==1){
+
+    //                           if(data[0][i].projectTitle != 'DummyProject'){
+                            
+    //                             log=log+'<td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
+    //                         }
+    //                         else{
+    //                           log=log+'<td></td>';
+    //                         }
+    //                     }
+    //                     else{
+    //                         log=log+'<td>   <a onclick=" actinact('+data[0][i].id+',0,0)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px;" title="Click to active"></span></a> </td>  </tr>';
+    //                     }
+
+    //                 }
+    //                 otable.fnDestroy();
+    //                 $('#pstatus').html(log);
+    //                 otable=$('#bugtable').dataTable({
+    //                     'iDisplayLength': 10,
+    //                     "order":[]
+    //                     });
+    //                 otable.$('tr:first').click();
+    //                 otable.$('tr').addClass('hide');
+    //                 otable.$('tr:first').removeClass('hide');
+
+		  //   otable.$('tr').removeClass('hide');
+
+    //             }
+    //             //$('#bugtable').on('page', function () {alert('grsfs')} );
 
 
 
-            });
+    //         });
 
   
  }
@@ -609,10 +678,7 @@ function doactive(value1){
                 type: 'post',
                 data: { "pid": pid, "flag": flag },
                 success: function(data) {
-                    if(allpro==2)
-                    projectStatus(allpro);
-                else
-                    projectStatus(flag);
+                   otable.ajax.reload();
                 }
 
   });
@@ -732,12 +798,12 @@ function showAll()
                 <th>Last Updated</th>
                 <th>Open Bugs</th>
                 <th>Closed Bugs</th>
-                <th   >Action</th>
+                <th      >Action</th>
                 </tr>   
                   </thead>
                   
                <tbody id="pstatus">
-                <% for(var i=(allinfo.length)-1;i>=0;i--) { %>
+              <!--    <% for(var i=(allinfo.length)-1;i>=0;i--) { %>
                                 <tr  >
                                     
                                     <td>
@@ -779,7 +845,7 @@ function showAll()
                                     </td>
 
                                 </tr> 
-                                <% } %> 
+                                <% } %>   -->
               </tbody>
             </table>
             </div>
