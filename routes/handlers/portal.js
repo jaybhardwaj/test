@@ -985,6 +985,7 @@ console.log("ewdxc****************************",req.body);
     var acteffort=req.body.acteffort;
     var crtdate=req.body.createdate;
     var closedate=req.body.closedate;
+    var searchString = req.body['search[value]'];
 //jayyy end
 
 
@@ -1102,7 +1103,7 @@ project=project?project:'';
     }
 
 
-        modelPortal.filterBug(req,res,req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId,req.body.start,req.body.length, function(errorActivity,resultFilterBug) {
+        modelPortal.filterBug(req,res,req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId,req.body.start,req.body.length,searchString, function(errorActivity,resultFilterBug) {
               if (errorActivity) {
                
                  next(errorActivity);
