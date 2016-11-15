@@ -441,7 +441,7 @@ exportBug: function(userId, roleId,retailerid, callback){
             values: [userId, roleId,retailerid]
         };
         mysql(query, function(err, result) {
-  //console.log(query);
+  console.log(query);
             callback(err, result);
         });
     },
@@ -575,10 +575,10 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
             callback(err, result);
         });
     },
-    filterBug: function(req,res,statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength, callback){
+    filterBug: function(req,res,statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength,search, callback){
         var query = {
-            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength]
+            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength,search]
         };
         console.log('filter bug************************',query);
         mysql(query, function(err, result) {
@@ -588,7 +588,7 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
            else{
                 var tempobj = JSON.stringify(result[7]);
                 var desiredObj = JSON.parse(tempobj);
-                // console.log(desiredObj,'bhola');
+        
                 res.send({"data":desiredObj});
             }
             
@@ -840,13 +840,20 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         });
     },
 
-    projectStatus: function(status,userId,roleId,retailerId, callback) {
+    projectStatus: function(status,userId,roleId,retailerId,start,length,search,sortstr,callback) {
         var query = {
-            sql: 'call usp_projectStatus(?,?,?,?)',
-            values: [status,userId,roleId,retailerId]
+            sql: 'call usp_projectStatus(?,?,?,?,?,?,?,?)',
+            values: [status,userId,roleId,retailerId,start,length,search,sortstr]
         };
+        console.log("query-dddd---",query);
         mysql(query, function(err, result) {
-            callback(err, result);
+            console.log("zzzzzproject details ion modal portaal----------",result);
+            if(err){
+                console.log("sorry");
+                // callback(err);
+           }
+
+             callback(err, result);
         });
     },
 
@@ -887,21 +894,27 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         });
     },
 
-    getWbsDetails: function(userId,roleId,retailerId, callback) {
-        var query = {
-            sql: 'call usp_getAllWbs(?,?,?)',
-            values: [userId,roleId,retailerId]
-        };
-        //console.log(query);
-        mysql(query, function(err, result) {
-            callback(err, result);
-        });
-    },
+    // getWbsDetails: function(userId,roleId,retailerId, callback) {
+    //     var query = {
+    //         sql: 'call usp_getAllWbs(?,?,?)',
+    //         values: [userId,roleId,retailerId]
+    //     };
+    //     //console.log(query);
+    //     mysql(query, function(err, result) {
 
-    wbsStatus: function(status,userId,roleId,retailerId, callback) {
+    //         var tempobj = JSON.stringify(result[0]);
+    //       var desiredObj = JSON.parse(tempobj);
+    //     console.log(err, desiredObj,'swap');
+    //         // res.send({"data":desiredObj});
+
+    //         callback(err, result);
+    //     });
+    // },
+
+    wbsStatus: function(status,userId,roleId,retailerId,start,length, callback) {
         var query = {
-            sql: 'call usp_wbsStatus(?,?,?,?)',
-            values: [status,userId,roleId,retailerId]
+            sql: 'call usp_wbsStatus(?,?,?,?,?,?)',
+            values: [status,userId,roleId,retailerId,start,length]
         };
         mysql(query, function(err, result) {
             callback(err, result);
