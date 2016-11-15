@@ -575,10 +575,10 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
             callback(err, result);
         });
     },
-    filterBug: function(req,res,statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength,searchString, callback){
+    filterBug: function(req,res,statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength,searchString,sortString, callback){
         var query = {
-            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength,searchString]
+            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength,searchString,sortString]
         };
         console.log('filter bug************************',query);
         mysql(query, function(err, result) {
@@ -589,7 +589,10 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
                 var tempobj = JSON.stringify(result[7]);
                 var desiredObj = JSON.parse(tempobj);
                 // console.log(desiredObj,'bhola');
-                res.send({"data":desiredObj});
+                res.json({"sEcho": parseInt(req.body.draw),
+    "iTotalRecords": desiredObj[0].totalRecord,
+    "iTotalDisplayRecords": desiredObj[0].totalRecord,
+    "aaData": desiredObj});
             }
             
         });
