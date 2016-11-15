@@ -3,6 +3,10 @@
 <head>
 
     <!--<link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">-->
+    <link href="https://cdn.datatables.net/colreorder/1.3.2/css/colReorder.dataTables.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
+
 
   <title>All Bug</title>
     <% include ../partials/head %>
@@ -24,15 +28,21 @@
 #grp-btn:hover{
   background:#f05f40 !important;
 }
+.modified-date-hidden, td:last-child,td.child ul li:last-child{
+  display: none;
+}
+td.child{
+  display: table-cell;
+}
 .submit-with-icon {
   background: transparent;
     border: 0px;
     padding: 0;
     outline: 0;
 }
-.dataTables_paginate span a:last-of-type{
+/*.dataTables_paginate span a:last-of-type{
   display: none !important;
-}
+}*/
 
 
   #headMenu{
@@ -115,7 +125,7 @@
 
 
 <div class="container" style="margin:0">
-<div class="row"> 
+<!-- <div class="row"> 
 
  
       <div class="col-lg-12" align="center">
@@ -142,11 +152,11 @@
  </div>
  <a href="javascript:showhide('advanceSearch')" > Advanced Search 
 </a>
- <!--  <button type="submit" onclick="filteron()" class="submit-with-icon"><span class="glyphicon glyphicon-search" onclick="submit" value="filter"></span></button>
-   <button class="submit-with-icon" onclick="filteron()"></button> -->
+   <button type="submit" onclick="filteron()" class="submit-with-icon"><span class="glyphicon glyphicon-search" onclick="submit" value="filter"></span></button>
+   <button class="submit-with-icon" onclick="filteron()"></button> 
 </div> 
 </div>
-</div>
+</div> -->
 </div>
 
 <script>
@@ -165,6 +175,7 @@ $('ul.dropdown-menu li a').on('click', function (event) {
         column.visible( ! column.visible() );
     } );
 window.onload = function() {
+  $('input:radio[value="in"]').prop("checked", true)
     $("#advanceSearch select,#advanceSearch input[type='radio'],#advanceSearch input[name='createdate'],#advanceSearch input[name='closedate']").change(function(){
        otable.ajax.reload();
      });
@@ -195,31 +206,63 @@ window.onload = function() {
 
 
 </div>
+<div class="row"> 
+
+ 
+      <div class="col-lg-12" align="center">
+      <div style="display:inline;position:relative">
+     <!-- <div class="button-group" style="display:inline;margin:0;float:none;">
+        <button id="grp-btn" type="button" class="multiselect dropdown-toggle btn btn-link" data-toggle="dropdown"><span class=class="btn btn-danger"></span> <span class="caret"></span><img style="margin-left:4px"src="images/hide.png" alt="hide" width="20" height="20" title="Hide columns"></button>
+<ul class="dropdown-menu" style="max-height: 244px;overflow: scroll; margin-top:10px">
+
+  <li><a href="#" class="toggle-vis" data-column="1" tabIndex="-1"><input type="checkbox" class="colhide"  id="checkboxid1" data="1" />&nbsp;Bug ID</a></li>
+  <li><a href="#" class="toggle-vis" data-column="2" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid2" data="2"  />&nbsp;Title</a></li>
+  <li><a href="#" class="toggle-vis" data-column="3" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid3" data="3"/>&nbsp;Project</a></li>
+  <li><a href="#" class="toggle-vis" data-column="4" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid4" data="4"/>&nbsp;Status</a></li>
+   <li><a href="#" class="toggle-vis" data-column="5" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid5"  data="5"/>&nbsp;Priority</a></li>
+  <li><a href="#" class="toggle-vis" data-column="6" tabIndex="-1"><input type="checkbox"  class="colhide"id="checkboxid6" data="6"/>&nbsp;Severity</a></li>
+  <li><a href="#" class="toggle-vis" data-column="7" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid7" data="7"/>&nbsp;Technology</a></li>
+   <li><a href="#" class="toggle-vis" data-column="8" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid8" data="8"/>&nbsp;Esti. Effort</a></li>
+  <li><a href="#" class="toggle-vis" data-column="9" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid9" data="9"/>&nbsp;Actual Effort</a></li>
+  <li><a href="#" class="toggle-vis" data-column="10" tabIndex="-1"><input type="checkbox"  class="colhide" id="checkboxid10" data="10"/>&nbsp;Assinged To</a></li>
+   <li><a href="#" class="toggle-vis" data-column="11" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid11" data="11"/>&nbsp;Created Date</a></li>
+  <li><a href="#" class="toggle-vis" data-column="12" tabIndex="-1"><input type="checkbox" class="colhide" id="checkboxid12" data="12"/>&nbsp;Closure Date</a></li>
+
+</ul>
+
+ </div> -->
+ <a href="javascript:showhide('advanceSearch')" > Advanced Search 
+</a>
+ <!--  <button type="submit" onclick="filteron()" class="submit-with-icon"><span class="glyphicon glyphicon-search" onclick="submit" value="filter"></span></button>
+   <button class="submit-with-icon" onclick="filteron()"></button> -->
+</div> 
+</div>
+</div>
 <!-- <%= JSON.stringify(bug) %>
  -->
         
        <!-- 
   <input type="submit" value="filter" style="color: black;"> -->
       <input class="hide" id="allSelected" name="showSelect">
-            <table id="data_table" class="table-striped table-bordered"   cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
+            <table id="data_table" class=" responsive nowrap table-striped table-bordered"   cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
                 <thead>
                 <tr>
 
                     <th>S.No. </th>
                     
                    <th>Bug ID</th>
-                      <!-- <th id='column-header-1'>Column Header 1<div id='column-header-1-sizer'></div></th> -->
-                    <th id='column-header-1'>Title<div id='column-header-1-sizer'></div></th>
-                    <th id='column-header-2'>Project<div id='column-header-2-sizer'></div></th>
-                    <th id='column-header-3'>Status<div id='column-header-3-sizer'></div></th>
-                    <th id='column-header-4'>Priority<div id='column-header-4-sizer'></div></th>
-                    <th id='column-header-5'>Severity<div id='column-header-5-sizer'></div></th>
-                    <th id='column-header-6'>Technology<div id='column-header-6-sizer'></div></th>
-                    <th id='column-header-7'>Esti. Effort<div id='column-header-7-sizer'></div></th>
-                    <th id='column-header-8'>Actual Effort<div id='column-header-8-sizer'></div></th>
-                    <th id='column-header-9'>Assinged To<div id='column-header-9-sizer'></div></th>
-                    <th id='column-header-10'>Created Date<div id='column-header-10-sizer'></div></th>
-                    <th id='column-header-11'>Closure Date<div id='column-header-11-sizer'></div></th>
+                    <th id='column-header-1' >Title<div id='column-header-1-sizer'></div></th>
+                    <th id='column-header-2' >Project<div id='column-header-2-sizer'></div></th>
+                    <th id='column-header-3' >Status<div id='column-header-3-sizer'></div></th>
+                    <th id='column-header-4' >Priority<div id='column-header-4-sizer'></div></th>
+                    <th id='column-header-5' >Severity<div id='column-header-5-sizer'></div></th>
+                    <th id='column-header-6' >Technology<div id='column-header-6-sizer'></div></th>
+                    <th id='column-header-7' >Esti. Effort<div id='column-header-7-sizer'></div></th>
+                    <th id='column-header-8' >Actual Effort<div id='column-header-8-sizer'></div></th>
+                    <th id='column-header-9' >Assinged To<div id='column-header-9-sizer'></div></th>
+                    <th id='column-header-10' >Created Date<div id='column-header-10-sizer'></div></th>
+                    <th id='column-header-11' >Closure Date<div id='column-header-11-sizer'></div></th>
+                    <th class="modified-date-hidden" id='column-header-11' >Last modified Date<div id='column-header-11-sizer'></div></th>
               </tr>
                  
                   
@@ -229,7 +272,7 @@ window.onload = function() {
                   
                     <td>
                      
-            </div>
+             <!-- </div>  -->
                     <input type="text" name="bugId" style="border:none;width: 77px;color: black;margin-left: -11px;height: 18px;margin-top: 23px;"></td>
                     <td>
                     
@@ -307,7 +350,7 @@ window.onload = function() {
                     <input type="text" style="border:none;width: 77px;color: black;margin-top: 23px;" id="createdDate" name="createdate"></td>
                     <td>
                     <input type="text" style="border:none;width: 77px;color: black;margin-top: 23px;" id="closureDate" name="closedate"></td>
-                    
+                    <td></td>
 
                 </tr>
                   
@@ -492,10 +535,11 @@ window.onload = function() {
 
   <%include ../partials/footer.ejs%>
 
- 
+ <script src="https://cdn.datatables.net/colreorder/1.3.2/js/dataTables.colReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script> 
  <script> 
-
- 
 
 
         $('body').on('focus',".select-vbug11", function(){
@@ -627,10 +671,18 @@ $('#hideColumnsId').tagger({
                 { "data": "assingedToUserId" },
                 { "data": "startdate"},
                 { "data": "enddate" },
+                { "data": "lastModifiedDate" },
                 ],
+                "order": [[13, "desc"]],
                 "info":false,
-                "bSort":false,
                 "autoWidth": true,
+                "bSortCellsTop":true,
+                responsive: true,
+                dom: 'Bfrtip',
+                colReorder: true,
+                buttons: [
+                    'colvis'
+                ],
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
                 "processing": true,
                 "serverSide": true,
@@ -639,7 +691,7 @@ $('#hideColumnsId').tagger({
                     $("#bugDetails tr").click(function() {
                         var serial_number = $(this).children("td").first().text();
                         var bug_id = $(this).find("td").eq(1).text();
-                        console.log(bug_id,serial_number);
+                        // console.log(bug_id,serial_number);
                         showdetails(bug_id,serial_number -1);
                     });
                     $('.next').removeClass("disabled");
@@ -680,7 +732,7 @@ $('#hideColumnsId').tagger({
                               var tempUserid = (<%-JSON.stringify(userid)%>) ? (<%-JSON.stringify(userid)%>):'' ;
                               var tempRoleid = (<%-JSON.stringify(roleid)%>) ? (<%-JSON.stringify(roleid)%>):'' ;
                               if(tempStatus[i].description1 == 'Close' && (  row.createdBy ==tempUserid || tempRoleid==1)){
-                                console.log("for close");
+                                // console.log("for close");
                                 if(data == tempStatus[i].id){
                                   tempOptions = tempOptions +'<option value="'+tempStatus[i].id+'" selected>'+tempStatus[i].description1+'</option>';
                                 }
@@ -996,11 +1048,11 @@ $("input:checkbox").click(function(){
       url: '/bugDetails',
       method: 'post',
       success: function(data) {
-      console.log("bug info:",data);   
+      // console.log("bug info:",data);   
         $('#title').html($("<label>"+data[0][0].bugTitle+"</label>"));
         $('#linkedTo').val(data[0][0].linkedTask);
         $('#asdf').text(data[0][0].createdByName);
-        console.log('name',data[0][0].createdByName);
+        // console.log('name',data[0][0].createdByName);
 
         tinyMCE.activeEditor.setContent(data[0][0].bugDescription);
         /*if(!data[0][0].enddate){

@@ -985,6 +985,9 @@ console.log("ewdxc****************************",req.body);
     var acteffort=req.body.acteffort;
     var crtdate=req.body.createdate;
     var closedate=req.body.closedate;
+    var searchString = req.body['search[value]'];
+    var tempsortIndex = parseInt(req.body['order[0][column]']);
+    var sortString = req.body['columns['+tempsortIndex+'][data]'] +" "+req.body['order[0][dir]'];
 //jayyy end
 
 
@@ -1100,9 +1103,7 @@ project=project?project:'';
         });
         project=tempproject;
     }
-console.log(req.body.search,'ddddddddddddddsssss')
-
-        modelPortal.filterBug(req,res,req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId,req.body.start,req.body.length,req.body['search[value]'], function(errorActivity,resultFilterBug) {
+        modelPortal.filterBug(req,res,req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId,req.body.start,req.body.length,searchString,sortString, function(errorActivity,resultFilterBug) {
               if (errorActivity) {
                
                  next(errorActivity);
