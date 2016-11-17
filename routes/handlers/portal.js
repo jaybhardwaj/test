@@ -1132,8 +1132,6 @@ project=project?project:'';
         });
         project=tempproject;
     }
-
-
         modelPortal.filterBug(req,res,req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId,req.body.start,req.body.length,searchString,sortString, function(errorActivity,resultFilterBug) {
               if (errorActivity) {
                
@@ -1982,18 +1980,24 @@ Docmaster:function(req,res,next){
      },
 
      projectStatus: function(req, res, next) {
-          
-           modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,
+            //var tmpvar = parseInt(req.body['order[0][column]']);
+           var sortstr=req.body['columns['+parseInt(req.body['order[0][column]'])+'][data]'] + ' ' + req.body['order[0][dir]'] ;
+          // var sortstr2= req.body['order[0][dir]']
+           console.log(req.body,"swapnil");
+           console.log(sortstr,"jaimatadi");
+           modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body['search[value]'],sortstr,
             function(err, result) {
 
              if (err) {
+                console.log("error occured");
                  next(err);
              } else {
-
+console.log("noerror",result);
         var tempobj = JSON.stringify(result[0]);
+                 console.log('dddddddd',tempobj)
           var desiredObj = JSON.parse(tempobj);
-         
-            res.json({"data":desiredObj});
+         console.log('aaa',desiredObj)
+            res.send({"data":desiredObj});
 
 
                      // res.json(result);

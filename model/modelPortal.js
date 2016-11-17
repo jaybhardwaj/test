@@ -407,7 +407,7 @@ exportBug: function(userId, roleId,retailerid, callback){
             values: [userId, roleId,retailerid]
         };
         mysql(query, function(err, result) {
-  //console.log(query);
+  console.log(query);
             callback(err, result);
         });
     },
@@ -554,7 +554,6 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
            else{
                 var tempobj = JSON.stringify(result[7]);
                 var desiredObj = JSON.parse(tempobj);
-                // console.log(desiredObj,'bhola');
                 res.json({"sEcho": parseInt(req.body.draw),
     "iTotalRecords": desiredObj[0].totalRecord,
     "iTotalDisplayRecords": desiredObj[0].totalRecord,
@@ -809,13 +808,20 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         });
     },
 
-    projectStatus: function(status,userId,roleId,retailerId, callback) {
+    projectStatus: function(status,userId,roleId,retailerId,start,length,search,sortstr,callback) {
         var query = {
-            sql: 'call usp_projectStatus(?,?,?,?)',
-            values: [status,userId,roleId,retailerId]
+            sql: 'call usp_projectStatus(?,?,?,?,?,?,?,?)',
+            values: [status,userId,roleId,retailerId,start,length,search,sortstr]
         };
+        console.log("query-dddd---",query);
         mysql(query, function(err, result) {
-            callback(err, result);
+            console.log("zzzzzproject details ion modal portaal----------",result);
+            if(err){
+                console.log("sorry");
+                // callback(err);
+           }
+
+             callback(err, result);
         });
     },
 
@@ -856,21 +862,27 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
         });
     },
 
-    getWbsDetails: function(userId,roleId,retailerId, callback) {
-        var query = {
-            sql: 'call usp_getAllWbs(?,?,?)',
-            values: [userId,roleId,retailerId]
-        };
-        //console.log(query);
-        mysql(query, function(err, result) {
-            callback(err, result);
-        });
-    },
+    // getWbsDetails: function(userId,roleId,retailerId, callback) {
+    //     var query = {
+    //         sql: 'call usp_getAllWbs(?,?,?)',
+    //         values: [userId,roleId,retailerId]
+    //     };
+    //     //console.log(query);
+    //     mysql(query, function(err, result) {
 
-    wbsStatus: function(status,userId,roleId,retailerId, callback) {
+    //         var tempobj = JSON.stringify(result[0]);
+    //       var desiredObj = JSON.parse(tempobj);
+    //     console.log(err, desiredObj,'swap');
+    //         // res.send({"data":desiredObj});
+
+    //         callback(err, result);
+    //     });
+    // },
+
+    wbsStatus: function(status,userId,roleId,retailerId,start,length, callback) {
         var query = {
-            sql: 'call usp_wbsStatus(?,?,?,?)',
-            values: [status,userId,roleId,retailerId]
+            sql: 'call usp_wbsStatus(?,?,?,?,?,?)',
+            values: [status,userId,roleId,retailerId,start,length]
         };
         mysql(query, function(err, result) {
             callback(err, result);
