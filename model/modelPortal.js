@@ -300,60 +300,26 @@ exportToCsv: function(type,status,userId, roleId,retailerid, callback){
         });
     },
 //---------------------------------report------------------/
-reportpro:function(userId,retailerId,callback){
-        var query ={
+// reportpro:function(userId,retailerId,callback){
+//         var query ={
+//                 sql: 'call usp_timesheetReportData(?,?)',
+//                 values :[ userId,retailerId]
+//           };
+//         mysql(query, function(err, result){
+//             callback(err, result);
+//         });
+
+// },
+
+
+timesheetdragreport:function(retailerId,str,callback){
+    var query ={
                 sql: 'call usp_timesheetReportData(?,?)',
-                values :[ userId,retailerId]
+                values :[ retailerId,str]
           };
         mysql(query, function(err, result){
             callback(err, result);
         });
-
-},
-
-
-timesheetdragreport:function(userId,retailerId,wbs,project,date,fort,callback){
-    if(date==0){
-        var query ={
-                sql: 'call usp_timesheetReportData(?,?)',
-                values :[ userId,retailerId]
-          };
-      }
-     else if((date==1)&&(fort==0)){
-        var query ={
-                sql: 'call usp_timesheetReportDatagroupbyfortNightDate(?,?)',
-                values :[ userId,retailerId]
-          };
-      }
-      else  if((date==1)&&(fort==1)&&(wbs==0)){
-        var query ={
-                sql: 'call usp_timesheetReportDatagroupbywbs(?,?)',
-                values :[ userId,retailerId]
-          };
-      }
-     else if((date==1)&&(fort==1)&&(wbs==1)&&(project==0)){
-        var query ={
-                sql: 'call usp_timesheetReportDatagroupbyproject(?,?)',
-                values :[ userId,retailerId]
-          };
-      }
-
-       else if((date==1)&&(fort==1)&&(wbs==1)&&(project==1)){
-        var query ={
-                sql: 'call usp_timesheetReportDatagroupbycode(?,?)',
-                values :[ userId,retailerId]
-          };
-      }
-      else{
-         var query ={
-                sql: 'call usp_timesheetReportData(?,?)',
-                values :[ userId,retailerId]
-          };
-      }
-        mysql(query, function(err, result){
-            callback(err, result);
-        });
-
 },
 
 FilterDataForSelect:function(id,callback){

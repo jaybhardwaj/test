@@ -190,28 +190,52 @@ var locationId = [],
          });
      },
 
-reportpro: function(req, res, next) {               
-      var date ="2016-09-15 00:00:00"
-        modelPortal.reportpro(req.session.retailerId,date,function(error,result) {  
-              if (error) {
-                 next(error);
-                 return;
-             }
-            req.resultProfile=result;
-            next();
-              });
-    },
+// reportpro: function(req, res, next) {               
+//       var date ="2016-09-15 00:00:00"
+//         modelPortal.reportpro(req.session.retailerId,date,function(error,result) {  
+//               if (error) {
+//                  next(error);
+//                  return;
+//              }
+//             req.resultProfile=result;
+//             next();
+//               });
+//     },
 
 
     timesheetdragreport: function(req, res, next) {
-       console.log("hffsahgsfastimesheetrepot",req.body);             
-      var date ="2016-09-15 00:00:00"
-        modelPortal.timesheetdragreport(req.session.retailerId,date,req.body.wbs,req.body.project,req.body.date,req.body.fordate,function(error,result) {  
-              if (error) {
+        console.log(req.body,'amit');
+        var tempStr = [];
+        if(req.body.isWbsName =="true"){
+            tempStr.push("wbs");
+        }
+        if(req.body.isprojectName =="true"){
+            tempStr.push("project");
+        }
+        if(req.body.isfortNightDate =="true"){
+            tempStr.push("fortnight");
+        }
+        if(req.body.isDATEs =="true"){
+            tempStr.push("dateon");
+        }
+        if(req.body.isyearmonth =="true"){
+            tempStr.push("ymonth");
+        }
+        tempStr = tempStr.toString();
+        modelPortal.timesheetdragreport(req.session.retailerId,tempStr,function(error,result) {  
+              
+            if (error) {
                  next(error);
                  return;
-             }
-            res.json(result);
+            }
+            var tempobj = JSON.stringify(result[0]);
+            var desiredObj = JSON.parse(tempobj);
+            if(desiredObj[0]){
+                desiredObj[0].project = JSON.parse(JSON.stringify(result[2]));
+                desiredObj[0].wbs = JSON.parse(JSON.stringify(result[1]));
+                desiredObj[0].monthyear = JSON.parse(JSON.stringify(result[3]));
+            }
+            res.json({"data":desiredObj});
            
               });
     },
@@ -986,9 +1010,14 @@ console.log("ewdxc****************************",req.body);
     var crtdate=req.body.createdate;
     var closedate=req.body.closedate;
     var searchString = req.body['search[value]'];
-    var tempsortIndex = parseInt(req.body['order[0][column]']);
-    var sortString = req.body['columns['+tempsortIndex+'][data]'] +" "+req.body['order[0][dir]'];
-    console.log("swapnil",sortString);
+
+    if(req.body['order[0][column]']){
+        var tempsortIndex = parseInt(req.body['order[0][column]']);
+        var sortString = req.body['columns['+tempsortIndex+'][data]'] +" "+req.body['order[0][dir]'];
+    }
+    else{
+        var sortString = 'lastModifiedDate desc';
+    }
 //jayyy end
 
 

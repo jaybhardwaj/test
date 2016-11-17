@@ -1,3 +1,4 @@
+debugger;
 var varForMakingLocalVarGlobalForTimer ;
 var thisDateBeforeSelect = '';
 var workingHoursInADay = 9;
@@ -914,7 +915,7 @@ if(somethingZeroFlag)      { somethingUpdated = 0;}
 
 
 
-debugger;
+//debugger;
     if (joinFlag) {
         for (var i = 0; i < updateArr.length; i++) {
             updateArr[i] = updateArr[i].join('$@$');
@@ -955,7 +956,6 @@ if($('#collaborateId').val()!=null){
  collaborate  = $('#collaborateId').val().join();
 }
 //debugger;
- debugger;
     $.ajax({
         url: '/saveTask',
         type: 'post',
@@ -1920,7 +1920,7 @@ addcolHideClassOnTagger();
             var nextEle = $(this).next()[0];
             var newId   = $(nextEle).attr("id");
               someThingUpdated = 1;
-              debugger;
+            //  debugger;
          changedEleFunc(newId,9);
 
               showSaveSubmit();
@@ -2285,14 +2285,18 @@ $('#sendMailTo').tagger({
       , indentMultiplier: 2, baseURL: './img/'
        , placeholder: 'send mail to'
       });
-
+ $($("#sendMailTo").next()[0]).addClass("hide");
+debugger;
 $('#collaborateId').tagger({
         "fieldWidth":"20em", 
         displayHierarchy: false
       , indentMultiplier: 2, baseURL: './img/'
        , placeholder: 'Collaborate with',
+       display:'none'
 
-      })
+      });
+ $($("#collaborateId").next()[0]).addClass("hide");
+debugger;
 
 $('#hideColumnsId').tagger({
         "fieldWidth":"20em", 
@@ -2302,7 +2306,7 @@ $('#hideColumnsId').tagger({
 
       });
 
-
+ $($("#hideColumnsId").next()[0]).addClass("hide");
 setTimeout(function(){
 
 $('.mailClass input').removeAttr('disabled').removeClass('disablePointer');
@@ -2322,7 +2326,7 @@ $('.collaborateClass input').removeAttr('disabled').removeClass('disablePointer'
 
 $('.datePickerFilter').on("keyup", datePickerFilterFunction);
 $('#dueDate').change(dueDateFunction);
- debugger;
+ //debugger;
  for(var j =0;j<newChangedEleArrFromDb.length;j++){
 var individualIdthis = newChangedEleArrFromDb[j][0];
 var parentThis;
@@ -2341,7 +2345,7 @@ for (var i = 0; i <= ultimateEndId; i++) {
         $(ele).addClass("changedEleClassCss");
         $(newEle1).addClass("changedEleClassCss");
         $(newEle2).addClass("changedEleClassCss");
-        debugger;
+       // debugger;
  }
 
 }
@@ -3744,7 +3748,7 @@ function sendProjExcelTo(){
     else{
          $('.tagger').addClass('hide');
          $("#sendmailId , #collButtonId").css('cssText','display:none!important');
-         debugger;
+       //  debugger;
 
         }
 
@@ -3822,7 +3826,7 @@ var trArr = $("#tbody123 tr");
 for(var i =0;i<trArr.length;i++){
 $($(trArr[i]).children("td")[childId]).addClass("hide");
 }
-debugger;
+//debugger;
 }
 
 function UnhideAll(childId){
@@ -3832,7 +3836,7 @@ var trArr = $("#tbody123 tr");
 for(var i =0;i<trArr.length;i++){
 $($(trArr[i]).children("td")[childId]).removeClass("hide");
 }
-debugger;
+//debugger;
 }
 
 
@@ -3943,7 +3947,7 @@ var tdlVal = $(this).val();
    else{
      $($(this).prev()[0]).css("padding-left","0px");
    }
-    debugger;
+   // debugger;
         
 updateAllArr(tdEle, 1);
 
@@ -4050,12 +4054,13 @@ var value  = idThis.split('_');
 var individualId = value[0];
 idThis = '#' +idThis;
 
-var str = '<tr class = "commentTr"><td colspan="16"><textarea class = "commentTextArea" placeholder = "Enter Comment Here ..." autofocus></textarea></td></tr>'
+var str = '<tr class = "commentTr"><td colspan="13"><textarea class = "commentTextArea" placeholder = "Enter Comment Here ..."  autofocus></textarea></td></tr>'
 $(idThis).after(str);
 sleepFunctionForStoppingTime(200);
 nextTr = $(thisTr).next()[0];
 createNewCommentRows(individualId,nextTr);
 $('.commentTextArea').keypress(commentTextAreaFunction);
+$('.commentTextArea').focus();
 //if(allCommentsArr[individualId]
 
 //debugger;
