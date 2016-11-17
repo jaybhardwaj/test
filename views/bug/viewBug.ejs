@@ -6,7 +6,7 @@
     <link href="https://cdn.datatables.net/colreorder/1.3.2/css/colReorder.dataTables.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
 
   <title>All Bug</title>
     <% include ../partials/head %>
@@ -31,6 +31,7 @@
 .modified-date-hidden, td:last-child,td.child ul li:last-child{
   display: none;
 }
+
 td.child{
   display: table-cell;
 }
@@ -538,7 +539,10 @@ window.onload = function() {
  <script src="https://cdn.datatables.net/colreorder/1.3.2/js/dataTables.colReorder.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script> 
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script> 
  <script> 
 
 
@@ -1189,8 +1193,17 @@ if(type=='effectiveEndDate')
       return;
 }
 
-      if ( e.value == null || e.value == ""|| e.value.trim().length < 1) {
-        alert("Please enter a valid title for bug!"); 
+      if (type=='bugTitle' && (e.value == null || e.value == ""|| e.value.trim().length < 1)) {
+        console.log(type,'hh')
+        // alert("Please enter a valid title for bug!");
+        toastr.options={
+          "closeButton": true,
+          "timeOut": "3000",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut",
+          "opacity": 1
+        };
+        toastr.error('Please enter a valid title for bug!'); 
         $('#bugtitle'+id).val($('#hiddentitle'+id).val());
       } else 
       { 
