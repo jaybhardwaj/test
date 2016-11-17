@@ -1,0 +1,302 @@
+<% include ./partials/head %>
+<% include ./partials/adminheader %>
+<link href="https://cdn.datatables.net/colreorder/1.3.2/css/colReorder.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
+<style>
+.dt-buttons a.buttons-columnVisibility:before,
+.dt-buttons a.buttons-columnVisibility.active span:before {
+    display:block;
+    position:absolute;
+    top:1.2em;
+    left:0;
+    width:12px;
+    height:12px;
+    box-sizing:border-box;
+}
+
+.dt-buttons a.buttons-columnVisibility:before {
+    content:' ';
+    margin-top:-6px;
+    margin-left:10px;
+    border:1px solid black;
+    border-radius:3px;
+}
+
+.dt-buttons a.buttons-columnVisibility.active span:before {
+    content:'\2714';
+    margin-top:-11px;
+    margin-left:12px;
+    text-align:center;
+    text-shadow:1px 1px #DDD, -1px -1px #DDD, 1px -1px #DDD, -1px 1px #DDD;
+}
+
+.dt-buttons a.buttons-columnVisibility span {
+    margin-left:20px;    
+}
+.buttons-columnVisibility{
+    margin-bottom: 10px;
+}
+
+.dt-buttons {
+    border: 2px groove threedface;
+    border-top: none;
+    padding: 0.5em;
+    margin: 1em 2px;
+}
+.dt-buttons > h1 {
+    font: 1em normal;
+    margin: -1em -0.5em 0;
+}   
+.dt-buttons > h1 > span {
+    float: left;
+}
+    .dt-buttons > h1:before {
+        border-top: 2px groove threedface;
+        content: ' ';
+        float: left;
+        margin: 0.5em 2px 0 -1px;
+        width: 0.75em;
+    }
+    .dt-buttons > h1:after {
+        border-top: 2px groove threedface;
+        content: ' ';
+        display: block;
+        height: 1.5em;
+        left: 2px;
+        margin: 0 1px 0 0;
+        overflow: hidden;
+        position: relative;
+        top: 0.5em;
+    }
+    #filterrow th{
+        padding: 7px;
+    }
+    #filterrow .form-control{
+        height: 30px;
+    }
+
+    /* enable absolute positioning */
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align glyph */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;color:#999;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+</style>
+<div class="se-pre-con"></div>
+<div class="container" style="padding:15px">
+    <table class=" table-striped display nowrap  table-hover table table-bordered" id="reportTable">
+        <thead>
+            <tr>
+                <!-- <th   id="0" jsp="0">S.No.</th> -->
+                <th>Employee Name</th>
+                <th>Employee Code</th>
+                <th>Wbs Name</th>
+                <th>Project Name</th>
+                <th>Hours</th>
+                <th>ThumbHours</th>
+                <th>Date</th>
+                <th>FortNight Date</th>
+                <th>Billable</th>
+                <th>Year-Month</th>
+            </tr>
+            <tr id="filterrow">
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="employeeName" type="text" class="form-control" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="employeecode" type="text" class="form-control" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <select id="WbsName" class="form-control"></select>
+                </th>
+                <th>
+                    <!-- <div class="inner-addon right-addon"> -->
+                      <!-- <i class="glyphicon glyphicon-search"></i> -->
+                         <!--  <input id="projectName" type="text" class="form-control" placeholder="Search" /> -->
+                        <select id="projectName" class="form-control"></select>
+                    <!-- </div> -->
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="hours" type="text" class="form-control" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="Thumbhours" type="text" class="form-control" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="date" type="text" class="form-control datepicker" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="fortNightDate" type="text" class="form-control datepicker" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="billable" type="text" class="form-control" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <select id="yearmonth" class="form-control"></select>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="reportBody">
+        </tbody>
+    </table>
+</div>
+<footer>
+    <% include ./partials/footer %>
+</footer>
+<script src="https://cdn.datatables.net/colreorder/1.3.2/js/dataTables.colReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script> 
+<script type="text/javascript">
+    $(document).ready(function() {
+    reportTable = $("#reportTable").DataTable({
+          "ajax": {
+              url: '/timesheetdragreport',
+              type: "POST",
+              "data": function ( d ) {
+                  d.isemployeeName = $('#reportTable th:contains("Employee Name")')[0]?true:false;
+                  d.isemployeecode = $('#reportTable th:contains("Employee Code")')[0]?true:false;
+                  d.isWbsName = $('#reportTable th:contains("Wbs Name")')[0]?true:false;
+                  d.isprojectName = $('#reportTable th:contains("Project Name")')[0]?true:false;
+                  d.ishours = $('#reportTable th:contains("Hours")').html()=="Hours";
+                  d.isThumbhours = $('#reportTable th:contains("ThumbHours")')[0]?true:false;
+                  d.isDATEs = $('#reportTable th:contains("Date")').html()=="Date";
+                  d.isfortNightDate = $('#reportTable th:contains("FortNight Date")')[0]?true:false;
+                  d.isbillable = $('#reportTable th:contains("Billable")')[0]?true:false;
+                  d.isyearmonth = $('#reportTable th:contains("Year-Month")')[0]?true:false;
+
+                  d.employeeName = $('input#employeeName').val();
+                  d.employeecode = $('input#employeecode').val();
+                  d.WbsName = $('input#WbsName').val();
+                  d.projectName = $('input#projectName').val();
+                  d.hours = $('input#hours').val();
+                  d.Thumbhours = $('input#Thumbhours').val();
+                  d.DATEs = $('input#date').val();
+                  d.fortNightDate = $('input#fortNightDate').val();
+                  d.billable = $('input#billable').val();
+                  d.yearmonth = $('input#yearmonth').val();
+
+              }
+          },
+          "columns": [
+          // { "data": "Sno" },
+          { "data": "employeeName" },
+          { "data": "employeecode" },
+          { "data": "WbsName"},
+          { "data": "projectName" },
+          { "data": "hours" },
+          { "data": "Thumbhours" },
+          { "data": "DATEs"},
+          { "data": "fortNightDate" },
+          { "data": "billable" },
+          { "data": "yearmonth" },
+          ],
+          "columnDefs": [  
+              {
+                "targets": 8,
+                "render": function(data,type,row){
+                    if(data ==1){
+                      return 'YES';
+                    }
+                    else{
+                      return 'NO';
+                    }
+                }
+              }
+          ],
+          "info":false,
+          "autoWidth": true,
+          "bSortCellsTop":true,
+          responsive: true,
+          dom: 'Bfrtip',
+          colReorder: true,
+          buttons: [
+              // 'colvis'
+              'columnsToggle'
+          ],
+          "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+          "processing": true,
+          "serverSide": true,
+          "fnDrawCallback": function (oSettings) {
+            console.log(oSettings)
+                var projectArr = oSettings.aoData[0]._aData.project;
+                var wbsArr = oSettings.aoData[0]._aData.wbs;
+                var monthyrArr = oSettings.aoData[0]._aData.monthyear;
+
+                var projectOptions ='';
+                var wbsOptions ='';
+                var monthyrOptions ='';
+                projectArr.forEach(function(element) {
+                    projectOptions += '<option>'+element.projectName+'</option>';
+                });
+                wbsArr.forEach(function(element) {
+                    wbsOptions += '<option>'+element.WbsName+'</option>';
+                });
+                monthyrArr.forEach(function(element) {
+                    monthyrOptions += '<option>'+element.yearmonth+'</option>';
+                });
+                $('#projectName').append(projectOptions);
+                $('#WbsName').append(wbsOptions);
+                $('#yearmonth').append(monthyrOptions);
+                // Apply the filter
+                $("#filterrow input[type='text']").on( 'blur', function () {
+                    console.log('amit');
+                });
+                $("#filterrow select").on( 'change', function () {
+                    console.log('amit');
+                });
+
+                $('.se-pre-con').hide();
+                $(document).on('click', '.buttons-columnVisibility', function(event) {
+                    event.stopImmediatePropagation();
+                    reportTable.ajax.reload();
+                });
+                $('.dt-buttons').find('h1').first().remove();
+                $('.dt-buttons').prepend('<h1><span>Column Visibility</span></h1>');
+          },
+
+      }); 
+    });
+    // var todate=new Date();
+    $(".datepicker").datetimepicker({
+         timepicker: false,
+        format: 'm/d/y',
+        // minDate:todate
+    });
+</script>

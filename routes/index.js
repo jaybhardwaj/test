@@ -49,26 +49,12 @@ app.post('/blockUser',portal.blockUser);
   app.post('/retailerfordesboard',portal.retailerfordesboard); 
   /*report*/
      app.get('/reports',url.setDashboard,portal.profile,render.redirect);
-    app.get('/TimesheetReport',url.setDashboard1,portal.reportpro,render.redirect); 
+    app.get('/TimesheetReport',url.setDashboard1,render.redirect); 
      app.post('/timesheetdragreport',portal.timesheetdragreport); 
  app.post('/FilterDataForSelect',portal.FilterDataForSelect);
 app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
 
 	//------------------------BUG-------------------------------------------------
-	app.post('/getBugList',function(req,res){
-    var startPoint = parseInt(req.body.start);
-    var endPoint =   parseInt(req.body.length);
-    var query = {
-            sql: 'call usp_getBugList(?,?,?,?,?)',
-            values: [req.session.userId, req.session.roleId,req.session.retailerId,startPoint,endPoint]
-        };
-        mysql(query, function(err, result) {
-          var tempobj = JSON.stringify(result[0]);
-          var desiredObj = JSON.parse(tempobj);
-            res.send({"data":desiredObj});
-        });
-    
-  });
 	app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);
 	app.post('/getAllBugtoexport',portal.exportBug);
 	app.get('/viewBug',url.viewBug,portal.viewBug,render.redirect);
@@ -394,10 +380,8 @@ app.post('/createExcelProj',portal.createExcelProj);
 	// app.post('/projectStatus', );
 
   app.post('/getBugList',function(req,res){
-    // console.log(req.body,'amit');
     var startPoint = parseInt(req.body.start);
     var endPoint =   parseInt(req.body.length);
-    console.log(startPoint,endPoint,'amit');
     var query = {
             sql: 'call usp_getBugList(?,?,?,?,?)',
             values: [req.session.userId, req.session.roleId,req.session.retailerId,startPoint,endPoint]
