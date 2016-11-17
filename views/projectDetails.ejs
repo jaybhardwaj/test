@@ -4,9 +4,9 @@
 <head>
     <% include ./partials/head %>
 <style>
-.dataTables_filter{
+/*.dataTables_filter{
      display: none;
-    }
+    }*/
 .glyphicon-ok-circle{
   color:green!important;
  }
@@ -53,12 +53,12 @@ $('.se-pre-con').fadeOut('slow');
   });
 
 
-   $("#searchbox").keyup(function() {
+  /* $("#searchbox").keyup(function() {
         otable.fnFilter(this.value);
-      });
-$(window).bind('resize', function () {
+      });*/
+/*$(window).bind('resize', function () {
                 otable.fnAdjustColumnSizing();
-              } );
+              } );*/
 
   $('#pstatus11').change(function() {
             console.log($(this).val());
@@ -110,6 +110,7 @@ function formatDate(date) {
 
  function projectStatus(st){
   console.log('aaaa');
+  
     otable = $("#bugtable").DataTable({
                 "ajax": {
                     url: '/projectStatus',
@@ -128,8 +129,9 @@ function formatDate(date) {
                 { "data": "openbug" },
                 { "data": "closedbug"}
                 ],
+
                 "info":false,
-                "bSort":false,
+                // "bSort":false,
                 "autoWidth": true,
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
                   "processing": true,
@@ -784,20 +786,30 @@ function showAll()
                     <span id="download" class="glyphicon glyphicon-download" onclick="exportProject('project')" style="margin-left:300px;cursor: pointer;font-size:19px" title="Download Projects List" ></span>
 
 
-  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
-  </div>
+<!--   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
+ -->  </div>
    <div  class="row" style="max-width:103%;overflow-y:auto ">  
      <table class="table stripe cell-border hover" id="bugtable" style="width: 100%"  > 
                <thead> 
                <tr>
-                <th   >Project title</th>
-                <th   >Project Code</th>
-                <th   >Project Type</th>  
-                <th>Planned Start Date</th>
-                 <th>Planned End Date</th>
-                <th>Last Updated</th>
-                <th>Open Bugs</th>
-                <th>Closed Bugs</th>
+               <th  aria-label="Project title: activate to sort column ascending" rowspan="1" colspan="1" style="width: 99px;">Project title
+                  </th>
+               <th aria-label="Project Code: activate to sort column ascending" rowspan="1" colspan="1" style="width: 99px;">Project Code
+                  </th>
+                 <th  aria-label="Project Type: activate to sort column ascending" rowspan="1" colspan="1" style="width: 99px;">Project Type
+                  </th>
+               <th  aria-label="Planned Start Date: activate to sort column ascending" rowspan="1" colspan="1" style="width: 99px;">Planned Start Date
+                  </th>
+                 <th  aria-label="Planned End Date : activate to sort column ascending" rowspan="1" colspan="1" style="width: 99px;">Planned End Date 
+                  </th>
+               <th  aria-label="Last Updated: activate to sort column ascending" rowspan="1" colspan="1" style="width: 99px;">Last Updated
+                  </th>
+                 <th  aria-label="Open Bugs: activate to sort column ascending" rowspan="1" colspan="1" style="width: 99px;">Open Bugs
+                  </th>
+               <th  aria-label="Closed Bugs: activate to sort column ascending" rowspan="1" colspan="1" style="width: 99px;">Closed Bugs
+                  </th>
+
+            
                 <th      >Action</th>
                 </tr>   
                   </thead>

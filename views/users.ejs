@@ -69,26 +69,31 @@
     var otable='';
         $(document).ready(function() {
           $('.se-pre-con').fadeOut('slow');
-         otable=$('#usertable').dataTable({
-           'iDisplayLength': 10,
-           "ordering": false,
+
+
+
+       //  otable=$('#usertable').dataTable({
+         //  'iDisplayLength': 10,
+           //"ordering": false,
             //"order":[],
             // "aoColumns": [{ "bSortable": false },{ "bSortable": false }],
-            "bDestroy": true, 
-            "info":false,
+           // "bDestroy": true, 
+           // "info":false,
             /* "columnDefs": [ {
                         "targets": [0,1,2,3,4,5],
                         "orderable": false
                           } ]*/
-          });
+        //  });
    $("#searchbox").keyup(function() {
         otable.fnFilter(this.value);
       });
-$(window).bind('resize', function () {
-                otable.fnAdjustColumnSizing();
-              } );
+// $(window).bind('resize', function () {
+//                 otable.fnAdjustColumnSizing();
+//               } );
             $('.user-img').addClass('active');
-           userStatus();
+
+            var abc=$('#active').val();
+           userStatus(abc);
         });
 
         function addEditUser(flag) {
@@ -106,7 +111,9 @@ $(window).bind('resize', function () {
             document.body.removeChild(form);
         }
        
-                   
+
+
+                
         function actinact(uid,flag){
           
             var row_id="#row_"+uid;
@@ -163,7 +170,83 @@ $(window).bind('resize', function () {
         }
                 }
 
-function userStatus(){
+
+   
+
+
+
+ function userStatus(st){
+  console.log('aaaa');
+  
+   otable=$('#usertable').dataTable({"bDestroy": true,
+                "ajax": {
+                    url: '/userStatus',
+                    type: 'POST',
+                    data: function(d){
+                      d.status=$("#active").val();
+                    }
+                },
+               "columns": [
+                { "data": "Name"  },
+                { "data": "userEmail" },
+                { "data": "ecode" },
+                { "data": "contactNumber"},
+                { "data": "roleName" },
+                { "data": "managerName" }
+               ],
+                
+                "info":false,
+                // "bSort":false,
+                "autoWidth": true,
+                "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+                 "processing": true,
+                  "serverSide": true,
+                 // "deferLoading": 30,
+                "columnDefs": [ 
+
+                      {
+                       "targets":5,
+                       "render":function(data,type,row){
+                         if(row.managerName == ""||row.managerName==null)
+                          {mgrname=" No Concerned Manager";
+                         //console.log("no manaager Concerned");
+                     }
+                    else 
+                          mgrname=row.managerName;
+
+                      return mgrname;
+                       }
+                     },
+
+
+                     {
+                       "targets": 6,
+                        "render": function(data,type,row){
+                           var my_html;
+                           var act='<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span>';
+
+                var inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
+
+                           
+                            if (row.isActive) {
+                                my_html='<a onclick=addEditUser('+row.id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a onclick=confirmBox2("'+row.id+',0","actinact",1);>'+act+'</a>';
+                              }
+                            else if (row.isActive==0) {
+                                            my_html='<a onclick=confirmBox2("'+row.id+',1","actinact",2);>'+inact+'</a>';}
+                                    
+                           return my_html;
+                       }
+                     }
+
+                     
+ ]
+});
+}
+
+
+
+
+/*function userStatus(){
          $.ajax({
                 url: '/userStatus',
                 type: 'post',
@@ -192,21 +275,21 @@ function userStatus(){
                                 log+='<span style="color:green;height:10px" class="glyphicon  glyphicon-ban-circle"></span>';
                             }
                 }*/
-                otable.fnDestroy();
-                $('#pstatus').html(log);
-                otable=$('#usertable').dataTable({
-                     "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
-                    'iDisplayLength': 10,
-                    "ordering": false,
+              //  otable.fnDestroy();
+                //$('#pstatus').html(log);
+               // otable=$('#usertable').dataTable({
+                 //    "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
+                   // 'iDisplayLength': 10,
+                    //"ordering": false,
                    // "order":[]
                     /*"columnDefs": [ {
                         "targets": [0,1,2,3,4,5],
                         "orderable": false
                           } ]*/
-                });
-                }
-            });
-}
+             //   });
+               // }
+            //});
+//}*/
  
     </script>
 

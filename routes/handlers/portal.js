@@ -988,6 +988,7 @@ console.log("ewdxc****************************",req.body);
     var searchString = req.body['search[value]'];
     var tempsortIndex = parseInt(req.body['order[0][column]']);
     var sortString = req.body['columns['+tempsortIndex+'][data]'] +" "+req.body['order[0][dir]'];
+    console.log("swapnil",sortString);
 //jayyy end
 
 
@@ -1951,27 +1952,28 @@ Docmaster:function(req,res,next){
      },
 
      projectStatus: function(req, res, next) {
-            //var tmpvar = parseInt(req.body['order[0][column]']);
+          
            var sortstr=req.body['columns['+parseInt(req.body['order[0][column]'])+'][data]'] + ' ' + req.body['order[0][dir]'] ;
-          // var sortstr2= req.body['order[0][dir]']
-           console.log(req.body,"swapnil");
-           console.log(sortstr,"jaimatadi");
+
+          
            modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body['search[value]'],sortstr,
             function(err, result) {
 
              if (err) {
-                console.log("error occured");
+                
                  next(err);
              } else {
-console.log("noerror",result);
+
         var tempobj = JSON.stringify(result[0]);
-                 console.log('dddddddd',tempobj)
+               
           var desiredObj = JSON.parse(tempobj);
-         console.log('aaa',desiredObj)
-            res.send({"data":desiredObj});
+         
 
-
-                     // res.json(result);
+          res.json({"sEcho": parseInt(req.body.draw),
+    "iTotalRecords": desiredObj[0].totalRecord,
+    "iTotalDisplayRecords": desiredObj[0].totalRecord,
+    "aaData": desiredObj});
+          
              }
          });
      },
@@ -2058,25 +2060,7 @@ req.projectResults=result;
          });
      },
 
-// projectStatus: function(req, res, next) {
-          
-//            modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,
-//             function(err, result) {
 
-//              if (err) {
-//                  next(err);
-//              } else {
-
-//         var tempobj = JSON.stringify(result[0]);
-//           var desiredObj = JSON.parse(tempobj);
-  
-//             res.json({"data":desiredObj});
-
-
-//                      // res.json(result);
-//              }
-//          });
-//      },
 
      wbsDetails: function(req, res, next) {
          modelPortal.getWbsDetails(req.session.userId,req.session.roleId,req.session.retailerId,
@@ -3995,7 +3979,9 @@ updateHoliday: function(req,res,next){
                  next(err);
                  return;
              }
+             console.log("aaaaaaa",resultUsers);
              req.resultUsers = resultUsers;
+
              next();
          });
      },
@@ -4023,6 +4009,7 @@ updateHoliday: function(req,res,next){
                  return;
              }
              req.resultRoles = resultRoles;
+             console.log("eeee");
              next();
          });
      },
@@ -4044,6 +4031,7 @@ updateHoliday: function(req,res,next){
                  return;
              }
              req.resultCustomRoles = resultCustomRoles;
+             console.log("ggggg");
              next();
          });
      },
@@ -4131,15 +4119,29 @@ updateHoliday: function(req,res,next){
 
      
      userStatus: function(req, res, next) {
-          
-           modelPortal.userStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,
+
+ var sortstr=req.body['columns['+parseInt(req.body['order[0][column]'])+'][data]'] + ' ' + req.body['order[0][dir]'] ;
+
+           modelPortal.userStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body['search[value]'],sortstr,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
-
-                     res.json(result);
+        var tempobj = JSON.stringify(result[0]);
+          var desiredObj = JSON.parse(tempobj);
+         if(desiredObj[0]){
+            return res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": desiredObj[0].totalRecord,
+            "iTotalDisplayRecords": desiredObj[0].totalRecord,
+            "aaData": desiredObj});
+         }
+         else{
+          res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": 0,
+            "iTotalDisplayRecords": 0,
+            "aaData": desiredObj});
+        }      
              }
          });
      },
