@@ -4388,8 +4388,10 @@ uploadattendance: function(req, res, next) {
             next(err)
         }else{
 
+
             //////console.log('sssssssssssssssssssss----------',result[1]);
             if(result[1].length==0){
+                
                 result[1]=[{status:0}];
             }
 
@@ -4472,11 +4474,12 @@ uploadattendance: function(req, res, next) {
 
        if(req.body.status==3)
         {
-            var reason='Your timesheet has been  Approved.';
+            var reason='<h3 style="color:green">Your timesheet has been  Approved.</h3>';
         }
     else
        {
-        var reason='Your timesheet has been Rejected due to reason-'+req.body.appOrRejReason;
+        
+        var reason='<div style="text-align:left;line-height:14px;"><h3 style="color:red;margin-bottom:8px" >Your timesheet has been Rejected.</h3>\n <span style="display:block;font-size:12px ;font-weight:bold"> Reason: </span>\n <span style="display:block;font-size:12px;">'+req.body.appOrRejReason+'</span></div>';
     }
        mailTemplates.timesheetStatus('',req.body.userEmail,reason,function(error, resultMail) {
              if (error) {
