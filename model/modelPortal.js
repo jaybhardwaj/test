@@ -37,7 +37,6 @@ module.exports = {
             sql: 'call usp_getNotification(?,?,?,?,?,?,?,?)',
             values: [edit,notificationForApproveReject,type,notification,assignedTo,flag,userid, retailerid]
         };
-        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -77,10 +76,8 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             sql: 'call usp_checkPassword(?,?)',
             values: [emailId,flag]
         };
-        console.log('qqqqqqqqq',query1)
         mysql(query1, function(err, result) {
              console.log('errrrrrrrrrr',err)
-            console.log("ss----------- ",query1,result);
             callback(err, result);
         });
     },
@@ -127,7 +124,6 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             sql: 'call usp_retailerRegistration(?,?,?,?,?,?,?)',
             values: [companyName, emailId, password, firstName, lastName, contactNo, choosedModule]
         };
-       console.log(query);
         mysql(query, function(err, result) {
             //console.log(query,"-----error",err);
             callback(err, result);
@@ -149,14 +145,12 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
         });
     },
     submitUserPassword: function(pass,userid,roleid,retailerid, callback) {
-        console.log("firdsty step ",pass);
        
         var query = {
             sql: 'call usp_submitUserPassword(?,?,?,?)',
             values: [pass,userid,roleid,retailerid]
         };
         mysql(query, function(err, result) {
-           console.log("sec step ",query);
        
             callback(err, result);
         });
@@ -312,10 +306,10 @@ exportToCsv: function(type,status,userId, roleId,retailerid, callback){
 // },
 
 
-timesheetdragreport:function(retailerId,str,callback){
+timesheetdragreport:function(retailerId,str,startPoint,endPoint,searchString,sortString,employeeName,employeecode,WbsName,projectName,hours,Thumbhours,DATEs,fortNightDate,billable,yearmonth,callback){
     var query ={
-                sql: 'call usp_timesheetReportData(?,?)',
-                values :[ retailerId,str]
+                sql: 'call usp_timesheetReportData(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                values :[ retailerId,str,startPoint,endPoint,searchString,sortString,employeeName,employeecode,WbsName,projectName,hours,Thumbhours,DATEs,fortNightDate,billable,yearmonth]
           };
         mysql(query, function(err, result){
             callback(err, result);
@@ -327,7 +321,6 @@ FilterDataForSelect:function(id,callback){
         sql:'call usp_TimeSheetFilter(?)',
         values:[id]
     };
-    console.log(q);
     mysql(q,function(err,result){
         callback(err,result);
     }); 
@@ -339,7 +332,6 @@ filterTimeSheetReport:function(EmpName,wbsName,hours,fDate,Empcode,proName,thumb
         sql:'call usp_getFilteredTimesheetReport(?,?,?,?,?,?,?,?,?,?,?)',
         values:[EmpName,wbsName,hours,fDate,Empcode,proName,thumbhours,Billable,fortNightDate,YearMonth,retailerId]
     };
-    console.log(q);
 mysql(q,function(err,result){
     if(err){
         console.log(err);
@@ -376,14 +368,12 @@ exportBug: function(userId, roleId,retailerid, callback){
 
 
     getAllEmpLeaveHours: function(retailerid,dates, callback){
-        console.log("modellllllllllllllllllllllllllllllllllllllll");
         var query = {
             sql: 'call usp_getleavereport(?,?)',
             values: [retailerid,dates]
         };
         
         mysql(query, function(err, result) {
-             console.log("our final query of model",query);
             callback(err, result);
         });
     },
@@ -394,7 +384,6 @@ exportBug: function(userId, roleId,retailerid, callback){
         sql:'call get_fortnights(?)',
         values:[id]
     };
-    console.log(q);
     mysql(q,function(err,result){
         callback(err,result);
     }); 
@@ -407,7 +396,6 @@ exportBug: function(userId, roleId,retailerid, callback){
             values: [userId, roleId,retailerid]
         };
         mysql(query, function(err, result) {
-  console.log(query);
             callback(err, result);
         });
     },
@@ -417,7 +405,6 @@ exportBug: function(userId, roleId,retailerid, callback){
             sql: 'call usp_bug_raiseBug(?,?,?)',
             values: [userId, roleId,retailerid]
         };
-console.log(query);
         mysql(query, function(err, result) {
             if(err){
                 console.log(err);
@@ -435,7 +422,7 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
         severity,technology,type,tclosure,title,description,targetpath,filename,origFname,detectedBy,
         cycle,retailerid]
         };
-         console.log(query)
+        console.log('qqqqqqqq',query);
         mysql(query, function(err, result) {
             if(err){console.log(err);}
             callback(err, result); 
@@ -473,10 +460,9 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
             sql: 'call usp_bug_updatebugdescription(?,?,?,?)',
             values: [bugid,description,linkTo,userId]
         }; 
-        console.log(query);
         mysql(query, function(err, result) {
             if(err){
-                console.log(query,err)
+                console.log(err)
             }
             else{
               callback(err,result);            
@@ -536,7 +522,6 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
             sql: 'call usp_bug_getAllTechnology(?,?,?)',
             values: [projectId,userId,retailerId]
         };
-        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -554,11 +539,18 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
            else{
                 var tempobj = JSON.stringify(result[7]);
                 var desiredObj = JSON.parse(tempobj);
-                
-                res.json({"sEcho": parseInt(req.body.draw),
-    "iTotalRecords": desiredObj[0].totalRecord,
-    "iTotalDisplayRecords": desiredObj[0].totalRecord,
-    "aaData": desiredObj});
+                if(desiredObj[0]){
+                    return res.json({"sEcho": parseInt(req.body.draw),
+                    "iTotalRecords": desiredObj[0].totalRecord,
+                    "iTotalDisplayRecords": desiredObj[0].totalRecord,
+                    "aaData": desiredObj});
+                 }
+                 else{
+                  res.json({"sEcho": parseInt(req.body.draw),
+                    "iTotalRecords": 0,
+                    "iTotalDisplayRecords": 0,
+                    "aaData": desiredObj});
+                }
              
             }
             
@@ -815,11 +807,8 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
             sql: 'call usp_projectStatus(?,?,?,?,?,?,?,?)',
             values: [status,userId,roleId,retailerId,start,length,search,sortstr]
         };
-        console.log("query-dddd---",query);
         mysql(query, function(err, result) {
-            console.log("zzzzzproject details ion modal portaal----------",result);
             if(err){
-                console.log("sorry");
                 // callback(err);
            }
 
@@ -928,7 +917,6 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
             values: [assign,flaghide,wbsidhide,wbsname,wbscode,proname,wbsowner,wbspsdate,
         wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,wbslocation,typeVal,userId,roleId,retailerId]
         };
-        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -1490,7 +1478,6 @@ addStationary: function(acid,order,no,Deliverydate, vendor,invoiceAmt,Invoicedat
             key,users,
             edate,pdate,'1',assettype]
     }
-    console.log(query);
     mysql(query, function(err, result) {
         callback(err, result);
     });
@@ -1547,7 +1534,6 @@ deletesubline:function(id,callback){
         sql:'call usp_ast_deletesubline(?)',
         values:[id]
     };
-    console.log(q);
     mysql(q,function(err,result){
         callback(err,result);
     }); 
@@ -1591,7 +1577,6 @@ addsublineItem:function(type,serialno,lineId,color,headerid,brand,warranty,attid
         sql:'call usp_ast_addsublineItem(?,?,?,?,?,?,?,?,?)',
         values:[type,serialno,lineId,color,headerid,brand,warranty,attid,ides]
     };
-    console.log(q);
     mysql(q,function(err,result){
         callback(err,result);
     }); 
@@ -1843,7 +1828,6 @@ mysql(q,function(err,result){
         sql:'call usp_ast_assetAssignment(?,?,?,?,?,?,?)',
         values:[aflag,uid,tid,lid,cid,adate,assignHdwrid]
     };
-    console.log(q);
 mysql(q,function(err,result){
     if(err){
         console.log(err);
@@ -1917,7 +1901,6 @@ selectAdminData:function(id,callback){
         sql:'call IssueAddressing(?)',
         values:[id]
     };
-    console.log(q);
     mysql(q,function(err,result){
         callback(err,result);
     }); 
@@ -1928,7 +1911,6 @@ sendmailtouser:function(id,callback){
         sql:'call getassetuser(?)',
         values:[id]
     };
-    console.log(q);
     mysql(q,function(err,result){
         callback(err,result);
     }); 
@@ -1940,7 +1922,6 @@ getsoftwareexpirtdetails:function(id,callback){
         sql:'call softwareExpiryDateNotification(?)',
         values:[id]
     };
-    console.log(q);
     mysql(q,function(err,result){
         callback(err,result);
     }); 
@@ -2123,7 +2104,6 @@ getsoftwareexpirtdetails:function(id,callback){
         };
         mysql(query, function(err, result) {
             callback(err, result);
-            console.log(result);
         });
     },
 
@@ -2565,7 +2545,6 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             ecode,designation,level,modules,doj,dob,doc,rtype,
              userId, roleId, retailerId,crole,hrRole,hodId,assRole]
         };
-       console.log(query);
         mysql(query, function(err, result) { 
             console.log(err)
             callback(err, result);
@@ -2591,7 +2570,6 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
         };
         mysql(query, function(err, result) {
             callback(err, result);
-            console.log("error on admin page",result); 
         });
     },
 
@@ -2602,7 +2580,6 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
         };
         mysql(query, function(err, result) {
             callback(err, result);
-           console.log("error on admin page",query);  
         });
     },
 
@@ -2613,7 +2590,6 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
         };
         mysql(query, function(err, result) {
             callback(err, result);
-            console.log("error on admin page",result); 
         });
     },
 
@@ -2624,7 +2600,6 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             sql: 'call usp_getModules(?,?,?)',
             values: [userId, roleId,retailerid]
         };
-        console.log("query is    ",query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2654,9 +2629,6 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             sql: 'call usp_getAllUsersById(?,?,?)',
             values: [userId, roleId, retailerId]
         };
-        console.log("bbbbbb");
-        console.log(query);
-        console.log("ccccc");
         mysql(query, function(err, result) {
             
             callback(err, result);
@@ -2667,7 +2639,6 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             sql: 'call usp_checkNextUser(?,?,?,?)',
             values: [flag1,userId, roleId, retailerId]
         };
-        console.log("next USER*****************************",query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2721,7 +2692,6 @@ getTimeSheetData: function(userId,roleId,retailerId,callback){
           sql:'call usp_time_getTime(?,?)',
           values:[userId,retailerId]
         };
-        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2743,7 +2713,6 @@ getTimeSheetData: function(userId,roleId,retailerId,callback){
             approvedOrRejectedDate,
             rejectionReason]
         };
-        console.log(query);
         //console.log(" in submit timesheet");
         mysql(query, function(err, result) {
             callback(err, result);
@@ -2768,7 +2737,6 @@ getTimeSheetData: function(userId,roleId,retailerId,callback){
           values:[userId,tdate]
         };
 
-        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2810,20 +2778,17 @@ getTimeSheetData: function(userId,roleId,retailerId,callback){
             sql: 'call usp_userStatus(?,?,?,?,?,?,?,?)',
             values: [status,userId,roleId,retailerId,start,length,search,sortstr]
         };
-        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
     },
 
     changeUserStatus: function(uid,flag,userId,roleId,retailerId, callback) {
-        console.log("********************manuuuuuuuuuuuuuuGGGGGGGGGG");
         var query = {
 
             sql: 'call usp_changeUserStatus(?,?,?,?,?)',
             values: [uid,flag,userId,roleId,retailerId]
         };
-        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2878,7 +2843,6 @@ getHrRole:function(userId,roleId,retailerId,callback){
                           YearsOfExp,adminhr,flag,id,
                           mailPriority,jobType,hrRole,retailerId] 
             }  
-            console.log('aaaaaaaaaaaalooooooooooooooooo',q);
             mysql(q,function(err, result) {             
              callback(err, result);
              ////console.log('aaaaaaaaaaaalooooooooooooooooo');
@@ -2996,7 +2960,6 @@ getHrRole:function(userId,roleId,retailerId,callback){
             sql: "call usp_rms_getAllTag(?,?)",
             values: [id,retailerId]
         } 
-         console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                  console.log(err);
@@ -3299,12 +3262,10 @@ getHrRole:function(userId,roleId,retailerId,callback){
     },
 
         quickdeletecandidate : function (userId,roleId,retailerId,cid,callback){
-            console.log('sdddddddddddddddddddddddddddddddddddddd')
        var q ={
           sql: "call usp_rms_quickdeletecandidate(?,?,?)",
         values: [cid,userId,retailerId]
         };
-         console.log(q);
         mysql(q, function(err, result) {
             if (err) { 
                  console.log(err); 
@@ -3443,7 +3404,6 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
                 ////console.log(err);
             }
             else {
-                console.log(result);
             callback(err,result);
             }
         });         
@@ -3471,7 +3431,6 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
        
         }; 
         mysql(q, function(err, result) {
-            console.log(result)
             if (err) {
                 ////console.log(err);
             }
@@ -3489,7 +3448,6 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
        
         }; 
         mysql(q, function(err, result) {
-            console.log(result)
             if (err) {
                 ////console.log(err);
             }
@@ -3506,7 +3464,6 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         };
         //console.log(q);
         mysql(q, function(err, result) {
-            console.log(result)
             if (err) {
                 ////console.log(err);
             }
@@ -3523,7 +3480,6 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
        
         }; 
         mysql(q, function(err, result) {
-            console.log(result)
             if (err) {
                 ////console.log(err);
             }
@@ -3777,7 +3733,6 @@ saveTask : function (proId,version,updateQ,submitFlag,remarks,userId,commentStri
                 //console.log(err,q);
             }
             else {
-              console.log(q,result);
           
                callback(err,result);
             }
@@ -3849,7 +3804,6 @@ saveTask : function (proId,version,updateQ,submitFlag,remarks,userId,commentStri
            };
 
         mysql(q, function(err, result) {
-            console.log(q);
             if (err) {
                 //console.log(err,q);
             }

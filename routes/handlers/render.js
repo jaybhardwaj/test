@@ -9,7 +9,7 @@ module.exports = {
 				case 'index' :
 				res.render('index'); 
 				break;
-				case 'home' :  console.log('aaaaaaaaaaaaaaaaaa--',req.session.notification);
+				case 'home' : 
 				res.render('home',{	notification:req.session.notification,    
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,					 
 					isRetailer:req.session.isRetailer,hideFlag:1,module:req.result1,roleid:req.session.roleId,
@@ -24,7 +24,6 @@ module.exports = {
 					isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
 				case 'changePassWordPage' :
-				console.log("step last",req.session.modules);
 				res.render('changePassWordPage',{	notification:req.session.notification,    
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,					 
 					isRetailer:req.session.isRetailer,hideFlag:1,module:req.result1,roleid:req.session.roleId,
@@ -98,7 +97,6 @@ module.exports = {
                 
                 //------------------Dashboards <Phase1 : Not Lived> --------------------------
                 case 'vis_dashboard1' :
-                  console.log('jogi sSASAG',req.resultProfile);
             	//req.session.firstName=req.resultProfile[0][0].firstName;
             	//req.session.logo=req.resultProfile[0][0].logo;
                 res.render('Report2',{ 	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
@@ -116,11 +114,11 @@ module.exports = {
                res.redirect('/profile');
                 break;
 				//-----------------------------Bug--------------------------------------------
-				case 'bugHome': console.log('bbbbbbbbbbbbbbbb--',req.session.notification);
+				case 'bugHome': 
 				res.render('bug/home',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,bug:req.resultActivity[0],activity:req.resultActivity[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
-				case 'viewBug': console.log('view bug-----------',req.session.notification);
+				case 'viewBug': 
 				res.render('bug/viewBug',{	notification:req.session.notification,    
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,
@@ -161,7 +159,6 @@ module.exports = {
 					roleid:req.session.roleId,logo:req.session.logo,
 					user:req.session.firstName,defaultModule:req.session.defaultModule,
 					isApp:req.session.isApprover,bugSetting:req.session.bugSetting,assetrole:req.session.asstroleid});
-				console.log("raiseBug render");
 				break;
 				case 'bugDetails':				
 				res.json(req.resultBugDetails);
@@ -330,7 +327,6 @@ module.exports = {
 					resource:req.projectResults[5],flagForTab:req.projectResults[6],
 					tech:req.projectResults[2],manager:req.projectResults[4],teamlead:req.projectResults[5],
 					client:req.projectResults[3],name:req.projectResults[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
-				//console.log("allProjects-----",req.projectResults[7][4].assigntoall);
 				break;
 
 				case 'projectDetails12' :
@@ -378,7 +374,7 @@ module.exports = {
 				//------------------------------------------Asset-------------------------------
 
 case 'viewInventory':
-			console.log("in render inven jai mata di",req.session.asstroleid);
+			// console.log("in render inven jai mata di",req.session.asstroleid);
 				res.render('asset/inventory',{notification:req.session.notification, 
 					myModules:req.session.modules,
 					allSuperVisors:req.session.allSupervisors,
@@ -403,7 +399,7 @@ case 'viewInventory':
 		
 				break;
 			case 'viewFurniture' :
-			console.log('jai mata di',req.resultFurniture);
+			// console.log('jai mata di',req.resultFurniture);
 				res.render('asset/viewFurniture',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,notification:req.session.notification, 
 					flag:req.body.flag, stype:req.resultFurniture,roleid:req.session.roleId,
@@ -412,7 +408,6 @@ case 'viewInventory':
 				break;
 
 			case 'viewStationary' :
-			console.log(req.resultStationary);
 				res.render('asset/viewStationary',{
 					myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,flag:req.body.flag,notification:req.session.notification, 
@@ -454,7 +449,6 @@ case 'viewInventory':
 					isApp:req.session.isApprover,assetrole:req.session.asstroleid})
 				break;
 			case 'assignasset':
-			console.log("assigndata",req.resultAssigneds);
 			res.render('asset/assignasset',{
 					assignedast:req.resultAssigneds,myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,notification:req.session.notification,  
@@ -550,10 +544,8 @@ case 'viewInventory':
 //---------------------------------Expense------------------------------------------
 			
 	case 'expenseHome' :
-                 console.log("jai mata di",req.resultExpense[11]);
 				res.render('expense/expenseHome',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpense[0],expenseDetails:req.resultExpense[1],currency:req.resultExpense[2],totalExpense:req.resultExpense[3],bilableusers:req.resultExpense[4],trip:req.resultExpense[5],travelType:req.resultExpense[7],hotelType:req.resultExpense[6],Ex:1,role:req.resultRoles[0],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0,penddinguser:req.resultExpense[8],approveBy:req.resultExpense[9],rejectedBy:req.resultExpense[10],assetrole:req.session.asstroleid,designation:req.resultExpense[11]});
-				console.log(req.resultExpense[8],req.resultExpense[9]);
 
 				break;
 
@@ -593,7 +585,6 @@ case 'viewInventory':
 				/*end expense Jogendra singh/expdepartment:req.resultExpensemaster[2],/limit: req.session.limit,*/
 				<!--- added by saurav   -->
 				case 'masters':
-				console.log("master render-----------",req.resultExpensemaster[2]);
 			     var flag=req.flag==null?0:req.flag;
 
 
@@ -644,7 +635,7 @@ res.render('masters',
                  break;
 
 //-----------------------------TimeSheethh---------------------------------------
-                 case 'timeSheet':   console.log('timesheet in render-----------------------',req.session.notification);
+                 case 'timeSheet':   
                
 			     res.render('timesheet/timeSheet',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,flag_owntimesheet:req.session.flag_owntimesheet,timeinfo:req.timeinfo,userid:req.session.userId,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
@@ -670,7 +661,6 @@ res.render('masters',
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 				break ;
 				case 'raiseRequisition':
-				console.log("jai mata di",req.hrRequisition[3],req.hrRequisition[0],req.hrRequisition[1]);
 				res.render('rms/raiseRequisition',{	notification:req.session.notification, cities:req.hrRequisition[0],skills:req.hrRequisition[1]
       ,role:req.session.hrRole,Name:'',adminhr:req.hrRequisition[2],desig:req.hrRequisition[3],priority:req.hrRequisition[4],
       myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
@@ -739,7 +729,7 @@ res.render('masters',
 	            });
             break ;
             case 'viewReq':
-            console.log("hr roles for view Reqsn. ",req.session.hrRole);	           
+            // console.log("hr roles for view Reqsn. ",req.session.hrRole);	           
 	            res.render('rms/viewReq', {	notification:req.session.notification,    
 	                 role: req.session.hrRole,
 		                Name: '',
@@ -752,7 +742,6 @@ res.render('masters',
 			                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 			                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
 	            });
-	            console.log(req.viewReq[0]);
             break ;
             case 'userHrViewReq':	           
             res.render('rms/userHrViewReq', {	notification:req.session.notification,    
@@ -785,7 +774,6 @@ res.render('masters',
 	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
 	                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
 	            });
-            console.log('cdtiddbs',req.interviewFeedback[0]);
             break;
        /*     case 'reqApprover':
             res.render('rms/reqApprover', {

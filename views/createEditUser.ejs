@@ -94,6 +94,29 @@
 .sol-container multiplebox sol-selection-top sol-active{
   font-size: 10px;
 }
+
+    /* enable absolute positioning */
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align glyph */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;color:#999;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+.typeahead.dropdown-menu{
+  width: 100%;
+}
     </style>
 </head>
 <body style="min-height:100px">
@@ -102,11 +125,15 @@
   </div>
   <div class="container-fluid user-list  secondry-color"   style=" ">
     <div id="ModalAddMesage"></div>
-    <div class="modal-header" style="text-align:center">
+    <div class="clearfix" style="text-align:center;margin: 10px 0;">
     <span title="Go To User List" onclick="document.location.href='/users';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;"  class="glyphicon glyphicon-arrow-left"></span>
       <span class="modal-title">Provide user details</span>
-
-      <div class="hide" id="moreUser">
+      <div class="inner-addon right-addon" style="float: right">
+          <i class="glyphicon glyphicon-search"></i>
+          <input type="text" class="form-control typeahead" placeholder="Search" />
+      </div>
+      <!-- <input type="text" class="typeahead" > -->
+      <!-- <div class="hide" id="moreUser">
   
             <img  onclick="addEditUser(0,0)" style="float:right;margin-top:2%" title="Create More Users"  class="addNewPlus">
 
@@ -115,7 +142,7 @@
         <span id="editPreviousUser" class="glyphicon glyphicon-chevron-left" onclick="addEditUser($('#hdnIdUser').val(),0,$('input:radio[name=tabs]:checked').val())" style="float:right;margin-right:2%;margin-top:2.5%" title="Edit previous user" ></span>
 
 
-     </div>
+     </div> -->
     </div>
 
    <main> 
@@ -132,7 +159,14 @@
         <input id="tab3" class="tabradio" type="radio" name="tabs" value="4" >
         <label for="tab3">HR</label> 
         <input id="tab4" class="tabradio" type="radio" name="tabs" value="5" >
-        <span style="float:right;margin-right:3%;margin-top:20px" id="spnName"></span>
+        <div style="float:right;padding-top: 15px">
+            <span id="spnName"></span>
+            <!-- <div class="hide" id="moreUser"> -->
+                <span id="editPreviousUser" class="glyphicon glyphicon-chevron-left" onclick="addEditUser($('#hdnIdUser').val(),0,$('input:radio[name=tabs]:checked').val())" title="Edit previous user" ></span>
+                <span id="editNextUser" class="glyphicon glyphicon-chevron-right" onclick="addEditUser($('#hdnIdUser').val(),1,$('input:radio[name=tabs]:checked').val())" title="Edit next user" ></span>
+                <img  onclick="addEditUser(0,0)" title="Create More Users"  class="addNewPlus" style="float: none;">
+            <!-- </div> -->
+        </div>
         <section id="content1">
 
 
@@ -444,8 +478,26 @@ var pressButton=0;
 var users; 
   var imparray = ["Bug","Time","Expense","Asset",'Project',"Document","RMS"];
 
-  function addEditUser(flag,flag12,tab1) {
+/*****************/
+function addEditUser1(flag) {
+            var form = document.createElement("form");
+            form.action = '/createEditUser';
+            form.method = "POST";
+            form.style = "display: none";
+            var hdnId = document.createElement("input");
+            hdnId.type = "hidden";
+            hdnId.name = "hdnId";
+            hdnId.value = flag;
+            form.appendChild(hdnId);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+/********************/
 
+
+  function addEditUser(flag,flag12,tab1) {
+            console.log(flag,flag12,tab1);
             var form = document.createElement("form");
             if(flag==0) {form.action = '/createEditUser';}
             else {form.action = '/next_prev_user';}
@@ -552,7 +604,68 @@ function getDefaultModule(){
 }
 
   $(document).ready(function(){
- 
+
+// instantiate the bloodhound suggestion engine
+// $(".typeahead").typeahead('destroy');
+// var numbers = new Bloodhound({
+// datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.saini); },
+// queryTokenizer: Bloodhound.tokenizers.whitespace,
+// local:  [{"saini":'aa'},{"saini":'aabb'},{"saini":'cc'},{"saini":'dd'}]
+// // remote: {
+// //         url: '/getUsers?search=%QUERY',
+// //         wildcard: '%QUERY',
+// //         ajax:{
+            
+// //             type: "GET"
+// //         },
+// //         cache: false,
+// //         limit:10,
+// //         filter: function(response){ 
+// //           console.log(response,'amit');
+// //           return $.map(response.data, function (user) {
+// //             console.log(user,'oo');
+// //                 return {
+// //                     id: user.id,
+// //                     firstName:user.firstName
+// //                 };
+// //             });
+// //         }
+// //     }
+// });
+
+// // initialize the bloodhound suggestion engine
+// numbers.initialize();
+
+// $('.typeahead').typeahead({   
+//     displayKey:'saini',
+//     source: numbers.ttAdapter()           
+// });
+
+
+$(".typeahead").typeahead({
+    items: 4,
+    source: function(request, response) {
+        $.ajax({
+            url: "/getUsers",
+            dataType: "json",
+            data: {
+                search: $(".typeahead").val()
+            },
+            success: function (data) {
+                response(data.data);
+            }
+        });
+    },
+    updater:function (item) {
+      console.log(item.id,'kkkj');
+      addEditUser1(item.id);
+    },
+    autoSelect: true,
+    displayText: function (item) {
+        return item.firstName;
+    }
+});
+
      $("#hrRole").searchableOptionList();
      $("#hrRole").change(function(){            
             showHod();
@@ -1196,7 +1309,7 @@ function getDefaultModule(){
                 
           
 </script>
-
+<script src="https://rawgit.com/twitter/typeahead.js/master/dist/bloodhound.min.js"></script>
   </body>
 
 </html>

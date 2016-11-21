@@ -4,7 +4,6 @@ module.exports = {
 	getEmpData:function(req,res,next){
 		req.emp_id=req.query.emp_id;
 		req.mgr_id=req.query.mgr_id;
-		console.log("inURL",req.emp_id,req.mgr_id);
 		next();
 	},
 	home:function(req,res,next){
@@ -261,7 +260,6 @@ setDashboard1: function(req, res, next) {
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
 	    req.page='addBug';
-	    console.log(req.body);
 	    if(req.body.setting=='1'){
 	    	arr.push(req.body.project); 
 	    	arr.push(req.body.assingedto);
@@ -274,7 +272,6 @@ setDashboard1: function(req, res, next) {
 	    	arr.push(req.body.setting) ;
 	    }
 	    req.session.bugSetting=arr;
-	    console.log("session url",req.session.bugSetting);
 		next();	
 	}
 	else
@@ -445,7 +442,6 @@ setDashboard1: function(req, res, next) {
 	}
 	},
 	setpageInsertDocument: function(req,res,next){
-		console.log("render");
 		req.session.documentalert++;
 		req.page='attachDocFile';
 		next();
@@ -608,7 +604,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 	}
 	},
 	otherTimeSheet: function(req,res,next){
-		//console.log('timesheet in url.js');
 		if(req.session.modules.indexOf(config.Time)>=0)
 		 	{
       req.page='otherTimeSheet';
@@ -916,7 +911,6 @@ hr:function(req,res,next){
 		else{	
 			req.page="error";
 		}
-console.log(req.page)
 	    next();
 	}
 	else{
@@ -1052,7 +1046,6 @@ console.log(req.page)
 		  } 
 		  req.isMail=true;
 		  req.page="success";
-		  console.log("url  updateStatusReqViaMail",req.body.jdid,req.body.flag,req.session.hrRole);
 		next(); 
 	},
 

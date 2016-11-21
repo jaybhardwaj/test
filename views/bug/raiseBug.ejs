@@ -5,8 +5,11 @@
 <% include header.ejs %>
  <% include ../partials/adminheader %>
     <title>Raise Bug</title>
-
-
+<!-- <link rel="stylesheet" type="text/css" href="/css/dropzone.css"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+<link href="/css/jquery.filer.css" type="text/css" rel="stylesheet" />
+<link href="/css/jquery.filer-dragdropbox-theme.css" type="text/css" rel="stylesheet" />
  
         <style> 
           /*  #titleg {
@@ -22,7 +25,11 @@
                 padding-bottom: 5px;
 
             }
-
+            .glyphicon:hover {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+                cursor: default;
+            }
         </style>
 
     <div class="se-pre-con"></div>
@@ -232,17 +239,22 @@
                                  
                             </div>
                             <div class="col-md-12 height25"></div>
-                            <div class="row " style="padding-top:1%;padding-left:2.5%;" align="left">
-                            <div class="col-md-2">
+                            <!-- <div id="amit" style="height: 40px">
+                                <form action="/file-upload" class="dropzone" id="my-awesome-dropzone"></form>
+                            </div> -->
+
+                            <div class="row " style="padding-top:1%;" align="left">
+                            <!-- <div class="col-md-2">
                                 <i class="fa fa-file-image-o" aria-hidden="true" style="float: left"></i>
-                                Attach Files <b>(limit :10 mb)</b></div>
-                                <div class="col-md-4">
-                                    <input type="file" id="addBugUp" name="addBugUpload" class="upload" />
+                                Attach Files <b>(limit :10 mb)</b>
+                            </div> -->
+                                <div>
+                                    <div id="content">
+                                    <input type="file" id="addBugUp1" name="addBugUpload1" class="upload" multiple/>
+                                    </div>
 
-
-
-                                  <input type = "text" id = "fileNameId" name = "fileName"  class = "hide"></input>
-                                   <input type = "text"  id = "fileContentId" name = "fileContent" class = "hide"></input>
+                                  <input type = "text" id = "fileNameId" name = "fileNames"  class = "hide"></input>
+                                   <input type = "text"  id = "fileContentId" name = "fileUrls" class = "hide"></input>
                                 </div> 
                             </div>
                             <div class="col-md-12 height11"></div>
@@ -257,8 +269,8 @@
                                 </div>
 
                                 </form>
-            <canvas style="border:1px solid grey;margin-left: 645px;margin-top: -85px;background-color: white" name = "canvas_name" id="my_canvas2" width="200" height="100" ></canvas> 
-            <canvas style="border:1px solid grey;margin-left: 645px;margin-top: -41px" name = "canvas_name2" id="my_canvas" width="200" height="100" class = "hide"></canvas>
+            <!-- <canvas style="border:1px solid grey;margin-left: 645px;margin-top: -85px;background-color: white" name = "canvas_name" id="my_canvas2" width="200" height="100" ></canvas> 
+            <canvas style="border:1px solid grey;margin-left: 645px;margin-top: -41px" name = "canvas_name2" id="my_canvas" width="200" height="100" class = "hide"></canvas> -->
                                <div class="col-md-2"> 
                                </div>
                             </div>
@@ -282,21 +294,21 @@
   */
 
 
-var c = document.getElementById("my_canvas2");
-var ctx = c.getContext("2d");
+// var c = document.getElementById("my_canvas2");
+// var ctx = c.getContext("2d");
 
-ctx.font = "15px Georgia";
-ctx.fillText("Press print screen", 40, 30);
+// ctx.font = "15px Georgia";
+// ctx.fillText("Press print screen", 40, 30);
 
-ctx.font = "20px Verdana";
-// Create gradient
-var gradient = ctx.createLinearGradient(0, 0, c.width, 0);
-gradient.addColorStop("0", "magenta");
-gradient.addColorStop("0.5", "blue");
-gradient.addColorStop("1.0", "red");
-// Fill with gradient
-ctx.fillStyle = gradient;
-ctx.fillText("Paste here-ctrl+v", 20, 60);
+// ctx.font = "20px Verdana";
+// // Create gradient
+// var gradient = ctx.createLinearGradient(0, 0, c.width, 0);
+// gradient.addColorStop("0", "magenta");
+// gradient.addColorStop("0.5", "blue");
+// gradient.addColorStop("1.0", "red");
+// // Fill with gradient
+// ctx.fillStyle = gradient;
+// ctx.fillText("Paste here-ctrl+v", 20, 60);
 
         function validateForm() {
             var titlebox = document.forms["rbug"]["titlebox"].value;
@@ -336,67 +348,222 @@ ctx.fillText("Paste here-ctrl+v", 20, 60);
                 alert("Select a Technology");
                 return false;
             }      
-                    debugger;
+            if($('.jFiler-item-title b').length){
+                var fileNames = $('.jFiler-item-title b').map( function(){return $(this).html(); }).get().toString();
+                var fileUrls = $('.jFiler-item-thumb-image img').map( function(){return $(this).prop('src'); }).get().toString();
+                // var tempArr = [];
+                // fileNames.forEach(function(item,index){
+                //     tempArr.push({name:item,url:fileUrls[index]});
+                // });
+                $('#fileNameId').val(fileNames);
+                $('#fileContentId').val(fileUrls);
+            }    
+            
+            // var input, file;
+            // input = document.getElementById('addBugUp');
+            // if(input){
+            // file = input.files[0];
+            // var filename=$("#addBugUp").val();
+            // var fileType=filename.split('.');
+            // var fileType1=fileType[fileType.length-1];
 
- 
-            var input, file;
-            input = document.getElementById('addBugUp');
-            if(input){
-            file = input.files[0];
-            var filename=$("#addBugUp").val();
-            var fileType=filename.split('.');
-            var fileType1=fileType[fileType.length-1];
-
-             if(file.size>10485760){
-                 alert("Error:File limit is 10 mb");
-                 return false ;
-            }
-                    }
-                    debugger;
+            //  if(file.size>10485760){
+            //      alert("Error:File limit is 10 mb");
+            //      return false ;
+            // }
+            //         }
+                    
 
 
             if(editorContent.length >12000){
                 alert('Description length should not be more than 12000 characters');
                 return false;
             }
-                    debugger;
+                    
 
           
-            if(fileType1=='exe'||fileType1=='html'||fileType1=='ejs'){
-                alert("Error:exe , html , ejs file cannot be uploaded!");
-                return false;
-            }
-                    debugger;
+            // if(fileType1=='exe'||fileType1=='html'||fileType1=='ejs'){
+            //     alert("Error:exe , html , ejs file cannot be uploaded!");
+            //     return false;
+            // }
+                    
 
            
-                  debugger;
+                  
 
-  appendImage();
-        debugger;
+  // appendImage();
+        
           return true;
         }
-       function appendImage(){
-        if(!$("#my_canvas").length){
-            return;
-        }
-     var fileName = 'screenshot'+'_'+Date.now();
-     var dataURL = document.getElementById('my_canvas').toDataURL();
-      $('#fileNameId').val(fileName);
-      $('#fileContentId').val(dataURL);
+     //   function appendImage(){
+     //    if(!$("#my_canvas").length){
+     //        return;
+     //    }
+     // var fileName = 'screenshot'+'_'+Date.now();
+     // var dataURL = document.getElementById('my_canvas').toDataURL();
+     //  $('#fileNameId').val(fileName);
+     //  $('#fileContentId').val(dataURL);
 
-      if(dataURL.length<2000){
-          dataURL = null;
-        $('#fileContentId').val(dataURL);
-      }
-      $("#my_canvas2").remove();
+     //  if(dataURL.length<2000){
+     //      dataURL = null;
+     //    $('#fileContentId').val(dataURL);
+     //  }
+     //  $("#my_canvas2").remove();
  
 
-      }
+     //  }
 
         
 
 
         $( document ).ready(function() {
+            $("#addBugUp1").filer({
+        limit: null,
+        maxSize: 1,
+        extensions: ['jpg','jpeg','png','gif','pnm'],
+        changeInput: '<div class="jFiler-input-dragDrop" style="width:100%;padding:10px"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o glyphicon glyphicon-open-file"></i></div><div class="jFiler-input-text"><h3>Drag&Drop files here</h3> <span style="display:inline-block">or</span></div><a class="jFiler-input-choose-btn blue">Browse Files</a></div></div>',
+        showThumbs: true,
+        theme: "dragdropbox",
+        templates: {
+            box: '<ul class="jFiler-items-list jFiler-items-grid"></ul>',
+            item: '<li class="jFiler-item">\
+                        <div class="jFiler-item-container">\
+                            <div class="jFiler-item-inner">\
+                                <div class="jFiler-item-thumb" style="width:150px;height:114px">\
+                                    <div class="jFiler-item-status"></div>\
+                                    <div class="jFiler-item-thumb-overlay">\
+                                        <div class="jFiler-item-info">\
+                                            <div style="display:table-cell;vertical-align: middle;">\
+                                                <span class="jFiler-item-title"><b title="{{fi-name}}">{{fi-name}}</b></span>\
+                                                <span class="jFiler-item-others">{{fi-size2}}</span>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                    {{fi-image}}\
+                                </div>\
+                                <div class="jFiler-item-assets jFiler-row">\
+                                    <ul class="list-inline pull-left">\
+                                        <li>{{fi-progressBar}}</li>\
+                                    </ul>\
+                                    <ul class="list-inline pull-right">\
+                                        <li><a class="icon-jfi-trash jFiler-item-trash-action glyphicon glyphicon-trash"></a></li>\
+                                    </ul>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </li>',
+            itemAppend: '<li class="jFiler-item">\
+                            <div class="jFiler-item-container">\
+                                <div class="jFiler-item-inner">\
+                                    <div class="jFiler-item-thumb" style="width:150px;height:114px">\
+                                        <div class="jFiler-item-status"></div>\
+                                        <div class="jFiler-item-thumb-overlay">\
+                                            <div class="jFiler-item-info">\
+                                                <div style="display:table-cell;vertical-align: middle;">\
+                                                    <span class="jFiler-item-title"><b title="{{fi-name}}">{{fi-name}}</b></span>\
+                                                    <span class="jFiler-item-others">{{fi-size2}}</span>\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        {{fi-image}}\
+                                    </div>\
+                                    <div class="jFiler-item-assets jFiler-row">\
+                                        <ul class="list-inline pull-left">\
+                                            <li><span class="jFiler-item-others">{{fi-icon}}</span></li>\
+                                        </ul>\
+                                        <ul class="list-inline pull-right">\
+                                            <li><a class="icon-jfi-trash jFiler-item-trash-action glyphicon glyphicon-trash"></a></li>\
+                                        </ul>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </li>',
+            progressBar: '<div class="bar"></div>',
+            itemAppendToEnd: false,
+            canvasImage: true,
+            removeConfirmation: true,
+            _selectors: {
+                list: '.jFiler-items-list',
+                item: '.jFiler-item',
+                progressBar: '.bar',
+                remove: '.jFiler-item-trash-action'
+            }
+        },
+        dragDrop: {
+            dragEnter: null,
+            dragLeave: null,
+            drop: null,
+            dragContainer: null,
+        },
+        uploadFile: {
+            url: "/amit",
+            // data: null,
+            // type: 'POST',
+            // enctype: 'multipart/form-data',
+            // synchron: true,
+            beforeSend: function(){ return false}
+            // success: function(data, itemEl, listEl, boxEl, newInputEl, inputEl, id){
+            //     var parent = itemEl.find(".jFiler-jProgressBar").parent(),
+            //         new_file_name = JSON.parse(data),
+            //         filerKit = inputEl.prop("jFiler");
+
+            //     filerKit.files_list[id].name = new_file_name;
+
+            //     itemEl.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+            //         $("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> Success</div>").hide().appendTo(parent).fadeIn("slow");
+            //     });
+            // },
+            // error: function(el){
+            //     var parent = el.find(".jFiler-jProgressBar").parent();
+            //     el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+            //         $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> Error</div>").hide().appendTo(parent).fadeIn("slow");
+            //     });
+            // },
+            // statusCode: null,
+            // onProgress: null,
+            // onComplete: null
+        },
+        files: null,
+        addMore: true,
+        allowDuplicates: true,
+        clipBoardPaste: true,
+        excludeName: null,
+        beforeRender: null,
+        afterRender: null,
+        beforeShow: null,
+        beforeSelect: null,
+        onSelect: null,
+        afterShow: null,
+        onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
+            var filerKit = inputEl.prop("jFiler"),
+                file_name = filerKit.files_list[id].name;
+
+            $.post('./php/ajax_remove_file.php', {file: file_name});
+        },
+        onEmpty: null,
+        options: null,
+        dialogs: {
+            alert: function(text) {
+                return alert(text);
+            },
+            confirm: function (text, callback) {
+                confirm(text) ? callback() : null;
+            }
+        },
+        captions: {
+            button: "Choose Files",
+            feedback: "Choose files To Upload",
+            feedback2: "files were chosen",
+            drop: "Drop file here to Upload",
+            removeConfirmation: "Are you sure you want to remove this file?",
+            errors: {
+                filesLimit: "Only {{fi-limit}} files are allowed to be uploaded.",
+                filesType: "Only Images are allowed to be uploaded.",
+                filesSize: "{{fi-name}} is too large! Please upload file up to {{fi-maxSize}} MB.",
+                filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB."
+            }
+        }
+    });
             $('.se-pre-con').fadeOut('slow');
 
              $('.raisebug-img').addClass('active');
@@ -408,10 +575,10 @@ ctx.fillText("Paste here-ctrl+v", 20, 60);
             });
             Getalltech();
 
-$("#addBugUp").change(function(){
-        $("#my_canvas").remove();
-        $("#my_canvas2").remove();
-    });
+// $("#addBugUp").change(function(){
+//         $("#my_canvas").remove();
+//         $("#my_canvas2").remove();
+//     });
 
         });
 
@@ -504,165 +671,166 @@ $('#linkTo').append($("<option></option>").attr("value",0)//.attr("selected",det
 
 
 
-  var CLIPBOARD = new CLIPBOARD_CLASS("my_canvas", true);
-     var CLIPBOARD2  = new CLIPBOARD_CLASS("my_canvas2", true);
-function CLIPBOARD_CLASS(canvas_id, autoresize) {
-var _self = this;
-var canvas = document.getElementById(canvas_id);
-var ctx = document.getElementById(canvas_id).getContext("2d");
-var ctrl_pressed = false;
-var command_pressed = false;
-var reading_dom = false;
-var text_top = 15;
-var pasteCatcher;
-var paste_mode;
+//   var CLIPBOARD = new CLIPBOARD_CLASS("my_canvas", true);
+//      var CLIPBOARD2  = new CLIPBOARD_CLASS("my_canvas2", true);
+// function CLIPBOARD_CLASS(canvas_id, autoresize) {
+// var _self = this;
+// var canvas = document.getElementById(canvas_id);
+// var ctx = document.getElementById(canvas_id).getContext("2d");
+// var ctrl_pressed = false;
+// var command_pressed = false;
+// var reading_dom = false;
+// var text_top = 15;
+// var pasteCatcher;
+// var paste_mode;
 
-//handlers
-document.addEventListener('keydown', function (e) {
-    _self.on_keyboard_action(e);
-}, false); //firefox fix
-document.addEventListener('keyup', function (e) {
-    _self.on_keyboardup_action(e);
-}, false); //firefox fix
-document.addEventListener('paste', function (e) {
-    _self.paste_auto(e);
-    $("#addBugUp").remove();
-}, false); //official paste handler
+// //handlers
+// document.addEventListener('keydown', function (e) {
+//     _self.on_keyboard_action(e);
+// }, false); //firefox fix
+// document.addEventListener('keyup', function (e) {
+//     _self.on_keyboardup_action(e);
+// }, false); //firefox fix
+// document.addEventListener('paste', function (e) {
+//     _self.paste_auto(e);
+//     $("#addBugUp").remove();
+// }, false); //official paste handler
 
-//constructor - prepare
-this.init = function () {
-    //if using auto
-    if (window.Clipboard)
-        return true;
+// //constructor - prepare
+// this.init = function () {
+//     //if using auto
+//     if (window.Clipboard)
+//         return true;
 
-    pasteCatcher = document.createElement("div");
-    pasteCatcher.setAttribute("id", "paste_ff");
-    pasteCatcher.setAttribute("contenteditable", "");
-    pasteCatcher.style.cssText = 'opacity:0;position:fixed;top:0px;left:0px;';
-    pasteCatcher.style.marginLeft = "-20px";
-    pasteCatcher.style.width = "10px";
-    document.body.appendChild(pasteCatcher);
+//     pasteCatcher = document.createElement("div");
+//     pasteCatcher.setAttribute("id", "paste_ff");
+//     pasteCatcher.setAttribute("contenteditable", "");
+//     pasteCatcher.style.cssText = 'opacity:0;position:fixed;top:0px;left:0px;';
+//     pasteCatcher.style.marginLeft = "-20px";
+//     pasteCatcher.style.width = "10px";
+//     document.body.appendChild(pasteCatcher);
     
-    // create an observer instance
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (paste_mode == 'auto' || ctrl_pressed == false || mutation.type != 'childList')
-                return true;
+//     // create an observer instance
+//     var observer = new MutationObserver(function(mutations) {
+//         mutations.forEach(function(mutation) {
+//             if (paste_mode == 'auto' || ctrl_pressed == false || mutation.type != 'childList')
+//                 return true;
 
-            //if paste handle failed - capture pasted object manually
-            if(mutation.addedNodes.length == 1) {
-                if (mutation.addedNodes[0].src != undefined) {
-                    //image
-                    _self.paste_createImage(mutation.addedNodes[0].src);
-                }
-                //register cleanup after some time.
-                setTimeout(function () {
-                    pasteCatcher.innerHTML = '';
-                }, 20);
-            }
-        });
-    });
-    var target = document.getElementById('paste_ff');
-    var config = { attributes: true, childList: true, characterData: true };
-    observer.observe(target, config);
-}();
-//default paste action
-this.paste_auto = function (e) {
-    paste_mode = '';
-    pasteCatcher.innerHTML = '';
-    var plain_text_used = false;
-    if (e.clipboardData) {
-        var items = e.clipboardData.items;
-        if (items) {
-            paste_mode = 'auto';
-            //access data directly
-            for (var i = 0; i < items.length; i++) {
-                if (items[i].type.indexOf("image") !== -1) {
-                    //image
-                    var blob = items[i].getAsFile();
-                    var URLObj = window.URL || window.webkitURL;
-                    var source = URLObj.createObjectURL(blob);
-                    this.paste_createImage(source);
-                }
-            }
-            e.preventDefault();
-        }
-        else {
-            //wait for DOMSubtreeModified event
-            //https://bugzilla.mozilla.org/show_bug.cgi?id=891247
-        }
-    }
-};
-//on keyboard press
-this.on_keyboard_action = function (event) {
-    k = event.keyCode;
-    //ctrl
-    if (k == 17 || event.metaKey || event.ctrlKey) {
-        if (ctrl_pressed == false)
-            ctrl_pressed = true;
-    }
-    //v
-    if (k == 86) {
-        if (document.activeElement != undefined && document.activeElement.type == 'text') {
-            //let user paste into some input
-            return false;
-        }
+//             //if paste handle failed - capture pasted object manually
+//             if(mutation.addedNodes.length == 1) {
+//                 if (mutation.addedNodes[0].src != undefined) {
+//                     //image
+//                     _self.paste_createImage(mutation.addedNodes[0].src);
+//                 }
+//                 //register cleanup after some time.
+//                 setTimeout(function () {
+//                     pasteCatcher.innerHTML = '';
+//                 }, 20);
+//             }
+//         });
+//     });
+//     var target = document.getElementById('paste_ff');
+//     var config = { attributes: true, childList: true, characterData: true };
+//     observer.observe(target, config);
+// }();
+// //default paste action
+// this.paste_auto = function (e) {
+//     paste_mode = '';
+//     pasteCatcher.innerHTML = '';
+//     var plain_text_used = false;
+//     if (e.clipboardData) {
+//         var items = e.clipboardData.items;
+//         if (items) {
+//             paste_mode = 'auto';
+//             //access data directly
+//             for (var i = 0; i < items.length; i++) {
+//                 if (items[i].type.indexOf("image") !== -1) {
+//                     //image
+//                     var blob = items[i].getAsFile();
+//                     var URLObj = window.URL || window.webkitURL;
+//                     var source = URLObj.createObjectURL(blob);
+//                     this.paste_createImage(source);
+//                 }
+//             }
+//             e.preventDefault();
+//         }
+//         else {
+//             //wait for DOMSubtreeModified event
+//             //https://bugzilla.mozilla.org/show_bug.cgi?id=891247
+//         }
+//     }
+// };
+// //on keyboard press
+// this.on_keyboard_action = function (event) {
+//     k = event.keyCode;
+//     //ctrl
+//     if (k == 17 || event.metaKey || event.ctrlKey) {
+//         if (ctrl_pressed == false)
+//             ctrl_pressed = true;
+//     }
+//     //v
+//     if (k == 86) {
+//         if (document.activeElement != undefined && document.activeElement.type == 'text') {
+//             //let user paste into some input
+//             return false;
+//         }
         
-        if (ctrl_pressed == true && !window.Clipboard)
-            pasteCatcher.focus();
-    }
-};
-//on kaybord release
-this.on_keyboardup_action = function (event) {
-    //ctrl
-    if (event.ctrlKey == false && ctrl_pressed == true) {
-        ctrl_pressed = false;
-    }
-    //command
-    else if(event.metaKey == false && command_pressed == true){
-        command_pressed = false;
-        ctrl_pressed = false;
-    }
-};
-//draw image
-this.paste_createImage = function (source) {
-    var pastedImage = new Image();
-    pastedImage.onload = function () {
-        var idCanvas =   ctx.canvas.id ;
-         var canvas   = ctx.canvas;
-        if(autoresize == true && idCanvas=='my_canvas'){
-            //resize
-            canvas.width = pastedImage.width;
-            canvas.height = pastedImage.height;
-             ctx.drawImage(pastedImage, 0, 0);
-           debugger;
-        }
-        else if(autoresize == true && idCanvas=='my_canvas2')
-        {
+//         if (ctrl_pressed == true && !window.Clipboard)
+//             pasteCatcher.focus();
+//     }
+// };
+// //on kaybord release
+// this.on_keyboardup_action = function (event) {
+//     //ctrl
+//     if (event.ctrlKey == false && ctrl_pressed == true) {
+//         ctrl_pressed = false;
+//     }
+//     //command
+//     else if(event.metaKey == false && command_pressed == true){
+//         command_pressed = false;
+//         ctrl_pressed = false;
+//     }
+// };
+// //draw image
+// this.paste_createImage = function (source) {
+//     var pastedImage = new Image();
+//     pastedImage.onload = function () {
+//         var idCanvas =   ctx.canvas.id ;
+//          var canvas   = ctx.canvas;
+//         if(autoresize == true && idCanvas=='my_canvas'){
+//             //resize
+//             canvas.width = pastedImage.width;
+//             canvas.height = pastedImage.height;
+//              ctx.drawImage(pastedImage, 0, 0);
            
-             var canvas = ctx.canvas ;
-            var hRatio = canvas.width / pastedImage.width;
-            var vRatio = canvas.height / pastedImage.height;
-            var ratio  = Math.min ( hRatio, vRatio );
-            var centerShift_x = ( canvas.width - pastedImage.width*ratio ) / 2;
-            var centerShift_y = ( canvas.height - pastedImage.height*ratio ) / 2;
-            ctx.drawImage(pastedImage, 0,0, pastedImage.width, pastedImage.height,centerShift_x,centerShift_y,pastedImage.width*ratio, pastedImage.height*ratio);  
-           debugger;
-        }
-        else{
-            //clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-        //ctx.drawImage(pastedImage, 0, 0);
-    };
-    pastedImage.src = source;
-};
-}
+//         }
+//         else if(autoresize == true && idCanvas=='my_canvas2')
+//         {
+           
+//              var canvas = ctx.canvas ;
+//             var hRatio = canvas.width / pastedImage.width;
+//             var vRatio = canvas.height / pastedImage.height;
+//             var ratio  = Math.min ( hRatio, vRatio );
+//             var centerShift_x = ( canvas.width - pastedImage.width*ratio ) / 2;
+//             var centerShift_y = ( canvas.height - pastedImage.height*ratio ) / 2;
+//             ctx.drawImage(pastedImage, 0,0, pastedImage.width, pastedImage.height,centerShift_x,centerShift_y,pastedImage.width*ratio, pastedImage.height*ratio);  
+           
+//         }
+//         else{
+//             //clear canvas
+//             ctx.clearRect(0, 0, canvas.width, canvas.height);
+//         }
+//         //ctx.drawImage(pastedImage, 0, 0);
+//     };
+//     pastedImage.src = source;
+// };
+// }
 
 
 
         </script>
-
+<!-- <script src="/js/dropzone.js"></script> -->
+<script src="/js/jquery.filer.min.js"></script>
         </body>
         </html>
 
