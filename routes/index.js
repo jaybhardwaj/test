@@ -8,19 +8,19 @@ var url = require('./handlers/url');
 var fs = require('fs'); 
 var path = require('path');
 var multer  = require('multer');
-var upload = multer({ dest: 'attach/' });
-var bodyParser=require('body-parser');
+var upload = multer({ dest: '../attach/' });
+// var bodyParser=require('body-parser');
 var busboy=require('busboy');
  
+// module.exports = function (app) {
+// 	app.use(bodyParser.json());
+// app.use(bodyParser({
+// 	keepExtensions:true,
+// 	uploadDir: '../public/attach'
+// }));
+
+
 module.exports = function (app) {
-	app.use(bodyParser.json());
-app.use(bodyParser({
-	keepExtensions:true,
-	uploadDir: '../public/attach'
-}));
-
-
-//module.exports = function (app) {
 	app.post('/registration', portal.registration);
 	app.post('/recoverPassword', portal.recoverPassword);
 	app.post('/login', auth.login);
@@ -55,11 +55,12 @@ app.post('/blockUser',portal.blockUser);
 app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
 
 	//------------------------BUG-------------------------------------------------
-	app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);
+  app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);
 	app.post('/getAllBugtoexport',portal.exportBug);
 	app.get('/viewBug',url.viewBug,portal.viewBug,render.redirect);
 	app.get('/raiseBug',url.raiseBug,portal.raiseBug,render.redirect);
-	app.post('/addBug',upload.single('addBugUpload'),url.addBug,portal.notification,portal.addBug,render.redirect);
+	// app.post('/addBug',upload.array('addBugUpload[]'),url.addBug,portal.notification,portal.addBug,render.redirect);
+  app.post('/addBug',upload.array('addBugUpload1[]'),url.addBug,portal.notification,portal.addBug,render.redirect);
 	app.post('/bugDetails',url.bugDetails,portal.bugDetails,render.redirect);
 	app.post('/updateBugDetails',url.updateBugDetails,portal.updateBugDetails,render.redirect);
 	app.post('/addComment',url.addComment,portal.addComment,render.redirect);
@@ -379,22 +380,17 @@ app.post('/createExcelProj',portal.createExcelProj);
 	app.get('/projectDetails',url.setProject, portal.projectDetails,render.redirect);
 	// app.post('/projectStatus', );
 
-  app.post('/getBugList',function(req,res){
-    var startPoint = parseInt(req.body.start);
-    var endPoint =   parseInt(req.body.length);
+  app.get('/getUsers',function(req,res){
     var query = {
-            sql: 'call usp_getBugList(?,?,?,?,?)',
-            values: [req.session.userId, req.session.roleId,req.session.retailerId,startPoint,endPoint]
-        };
-        console.log(query);
-        mysql(query, function(err, result) {
-          // console.log('resssss',JSON.stringify(result))
-          var tempobj = JSON.stringify(result[0]);
-          var desiredObj = JSON.parse(tempobj);
-        // console.log(err, desiredObj,'saini');
-            res.send({"data":desiredObj});
-        });
-    
+           sql: "select id,firstName from t_userdetails where retailerId ="+req.session.retailerId+" and firstName like '%"+req.query.search+"%'"
+           // values: [req.query.search]
+       };
+       mysql(query, function(err, result) {
+          if(err){
+            return res.send(404);
+          }
+          res.send({"data":result});
+       });
   });
   app.post('/projectStatus',portal.projectStatus);
 

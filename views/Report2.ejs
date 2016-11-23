@@ -95,7 +95,9 @@
 /* add padding  */
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
-
+.dataTables_processing{
+    z-index:999;
+}
 </style>
 <div class="se-pre-con"></div>
 <div class="container" style="padding:15px">
@@ -201,16 +203,16 @@
                   d.isbillable = $('#reportTable th:contains("Billable")')[0]?true:false;
                   d.isyearmonth = $('#reportTable th:contains("Year-Month")')[0]?true:false;
 
-                  d.employeeName = $('input#employeeName').val();
-                  d.employeecode = $('input#employeecode').val();
-                  d.WbsName = $('input#WbsName').val();
-                  d.projectName = $('input#projectName').val();
-                  d.hours = $('input#hours').val();
-                  d.Thumbhours = $('input#Thumbhours').val();
-                  d.DATEs = $('input#date').val();
-                  d.fortNightDate = $('input#fortNightDate').val();
-                  d.billable = $('input#billable').val();
-                  d.yearmonth = $('input#yearmonth').val();
+                  d.employeeName = $('input#employeeName').val() || '';
+                  d.employeecode = $('input#employeecode').val() || '';
+                  d.WbsName = $("select#WbsName").val() ? $("select#WbsName").val().toString() :'';
+                  d.projectName = $("select#projectName").val() ? $("select#projectName").val().toString() :'';
+                  d.hours = $('input#hours').val() || '';
+                  d.Thumbhours = $('input#Thumbhours').val() || '';
+                  d.DATEs = $('input#date').val() || '';
+                  d.fortNightDate = $('input#fortNightDate').val() || '';
+                  d.billable = $('input#billable').val() || '';
+                  d.yearmonth = $("select#yearmonth").val() ? $("select#yearmonth").val().toString() :'';
 
               }
           },
@@ -254,33 +256,39 @@
           "processing": true,
           "serverSide": true,
           "fnDrawCallback": function (oSettings) {
-            console.log(oSettings)
-                var projectArr = oSettings.aoData[0]._aData.project;
-                var wbsArr = oSettings.aoData[0]._aData.wbs;
-                var monthyrArr = oSettings.aoData[0]._aData.monthyear;
+                if($('select:not(:has(option))').length){
 
-                var projectOptions ='';
-                var wbsOptions ='';
-                var monthyrOptions ='';
-                projectArr.forEach(function(element) {
-                    projectOptions += '<option>'+element.projectName+'</option>';
-                });
-                wbsArr.forEach(function(element) {
-                    wbsOptions += '<option>'+element.WbsName+'</option>';
-                });
-                monthyrArr.forEach(function(element) {
-                    monthyrOptions += '<option>'+element.yearmonth+'</option>';
-                });
-                $('#projectName').append(projectOptions);
-                $('#WbsName').append(wbsOptions);
-                $('#yearmonth').append(monthyrOptions);
-                // Apply the filter
-                $("#filterrow input[type='text']").on( 'blur', function () {
-                    console.log('amit');
-                });
-                $("#filterrow select").on( 'change', function () {
-                    console.log('amit');
-                });
+                    var projectArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.project : [];
+                    var wbsArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.wbs : [];
+                    var monthyrArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.monthyearArr : [];
+
+                    var projectOptions ='';
+                    var wbsOptions ='';
+                    var monthyrOptions ='';
+                    projectArr.forEach(function(element) {
+                        projectOptions += '<option>'+element.projectName+'</option>';
+                    });
+                    wbsArr.forEach(function(element) {
+                        wbsOptions += '<option>'+element.WbsName+'</option>';
+                    });
+                    monthyrArr.forEach(function(element) {
+                        monthyrOptions += '<option>'+element.yearmonth+'</option>';
+                    });
+                    $('#projectName').append(projectOptions);
+                    $('#WbsName').append(wbsOptions);
+                    $('#yearmonth').append(monthyrOptions);
+                    $("#projectName").val("");
+                    $("#WbsName").val("");
+                    $("#yearmonth").val("");
+                    // Apply the filter
+                    $("#filterrow input[type='text']").on( 'blur', function () {
+                        reportTable.ajax.reload();
+                    });
+                    $("#filterrow select").on( 'change', function () {
+                        reportTable.ajax.reload();
+                    });
+                }
+                
 
                 $('.se-pre-con').hide();
                 $(document).on('click', '.buttons-columnVisibility', function(event) {
