@@ -124,6 +124,7 @@
     <% include ./partials/adminheader %>
   </div>
   <div class="container-fluid user-list  secondry-color"   style=" ">
+    <div class="se-pre-con"> </div>
     <div id="ModalAddMesage"></div>
     <div class="clearfix" style="text-align:center;margin: 10px 0;">
     <span title="Go To User List" onclick="document.location.href='/users';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;"  class="glyphicon glyphicon-arrow-left"></span>
@@ -295,7 +296,7 @@
                  <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
               </a>
              
-             <button class="btn btn-primary" onclick="validBasicInfo1()" id="create-user">Submit</button>
+             <button class="btn btn-primary " onclick="validBasicInfo1()" id="create-user">Submit</button>
              
              <input type="button"  value="Next"  onclick="changeTab(5)" class="btn btn-primary" style="background-color: #f05f40;">
             
@@ -524,6 +525,7 @@ function addEditUser1(flag) {
             
             document.body.appendChild(form);
             form.submit();
+
             document.body.removeChild(form);
         }
 
@@ -604,44 +606,7 @@ function getDefaultModule(){
 }
 
   $(document).ready(function(){
-
-// instantiate the bloodhound suggestion engine
-// $(".typeahead").typeahead('destroy');
-// var numbers = new Bloodhound({
-// datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.saini); },
-// queryTokenizer: Bloodhound.tokenizers.whitespace,
-// local:  [{"saini":'aa'},{"saini":'aabb'},{"saini":'cc'},{"saini":'dd'}]
-// // remote: {
-// //         url: '/getUsers?search=%QUERY',
-// //         wildcard: '%QUERY',
-// //         ajax:{
-            
-// //             type: "GET"
-// //         },
-// //         cache: false,
-// //         limit:10,
-// //         filter: function(response){ 
-// //           console.log(response,'amit');
-// //           return $.map(response.data, function (user) {
-// //             console.log(user,'oo');
-// //                 return {
-// //                     id: user.id,
-// //                     firstName:user.firstName
-// //                 };
-// //             });
-// //         }
-// //     }
-// });
-
-// // initialize the bloodhound suggestion engine
-// numbers.initialize();
-
-// $('.typeahead').typeahead({   
-//     displayKey:'saini',
-//     source: numbers.ttAdapter()           
-// });
-
-
+ $(".se-pre-con").fadeOut("slow");
 $(".typeahead").typeahead({
     items: 4,
     source: function(request, response) {
@@ -1221,6 +1186,7 @@ $(".typeahead").typeahead({
         hrRoleString=$('#hrRole').val().toString();
     }
     assetRole=$("#AssetID").val();
+    $('.se-pre-con').show();
          $.ajax({
             url: '/addUser',
             method: 'POST',
@@ -1255,6 +1221,7 @@ $(".typeahead").typeahead({
                 "assetrole":assetRole
             },
             success: function(data) {
+              $('.se-pre-con').hide();
               if(data[0][0].uid >0 )
               {
                  $("#hdnId").val(data[0][0].uid); 
