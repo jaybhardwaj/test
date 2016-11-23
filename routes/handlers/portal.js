@@ -220,12 +220,18 @@ var locationId = [],
             tempStr.push("ymonth");
         }
 
-        var searchString = req.body['search[value]'] || '';
         var startPoint = req.body.start;
         var endPoint = req.body.length;
-        if(req.body['order[0][column]']){
-            var tempsortIndex = parseInt(req.body['order[0][column]']);
-            var sortString = req.body['columns['+tempsortIndex+'][data]'] +" "+req.body['order[0][dir]'];
+        var searchString = req.body.search.value || '';
+
+        if(req.body.order){
+            if(req.body.order[0].column){
+                var tempsortIndex = parseInt(req.body.order[0].column);
+                var sortString = req.body.columns[tempsortIndex].data +" "+req.body.order[0].dir;
+            }
+            else{
+                var sortString = 'employeeName asc';
+            }
         }
         else{
             var sortString = 'employeeName asc';
@@ -1103,15 +1109,20 @@ if(req.body.colname == 'assingedToUserId'){
     var acteffort=req.body.acteffort;
     var crtdate=req.body.createdate;
     var closedate=req.body.closedate;
-    var searchString = req.body['search[value]'];
-
-    if(req.body['order[0][column]']){
-        var tempsortIndex = parseInt(req.body['order[0][column]']);
-        var sortString = req.body['columns['+tempsortIndex+'][data]'] +" "+req.body['order[0][dir]'];
+    var searchString = req.body.search.value || '';
+    if(req.body.order){
+        if(req.body.order[0].column){
+            var tempsortIndex = parseInt(req.body.order[0].column);
+            var sortString = req.body.columns[tempsortIndex].data +" "+req.body.order[0].dir;
+        }
+        else{
+            var sortString = 'lastModifiedDate desc';
+        }
     }
     else{
         var sortString = 'lastModifiedDate desc';
     }
+    
 //jayyy end
 
 
@@ -2076,10 +2087,10 @@ Docmaster:function(req,res,next){
 
      projectStatus: function(req, res, next) {
           
-           var sortstr=req.body['columns['+parseInt(req.body['order[0][column]'])+'][data]'] + ' ' + req.body['order[0][dir]'] ;
+           var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
 
           
-           modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body['search[value]'],sortstr,
+           modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
             function(err, result) {
 
              if (err) {
@@ -4225,9 +4236,9 @@ updateHoliday: function(req,res,next){
      
      userStatus: function(req, res, next) {
 
- var sortstr=req.body['columns['+parseInt(req.body['order[0][column]'])+'][data]'] + ' ' + req.body['order[0][dir]'] ;
+ var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
 
-           modelPortal.userStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body['search[value]'],sortstr,
+           modelPortal.userStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
             function(err, result) {
 
              if (err) {
