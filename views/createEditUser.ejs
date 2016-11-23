@@ -101,6 +101,7 @@
     <% include ./partials/adminheader %>
   </div>
   <div class="container-fluid user-list  secondry-color"   style=" ">
+    <div class="se-pre-con"> </div>
     <div id="ModalAddMesage"></div>
     <div class="modal-header" style="text-align:center">
     <span title="Go To User List" onclick="document.location.href='/users';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;"  class="glyphicon glyphicon-arrow-left"></span>
@@ -261,7 +262,7 @@
                  <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
               </a>
              
-             <button class="btn btn-primary" onclick="validBasicInfo1()" id="create-user">Submit</button>
+             <button class="btn btn-primary " onclick="validBasicInfo1()" id="create-user">Submit</button>
              
              <input type="button"  value="Next"  onclick="changeTab(5)" class="btn btn-primary" style="background-color: #f05f40;">
             
@@ -472,6 +473,7 @@ var users;
             
             document.body.appendChild(form);
             form.submit();
+
             document.body.removeChild(form);
         }
 
@@ -552,7 +554,7 @@ function getDefaultModule(){
 }
 
   $(document).ready(function(){
- 
+ $(".se-pre-con").fadeOut("slow");
      $("#hrRole").searchableOptionList();
      $("#hrRole").change(function(){            
             showHod();
@@ -1108,6 +1110,7 @@ function getDefaultModule(){
         hrRoleString=$('#hrRole').val().toString();
     }
     assetRole=$("#AssetID").val();
+    $('.se-pre-con').show();
          $.ajax({
             url: '/addUser',
             method: 'POST',
@@ -1142,6 +1145,7 @@ function getDefaultModule(){
                 "assetrole":assetRole
             },
             success: function(data) {
+              $('.se-pre-con').hide();
               if(data[0][0].uid >0 )
               {
                  $("#hdnId").val(data[0][0].uid); 
