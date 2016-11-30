@@ -62,9 +62,11 @@ td.child{
       }
 
       #commentd {
-                border-radius: 10px;
-            }
-
+          border-radius: 3px;
+      }
+      #commentd:hover {
+          color: white;
+      }
       .ms-drop ul
       {
         max-height: 120px !important;
@@ -148,8 +150,25 @@ td.child{
 .dt-button-collection a.buttons-columnVisibility span {
     margin-left:20px;    
 }
-
+.Editor-container .btn.btn-default{
+    border-radius: 0px !important
+}
+.Editor-container .btn.btn-default:hover{
+    background: #f53f1a;
+}
+.Editor-container .open>.dropdown-toggle.btn-default {
+    background-color: #f53f1a;
+    color: white;
+}
+.Editor-editor {
+    height: 150px;
+    background: white;
+}
+.tab-content .active{
+  background-color: transparent;
+}
   </style>
+
 </head>
 <!-- swapnil -->
 
@@ -499,53 +518,76 @@ window.onload = function() {
           <li><a data-toggle="tab" href="#menu2">Comment<sup id="commCount"></sup></a></li>
           <li><a data-toggle="tab" href="#menu3">Attachment<sup id="attCount"></sup></a></li> 
         </ul>
-        <div class="tab-content" >
-
-          <input type="hidden" name="bugidhidden" id="bugidhidden" value=""/>
-          <div style="margin-left:-1%;width:102%" id="home" class="tab-pane fade in active">  
-            <div class="row" style="margin-top:10px">
-                <div class="col-md-1" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Title :</div>
-
-              <div class="col-md-2" id="title" style="padding-top:5px;font-size:12px"></div>
-              
-              <div class="col-md-2" style ="padding-left:2%;padding-top:5px;color:#f05f40;">Linked Task :</div>
-              <div class="col-md-6">
-              <select class="form-text-box" id="linkedTo" name="linkedTo" style="margin-top:5px">
-              <option value="0">Select task</option>>
-              <% for(var i=0;i<linkTo.length;i++) { %>
-                            <option value="<%=linkTo[i].id %>"><%=linkTo[i].name%>    
-                            </option>
-                  <%}%>
-                      </select></div>
-              <div class="col-md-1" style=";margin-left:-1%;padding-top:5px;">
-                <button type="button" class="btn btn-primary " onclick="return updatebugdescription()"  style="float:right;height:auto;padding:3px 8px;margin-bottom:1px; margin-top:0px">Update</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-1" style ="padding-left:2%;padding-top:5px;color:#f05f40;"> By :</div>
+        <div class="tab-content">
           
-              <div class="col-md-2" id="Raised_name " style="padding-top:5px;font-size:12px"><span id="asdf"></span>
+          <input type="hidden" name="bugidhidden" id="bugidhidden" value=""/>
+          <div id="home" class="tab-pane fade in active">  
+          <div class="row" style="padding: 10px 5px">
+            <div class="col-lg-2 col-md-2 col-sm-3" style="padding-top: 7px;">
+                <span style ="color:#f05f40;">Title: </span>
+                <span id="title"></span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3" style="padding-top: 7px;">
+              <span style ="color:#f05f40;">By: </span>
+              <span id="Raised_name"><span id="asdf"></span></span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="col-lg-3 col-md-3 col-sm-3" style="color:#f05f40;padding-top: 7px;">Linked Task :</div>
+              <div class="col-lg-9 col-md-9 col-sm-9">
+                <select class="form-control" id="linkedTo" name="linkedTo">
+                    <option value="0">Select task</option>>
+            <% for(var i=0;i<linkTo.length;i++) { %>
+                    <option value="<%=linkTo[i].id %>"><%=linkTo[i].name%></option>
+                <%}%>
+                </select>
               </div>
             </div>
-           
+            <!-- <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+              
+            </div> -->
+              <!-- <div class="col-md-1" style ="color:#f05f40;">Title :</div>
+
+            <div class="col-md-2" id="title" style="padding-top:5px;font-size:12px"></div> -->
             
+            <!-- <div class="col-md-2" style ="color:#f05f40;">Linked Task :</div>
+            <div class="col-md-6">
+            <select class="form-text-box" id="linkedTo" name="linkedTo" style="margin-top:5px">
+            <option value="0">Select task</option>>
+            <% for(var i=0;i<linkTo.length;i++) { %>
+                          <option value="<%=linkTo[i].id %>"><%=linkTo[i].name%>    
+                          </option>
+                <%}%>
+                    </select></div>
+            <div class="col-md-1" style=";margin-left:-1%;padding-top:5px;">
+              <button type="button" class="btn btn-primary " onclick="return updatebugdescription()"  style="float:right;height:auto;padding:3px 8px;margin-bottom:1px; margin-top:0px">Update</button>
+            </div> -->
+            <!-- <div class="col-md-1" style ="color:#f05f40;"> By :</div>
+        
+            <div class="col-md-2" id="Raised_name " style="padding-top:5px;font-size:12px"><span id="asdf"></span>
+            </div> -->
+          </div>
+          <!-- <div id="fusiontxtEditor"></div> -->
 
         <input type="text" name="bugDescription" id="bugDescription" class="hide">
-        <textarea style="float:left;width:101%"  maxlength="12000" id='description' class='form-control'></textarea>
+        <textarea maxlength="12000" id='description' class='form-control'></textarea>
         <div class="col-sm-12 text-center"><span class="error" id="errorBugDesc"></span><span class="success" id="successBugDesc"></span></div>
+          <div style="text-align: center;">
+            <button type="button" class="btn btn-primary " onclick="return updatebugdescription()">Update</button>
           </div>
-          <div id="menu1" style="margin-left:-1%;width:102%" class="tab-pane fade">
-            <div id="overview" style="margin-bottom:1%;margin-top:10px"></div>
           </div>
-          <div id="menu2" style="margin-left:-1%;width:102%" class="tab-pane fade">
+      
+          <div id="menu1" class="tab-pane fade">
+            <div id="overview" class="row" style="padding: 10px 5px"></div>
+          </div>
+          <div id="menu2" class="tab-pane fade">
           <div>
             <textarea maxlength="200" name='commenttext' style="margin-top:10px;resize:none" id='commenttext' class='form-control' rows=4 placeholder='Write your comment here ...'></textarea>
-            <input type='button' class="btn" value='Add Comment' id="commentd" style='margin-top:1%;' onclick='addcomment()'>
-            <div id="comment" style="overflow-y:auto;height:145px !important"></div>
+            <input type='button' class="btn" value='Add Comment' id="commentd" style='margin: 10px 0;' onclick='addcomment()'>
+            <div id="comment" style="overflow-y:auto;max-height:145px !important"></div>
           </div>
           <div class="col-sm-12 text-center"><span class="error" id="errorCommenttext"></span><span class="success" id="successCommenttext"></span></div>
           </div>
-          <div id="menu3" style="margin-left:-1%;width:102%" class="tab-pane fade">
+          <div id="menu3" class="tab-pane fade">
             <div class="" style="margin-top:20px;margin-bottom:50px">
               <label class="" style="font-size:14px;color:#f05f40;margin-left:1.5%;">Upload File </label>
                 <form  id="form123" method="post" style="margin-left:1%;" enctype="multipart/form-data" name="comment">
@@ -605,7 +647,7 @@ var radio=[];
 }
 
   $(document).ready(function(){ 
-
+// $("#fusiontxtEditor").Editor();
 $('#hideColumnsId').tagger({
         "fieldWidth":"20em", 
         displayHierarchy: false
@@ -996,7 +1038,7 @@ $("input:checkbox").click(function(){
   tinymce.init({ menubar:false,
         selector: '#description',
         width: "100%",
-        toolbar:'undo redo | styleselect | bold italic | bullist | numlist'
+        // toolbar:'undo redo | styleselect | bold italic | bullist | numlist'
     });  
   
     //.........................Re Show  comment on comment button click................................
@@ -1007,7 +1049,10 @@ $("input:checkbox").click(function(){
     for(var i=(data[0].length)-1;i>=0;i--) {
       data[0][i].createdDate=new Date(data[0][i].createdDate);
       var str=data[0][i].createdDate.toString();
-      com=com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%;'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left1%;'> By : "+data[0][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;background-color:#C7DEFE;max-height:100px; word-wrap: break-word;'>"+data[0][i].comments+"</div><br><div style='width:100%'></div></div>";
+
+      com=com+'<div class="comment-divs" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;"><i class="fa fa-user" style="color:#f05f40"></i> '+data[0][i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+str.slice(0,-8)+'<div>'+data[0][i].comments+'</div></div>';
+
+      // com=com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%;'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left1%;'> By : "+data[0][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;background-color:#C7DEFE;max-height:100px; word-wrap: break-word;'>"+data[0][i].comments+"</div><br><div style='width:100%'></div></div>";
     }
       $('#comment').html(com);
     }
@@ -1019,11 +1064,14 @@ $("input:checkbox").click(function(){
       var deleteBtn=''
         if(data[i].userId=='<%=userid%>' || '<%=roleid%>'==1)
         {
-          deleteBtn="<span class='glyphicon glyphicon-trash' style='float:right;margin:6px' title='Delete' onclick='deleteAttach("+data[i].id+")'></span>";
+          deleteBtn="<span class='glyphicon glyphicon-trash' style='position:absolute;top:5px;right:5px;color:#f05f40' title='Delete' onclick='deleteAttach("+data[i].id+")'></span>";
         }
         var dat=(new Date(data[i].createdDate).toString());
         dat=dat.slice(0,24);
-      att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[i].id+"'><a href='"+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+"' download ><img src='"+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+"' style='width:100px;height:100px'></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+dat+"</div></div>"
+
+        att=att+'<div class="comment-divs" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[i].orignalFilePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+'" style="width:100px;height:100px"></a></div>'+deleteBtn+'</div>';
+
+      // att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[i].id+"'><a href='"+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+"' download ><img src='"+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+"' style='width:100px;height:100px'></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+dat+"</div></div>";
      
     }
     $('#attachment').html(att);
@@ -1105,20 +1153,19 @@ $("input:checkbox").click(function(){
         }*/
 
 var over='';
-    over=over+"<table style='width:100%'><tr><td><label class='form-Label'>Project Title   : </label>"+data[0][0].projectTitle+"</td>";
-    over=over+"<td><label class='form-Label'>Assinged To   : </label> "+data[0][0].firstName+"</td>";
-    over=over+"<td><label class='form-Label'>Technology   : </label> "+data[0][0].technology+"</td>";
-    over=over+"<td><label class='form-Label'>Bug Status   : </label> "+data[0][0].statusName+"</td></tr>";
+    over=over+"<div class='col-lg-3 col-md-3 col-sm-3'><label style='color:#f05f40'>Project Title: </label> "+data[0][0].projectTitle+"</div>";
+    over=over+"<div class='col-lg-3 col-md-3 col-sm-3'><label style='color:#f05f40'>Assinged To   : </label> "+data[0][0].firstName+"</div>";
+    over=over+"<div class='col-lg-3 col-md-3 col-sm-3'><label style='color:#f05f40'>Technology   : </label> "+data[0][0].technology+"</div>";
+    over=over+"<div class='col-lg-3 col-md-3 col-sm-3'><label style='color:#f05f40'>Bug Status   : </label> "+data[0][0].statusName+"</div>";
     if(data[0][0].CycleNo){
-    over=over+"<td><label class='form-Label'>Cycle  : </label> "+data[0][0].CycleNo+"</td>";
+    over=over+"<div class='col-lg-3 col-md-3 col-sm-3'><label style='color:#f05f40'>Cycle  : </label> "+data[0][0].CycleNo+"</div>";
     }if(data[0][0].bugType){
-      over=over+"<td><label class='form-Label'>Bug Type   : </label> "+data[0][0].bugType+"</td>";
+      over=over+"<div class='col-lg-3 col-md-3 col-sm-3'><label style='color:#f05f40'>Bug Type   : </label> "+data[0][0].bugType+"</div>";
     }if(data[0][0].detectedByName){
-      over=over+"<td><label class='form-Label'>Detected By   : </label> "+data[0][0].detectedByName+"</td>";
+      over=over+"<div class='col-lg-3 col-md-3 col-sm-3'><label style='color:#f05f40'>Detected By   : </label> "+data[0][0].detectedByName+"</div>";
     } if(data[0][0].enddate){
-      over=over+"<td><label class='form-Label'>Tentative Clouser    : </label> "+data[0][0].enddate+"</td>"
-    } 
-    over=over+"</tr></table>";
+      over=over+"<div class='col-lg-3 col-md-3 col-sm-3'><label style='color:#f05f40'>Tentative Clouser    : </label> "+data[0][0].enddate+"</div>"
+    }
     $("#overview").html(over);
  
         $('#comment').html('');
@@ -1128,7 +1175,9 @@ var over='';
         for(var i=(data[1].length)-1;i>=0;i--) { 
           data[1][i].createdDate=new Date(data[1][i].createdDate);
           var str=data[1][i].createdDate.toString();
-           com=   com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left:1%;'>By : "+data[1][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;max-height:100px; word-wrap: break-word;background-color:#C7DEFE;'>"+data[1][i].comments+"</div><br><div style='width:100%'></div></div>";
+           // com=   com+"<div class='comment-border' style='vertical-align:bottom;background-color:#c7defe;margin:1%'><div style='background-color:#F0FAFF;width:100%'><div style='font-size:10px;float:left;padding-left:20px'>"+"  "+"</div><div style='font-style:italic;padding-left:1%;'>By : "+data[1][i].firstName+":"+str.slice(0,-8)+"</div></div><div style='float:left;padding-left:20px;width: 100%;max-height:100px; word-wrap: break-word;background-color:#C7DEFE;'>"+data[1][i].comments+"</div><br><div style='width:100%'></div></div>";
+
+           com=com+'<div class="comment-divs" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;"><i class="fa fa-user" style="color:#f05f40"></i> '+data[1][i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+str.slice(0,-8)+'<div>'+data[1][i].comments+'</div></div>';
         }  
         $('#comment').html(com); 
         $('#attachment').html('');
@@ -1141,13 +1190,16 @@ var over='';
            var deleteBtn=''
         if(data[0][0].createdBy=='<%=userid%>' || '<%=roleid%>'==1)
         {
-          deleteBtn="<span class='glyphicon glyphicon-trash' style='float:right;margin:6px' title='Delete' onclick='deleteAttach("+data[2][i].id+")'></span>";
+          deleteBtn="<span class='glyphicon glyphicon-trash' style='position:absolute;top:5px;right:5px;color:#f05f40' title='Delete' onclick='deleteAttach("+data[2][i].id+")'></span>";
         }
         var dat=(new Date(data[2][i].createdDate).toString());
         dat=dat.slice(0,24);
-          att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[2][i].id+"'><a href='"+data[2][i].filePath.replace('/root/fusion/public/',' ')+"' download> <img src='"+data[2][i].filePath.replace('/root/fusion/public/',' ')+"' style='width:100px;height:100px'> </a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"
-          +data[2][i].firstName+" On:"
-          +dat+"</div></div>";
+
+          att=att+'<div class="comment-divs" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[2][i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[2][i].filePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[2][i].filePath.replace('/root/fusion/public/',' ')+'" style="width:100px;height:100px"></a></div>'+deleteBtn+'</div>';
+
+          // att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[2][i].id+"'><a href='"+data[2][i].filePath.replace('/root/fusion/public/',' ')+"' download> <img src='"+data[2][i].filePath.replace('/root/fusion/public/',' ')+"' style='width:100px;height:100px'> </a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"
+          // +data[2][i].firstName+" On:"
+          // +dat+"</div></div>";
 
           
         }

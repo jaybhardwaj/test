@@ -7,7 +7,10 @@
 .marginAlign{
   margin-top: 2%;
 }
-
+.editprojectinputs>div{
+    min-height:70px;
+    margin-bottom: 20px;
+}    
  input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
@@ -51,6 +54,7 @@ width:24% !important;
 <body>
   <div>
     <% include ./partials/adminheader %>
+    <% include ./partials/setting-header %>
   </div>
 
   <div class="se-pre-con"></div>
@@ -66,18 +70,106 @@ width:24% !important;
       <input type="hidden" id="tabDetail" name="tabDetail">
       <input type="hidden" id="pid" name="pid" <%if(flag==1){%>value='<%=name[0].id%>' <%} else{%> value=0 <%}%>>
       <input type="hidden" id="hdnId" name="hdnId" <%if(flag==1){ %>value='<%=flag%>' <%} else{%> value=0 <%}%>> 
-      <input id="tab1" class="tabradio" type="radio" name="tabs" value="1" checked> <label for="tab1">Basic Details</label> 
-       <input id="tab2" class="tabradio" type="radio" name="tabs" value="2" > 
+      <input id="tab1" class="tabradio" type="radio" name="tabs" value="1" onclick="handleClick(this);" checked> <label for="tab1">Basic Details</label> 
+       <input id="tab2" class="tabradio" type="radio" name="tabs" value="2" onclick="handleClick(this);" > 
        <label for="tab2">Project Data</label>
-      <input id="tab5" class="tabradio"   type="radio" name="tabs" value="3" > 
+      <input id="tab5" class="tabradio"   type="radio" name="tabs" value="3" onclick="handleClick(this);" > 
       <label for="tab5">Billing</label>
 
       <section id="content1">
-        <table class="table form-table">
+      <div class="row editprojectinputs">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Project Name:<sup  class="astrick">*</sup></label>
+            <input type="text"   placeholder=" -- Enter Project Name -- " class="form-control"  style=""  name="pname" id ="idpname" maxlength="50" onblur=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>'<%}%>>
+                <div class="fLeft"><span class="error" id="errorIdpname"></span></div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Project Code:</label>
+            <input type="text" style="" class="form-control" placeholder="Project Code" name="pcode" id ="pcode" onkeypress="return specialchar(event)" <%if(flag==1){%>value='<%=name[0].pcode%>' <%}%> readonly>
+                <div class="fLeft"><span class="error" id="errorPcode"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Client:<sup  class="astrick">*</sup></label>
+            <select  class="form-control" style=""  name="pclient" id ="pclient" onchange="getSelectedOptions($('#pclient :selected').val())"> 
+              <option value='0' disabled selected>Select</option>
+                  <% for(var i=0;i<client.length;i++) {%>
+                <option value="<%=client[i].id%>"><%=client[i].clientName%></option>
+                 <%}%>
+              </select>
+              <div class="fLeft"><span class="error" id="errorPclient"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Client Contact Person:</label>
+              <div id="contactDiv">
+                <select multiple="multiple" class="form-control chosen-select" style=""  name="ccontact" id ="ccontact"> 
+                </select> 
+                <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Technology:<sup  class="astrick">*</sup></label>
+            <select multiple="multiple" class="form-control chosen-select" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Project Technology..."> 
+              <option  value='0' disabled selected>Select</option>
+                <% for(var i=0;i<tech.length;i++) {%>
+                <option value="<%=tech[i].id%>"><%=tech[i].description1%></option>
+                      <%}%>
+              </select>
+              <div class="fLeft"><span class="error" id="errorPtech"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Planned Start Date:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20" placeholder="Select Date"  style=""   class= "form-control" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>>
+                <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Planned End Date:<sup  class="astrick">*</sup></label>
+            <input type="text" style=""  maxlength="20" placeholder="Select Date" name="pedate"  class="form-control" id ="datepicker1" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> >
+                <div class="fLeft"><span class="error" id="errorDatepicker1"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Complexity:</label>
+            <select style="" class="form-control chosen-select" id ="pcomplexity" name="pcomplexity" >
+                <option  value='0' disabled selected>Select</option>
+                <option  value='simple'<%if(flag==1&&name[0].pcomplexity=='simple'){%>selected<%}%> > simple </option>
+                <option  value='medium'<%if(flag==1&&name[0].pcomplexity=='medium'){%>selected<%}%> > medium </option>
+                <option  value='complex'<%if(flag==1&&name[0].pcomplexity=='complex'){%>selected<%}%>> complex </option>
+              </select>
+              <div class="fLeft"><span class="error" id="errorPcomplexity"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Location:</label>
+            <select class="form-control chosen-select" id ="plocation" name="plocation" >
+                <option value='0' disabled selected >Select</option>
+                  <% for(var i=0;i<location.length;i++) {%>
+                <option value="<%=location[i].id%>"<%if(flag==1&&name[0].locid==location[i].id){%>selected<%}%> ><%=location[i].location%></option>
+                  <%}%>
+              </select>
+              <div class="fLeft"><span class="error" id="errorPlocation"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Description:</label>
+            <textarea placeholder="Enter Project Description" id="DescriptionID" style="" class="form-control" row=2 name="pdescription" maxlength="250" onkeypress="return specialchar2(event)" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
+             <div class="fLeft"><span class="error" id="errorDescriptionID"></span></div> 
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 "<%if(flag==0 ){%> style="display:none"<%}%> >
+            <label>Status:</label>
+            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checkded="true"> Active
+              <input type="radio" name="pstatus"  value= 0  id = "pstatus2" required  style="margin-top:3%;"> Inactive
+
+          </div>
+         
+
+      </div>
+
+
+  <!--       <table class="table form-table">
           <tr>
             <td>
               <td><label  style="padding:2%;color: #524A4A;font-size: 11px"> Project Name: <sup>*</sup> </label></td>
-              <td><input type="text"   placeholder=" -- Enter Project Name -- " class="form-text-box"  style="width:100%"  name="pname" id ="idpname" maxlength="50" onblur=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>'<%}%>>
+              <td><input type="text"   placeholder="  Enter Project Name  " class="form-text-box"  style="width:100%"  name="pname" id ="idpname" maxlength="50" onblur=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>'<%}%>>
                 <div class="fLeft"><span class="error" id="errorIdpname"></span></div>
               </td>
             </td>
@@ -192,7 +284,7 @@ width:24% !important;
             <td></td>
           </td>
         </tr>
-        </table>
+        </table> -->
 <div class="text-center"><span class="success" id="successProjectAddEdit"></span><span class="error" id="errorProjectAddEdit"></span></div>
 <script>
   $("#pclient").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].cname%>",<%}}%>]).prop("selected", false);
@@ -212,8 +304,82 @@ width:24% !important;
          
       </section>
       <section id="content2">
-        
-        <table class="table">
+      <div class="row editprojectinputs">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Actual Start Date :</label>
+            <input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-control" id="datepicker2" style="" name="asdate" <%if(flag==1){if(name[0].actualStartDate !='00/00/00'){%>value='<%=name[0].actualStartDate%>' <%} else{%> value='' <%}}%> >
+          </div>  
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Actual End Date:</label>
+            <input type="text"  maxlength="20" placeholder=" -- Select Actual End Date" class= "form-control" id="datepicker3" style="" name="aedate"  <%if(flag==1){if(name[0].actualEndDate !='00/00/00'){%>value='<%=name[0].actualEndDate%>' <%} else{%> value='' <%}}%> >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Comercial Head :</label>
+            <select class="form-control chosen-select1" id="pcommercialhead" name="pcommercialhead" >
+                <option   value='0' disabled selected>Select</option>
+                <% for(var i=0;i<teamlead.length;i++) {%>
+                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].commercialHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
+                  <%}%> 
+              </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Account Lead :</label>
+            <select class="form-control chosen-select1" id="paccounthead" name="paccounthead" >
+                <option value='0' selected disabled >Select</option>
+                <% for(var i=0;i<teamlead.length;i++) {%>
+                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].accountHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
+                <%}%> </select>
+                <div class="fLeft"><span class="error" id="errorPaccounthead"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Manager :</label>
+            <select class="form-control chosen-select1" id ="pmanager" name="pmanager" >
+                <option value='0' selected disabled>Select</option>
+                <% for(var i=0;i<manager.length;i++) {%>
+                <option value="<%=manager[i].id%>"<%if(flag==1&&name[0].manager==manager[i].id){%>selected<%}%> ><%=manager[i].name%></option>
+               <%}%>
+              </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Is Plan Required:</label>
+            <select class="form-control" id ="planReq" name="planReq" >
+                <option value="1" selected>Yes</option>
+                <option value="0">No</option>
+              </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Assign to All:</label>
+            <select style="" id="assign" class="form-control" name="assign" onclick="AssigntoAll()">
+                
+                  <option disabled=""  value="2" >Select</option>
+                  <option value="1" >Yes</option>
+                  <option value="0" selected  >No</option>
+                </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Resources:<sup  class="astrick">*</sup></label>
+            <select multiple="multiple" class="form-control chosen-select1" name="presource" id ="presource" maxlength="50">
+                <% for(var i=0;i<resource.length;i++) {%>
+                <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
+                <%}%>
+              </select>
+              <%if(flag==1){for(var i=0;i<name.length;i++){%>
+              
+              <%}}%>
+
+              <script type="text/javascript">
+                $("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
+                $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){ %>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
+              </script>  
+              <div class="fLeft"><span class="error" id="errorPresource"></span></div>
+          </div>
+       </div>   
+
+
+
+
+
+        <!-- <table class="table">
         <tr>
           <td><td></td><td></td></td>
           <td><td></td><td></td></td>
@@ -239,13 +405,13 @@ width:24% !important;
                   <%}%> 
               </select> 
              </td>
-            
+            -->
             
 
               <!-- <button class="btn btn-primary" id="selectAll" style="margin-bottom:4px">Select All</button>
               <button class="btn btn-primary"  id="selectNone">Select None</button> -->
               
-  <td><label style="padding:2%;color: #524A4A;font-size: 11px">Account Lead:</label></td>
+ <!--  <td><label style="padding:2%;color: #524A4A;font-size: 11px">Account Lead:</label></td>
               <td> <select class="form-text-box" id="paccounthead" name="paccounthead" >
                 <option value='0' selected disabled >Select</option>
                 <% for(var i=0;i<teamlead.length;i++) {%>
@@ -317,7 +483,7 @@ width:24% !important;
            <td></td><td></td><td></td><td></td>
               <td></td><td></td><td></td><td></td> 
           </tr>
-        </table> 
+        </table>   -->
        
           <center style="margin-bottom: 1%">
           <a href="/projectDetails">
@@ -333,6 +499,43 @@ width:24% !important;
         
       </section>
       <section id="content5">
+
+        <div class="row editprojectinputs">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Billable:</label> <br>
+            <input type="radio"   name="isBillable"  value= 1  id = "isBillable1" required  style="margin-top:3%;"> Yes
+              <input type="radio" name="isBillable"  value= 0  id = "isBillable2" required  style="margin-top:3%;" > No
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Project Type::</label>
+            <select style="" id="ptype1" class="form-control" name="ptype">
+                  <option disabled selected value=0>Select</option>
+              <% for(var i=0;i<allPtype.length;i++) {%>
+              <option value="<%=allPtype[i].id%>"><%=allPtype[i].description1%></option>
+              <%}%>
+                </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Tax Code:</label>
+            <input type="text" placeholder="Enter Tax Code"  class= "form-control" id="taxCode" style="" name="taxCode"  maxlength="20"  <%if(flag==1){%>value='<%=name[0].taxCode%>' <%}%>>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>PO Number:</label>
+            <input type="number" class="form-control" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "10" min = "1" max = "99999" placeholder=" -- Enter PO Number -- "class= "form-text-box" id="poNumber" style="" name="poNumber" <%if(flag==1){%>value='<%=name[0].poNumber%>'<%}%> >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Project Category:</label>
+            <select style="" id="pcat" class="form-control" name="pcat">
+                  <option selected disabled value=0>Select</option>
+              <% for(var i=0;i<allPcat.length;i++) {%>
+              <option value="<%=allPcat[i].id%>"><%=allPcat[i].description1%></option>
+              <%}%>
+                </select>
+          </div>
+        </div>  
+
+
+<!-- 
         <table class="table form-table" >
           <tr>
             <td>
@@ -384,7 +587,7 @@ width:24% !important;
            <td></td><td></td><td></td><td></td>
               <td></td><td></td><td></td><td></td> 
           </tr>
-        </table>
+        </table> -->
 
             <center style="padding-bottom: 1%">
             <a href="/projectDetails">
@@ -408,51 +611,62 @@ width:24% !important;
 
 
 <script>
+  function handleClick(elem){
+      if(elem.value ==2){
+        $(".chosen-select1").chosen();
+      }
+      if(elem.value ==3){
+        $(".chosen-select2").chosen();
+      }
+  }
   var tabDisable=0;
   var addedit=0;
   var pressButton=0;
   var abcd=0;
     $(document).ready(function() {
+      // setTimeout(function(){});
+      $(".chosen-select").chosen();
 
       $('.se-pre-con').fadeOut('slow');
 
-      $('#pclient').tagger({
-        "fieldWidth":"13em"
-      });  
-      $('#ptech').tagger({
-        "fieldWidth":"13em"
-      }); 
-      $('#presource').tagger({
-        "fieldWidth":"13em"
-      });
-      //$("#presource").searchableOptionList();
+      // $('#pclient').tagger({
+      //   "fieldWidth":"13em"
+      // });  
+      // $('#ptech').tagger({
+      //   "fieldWidth":"13em"
+      // }); 
 
-      $('#presource').tagger({
-        "fieldWidth":"13em"
-      });
+      //  $('#presource').tagger({
+      //   "fieldWidth":"13em"
+      // });
+      // $("#presource").searchableOptionList();
 
-      $('#pcomplexity').tagger({
-        "fieldWidth":"13em"
-      });
-      $('#pcommercialhead').tagger({
-        "fieldWidth":"13em"
-      });
-      $('#paccounthead').tagger({
-        "fieldWidth":"13em"
-      });
+      // $('#presource').tagger({
+      //   "fieldWidth":"13em"
+      // });
 
-      $('#pmanager').tagger({
-        "fieldWidth":"13em"
-      });
+      // $('#pcomplexity').tagger({
+      //   "fieldWidth":"13em"
+      // });
+      // $('#pcommercialhead').tagger({
+      //   "fieldWidth":"13em"
+      // });
+      // $('#paccounthead').tagger({
+      //   "fieldWidth":"13em"
+      // });
 
-       $('#ccontact').tagger({
-        "fieldWidth":"13em"
-      });
+      // $('#pmanager').tagger({
+      //   "fieldWidth":"13em"
+      // });
+
+      //  $('#ccontact').tagger({
+      //   "fieldWidth":"13em"
+      // });
 
   
-  $('#plocation').tagger({
-        "fieldWidth":"13em"
-      });
+  // $('#plocation').tagger({
+  //       "fieldWidth":"13em"
+  //     });
 
   $("input[name=pstatus][value=" + 1 + "]").prop('checked', true);
   $("input[name=isBillable][value=" + 1 + "]").prop('checked', true);

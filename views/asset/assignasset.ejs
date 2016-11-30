@@ -93,7 +93,7 @@
  
     <div class="modal-dialog modal-lg">
         <!--- Modal content-->
-        <div class="modal-content" id="express23" style="width: 1100px;margin-left: -11%">
+        <div class="modal-content" id="express23">
             <div class="modal-header" style="background-color:#f05f40;">
                 <center><label id="head4" class="modal-title" style="color:white;font-size:10pt;"><b>Write Us Your Issue</b></label>
                     <span id="closeedit" class='close closeedit' data-dismiss="modal" style='float:right;' title='Close'> &times;  </span>
@@ -101,7 +101,44 @@
             </div>
             <div id="err" class="col-lg-6 col-sm-offset-3"></div>
             <div class="modal-body">
-                <div class="row" style="max-width: 100% overflow-y:auto" >
+            <div class="row">
+              <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4">Subject: *</label>
+                <div class="col-lg-9 col-md-9 col-sm-8">
+                  <input type='text' maxlength="500" name="name" class="form-control" id="issue" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4">Problem With Asset: *</label>
+                <div class="col-lg-9 col-md-9 col-sm-8">
+                  <select id="aset" type="dropdown" name="asettype" class="form-control">
+                     <option value="0"selected="">Select Asset</option>
+                       <% for(var i=0;i<assignedast.length;i++){%>
+                        <%for(var j=0;j<assignedast[i].length;j++){
+                                     console.log('************here is',assignedast[i][j].componentName);
+                      %>
+
+                    <option value="<%=assignedast[i][j].componentName%>"><%=assignedast[i][j].componentName%></option>
+                       <%}}%> 
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4">Select your admin: *</label>
+                <div class="col-lg-9 col-md-9 col-sm-8">
+                  <select id="admin" type="dropdown" name="adminame" class="form-control" >
+                    <option disabled value="0"selected="">Select admin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4">Message: *</label>
+                <div class="col-lg-9 col-md-9 col-sm-8">
+                  <textarea id="message" maxlength="500" name="name" class="form-control"></textarea>
+                </div>
+              </div>
+            </div>
+               <!--  <div class="row" style="max-width: 100% overflow-y:auto" >
                     <table class="table"  >
                         <tr>
                             <td>
@@ -151,7 +188,7 @@
                     </div>
 
 
-                  </div>
+                  </div> -->
                 </div>
               <div class="modal-footer" style="border-top:0px;">
                 <center>

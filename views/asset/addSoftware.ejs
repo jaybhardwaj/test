@@ -22,7 +22,43 @@
             <span class="modal-title" style="padding-left:47%;">Add Software</span>
         </div>
         <form class="form-horizontal" style="margin:1%;" action="submitSoftwareDetails" method="post">
-            <div class="row">
+            <div class="row fusion-form-elements">
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>Software Type:<sup  class="astrick">*</sup></label>
+                <select id="typel" type="dropdown" name="stype" class="form-control">
+                  <option disabled value="0"selected="">Select a value</option>
+                    <%console.log(stype,"----------stype--------");for(var i=0;i<stype[0].length;i++){%>
+                  <option value="<%=stype[0][i].id%>"><%=stype[0][i].componentName%></option>
+                    <%}%>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>Vendor:<sup  class="astrick">*</sup></label>
+                <select id="vendor" type="dropdown" name="vendor" class="form-control">
+                  <option disabled value="0"selected="">Select a value</option>
+                    <%for(var i=0;i<stype[2].length;i++){%>
+                  <option value="<%=stype[2][i].id%>"><%=stype[2][i].name%></option>
+                    <%}%>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>Licence:</label>
+                <input type="checkbox" name='test5' id="test5" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>Name:<sup  class="astrick">*</sup></label>
+                <input name="name" type="text" placeholder="software name" class="form-control" id="name">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>Invoice Date:<sup  class="astrick">*</sup></label>
+                <input name="Invoicedate" placeholder="Enter date" class="form-control date" id="Invoicedate">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>Description:<sup  class="astrick">*</sup></label>
+                <textarea id='textarea' placeholder="description of software" name="des" style="resize: none;" class="form-control"></textarea>
+              </div>
+            </div>
+            <!-- <div class="row">
                 <table class="table">
                     <tr>
                         <td>
@@ -41,7 +77,6 @@
                             <td>
                                 <label for="vendor" class="form-Label">Vendor: <sup class="astrick">*</sup></label></td>
                             <td>
-                                <!-- <input name="vendor" placeholder="enter vendor name" class="form-text-box" id="vendor"> -->
 
                                 <select id="vendor" type="dropdown" name="vendor" class="form-text-box">
               <option disabled value="0"selected="">Select a value</option>
@@ -84,9 +119,22 @@
                         </td>
                     </tr>
                 </table>
+            </div> -->
+            <div class="row fusion-form-elements hide" id="lic">
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>#Users:<sup  class="astrick">*</sup></label>
+                <input type="number" name="users"  min="1" placeholder="no. of users" class="form-control"  id="users"   onchange="addlic()">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>Purchase Date:<sup  class="astrick">*</sup></label>
+                <input name="pdate" class="form-control date" placeholder="Enter date" id="pdate">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <label>Expiry Dat:<sup  class="astrick">*</sup></label>
+                <input name="edate" placeholder="Enter date" class="form-control date" id="edate">
+              </div>
             </div>
-
-            <div class="row hide" id="lic">
+           <!--  <div class="row hide" id="lic">
                 <table class="table" id="licTable">
 
                     <tr>
@@ -118,7 +166,7 @@
                 </table>
              
             
-            </div>
+            </div> -->
             <div class="row" id="license" style="max-width: 100% overflow-y:auto" ></div>
             <input type='text' id="hid" class='hide' name='alllicensekey' value="1">
             <div class="form-group" style="margin: 20px">

@@ -1,4 +1,4 @@
-debugger;
+
 var varForMakingLocalVarGlobalForTimer ;
 var thisDateBeforeSelect = '';
 var workingHoursInADay = 9;
@@ -536,7 +536,6 @@ function addRow(currentId) {
     ultimateEndId++;
      initializeJquery();
     var numValuePair = updateNumberSequenceInFirstColumn();
-    // debugger;
      var globalvarForGlyphcomment = '#'+ ultimateEndId + '_rowid_' + individualId + ' td  .glyphicon-comment';
     setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},2000);
      setTimeout(function(){focusOnNewCreate(idAddedUsedEverywhereInThisFunction)
@@ -691,11 +690,9 @@ function createNewVersion(submitFlag) {
     }
     updateArr = updateArr.join('||');
  // console.log('updateArr is',updateArr);
-  // debugger;
 var changedEle = changedEleArr.join();
 
     $('.se-pre-con').fadeIn('slow');
-//debugger
     $.ajax({
         url: '/insNewVer',
         type: 'post',
@@ -775,7 +772,6 @@ var collaborate = '';
 if($('#collaborateId').val()!=null){
  collaborate  = $('#collaborateId').val().join();
 }
-//debugger;
 
     $.ajax({
         url: '/saveTask',
@@ -915,7 +911,6 @@ if(somethingZeroFlag)      { somethingUpdated = 0;}
 
 
 
-//debugger;
     if (joinFlag) {
         for (var i = 0; i < updateArr.length; i++) {
             updateArr[i] = updateArr[i].join('$@$');
@@ -955,7 +950,6 @@ commentString = '';
 if($('#collaborateId').val()!=null){
  collaborate  = $('#collaborateId').val().join();
 }
-//debugger;
     $.ajax({
         url: '/saveTask',
         type: 'post',
@@ -1324,7 +1318,6 @@ function deleteThisRowHereAndNow(rowId){
  var endDateEle = $('#'+rowId+' input')[2];
  var endDate     = $(endDateEle).val();
  var x = endDate.indexOf('$$Kaspar0v')
- //debugger;
  if(x!=-1){
     setTimeout(function(){
     $('#' + rowId).addClass('deleteCss');
@@ -1332,7 +1325,6 @@ function deleteThisRowHereAndNow(rowId){
 setTimeout(function(){  disableEverything(rowId);},1000);
      endDate = endDate.slice(0,x);
      $(endDateEle).val(endDate);
-     //debugger;
     },500);
     }
     
@@ -1920,7 +1912,6 @@ addcolHideClassOnTagger();
             var nextEle = $(this).next()[0];
             var newId   = $(nextEle).attr("id");
               someThingUpdated = 1;
-            //  debugger;
          changedEleFunc(newId,9);
 
               showSaveSubmit();
@@ -2286,7 +2277,6 @@ $('#sendMailTo').tagger({
        , placeholder: 'send mail to'
       });
  $($("#sendMailTo").next()[0]).addClass("hide");
-debugger;
 $('#collaborateId').tagger({
         "fieldWidth":"20em", 
         displayHierarchy: false
@@ -2296,7 +2286,6 @@ $('#collaborateId').tagger({
 
       });
  $($("#collaborateId").next()[0]).addClass("hide");
-debugger;
 
 $('#hideColumnsId').tagger({
         "fieldWidth":"20em", 

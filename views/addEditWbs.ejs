@@ -4,6 +4,11 @@
 
     <head>
         <style>
+.editwbsinputs>div{
+    min-height:70px;
+    margin-bottom: 20px;
+} 
+
              .tagger {
                 border: -1px steelblue !important;
                 background-color: #fff !important;
@@ -76,6 +81,7 @@
     <body>
         <div>
             <% include ./partials/adminheader %>
+             <% include ./partials/setting-header %>
         </div>
 
 
@@ -90,7 +96,101 @@
   <input type="text" name="wbshidden" class="hide" id="wbshidden" value='' />
           <input type="text" name="flaghide" class="hide" id="flaghide" <%if(flag==1 ){ console.log( 'Nae is ', name)%>value='  <%=flag%>' <%} else{%> value=0 <%}%> />
           <input type="text" name="wbsidhide" class="hide" id="idhide" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSId%>' <%} else{%> value=0 <%}%> />
-    <table class="table"  style="width: 100%;margin-bottom: 0px" >
+
+      <div class="row editwbsinputs">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Project Name:<sup  class="astrick">*</sup></label>
+            <%if(flag==1  && typeof (name[0][0]) != 'undefined'){%> 
+              <input type="text" class="form-control " style="" name="proname" id="proname" maxlength="50" value='<%=name[0][0].projectTitle%>' disabled="true">
+              <%}%>
+              <%if(flag==0) {%>
+               <select class="form-control"   onchange="getAllWbs($('#proname').val())" name="proname" id="proname" style="">
+                     <option value='0' disabled selected>Select</option>
+                     <% for(var i=0;i<allinfo.length;i++) {%>
+                     <option value="<%=allinfo[i].id%>"<%if(flag==1&&name[0][0].projectId==allinfo[i].id){%>
+                     selected<%}%>> <%=allinfo[i].projectTitle%> </option>
+                     <%}%> 
+              </select> <% } %>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>WBS Name:<sup  class="astrick">*</sup></label>
+            <input onblur="return allWbs();" onkeypress="return specialCharacter(event)" type="text" placeholder="Enter a WBS Name" class="  form-control" style="" name="wbsname" id="wbsname" maxlength="50" onblur="myFunction(); checkprofield();" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSName%>' <%}%> >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>WBS Code:</label>
+            <input type="text" placeholder="WBS Code" class=" form-control" style="" name="wbscode" id="wbscode" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSCode%>' <%}%> readonly>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>WBS Owner:</label>
+            <select style="" class="form-control" id="wbsowner" name="wbsowner">
+                 <option disabled selected value=0>Select</option>
+                <% for(var i=0;i<owner.length;i++) {%>
+                <option value="<%=owner[i].id%>"<%if(flag==1&&name[0][0].WBSOwner==owner[i].id){%>
+                selected<%}%>><%=owner[i].name%></option>
+                <%}%>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Planned Start Date:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20" placeholder="Select Date" class="form-control"  id="datepicker" style="background-color: rgb(255, 255, 255);" name="wbspsdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'){%>value='<%=name[0][0].wplannedStartDate%>' <%}%> > 
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Planned End Date:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20" placeholder="Select Date" name="wbspedate"  class="form-control" id="datepicker1" style="background-color: rgb(255, 255, 255);" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value='<%=name[0][0].wplannedEndDate%>' <%}%> >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Actual Start Date:</label>
+            <input type="text" maxlength="20" class="form-control" id="datepicker2" placeholder="Select Date"  style="background-color: rgb(255, 255, 255);" name="wbsasdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualStartDate){ if(name[0][0].wactualStartDate != '00/00/00'){%>value='<%=name[0][0].wactualStartDate%>' <%} else{%> value='' <%}}%>   > 
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Actual End Date:</label>
+            <input type="text" maxlength="20" placeholder="Select Date" class="form-control" id="datepicker3"  style="background-color: rgb(255, 255, 255);" name="wbsaedate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualEndDate){ if(name[0][0].wactualEndDate != '00/00/00'){%>value='<%=name[0][0].wactualEndDate%>' <%} else{%> value='' <%}}%>  >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Estimate Effort:</label>
+            <input type="number" style="" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" placeholder="Effort" class="form-control"   name="wbseffort" id="wbseffort" maxlength="5" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].estimateEffort%>' <%}%> >
+
+            <select style="" id="wbseffort1" class="form-control" name="wbseffort1">
+                            <option disabled selected   value=0>Select</option>
+                            <option value=1>Man-Hours</option>
+                            <option value=2>Man-Days</option>
+                            <option value=3>Man-Weeks</option>
+                            <option value=4>Man-Months</option>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>WBS Location:</label>
+            <select   class="form-control" id="wbslocation" name="wbslocation">
+                   <option disabled selected value=0>Select</option> 
+
+                   <% for(var i=0;i<location.length;i++) {%> <option value="<%=location[i].id%>" <%if(flag==1&&location[i].id==name[0][0].WBSLocation) {%>selected<%}%>><%=location[i].location%></option> <%}%> 
+
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Assign to All:</label>
+            <select style="" id="assign" class="form-control" name="assign">
+                  <option  disabled selected  value=2>Select</option>
+                  <option value=1>Yes</option>
+                  <option value=0  selected="true">No</option>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Type :</label>
+            <select style="" id="typeValue" class="form-control" name="typeValue">
+                <option disabled selected   value=0>Select</option>
+                <option value=1>Time only</option>
+                <option value=2>Time & Expence</option>
+              </select>
+          </div>
+           <!-- <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Status:</label>
+            <%if(flag==0 ){%> class="hide"<%}%> >
+              <input type="radio" class="" name="wbsstatus" value=1 id="wbsstatus1" style="margin-top:10px;"> Active 
+              <input type="radio" class="" name="wbsstatus" value=0 id="wbsstatus2" style="margin-top:10px;"> Inactive
+          </div> -->
+      </div>
+    <!-- <table class="table"  style="width: 100%;margin-bottom: 0px" >
       <tr>
         <td>
           <td>
@@ -254,7 +354,7 @@
         
          
       </tr>
-    </table>
+    </table> -->
      <div class="row " style="padding-bottom:20px;">
         <center> 
             <a href="/wbsDetails">

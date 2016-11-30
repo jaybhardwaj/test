@@ -8,6 +8,9 @@
 
 .marginAlign{
   margin-top: 2%;
+}
+.editclientinputs>div{
+    min-height:70px;
 }  
 sup {  color: red;  } 
 
@@ -15,18 +18,18 @@ sup {  color: red;  }
         <script>
     
             $(document).ready(function() {
-
-                 $('#cal').tagger({
-                    baseURL: '../img/'
+                $(".chosen-select").chosen();
+                 // $('#cal').tagger({
+                 //    baseURL: '../img/'
                    
-                  , fieldWidth: "11em"
-                  });
+                 //  , fieldWidth: "11em"
+                 //  });
 
-                  $('#location').tagger({
-                    baseURL: '../img/'
+                 //  $('#location').tagger({
+                 //    baseURL: '../img/'
                   
-                  , fieldWidth: "13em"
-                  });
+                 //  , fieldWidth: "13em"
+                 //  });
 
                 $('.client-img').addClass('active');
                  $("#cabbname").focusout(function(){
@@ -43,18 +46,77 @@ sup {  color: red;  }
 <body>
     <div>
         <% include ./partials/adminheader %>
+         <% include ./partials/setting-header %>
     </div>
     <div class="secondry-color" style="  padding:2%">
-       
+       <div class="clearfix">
      <span title="Go To Client List" onclick="document.location.href='/clients';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;"  class="glyphicon glyphicon-arrow-left"></span>
                         <% if(editflag==0){  %> <span class="modal-title" style="padding-left:45%">Create Client</span>
                             <%} else { %> <span class="modal-title" style="padding-left:45%">Edit Client</span> 
                                 <%}%>
+                                </div>
       <form action="/addEditClient" method="post" onsubmit="return validateForm()">             
                 <input type="text" class="hide" id='hiddenid' name="hiddenid" <%if((editflag==1)){%>value='<%=clientinfo[0].id%>'
                     <%}%>> 
                     <input type="text" class="hide" id='hiddeneditflag' name="hiddeneditflag" <%if((editflag==1)){%>value='<%=editflag%>'<%}else {%>value='0' <%}%>>
- <table class="table" style="margin-top: 1%">
+
+<div class="row editclientinputs">
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Client Name:<sup  class="astrick">*</sup></label>
+        <input type="text" maxlength="40"  onkeypress="return specialCharacter(event)" 
+            class="form-control" id="cname" name="cname" placeholder="Name" <%if((editflag==1)){%>value='<%=clientinfo[0].clientName%>'
+            <%}%>/>
+            <div class="fLeft"><span class="error" id="errorCname"></span></div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Client Abbreviate Name:<sup  class="astrick">*</sup></label>
+        <input type="text"   onkeypress="return specialCharacter(event)"  maxlength="45" class="form-control" id="cabbname" name="cabbname" placeholder="Abbrivated Name"  <%if((editflag==1)){%>value='<%=clientinfo[0].clientAbbName%>'
+            <%}%> />
+            <div class="fLeft"><span class="error" id="errorCabbname"></span></div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Category</label>
+        <select  class="form-control" name="category" id="category" maxlength="50" onchange="" ;>
+          <option value="Silver" <% if((editflag==1) && "Silver"==clientinfo[0].category){%>selected<%}%>>Silver</option>
+          <option value="Gold" <% if((editflag==1) && "Gold"==clientinfo[0].category){%>selected<%}%>>Gold</option>
+           <option value="Diamond" <% if((editflag==1) && "Diamond"==clientinfo[0].category){%>selected <%}%>>Diamond</option>
+            </select>
+            <div class="fLeft"><span class="error" id="errorCategory"></span></div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Account Lead:</label>
+        <select name="cal" id="cal" class="form-control chosen-select"  >
+                                            <option value="0">--Select--</option>
+                                            <%for(var i=0;i<users.length;i++){%>
+                                            <option value="<%=users[i].id%>" <%if(editflag==1&&clientinfo[0].clientAccountLead==users[i].id){%>selected<%}%> ><%=users[i].firstName%>
+                                            </option>
+                                            <%}%>
+                                        </select>
+            <div class="fLeft"><span class="error" id="errorCal"></span></div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Client Code:</label>
+        <input type="text"   maxlength="45" class="form-control" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
+                                            <%}%> readonly /> <div class="fLeft"><span class="error" id="errorCcode"></span></div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Location:</label>
+        <select name="location" class="form-control chosen-select" id="location"  >
+                                            <option value="0">--Select--</option>
+                                            <%for(var i=0;i<location.length;i++){%>
+                                            <option value="<%=location[i].id%>" <%if(editflag==1&&clientinfo[0].location==location[i].id){%>selected<%}%> ><%=location[i].location%>
+                                            </option>
+                                            <%}%>
+                                        </select>
+            <div class="fLeft"><span class="error" id="errorLocation"></span></div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Address:</label>
+        <textarea type="" placeholder="Client Address"   maxlength="300" height="103" class="form-control" id="address" name="address" <%if((editflag==1)){ console.log(clientinfo[0].address);%>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea>
+                <div class="fLeft"><span class="error" id="errorAddress"></span></div>
+    </div>
+</div>
+<!--  <table class="table" style="margin-top: 1%">
         
     <tr>
         <td>
@@ -135,7 +197,7 @@ sup {  color: red;  }
            <td></td><td></td><td></td><td></td>
               <td></td><td></td><td></td><td></td> 
           </tr>  
-</table>          
+</table>  -->         
  <div class="text-center"><span class="error" id="errorCreateClient"></span><span class="success" id="successCreateClient"></span></div>
                                 <center style="padding-bottom: 1%">
                                     <a href="/clients?inactive=false">

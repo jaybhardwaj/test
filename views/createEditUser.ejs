@@ -4,15 +4,15 @@
 <head>
     <% include ./partials/head %>
     <style>
-   .user-list label select {
+   /*.user-list label select {
     padding:0px;
-  }
+  }*/
   .ms-drop ul > li label {
     display: inline;
   }
-  .user-list li label {
+ /* .user-list li label {
     padding: 0px;
-  }
+  }*/
   div .ui-multiselect-menu .ui-widget .ui-widget-content .ui-corner-all{
   width: 310px !important;
  }
@@ -117,11 +117,15 @@
 .typeahead.dropdown-menu{
   width: 100%;
 }
+.user-list .chosen-container {
+    width:100% !important;
+}
     </style>
 </head>
 <body style="min-height:100px">
   <div>
     <% include ./partials/adminheader %>
+     <% include ./partials/setting-header %>
   </div>
   <div class="container-fluid user-list  secondry-color"   style=" ">
     <div class="se-pre-con"> </div>
@@ -169,9 +173,107 @@
             <!-- </div> -->
         </div>
         <section id="content1">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>First Name:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="30" class="form-control" id="first-name"   name="first-name" placeholder="First name" onkeypress="return specialCharacter(event)" />
+            <div class="fLeft"><span class="error" id="errorFirstName"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Last Name:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20"   class="form-control" id="last-name" name="last-name" placeholder="Last name" onkeypress="return specialCharacter(event)" />
+            <div class="fLeft"><span class="error" id="errorLastName"></span></div> 
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Email:<sup  class="astrick">*</sup></label>
+            <input type="email" maxlength="150"   class="form-control" id="emailId" name="emailId" placeholder="abc@mydomain.com" />
+            <div class="fLeft"><span class="error" id="errorEmailId"></span></div> 
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Contact Number:</label>
+            <input type="number" maxlength="10"  class="form-control" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="contact-number" name="contact-number" placeholder="Contact Number" />
+              <div class="fLeft"><span class="error" id="errorContactNumber"></span></div> 
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Employee Code:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20"   class="form-control" id="ecode" name="ecode" placeholder="Employee Code" />
+            <div class="fLeft"><span class="error" id="errorEcode"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Designation:</label>
+            <select class="form-control"   id='designation' name="designation"  >
+                <option value="0">Select Department</option>
+                  <%for(var i=0;i<department.length;i++){%>
+                <option value="<%=department[i].id%>">
+                   <%=department[i].description1%>
+                </option>
+                <%}%>
+            </select> 
+            <div class="fLeft"><span class="error" id="errorDesignation"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Level:</label>
+            <select class="form-control"   id='level' name="level"  >
+                <option value="0">Select Level</option>
+                <%for(var i=0;i<level.length;i++){%>
+                <option value="<%=level[i].id%>">
+                <%=level[i].description1%>
+                </option>
+                <%}%>
+            </select>
+            <div class="fLeft"><span class="error" id="errorLevel"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" id="changeDate">
+            <label>Change Date:</label>
+            <input type="text" name="rolechangeDate" class="datepicker form-control">
+            <div class="fLeft"><span class="error" id="errorLevel"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" style="height: 59px">
+            <label>Reporting To :</label>
+            <select class="form-control chosen-select" id='manager' name="manager" style="width:164px !important;">
+                <option value='0' >Select Supervisor</option>
+                <%for(var i=0;i<report.length;i++){%>
+                <option value="<%=report[i].id%>">
+                <%=report[i].Name%>
+                </option>
+                <%}%>
+            </select>
+            <div class="fLeft"><span class="error" id="errorManager"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" style="height: 59px">
+            <label>Modules:<sup  class="astrick">*</sup></label>
+            <select multiple="multiple" class="form-control chosen-select" name="modules" id="" style="" maxlength="50">
+                <%for(var i=0;i<modules.length;i++){ %>
+                <option value="<%=modules[i].id%>" 
+                  <%if(editflag==1){if(modules[i].id==userModule[i].moduleId){%> selected <%}}%> > 
+                  <%=modules[i].Name%>
+                </option>
+                <%}%>
+            </select>  
+            <div class="fLeft"><span class="error" id="errorModules"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Default Module:</label>
+            <select class="form-control"   id='default-module' name="defmod" >
+               <option>No Module Solelected</option>
+            </select> 
+            <div class="fLeft"><span class="error" id="errorDefaultModule"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>Role:<sup  class="astrick">*</sup></label>
+            <select class="form-control"   id='user-role' name="user-role"  >
+                <%for(var i=0;i<role.length;i++){%>
+                <%if(role[i].id==1||role[i].id==2||role[i].id==4||role[i].id==5){%>
+                <option value="<%=role[i].id%>"<%if(role[i].id==2){%>selected<%}%>>
+                  <%=role[i].roleName%>
+                </option>
+                  <%}}%>
+            </select>
+            <div class="fLeft"><span class="error" id="errorUserRole"></span></div>
+          </div>
+        </div>
 
-
-        <table class="table form-table" style="padding-bottom: 1%">
+        <!-- <table class="table form-table" style="padding-bottom: 1%">
           <tr>
 
             <td>
@@ -288,7 +390,7 @@
            <td></td><td></td><td></td><td></td>
               <td></td><td></td><td></td><td></td> 
           </tr>
-        </table>
+        </table> -->
         <div class="text-center"><span class="success" id="successUser"></span><span class="error" id="errorUser"></span></div>
         <center style="padding-bottom: 1%">
           
@@ -305,8 +407,23 @@
         </section>
 
         <section id="content2">
-        <div class="row form-table" >
-           <div class="col-md-4">
+        <div class="row" >
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+              <label>Resource Type :</label>
+              <select class="form-control" style="" id='isbill' name="isbill" style="width:200px !important;;">
+                <option value=0>Not Billable</option>
+                <option value=1>Is Billable</option>
+                
+              </select>
+              <div class="fLeft"><span class="error" id="errorIsbill"></span></div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" id="billRate">
+              <label>Billable Rate :<sup style="color:red;">*</sup></label>
+              <input type="number" min="1" maxlength="7" style="" class="form-control" placeholder="enter bill rate" id="billrate" name="billrate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeypress=" return checkBillrate(event)" />
+             <div class="fLeft"><span class="error" id="errorBillRate"></span></div>
+            </div>
+
+          <!--  <div class="col-md-4">
             <div class="col-md-6 " style="margin-top:-1%;"> <label style="margin-left:35%" >Resource Type :</label> </div>
             <div class="col-md-6"> 
               <select class="form-text-box" style="" id='isbill' name="isbill" style="width:200px !important;;">
@@ -323,7 +440,7 @@
              <div class="fLeft"><span class="error" id="errorBillRate"></span></div> 
              </div>
             
-          </div> 
+          </div>  -->
         </div>
         
           <center style="padding-bottom: 1%;    margin-top: 2%;">
@@ -333,7 +450,24 @@
      
       </section>
         <section id="content3">
-        <table class="table form-table">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+              <label>Date of Joining:<sup  class="astrick">*</sup></label>
+              <input name="doj" placeholder="MM/DD/YYYY"  class="form-control date" id="doj" readonly="true" >
+            <div class="fLeft"><span class="error" id="errorDoj"></span></div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+              <label>Date of Confirmation:</label>
+              <input   placeholder="MM/DD/YYYY" class="form-control date" id="doc" name="doc" readonly="true" >
+              <div class="fLeft"><span class="error" id="errorDoc"></span></div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+              <label>Date of Birth:</label>
+              <input    placeholder="MM/DD/YYYY" class="form-control date" id="dob" name="dob"  readonly="true">
+              <div class="fLeft"><span class="error" id="errorDob"></span></div>
+            </div>
+        </div>
+       <!--  <table class="table form-table">
           <tr>
             <td><label class="form-Label">Date of Joining:<sup  class="astrick">*</sup></label></td>
             <td> <input name="doj" placeholder="MM/DD/YYYY"  class="form-text-box date" id="doj" readonly="true" >
@@ -348,7 +482,7 @@
               <div class="fLeft"><span class="error" id="errorDob"></span></div>  
             </td>
           </tr> 
-        </table>
+        </table> -->
          <center>
              <button class="btn btn-primary" style="margin-bottom:1%" onclick="validHr()">Save</button> </center> 
      
@@ -531,7 +665,7 @@ function addEditUser1(flag) {
 
 
 function getDefaultModule(){
-            var valueModules=$("#modules").val();
+            var valueModules= $(".search-choice a").map(function(){return $(this).attr("data-option-array-index");}).get();
             var a=[0,0,0,0,0];
             if(!!valueModules)
             for(i=0,length=valueModules.length;i<length;i++){
@@ -591,7 +725,8 @@ function getDefaultModule(){
  
                 
             }
-                  var newArr=$('#modules').val();  
+                  var modulesValues = $(".search-choice a").map(function(){return $(this).attr("data-option-array-index");}).get();
+                  var newArr=modulesValues;  
                  var stringType ;
                  var i=0;
                  console.log(newArr);
@@ -606,6 +741,12 @@ function getDefaultModule(){
 }
 
   $(document).ready(function(){
+    $(".chosen-select").chosen();
+    $(".datepicker").datetimepicker({
+         timepicker: false,
+        format: 'm/d/y',
+        // minDate:todate
+    });
  $(".se-pre-con").fadeOut("slow");
 $(".typeahead").typeahead({
     items: 4,
@@ -664,11 +805,11 @@ $(".typeahead").typeahead({
       
 
     
-       $('#manager').tagger({
-        baseURL: '../img/'
-      , tabindexOffset: 400
-      , fieldWidth: null
-      });
+      //  $('#manager').tagger({
+      //   baseURL: '../img/'
+      // , tabindexOffset: 400
+      // , fieldWidth: null
+      // });
     
 
 
@@ -860,15 +1001,16 @@ $(".typeahead").typeahead({
         return true;
     }
     function changeTab(prevOrNext) { 
+      var modulesValues = $(".search-choice a").map(function(){return $(this).attr("data-option-array-index");}).get();
            if(prevOrNext==3){
               $("#tab" + prevOrNext).click();
              }
              else{
-             if($('#modules').val()==null){
+             if(modulesValues==null){
           
               $("#tab2").click();
              }      
-            else if((($('#modules').val()[0]=="1")||($('#modules').val()[0]=="5"))&&($('#modules').val().indexOf("2")==-1)&&($('#modules').val().indexOf("3")==-1)&&($('#modules').val().indexOf("4")==-1)&&($('#modules').val().indexOf("6")==-1)){
+            else if(((modulesValues[0]=="1")||(modulesValues[0]=="5"))&&(modulesValues.indexOf("2")==-1)&&(modulesValues.indexOf("3")==-1)&&(modulesValues.indexOf("4")==-1)&&(modulesValues.indexOf("6")==-1)){
           
              $("#tab2").click();
              }
@@ -1014,15 +1156,16 @@ $(".typeahead").typeahead({
            var str= $("#ecode").val().trim();     
            var Exp = /((^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i;
 
-             if(!$('#modules').val())
+             // if(!modulesValues)
+             if(!$('select[name="modules"] + div').find('.search-choice').length)
             {
               if(pressButton==2 || pressButton==4|| pressButton==3){
                 errorModules.text("Required field");
-                $('#modules').focus();
+                // $('#modules').focus();
             return false;
           }
               errorModules.text('Required field');
-              $('#modules').focus();
+              // $('#modules').focus();
               return false;
             }
            check=checkFinal();
@@ -1040,22 +1183,23 @@ $(".typeahead").typeahead({
       var errorHrRole = $('#errorHrRole');
       var errorIsbill = $('#errorIsbill');
       var errorBillRate = $('#errorBillRate');
-             if(($("#hrRole").val()=='3') &&( $("#hodList").val()=='0') && ($('#modules').val().indexOf("7")>=0)){
+      var modulesValues = $(".search-choice a").map(function(){return $(this).attr("data-option-array-index");}).get();
+             if(($("#hrRole").val()=='3') &&( $("#hodList").val()=='0') && (modulesValues.indexOf("7")>=0)){
                 errorHrRole.text('HOD is required');
                 $("#hrRole").focus();
                 return false;
             }
-            else if(($("#expense").val()=='1') && ($("#inNum").val()=='') && ($('#modules').val().indexOf("3")>=0)){
+            else if(($("#expense").val()=='1') && ($("#inNum").val()=='') && (modulesValues.indexOf("3")>=0)){
                  errorInNum.text('Expense limit is required');
                  $("#inNum").focus();
                 return false;
             }
-            else if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
+            else if(($("#expense").val()=='1') && ($("#inNum").val()==0) && (modulesValues.indexOf("3")>=0)){
                 errorInNum.text('Expense limit should be greated than 0');
                 $("#inNum").focus();
                 return false;
               } 
-            else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)&& ($('#modules').val().indexOf("2")>=0)){
+            else  if(($('#isbill').val()==1)&&($('#billrate').val().length<1)&& (modulesValues.indexOf("2")>=0)){
                     errorBillRate.text('Required field');
                     $('#billrate').focus();
                     return false;
@@ -1079,6 +1223,7 @@ $(".typeahead").typeahead({
             return true ;
   }
  function validRole(){ 
+          var modulesValues = $(".search-choice a").map(function(){return $(this).attr("data-option-array-index");}).get();
           var errorHrRole = $('#errorHrRole');
           var errorInNum = $('#errorInNum');
           pressButton=4;  
@@ -1089,16 +1234,16 @@ $(".typeahead").typeahead({
                 errorInNum.text('Expense limit is required');
                 return false;
               }
-              if(($("#expense").val()=='1') && ($("#inNum").val()==0) && ($('#modules').val().indexOf("3")>=0)){
+              if(($("#expense").val()=='1') && ($("#inNum").val()==0) && (modulesValues.indexOf("3")>=0)){
                 errorInNum.text('Expense limit should be greated than 0');
                 return false;
               }
-                if(($("#isClient").val()=='1') && ($("#clientId").val()=='0')&&($('#modules').val().indexOf("2")>=0)){
+                if(($("#isClient").val()=='1') && ($("#clientId").val()=='0')&&(modulesValues.indexOf("2")>=0)){
                 alert('Error:Client is required');
                 return false;
               }
                
-               if($("#hrRole").val()&&  ($("#hrRole").val().indexOf('3')>-1) && ($("#hodList").val()=='0')&&($('#modules').val().indexOf("7")>=0)){
+               if($("#hrRole").val()&&  ($("#hrRole").val().indexOf('3')>-1) && ($("#hodList").val()=='0')&&(modulesValues.indexOf("7")>=0)){
                 errorHrRole.text('Error:HOD is required');
                 return false;
               }  
@@ -1162,24 +1307,25 @@ $(".typeahead").typeahead({
        
       }
     function addUser(temp) {
+      var modulesValues = $(".search-choice a").map(function(){return $(this).attr("data-option-array-index");}).get();
       var successUser= $('#successUser');
       var errorUser = $('#errorUser');
-      if($('#modules').val().indexOf("2")<0){
+      if(modulesValues.indexOf("2")<0){
           $("#time").val('0');
       }  
-      if($('#modules').val().indexOf("3")<0){
+      if(modulesValues.indexOf("3")<0){
          $("#expense").val('0');
           $("#inNum").val('0');
       }
-      if($('#modules').val().indexOf("6")<0){
+      if(modulesValues.indexOf("6")<0){
         $("#crole").val('0');
       }
-      if($('#modules').val().indexOf("7")<0){
+      if(modulesValues.indexOf("7")<0){
         $("#hrRole").val('0');
         $("#hodList").val('0');
         $("#hodList").addClass('hide');
       }
-      var modules=$('#modules').val().toString();
+      var modules=modulesValues.toString();
       
       var hrRoleString='';
       if($('#hrRole').val()){

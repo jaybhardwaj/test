@@ -16,7 +16,63 @@
   </div>
    
   <form class="form-horizontal" style="margin:1%; " action="/addFurniture" method="post">
-    <div class="row">
+    <div class="row fusion-form-elements">
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Name:<sup  class="astrick">*</sup></label>
+        <input type="text" id="typel" class="form-control" maxlength="50" name="typel" placeholder="name">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Quantity:<sup  class="astrick">*</sup></label>
+        <input name="no" class="form-control" type="number" min="1" maxLength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Vendor:<sup  class="astrick">*</sup></label>
+        <select  class="form-control" style=""  name="vendor" id ="vendor" onchange=""> 
+          <option value='0' disabled selected>Select</option>
+           <% for(i=0;i<brand_vendor[1].length;i++){%>
+            <option value="<%=brand_vendor[1][i].id%>"><%=brand_vendor[1][i].name%></option>
+            <%}%>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Color:</label>
+        <input type="text" maxlength="20" name="color" class="form-control" id="color" placeholder="Color">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Invoice No.:<sup  class="astrick">*</sup></label>
+        <input type="text" maxlength="30" name="invoiceNo" class="form-control" id="invoiceNo" placeholder="Invoice No.">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Invoice Date:<sup  class="astrick">*</sup></label>
+        <input name="Invoicedate"class="form-control date" id="Invoicedate" placeholder="Invoice Date">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Invoice Amt.:<sup  class="astrick">*</sup></label>
+        <input type="number" maxLength="12"  name="invoiceAmt" class="form-control" id="invoiceAmt" onblur="calulateunitprice();" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Brand:</label>
+        <select  class="form-control" style=""  name="brand" id ="brand" onchange=""> 
+          <option value='0' disabled selected>Select</option>
+            <% for(i=0;i<brand_vendor[0].length;i++){%>
+            <option value="<%=brand_vendor[0][i].id%>"><%=brand_vendor[0][i].name%></option>
+             <%}%>             
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Purchased Order:<sup  class="astrick">*</sup></label>
+        <input name="order" maxlength="30" class="form-control" id="order" placeholder="Purchased Order">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Delivery Date:<sup  class="astrick">*</sup></label>
+        <input name="Deliverydate"class="form-control date" id="Deliverydate" placeholder="Delivery Date">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <label>Unit Price:<sup  class="astrick">*</sup></label>
+        <input type="text" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-control" id="uprice" readonly="readonly"  placeholder="Unit Price">
+      </div>
+    </div>
+    <!-- <div class="row">
       <table class="table">
       <tr><td><td>
           <label for="typel" class="form-Label">Name: <sup class="astrick">*</sup></label></td>
@@ -31,9 +87,9 @@
         </td>
       <td><td>
           <label for="vendor" class="form-Label">Vendor: <sup class="astrick">*</sup></label></td>
-          <!-- <td>
+          <td>
             <input name="vendor"class="form-text-box" id="vendor" placeholder="Vendor">
-          </td> -->
+          </td>
            <td>
               <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
               <option value='0' disabled selected>Select</option>
@@ -101,7 +157,7 @@
 
       </tr>
      </table>
-  </div>
+  </div> -->
   <input type='text' class='hide'name ='flag'value="1">
   <div class="form-group">
     <div class="col-md-6 col-md-offset-5">
