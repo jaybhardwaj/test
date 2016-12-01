@@ -41,6 +41,9 @@ td.child{
     padding: 0;
     outline: 0;
 }
+#bugDetails td{
+  text-align: center;
+}
 /*.dataTables_paginate span a:last-of-type{
   display: none !important;
 }*/
@@ -523,12 +526,12 @@ window.onload = function() {
           <input type="hidden" name="bugidhidden" id="bugidhidden" value=""/>
           <div id="home" class="tab-pane fade in active">  
           <div class="row" style="padding: 10px 5px">
-            <div class="col-lg-2 col-md-2 col-sm-3" style="padding-top: 7px;">
+            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top: 7px;">
                 <span style ="color:#f05f40;">Title: </span>
                 <span id="title"></span>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-3" style="padding-top: 7px;">
-              <span style ="color:#f05f40;">By: </span>
+            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top: 7px;">
+              <span style ="color:#f05f40;"> Raised By: </span>
               <span id="Raised_name"><span id="asdf"></span></span>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6" id="tr-linkto">
@@ -765,6 +768,8 @@ $('#hideColumnsId').tagger({
                 // "deferLoading": 30,
                 "fnDrawCallback": function (oSettings) {
                     $("#bugDetails tr").click(function() {
+                        $('#bugDetails tr').css({"background-color":"white"});
+                        $(this).css({"background-color":"#c5c5c5"});
                         var serial_number = $(this).children("td").first().text();
                         var bug_id = $(this).find("td").eq(1).text();
                         // console.log(bug_id,serial_number);
@@ -917,7 +922,7 @@ $('#hideColumnsId').tagger({
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
 
-                          return '<input class=""  id="estimatedEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'estimatedEffort'"+',this.id,'+"'"+row.enddate+"'"+')" value="'+data+'" style="border:none;width: 25px;"  >';
+                          return '<input class=""  id="estimatedEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'estimatedEffort'"+',this.id,'+"'"+row.enddate+"'"+')" value="'+data+'" style="border:none;max-width: 70px;"  >';
                       }
                     },
                     {
@@ -925,7 +930,7 @@ $('#hideColumnsId').tagger({
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
 
-                          return '<input class=""  id="actualEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'actualEffort'"+',this.id,'+row.enddate+')" value="'+data+'" style="border:none;width: 25px;"  >';
+                          return '<input class=""  id="actualEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'actualEffort'"+',this.id,'+row.enddate+')" value="'+data+'" style="border:none;max-width: 70px;"  >';
                       }
                     },
                     {
@@ -1146,7 +1151,7 @@ $("input:checkbox").click(function(){
     //$('.vbug-box').css("border","none");
     //$("#vbug-sbox_"+divId).css("border-style","groove");
       $(".rows").css({"background-color":"white"});
-    $("#vbug-sbox_"+divId).css({"background-color":"#CBDDEA"});
+    $("#vbug-sbox_"+divId).css({"background-color":"#c5c5c5"});
     //alert("show details"+bid)
     $("#bugidhidden").val(bid);
     //alert($("#bugidhidden").val());
@@ -1275,9 +1280,8 @@ $(".btndesc").removeClass('hide');
   function updatebugdetails(bugid,e,type,id,endate){
 if(type=='effectiveEndDate')
    {
-    var tempdate = Date.parse($(e).parent().prev().text().toString());
-    console.log(tempdate,$(e).parent().prev().text());
-    var open_date = new Date(tempdate);
+    var tempdate = $(e).parent().prev().text();
+    var open_date = new Date(tempdate.replace( /(\d{2})\/(\d{2})\/(\d{2})/, "$2/$1/$3"));
     var close_date = new Date(e.value);
     
     var timeDiff = Math.floor(close_date.getTime() - open_date.getTime());
