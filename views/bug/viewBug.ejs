@@ -531,7 +531,7 @@ window.onload = function() {
               <span style ="color:#f05f40;">By: </span>
               <span id="Raised_name"><span id="asdf"></span></span>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-6 col-md-6 col-sm-6" id="tr-linkto">
               <div class="col-lg-3 col-md-3 col-sm-3" style="color:#f05f40;padding-top: 7px;">Linked Task :</div>
               <div class="col-lg-9 col-md-9 col-sm-9">
                 <select class="form-control" id="linkedTo" name="linkedTo">
@@ -795,8 +795,16 @@ $('#hideColumnsId').tagger({
                     {
                       "targets": 4,
                       "render": function(data,type,row){
+                       
+                        if((<%-JSON.stringify(roleid)%> || '')==3)
+                        {
+                          $("#tr-linkto").addClass('hide');
+                        }
+
                           var current_index = row.Sno - 1;
                           var tempStatus = <%-JSON.stringify(status)%>;
+                          // if( row.title=='amit')
+                              // console.log(tempStatus)
                           var tempOptions='';
                           for(var i=0;i<tempStatus.length;i++) {
                             if(tempStatus[i].description1 != 'Close'){
@@ -809,12 +817,20 @@ $('#hideColumnsId').tagger({
                                 
                             }
                             else{
-                              var tempUserid = (<%-JSON.stringify(userid)%>) ? (<%-JSON.stringify(userid)%>):'' ;
-                              var tempRoleid = (<%-JSON.stringify(roleid)%>) ? (<%-JSON.stringify(roleid)%>):'' ;
+
+                              var tempUserid = <%-JSON.stringify(userid)%> || '' ;
+                              var tempRoleid = <%-JSON.stringify(roleid)%> || '' ;
+                              // if(row.id == 359)
+                              // console.log(tempUserid,tempRoleid,data,row.createdBy,tempStatus[i]);
                               if(tempStatus[i].description1 == 'Close' && (  row.createdBy ==tempUserid || tempRoleid==1)){
+
                                 // console.log("for close");
                                 if(data == tempStatus[i].id){
                                   tempOptions = tempOptions +'<option value="'+tempStatus[i].id+'" selected>'+tempStatus[i].description1+'</option>';
+                                }
+                                else
+                                {
+                                 tempOptions = tempOptions +'<option value="'+tempStatus[i].id+'" >'+tempStatus[i].description1+'</option>'; 
                                 }
                               }
                               else{
@@ -1069,7 +1085,7 @@ $("input:checkbox").click(function(){
         var dat=(new Date(data[i].createdDate).toString());
         dat=dat.slice(0,24);
 
-        att=att+'<div class="comment-divs" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[i].orignalFilePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+'" style="width:100px;height:100px"></a></div>'+deleteBtn+'</div>';
+        att=att+'<div class="comment-divs" id="'+data[i].id+'" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[i].orignalFilePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+'" style="width:100px;height:100px"></a></div>'+deleteBtn+'</div>';
 
       // att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[i].id+"'><a href='"+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+"' download ><img src='"+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+"' style='width:100px;height:100px'></a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"+data[i].firstName+" On:"+dat+"</div></div>";
      
@@ -1083,6 +1099,7 @@ $("input:checkbox").click(function(){
       url: '/deleteBugAttach',
       method: 'post',
       success: function(data) {
+        console.log('sucess data uis ',data)
         $("#"+attid).html('');
         $("#"+attid).attr("class",'');
         $("#"+attid).attr("style",'');
@@ -1110,7 +1127,7 @@ $("input:checkbox").click(function(){
         dataType: 'JSON',
         success:function(data){
           if(data.length>0)
-          { 
+          { console.log(data,'kkk')
             showcomment(data);
           }
         },
@@ -1138,7 +1155,7 @@ $("input:checkbox").click(function(){
       url: '/bugDetails',
       method: 'post',
       success: function(data) {
-      // console.log("bug info:",data);   
+      //console.log("bug info:",data);   
         $('#title').html($("<label>"+data[0][0].bugTitle+"</label>"));
         $('#linkedTo').val(data[0][0].linkedTask);
         $('#asdf').text(data[0][0].createdByName);
@@ -1195,7 +1212,7 @@ var over='';
         var dat=(new Date(data[2][i].createdDate).toString());
         dat=dat.slice(0,24);
 
-          att=att+'<div class="comment-divs" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[2][i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[2][i].filePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[2][i].filePath.replace('/root/fusion/public/',' ')+'" style="width:100px;height:100px"></a></div>'+deleteBtn+'</div>';
+          att=att+'<div class="comment-divs" id="'+data[i].id+'" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[2][i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[2][i].filePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[2][i].filePath.replace('/root/fusion/public/',' ')+'" style="width:100px;height:100px"></a></div>'+deleteBtn+'</div>';
 
           // att=att+"<div class='border-box hov-shadow'style='width:130px;float:left;margin-left:10px' id='"+data[2][i].id+"'><a href='"+data[2][i].filePath.replace('/root/fusion/public/',' ')+"' download> <img src='"+data[2][i].filePath.replace('/root/fusion/public/',' ')+"' style='width:100px;height:100px'> </a>"+deleteBtn+"<div style='color:grey;font-size:10px'>Added by:"
           // +data[2][i].firstName+" On:"
@@ -1258,9 +1275,11 @@ $(".btndesc").removeClass('hide');
   function updatebugdetails(bugid,e,type,id,endate){
 if(type=='effectiveEndDate')
    {
-
-    var open_date = new Date($(e).parent().prev().text());
+    var tempdate = Date.parse($(e).parent().prev().text().toString());
+    console.log(tempdate,$(e).parent().prev().text());
+    var open_date = new Date(tempdate);
     var close_date = new Date(e.value);
+    
     var timeDiff = Math.floor(close_date.getTime() - open_date.getTime());
     var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); 
     if(diffDays <0){
