@@ -821,9 +821,10 @@ addBug :function(req, res, next) {
         var filenames;
         var targetPaths;
         var fnames;
+        console.log(req.body.fileNames.split('amit').length,req.body.fileUrls.split('amit').length,'ttt');
         if(req.body.fileNames){
-            var tempnameArr = req.body.fileNames.split(',');
-            var tempurlArr = req.body.fileUrls.split(',');
+            var tempnameArr = req.body.fileNames.split('amit');
+            var tempurlArr = req.body.fileUrls.split('amit');
             var tempArr =[];
             tempnameArr.forEach(function(item,index){
                 tempArr.push({name:item,url:tempurlArr[index]});
