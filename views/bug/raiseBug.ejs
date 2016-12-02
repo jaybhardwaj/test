@@ -242,7 +242,7 @@
                                 <td style="width:100px"><label  style="padding-top: 8%;">Title :<sup class="astrick">*</sup></label></td>
                                 <td><input class="form-control" type="text" maxlength="75" name="titlebox" id="titlebox" style="width:100%" placeholder="Enter title/summary for new bug ... * "></td>
                             </tr>
-                            <tr>
+                            <tr id="link-task">
                                 <td><label  style="padding-top: 30%;">Linked Task :</label></td>
                                 <td><select style="width:100%;margin-top:3%" class="form-control" name="linkTo" id="linkTo">
                              <option value="0">select</option>
@@ -660,6 +660,8 @@
                 method: 'POST',
                 success: function(data) {
                     if(data.length != 0){  
+
+
                         //data=data[0];
                         console.log(data)  ;
                         $('#pStartDate').val(data[2].plannedStartDate);
@@ -711,6 +713,11 @@
                             .attr("value",data[1][i].userId).attr("selected",dets)             
                             .text(data[1][i].firstName));   
                         } 
+                        if(data[4][0].role ==3)
+                        {
+                            $("#link-task").addClass('hide');
+                            return;
+                        }
                         $("#linkTo").html('');
 
                        // <option value="0">select</option>';

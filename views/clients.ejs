@@ -52,13 +52,13 @@
                 <tbody id="clientBody">
                <%for(var i=0;i<clients.length;i++){ %>
                  <tr onclick="getContacts('<%=clients[i].id%>',this.id)" id="row_<%=clients[i].id%>" class="rows">       
-                 <td id="row_<%=clients[i].id%>1"+><%=clients[i].clientCode%></td>
-                 <td id="row_<%=clients[i].id%>2"+ ><%=clients[i].clientName%></td>
-                 <td  id="row_<%=clients[i].id%>3"+  ><%=clients[i].clientAbbName%></td>
-                 <td  id="row_<%=clients[i].id%>4"+  ><%=clients[i].category%></td>
-                 <td id="row_<%=clients[i].id%>5"+  ><%=clients[i].leadName%></td>
-                 <td  id="row_<%=clients[i].id%>6"+  ><%=clients[i].locName%></td>
-                 <td  id="row_<%=clients[i].id%>7"+  ><%=clients[i].address%></td>
+                 <td id="row_<%=clients[i].id%>11"+><%=clients[i].clientCode%></td>
+                 <td id="row_<%=clients[i].id%>12"+><%=clients[i].clientName%></td>
+                 <td  id="row_<%=clients[i].id%>13"+  ><%=clients[i].clientAbbName%></td>
+                 <td  id="row_<%=clients[i].id%>14"+  ><%=clients[i].category%></td>
+                 <td id="row_<%=clients[i].id%>15"+  ><%=clients[i].leadName%></td>
+                 <td  id="row_<%=clients[i].id%>16"+  ><%=clients[i].locName%></td>
+                 <td  id="row_<%=clients[i].id%>17"+  ><%=clients[i].address%></td>
            <!--       <td  id="row_<%=clients[i].id%>8"+  ><%=clients[i].clientContactPerson%></td>
                  <td  id="row_<%=clients[i].id%>9"+  ><%=clients[i].clientContactPersonEmail%></td>
                  <td  id="row_<%=clients[i].id%>10"+  ><%=clients[i].clientContactPhone%></td> -->
@@ -145,7 +145,8 @@
 <div class="col-sm-12 height11"></div>
 <div class="col-sm-12">         
       <label class="form-label">Contact Number:</label><sup class="astrick">*</sup>
-<input  type="number"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"  tabindex="3"/>
+<!-- <input  type="number"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"  tabindex="3"/> -->
+<input  type="text"  phoneno = "/^\d{10}$/" maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength && this.value.match(phoneno)) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"  tabindex="3"/>
 <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
 </div>
 <input type="text" maxlength="40" class="form-text-box clearAll hide" id="clientid" required />
@@ -206,6 +207,10 @@ ch+='<td style="color:red">Blocked</td></tr>';
                 "order":[],
                 "bDestroy": true, 
                 "info":false,
+                "columnDefs": [ {
+                  "targets":5 ,
+                  "orderable": false
+                  } ],
             });
 
 
@@ -392,6 +397,10 @@ function blockUser(id)
              oTable = $('#client-table').dataTable({
                'iDisplayLength': 10,
                 "order":[],
+                "columnDefs": [ {
+                  "targets": 7,
+                  "orderable": false
+                  } ],
                 "bDestroy": true, 
                 "info":false,
             });
@@ -400,6 +409,10 @@ function blockUser(id)
              otableclint=$('#client-contact-table').dataTable({
                'iDisplayLength': 10,
                 "order":[],
+                "columnDefs": [ {
+                  "targets": 5,
+                  "orderable": false
+                  } ],
                 "bDestroy": true, 
                 "info":false,
             });
