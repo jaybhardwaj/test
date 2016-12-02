@@ -2,6 +2,17 @@
 <html lang="en">
 <% include ./partials/head %> 
         <% include ./partials/adminheader %> 
+        <% include ./partials/setting-header %>
+
+<head>
+  <style>
+  .editwbsinputs>div{
+    min-height:70px;
+    margin-bottom: 20px;
+} 
+  </style>
+</head>
+
 <body style="overflow-x:hidden"> 
 
 <div class="se-pre-con"></div>
@@ -17,7 +28,98 @@
  
  
 <span class="modal-title" style="padding-left:45%;">Add WBS Details</span>
+
 <div class="row" style="padding:3%;padding-top:1%;padding-bottom:1%">
+<!-- <div class="col-md-12">
+  <div class="row editwbsinputs">
+  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>WBS Name:<sup  class="astrick">*</sup></label>
+            <input type="text" onblur="return allWbs();" onkeypress="return specialCharacter(event)" class="form-control" style=" " placeholder=" Enter a WBS Name " name="wbsname" id="wbsname" maxlength="25" onblur="myFunction(); checkprofield();" value=''>
+        <div class="fLeft"><span class="error" id="errorWbsname"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>WBS Code:</label>
+            <input type="text" class="form-control" style=" " placeholder="WBS Code" name="wbscode" id="wbscode" maxlength="50" value='' readonly>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>WBS Owner:</label>
+             <select style=" " class="form-control" id="wbsowner" name="wbsowner">
+               <option disabled selected value=0>Select</option>
+                <% for(var i=0;i<owner.length;i++) {%>
+                <option value="<%=owner[i].id%>"><%=owner[i].name%></option>
+                <%}%>
+        </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>WBS Location:</label>
+            <select style=" " class="form-control" id="wbslocation" name="wbslocation">
+                  <option disabled selected value=0>Select</option>
+ 
+                  <% for(var i=0;i<location.length;i++) {%>
+                  <option value="<%=location[i].id%>"><%=location[i].location%></option>
+                  <%}%>
+        </select>
+          </div>
+     </div> 
+      <div class="row editwbsinputs">   
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>Planned Start Date:<sup  class="astrick">*</sup></label>
+            <input type="text" class="form-control" id="datepicker" maxlength="25" placeholder="Select Planned Start Date"  style=" " name="wbspsdate" value=''>
+        <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>Planned End Date:<sup  class="astrick">*</sup></label>
+            <input type="text" name="wbspedate" class="form-control" maxlength="25" placeholder="Select Planned End Date" id="datepicker1" style=" " value=''>
+        <div class="fLeft"><span class="error" id="errorWbspedate"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>Actual Start Date:</label>
+            <input type="text" class="form-control" id="datepicker2" maxlength="25" style="width: 102% " placeholder="Select Actual Start Date"  name="wbsasdate" value=''>
+        <div class="fLeft"><span class="error" id="errorDatepicker2"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>Actual End Date:</label>
+            <input type="text" class="form-control" id="datepicker3" maxlength="25" style="width: 102% " placeholder="Select Actual End Date" name="wbsaedate" value=''>
+        <div class="fLeft"><span class="error" id="errorDatepicker3"></span></div>
+          </div>
+      </div> 
+      <div class="row editwbsinputs">   
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>Estimate Effort:</label>
+            <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Enter Effort" class="form-control" style=" " name="wbseffort" id="wbseffort" maxlength="5" min="0">
+                      <div class="fLeft"><span class="error" id="errorWbseffort"></span></div>
+               <select style="display:inline-block" id="wbseffort1" class="form-control" name="wbseffort1">
+                            <option disabled selected   value=0>Select</option>
+                            <option value=1>Man-Hours</option>
+                            <option value=2>Man-Days</option>
+                            <option value=3>Man-Weeks</option>
+                            <option value=4>Man-Months</option>
+                       </select>
+                       <div class="fLeft"><span class="error" id="errorWbseffort1"></span></div>       
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>Type:</label>
+            <select style="display:inline-block; " id="typeValue" class="form-control" name="typeValue">
+                <option disabled selected  value=0>Select</option>
+                <option value=1>Time only</option>
+                <option value=2>Time & Expence</option>
+                </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>Assign to All:</label>
+            <select style=" width:103%" id="assign" class="form-control" name="assign">
+                <option disabled selected  value=2>Select</option>
+                <option value=1>Yes</option>
+                <option value=0 selected="true">No</option>
+              </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+            <label>>WBS Status:<sup  class="astrick">*</sup></label>
+            <input type="text" name="wbsstatus" class="hide" value=1 id="wbsstatus1" selected style=" "> Active
+        <input type="radio" name="wbsstatus" value=0 id="wbsstatus2" style=" "> Inactive
+          </div>
+       </div>  
+   </div>       -->
 <table class="table" style="margin-bottom:0px">
   <tr>
     <td>
@@ -282,12 +384,12 @@
                         </thead>
 
                         <tbody id="wbsstatus11" style="background-color: white;">
-                            <% for(var i=wbs.length-1;i>=0;i--) { console.log('gdgdrfgdsfrfgdsfsfsf---',i) %>
-                                <tr id="">
+                             <% for(var i=wbs.length-1;i>=0;i--) { console.log('gdgdrfgdsfrfgdsfsfsf---',i) %>
+                               <tr id="">
 
-                                    <td>
-                                        <%=wbs[i].WBSName%>
-                                    </td>
+                                   <td>
+                                       <%=wbs[i].WBSName%>
+                                   </td>
                                     <td>
                                         <%=wbs[i].WBSCode%>
                                     </td>
@@ -305,7 +407,7 @@
                                     </td>
 
                                 </tr>
-                                <% } %>
+                               <% } %>
                         </tbody>
                     </table>
                 </div>
@@ -502,7 +604,11 @@
                     "bFilter": false,"bInfo": false,"bLengthChange": false
                 });
 
-        
+
+
+
+
+
 
 
 $('#wid').val(0);
