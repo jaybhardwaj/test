@@ -821,10 +821,9 @@ addBug :function(req, res, next) {
         var filenames;
         var targetPaths;
         var fnames;
-        console.log(req.body.fileNames.split('amit').length,req.body.fileUrls.split('amit').length,'ttt');
         if(req.body.fileNames){
-            var tempnameArr = req.body.fileNames.split('amit');
-            var tempurlArr = req.body.fileUrls.split('amit');
+            var tempnameArr = req.body.fileNames.split(',');
+            var tempurlArr = req.body.fileUrls.split(',');
             var tempArr =[];
             tempnameArr.forEach(function(item,index){
                 tempArr.push({name:item,url:tempurlArr[index]});
@@ -2087,8 +2086,19 @@ Docmaster:function(req,res,next){
      },
 
      projectStatus: function(req, res, next) {
-          
-           var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
+          if(req.body.order){
+            if(req.body.order[0].column){
+                var tempsortIndex = parseInt(req.body.order[0].column);
+                var sortstr = req.body.columns[tempsortIndex].data +" "+req.body.order[0].dir;
+            }
+            else{
+                var sortstr = '';
+            }
+        }
+        else{
+            var sortstr = '';
+        }
+           //var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
 
           
            modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
@@ -2218,17 +2228,42 @@ req.projectResults=result;
      },
 
      wbsStatus: function(req, res, next) {
-          
-           modelPortal.wbsStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,
+        if(req.body.order){
+            if(req.body.order[0].column){
+                var tempsortIndex = parseInt(req.body.order[0].column);
+                var sortstr = req.body.columns[tempsortIndex].data +" "+req.body.order[0].dir;
+            }
+            else{
+                var sortstr = '';
+            }
+        }
+        else{
+            var sortstr = '';
+        }
+          // var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
+
+           modelPortal.wbsStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
                 var tempobj = JSON.stringify(result[0]);
-          var desiredObj = JSON.parse(tempobj);
-            return res.json({"data":desiredObj});
-
+               
+        var desiredObj = JSON.parse(tempobj);
+         
+        if(desiredObj[0]){
+            return res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": desiredObj[0].totalRecord,
+            "iTotalDisplayRecords": desiredObj[0].totalRecord,
+            "aaData": desiredObj});
+         }
+         else{
+          res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": 0,
+            "iTotalDisplayRecords": 0,
+            "aaData": desiredObj});
+        }
                     // res.json(result);
              }
          });
@@ -2475,14 +2510,14 @@ var tab=req.body.tabDetail;
 
         var pid=req.body.pid;
         
- 
+          
            modelPortal.getAllWbs(req.body.pid,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
-             res.json(result);
+                  res.json(result);
              }
          });
      },
@@ -2490,13 +2525,28 @@ var tab=req.body.tabDetail;
 
      AssignmentWBSForProject: function(req, res, next) {
 
- 
+            console.log(req.body);
            modelPortal.AssignmentWBSForProject(req.body.flag,req.body.pid,req.body.wbsid,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
+        //         var tempobj = JSON.stringify(result[0]);
+        //         var desiredObj = JSON.parse(tempobj);
+         
+        // if(desiredObj[0]){
+        //     return res.json({"sEcho": parseInt(req.body.draw),
+        //     "iTotalRecords": desiredObj[0].totalRecord,
+        //     "iTotalDisplayRecords": desiredObj[0].totalRecord,
+        //     "aaData": desiredObj});
+        //  }
+        //  else{
+        //   res.json({"sEcho": parseInt(req.body.draw),
+        //     "iTotalRecords": 0,
+        //     "iTotalDisplayRecords": 0,
+        //     "aaData": desiredObj});
+        // }
              res.json(result);
              }
          });
@@ -2622,9 +2672,30 @@ changeProjectWbs: function(req, res, next) {
      },
 
     //----------------------------------ASSIGNMENT---------------------------------------
-getAssignment:  function(req, res, next) {
+// getAssignment:  function(req, res, next) {
 
-         modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId, function(err, resultAssignment) {
+//          modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId, function(err, resultAssignment) {
+//              if (err) {
+
+//                  next(err);
+//                  return; 
+//              }
+
+//              else{
+
+//                 req.allinfo1=resultAssignment;
+//                 next();
+//              }
+        
+//          });
+//      },
+
+
+getAssignment:  function(req, res, next) {
+     //console.log("req.body----",req.body);
+      var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
+     console.log("req-----",req.body);
+         modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.status,req.body.search.value,sortstr,function(err, resultAssignment) {
              if (err) {
 
                  next(err);
@@ -2632,9 +2703,13 @@ getAssignment:  function(req, res, next) {
              }
 
              else{
-
-                req.allinfo1=resultAssignment;
-                next();
+                console.log("back in assignment");
+               var tempobj = JSON.stringify(resultAssignment[0]);
+          var desiredObj = JSON.parse(tempobj);
+        // console.log(err, desiredObj,'saini');
+            res.send({"data":desiredObj});
+               /* req.allinfo1=resultAssignment;
+                next();*/
              }
         
          });
