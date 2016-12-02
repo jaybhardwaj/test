@@ -1,12 +1,15 @@
-
  <% include ./partials/head %>
+  <% include ./partials/adminheader %>
+        <% include ./partials/setting-header %>
 
 <style>
  
- .dataTables_filter, .dataTables_length {
-     display: none;
+/* .dataTables_filter, .dataTables_length {
+     //display: none;
+    }*/
+#bugtable_filter input{
+      width: 218px;
     }
-
  .glyphicon-ok-circle{
   color:green!important;
  }
@@ -19,18 +22,13 @@
 </style>
 <script type="text/javascript"> 
 var otable='';
+var projectTable='';
+var assignmentTable='';
 $(document).ready(function() {
 
   $('.se-pre-con').fadeOut('slow');
   
   $('.wbs-img').addClass('active');
-
-  // otable=$('#bugtable').DataTable({
-  //   'iDisplayLength': 10, 
-  //   "info":false,
-  //    "bFilter": true,
-  //   "order":[]
-  // });
 
   otable = $('#bugtable').DataTable({
                 "ajax": {
@@ -61,12 +59,108 @@ $(document).ready(function() {
                  // "deferLoading": 30
              
 "columnDefs": [ 
+                     //if(data[0][i].firstName==null){data[0][i].firstName='';}
+//                       if(data[0][i].location==null){data[0][i].location='';}
+//                       if(data[0][i].WBSName==null){data[0][i].WBSName='';}
+//                       if(data[0][i].WBSCode==null){data[0][i].WBSCode='';}
+//                       if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
+//                       if(data[0][i].WBSName==null){data[0][i].WBSName='';}
+//                       if(data[0][i].wplannedStartDate==null){data[0][i].wplannedStartDate='';}
+//                       if(data[0][i].wplannedEndDate==null){data[0][i].wplannedEndDate='';}
+//                       if(data[0][i].wactualStartDate==null){data[0][i].wactualStartDate='';}
+//                       if(data[0][i].wactualEndDate==null){data[0][i].wactualEndDate='';}
+//                       if(data[0][i].estimateEffort==''){data[0][i].estimateEffort='';}
+//                       if(data[0][i].estimateEffort1==0){data[0][i].estimateEffort1='';}
+//                       if(data[0][i].estimateEffort1==null){data[0][i].estimateEffort1='';}
+//                       if(data[0][i].estimateEffort1==1){data[0][i].estimateEffort1='Man-Hours';}
+//                       if(data[0][i].estimateEffort1==2){data[0][i].estimateEffort1='Man-Days';}
+//                       if(data[0][i].estimateEffort1==3){data[0][i].estimateEffort1='Man-Weeks';}
+//                       if(data[0][i].estimateEffort1==4){data[0][i].estimateEffort1='Man-Months';}
+//                       if(data[0][i].estimateEffort != ''){
+//                       data[0][i].estimateEffort = data[0][i].estimateEffort + ' ' + data[0][i].estimateEffort1;
+                     {
+                      "targets": 0,
+                      "render":function(data,type,row){
+                        if(row.WBSName==null)
+                             var text='';
+                            else
+                            var text=row.WBSName;
+                       var a=  "<input type='text' style='cursor: pointer;pointer-events:none;border:0px'readonly='true' id='wbsname_"+row.WBSId+"' value="+text+">";
+                         return a;      
+                      }
+
+                     },
+                    {
+                      "targets": 4,
+                      "render":function(data,type,row){
+                          if(row.wplannedStartDate==null)
+                             var text='';
+                            else
+                            var text=row.wplannedStartDate;
+                      
+                     var a=  "<input style='cursor: pointer;border:0px'   type='text'  readonly='true' id='wpsdate_"+row.WBSId+"' value="+text+" onchange='changeProjectAssignment(0,"+row.WBSId+",0,1)'>";
+                       return a;
+                      }
+
+                     },
+                     {
+                      "targets": 5,
+                      "render":function(data,type,row){
+                        if(row.wplannedEndDate==null)
+                             var text='';
+                            else
+                            var text=row.wplannedEndDate;
+                      
+                     var a=  "<input style='cursor: pointer;border:0px'   type='text'  readonly='true' id='wpedate_"+row.WBSId+"' value="+text+" onchange='changeProjectAssignment(0,"+row.WBSId+",0,1)'>";
+                       return a;
+                      }
+
+                     },
+                     {
+                      "targets": 6,
+                    "render":function(data,type,row){
+                      console.log(row.wactualStartDate)
+                      if(row.wactualStartDate==null || row.wactualStartDate=='00/00/00' )
+                      {
+                        var text=' '; 
+                      }
+                            
+                            else
+                            {
+                              var text=row.wactualStartDate; 
+                            }
+                     var a=  "<input onchange='changeProjectAssignment(0,"+row.WBSId+",0,1)' style='cursor: pointer;border:0px'   type='text'  readonly='true' id='wasdate_"+row.WBSId+"' value="+text+" >";
+                       return a;
+                      }
+
+                     },
+                     {
+                      "targets": 7,
+                      "render":function(data,type,row){
+                         if(row.wactualEndDate==null || row.wactualEndDate=='00/00/00')
+                             var text='';
+                            else
+                            var text=row.wactualEndDate;
+                     var a=  "<input style='cursor: pointer;border:0px'   type='text'  readonly='true' id='waedate_"+row.WBSId+"' onchange='changeProjectAssignment(0,"+row.WBSId+",0,1)' value="+text+" >";
+                     
+                      var sdate=row.plannedStartDate;
+                      var edate=row.plannedEndDate;
+                      var date = new Date(sdate);
+                      var date1 = new Date(edate);
+                            var date = formatDate(date);
+                            var date1 = formatDate(date1);
+                            var date=new Date(date);
+                            var date1=new Date(date1);
+                      setValidation(row.WBSId,date,date1,1);
+                       return a;
+                      }
+                     },
                  {
                       "targets": 10,
                       "render":function(data,type,row){
                         var my_html;
                         if(row.projectTitle !='DummyProject'){
-                            my_html='<a href="/addEditWbs?wbsid='+row.WBSId+'&flag=1"  onclick="return checkedit();"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-left:10px;margin-right:10px;" title="Edit WBS"></span></a><a onclick="actinact('+row.WBSId+',1);" ><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:10px;margin-right:10px;" title="click to inactive"></span></a>';
+                            my_html='<a href="/addEditWbs?wbsid='+row.WBSId+'&flag=1"  onclick="return checkedit();"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-right:20px;" title="Edit WBS"></span></a><a onclick="actinact('+row.WBSId+',1);" ><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;" title="click to inactive"></span></a>';
                         }
                         else
                         {
@@ -81,6 +175,31 @@ $(document).ready(function() {
 
 });
 
+
+$('#bugtable tbody').on('click', 'tr', function () {
+   ch=$(this).children();
+  // alert($(ch[4]).children()[2].id.split('_')[1]);
+   console.log("$(ch[0]).children()[0].id.split('_')[1]-----------",$(ch[0]).children()[0].id.split('_')[1]);
+   
+  this.id="row_"+$(ch[0]).children()[0].id.split('_')[1];
+  getProjectAssignment($(ch[0]).children()[0].id.split('_')[1]);
+ // console.log("iiiiiiiiiiii--------",this);
+  
+     } );
+
+
+
+projectTable=$('#projectTable').dataTable({
+    'iDisplayLength': 10,
+    "order":[],"bFilter": false,"bInfo": false,"bLengthChange": false
+  });
+
+  assignmentTable=$('#assignmentTable').dataTable({
+    'iDisplayLength': 10,
+    "order":[],"bFilter": false,"bInfo": false,"bLengthChange": false
+  });
+
+
   $('#bugtable')
           .on( 'page.dt',   function () { 
                     //otable.$('tr').click();
@@ -90,25 +209,10 @@ $(document).ready(function() {
            } )
           .DataTable();
 
-  projectTable=$('#projectTable').DataTable({
-    'iDisplayLength': 10,
-    "order":[],"bFilter": false,"bInfo": false,"bLengthChange": false
-  });
-
-  assignmentTable=$('#assignmentTable').DataTable({
-    'iDisplayLength': 10,
-    "order":[],"bFilter": false,"bInfo": false,"bLengthChange": false
-  });
+  
 
 
-   $("#searchbox").keyup(function() {
-        otable.fnFilter(this.value);
-      });
-   $(window).bind('resize', function () {
-                otable.fnAdjustColumnSizing();
-              } );
-
- //wbsStatus();
+ 
 });
 
 function formatDate(date) {
@@ -316,10 +420,17 @@ function actinact(wbsid,flag){
 
 
 function getProjectAssignment(wbsid){
-  $(".rows").removeClass('active-row');
-            $("#abc_"+wbsid).addClass('active-row');
 
-          otable.$("tr").addClass('hide');
+    $('#bugtable').dataTable().$("tr").addClass('hide');
+ 
+  $('#bugtable').dataTable().$("tr").removeClass('active-row');
+ 
+  
+ // $(".rows").removeClass('active-row');
+            $("#row_"+wbsid).addClass('active-row');
+
+
+         // otable.$("tr").addClass('hide');
           $(".active-row").removeClass('hide');
              
 
@@ -367,7 +478,8 @@ function getProjectAssignment(wbsid){
 
                    projectTable.fnDestroy();
                     $('#projectBody').html(log);
-                    projectTable=$('#projectTable').DataTable({
+
+                    projectTable=$('#projectTable').dataTable({
                       'iDisplayLength': 10,
                       "order":[],
                     "bFilter": false,"bInfo": false,"bLengthChange": false
@@ -434,7 +546,7 @@ function getProjectAssignment(wbsid){
 
                    assignmentTable.fnDestroy();
                     $('#assignmentBody').html(log1);
-                    assignmentTable=$('#assignmentTable').DataTable({
+                    assignmentTable=$('#assignmentTable').dataTable({
                       'iDisplayLength': 10,
                       "order":[],
                     "bFilter": false,"bInfo": false,"bLengthChange": false
@@ -575,6 +687,7 @@ function highlight(pid,aid,flag){
 
 function changeProjectAssignment(projectId,wbsId,assignmentId,flag){
 resetError();
+//alert("projectId"+projectId+"wbsId"+wbsId+"assignmnetId"+assignmentId)
 var errorstartWBS = $('#errorWBS_'+wbsId);
 var errorWaedate = $('#errorWaedate_'+wbsId);
 var a=checkWBS(wbsId);
@@ -585,6 +698,7 @@ var c=checkAssignment(assignmentId,wbsId);
 
     if(a==true){
     var wbsname=$('#wbsname_'+wbsId).val();
+  //  alert("ttttttttttttt"+wbsname+"");
     var wpsdate=$('#wpsdate_'+wbsId).val();//alert(wpsdate)
     var wpedate=$('#wpedate_'+wbsId).val();//alert(wpedate)
     var wasdate=$('#wasdate_'+wbsId).val();
@@ -709,8 +823,7 @@ function showAll()
 
 
 <div>
-        <% include ./partials/adminheader %>
-        <% include ./partials/setting-header %>
+       
     </div>
 
     <div class="se-pre-con"></div>
@@ -736,8 +849,6 @@ function showAll()
 
                  <span id="download" class="glyphicon glyphicon-download" onclick="exportWBS('wbs')" style="margin-left:320px;cursor: pointer;font-size:19px" title="Download WBS List" ></span>
 
-
-         <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
 
    </div>
     <div  class="row" style="max-width:103%;overflow-y:auto ">        

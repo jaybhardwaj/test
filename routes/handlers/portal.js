@@ -1051,14 +1051,14 @@ if(req.body.colname == 'assingedToUserId'){
     var fname;
     var fileSize;
    
-    var targetPath='./public/'+req.file.path+req.file.originalname;
+    var targetPath='./'+req.file.path+req.file.originalname;
     if(1){
         fs.rename(req.file.path,targetPath,function(err){
             if(err)
             throw err;
         });
     }
-    var targetPath=req.file.path+req.file.originalname;             
+    var targetPath=(req.file.path+req.file.originalname).replace('public/','');             
        
         modelPortal.bugAttachment(
             req.body.id,
