@@ -395,6 +395,7 @@ exportBug: function(userId, roleId,retailerid, callback){
             sql: 'call usp_bug_viewBug(?,?,?)',
             values: [userId, roleId,retailerid]
         };
+        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -528,9 +529,10 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
     },
     filterBug: function(req,res,statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength,searchString,sortString, callback){
         var query = {
-            sql: 'call usp_bug_filterBug2(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            sql: 'call usp_bug_filterBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [statusis,status,priorityis,priority,severityis,severity,assingedtois,assingedto,technologyis,technology,projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate, userId, retailerId, roleId,startLength,endLength,searchString,sortString]
         };
+        console.log(query)
         
         mysql(query, function(err, result) {
            if(err){
@@ -870,11 +872,12 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
     //     });
     // },
 
-    wbsStatus: function(status,userId,roleId,retailerId,start,length, callback) {
+    wbsStatus: function(status,userId,roleId,retailerId,start,length,search,sortstr, callback) {
         var query = {
-            sql: 'call usp_wbsStatus(?,?,?,?,?,?)',
-            values: [status,userId,roleId,retailerId,start,length]
+            sql: 'call usp_wbsStatus(?,?,?,?,?,?,?,?)',
+            values: [status,userId,roleId,retailerId,start,length,search,sortstr,]
         };
+        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -1138,6 +1141,7 @@ if(result[0].length>0){
             sql: 'call usp_getAllWbsForProject(?,?,?,?)',
             values: [pid,userId,roleId,retailerId,]
         };
+        console.log(query);
         mysql(query, function(err, result) {
 
             if(err){}////console.log('errrrrrrrrrrrrrrrrr-------',err);}
@@ -1150,12 +1154,12 @@ if(result[0].length>0){
 
 
     AssignmentWBSForProject: function(flag,pid,wbsid,userId,roleId,retailerId, callback) {
-        
+        console.log("swapnil");
         var query = {
             sql: 'call usp_AssignmentWBSForProject(?,?,?,?,?,?)',
             values: [flag,pid,wbsid,userId,roleId,retailerId,]
         };
-        //console.log(query);
+        console.log(query);
         mysql(query, function(err, result) {
 
             if(err){}////console.log('errrrrrrrrrrrrrrrrr-------',err);}
@@ -1302,20 +1306,31 @@ if(result[0].length>0){
 
  
     //-------------------------------------------ASSIGNMENT---------------------------------------
-
-getAllAssignment: function(userId,roleId,retailerId,callback) {
+// 
+// getAllAssignment: function(userId,roleId,retailerId,callback) {
+//         var query = {
+//             sql: 'call usp_AssignmentData(?)',
+//             values:[retailerId]
+            
+//         };
+//         //console.log(query);
+//         mysql(query, function(err, result) {
+//             //console.log("get all assignment modelPortal:",result);
+//             callback(err, result);
+//         });
+//     },
+getAllAssignment: function(userId,roleId,retailerId,start,end,status,search,sortstr,callback) {
         var query = {
-            sql: 'call usp_AssignmentData(?)',
-            values:[retailerId]
+            sql: 'call usp_AssignmentData(?,?,?,?,?,?)',
+            values:[retailerId,start,end,status,search,sortstr]
             
         };
-        //console.log(query);
+        console.log(query);
         mysql(query, function(err, result) {
-            //console.log("get all assignment modelPortal:",result);
+            console.log("get all assignment modelPortal:",result);
             callback(err, result);
         });
     },
-
 
  createEditAssignment: function(assignmentId,flag,retailerId,callback) {       
         var query = {
