@@ -269,7 +269,8 @@
                             </div> -->
                                 <div>
                                     <div id="content">
-                                    <input type="file" id="addBugUp1" name="addBugUpload1" class="upload" multiple/>
+                                    <input type="file" id="addBugUp1" name="addBugUpload1[]" class="upload" multiple/>
+                                    <div class="jFiler-items jFiler-row" aa><ul class="jFiler-items-list jFiler-items-grid bb"></ul></div>
                                     </div>
 
                                   <input type = "text" id = "fileNameId" name = "fileNames"  class = "hide"></input>
@@ -358,13 +359,14 @@
                 return false;
             }      
             if($('.jFiler-item-title b').length){
-                var fileNames = $('.jFiler-item-title b').map( function(){return $(this).html(); }).get().join("amit");
-                var fileUrls = $('.jFiler-item-thumb-image img').map( function(){return $(this).prop('src'); }).get().join("amit");
+                // var fileNames = $('.jFiler-item-title b').map( function(){return $(this).html(); }).get().join("amit");
+                var fileUrls = $('.jFiler-item-thumb-image1 img').map( function(){return $(this).prop('src'); }).get().join("amit");
+                console.log(fileUrls.length,'hh');
                 // var tempArr = [];
                 // fileNames.forEach(function(item,index){
                 //     tempArr.push({name:item,url:fileUrls[index]});
                 // });
-                $('#fileNameId').val(fileNames);
+                // $('#fileNameId').val(fileNames);
                 $('#fileContentId').val(fileUrls);
             }    
             
@@ -422,10 +424,15 @@
 
      //  }
 
-        
+    function deleteImg(elem){
+        if(confirm("Are you sure you want to remove this file")){
+            $(elem).closest('.jFiler-item').remove();
+        }
+    }; 
 
 
         $( document ).ready(function() {
+            // console.log($('.main-box-raisebug'));
             $("#addBugUp1").filer({
         limit: null,
         maxSize: 1,
@@ -504,34 +511,34 @@
             drop: null,
             dragContainer: null,
         },
-        uploadFile: {
-            url: "/amit",
-            // data: null,
-            // type: 'POST',
-            // enctype: 'multipart/form-data',
-            // synchron: true,
-            beforeSend: function(){ return false}
-            // success: function(data, itemEl, listEl, boxEl, newInputEl, inputEl, id){
-            //     var parent = itemEl.find(".jFiler-jProgressBar").parent(),
-            //         new_file_name = JSON.parse(data),
-            //         filerKit = inputEl.prop("jFiler");
+        // uploadFile: {
+        //     url: "/amit",
+        //     // data: null,
+        //     // type: 'POST',
+        //     // enctype: 'multipart/form-data',
+        //     // synchron: true,
+        //     beforeSend: function(){ return false}
+        //     // success: function(data, itemEl, listEl, boxEl, newInputEl, inputEl, id){
+        //     //     var parent = itemEl.find(".jFiler-jProgressBar").parent(),
+        //     //         new_file_name = JSON.parse(data),
+        //     //         filerKit = inputEl.prop("jFiler");
 
-            //     filerKit.files_list[id].name = new_file_name;
+        //     //     filerKit.files_list[id].name = new_file_name;
 
-            //     itemEl.find(".jFiler-jProgressBar").fadeOut("slow", function(){
-            //         $("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> Success</div>").hide().appendTo(parent).fadeIn("slow");
-            //     });
-            // },
-            // error: function(el){
-            //     var parent = el.find(".jFiler-jProgressBar").parent();
-            //     el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
-            //         $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> Error</div>").hide().appendTo(parent).fadeIn("slow");
-            //     });
-            // },
-            // statusCode: null,
-            // onProgress: null,
-            // onComplete: null
-        },
+        //     //     itemEl.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+        //     //         $("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> Success</div>").hide().appendTo(parent).fadeIn("slow");
+        //     //     });
+        //     // },
+        //     // error: function(el){
+        //     //     var parent = el.find(".jFiler-jProgressBar").parent();
+        //     //     el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+        //     //         $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> Error</div>").hide().appendTo(parent).fadeIn("slow");
+        //     //     });
+        //     // },
+        //     // statusCode: null,
+        //     // onProgress: null,
+        //     // onComplete: null
+        // },
         files: null,
         addMore: true,
         allowDuplicates: true,
@@ -543,12 +550,13 @@
         beforeSelect: null,
         onSelect: null,
         afterShow: null,
-        onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
-            var filerKit = inputEl.prop("jFiler"),
-                file_name = filerKit.files_list[id].name;
+        // onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
+        //     console.log('amit');
+        //     var filerKit = inputEl.prop("jFiler")
+        //         file_name = filerKit.files_list[id].name;
 
-            $.post('./php/ajax_remove_file.php', {file: file_name});
-        },
+        //     $.post('./php/ajax_remove_file.php', {file: file_name});
+        // },
         onEmpty: null,
         options: null,
         dialogs: {
@@ -570,6 +578,49 @@
                 filesType: "Only Images are allowed to be uploaded.",
                 filesSize: "{{fi-name}} is too large! Please upload file up to {{fi-maxSize}} MB.",
                 filesSizeAll: "Files you've choosed are too large! Please upload files up to {{fi-maxSize}} MB."
+            }
+        }
+    });
+    document.addEventListener('paste', function(e){
+        if (e.clipboardData) {
+            var items = e.clipboardData.items;
+            if (items) {
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf("image") !== -1) {
+                        var file = items[i].getAsFile();
+                        reader = new FileReader();
+                        reader.onload = function(evt) {
+
+                            $('.jFiler-items-list.bb').append('<li class="jFiler-item">\
+                        <div class="jFiler-item-container">\
+                            <div class="jFiler-item-inner">\
+                                <div class="jFiler-item-thumb" style="width:150px;height:114px">\
+                                    <div class="jFiler-item-status"></div>\
+                                    <div class="jFiler-item-thumb-overlay">\
+                                        <div class="jFiler-item-info">\
+                                            <div style="display:table-cell;vertical-align: middle;">\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                    <div class="jFiler-item-thumb-image jFiler-item-thumb-image1"><img src="'+evt.target.result+'" draggable="false"></div>\
+                                </div>\
+                                <div class="jFiler-item-assets jFiler-row">\
+                                    <ul class="list-inline pull-left">\
+                                        <li>{{fi-progressBar}}</li>\
+                                    </ul>\
+                                    <ul class="list-inline pull-right">\
+                                        <li><a class="icon-jfi-trash jFiler-item-trash-action glyphicon glyphicon-trash" onclick="deleteImg(this)"></a></li>\
+                                    </ul>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </li>');
+                          // $("#qqq").attr("src",evt.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+                e.preventDefault();
             }
         }
     });

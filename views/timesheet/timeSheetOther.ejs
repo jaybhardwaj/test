@@ -34,9 +34,9 @@
         </style>
         <script>
 
-               var ApprovedBtn='<input id="Approved" type="button" class="btn btn-primary marginR10" value="Approve" onClick="return ApporReject(3)">';
+               var ApprovedBtn='<input id="Approved" type="button" class="btn btn-primary marginR10" value="Approve" onClick="return ApporReject(3)" style="margin-top: 0;">';
 
-                var RejectedBtn='<input id="Rejected" type="button"  class="btn btn-primary marginR10" value="Reject" data-toggle="modal" data-target="#tag">';
+                var RejectedBtn='<input id="Rejected" type="button"  class="btn btn-primary marginR10" value="Reject" data-toggle="modal" data-target="#tag" style="margin-top: 0;">';
 
                 /*var BackBtn='<a href="/timesheet?flag=1"><button type="button" style="font-size:10px; width:77px" class="btn btn-primary">Back</button></a>';*/
             var new1;
@@ -253,7 +253,9 @@ var day2= new Date(w2);
                         }
                         document.getElementById('UsName').innerHTML = data[2][0].firstName;
                      //   alert(ata[2][0].firstName);
-                        document.getElementById('Currsname').innerHTML = data[2][0].firstName;
+                        // document.getElementById('Currsname').innerHTML = data[2][0].firstName;
+                        $('#myrep_dropuserdata').val(data[2][0].id);
+                        $('#myrep_dropuserdata').trigger("chosen:updated");
                         //$('#Currsname').val(data[1][0].firstName);
                         // alert("length of data one is "+data[1].length);
                         if (data[1].length == 0) { //alert("hi this is draft");
@@ -688,16 +690,40 @@ function parseDate(input) {
 
 
 
-    <div class="secondry-color" style="margin-top:-3px">
+    <div class="secondry-color" style="padding-top: 0px !important">
 
-        <div class="row sub-header" id="headerTime" style="width:101%;margin-top:0%">
+        <div class="row sub-header" id="headerTime" style="min-height: 0px">
 
-            <div class="col-md-4" style="padding-top:4px;padding-left:5%">
+            <!-- <div class="col-md-4" style="padding-top:4px;padding-left:5%">
                 <label style="color:white">Name  :  </label>
 
                 <label id="Currsname"></label>
+            </div> -->
+            <div class="col-lg-1 col-md-1 col-sm-1">
+              <a href="/timesheet?flag=1"><span class="glyphicon glyphicon-arrow-left" style="    color: #f05f40;font-size: 25px;"></span></a>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+              <label>Status: </label>
+              <span id="timestatus">Draft</span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" align="center">
+              <div style="text-align-last: center; height:29px;width:264px; background-color:white; border-radius: 25px;display: inline-block;">
+                 <img type="button" id="prevdate" src="../img/bug/left.jpg" class="shadow glyphicon leftIcon" title="Previous" height="15px" title="" width="15px" onClick="getdateprev()" style="top: -1px;">
 
+                 <img type="button" id="prevdate1" src="../img/bug/leftFade.png" class="  fadeLeftIcon hide" style=" " title="Previous" height="15px" title="" width="15px" >
+                <input disabled type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
+
+                <img type="button" src="../img/bug/Right.jpg" class="shadow glyphicon" height="15px" title="Next" width="15px" onClick="getdateuser()" style="top: -1px;">
+
+
+
+                <span id="StartDate" name="StartDate" class="glyphicon glyphicon-calendar" style="top:3px height=28px; margin-right:-5px;" width="22px" title=" Select Calender"></span>
+
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4" id="ApproveDiv"></div>
+
+            <!-- <div class="col-lg-1 col-md-1 col-sm-1"></div>
             <div class="col-md-3" style="text-align-last: center; height:29px;width:264px; background-color:white; border-radius: 25px; ">
                  <img type="button" id="prevdate" src="../img/bug/left.jpg" class="shadow glyphicon leftIcon" style=" " title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
 
@@ -717,13 +743,24 @@ function parseDate(input) {
                 <label style=" margin-left:-3px;" id="timestatus">Draft</label>
             </div>
             <div class="col-sm-1" style="float:right"><a href="/timesheet?flag=1"><button type="button" style="font-size:10px; width:77px" class="btn btn-primary">Back</button></a></div>
-            <div class="col-md-2" style=" float: right; " id="ApproveDiv"></div>
+            <div class="col-md-2" style=" float: right; " id="ApproveDiv"></div> -->
             
         </div>
-<hr style="max-width:100%">
-
         <div id="MainTime" class="container-fluid" style="padding-bottom:2%;padding-top:2%">
             <div class="row tab-content" style="margin-left:3%; width:94%">
+              <div class="row" id="OtherEmp" style="margin-bottom: 20px;">
+                <div class="col-lg-6-col-md-6 col-sm-8">
+                  <div class="col-lg-6-col-md-6 col-sm-6">
+                    <label class="col-lg-3-col-md-3 col-sm-3" style="margin-top:7px">Name : </label>
+                    <div id="myrep_drop" class="col-lg-9-col-md-9 col-sm-9">
+                    </div>
+                  </div>
+                  <div class="col-lg-6-col-md-6 col-sm-6">
+                    <div id="drop" class="col-lg-9-col-md-9 col-sm-9"></div>
+                  </div>
+                </div>
+              </div>
+              <div><label id="UsName" class="hide"></label></div>
                   <div class="row" style=""> 
                     
                   <div class="col-md-2" >               
@@ -758,11 +795,11 @@ function parseDate(input) {
             </div>
         </div>
 
-        <div class="row" id="OtherEmp" style=" padding-bottom:10px; width: ;  ">
+        <!-- <div class="row" id="OtherEmp" style=" padding-bottom:10px; width: ;  ">
             <div class="col-md-2" style="text-align:right"> View Other's Timesheet :</div>
              <div id="myrep_drop" class="col-md-2" style="text-align:center">
             
-               <!--  <select style="" class="form-text-box" id="dropuserdata" onchange="DropdownUsers()"> -->
+                <select style="" class="form-text-box" id="dropuserdata" onchange="DropdownUsers()">
                  
           </select>
             </div>
@@ -770,13 +807,13 @@ function parseDate(input) {
             <div class="col-md-3"> </div>
           
              <div id="drop" class="col-md-2" style="text-align:center">
-               <!--  <select style="" class="form-text-box" id="myrep_dropuserdata" onchange="DropdownUsers()"> -->
+                <select style="" class="form-text-box" id="myrep_dropuserdata" onchange="DropdownUsers()">
                  
           </select>
             </div>
 
 
-        </div>
+        </div> -->
  
 
         <div class="modal fade" id="tag" style="height:550px">

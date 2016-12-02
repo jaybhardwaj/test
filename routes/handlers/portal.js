@@ -9,6 +9,7 @@ var schedulers=require('../../lib/schedulers');
 var xlsxparser = require('excel-parser');
 var path = require('path');
 var fs = require('fs');
+var _ = require('underscore');
 
 var textract = require('textract');
  var crypto = require('crypto'),
@@ -816,29 +817,28 @@ filename=req.session.logo;
                   });
     },
 
-addBug :function(req, res, next) {               
+addBug :function(req, res, next) {
        // console.log("************************************************************we are in portal ");
-        var filenames;
-        var targetPaths;
-        var fnames;
-        console.log(req.body.fileNames.split('amit').length,req.body.fileUrls.split('amit').length,'ttt');
-        if(req.body.fileNames){
-            var tempnameArr = req.body.fileNames.split('amit');
+        var filenames ='';
+        var targetPaths = '';
+        var fnames ='';
+        if(req.body.fileUrls){
+            // var tempnameArr = req.body.fileNames.split('amit');
             var tempurlArr = req.body.fileUrls.split('amit');
-            var tempArr =[];
-            tempnameArr.forEach(function(item,index){
-                tempArr.push({name:item,url:tempurlArr[index]});
-            });
+            // var tempArr =[];
+            // tempurlArr.forEach(function(item,index){
+            //     tempArr.push({name:item,url:tempurlArr[index]});
+            // });
             var async = require("async");
             var nameArr =[];
             var urlArr =[];
             var fnameArr =[];
-            async.eachSeries(tempArr, function iteratee(item, callback) {
+            async.eachSeries(tempurlArr, function iteratee(item, callback) {
                 var currentDate = Date.now();
-                var tempVar = item.name.split('.');
-                var extension = tempVar[tempVar.length-1];
-                var fileName = tempVar[0] +"_" + currentDate +"."+extension;
-                var fileUrl = item.url.replace(/^data:image\/\w+;base64,/, "");
+                // var tempVar = item.name.split('.');
+                var extension = 'png';
+                var fileName = 'screenshot_' + currentDate +"."+extension;
+                var fileUrl = item.replace(/^data:image\/\w+;base64,/, "");
                 var myBuffer = new Buffer(fileUrl, 'base64');
                 var dir = './public/attach';
                 var uploadDir = path.resolve(dir);
@@ -848,7 +848,7 @@ addBug :function(req, res, next) {
                 fs.writeFile(uploadDir+"/"+fileName, myBuffer,function(err){
                     if(err) console.log(err);
                     else{
-                        fnameArr.push(item.name);
+                        fnameArr.push(fileName);
                         nameArr.push(fileName);
                         urlArr.push('attach'+"/"+fileName);
                         callback();
@@ -863,6 +863,11 @@ addBug :function(req, res, next) {
                     filenames = nameArr.toString();
                     fnames = fnameArr.toString();
                     targetPaths = urlArr.toString();
+                    if(req.files.length){
+                        filenames = filenames + ','+ _.pluck(req.files,'originalname').toString(); 
+                        fnames = fnames + ','+ _.pluck(req.files,'filename').toString();
+                        targetPaths = targetPaths + ','+ _.pluck(req.files,'path').toString().replace(new RegExp('public/', 'g'),'');
+                    }
                     modelPortal.addBug(req.body.estimatedEffort,req.body.actualEffort,req.body.linkTo,req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
                         req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
                         req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
@@ -882,6 +887,11 @@ addBug :function(req, res, next) {
             });
         }
         else{
+            if(req.files.length){
+                filenames = _.pluck(req.files,'originalname').toString(); 
+                fnames = _.pluck(req.files,'filename').toString();
+                targetPaths = _.pluck(req.files,'path').toString().replace(new RegExp('public/', 'g'),'');
+            }
             modelPortal.addBug(req.body.estimatedEffort,req.body.actualEffort,req.body.linkTo,req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
                 req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
                 req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
