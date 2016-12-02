@@ -4376,7 +4376,7 @@ addUser: function(req, res, next) {
             req.body.hdnUserId, req.body.firstName, req.body.lastName, req.body.emailId, req.body.contactNumber, billingRate,
              req.body.userRole, req.body.manager, req.body.defaultModule, req.body.customRole,encriptPass,
             req.body.ecode,req.body.designation,req.body.level,modules,req.body.doj,req.body.dob,req.body.doc,rtype,
-          req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,req.body.assetrole,function(err, result) {
+          req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,req.body.assetrole,req.body.levelchangeDate,function(err, result) {
              if (err) {
                  next(err);
              } else {
