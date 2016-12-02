@@ -42,6 +42,12 @@
       .chosen-container .chosen-container-single{
     margin-left: -41px !important;
       }
+      #timesheet-table2 #for_approv_wrapper{
+        max-width: 1000px;
+      }
+      #OtherEmp .chosen-container{
+        max-width: 220px;
+      }
    </style>
    <script>
         var resettimesheetBtn='<button type="button" id="resettimesheet" class="btn marginR10" onClick="ClearAll()">Reset</button>';
@@ -739,25 +745,25 @@
    <style>
    </style>
    <% include ../partials/adminheader %>
-   <div class="hide row sub-header" id="OtherEmp" >
-         <div class="col-md-1"></div>
-         <div class="col-md-1" style="text-align:center;margin-top: 8px;" id="myrep_drop">
-            <!--  <select   class="form-text-box" id="dropuserdata" style="width:162px" onchange="DropdownUsers(1)">
-               </select> -->
+      <div class="hide row sub-header" id="OtherEmp" style="min-height: 0px">
+        <div class="col-g-1 col-md-1 col-sm-1"></div>
+        <div class="col-g-3 col-md-3 col-sm-3" id="myrep_drop"></div>
+        <div class="col-g-4 col-md-4 col-sm-4"></div>
+        <div class="col-g-3 col-md-3 col-sm-3" id="drop"></div>
+        <div class="col-g-1 col-md-1 col-sm-1">
+          <button type="button" style="float:right;font-size:10px;margin-top: 5px;" class="btn btn-primary" onClick="timehome()">Own TimeSheet</button>
+        </div>
+         <!-- <div class="col-md-2" id="myrep_drop">
          </div>
          <div class="col-md-6">
          </div>
-         <div class="col-md-1" style="text-align:center;margin-left: -41px;margin-top: 8px;" id="drop">
-            <!-- <select   class="form-text-box" id="myrep_dropuserdata" style="width:252px" onchange="DropdownUsers(0)">
-               </select> -->
+         <div class="col-md-2" id="drop">
          </div>
-         <div class="col-md-2" ></div>
          <div class="col-md-1" style="margin-left: 3%;">
-            <!-- <a href="/timesheet"><button type="button" style="float:right;font-size:10px; " class="btn btn-primary" >Own TimeSheet</button></a> -->
             <button type="button" style="float:right;font-size:10px; " class="btn btn-primary" onClick="timehome()">Own TimeSheet</button>
-         </div>
+         </div> -->
       </div>
-      <div class="row sub-header" id="headerTime">
+      <div class="row sub-header" id="headerTime" align="center" style="min-height: 0px">
          <div id="for_name" class="col-md-4" style="padding-top:4px;padding-left:5%">
             <label class="labelHead">Name  :  </label> <label><%=user%> </label>
             <%if(assetrole==1){%>
@@ -835,11 +841,11 @@
 
 
          </div>
-         <div id="to_fro_date" class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white; margin-top: -2px; border-radius: 25px;">
-            <img type="button" id="prevdate" src="../img/bug/left.jpg" class="shadow glyphicon leftIcon" style=" " title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
+         <div id="to_fro_date" style="text-align-last: center; height:34px;width:263px; background-color:white; margin-top: -2px; border-radius: 25px;">
+            <img type="button" id="prevdate" src="../img/bug/left.jpg" class="shadow glyphicon leftIcon" style="top: -1px;" title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
             <img type="button" id="prevdate1" src="../img/bug/leftFade.png" class="  fadeLeftIcon hide" style=" " title="Previous" height="15px" title="" width="15px" >
             <input disabled type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
-            <img type="button" id="nextdate" src="../img/bug/Right.jpg" title="Next" class="shadow glyphicon" style=" " height="15px" title="" width="15px" onClick="getdateuser()">
+            <img type="button" id="nextdate" src="../img/bug/Right.jpg" title="Next" class="shadow glyphicon" style="top: -1px;" height="15px" title="" width="15px" onClick="getdateuser()">
             <span id="StartDate" name="StartDate" class="glyphicon glyphicon-calendar" style="top:3px; margin-right:-5px;" title=" Select Calender"></span>
          </div>
          <div id="for_status" class="col-md-3" style=" text-align:right;   margin-top: 4px;">
@@ -864,10 +870,10 @@
       <div class="se-pre-con"></div>
       <!-- <hr style="max-width:100%"> -->
       <div class="hide" style="min-height:300px" id="otherBlankDiv">
-         <div  style="margin-top:30px;color:#7e7e7e;padding-left:30px;" class="center">
+         <div  style="padding-left:30px;" class="center">
             <center><label style="color:#7e7e7e;font-size:20pt;">Timesheet Status</label></center>
          </div>
-         <div class=" secondry-color row sub-header">
+         <div class=" secondry-color row" id="timesheet-table2" align="center">
             <table class="table stripe cell-border hover" id="for_approv">
                <thead>
                   <th>Employee Name</th>
@@ -917,6 +923,8 @@
          </div>
       </div>
    </div>
+
+
    <script>
  
       
@@ -1495,6 +1503,7 @@
       
       
       function timehome(){
+        $('#headerTime').addClass('sub-header');
          $('#OtherEmp').addClass('hide');
           $("#otherBlankDiv").addClass("hide");
           $('#MainTime').removeClass('hide');
@@ -1508,6 +1517,7 @@
       }
       function showDiv() {
           // alert("hide");
+          $('#headerTime').removeClass('sub-header');
           $('#OtherEmp').removeClass('hide');
           $("#otherBlankDiv").removeClass("hide");
           $('#MainTime').addClass('hide');
@@ -1517,8 +1527,8 @@
            $('#app_div').addClass('hide');
           
           var move_to_fro = document.querySelector("#to_fro_date");
-          move_to_fro.style.marginLeft="530px";
-          move_to_fro.style.marginTop="-41px";
+          // move_to_fro.style.marginLeft="530px";
+          move_to_fro.style.marginTop="-46px";
           OtherUsersLIst();
       }
       

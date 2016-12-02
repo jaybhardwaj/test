@@ -8,7 +8,7 @@ var url = require('./handlers/url');
 var fs = require('fs'); 
 var path = require('path');
 var multer  = require('multer');
-var upload = multer({ dest: '../attach/' });
+var upload = multer({ dest: './public/attach/' });
 // var bodyParser=require('body-parser');
 var busboy=require('busboy');
  
