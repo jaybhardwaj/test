@@ -1,7 +1,8 @@
-  <html lang="en">
+<html lang="en">
  <% include ./partials/head %>
  <% include ./partials/adminheader %>
-<% include ./partials/setting-header %>
+ <% include ./partials/setting-header %>
+
  <style type="text/css">
 .class1{
         color:green;
@@ -13,8 +14,8 @@
         height:10px;
         margin-left:15px; 
        }
-        .dataTables_filter, .dataTables_length {
-     display: none;
+        .dataTables_filter {
+    
     }
 
  .glyphicon-ok-circle{
@@ -22,14 +23,172 @@
  }
 </style>
 <script>
+var ch;
 var tabledel='';
 var rowid=''; 
 var stdat=[];
 var eddat=[];
 var time;
+
+var otable='';
  $(document).ready(function() {
+
+
+var abc=$("#stat").val();
+var ae="AssignmentDate";
+var as="AssignmentEndDate";
+
+       /* $(document).ready(function() {*/
+   //alert("wwe");
+           $('.se-pre-con').fadeOut('slow');
+           otable = $("#assigntable").DataTable({
+
+                "ajax": {
+                    url: '/assignmentsfordatatable',
+                    type: "POST",
+                    data: function(d){
+                        d.status = $('#stat').val();
+                    }
+                }, 
+"filter": true,
+               
+                "columns": [
+                {"data":"projectTitle"},
+                {"data":"WBSCode"},
+                {"data":"WBSName"},
+                {"data":"firstName"},
+                {"data":"AssignmentDate"},
+                {"data":"AssignmentEndDate"},
+                ],
+
+                "info":false,
+              //  "bSort":false,
+                "autoWidth": true,
+                "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+                 "processing": true,
+                 "serverSide": true,
+               // "deferLoading": 30,
+
+                 "columnDefs": [  
+
+                     {
+                       "targets":0,
+                       "render":function(data,type,row){
+
+                       //  otable.row.id()
+                         var a= "<label>"+row.projectTitle+"</label><input type='hidden' id=usid_"+row.Sno+" value="+row.userId+">";
+                         return a;
+                         
+                         
+                     }
+                   },
+                    {
+                       "targets":1,
+                       "render":function(data,type,row){
+
+                       
+                         var a= "<label>"+row.WBSCode+"</label>";
+                         return a;
+                                                
+                     }
+                   }, {
+                       "targets":2,
+                       "render":function(data,type,row){
+
+                         var a= "<label>"+row.WBSName+"</label>";
+                         return a;
+                         
+                     }
+                   }, {
+                       "targets":3,
+                       "render":function(data,type,row){
+
+                         var a= "<label>"+row.firstName+"</label>";
+                         return a;
+                         
+                     }
+                   },
+                   {
+                      "targets":4,
+                       "render":function(data,type,row){
+
+                        var a="<input type='hidden' id=ws_"+row.Sno+" value="+row.wplannedStartDate+"></input><input type='hidden' id=ae_"+row.Sno+" value="+row.AssignmentDate+"></input><input readonly='true' id=i_"+row.id+" class='asdate' style='text-align:center; border:0px' value="+row.AssignmentDate+" onClick='validDate("+row.Sno+","+row.id+")' onChange='updateAssing("+row.AssignmentDate+","+row.id+",1,this,"+row.Sno+")'></input>";
+                         return a;
+                         
+                     }
+                   },
+                   {
+                      "targets":5,
+                       "render":function(data,type,row){
+
+                       
+                        var a="<input type='hidden' id=we_"+row.Sno+" value="+row.wplannedEndDate+"></input><input type='hidden' id=as_"+row.Sno+" value="+row.AssignmentEndDate+"></input><input  readonly='true' id=j_"+row.id+" class='aedate' style='text-align:center; border:0px' value="+row.AssignmentEndDate+" onClick='validDate("+row.Sno+","+row.id+")'  onChange='updateAssing("+row.AssignmentEndDate+","+row.id+",2,this,"+row.Sno+")'></input>";
+                   
+                   return a;
+                         
+                     }
+                   },
+                   {
+                      "targets":6,
+                       "render":function(data,type,row){
+                        var a;
+                          if(row.projectTitle != "DummyProject")
+                          {
+                            console.log("2");
+                                 a="<span onClick='inactive("+row.id+","+row.isActive+")'";
+                               if(row.isActive==1)
+                                   {console.log("3_0");
+                                  a=a+"class='glyphicon  glyphicon-ok-circle class1'";
+                                   } 
+                              else
+                                    {
+                                      console.log("3_1");
+                                      a=a+"class='glyphicon  glyphicon-remove-sign class2";
+                                    }
+
+                              a=a+"title='Deactivate Assignment'></span>";                         
+                         }
+                         else
+                         {
+                          a=""
+                         }
+                         console.log("string a--",a);
+                         return a;
+                         
+                         
+                     }
+
+                   }
+                    ] 
+
+
+            });
+
+  
+            $('.user-img').addClass('active');
+
+
+            /*$('#assigntable tbody tr').click( function () {
+           // var aData = oTable.fnGetData( this );
+            alert(" aData[0]" ); // assuming the id is in the first column
+            } );*/
+$('#assigntable tbody').on('click', 'tr', function () {
+   ch=$(this).children();
+  // alert($(ch[4]).children()[2].id.split('_')[1]);
+   console.log("$(ch[4]).children()[2].id.split('_')[1]-----------",$(ch[4]).children()[2].id.split('_')[1]);
+   
+  this.id="row_"+$(ch[4]).children()[2].id.split('_')[1];
+  projectWbsForAssignment($(ch[4]).children()[2].id.split('_')[1]);
+ // console.log("iiiiiiiiiiii--------",this);
+  
+     } );
+
+
+
+
+
 $('.se-pre-con').fadeOut('slow');
- otable=$('#assigntable').dataTable({
+ /*otable=$('#assigntable').dataTable({
     'iDisplayLength': 10, 
     "info":false,
      "bFilter": true,
@@ -44,7 +203,7 @@ $('.se-pre-con').fadeOut('slow');
 
            } )
           .dataTable();
-
+*/
  projectTable=$('#projectTable').dataTable({
     'iDisplayLength': 10,
     "order":[],
@@ -58,13 +217,13 @@ $('.se-pre-con').fadeOut('slow');
   });
 
 
-   $("#searchbox").keyup(function() {
-        otable.fnFilter(this.value);
-      });
+  /* $("#searchbox").keyup(function() {
+        otable.ajax.reload();
+      });*/
 
-   $(window).bind('resize', function () {
+  /* $(window).bind('resize', function () {
                 otable.fnAdjustColumnSizing();
-              } );
+              } );*/
 ShowAssignments();
  $('.assignment-img').addClass('active');
 
@@ -105,10 +264,12 @@ ShowAssignments();
 
 
  function validDate(i,id){
+//alert("i am in valid date. - i---"+i+"id---"+id);
 
                       var date = new Date($('#ws_'+i).val());
                       var date1 = new Date($('#we_'+i).val());
-			var date = formatDate(date);
+
+      var date = formatDate(date);
                             var date1 = formatDate(date1);
                             var date=new Date(date);
                             var date1=new Date(date1);
@@ -128,9 +289,12 @@ ShowAssignments();
                                                        scrollMouse: false,
                                                        scrollInput: false  });
  }
-function updateAssing(ldate,id,a,date,i){    
+function updateAssing(ldate,id,a,date,i){  
+
+//alert("ldate--"+ldate+"id--"+id+"a--"+a+"date---"+date+"i--"+i);  
    if(a==1)
     {  
+     // alert("change start date");
         checkTimeSheetDate(i,a);       
          setTimeout(function(){
           if(time)
@@ -149,7 +313,7 @@ function updateAssing(ldate,id,a,date,i){
           }
     }
      else
-    {  
+    {  //alert("change end date");
           checkTimeSheetDate(i,a);
          
            setTimeout(function(){
@@ -197,6 +361,7 @@ function updateAssing(ldate,id,a,date,i){
 }
 
 function checkTimeSheetDate(i,b){
+ // alert("i---"+i+"b---"+b);
   if(b==1)
 {var a=new Date($('#ae_'+i).val());
 }
@@ -233,7 +398,11 @@ if(a1<=15){
                 });           
 }
 
-function ShowAssignments(){               
+function ShowAssignments(){  
+
+
+  otable.ajax.reload();
+
          $(".asdate").datetimepicker({
           timepicker:false,
           format:"m/d/y",
@@ -248,46 +417,11 @@ function ShowAssignments(){
                                     scrollInput: false
           });
 
-  $('#assigntable').dataTable().fnDestroy(); 
+ 
   var a='';
- <%console.log("-------Length-----------",allinfo1.length); for(var i=allinfo1[0].length-1;i>=0;i--) { %>
-                 var abc=$("#stat").val();
-
-                      var ae="AssignmentDate";
-                      var as="AssignmentEndDate";
-                 
-                     if('<%=allinfo1[0][i].isActive%>'==abc || abc==2 ) 
-                    {
-                      console.log("this is allinfo---<%=allinfo1[0][i].assgisActive%> ");
-                     a=a+'<tr id="row_<%=allinfo1[0][i].id%>" class="rows" onclick="projectWbsForAssignment(<%=allinfo1[0][i].id%>);"><td><%=allinfo1[0][i].projectTitle%><input type="hidden" id=usid_<%=i%> value="<%=allinfo1[0][i].userId%>"></td><td><%=allinfo1[0][i].WBSCode%></td><td><%=allinfo1[0][i].WBSName%><input type="hidden" id=wbs_<%=allinfo1[0][i].WBSId%>></input></td><td><%=allinfo1[0][i].firstName%></td><td><input type="hidden" id=ws_<%=i%> value="<%=allinfo1[0][i].wplannedStartDate%>"></input><input type="hidden" id=ae_<%=i%> value="<%=allinfo1[0][i].AssignmentDate%>"></input><input readonly="true" id="i_<%=allinfo1[0][i].id%>" class="asdate" style="text-align:center; border:0px" value="<%=allinfo1[0][i].AssignmentDate%>" onClick="validDate(<%=i%>,<%=allinfo1[0][i].id%>)" onChange="updateAssing(<%=allinfo1[0][i].AssignmentDate%>,<%=allinfo1[0][i].id%>,1,this,<%=i%>)"></input></td><td><input type="hidden" id=we_<%=i%> value="<%=allinfo1[0][i].wplannedEndDate%>"></input><input type="hidden" id=as_<%=i%> value="<%=allinfo1[0][i].AssignmentEndDate%>"></input><input  readonly="true" id="j_<%=allinfo1[0][i].id%>" class="aedate" style="text-align:center; border:0px"value="<%=allinfo1[0][i].AssignmentEndDate%>" onClick="validDate(<%=i%>,<%=allinfo1[0][i].id%>)"  onChange="updateAssing(<%=allinfo1[0][i].AssignmentEndDate%>,<%=allinfo1[0][i].id%>,2,this,<%=i%>)"></input></td>';
-
-if('<%=allinfo1[0][i].projectTitle%>' !='DummyProject'){
-                    a=a+'<td><span onClick="inactive(<%=allinfo1[0][i].id%>,<%=allinfo1[0][i].isActive%>)" <%if(allinfo1[0][i].isActive==1){%>class="glyphicon  glyphicon-ok-circle class1"<%} else{%>class="glyphicon  glyphicon-remove-sign class2" <%}%> title="Deactivate Assignment"></span></td>';
-}
-
-else
-{
-  a=a+'<td></td>';
-}
-                    a=a+'</tr>'
-                }
-                <%}%>
-
+ 
                 $('#acttab').html(a);
-                $('#assigntable').dataTable({
-    'iDisplayLength': 10, 
-    "info":false,
-     "bFilter": true,
-    "order":[]
-  });
-
-                $('#assigntable').dataTable().$('tr:first').click();
-                    $('#assigntable').dataTable().$('tr').addClass('hide');
-                    $('#assigntable').dataTable().$('tr:first').removeClass('hide');
-				
-		$('#assigntable').dataTable().$('tr').removeClass('hide');
-
-
+            
        }
 function inactive(b,flag){;
   // alert("i am in inactivewith id ---"+b);     
@@ -303,13 +437,16 @@ window.location.href = "/changeAssignmentStatus?assignmentId="+b+"& flag="+1;
 }
 
 function projectWbsForAssignment(aid){
-
+   $('#assigntable').dataTable().$("tr").addClass('hide');
+ 
+  $('#assigntable').dataTable().$("tr").removeClass('active-row');
+ 
   
-  $(".rows").removeClass('active-row');
+            
+         
             $("#row_"+aid).addClass('active-row');
-
-            $('#assigntable').dataTable().$("tr").addClass('hide');
-$(".active-row").removeClass('hide');
+           
+            $(".active-row").removeClass('hide');
 
 $('#projectDiv').removeClass('hide');
 
@@ -662,8 +799,8 @@ function showAll()
 
       <span id="download" class="glyphicon glyphicon-download" onclick="exportAssignment('assignment')" style="margin-left:315px;cursor: pointer;font-size:19px" title="Download Assignments List" ></span>
 
-  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
-
+  <!-- <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
+ -->
 
   </div>
    <div  class="row" style="max-width:103%;overflow-y:auto "> 
@@ -741,4 +878,3 @@ function showAll()
    
   <div>  
     <% include ./partials/footer %>     </div>
-
