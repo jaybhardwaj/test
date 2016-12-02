@@ -838,7 +838,7 @@ addBug :function(req, res, next) {
                 var currentDate = Date.now();
                 // var tempVar = item.name.split('.');
                 var extension = 'png';
-                var fileName = 'screenshot_' + currentDate +"."+extension;
+                var fileName = 'screenshot_' + currentDate;
                 var fileUrl = item.replace(/^data:image\/\w+;base64,/, "");
                 var myBuffer = new Buffer(fileUrl, 'base64');
                 var dir = './public/attach';
