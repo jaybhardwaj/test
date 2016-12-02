@@ -2550,15 +2550,15 @@ getAllClientStatus: function(clientId, roleId, retailerId,status, callback) {
 
 addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, lastName, emailId,contactNumber, 
     billingRate,userRole, manager, defaultModule, customRole, randomPassword,ecode,designation,level,modules,doj,dob,doc,rtype,userId,
-     roleId, retailerId,crole,hrRole ,hodId,assRole,callback) {
+     roleId, retailerId,crole,hrRole ,hodId,assRole,desDate,callback) {
         
         
         var query = {
-            sql: 'call atemp_usp_createRetailerUser(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            sql: 'call atemp_usp_createRetailerUser(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, lastName, emailId, contactNumber,
              billingRate, userRole, manager, defaultModule, customRole, randomPassword,
             ecode,designation,level,modules,doj,dob,doc,rtype,
-             userId, roleId, retailerId,crole,hrRole,hodId,assRole]
+             userId, roleId, retailerId,crole,hrRole,hodId,assRole,desDate]
         };
         mysql(query, function(err, result) { 
             console.log(err)

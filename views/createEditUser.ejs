@@ -225,15 +225,14 @@
                 </option>
                 <%}%>
             </select>
+            <input type="text" name="levelHidden" id="levelHidden" style="display:none">
             <div class="fLeft"><span class="error" id="errorLevel"></span></div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" id="changeDate">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 hide" id="changeDate">
             <label>Change Date:</label>
-            <input type="text" name="rolechangeDate" class="datepicker form-control">
-            <div class="fLeft"><span class="error" id="errorLevel"></span></div>
+            <input type="text" name="rolechangeDate" class="datepicker form-control" id="levelDate">
+            <!-- <div class="fLeft"><span class="error" id="errorLevel"></span></div> -->
           </div>
-        </div>
-        <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" style="height: 59px">
             <label>Reporting To :</label>
             <select class="form-control chosen-select" id='manager' name="manager" style="width:164px !important;">
@@ -813,6 +812,18 @@ function getDefaultModule(){
 }
 
   $(document).ready(function(){
+    $('#level').on('change', function (e) {
+        if($("#levelHidden").val() != $("#level").val()){
+          $("#changeDate").removeClass('hide');
+        }
+        else{
+          $("#changeDate").removeClass('hide');
+          $("#changeDate").addClass('hide');
+          $("#levelDate").val('');
+        }
+           
+    });
+
     $(".chosen-select").chosen();
     $(".datepicker").datetimepicker({
          timepicker: false,
@@ -1425,6 +1436,7 @@ $(".typeahead").typeahead({
                 "ecode": $("#ecode").val(),
                 "designation": $("#designation").val(),
                 "level": $("#level").val(),
+                "levelchangeDate": $("#levelDate").val(),
                 'modules':modules,
                 'isClient':0,
                 'clientId':$('#clientId').val(),
@@ -1487,6 +1499,7 @@ $(".typeahead").typeahead({
             var newUser=<%-JSON.stringify(users)%>;
             $("#modules").val([<%for(var i=0;i<userModule.length;i++){%>"<%=userModule[i].moduleId%>",<%}%>]).prop("selected", false); 
             $("#level").val(newUser[0].level).prop("selected", false);
+            $("#levelHidden").val(newUser[0].level);
             $("#manager").val(newUser[0].managerId).prop("selected", false);
             $("#designation").val(newUser[0].designation).prop("selected", false);
 
