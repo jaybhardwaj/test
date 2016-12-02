@@ -52,6 +52,53 @@ $('.se-pre-con').fadeOut('slow');
     "info":false,
   });
 
+/*
+wbstable = $("#wbsTable").DataTable({
+                "ajax": {
+                    url: '/AssignmentWBSForProject',
+                    type: 'POST',
+                    data: function(d){
+                      d.status=$("#pstatus11").val();
+                    }
+                },
+                "columns": [
+                { "data": "WBSName" },
+                { "data": "wplannedStartDate" },
+                { "data": "wplannedEndDate" },
+                { "data": "wactualStartDate"},
+                { "data": "wactualEndDate" }
+                ],
+
+                "info":false,
+                // "bSort":false,
+                "autoWidth": true,
+                "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+                  "processing": true,
+                 "serverSide": true,
+                 // "deferLoading": 30,
+                
+});*/
+
+
+/*$(".rows").removeClass('active-row');
+
+
+            $("#projectrow_"+pid).addClass('active-row');
+
+            otable.$("tr").addClass('hide');
+$(".active-row").removeClass('hide');
+
+
+    
+    $('#wbstable1').removeClass('hide');
+
+  assignmentTable=$('#assignmentTable').dataTable({
+    'iDisplayLength': 10,
+    "order":[],
+    "bDestroy": true, 
+    "info":false,
+  });*/
+
 
   /* $("#searchbox").keyup(function() {
         otable.fnFilter(this.value);
@@ -66,6 +113,15 @@ $('.se-pre-con').fadeOut('slow');
           //  projectStatus($(this).val());
         });
 
+$('#bugtable tbody').on('click', 'tr', function () {
+   ch=$(this).children();
+   console.log("$(ch[0]).children()[0].id.split('_')[1]-----------",$(ch[0]).children()[0].id.split('_')[1]);
+   
+  this.id="row_"+$(ch[0]).children()[0].id.split('_')[1];
+  allWBS($(ch[0]).children()[0].id.split('_')[1]);
+ 
+  
+     } );
 
 
 
@@ -109,7 +165,7 @@ function formatDate(date) {
 
 
  function projectStatus(st){
-  console.log('aaaa');
+
   
     otable = $("#bugtable").DataTable({
                 "ajax": {
@@ -117,6 +173,7 @@ function formatDate(date) {
                     type: 'POST',
                     data: function(d){
                       d.status=$("#pstatus11").val();
+                      console.log(d.status);
                     }
                 },
                 "columns": [
@@ -137,7 +194,35 @@ function formatDate(date) {
                   "processing": true,
                   "serverSide": true,
                  // "deferLoading": 30,
+                   "columns": [
+                { "data": "projectTitle" },
+                { "data": "pcode" },
+                { "data": "ptype" },
+                { "data": "plannedStartDate"},
+                { "data": "plannedEndDate" },
+                { "data": "lastupdatedby" },
+                { "data": "openbug" },
+                { "data": "closedbug"}
+                ],
+
+                "info":false,
+                // "bSort":false,
+                "autoWidth": true,
+                "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+                  "processing": true,
+                  "serverSide": true,
+                 // "deferLoading": 30,
                 "columnDefs": [ 
+                {
+                       "targets": 0,
+                        "render": function(data,type,row){
+                           
+                             var a= "<a href='/projectWbs?pid="+row.id+"' id=pp_"+row.id+">"+row.projectTitle+"</a>";
+                         return a;
+                              
+
+                       }
+                     },
                      {
                        "targets": 2,
                         "render": function(data,type,row){
@@ -152,9 +237,48 @@ function formatDate(date) {
                        }
                      },
                      {
+                       "targets": 3,
+                        "render": function(data,type,row){
+                     
+                        var a="<input type='text' readonly='true'  style='cursor: pointer;border:0px' id='psdate_"+row.id+"' value="+row.plannedStartDate+" onchange='updateWbsAssignment("+row.id+",0,0,1)'><div class='col-sm-12 fLeft'><span class='error' id='errorPsdate_"+row.id+"'></span></div>";
+
+                       $('body').on('focus',"#psdate_"+row.id, function(){
+                           $(this).datetimepicker({
+                                 timepicker:false,
+                                 format:"m/d/y",
+                                     scrollMouse: false,
+                                     scrollInput: false
+                                });
+                       });
+                      return a;
+
+                          
+                       }
+                     },
+                      {
+                       "targets": 4,
+                        "render": function(data,type,row){
+                     
+                        var a="<input type='text' readonly='true'  style='cursor: pointer;border:0px' id='pedate_"+row.id+"' value="+row.plannedEndDate+" onchange='updateWbsAssignment("+row.id+",0,0,1)'><div class='col-sm-12 fLeft'><span class='error' id='errorPedate_"+row.id+"'></span></div>";
+
+                       $('body').on('focus',"#pedate_"+row.id, function(){
+                           $(this).datetimepicker({
+                                 timepicker:false,
+                                 format:"m/d/y",
+                                     scrollMouse: false,
+                                     scrollInput: false
+                                });
+                       });
+                      return a;
+
+                          
+                       }
+                     },
+                     {
                       "targets": 8,
                       "render":function(data,type,row){
                         var my_html;
+
                         if(row.isActive==1){
 
                           if(row.projectTitle != 'DummyProject'){
@@ -173,8 +297,45 @@ function formatDate(date) {
                       }
                      }
  ]
+ // var log = '',log1='',log2='';
+                    
+ //                    for (var i = data[0].length-1; i >=0 ; i--) {
+
+ //                        if(row.projectTitle==null){row.projectTitle='';}
+ //                        if(row.pcode==null){row.pcode='';}
+ //                        if(row.ptype==0){row.ptype='';}
+ //                        if(row.ptype==2){row.ptype='Time';}
+ //                        if(row.ptype==1){row.ptype='Time & Expense';}
+ //                        if(row.plannedStartDate==null){row.plannedStartDate='';}
+ //                        if(row.plannedEndDate==null){row.plannedEndDate='';}
+ //                        if(row.actualStartDate==null){row.actualStartDate='';}
+ //                        if(row.actualEndDate==null){row.actualEndDate='';}
+ //                        if(row.lastupdatedby==null){row.lastupdatedby='';}
+
+ //                        if(row.actualStartDate=='00/00/00'){row.actualStartDate='';}
+ //                      if(row.actualEndDate=='00/00/00'){row.actualEndDate='';}
+
+
+                       /*  log=log+ '<tr id="projectrow_'+row.id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+row.id+');"><td><a href="/projectWbs?pid='+row.id+'">'+row.projectTitle+'</a></td><td>'+row.pcode+'</td><td>'+row.ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="psdate_'+row.id+'" value="'+row.plannedStartDate+'" onchange="updateWbsAssignment('+row.id+',0,0,1)"><div class="col-sm-12 fLeft"><span class="error" id="errorPsdate_'+row.id+'"></span></div></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="pedate_'+row.id+'" value="'+row.plannedEndDate+'" onchange="updateWbsAssignment('+row.id+',0,0,1)"><span class="error" id="errorPedate_'+row.id+'"></span></div></td><td>'+row.lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+row.id+'">'+row.openbug+'</a></td><td><a href="/filterBug?status=4&pid='+row.id+'">'+row.closedbug+'</a></td>';*/
+
+ //                        $('body').on('focus',"#psdate_"+row.id, function(){
+ //                          $(this).datetimepicker({
+ //                                timepicker:false,
+ //                                format:"m/d/y",
+ //                                    scrollMouse: false,
+ //                                    scrollInput: false
+ //                               });
+ //                      });
+ //                      $('body').on('focus',"#pedate_"+row.id, function(){
+ //                          $(this).datetimepicker({
+ //                                timepicker:false,
+ //                                format:"m/d/y",
+ //                                    scrollMouse: false,
+ //                                    scrollInput: false
+ //                               });
+ //                      });
 });
- 
+ }
     // $.ajax({
     //             url: '/projectStatus',
     //             type: 'post',
@@ -199,17 +360,17 @@ function formatDate(date) {
     //                   if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
 
 
-    //                     log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><div class="col-sm-12 fLeft"><span class="error" id="errorPsdate_'+data[0][i].id+'"></span></div></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><span class="error" id="errorPedate_'+data[0][i].id+'"></span></div></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
+                       /*  log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><div class="col-sm-12 fLeft"><span class="error" id="errorPsdate_'+data[0][i].id+'"></span></div></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><span class="error" id="errorPedate_'+data[0][i].id+'"></span></div></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
 
-    //                     $('body').on('focus',"#psdate_"+data[0][i].id, function(){
-    //                       $(this).datetimepicker({
-    //                             timepicker:false,
-    //                             format:"m/d/y",
-    //                                 scrollMouse: false,
-    //                                 scrollInput: false
-    //                            });
-    //                   });
-    //                   $('body').on('focus',"#pedate_"+data[0][i].id, function(){
+                        $('body').on('focus',"#psdate_"+data[0][i].id, function(){
+                           $(this).datetimepicker({
+                                 timepicker:false,
+                                 format:"m/d/y",
+                                    scrollMouse: false,
+                                     scrollInput: false
+                                });
+                       });
+                       $('body').on('focus',"#pedate_"+data[0][i].id, function(){*/
     //                       $(this).datetimepicker({
     //                             timepicker:false,
     //                             format:"m/d/y",
@@ -244,7 +405,7 @@ function formatDate(date) {
     //                 otable.$('tr').addClass('hide');
     //                 otable.$('tr:first').removeClass('hide');
 
-		  //   otable.$('tr').removeClass('hide');
+      //   otable.$('tr').removeClass('hide');
 
     //             }
     //             //$('#bugtable').on('page', function () {alert('grsfs')} );
@@ -254,22 +415,53 @@ function formatDate(date) {
     //         });
 
   
- }
+ 
 
  function allWBS(pid){
-$(".rows").removeClass('active-row');
+
+//     otable = $("#wbsTable").DataTable({
+//                 "ajax": {
+//                     url: '/AssignmentWBSForProject',
+//                     type: 'POST',
+//                     data: function(d){
+//                       d.status=$("#pstatus11").val();
+//                     }
+//                 },
+//                 "columns": [
+//                 { "data": "WBSName" },
+//                 { "data": "wplannedStartDate" },
+//                 { "data": "wplannedEndDate" },
+//                 { "data": "wactualStartDate"},
+//                 { "data": "wactualEndDate" }
+//                 ],
+
+//                 "info":false,
+//                 // "bSort":false,
+//                 "autoWidth": true,
+//                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+//                   "processing": true,
+//                  "serverSide": true,
+//                  // "deferLoading": 30,
+                
+// });
 
 
-            $("#projectrow_"+pid).addClass('active-row');
+$("#bugtable").dataTable().$("tr").addClass('hide');
 
-            otable.$("tr").addClass('hide');
+$("#bugtable").dataTable().$("tr").removeClass('active-row');
+
+//$(".rows").removeClass('active-row');
+
+
+            $("#row_"+pid).addClass('active-row');
+           // $(".active-row").removeClass('hide');
+            //otable.$("tr").addClass('hide');
 $(".active-row").removeClass('hide');
 
 
-    //$('#projectrow_'+pid).css('background-color', '#00ffff');
+    
     $('#wbstable1').removeClass('hide');
-    //alert(pid);
-
+    
     $.ajax({
                 url: '/AssignmentWBSForProject',
                 type: 'post',
@@ -364,10 +556,7 @@ $(".active-row").removeClass('hide');
 
                     wbstable.fnDestroy();
                     $('#wbsTableBody').html(log);           
-                    /*wbstable=$('#wbsTable').dataTable({
-                        'iDisplayLength': 10,
-                        "order":[]
-                        });*/
+                   
 
 $('#wbsTable').dataTable();
  wbstable.$('tr:first').click();
@@ -554,6 +743,7 @@ $('#wbsTable').dataTable();
 
 
 function updateWbsAssignment(pid,wbsid,asid,type){
+  
 resetError();  
 var errorPsdate = $('#errorPsdate_'+pid);
 var errorPedate = $('#errorPedate_'+pid);
@@ -922,5 +1112,3 @@ function showAll()
 </body>
 
 </html>
-
-
