@@ -441,10 +441,18 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
 
 	//---------------------------------------ASSIGNMENT---------------------------------------
 
-	app.get('/assignment',url.setpageAssignment, portal.getAssignment,render.redirect);
-	app.get('/changeAssignmentStatus',url.setpageChangeAssignmentStatus, portal.changeAssignmentStatus,render.redirect);
-	app.get('/createAssignment',url.setpageCreateEditAssignment, portal.createEditAssignment,render.redirect);
-	app.post('/submitAssignment',url.setpageSubmitAssignment,portal.submitAssignment,render.redirect);
+  app.get('/assignment',url.setpageAssignment,render.redirect);
+  app.post('/assignmentsfordatatable',portal.getAssignment);
+  app.get('/changeAssignmentStatus',url.setpageChangeAssignmentStatus, portal.changeAssignmentStatus,render.redirect);
+  app.get('/createAssignment',url.setpageCreateEditAssignment, portal.createEditAssignment,render.redirect);
+  app.post('/submitAssignment',url.setpageSubmitAssignment,portal.submitAssignment,render.redirect);
+
+
+
+	// app.get('/assignment',url.setpageAssignment, portal.getAssignment,render.redirect);
+	// app.get('/changeAssignmentStatus',url.setpageChangeAssignmentStatus, portal.changeAssignmentStatus,render.redirect);
+	// app.get('/createAssignment',url.setpageCreateEditAssignment, portal.createEditAssignment,render.redirect);
+	// app.post('/submitAssignment',url.setpageSubmitAssignment,portal.submitAssignment,render.redirect);
 
 	/*------------------------------------------------------------------Holiday------------------------------------------------------------*/
 
