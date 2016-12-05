@@ -56,11 +56,7 @@
                                           <li style=" float:right ;" title="Logout">
                                             <a class="imageInc" href="/logout"><img src="/img/logout.png" id="logout" width="25px" height="25px" style=" margin-top:-2px " /></a>
                                           </li>
-                                          <!-- <li style=" float:right"title="Change Password">
-                        <a data-toggle='modal' data-target='#changepass'>
-                    <img class="imageInc" src="/img/change.png"  id="changepassimg" width="25px" height="25px" style="margin-top:-5px;float:right;"/>
-                    </a>
-                    </li> -->
+                                
                                           <li class="modulemenu">
                                             <a class="dropdown-toggle" id="dropdownToggleId" data-toggle="dropdown"> <label class="header-title" style="color:#f04050;">Hi, <%= user%> </label> <span class="caret"></span> </a>
                                             <ul class="dropdown-menu" style="text-align:center">
@@ -77,7 +73,6 @@
 
 <div class="modal fade" id="changeSuper" role="dialog">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content" id="express2">
       <div class="modal-header" style="background-color:#f05f40;"> <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px">&times;</button>
         <center> <label id="head4" class="modal-title" style="color:white;"> Change Supervisor</label> </center>
@@ -87,7 +82,7 @@
           <div class="col-md-4"> <label class="form-Label">Choose Supervisor :</label> </div>
           <div class="col-md-8"> <select class="form-text-box" id="chngSuper">
                              <option value="0">select</option>
-                             <%for(var i=0;i<allSuperVisors.length;i++){ console.log(allSuperVisors[i].id)%>
+                             <%for(var i=0;i<allSuperVisors.length;i++){ %>
                               <option value="<%=allSuperVisors[i].id%>" <%if(allSuperVisors[i].id == mySupervisor) {%> selected <%}%> >
                 <%=allSuperVisors[i].name%> </option>
                               <%}%>
@@ -100,10 +95,8 @@
     </div>
   </div>
 </div>
-<!-- <center> -->
   <div class="modal fade " id="changepass" role="dialog">
     <div class="modal-dialog">
-      <!-- Modal content-->
       <div class="modal-content" id="express2">
         <div class="modal-header" style="background-color:#f05f40;"> <button type="button " class="close" data-dismiss="modal">&times;</button>
           <center><label id="head4" class="modal-title" style="color:white; "> Change Password </label></center>
@@ -129,10 +122,8 @@
       </div>
     </div>
   </div>
-<!-- </center> -->
 <div class="modal fade" id="mymodel" role="dialog">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content" id="express2">
       <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title" style="color:white">Choose New Module</h4>
@@ -211,7 +202,6 @@
         </center>
         <div class="modal-footer" style="border-top:0px;">
           <center> <button onclick="installModule()" class="btn btn-default" style="margin-top:10px;background-color:#f05f40;color:white;padding-top: 4px; width:100px;height:30px;">Install</button>
-            <!--   <div class="progress-bar" style="width: 100%;"> </div> -->
           </center>
         </div>
       </div>
@@ -226,9 +216,7 @@
     if (jQuery.inArray(el, myModules) == -1) difference.push(el);
   });
   $(document).ready(function() {
-   /* $("#chngSuper").tagger({
-      "fieldWidth": "24em"
-    });*/
+   
     $('#cancel').click(function() {
       $('#newpass').val('');
       $('#confpass').val('');
@@ -262,7 +250,6 @@
       }, 500);
     }
     if ($('.bug-tab').attr('class') == 'modulemenu bug-tab active') {
-      //if( $('.viewbug-img').attr('class') == 'viewbug-img active' ){
       $('#noti_Counter').fadeOut('slow');
       $.ajax({
         url: '/updateNotification',
@@ -275,7 +262,6 @@
         success: function(data) {}
       });
       return false;
-      // }
     }
     if ($('.timesheet-tab').attr('class') == 'modulemenu timesheet-tab active') {
       $('#noti_Counter_timesheet').fadeOut('slow');
@@ -405,7 +391,6 @@ if($(this).text()==''){
           'oldpass': oldbox
         },
         success: function(data) {
-          //alert(data[0].i);
           if (data == '1') {
             alert("Password Changed Successfully");
             window.location.reload();

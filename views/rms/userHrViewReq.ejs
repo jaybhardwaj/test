@@ -71,7 +71,7 @@
                                 <%=pdetails[i].assignedTo%>
                             </td>
                             <td id="assign_<%=pdetails[i].id%>">
-                                <%if(pdetails[i].assignedToName!=null){ console.log(i,pdetails[i].assignedToName)%>
+                                <%if(pdetails[i].assignedToName!=null){ %>
                                     <%=pdetails[i].assignedToName%>
                                         <%}
                                         else{%><span class="glyphicon glyphicon-option-horizontal"></span>
@@ -91,7 +91,6 @@
         </div> 
 </div>
 
-    <!--PAGE CONTENT ENDS-->
 <%include menu1.ejs%>
 <% include ../partials/footer %> 
 
@@ -143,7 +142,6 @@
                                     }
                                     $('#dskillsId').html(arr.toString());
                                     $("#ddiscription").html(dviewinfo[0].description);
-                                    //-----History Div---------
                                     $('#dhistoryTable').html('');
                                     var counter = 1;
                                     var cname;
@@ -184,12 +182,10 @@
                         for (var k = 0; k < plength; k++) {
                             var str = '#desc_' + k;
                             var decode = $(str).text();
-                            console.log(decode);
                             $(str).html(decode);
                         }
                         for (var k = 0; k < plength; k++) {
                             var str = '#con_' + k;
-                            console.log($(str).html());
                             if ($(str).html() == null || $(str).html() == '') {
                                 $(str).html('<i class="glyphicon glyphicon-remove" style = "color:red"  title = "Unassigned"></i>');
                             } else {
@@ -205,7 +201,6 @@
                            $("#searchbox").keyup(function() {
                         newDataTable.fnFilter(this.value);
                     }); 
-                        // console.log(newDataTable)
 
 
                         $('#selectAdminHr').change(function() {
@@ -214,7 +209,6 @@
                             var selected = $('#selectAdminHr').val();
                             selected = parseInt(selected);
                             if (isNaN(selected) || selected == -2) return false;
-                           // alert(selected);
                             $.ajax({
                                 url: 'selectAdminHr',
                                 data: {
@@ -223,10 +217,8 @@
                                 method: 'post',
                                 success: function(pdetails) {
                                     $('#tbodyReq').html(ch);
-                                    console.log(pdetails);
                                     for (var i = 0; i < pdetails.length; i++) {
                                         var hide = 'hide';
-                                        console.log(pdetails[i].adminHR, uid);
                                         if (pdetails[i].adminHr == uid) {
                                             hide = '';
                                         }
@@ -245,7 +237,6 @@
                                     for (var k = 0; k < pdetails.length; k++) {
                                         var str = '#con_' + k;
                                         var str2 = '#assign_' + k;
-                                        console.log($(str).html());
 
                                         if ($(str).html() == null || $(str).html() == '' || $(str).html() == 'null') {
 
@@ -367,7 +358,6 @@
         }
     </style>
 
-      <!---------------------------------View Detail modal box -------------------------------------->
       <div class="modal fade" id="jdDetailModal" role="dialog">
             <div class="modal-dialog modal-lg" style="">
                 <div class="modal-content" style=" ">

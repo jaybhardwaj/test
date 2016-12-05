@@ -19,18 +19,28 @@
      .marginLeftRight{      
          margin-left: -31%;     
     width: 123%;        
-    }       
+    }     
+    .paddings{
+        padding-right: 0px;
+        padding-left: 0px;
+    }  
+    .marginTOP10{
+        margin-top: 10px;
+    }
 
 </style>
 
 <body>
     <div class="container-fluid secondry-color" style="padding-top:1%;min-height: 350px">
+    <div class="clearfix">
         <a href="/addSoftware" type="button" title="Add New Stationary" value="Addstationary">
-            <img class="addNewPlus" style="    margin-top: 1%;"></a>
+            <img class="addNewPlus"></a>
         <span class="modal-title" style="padding-left:41%;">List Of All Softwares</span>
-
-       <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="margin-left: 86%;margin-bottom: 1%;width: 13%;">
-         <div class="row" style="margin-left:1px;max-width: 100% ; overflow-y:auto" >
+        </div>
+        <div class="clearfix">
+       <input class="form-control" type="text" placeholder="search in this table" id="searchbox" style="margin-bottom: 10px;width: 200px;float:right">
+       </div>
+         <div class="row">
         <table class="table table-hover table-striped table-bordered rceDataTable" id="softtable" cellpadding="0" cellspacing="0" border="0" >
             <thead>
                 <tr>
@@ -39,7 +49,7 @@
                     <th style='background-color:grey;color:white'>Vendor</th>
                     <th style='background-color:grey;color:white'>Invoice date</th>
                     <th style='background-color:grey;color:white'>Description</th>
-                    <th style='background-color:grey;color:white; width:200px'>Licence Key</th>
+                    <th style='background-color:grey;color:white;' >Licence Key</th>
                     <th style='background-color:grey;color:white'>No. of Users</th>
                     <th style='background-color:grey;color:white'>Licence Expiry Date</th>
                     <th style='background-color:grey;color:white'>Licence Purchase Date</th>
@@ -95,117 +105,77 @@
 <footer>
     <% include ../partials/footer %>
 </footer>
-<!--edit      modal-->
 <div class="modal fade" id="editstation" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <!--- Modal content-->
-        <div class="modal-content" id="exp2" style="width: 1100px;margin-left: -11%">
-            <div class="modal-header" style="background-color:#f05f40;">
-                <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Software</b></label>
-                    <span id="closeedit" class='close closeedit' data-dismiss="modal" style='float:right;' title='Close'> &times;  </span>
-                </center>
-            </div>
-            <div id="err" class="col-lg-6 col-sm-offset-3"></div>
-            <div class="modal-body">
-                <div class="row" style="max-width: 100% overflow-y:auto" >
-                    <table class="table" id="editlisence"  >
-                        <tr>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Software Type: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <select id="typel" name="htype" class="form-text-box" value="" disabled="disable">
+
+     <div class="modal-dialog" style="min-width: 80%;">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:#f05f40;">
+          <center><label id="head10" class="modal-title" style="color:white !important;"> Edit Software </label>
+          <span id="dismiss"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:white;margin-bottom: 15px'></span>
+          </center>
+        </div>
+         <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+          <div class="modal-body">
+            <div class="row fusion-form-elements view-edit-hardware">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+               <label class="form-Label">Software Type: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                 <select id="typel" name="htype" class="form-control textBox" value="" disabled="disable">
                                       <%for(var i=0;i<stype[0].length;i++){%>
                                       <option value='<%=stype[0][i].softType%>'><%=stype[0][i].componentName%></option>
                                                         <%}%>
-                                    </select>
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Name: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input type='text' maxlength="50" name="name" class="form-text-box" id="name" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Vendor: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <!-- <input type='text'maxlength="50" name="vendor"class="form-text-box" id="vendor"/> -->
+                 </select>
+             </div>
+             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label">Name: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                <input type='text' maxlength="50" name="name" class="form-control textBox" id="name" />
+              </div>
+           
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label">Vendor: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                 <select class="form-control textBox" style="" name="vendor" id="vendor" onchange=""> 
 
-                                    <select class="form-text-box" style="" name="vendor" id="vendor" onchange=""> 
                                     <option value='0' disabled selected>Select</option>
                                     <% for(i=0;i<stype[1].length;i++){%>
                                     <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
                                                    <%}%>
-                                    </select>
+                </select>           
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                 <label class="form-Label">Invoice Date: <sup class="astrick">*</sup></label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <input type="" class="form-control textBox date" id="Invoicedate" name="Invoicedate" />
+            </div>
+             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                 <label class="form-Label">Licence Required:</label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <input name='test5' type="checkbox" id="test5" />
+            </div>
+             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                 <label class="form-Label">Description: <sup class="astrick">*</sup></label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <textarea id='textarea' name="des" class="form-control textBox"></textarea>
+            </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                 <label class="form-Label"># Users: <sup class="astrick">*</sup></label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <input type="number" name="users" class="form-control textBox" disabled="disable" id="users" />    
+            </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label">Purchase Date: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                <input class="form-control textBox date" id="pdate" name="pdate" />        
+            </div>
+             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                 <label class="form-Label">Expiry Date: <sup class="astrick">*</sup></label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <input class="form-control textBox date " id="edate" name="edate" />        
+            </div>
 
 
-                                </td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Invoice Date: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input type="" class="form-text-box date" id="Invoicedate" name="Invoicedate" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Licence Required:</label>
-                                </td>
-                                <td>
-                                    <input name='test5' type="checkbox" id="test5" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Description: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <textarea id='textarea' name="des" class="form-text-box"></textarea>
-                                </td>
-                            </td>
-                        </tr>
-                
-                        <tr id="trrr">
-                            <td>
-                                <td>
-                                    <label class="form-Label"># Users: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input type="number" name="users" class="form-text-box" disabled="disable" id="users" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-
-                                    <label class="form-Label">Purchase Date: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input class="form-text-box date" id="pdate" name="pdate" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Expiry Date: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input class="form-text-box date " id="edate" name="edate" />
-                                </td>
-                            </td>
-                        </tr>
-                   
-                                     
-                                              
-                    </table>
                     </div>
                      <div class="row" id="licc" style="max-width: 100% overflow-y:auto" ></div>
                      <div><input type="text" class="hide" id="hid" name="alllicensekey"></input></div>
@@ -214,8 +184,8 @@
             <div class="modal-footer" style="border-top:0px;">
                 <center>
                     <input type="text" class="hide" value="" id="hdnId" name="hdnId">
-                    <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default"  >Cancel</button>
-                    <a onclick="return validate()" class="btn btn-default"  >Submit</a>
+                    <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-primary"  >Cancel</button>
+                    <a onclick="return validate()" class="btn btn-primary"  >Submit</a>
                 </center>
             </div>
         </div>
@@ -235,7 +205,6 @@
   
 
     function edit(id) {
-        //alert(id);
          $(".jay").html('');
         $("#hdnId").val('');
         $.ajax({
@@ -246,13 +215,11 @@
             },
             success: function(data) {
                 abcde = data;
-                console.log("edit info--------------", data[0][0].softType);
                 $("#name").val(data[0][0].name);
                 $("#typel").val(data[0][0].softType);
                 $("#vendor").val(data[0][0].vendor);
                 $("#Invoicedate").val(data[0][0].invoiceDate);
                 $("#textarea").val(data[0][0].description);
-                //alert(data[0][0].licenceKey);
                 if (data[0][0].licenceKey != null) {
                     $("#test5").prop("checked",true);
                     $("#lic").removeClass('hide');
@@ -274,7 +241,6 @@
                 var ty=data[0][0].licenceKey;
                 var tyt=ty.split(',');
                 var logstr='';
-                 //$('#licc').append('<table></table>');
                   for(var i=0;i<typ;i++)
                   {
                     k=i+1;
@@ -299,7 +265,6 @@
         });
         
     }
- /*$('#licc').append('<div class="col-md-2" style="margin-bottom:10px"><label for="key" class="form-Label" style="padding-top:0px;">Licence Key:'+ k +' <sup class="astrick">*</sup> </label></div><div class="col-md-2" style="margin-bottom:10px"><input type="text" value="'+updattedlic+'" class="form-text-box marginLeftRight" id="lic'+ i +'" ></div>');*/
 
     $(document).ready(function() {
 
@@ -311,23 +276,23 @@ var trArr = $("#lineTableId tr");
 for(var i =0;i<trArr.length;i++){
     var td = $('#licsoft'.concat(i)).val();
     if(td!='')
-    {                        //$(trArr[i]).children("td")[5].innerHTML;
+    {                      
 var arrays=td.split(',');
 var strlic='';
 for(var j=0;j<arrays.length;j++)
 {
     var lickey=myFunction1(arrays[j]);
     strlic=strlic+','+lickey;
-    //alert(strlic);
+  
 }
-//alert(strlic);
 $(trArr[i]).children("td")[5].innerHTML  = strlic;
 }
 }
 
   var oTable = $("#softtable").dataTable({
             "bLengthChange": false,
-            "binfo": false
+            "binfo": false,
+            responsive:true,
         });
 
  
@@ -379,13 +344,7 @@ $(trArr[i]).children("td")[5].innerHTML  = strlic;
         }
 
        if ($('#test5').prop('checked')) {
-            //  alert("You have selected licence rqd."); //checked
-           /* if ($('#key').val().length < 1 || $.trim($("#key").val()) == "") {
-                alert("Licence key is Missing!");
-                return false;
-            }*/
-
-            if (us.length < 1 || isNaN(us) || us.trim().length < 0) { //alert(us);
+                if (us.length < 1 || isNaN(us) || us.trim().length < 0) { 
                 alert("Enter valid number of Users!");
                 return false;
             }
@@ -427,10 +386,10 @@ $(trArr[i]).children("td")[5].innerHTML  = strlic;
 
                     }
                     $('#hid').val(arr);
-                    //alert($('#hid').val());
+                  
 
         }
-        //alert($('#Invoicedate').val());
+    
         $.ajax({
             url: '/updateSoftware',
             method: 'POST',
@@ -485,8 +444,7 @@ var sddmost=makeid();
 var firstco=first.concat(sddmost);
 var final=firstco.concat(secont);
 return final;
-   // document.getElementById("demo").innerHTML =final;
-//myFunction1(final);
+  
 }    
 
  function myFunction1(str1) {

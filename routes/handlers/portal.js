@@ -30,7 +30,6 @@ var config = {
  
 }
 
-//encryption method by ashish
 var encrypt = function (input, password) {
     var m = crypto.createHash('md5');
     m.update(password)
@@ -58,7 +57,7 @@ var encrypt = function (input, password) {
 };
 
 var options = {
-    type: 'text' // extract the actual text in the pdf file 
+    type: 'text' 
 };  
 var AdmZip = require('adm-zip');
 var config  = {
@@ -71,7 +70,7 @@ var idarr = [];
 var loggedinarr = [];
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(3);
-//*********************************************************************************///////
+
 var pdf_extract = require('pdf-extract');
  var skillsIdfromdb = [];
 var skillsfromdb = [];
@@ -87,11 +86,7 @@ var locationId = [],
  var holidayArrDateTimeArr = [];
  var saturdayOffFlag      = 1;
 
-//var excel = require('node-excel-export');
-/*report*/
 
-
-/*report*/
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -132,7 +127,6 @@ var locationId = [],
                 assignedTo=req.body.supervisor; flag=0;
                 if(typeof(req.session.notification)=='undefined'){ notification=0; }
                 else{ notification=req.session.notification.bug_notification; }
-                //// console.log('timesheet----flag--',flag,'--assignedto--',assignedTo,'--notification--',notification);
 
                  if(typeof(req.body.notificationForApproveReject)=='undefined'){ notificationForApproveReject=0; }
                 else{ notificationForApproveReject=req.body.notificationForApproveReject;
@@ -153,7 +147,6 @@ var locationId = [],
 
         modelPortal.notification(edit,notificationForApproveReject,type,notification,assignedTo,flag,req.session.userId, req.session.retailerId,function(err, result) {
              if (err) {
-                // console.log(err);
                  next(err);
                  res.json('0');
              } else {
@@ -179,31 +172,16 @@ var locationId = [],
                 }
                 else{
                     res.json('0');
-                   /* if(type=='timesheet'){
-                        // console.log('inside res.json in timesheet');
-                        res.json('0');
-                    }*/
+                  
                 }
                     
              }
          });
      },
 
-// reportpro: function(req, res, next) {               
-//       var date ="2016-09-15 00:00:00"
-//         modelPortal.reportpro(req.session.retailerId,date,function(error,result) {  
-//               if (error) {
-//                  next(error);
-//                  return;
-//              }
-//             req.resultProfile=result;
-//             next();
-//               });
-//     },
 
 
     timesheetdragreport: function(req, res, next) {
-        // console.log(req.body,'amit');
         var tempStr = [];
 
 
@@ -254,7 +232,6 @@ var locationId = [],
                  next(error);
                  return;
             }
-            // console.log(result,'sas');
             var tempobj = JSON.stringify(result[0]);
             var desiredObj = JSON.parse(tempobj);
            // console.log("result[0]----",result[0]);
@@ -288,7 +265,6 @@ var locationId = [],
                 next(error);
             }
            res.json(result);
-           // console.log("jamunaaaaaaaaaaaaaaaaaaaaaaaaaa^&^*&^(*&^%^&^*%&^%^&",result);
         });
     },
 
@@ -300,7 +276,6 @@ FilterDataForSelect:function(req,res,next){
                 next(error);
             }
            res.json(result);
-           //// console.log("jamunaaaaaaaaaaaaaaaaaaaaaaaaaa^&^*&^(*&^%^&^*%&^%^&",result);
         });
     },
 
@@ -315,7 +290,6 @@ FilterDataForSelect:function(req,res,next){
         }
         modelPortal.notification(edit,notificationForApproveReject,type,notification,assignedTo,flag,req.session.userId, req.session.retailerId,function(err, result) {
              if (err) {
-                // console.log(err);
                  next(err);
                  res.json('0');
              } else {
@@ -354,18 +328,15 @@ FilterDataForSelect:function(req,res,next){
     
          modelPortal.checkPassword(req.body.userid,req.body.password,0,function(err, result) {
              if (err) {
-                // console.log(err)
                  next(err);
 
              } else { 
-                // console.log("============================= jai mata di",result);
                  if(result[0][0].isActive==0){
                    res.json("2");
                  }
                  else{
                    var hash=result[0][0].userPassword.toString();
                    if((bcrypt.compareSync(req.body.password,hash))&&(hash!=0)){
-                    // console.log("=============================",result);
                     if(result.length >=2 && result[1] !="")
                     req.session.daysRemaining=result[1][0].daysremaining; 
                     else 
@@ -380,16 +351,14 @@ FilterDataForSelect:function(req,res,next){
 
          });
      } ,
-     /*added by saurav*/
+   
      addNewModules:function(req, res, next) {
-        ////// console.log("------ - - - -  ",req.body);
          modelPortal.addNewModules(req.session.userId,req.session.roleId,req.session.retailerId,req.body.modules,function(err, result) {
              if (err) {
                  next(err);
 
              } else { 
                    
-                        ////// console.log("session ki jay : " ,req.session.modules);
                     req.session.modules=req.session.modules.concat(JSON.parse("["+req.body.modules+"]"));        
                      res.json("0");
                    }
@@ -397,10 +366,8 @@ FilterDataForSelect:function(req,res,next){
              
              });
      } ,
-    /* isRetailer:function(req, res, next) {
-        res.json(req.session.isRetailer);
-     } ,*/
-     dayRemaining:function(req, res, next) {// console.log("enter",req.session.daysRemaining);
+   
+     dayRemaining:function(req, res, next) {
         if (req.session) {
                  res.json(req.session.daysRemaining);   
              }else { 
@@ -486,29 +453,7 @@ FilterDataForSelect:function(req,res,next){
                      else{
                        
                         res.redirect('/changePassWordPage');
-                     /*  if(req.session.defaultModule==1){
-                            res.redirect('/mailServerInfo');
-                       }else if(req.session.defaultModule==1){
-                            res.redirect('/bugHome');
-                       }
-                       else if(req.session.defaultModule==2){
-                            res.redirect('/timesheet');
-                       }
-                       else if(req.session.defaultModule==3){
-                            res.redirect('/expense');
-                       }
-                       else if(req.session.defaultModule==4){
-                            res.redirect('/inventory');
-                       }
-                       else if(req.session.defaultModule==5){
-                            res.redirect('/task');
-                       }
-                       else if(req.session.defaultModule==6){
-                            res.redirect('/document');
-                       }
-                       else if(req.session.defaultModule==7){
-                            res.redirect('/rms');
-                       }*/
+                  
                      } 
 
                     }
@@ -573,7 +518,6 @@ FilterDataForSelect:function(req,res,next){
                     });
                }
                else{
-                    ////// console.log("nooo");
                     res.json(0);
                }
                     
@@ -830,25 +774,19 @@ filename=req.session.logo;
     },
 
 addBug :function(req, res, next) {
-       // console.log("************************************************************we are in portal ");
 
         var filenames ='';
         var targetPaths = '';
         var fnames ='';
         if(req.body.fileUrls){
-            // var tempnameArr = req.body.fileNames.split('amit');
             var tempurlArr = req.body.fileUrls.split('amit');
-            // var tempArr =[];
-            // tempurlArr.forEach(function(item,index){
-            //     tempArr.push({name:item,url:tempurlArr[index]});
-            // });
+           
             var async = require("async");
             var nameArr =[];
             var urlArr =[];
             var fnameArr =[];
             async.eachSeries(tempurlArr, function iteratee(item, callback) {
                 var currentDate = Date.now();
-                // var tempVar = item.name.split('.');
                 var extension = 'png';
                 var fileName = 'screenshot_' + currentDate;
                 var fileUrl = item.replace(/^data:image\/\w+;base64,/, "");
@@ -859,7 +797,10 @@ addBug :function(req, res, next) {
                     fs.mkdirSync(uploadDir);
                 }
                 fs.writeFile(uploadDir+"/"+fileName, myBuffer,function(err){
-                    if(err) console.log(err);
+                    if(err) 
+                    {
+                        
+                    }
                     else{
                         fnameArr.push(fileName);
                         nameArr.push(fileName);
@@ -870,7 +811,6 @@ addBug :function(req, res, next) {
                 });
             }, function done(err) {
                 if(err){
-                    console.log(err)
                 }
                 else{
                     filenames = nameArr.toString();
@@ -921,66 +861,7 @@ addBug :function(req, res, next) {
                 next();    
             });
         }
-        // if(req.file!=undefined)
-        // {
-        //     // console.log("using browse case*********");
-        //     var now = Date.now();;
-        //     fname=req.file.originalname;
-        //     var exet= fname.split('.');
-        //     var exe= exet[exet.length-1];
-        //     var ch=exet[0]+'_'+now;
-        //     var tempPath = req.file.path,
-        //     filename=ch+'.'+exe;
-        //     targetPath = path.resolve('./public/attach/'+filename);
-     
-    
-        //   fs.rename(tempPath, targetPath, function(err){
-        //     if (err) 
-        //         next(err)
-        //     // console.log("error is***********************",err);
-              
-        //   });
-
-        //   targetPath = 'attach/' +filename;
-    
-        // }
-//         if(req.body.fileName){
-//             // console.log("using copy paste case*************");
-//             var tempFileName=req.body.fileName;
-//             var data = req.body.fileContent.replace(/^data:image\/\w+;base64,/, "");
-//             var buf = new Buffer(data, 'base64');
-//             var dir = './public/attach';
-//             var dir2 = path.resolve(dir);
-//         // console.log('************ddir2 is ',dir2)
-
-//             if (!fs.existsSync(dir2)){
-//                 fs.mkdirSync(dir2);
-//             }
-//             fs.writeFile(dir2+"/"+tempFileName, buf);
-            
-//             if(!(tempFileName =='' || tempFileName == undefined))
-//             {
-//             var targetPath = 'attach'+"/"+tempFileName;
-//             var fName        = req.body.fileName;
-//             var filename      =  req.body.fileName;
-//             }
-// }
-      // console.log("final data**********",targetPath,filename,fname);
-        // modelPortal.addBug(req.body.estimatedEffort,req.body.actualEffort,req.body.linkTo,req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
-        //     req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
-        //     req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
-        //     if (error) {
-            
-        //      }
-        //      else{ 
-        //         mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,req.body.titlebox,function(error, resultMail) {
-        //              if (error) {
-                       
-        //              }
-        //          }); 
-        //     }
-        //     next();    
-        // }); 
+       
             
     },
 
@@ -1035,7 +916,6 @@ if(req.body.colname == 'assingedToUserId'){
        
         modelPortal.updatebugdescription(req.body.bugid,req.body.description,req.body.linkedTo,req.session.userId,req.session.retailerId,function(error,result) {
               if (error) {
-               // console.log(error);
                  next(error);
                  return;
              }            
@@ -1085,7 +965,6 @@ if(req.body.colname == 'assingedToUserId'){
                  next(errorActivity);
                  return;
              }     
-             ////// console.log("after attachment",resultAddAttachment);       
             req.resultAddAttachment=resultAddAttachment[0]; 
             next();
                   });
@@ -1125,8 +1004,7 @@ if(req.body.colname == 'assingedToUserId'){
     var assingedto=req.body.assingedto;
     var technology=req.body.technology;
     var project=req.body.project;
-// console.log("ewdxc****************************",req.body);
-//jayy
+
     var bugId=req.body.bugId;
     var title=req.body.title;
     var estefforts=req.body.esteffort;
@@ -1147,7 +1025,7 @@ if(req.body.colname == 'assingedToUserId'){
         var sortString = 'lastModifiedDate desc';
     }
     
-//jayyy end
+
 
 
 
@@ -1162,7 +1040,7 @@ if(req.body.colname == 'assingedToUserId'){
     if( technology==null)
     technology='';
     
-    //jay
+  
     if( bugId==''|| bugId==null)
     bugId='0';
     if( title==''|| title==null)
@@ -1175,7 +1053,7 @@ if(req.body.colname == 'assingedToUserId'){
     crtdate='00/00/0000';
     if( closedate==''||closedate==null)
     closedate='00/00/0000';
-//jay end
+
 
 project=project?project:'';
 
@@ -1270,7 +1148,6 @@ project=project?project:'';
              }
             req.resultFilterBug=resultFilterBug;
             req.showSelect=req.body.showSelect;
-            // console.log('*******************************************',resultFilterBug[8],resultFilterBug[7],resultFilterBug[9])
              next();
                    });
     },
@@ -1298,7 +1175,6 @@ project=project?project:'';
      //---------------------------------------Document--------------------------------------------------
     
          myUploads:function(req,res,next){
-      //  //////// console.log('getCustomRoleById');
         modelPortal.myUploads(req.session.userId,req.session.retailerId,function(err, result){
             if(err){
                 next(err);
@@ -1328,100 +1204,84 @@ project=project?project:'';
        });
     },
     setdocalert:function(req,res,next){
-        ////// console.log("in");
             req.session.documentalert=0;
             res.json('hi');
        
     },
      getCustomRoleById:function(req,res,next){
-      //  //////// console.log('getCustomRoleById');
         modelPortal.getCustomRoleById(req.body.rid,function(errorCustomRoles, resultCustomRoles){
             if(errorCustomRoles){
                 next(errorCustomRoles);
                     return;
             }
-            //////// console.log(resultCustomRoles)
             res.json(resultCustomRoles);
         });
     },
 
     getIndustry:function(req, res, next) {
-      //  //////// console.log('getIndustry')
          modelPortal.getIndustry(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultIndustry){
                     if (error) {
                  next(error);
                  return;
              }
-           //  //////// console.log(resultIndustry)
             req.resultIndustry=resultIndustry;
              next();
              });
     },
 
     getBusiness:function(req, res, next) {
-           //     //////// console.log('getBusiness')
 
          modelPortal.getBusiness(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultBusiness) {
                     if (error) {
                  next(error);
                  return;
              }
-          //   //////// console.log(resultBusiness)
             req.resultBusiness=resultBusiness;
              next();
              });
     },
 
     getDocument:function(req, res, next) {
-            //    //////// console.log('getDocument')
          modelPortal.getDocument(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultDocument) {
                     if (error) {
                  next(error);
                  return;
              }
-          //   //////// console.log(resultDocument)
             req.resultDocument=resultDocument;
              next();
              });
     },
 
     getTechnology:function(req, res, next) {
-           // //////// console.log('getTechnology')
          modelPortal.getTechnology(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultTechnology) {
                     if (error) {
                  next(error);
                  return;
              }
-           //  //////// console.log(resultTechnology)
             req.resultTechnology=resultTechnology;
              next();
              });
     },
 
     getind:function(req, res, next) {
-      //  //////// console.log('getIndustry')
          modelPortal.getIndustry(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultIndustry){
                     if (error) {
                  next(error);
                  return;
              }
-           //  //////// console.log(resultIndustry)
-            /*req.resultIndustry=resultIndustry;*/
+     
             res.json(resultIndustry);
              });
     },
 
     getbus:function(req, res, next) {
-           //     //////// console.log('getBusiness')
 
          modelPortal.getBusiness(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultBusiness) {
                     if (error) {
                  next(error);
                  return;
              }
-          //   //////// console.log(resultBusiness)
              res.json(resultBusiness);
-           /*  next();*/
              });
     },
 
@@ -1434,27 +1294,22 @@ project=project?project:'';
              }
 
            res.json(resultDocument);
-           /* req.resultDocument=resultDocument;
-             next();*/
+         
              });
     },
 
     gettec:function(req, res, next) {
-           // //////// console.log('getTechnology')
          modelPortal.getTechnology(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultTechnology) {
                     if (error) {
                  next(error);
                  return;
              }
-           //  //////// console.log(resultTechnology)
             res.json(resultTechnology);
-           /* req.resultTechnology=resultTechnology;
-             next();*/
+          
              });
     },
 
     getRestriction:function(req, res, next) {
-          //  //////// console.log('getRestriction')
          modelPortal.getRestriction(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultRestriction) {
                     if (error) {
                  next(error);
@@ -1467,7 +1322,6 @@ project=project?project:'';
 
 
      getres:function(req, res, next) {
-          //  //////// console.log('getRestriction')
          modelPortal.getRestriction(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultRestriction) {
                     if (error) {
                  next(error);
@@ -1876,7 +1730,6 @@ resultSearchFile[0].forEach(function(element,index){
    });
 }
        res.json(resultSearchFile[0]);
-       //next();
     }
 
  );
@@ -1935,7 +1788,7 @@ getRolesInfo : function(req,res,next){
        res.json(allRoleresult);
     });
 },
-/*********added by saurav********/
+
 
 Docmaster:function(req,res,next){
         modelPortal.Docmaster(req.session.userId,req.session.roleId,req.session.retailerId,req.body.type,req.body.oldname,req.body.name,req.body.flag,req.session.croleId,function(err,result){
@@ -1960,7 +1813,6 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addeditComponent(parameter,function(err,result){
             if(err){
-                ////// console.log("oops");
             }   
             else{
                    res.json(result);
@@ -1976,7 +1828,6 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addeditattribute(parameter,function(err,result){
             if(err){
-                ////// console.log("oops");
             }   
             else{
                    res.json(result);
@@ -1992,7 +1843,6 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addeditvalue(parameter,function(err,result){
             if(err){
-                ////// console.log("oops");
             }   
             else{
                    res.json(result);
@@ -2008,7 +1858,6 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addattrvaluemapping(parameter,function(err,result){
             if(err){
-                ////// console.log("oops");
             }   
             else{
                    res.json(result);
@@ -2020,11 +1869,9 @@ Docmaster:function(req,res,next){
     getAttrAndValForAsset:function(req,res,next){
       modelPortal.getTypeAndSubtype(req.session.userId,req.session.roleId,req.session.retailerId,1,function(error,resultTypeSubtype){
         if(error){
-           ////// console.log("c"); 
           next(error);
          
         }
-        ////// console.log("d");
           res.json(resultTypeSubtype);
          
       });
@@ -2037,10 +1884,8 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addComponentAttributemapping(parameter,function(err,result){
             if(err){
-                ////// console.log("oops");
             }   
             else{
-                    ////// console.log("success",result);
                    res.json(result);
             }   
 
@@ -2052,7 +1897,6 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.name);
         modelPortal.deleteComponentAttributeMapping(parameter,function(err,result){
             if(err){
-                ////// console.log("oops");
             }   
             else{
                    res.json(result);
@@ -2068,7 +1912,6 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.inactiveAssetMaster(parameter,function(err,result){
             if(err){
-                ////// console.log("oops");
             }   
             else{
                    res.json(result);
@@ -2084,7 +1927,6 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addeditBrandName(parameter,function(err,result){
             if(err){
-                ////// console.log("oops");
             }   
             else{
                    res.json(result);
@@ -2093,7 +1935,7 @@ Docmaster:function(req,res,next){
         });   
 
     },
- /*-------------------End Doc-----------------------------------------------------------*/
+
 //--------------------------Project-WBS-------------------
  projectDetails: function(req, res, next) {
          modelPortal.getProjectDetails(req.session.userId,req.session.roleId,req.session.retailerId,
@@ -2122,7 +1964,6 @@ Docmaster:function(req,res,next){
         else{
             var sortstr = '';
         }
-           //var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
 
           
            modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
@@ -2264,7 +2105,6 @@ req.projectResults=result;
         else{
             var sortstr = '';
         }
-          // var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
 
            modelPortal.wbsStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
             function(err, result) {
@@ -2288,7 +2128,6 @@ req.projectResults=result;
             "iTotalDisplayRecords": 0,
             "aaData": desiredObj});
         }
-                    // res.json(result);
              }
          });
      },
@@ -2303,7 +2142,6 @@ req.projectResults=result;
              } else {
 
                      res.send('ok');
-                    // next();
              }
          });
      },
@@ -2383,15 +2221,9 @@ addEditWbsDetails: function(req, res, next) {
                  next(err);
              } else {
 
-                //if(req.wbshidden==13){
 
                     res.json(result);
-                        
-                       /* }
-                        else{
-                            
-                            next();
-                        }*/
+                       
 
              }
          });
@@ -2549,28 +2381,13 @@ var tab=req.body.tabDetail;
 
      AssignmentWBSForProject: function(req, res, next) {
 
-            console.log(req.body);
            modelPortal.AssignmentWBSForProject(req.body.flag,req.body.pid,req.body.wbsid,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
-        //         var tempobj = JSON.stringify(result[0]);
-        //         var desiredObj = JSON.parse(tempobj);
-         
-        // if(desiredObj[0]){
-        //     return res.json({"sEcho": parseInt(req.body.draw),
-        //     "iTotalRecords": desiredObj[0].totalRecord,
-        //     "iTotalDisplayRecords": desiredObj[0].totalRecord,
-        //     "aaData": desiredObj});
-        //  }
-        //  else{
-        //   res.json({"sEcho": parseInt(req.body.draw),
-        //     "iTotalRecords": 0,
-        //     "iTotalDisplayRecords": 0,
-        //     "aaData": desiredObj});
-        // }
+        
              res.json(result);
              }
          });
@@ -2696,29 +2513,11 @@ changeProjectWbs: function(req, res, next) {
      },
 
     //----------------------------------ASSIGNMENT---------------------------------------
-// getAssignment:  function(req, res, next) {
 
-//          modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId, function(err, resultAssignment) {
-//              if (err) {
-
-//                  next(err);
-//                  return; 
-//              }
-
-//              else{
-
-//                 req.allinfo1=resultAssignment;
-//                 next();
-//              }
-        
-//          });
-//      },
 
 
 getAssignment:  function(req, res, next) {
-     //console.log("req.body----",req.body);
       var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
-     console.log("req-----",req.body);
          modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.status,req.body.search.value,sortstr,function(err, resultAssignment) {
              if (err) {
 
@@ -2727,13 +2526,10 @@ getAssignment:  function(req, res, next) {
              }
 
              else{
-                console.log("back in assignment");
                var tempobj = JSON.stringify(resultAssignment[0]);
           var desiredObj = JSON.parse(tempobj);
-        // console.log(err, desiredObj,'saini');
             res.send({"data":desiredObj});
-               /* req.allinfo1=resultAssignment;
-                next();*/
+              
              }
         
          });
@@ -2851,11 +2647,9 @@ changeAssignmentStatus: function(req, res, next) {
                 return;
             }
             req.resultFurniture=resultFurniture;
-            //// console.log("data in view furniture is",resultFurniture);
             next();
         });
     },
-    //new for hardware
     editHardware:function(req,res,next){
 
         modelPortal.editHardware(req.body.id,function(error,result){
@@ -2918,7 +2712,6 @@ changeAssignmentStatus: function(req, res, next) {
            res.json(result);
         });
     },
-//new 4 hardware
 
   showinfoOfInventory:function(req,res,next){
 
@@ -2948,12 +2741,10 @@ changeAssignmentStatus: function(req, res, next) {
             next();
         });
     },
-//new4hardware
 getViewHardware:function(req,res,next){
     modelPortal.getHardware(req.session.firstname,req.session.roleid,req.session.retailerId,function(error,resultHardware){
         if(error){
             next(error);
-            ////// console.log(error);
         }
 
  
@@ -2975,14 +2766,12 @@ getViewHardware:function(req,res,next){
         });
     },
     addFurniture1: function(req, res, next) {
-        ////// console.log(" i ma in potal.js for addFurniture1");
      modelPortal.addFurniture1(req.session.firstname,req.session.roleid,req.session.retailerId,function(error, result){
             if(error){
                 next(error);
                 return;
             }
             req.brandName=result;
-            ////// console.log("brand name and vemndor name",result);
             next();
         });
     },
@@ -3095,13 +2884,11 @@ getViewHardware:function(req,res,next){
                 next(error);
             }else{
             req.resultdelete=result;
-           // res.json(result[0][0].delflag);
             next();}
         });
     },
 
      deletesoft: function(req,res,next){
-     // console.log('fsfsssjps')
         modelPortal.deletesoft(req.body.id,function(error,result){
             if(error){
                 next(error);
@@ -3221,7 +3008,6 @@ getViewHardware:function(req,res,next){
           return;
         }
         req.resultStationary=resultStationary;
-        //// console.log("i am in view stationary page for .....",resultStationary);
         next();
       });
     },
@@ -3269,9 +3055,8 @@ getViewHardware:function(req,res,next){
               next(error);
             return;}
             res.json(resultAttribute);
-            //req.resultAttribute=resultAttribute;
-            ////// console.log(req.resultAttribute);
-          //  next();
+           
+     
         });
     },
 
@@ -3305,7 +3090,6 @@ getViewHardware:function(req,res,next){
         });
     },
      saveAssignment:function(req,res,next){
-        ////// console.log(req.body);
         modelPortal.saveAssignment(req.body.cid,req.body.lid
             ,req.body.uid,req.body.tid,req.body.aflag,req.body.adate,req.body.assignHdwrid,
             function(error,result){
@@ -3313,7 +3097,6 @@ getViewHardware:function(req,res,next){
               
           }
           else{
-            //result[0][0].tsId
              res.json('sucess');
           }
              
@@ -3363,12 +3146,10 @@ if(error){
               next(error);
             return;}
             req.resultAssignedHome=resultAssigned;
-            //// console.log(resultAssigned);
             next(); 
 });
 },
 
-//jay
 
 getAllEmpLeaveHours: function(req, res, next) {               
        modelPortal.getAllEmpLeaveHours(req.session.retailerId,req.body.dates, function(errorCsv, resultCsv) {
@@ -3393,7 +3174,6 @@ getFortnightDate:function(req,res,next){
        modelPortal.getFortnightDate(req.session.retailerId,function(error,result){
 
             if(error){
-                // console.log(error);
             }
             else{
            res.json(result[0]);
@@ -3436,7 +3216,6 @@ sendmailtouser:function(req,res,next){
  
 
     sendmailtoadmin:function(req,res,next){
-        // console.log('jayyyyyy');
         modelPortal.getsoftwareexpirtdetails(req.session.retailerId,function(error,result){
             if(error){
                 next(error);
@@ -3467,16 +3246,7 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
         });
     },
 
-//jay
 
-
-
-
-
-
-
-
-//--------------------------------------asset end---------------------------------
     //---------------------------------Expense------------------------------------------
    getExpenseWeekBy: function(req, res, next) {
          modelPortal.getExpenseWeekBy(req.session.userId,req.body.date, function(errorRoles, result) {
@@ -3514,7 +3284,6 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
      },
 
         selectByExpenseUser: function(req, res, next) {
-         ////// console.log(req.body);
          modelPortal.toSelectByExpenseUser(req.body.userId,req.session.roleId,req.body.date1,req.session.userId ,function(errorRoles, result) {
              if (errorRoles) {
                  next(errorRoles);
@@ -3541,7 +3310,6 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
      
 
         selectByExpenseAdmin: function(req, res, next) {
-         ////// console.log(req.body);
          modelPortal.toSelectByExpenseAdmin(req.body.userId,req.body.date1,req.session.retailerId ,function(errorRoles, result) {
              if (errorRoles) {
                  next(errorRoles);
@@ -3549,7 +3317,7 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              }
 
              res.json(result);
-             ////// console.log('jaimata di',result);
+       
              next();
          });
      },
@@ -3661,7 +3429,6 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              next();
          });
      },
-       //jay
            approveExpense: function(req, res, next) {
 
          var status=req.body.status1;
@@ -3685,12 +3452,10 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
 
             res.json(result);
             if(status!=0){
-                      //// console.log(result[0][0].emailid);
                      mailTemplates.submitExpenseandapprove(result[0][0].emailid,result[1][0].name10,req.session.firstName,function(error, resultMail){});
                }
          });
      },
-//jay
        getMaxBillExpense: function(req, res, next) {
 
          modelPortal.togetMaxBillExpense(req.body.Id,req.session.retailerId, function(errorRoles, result) {
@@ -3739,7 +3504,6 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              }
 
              res.json(result[0][0].flag2);
-            ////// console.log(result[0][0].flag2);
          });
      },
 
@@ -3752,7 +3516,6 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              }
 
              res.json(result[0]);
-            //// console.log(result[0]);
          });
      },
 
@@ -3776,7 +3539,6 @@ insertExpense: function(req, res, next) {
     var formdata=a.data;
     var form=JSON.parse(formdata);
     var flag=form.edit;
-    ////// console.log(form.fortnightDate);
     if((exp==1)&&(flag==0)){
     modelPortal.insertHotelExpense(form.hotelexpensetypeid,form.hoteltrip,form.fromDate,form.toDate,form.hotelName,form.hotelReason,form.hotelifOther,form.hotelperDayRate,form.hotelTotalDay,form.hotelCurrency,form.htex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
      if (errorRoles) {
@@ -3794,7 +3556,6 @@ insertExpense: function(req, res, next) {
                  next(errorRoles);
                  return;
              }
-             ////// console.log('dhsdsh jai mata di');
              res.json('success');
     });
 }
@@ -3947,7 +3708,6 @@ insertExpense: function(req, res, next) {
                  return;
              }
              result=result[0];
-             //////// console.log('in callback');
               res.json(result);
         
          });
@@ -4024,7 +3784,6 @@ insertExpense: function(req, res, next) {
              next();
          });
      },
-//-------------------------------------------------------------------
 setaddStatuss: function(req, res, next) {
          modelPortal.setaddStatuss(req.session.userId,req.session.roleId, req.session.retailerId,function(err, result) {
              if (err) {
@@ -4100,7 +3859,6 @@ holidayhome: function(req,res,next){
                  next(err);
 
              } else {
-                ////// console.log("-- - -- - - -- ",resultHoliday);
                  req.resultHoliday = resultHoliday;
                  next();
              }
@@ -4199,7 +3957,6 @@ updateHoliday: function(req,res,next){
                  next(err);
                  return;
              }
-             // // console.log("aaaaaaa",resultUsers);
              req.resultUsers = resultUsers;
 
              next();
@@ -4282,13 +4039,11 @@ updateHoliday: function(req,res,next){
              } else {
                 req.result1=result;
              req.session.url = req.url;
-             // // console.log('req.session.noti in portal.js in case home-------',req.session.notification);
              next();
              }
          });
      },
 
-///superAdmin code
 
     userStatusbyretailer: function(req, res, next) { 
                 modelPortal.userStatusbyretailer( req.body.retailerId ,
@@ -4445,8 +4200,7 @@ uploadattendance: function(req, res, next) {
                  worksheet: 1
              }, function(err, results1) {
                  if (err) {
-                     // console.log("Error in excelfile", err);
-                     // res.redirect('/manager/uploadUsers?errorMsg=1');
+                  
                  } else {
                      fs.rename(req.files[1].path, absolute_path[1], function(err) {
 
@@ -4456,8 +4210,7 @@ uploadattendance: function(req, res, next) {
                              worksheet: 1
                          }, function(err, results) {
                              if (err) {
-                                 // console.log("Error in excelfile", err);
-                                 // res.redirect('/manager/uploadUsers?errorMsg=1');
+                               
                              } else {
 
                                     modelPortal.uploadattendance(req.session.userId,req.session.roleId,req.session.retailerId,results1,results,function(err,result){
@@ -4485,7 +4238,6 @@ uploadattendance: function(req, res, next) {
     getTimeSheetData: function(req,res,next){
 
         var query = require('url').parse(req.url, true).query;
-        // // console.log("flag for flag_owntimesheet is==--======",query.flag);
          req.session.flag_owntimesheet = query.flag;
        modelPortal.getTimeSheetData(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
         if(err){
@@ -4576,7 +4328,6 @@ uploadattendance: function(req, res, next) {
                 result[1]=[{status:0}];
             }
 
-            ////// console.log(result);
             res.json(result);
         }
        });
@@ -4596,30 +4347,13 @@ uploadattendance: function(req, res, next) {
      },
       otherTimeSheet: function(req,res,next){
 
-        /*var query = require('url').parse(req.url, true).query;
-        var usid = query.id;
-
-
-        ////// console.log(" i am in rtal");*/
-
+       
          req.userid=req.session.timeshhetuserid;
-        // ////// console.log(" i am in model portal...........",req.userid);
-       /*modelPortal.otherTimeSheet(req.userid,req.session.retailerId,function(err,result){
-        if(err){
-            next(err)
-        }else{
-             req.timeinfo = result;
-            
-            
-              ////// console.log("Going for rendering",result);
-            next();
-        }
-       });*/
+       
 
      },
 
      otherTimeSheet_setPage: function(req,res,next){
-        //////// console.log(" i am in  post rtal");
         req.session.timeshhetuserid=req.body.id;
         req.session.othertime_checkdate=req.body.time_date;
 
@@ -4631,13 +4365,9 @@ uploadattendance: function(req, res, next) {
              req.session.timeinfo = result;
             
             
-              //////// console.log("Going for rendering",result);
            res.json(1);
-           // next();
         }
        });
-            //next();
-           // res.redirect('/otherTimeSheet');
         
 
      },
@@ -4688,14 +4418,12 @@ uploadattendance: function(req, res, next) {
 
  
  getHrRole:function(req,res,next){
-        //////// console.log("----------------");
         modelPortal.getHrRole(req.session.userId,req.session.roleId, req.session.retailerId,function(err,result){
             if(err){
                 
                 next(err);
             }
             else{
-                ////// console.log("getHrRole---------Portal",result);
                 req.hrRole=result[0];
                 req.hodList=result[1];
                 next();
@@ -4708,7 +4436,6 @@ uploadattendance: function(req, res, next) {
 
      dashboardData:function(req,res,next){
            countFiles[req.session.userId] = 10000;
-           ////// console.log('kaisan ho',req.body);
    totalFiles[req.session.userId] = 0;
   parsing[req.session.userId] = false; 
      var hrArrS=req.session.hrRole;
@@ -4722,11 +4449,9 @@ uploadattendance: function(req, res, next) {
 
 
             if(err){
-                //////// console.log("error ");
             }
             else{
-                ////// console.log("successfull f",result);
-                ////// console.log("result length f",result.length);
+           
 
                 res.json(result);
             }
@@ -4749,11 +4474,9 @@ uploadattendance: function(req, res, next) {
                  req.body.Location = req.body.Location.trim();
             }
             var flag=req.body.flag;
-            //////// console.log("POST raise requisition data",req.body);
             if(req.body.flag!=undefined){
                     
                     var id=req.body.ide;
-                    //////// console.log("Flag and ID-------",flag,id);
                     if(flag=='copy'){
                         flag=0;
                     }
@@ -4766,28 +4489,7 @@ uploadattendance: function(req, res, next) {
                 flag = 0;id = 0;
             }
             var skills = '';
-           /* if(req.body.YearsOfExp=='')
-            {
-                req.body.YearsOfExp = 0;
-            }
-            if(req.body.MinimumSalary=='')
-            {
-                req.body.MinimumSalary = 0;
-            }
-
-            if(req.body.MaximumSalary=='')
-            {
-                req.body.MaximumSalary = 0;
-            }
-
-            if(req.body.NoOfPostions=='')
-            {
-                req.body.NoOfPostions = 0;
-            }
-            if(req.body.Location=='')
-            {
-                req.body.Location = 0;
-            }*/
+         
             if(req.body.skills != undefined){
                 if(req.body.skills.length!=0){
                      skills = JSON.stringify(req.body.skills).replace(']','')
@@ -4810,7 +4512,6 @@ uploadattendance: function(req, res, next) {
               req.body.YearsOfExp,req.body.adminhr,flag,id,
               req.body.mailPriority,req.body.jobType,hrRoleArray,req.session.retailerId,function(err,result){
               if(err){
-                     // console.log("error portal",err);
                 }
     else{
        
@@ -4821,7 +4522,7 @@ uploadattendance: function(req, res, next) {
          recEmail = recEmail.join(','); 
          req.body.Location =req.body.Location;
 
-         if(hrarr.indexOf(3)!=-1){            //hm
+         if(hrarr.indexOf(3)!=-1){            
           if(flag==0){ 
 
               mailTemplates.hrMailer(0,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
@@ -4833,7 +4534,7 @@ uploadattendance: function(req, res, next) {
                 res.redirect('/allrequisitions?flag=0'); 
             } 
          }
-        else if(hrarr.indexOf(5)!=-1){         //hod
+        else if(hrarr.indexOf(5)!=-1){        
              if(flag==0){            
            mailTemplates.hrMailer(flag,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
                 res.redirect('/allrequisitions?flag=1');
@@ -4864,7 +4565,6 @@ uploadattendance: function(req, res, next) {
         modelPortal.updateStatusReq(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.flag,req.body.jdid,approve,function(err,result){
             if(err){
-               // console.log("there is an error",err);
             }   
             else{
                  var recEmail = [];
@@ -4876,11 +4576,9 @@ uploadattendance: function(req, res, next) {
           
             var hrRoleArray=hrarr.toString();
                 if(req.body.flag==1){ 
-                    //Approved
                       mailTemplates.hrMailer(2,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
                 }
                 else{ 
-                    //Rejected
                    mailTemplates.hrMailer(3,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
                 }   
                    if(req.isMail){   
@@ -4898,7 +4596,6 @@ uploadattendance: function(req, res, next) {
         if (flag == undefined) flag = -1;
         modelPortal.reqHod(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
-                ////// console.log("reqhod---portal",err);
             }   
             else{
                 req.hodResult=result;
@@ -4915,7 +4612,6 @@ uploadattendance: function(req, res, next) {
         
         modelPortal.allrequisitions(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                 var arr=[];
@@ -4931,7 +4627,6 @@ uploadattendance: function(req, res, next) {
     reqData : function(req,res,next){
             modelPortal.reqData(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,function(err,result){
                     if(err){
-                        // console.log("there is an error jogendra",err);
                     }   
                     else{
                         req.session.count = result[4][0].mailCounter;
@@ -4947,7 +4642,6 @@ uploadattendance: function(req, res, next) {
 
             modelPortal.deleteReq(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,function(err,result){
                     if(err){
-                        //////// console.log("there is an error",err);
                     }   
                     else{
                         
@@ -4963,7 +4657,6 @@ uploadattendance: function(req, res, next) {
     req.session.skillsIdfromdb = [];
     modelPortal.viewCandidate(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     for (var i = 0; i < result[1].length; i++) {
@@ -4986,7 +4679,6 @@ uploadattendance: function(req, res, next) {
     viewCandidate1 : function(req,res,next){
           modelPortal.viewCandidate1(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
                     if(err){
-                        //////// console.log("there is an error",err);
                     }   
                     else{
 
@@ -4999,7 +4691,6 @@ uploadattendance: function(req, res, next) {
     getCandidate:function(req,res,next){
         modelPortal.getCandidate(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     res.json(result);
@@ -5008,7 +4699,6 @@ uploadattendance: function(req, res, next) {
     },
 
     editCandidate:function(req,res,next){
-         ////// console.log("Form Submit Edit Candidate", req.body.skills.length);
             if (req.body.skills.length == 0){
                  req.body.skills = '';
              }
@@ -5022,7 +4712,6 @@ uploadattendance: function(req, res, next) {
             req.body.hcid, req.body.name,req.body.phone,req.body.email,req.body.locationId,req.body.skills,
             req.body.clocation,req.body.months,req.body.years,req.body.qualification,req.body.institute,function(err,result){
                     if(err){
-                        //////// console.log("there is an error",err);
                     }   
                     else{
                         
@@ -5033,13 +4722,10 @@ uploadattendance: function(req, res, next) {
 
     },
     getAllTag : function(req,res,next){
-       //////// console.log("in get all tag portal");
         modelPortal.getAllTag(req.body.id,req.session.retailerId,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
-                //////// console.log("all tag related to this candidate--",result);
                 res.json(result);                         
             }    
 
@@ -5047,12 +4733,10 @@ uploadattendance: function(req, res, next) {
 
     },
         addTag : function(req,res,next){
-       //////// console.log("body data add tag portal",req.body);
         modelPortal.toAddTag( req.body.tcid,
                 req.body.selecttag,
                  req.session.userId,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                 res.json(result);                         
@@ -5074,7 +4758,6 @@ uploadattendance: function(req, res, next) {
         req.session.nameArrForFile = [];
         modelPortal.upload(function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     for (var i = 0; i < result[1].length; i++) {
@@ -5115,7 +4798,6 @@ uploadattendance: function(req, res, next) {
                     }
                     if (req.session.location != location) {
                         location = req.session.location;
-                        // //////// console.log(location);
                         locationId = req.session.locationId;
                     }
                     if (req.session.institituefromdb != institituefromdb) {
@@ -5149,7 +4831,6 @@ uploadattendance: function(req, res, next) {
             else{
                  parseResult[0] = result[0];
                 parseResult[1] = flagCompleted;
-                ////// console.log(parseResult[0]);
                 res.json(parseResult);
             }
 
@@ -5160,10 +4841,8 @@ uploadattendance: function(req, res, next) {
  
 
   submitParseData : function(req,res,next){
-       //////// console.log("body data add tag portal",req.body);
         modelPortal.toSubmitParseData(function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                req.uploadData=result;
@@ -5194,7 +4873,7 @@ upload_resume:function(req,res,next){
         var tempPath = req.file.path;
        
         modelPortal.upload_resume(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
-                if (err) {}//////// console.log(err)
+                if (err) {}
                 else {
 
                      if(exe == 'doc' || exe == 'docx'  || exe == 'rtf' ){
@@ -5202,22 +4881,17 @@ upload_resume:function(req,res,next){
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
-                           //////// console.log('targetPath is',targetPath);
                         fs.rename(tempPath, targetPath, function(err) {
-                            //                    res.redirect('/upload');
                          var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
                             textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                 if (error) {
                                     blankentry(newpath, req);
-                                    //////// console.log(error);
 
                                 } else {
                                     if (typeof text != undefined) {
-                                        ////////// console.log(text);
                                         var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                         textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
-                                        //  //////// console.log(textLowerCase);
                                         text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                         var textarr = text.split('\n');
                                         textarr.forEach(function(element, index) {
@@ -5229,7 +4903,6 @@ upload_resume:function(req,res,next){
                                         parseAllHr(textLowerCase, textarr, newpath, req);
 
                                     } else {
-                                        //////// console.log('file cannot be parsed');
                                     }
 
 
@@ -5245,22 +4918,17 @@ upload_resume:function(req,res,next){
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
-                           //////// console.log('targetPath is',targetPath);
                         fs.rename(tempPath, targetPath, function(err) {
-                            //                    res.redirect('/upload');
                          var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function(error, text) {
 
                                 if (error) {
                                     blankentry(newpath, req);
-                                    //////// console.log(error);
 
                                 } else {
                                     if (typeof text != undefined) {
-                                        ////////// console.log(text);
                                         var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                         textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
-                                        //  //////// console.log(textLowerCase);
                                         text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                         var textarr = text.split('\n');
                                         textarr.forEach(function(element, index) {
@@ -5272,7 +4940,6 @@ upload_resume:function(req,res,next){
                                         parseAllHr(textLowerCase, textarr, newpath, req);
 
                                     } else {
-                                        //////// console.log('file cannot be parsed');
                                     }
 
 
@@ -5292,29 +4959,22 @@ upload_resume:function(req,res,next){
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
                        var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
 
-                        //////// console.log('here is *********** targetPath',targetPath,'here is *********** absolute_path',absolute_path);
                         fs.rename(tempPath, targetPath, function(err) {
 
-                          // res.redirect('/upload');
 
                         
 
-                            ////////// console.log(absolute_path);
                             var processor = pdf_extract(absolute_path, options, function(err) {
                                 if (err) {
-                                    //////// console.log(err);
                                 }
                             });
                             processor.on('complete', function(data) {
-                                // //////// console.log('start*************',data.text_pages[0],'*********',Date.now());
                                 var text = '';
                                 for (var i = 0; i < data.text_pages.length; i++) {
                                     text = text.concat(data.text_pages[i]);
                                 }
-                                ////////// console.log(text);
                                 var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                 textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
-                                //  //////// console.log(textLowerCase);
                                 text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                 var textarr = text.split('\n');
                                 textarr.forEach(function(element, index) {
@@ -5331,8 +4991,7 @@ upload_resume:function(req,res,next){
                             processor.on('error', function(err) {
 
                                 blankentry(newpath, req)
-                                //////// console.log(err);
-                                //return callback(err);
+                               
                             });
 
 
@@ -5345,47 +5004,31 @@ upload_resume:function(req,res,next){
                         var zip = new AdmZip(req.file.path);
                         var zipEntries = zip.getEntries();
                         zip.extractAllTo( path.join(__dirname, '../../public/attach/' + ffname), false);
-                        //////// console.log('***********path join**************', path.join(__dirname, '../../public/attach/' + ffname));
                         totalFiles[req.session.userId] = zipEntries.length;
                         parsing[req.session.userId] = true;
 
                           
 
                         zipEntries.forEach(function(zipEntry) {
-                            ////////// console.log(zipEntry["name"]);
                             var namefile = zipEntry["name"];
                             var namearr = namefile.split('.');
 
                             var exet = (namearr[namearr.length - 1]).toLowerCase();
                             var newpath = './public/attach/' + ffname + '/' + namefile;
 
-                            //         parseResume(req,newpath);
-
                             if (exet == 'doc' || exet == 'docx' || exet == 'rtf') {
-                                /*  if(exet=="rtf")
-                                  {
-                                    namearr.pop();
-                                    namefile = namearr.join(".") + exet;
-                                    var newpath2='./public/attach/'+ffname+'/'+namefile;
-                                    fs.renameSync(newpath,newpath2);
-
-                                  }*/
+                                
                                 textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                     if (error) {
                                         blankentry(newpath, req);
-                                        //////// console.log(error);
 
                                     }
-                                    // //////// console.log('start**********************',Date.now(),newpath);
-                                    ////////// console.log('hi');
-                                    // //////// console.log(text);
+                                   
                                     else {
                                         if (typeof text != undefined) {
-                                            ////////// console.log(text);
                                             var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                             textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
-                                            //  //////// console.log(textLowerCase);
                                             text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                             var textarr = text.split('\n');
                                             textarr.forEach(function(element, index) {
@@ -5397,7 +5040,6 @@ upload_resume:function(req,res,next){
                                             parseAllHr(textLowerCase, textarr, newpath, req);
 
                                         } else {
-                                            //////// console.log('file cannot be parsed');
                                         }
 
 
@@ -5410,22 +5052,17 @@ upload_resume:function(req,res,next){
                                 var namefile = zipEntry["name"];
                                 var absolute_path = path.join(__dirname, '../../public/attach/' + ffname + '/' + namefile); // parseResume(req,newpath);
 
-                                ////////// console.log(absolute_path);
                                 var processor = pdf_extract(absolute_path, options, function(err) {
                                     if (err) {
-                                        //////// console.log(err);
                                     }
                                 });
                                 processor.on('complete', function(data) {
-                                    // //////// console.log('start*************',data.text_pages[0],'*********',Date.now());
                                     var text = '';
                                     for (var i = 0; i < data.text_pages.length; i++) {
                                         text = text.concat(data.text_pages[i]);
                                     }
-                                    ////////// console.log(text);
                                     var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                     textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
-                                    //  //////// console.log(textLowerCase);
                                     text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                     var textarr = text.split('\n');
                                     textarr.forEach(function(element, index) {
@@ -5442,8 +5079,7 @@ upload_resume:function(req,res,next){
                                 processor.on('error', function(err) {
 
                                     blankentry(newpath, req)
-                                    //////// console.log(err);
-                                    //return callback(err);
+                                    
                                 });
 
 
@@ -5459,8 +5095,8 @@ upload_resume:function(req,res,next){
 
 
                     }
-                          } //else
-        }); //db usp_clearalldata
+                          } 
+        }); 
 
 
                 }
@@ -5470,7 +5106,7 @@ upload_resume:function(req,res,next){
       
         modelPortal.deleteUploadRecords(req.session.userId,req.session.roleId,req.session.retailerId,req.body.delete,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
+         
             }   
             else{
                 res.json('suceess');
@@ -5481,7 +5117,7 @@ upload_resume:function(req,res,next){
     viewReq:function(req,res,next){
         modelPortal.viewReq(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
+              
             }   
             else{
                     req.viewReq=result;
@@ -5492,10 +5128,8 @@ upload_resume:function(req,res,next){
     userHrViewReq:function(req,res,next){
         modelPortal.userHrViewReq(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
-                ////// console.log(result)
                     req.userHrViewReq=result;
                     next() ;
                 }
@@ -5505,7 +5139,6 @@ upload_resume:function(req,res,next){
         var str = req.body.search;
         modelPortal.searchHr(req.session.userId,req.session.roleId,req.session.retailerId,str,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                      res.json(result[0]);
@@ -5519,10 +5152,8 @@ upload_resume:function(req,res,next){
         modelPortal.advancesearchHr(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.name1, req.body.jdtitle, req.body.email1, req.body.location1,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
-                //////// console.log("asearch result on suceess",result[0]);
 
                      res.json(result[0]); 
                 }    
@@ -5535,7 +5166,6 @@ upload_resume:function(req,res,next){
         modelPortal.interviewerInfo(req.session.userId,req.session.roleId,req.session.retailerId,
             function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                      res.json(result);
@@ -5544,11 +5174,9 @@ upload_resume:function(req,res,next){
     },
 
     getReleventTag:function(req,res,next){
-        //////// console.log("getReleventTag portal");
         modelPortal.getReleventTag(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.id,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                      res.json(result[0]);
@@ -5556,11 +5184,9 @@ upload_resume:function(req,res,next){
         });
     },
     removeTag:function(req,res,next){
-        //////// console.log("removeTag portal");
         modelPortal.removeTag(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.tagid,req.body.cid,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                      res.json(result);
@@ -5568,14 +5194,11 @@ upload_resume:function(req,res,next){
         });
     },
     getreleventState:function(req,res,next){
-        //////// console.log("getreleventState portal");
         modelPortal.getreleventState(req.session.userId,req.session.roleId,req.session.retailerId,
            req.body.jdid,req.body.cid,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
-                ////// console.log("portal getreleventState result:",result);
                      res.json(result);
                 } 
         });
@@ -5584,7 +5207,6 @@ upload_resume:function(req,res,next){
         modelPortal.addQuickTag(req.session.userId,req.session.roleId,req.session.retailerId,
            req.body.jdid,req.body.allcdid,function(err,result){
             if(err){
-                // console.log("there is an error",err);
             }   
             else{
                      res.json(result);
@@ -5595,7 +5217,6 @@ upload_resume:function(req,res,next){
         quickdeletecandidate:function(req,res,next){
         modelPortal.quickdeletecandidate(req.session.userId,req.session.roleId,req.session.retailerId,req.body.allcdid,function(err,result){
             if(err){
-                // console.log("there is an error",err);
             }   
             else{
                      res.json(result);
@@ -5605,25 +5226,20 @@ upload_resume:function(req,res,next){
 
 
     getallmanager:function(req,res,next){
-        //////// console.log("addQuickTag portal");
         modelPortal.getallmanager(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                 result=result[0];
-                //////// console.log(result);
                      res.json(result);
                 }  
         });
     },
     getscheduleInfo:function(req,res,next){
-        //////// console.log("addQuickTag portal");
         modelPortal.getscheduleInfo(req.session.userId,req.session.roleId,req.session.retailerId,req.body.cid,
            function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                      res.json(result);
@@ -5631,12 +5247,10 @@ upload_resume:function(req,res,next){
         });
     },
       deletehistory:function(req,res,next){
-        ////// console.log("addQuickTag portal");
         modelPortal.deletehistory(req.session.userId,
             req.session.retailerId,req.body.id,
            function(err,result){
             if(err){
-                ////// console.log("there is an error",err);
             }   
             else{
                      res.json(result);
@@ -5654,7 +5268,6 @@ upload_resume:function(req,res,next){
                 req.body.intremark,
                 req.body.mode,req.session.userId,req.session.retailerId,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     req.scheduleInterview=result;
@@ -5663,11 +5276,9 @@ upload_resume:function(req,res,next){
         });
     },
     selectAdminHr:function(req,res,next){
-        //////// console.log("addQuickTag portal");
         modelPortal.selectAdminHr(req.session.userId,req.session.roleId,req.session.retailerId,req.body.selected,
            function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     res.json(result[0]);
@@ -5677,14 +5288,11 @@ upload_resume:function(req,res,next){
 
         });
     },
-//-------------------------------------------------------------------------------------------//
 
     getClientContacts:function(req,res,next){
-        //////// console.log("addQuickTag portal");
         modelPortal.getClientContacts(req.session.userId,req.session.roleId,req.session.retailerId,req.body.clientid,
            function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     res.json(result[0]);
@@ -5698,7 +5306,6 @@ upload_resume:function(req,res,next){
 
 
     addeditClientContacts:function(req,res,next){
-        //////// console.log("addQuickTag portal");
         var randomPassword = randomString(10);
         var encriptPass=bcrypt.hashSync(randomPassword,salt);
         req.body.password=encriptPass;
@@ -5707,7 +5314,6 @@ upload_resume:function(req,res,next){
         modelPortal.addeditClientContacts(req.session.userId,req.session.roleId,req.session.retailerId,req.body,
            function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     res.json(result);
@@ -5727,10 +5333,8 @@ upload_resume:function(req,res,next){
         modelPortal.updateClientPassword(req.session.userId,req.session.roleId,req.session.retailerId,req.body,
            function(err,result){
             if(err){
-                ////// console.log("there is an error",err);
             }   
             else{
-                ////// console.log(result)
                 req.body.emailId=result[0][0].userEmail;
                 req.body.firstName=result[0][0].firstName;
                    next();
@@ -5740,11 +5344,8 @@ upload_resume:function(req,res,next){
 
 
     sendMailClient:function(req,res,next){
-////// console.log('sendMailClient',req.body)
            mailTemplates.retailerRegistration(req.body.firstName, req.body.emailId,req.body.randomPassword,function(error, result) {
-                         ////// console.log(error)
                          if (error) {
-                             //result[0][0].flag = flag.mailFailed;
                          }
 
                          res.json(result);
@@ -5755,9 +5356,7 @@ upload_resume:function(req,res,next){
 
         blockUser:function(req,res,next){
            modelPortal.blockUser(req.body,function(error, result) {
-                         ////// console.log(error)
                          if (error) {
-                             //result[0][0].flag = flag.mailFailed;
                          }
 
                          res.json(result);
@@ -5768,11 +5367,9 @@ upload_resume:function(req,res,next){
 
 
  saveHrm:function(req,res,next){
-        //////// console.log("addQuickTag portal");
         modelPortal.saveHrm(req.body.selected,req.body.reqId,
            function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     res.json('suceess');
@@ -5784,13 +5381,11 @@ upload_resume:function(req,res,next){
     },
 
     updateCandidate:function(req,res,next){
-        //////// console.log("addQuickTag portal");
         modelPortal.updateCandidate(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.id, req.body.name, req.body.email, req.body.phone,
             req.body.years, req.body.months, req.body.location, req.body.address,
             req.body.skills, req.body.qualification, req.body.ins,function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                     res.json('success');
@@ -5815,29 +5410,23 @@ upload_resume:function(req,res,next){
                 var tempPath = req.file.path,
                     filename = ch + '.' + exe;
                 targetPath = path.resolve('./public/attach/feedback/' + filename);
-                //////// console.log("tpath---" + targetPath + "---");
                 if (1) {
                         fs.rename(tempPath, targetPath, function(err) {
                             if (err) throw err;
-                            //////// console.log("Upload completed!");
                         });
                 }
         }
-        //////// console.log("Filename : ", filename);
 
         if (typeof(filename) == 'undefined') {
             filename = '';
         }
 
-        ////// console.log("File-------------", req.file);
         modelPortal.interviewData(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,
                 req.body.rating,req.body.status,req.body.time,req.body.remarks,req.body.stateId,
                 req.body.cdtid, req.body.modeid,req.body.rounds,filename,req.body.jdid,function(err,result){
             if (err) {
-                //////// console.log("Error is ", err);
                 res.redirect("/error");
             } else {
-                //////// console.log("data saved successfully");
                 res.redirect('/rms');
             }
         });
@@ -5846,9 +5435,7 @@ upload_resume:function(req,res,next){
 
     interviewFeedback:function(req,res,next){
         var query = require('url').parse(req.url, true).query;
-        //////// console.log("------------    ",query,query.cid,query.id,query.flag);
-      // //////// console.log(req.query);
-     // var query=req.query;
+  
         var cid = query.cid;
         var id = query.id;
         var flag = query.flag;
@@ -5856,7 +5443,6 @@ upload_resume:function(req,res,next){
         modelPortal.interviewFeedback(req.session.userId,req.session.roleId,req.session.retailerId,
            id, cid, function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                         req.interviewFeedback=result;
@@ -5872,7 +5458,6 @@ upload_resume:function(req,res,next){
         modelPortal.reqApprover(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                         req.reqApprover=result;
@@ -5888,7 +5473,6 @@ upload_resume:function(req,res,next){
         modelPortal.getAllResources(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
             if(err){
-            // console.log("there is an error",err);
             }   
             else{
                         req.reqResources=result;
@@ -5900,7 +5484,6 @@ upload_resume:function(req,res,next){
         modelPortal.projectByResource(req.body.resId,
            function(err,result){
             if(err){
-                //////// console.log("there is an error",err);
             }   
             else{
                         res.json(result);
@@ -5921,16 +5504,12 @@ upload_resume:function(req,res,next){
         if(versionFlag==undefined){
             versionFlag = 1;
         }
-        //// console.log('flag is',flag);
-        //// console.log('retailerId is',req.session.retailerId,'userId is',req.session.userId);
-
+      
      modelPortal.task(flag,req.session.retailerId,versionFlag,req.session.userId,function(err,result){
             if(err){
-            // console.log("there is an error",err);
             }   
             else{
             req.treeComponent = result[0];
-         //   // console.log('treeComponent is',req.treeComponent);
             req.maxid         = result[1][0].endId;
             req.minid         = result[1][0].startId;
             req.flag          = flag;
@@ -5942,7 +5521,6 @@ upload_resume:function(req,res,next){
             req.userId       = req.session.userId;
             if(!!result[5][0].version){
                 req.versionArr = result[5][0].version.split(',');
-                //// console.log('version Arr is',req.versionArr);
             }
             else{
                 req.versionArr = [1];
@@ -5962,12 +5540,10 @@ upload_resume:function(req,res,next){
          if(req.submittedProject.length==0){
             req.submittedProject = [];
          }
-         //// console.log('projectDetails is ',req.projectDetails);
             for(var i = 0;i<req.projectDetails.length;i++){
                 if(req.prId==req.projectDetails[i].id){
                     req.prStartDate = req.projectDetails[i].newPlannedStartDate;
                     req.prEndDate   = req.projectDetails[i].newPlannedEndDate;
-                    //// console.log('prStartDate',req.prStartDate,'prEndDate',req.prEndDate);
                      if(req.prStartDate){
                         var temp = '';
                         req.prStartDate = req.prStartDate.split('/');
@@ -5976,7 +5552,6 @@ upload_resume:function(req,res,next){
                         req.prStartDate[1] = temp;
                         req.prStartDate = req.prStartDate.join('/');
                         }
-                        //// console.log('req endDate is',req.prEndDate);
                        if(req.prEndDate){
                          req.prEndDate = req.prEndDate.split('/');
                          temp = req.prEndDate[0];
@@ -6078,7 +5653,6 @@ if(!req.treeComponent.length) {
       
 modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
             if(err){
-                ////// console.log("there is an error",err);
             }   
             else{
         
@@ -6091,7 +5665,6 @@ modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
 saveTask :function(req,res,next){
       modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.body.userId,req.body.commentString,req.body.collaborateId,function(err,result){
             if(err){
-                ////// console.log("there is an error",err);
             }   
             else{
                    if(result.length>2){
@@ -6148,7 +5721,6 @@ projStatus :function(req,res,next){
 
 modelPortal.projStatus(req.session.retailerId,function(err,result){
             if(err){
-             ////// console.log("there is an error",err);
             }   
             else{
                   var maxid = 1;
@@ -6157,8 +5729,6 @@ modelPortal.projStatus(req.session.retailerId,function(err,result){
                   }
                   req.result  = result;
 
-                      //// console.log('projHours is',req.projHours ,'hourSumWbs is',req.hourSumWbs);
-                  // // console.log('***********',req.effProjectCalculations);
 
    next();
 
@@ -6172,7 +5742,6 @@ getAllTreeForProjStatus:function(req,res,next){
 
 modelPortal.getAllTreeForProjStatus(req.body.proId,function(err,result){
             if(err){
-             ////// console.log("there is an error",err);
             }   
             else{
         
@@ -6191,7 +5760,6 @@ insNewVer :function(req,res,next){
 
 modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.session.userId,req.body.changedEle,function(err,result){
             if(err){
-             //// console.log("there is an error",err);
                     }   
             else{
                  res.json('success');
@@ -6215,16 +5783,13 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
         if(versionFlag==undefined){
             versionFlag = 1;
         }
-        //// console.log('flag is',flag);
-        //// console.log('retailerId is',req.session.retailerId,'userId is',req.session.userId);
+     
 
      modelPortal.task(flag,req.session.retailerId,versionFlag,req.session.userId,function(err,result){
             if(err){
-            // console.log("there is an error",err);
             }   
             else{
             req.treeComponent = result[0];
-         //   // console.log('treeComponent is',req.treeComponent);
             req.maxid         = result[1][0].endId;
             req.minid         = result[1][0].startId;
             req.flag          = flag;
@@ -6236,7 +5801,6 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
             req.userId       = req.session.userId;
             if(!!result[5][0].version){
                 req.versionArr = result[5][0].version.split(',');
-                //// console.log('version Arr is',req.versionArr);
             }
             else{
                 req.versionArr = [1];
@@ -6256,12 +5820,10 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
          if(req.submittedProject.length==0){
             req.submittedProject = [];
          }
-         //// console.log('projectDetails is ',req.projectDetails);
             for(var i = 0;i<req.projectDetails.length;i++){
                 if(req.prId==req.projectDetails[i].id){
                     req.prStartDate = req.projectDetails[i].newPlannedStartDate;
                     req.prEndDate   = req.projectDetails[i].newPlannedEndDate;
-                    //// console.log('prStartDate',req.prStartDate,'prEndDate',req.prEndDate);
                      if(req.prStartDate){
                         var temp = '';
                         req.prStartDate = req.prStartDate.split('/');
@@ -6270,7 +5832,6 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
                         req.prStartDate[1] = temp;
                         req.prStartDate = req.prStartDate.join('/');
                         }
-                        //// console.log('req endDate is',req.prEndDate);
                        if(req.prEndDate){
                          req.prEndDate = req.prEndDate.split('/');
                          temp = req.prEndDate[0];
@@ -6390,7 +5951,7 @@ function union_arrays (x, y) {
      obj[y[i]] = y[i];
   var res = []
   for (var k in obj) {
-    if (obj.hasOwnProperty(k))  // <-- optional
+    if (obj.hasOwnProperty(k)) 
       res.push(obj[k]);
   }
   return res;
@@ -6443,90 +6004,10 @@ function parseAll(textLowerCase, req, strname, temp, next) {
 }
 
 
-/*
 
-***************Scrap due to unclear requirements***********************************
-
-
-
-
-
-function getTimeHours(arrForWbs){
-
-var projNew =0;
-var diff =  -1;
-
-
-for(var i = 0;i<arrForWbs.length;i++){
-    projNew = arrForWbs[i].projectId;
-     while(projNew==arrForWbs[i].projectId){
-    var wplannedStartDate = arrForWbs[i].wplannedStartDate.split('/');
-    if(wplannedStartDate.length==0){
-        diff = 0;
-    }
-    else{
-    if(wplannedStartDate[2].length==2){
-        wplannedStartDate[2] = '20' + wplannedStartDate[2];
-    } 
-   arrForWbs[i].wplannedStartDate = new Date(wplannedStartDate[2],parseInt(wplannedStartDate[0])-1,wplannedStartDate[1]);
-    }
-
-
-
-
-    var wplannedEndDate = arrForWbs[i].wplannedEndDate.split('/');
-
-if(wplannedEndDate.length==0){
-        diff = 0;
-    }
-    else{
-    if(wplannedEndDate[2].length==2){
-        wplannedEndDate[2] = '20' + wplannedEndDate[2];
-    } 
-   arrForWbs[i].wplannedEndDate = new Date(wplannedEndDate[2],parseInt(wplannedEndDate[0])-1,wplannedEndDate[1]);
- }
-
-/**************************
-nowDateTime
-    nowDateTimeArr[1] = nowDateTime.getMonth();
-    nowDateTimeArr[2] = nowDateTime.getFullYear();
-
-
-
-
-
-/*****************************
-while(arrForWbs[i].wplannedStartDate== arrForWbs[i].wplannedEndDate){
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-   i++;
-}
-//diff = -1;         
-
-}
-
-
-
-
-
-
-}*/
 
 function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
     var longnumber = '' ;
-   // //////// console.log(textLowerCase);
     var dateForYear = new Date();
     var yearForYear = dateForYear.getFullYear();
     yearForYear = yearForYear + '';
@@ -6584,33 +6065,31 @@ function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
             var textindex = textLowerCase.indexOf(element, startIndex);
             startIndex = textindex;
        
-            if (textLowerCase[textindex - 1] == ' ' && (textLowerCase[textindex + element.length] == ' ' || textLowerCase[textindex + element.length] == '.') && skillarrId.indexOf(skillsIdfromdb[index]) == -1) { //After skills could be a full stop
-               ////////// console.log('****skills*****',element);
+            if (textLowerCase[textindex - 1] == ' ' && (textLowerCase[textindex + element.length] == ' ' || textLowerCase[textindex + element.length] == '.') && skillarrId.indexOf(skillsIdfromdb[index]) == -1) { 
                 skillarrId.push(skillsIdfromdb[index]);
                 elementFlag = false;
             } else startIndex++;
         }
 
     });
-    textLowerCase = textLowerCase.replace(/\+/g, ' '); //I need '+' sign for skills as in c++;
+    textLowerCase = textLowerCase.replace(/\+/g, ' '); 
 
 
     /**********************Qualification***********************************/
     Qualification.forEach(function(element, index) {
         if (textLowerCase.indexOf(element) != -1) {
             var textindex = textLowerCase.indexOf(element);
-            if (textLowerCase[textindex - 1] == ' ') //In case resume is written as b tech(ECE) 
+            if (textLowerCase[textindex - 1] == ' ')  
                 qualIndex = index;
         }
 
 
     });
-    textLowerCase = textLowerCase.replace(/\./g, ''); //I need dot(.)  for skills like .net
+    textLowerCase = textLowerCase.replace(/\./g, ''); 
 
     /***********************Institute*************************************/
 
 for(var i = 0;i<institituefromdb.length;i++){
-       // //////// console.log('***',countFiles[req.session.userId],institituefromdb[i]);
         if (textLowerCase.indexOf(institituefromdb[i]) != -1) {
 
             var textindex = textLowerCase.indexOf(institituefromdb[i]);
@@ -6628,7 +6107,6 @@ for(var i = 0;i<institituefromdb.length;i++){
     /**********************Location*********************************/
 
     for(var i = 0;i<location.length;i++){
-////////// console.log('***',countFiles[req.session.userId],location[i]);
  if (textLowerCase.indexOf(location[i]) != -1) {
             var textindex = textLowerCase.indexOf(location[i]);
             if (textLowerCase[textindex - 1] == ' ' && textLowerCase[textindex + location[i].length] == ' '){
@@ -6660,7 +6138,6 @@ for(var i = 0;i<institituefromdb.length;i++){
                 name = textarr[kIncName + 1] + ' ' + textarr[kIncName + kinc];
             }
         } catch (err) {
-            //////// console.log(err);
             return;
         }
 
@@ -6675,7 +6152,6 @@ for(var i = 0;i<institituefromdb.length;i++){
         kIncName++;
 
     }
-    //////// console.log('parser1');
     /***************************************Name From File and large Array For Name***************************************************/
     if (name.trim() == '') {
 
@@ -6690,17 +6166,13 @@ for(var i = 0;i<institituefromdb.length;i++){
             }
 
         });
-       // //////// console.log('parser2');
 
-
-        // //////// console.log(skillArrForName,nameFromFile);
         largeArrayForNameFromFile = largeArrayForNameFromFile.concat(skillArrForName);
         largeArrayForNameFromFile.sort(function(a, b) {
-            return b.length - a.length; // ASC -> a - b; DESC -> b - a
+            return b.length - a.length; 
         });
 
         largeArrayForNameFromFile.forEach(function(element, index) {
-            ////////// console.log('from for each',element);
             while (nameFromFile.indexOf(element) != -1) {
                 nameFromFile = nameFromFile.replace(element, '');
 
@@ -6708,49 +6180,33 @@ for(var i = 0;i<institituefromdb.length;i++){
         });
 
 
-    // //////// console.log('parser3');
         var nameFromFileArr;
         var nameFromFileArr2 = [];
         nameFromFile = nameFromFile.replace(/ +/g, ' ');
         nameFromFileArr = nameFromFile.split(' ');
 
-        ////////// console.log('*******name***',nameFromFileArr,nameFromFile,'*******');
 
         for (var i = 0; i < nameFromFileArr.length; i++) {
             if (nameFromFileArr[i].length > 2 && nameFromFileArr[i].indexOf('@') == -1) {
                 nameFromFileArr2.push(nameFromFileArr[i]);
             }
         }
-        ////////// console.log('*******Output***',nameFromFileArr2)
         var newNameFromFile = [];
         var incrementerFor3 = 0
-            /*  //Code for selecting the first 3 names from the left over file name;
-
-            while(incrementerFor3<3||incrementerFor3<nameFromFileArr.length){
-
-            newNameFromFile.push(nameFromFileArr[incrementerFor3]);
-            incrementerFor3++;
-
-            }
-            nameFromFile = newNameFromFile.join(' ');*/
+       
 
         nameFromFile = nameFromFileArr2.join(' ');
 
-        ////////// console.log(nameFromFile);
         name = nameFromFile.trim();
-                ////////// console.log('parser4');
 
 
     }
-        ////////// console.log('parser2');
 
     /***************************************Name From Text and large Array For Name  ***************************************************/
     if (name.trim() == '') {
         var nameArrForText = req.session.nameExclusions;
         var largeArrayForNameFromText = allLocationInResume.concat(nameArrForText).concat(Qualification).concat(skillArrForName);
-  //   //////// console.log(largeArrayForNameFromText);
     }
-           // //////// console.log('parser3');
 
     var wordLength = [];
     var  countForWordLength = 0;
@@ -6780,7 +6236,6 @@ for(var i = 0;i<institituefromdb.length;i++){
 
 if (/^\d{2,9}$/.test(textarr[k])) {
     if(longNumber==''&&textarr[k].slice(0,2)!='20'||longNumber!=''){
-        ////// console.log(textarr[k].slice(0,2));
     longNumber = longNumber.concat(textarr[k]);
  }
 }
@@ -6797,18 +6252,6 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 }
 
 
-        // if()
-
-        /*
-                if (namearr.indexOf(textarr[k].toLowerCase()) == -1 && textarr[k].length >= 3 && name == '') {
-
-                    var kinc = 1;
-                    while (textarr[k + kinc] == 'EOL') kinc++;
-
-                    name = textarr[k] + ' ' + textarr[k + kinc];
-
-                }*/
-        ////////// console.log('parser4');
 
         if (textarr[k].toLowerCase() == 'address' && permanentAddress2 == '') {
             var k1 = k - 1;
@@ -6865,12 +6308,6 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 
 
 
-
-        /*************Experience*************/
-
-
-        /*************Experience*************/
-
         if ((/month/i).test(textarr[k]) || (/mnth/i).test(textarr[k]) && months == 0) {
 
 
@@ -6922,14 +6359,13 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 
 
     }
-            //////// console.log('parser5');
+
 
 
     var emailDotless = email.replace(/\./g, '');
 
     if (req.session.emailArr.indexOf(emailDotless) != -1 && email != '') {
         countFiles[req.session.userId]++;
- //////// console.log('parser Return', countFiles[req.session.userId], emailDotless);
 
         return;
     } else {
@@ -6941,14 +6377,12 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
     var kIncNameNew = 0;
     /********************Name from text****************************/
     while (kIncNameNew < 50 && name == '' && kIncNameNew < textarr.length - 2) {
-   // //////// console.log('in text finder',textarr[kIncNameNew]);
         if (ifSuitableName(kIncNameNew) && ifSuitableName(kIncNameNew + 1)) {
             name = textarr[kIncNameNew] + ' ' + textarr[kIncNameNew + 1];
         }
         kIncNameNew++;
 
     }
-                //////// console.log('parser6');
 
     /********************Fresher Flag****************************/
     if (qualIndex != -1 && !FresherFlag) {
@@ -6965,7 +6399,6 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
                 kIncQualNew++;
             }
     }
-                   //////// console.log('parser7');
 
     /**************************Phone Flag*************************************/
     if (phone == '' && phoneLongnumber != '') {
@@ -7020,15 +6453,11 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
         name,email,phone,skillarrId,permanentAddress,Qualification[qualIndex],currentlocation,years,
                 months,instititutes,targetPath,function(err,result){
     if (err) {
-            //////// console.log(q, err);
             countFiles[req.session.userId]++;
-            //////// console.log('parser failure', countFiles[req.session.userId], req.session.userId);
-
-            // res.redirect('/error');
+         
         } else {
 
             countFiles[req.session.userId]++;
-            //////// console.log('parser Success', countFiles[req.session.userId], req.session.userId);
 
         }
 
@@ -7078,14 +6507,12 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
         else
             countForWordLength = 0;
         if(countForWordLength>=2){
-         //   //////// console.log('from here',textarr[cCounter]);
             countForWordLength = 0;
             return false
         }
 
         if (addressIndexForName.length > 0) {
             if (addressIndexForName[0] <= cCounter && cCounter <= addressIndexForName[1]) {
-              //  //////// console.log('from here address',textarr[cCounter]);
                 return false;
             }
 
@@ -7095,7 +6522,6 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
         for (var i = 0; i < largeArrayForNameFromText.length; i++) {
             var textTemp = textarr[cCounter].toLowerCase();
             if (textTemp.indexOf(largeArrayForNameFromText[i]) != -1) {
-          //  //////// console.log('from here largeArrayForNameFromText',textarr[cCounter]);
 
                 lArrFlag = false;
                 break;
@@ -7118,23 +6544,7 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 }
 
 function blankentry(targetPath, req) {
-   /* var q = {
-        sql: "call usp_addCandidate(?,?,?,?,?,?,?,?,?,?,?)",
-        values: ["",
-            "",
-            "",
-            "0",
-            "",
-            "",
-            "0",
-            "0",
-            "0",
-            "",
-            targetPath
-        ]
-    }*/
-    /*//////// console.log("Query------------------------------", q);*/
-     /*db(q, function(err, result) {*/
+
     modelPortal.upload_resumeaddcandidate(req.session.userId,req.session.roleId,req.session.retailerId,
        "",
             "",
@@ -7149,14 +6559,11 @@ function blankentry(targetPath, req) {
             targetPath,function(err,result){
    
         if (err) {
-            //////// console.log(q, err);
             countFiles[req.session.userId]++;
-            //////// console.log('parser failure', countFiles[req.session.userId], req.session.userId);
-            // res.redirect('/error');
+            
           } else {
             req.session.empty = -1;
             countFiles[req.session.userId]++;
-            //////// console.log('parser Success', countFiles[req.session.userId], req.session.userId);
 
            }
 
@@ -7181,7 +6588,6 @@ for(var i = 0;i<2;i++){
 
 for(var i=0;i<timeStamp.length;i++){
 
-    ////// console.log('StartDate is ',timeStamp[i].startDate,'endDate is',timeStamp[i].endDate); 
 }
 
     /*****************Today date Calculation**************************/
@@ -7207,22 +6613,17 @@ for(var i=0;i<timeStamp.length;i++){
 
 
 
-/**insert here*/ 
- for (var inc = 0; inc < timeStamp.length; inc++) { //if-else
+ for (var inc = 0; inc < timeStamp.length; inc++) { 
        if (inc != timeStamp.length - 1) {
            while (timeStamp[inc].project == timeStamp[inc + 1].project) {
-            ////// console.log('percCompleted',timeStamp[inc].percCompleted,isNaN(timeStamp[inc].percCompleted));
                if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
-                ////// console.log('in isnan',timeStamp[inc].percCompleted)
                    timeStamp[inc].percCompleted = 0;
          }
 
 
 
-        //// console.log('effortInHrs',timeStamp[inc].effortInHrs,isNaN(timeStamp[inc].effortInHrs));
 
                if (isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
-                //// console.log('in isnan',timeStamp[inc].effortInHrs);
                 timeStamp[inc].effortInHrs = 0;
 
 
@@ -7232,7 +6633,6 @@ for(var i=0;i<timeStamp.length;i++){
 
                completeArr[compInc] = completeArr[compInc] + (parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInHrs));
                sumEff = sumEff + parseInt(timeStamp[inc].effortInHrs);
-//// console.log('In while____ inc is', inc, 'id is', timeStamp[inc].id, ' completeArr[' + compInc + '] is ', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs, 'name is', timeStamp[inc].name);
 
                inc++;
                if (inc == timeStamp.length - 1) {
@@ -7253,12 +6653,10 @@ for(var i=0;i<timeStamp.length;i++){
            sumEff = sumEff + timeStamp[inc].effortInHrs;
 
                  if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
-                ////// console.log('in isnan',timeStamp[inc].percCompleted)
                    timeStamp[inc].percCompleted = 0;
                 }
 
          if(isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
-                //// console.log('in isnan',timeStamp[inc].effortInHrs);
                 timeStamp[inc].effortInHrs = 0;
 
 
@@ -7267,28 +6665,23 @@ for(var i=0;i<timeStamp.length;i++){
            completeArr[compInc] = (completeArr[compInc] + parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInHrs)) / sumEff;
 
            if (isNaN(completeArr[compInc])) {
-               ////// console.log('In Nan if inc is', parseInt(timeStamp[inc].project));
                completeArr[compInc] = 0;
            }
 
-           //// console.log('In if inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs);
 
            originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
 
            compInc++;
            sumEff = 0;
-           //   inc++;
        } else {
 
         sumEff = sumEff + timeStamp[inc].effortInHrs;
 
                  if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
-                ////// console.log('in isnan',timeStamp[inc].percCompleted)
                    timeStamp[inc].percCompleted = 0;
                 }
 
          if(isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
-                //// console.log('in isnan',timeStamp[inc].effortInHrs);
                 timeStamp[inc].effortInHrs = 0;
 
                }
@@ -7297,7 +6690,6 @@ for(var i=0;i<timeStamp.length;i++){
 
 
            if (isNaN(completeArr[compInc])) {
-               ////// console.log('In Nan else inc is', parseInt(timeStamp[inc].project));
                completeArr[compInc] = 0;
            }
 
@@ -7305,7 +6697,6 @@ for(var i=0;i<timeStamp.length;i++){
 
            originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
 
-           //// console.log('In else inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs);
 
            inc++;
 
@@ -7316,11 +6707,6 @@ for(var i=0;i<timeStamp.length;i++){
 
 
    }
-
- /******End*******/
-
-
-
 
 for(var inc=0;inc<completeArr.length;inc++){
         if(isNaN(completeArr[inc])){
@@ -7518,7 +6904,6 @@ bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((effInHrsHereIs*percC
 }
 
 for(var i = 0;i<bigArr.length;i++){
-  //bigArr[i] = bigArr[i]*100;
   bigArr[i] = MathRound(bigArr[i]);
 }
 
@@ -7588,9 +6973,7 @@ function calculateEffDays(sDateNew,sDateOld){
 
 var sDateNew2 = new Date(sDateNew[2],sDateNew[1],sDateNew[0]);
 var sDateOld2 = new Date(sDateOld[2],sDateOld[1],sDateOld[0]);
-//sDateNew2 = sDateNew2.toString();
-//sDateOld2 = sDateOld2.toString();
-//debugger;
+
  var d = sDateOld[0];
 var m = sDateOld[1];
 var y = sDateOld[2];
@@ -7636,8 +7019,7 @@ else {
     var y = date.getFullYear();
     var day = date.getDay();
     var dateTime = date.getTime();
-   // debugger;
-  //  // console.log('date is',d,' ',m,' ',y);
+  
   if(saturdayOffFlag==1){
         weekEnds = [0,6]    
     }
@@ -7717,7 +7099,6 @@ else if(bigArr[RawData[i].project]!='alpha'){
 
 }
 else{
-    // console.log('work hard in silence');
 }
 
 }
@@ -7727,7 +7108,6 @@ for(var i = 0;i<bigArr.length;i++){
                 bigArr[i] = '';
             }
  }
- //// console.log('bigArr is',bigArr);
  return bigArr;
 
 }
@@ -7763,18 +7143,6 @@ if(date1Arr[2].length==2){
 }
 
 
-
-
-
-
-/***************************task*****************************/
-    
-
-/****************************************task************************************/
-
-
-
-
 function findDataFromUserFlag(RawData,userId){ 
    
    var DataArr = [];
@@ -7787,7 +7155,6 @@ function findDataFromUserFlag(RawData,userId){
            }
        }
      RawData =  changeTheOnesForWhichNodesHaveToBeSeen(RawData,DataArr);
-     //RawData  = convertAllFirstChildrenToZero(RawData);
      return RawData;
 }
 
@@ -7872,12 +7239,10 @@ var heading = [
 ];
 
 var specification = {
-  snumber: { // <- the key should match the actual data key 
-    displayName: 'SNo', // <- Here you specify the column header 
-    headerStyle: styles.headerDark, // <- Header style 
-    cellStyle: function(value, row) { // <- style renderer function 
-      // if the status is 1 then color in green else color in red 
-      // Notice how we use another cell value to style the current one 
+  snumber: { 
+    displayName: 'SNo', 
+    headerStyle: styles.headerDark, 
+    cellStyle: function(value, row) { 
       if(row.depth==0){
          return styles.cellRed;
             }
@@ -7888,7 +7253,7 @@ var specification = {
               return styles.cellYellow;
             }
     },
-    width: 50 // <- width in pixels 
+    width: 50 
   },
   name: {
     displayName: 'Name',
@@ -7904,7 +7269,7 @@ var specification = {
               return styles.cellYellow;
             }
     },
-    width: 200 // <- width in chars (when the number is passed as string) 
+    width: 200 
   },
   plStartDate: {
     displayName: 'Pl. Start Date',
@@ -7919,7 +7284,7 @@ var specification = {
             else{
               return styles.cellYellow;
             }
-    },    width: 100 // <- width in pixels 
+    },    width: 100  
  
   
 },
@@ -7936,7 +7301,7 @@ var specification = {
             else{
               return styles.cellYellow;
             }
-    },    width: 100 // <- width in pixels 
+    },    width: 100  
  
   
 },
@@ -7953,7 +7318,7 @@ var specification = {
             else{
               return styles.cellYellow;
             }
-    },    width: 150 // <- width in pixels 
+    },    width: 150 
   
 },
 plActEDate: {
@@ -7969,7 +7334,7 @@ plActEDate: {
             else{
               return styles.cellYellow;
             }
-    },    width: 150 // <- width in pixels 
+    },    width: 150
   
 },
 actEDate: {
@@ -7985,8 +7350,8 @@ actEDate: {
             else{
               return styles.cellYellow;
             }
-    }, // <- Cell style 
-    width: 100 // <- width in pixels 
+    }, 
+    width: 100 
   
 },
 effort: {
@@ -8002,7 +7367,7 @@ effort: {
             else{
               return styles.cellYellow;
             }
-    }, // <- Cell style     width: 220 // <- width in pixels 
+    }, 
     width: 100
 },
 percCompleted: {
@@ -8018,7 +7383,7 @@ percCompleted: {
             else{
               return styles.cellYellow;
             }
-    }, // <- Cell style     width: 220 // <- width in pixels 
+    }, 
     width: 100
  
 
@@ -8037,7 +7402,7 @@ percCompleted: {
               return styles.cellYellow;
             }
     },  
-      width: 100 // <- width in pixels 
+      width: 100 
 
 },
 resources: {
@@ -8053,26 +7418,19 @@ resources: {
             else{
               return styles.cellYellow;
             }
-    },    width: 150 // <- width in pixels 
+    },    width: 150 
   }
 }
 
-// The data set should have the following shape (Array of Objects) 
-// The order of the keys is irrelevant, it is also irrelevant if the 
-// dataset contains more fields as the report is build based on the 
-// specification provided above. But you should have all the fields 
-// that are listed in the report specification 
 var dataset = bigArr;
  
-// Create the excel report. 
-// This function will return Buffer 
 var report = excel.buildExport(
-  [ // <- Notice that this is an array. Pass multiple sheets to create multi sheet report 
+  [ 
     {
-      name: 'Sheet name', // <- Specify sheet name (optional) 
-      heading: heading, // <- Raw heading array (optional) 
-      specification: specification, // <- Report specification 
-      data: dataset // <-- Report data 
+      name: 'Sheet name', 
+      heading: heading,
+      specification: specification, 
+      data: dataset 
     }
   ]
 );
@@ -8098,9 +7456,7 @@ fs.rename(tempPath, targetPath, function(err){
             }
 
           });
-// You can then return this straight 
-/*res.json('report.xlsx'); // This is sails.js specific (in general you need to set headers) 
-return res.send(report);*/
+
 
 
 
@@ -8115,7 +7471,7 @@ var attachData = [];
 
 mailTemplates.projectAttachFile(receiverMail.join(),attachData,function(err,result1){
                          if(err){
-                            // console.log('err here ',err);
+                        
                          }
                          else{
                             res.json('smile');

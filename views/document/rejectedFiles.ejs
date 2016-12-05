@@ -20,15 +20,7 @@ margin-bottom: 5%;
         }
 
     </style>
-    <!-- bootstrap files includeede in header.js file -->
-    <!-- datatable files includeede here -->
-<!-- 
-
-    <link href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
-    <script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-
-
- -->   <!-- datatable files ends here -->
+    
     <script>
      var otable;
      $(document).ready(function(){
@@ -49,17 +41,14 @@ margin-bottom: 5%;
                        $('#docTabR').addClass('active');
 
         otable = $("#data_table").dataTable({
-            "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],/*1 array use foractual value
-                                                                            and secound array used for
-                                                                             wt to display at ledt corner where we select values dropdown*/
-            "iDisplayLength": 10, /*used to display no of element  on page load or relaod*/
-            "showNEntries": true, /* for displaying showing 10 out of 50 entries at left bottom corner*/
-            "bFilter": true,        /*dispalying search box at top right corner*/
-            "bLengthChange": true,  /*dispalying  show 10 out of 50 entries at top left corner*/
-            "aoColumnDefs": [{ //   "bSortable": false,
-                                //  "aTargets": [0]
+            "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
+            "iDisplayLength": 10, 
+            "showNEntries": true, 
+            "bFilter": true,        
+            "bLengthChange": true,  
+            "aoColumnDefs": [{ 
                             }],
-            "order": []         /*we can provide order to every column "order": [[0,'asc'],[1,'des']] */
+            "order": []         
             
       });
    $("#searchbox").keyup(function() {
@@ -68,7 +57,7 @@ margin-bottom: 5%;
 
      });
      function editModel(id1) {
-            console.log(id1);
+          
             $.ajax({
                 url: '/viewFileDetails',
                 type: 'post',
@@ -77,7 +66,7 @@ margin-bottom: 5%;
                 },
                 success: function(data) {
 
-                    console.log("sucessssss", data);
+                 
                     document.getElementById("title1").value = data[0][0].title;
                     document.getElementById("authname").value = data[0][0].author;
                     document.getElementById("desc").value = data[0][0].description;
@@ -109,17 +98,12 @@ margin-bottom: 5%;
                     }
                     document.getElementById("rest").value = temp.slice(0, -2);
 
-                    /* alert($('tech1').val());*/
+                  
 
                 }
             });
             $('#tag1').modal('show');
-            /*$('.modal-backdrop.fade').css({
-               'background-color':'rgba(0,0,0,0)'       
-            });
-              $("#tag1").draggable({
-                   handle: ".modal-header"
-               });*/
+           
 
 
         }

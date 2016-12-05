@@ -19,18 +19,7 @@ sup {  color: red;  }
     
             $(document).ready(function() {
                 $(".chosen-select").chosen();
-                 // $('#cal').tagger({
-                 //    baseURL: '../img/'
-                   
-                 //  , fieldWidth: "11em"
-                 //  });
-
-                 //  $('#location').tagger({
-                 //    baseURL: '../img/'
-                  
-                 //  , fieldWidth: "13em"
-                 //  });
-
+                
                 $('.client-img').addClass('active');
                  $("#cabbname").focusout(function(){
 
@@ -97,7 +86,7 @@ sup {  color: red;  }
             <div class="fLeft"><span class="error" id="errorCal"></span></div>
     </div>
 </div>
-<div class="row editclientinputs">
+<div class="row fusion-form-elements">
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <label>Client Code:</label>
         <input type="text"   maxlength="45" class="form-control" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
@@ -116,94 +105,13 @@ sup {  color: red;  }
     </div>
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <label>Address:</label>
-        <textarea type="" placeholder="Client Address"   maxlength="300" height="103" class="form-control" id="address" name="address" <%if((editflag==1)){ console.log(clientinfo[0].address);%>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea>
+        <textarea type="" placeholder="Client Address"   maxlength="300" height="103" class="form-control" id="address" name="address" <%if((editflag==1)){ %>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea>
                 <div class="fLeft"><span class="error" id="errorAddress"></span></div>
     </div>
    </div>
 </div>
 
-<!--  <table class="table" style="margin-top: 1%">
-        
-    <tr>
-        <td>
-            <td  ><label class="form-Label">Client Name:</label><sup>*</sup> </td>
-            <td>
-            <input type="text" maxlength="40"  onkeypress="return specialCharacter(event)" 
-            class="form-text-box " id="cname" name="cname" placeholder="Name" <%if((editflag==1)){%>value='<%=clientinfo[0].clientName%>'
-            <%}%>/>
-            <div class="fLeft"><span class="error" id="errorCname"></span></div>
-            </td>
-        </td>
-        <td>
-            <td><label class="form-Label">Client Abbriviate Name:<sup>*</sup> </label></td>
-            <td><input type="text"   onkeypress="return specialCharacter(event)"  maxlength="45" class="form-text-box" id="cabbname" name="cabbname" placeholder="Abbrivated Name"  <%if((editflag==1)){%>value='<%=clientinfo[0].clientAbbName%>'
-            <%}%> />
-            <div class="fLeft"><span class="error" id="errorCabbname"></span></div>
-            </td>
-        </td>
-        <td>
-            <td><label class="form-Label">Category:</label></td>
-            <td>
-            <select  class="form-text-box" name="category" id="category" maxlength="50" onchange="" ;>
-          <option value="Silver" <% if((editflag==1) && "Silver"==clientinfo[0].category){%>selected<%}%>>Silver</option>
-          <option value="Gold" <% if((editflag==1) && "Gold"==clientinfo[0].category){%>selected<%}%>>Gold</option>
-           <option value="Diamond" <% if((editflag==1) && "Diamond"==clientinfo[0].category){%>selected <%}%>>Diamond</option>
-            </select>
-            <div class="fLeft"><span class="error" id="errorCategory"></span></div>
-    </td>
-        </td>
-        <td>
-            <td><label class="form-Label">Account Lead:</label></td>
-            <td><span id="errmsg" style="color:red"></span>
-                                        <select name="cal" id="cal" class="form-text-box"  >
-                                            <option value="0">--Select--</option>
-                                            <%for(var i=0;i<users.length;i++){%>
-                                            <option value="<%=users[i].id%>" <%if(editflag==1&&clientinfo[0].clientAccountLead==users[i].id){%>selected<%}%> ><%=users[i].firstName%>
-                                            </option>
-                                            <%}%>
-                                        </select>
-            <div class="fLeft"><span class="error" id="errorCal"></span></div>                                        
-            </td>
-        </td>
-
-    </tr>
-
-    <tr>
-        <td>
-            <td><label class="form-Label">Client Code:</label></td>
-            <td><input type="text"   maxlength="45" class="form-text-box" id="ccode" name="ccode" placeholder="auto generated" <%if((editflag==1)){%>value='<%=clientinfo[0].clientCode%>'
-                                            <%}%> readonly /> <div class="fLeft"><span class="error" id="errorCcode"></span></div></td>
-        </td>
-        <td>
-            <td><label class="form-Label">Location:</label></td>
-            <td> <select name="location" class="form-text-box" id="location"  >
-                                            <option value="0">--Select--</option>
-                                            <%for(var i=0;i<location.length;i++){%>
-                                            <option value="<%=location[i].id%>" <%if(editflag==1&&clientinfo[0].location==location[i].id){%>selected<%}%> ><%=location[i].location%>
-                                            </option>
-                                            <%}%>
-                                        </select>
-            <div class="fLeft"><span class="error" id="errorLocation"></span></div>                            
-            </td>
-        </td>
-        <td>
-            <td><label class="form-Label">Address:</label></td>
-            <td><textarea type="" placeholder="Client Address"   maxlength="300" height="103" style="resize:none;width: 150px;height: 66px" class="form-text-box" id="address" name="address" <%if((editflag==1)){ console.log(clientinfo[0].address);%>value='<%=clientinfo[0].address%>' <%}%> /><%if((editflag==1)){%><%=clientinfo[0].address%><%}%></textarea>
-                <div class="fLeft"><span class="error" id="errorAddress"></span></div>
-            </td>
-        </td>
-        <td>
-            <td><label class="form-Label"></label></td>
-            <td></td>
-        </td>
        
-    </tr>   
-    <tr>
-            <td></td><td></td><td></td><td></td> 
-           <td></td><td></td><td></td><td></td>
-              <td></td><td></td><td></td><td></td> 
-          </tr>  
-</table>  -->         
  <div class="text-center"><span class="error" id="errorCreateClient"></span><span class="success" id="successCreateClient"></span></div>
                                 <center style="padding-bottom: 1%">
                                     <a href="/clients?inactive=false">
@@ -250,10 +158,7 @@ var successCreateClient= $('#successCreateClient');
         errorCabbname.text('Required field');
         return false;
     }
-   /* if($('#ccontactperson').val().trim() == ""){
-        alert('Please enter client contact person.');
-        return false;
-    }*/
+  
    
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

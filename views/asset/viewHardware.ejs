@@ -42,7 +42,6 @@
           <td><%=htype[i].componentName%></td>
           <td><%=htype[i].quantity%></td>
           <td><%=htype[i].vendor%></td>
-         <!--  <td><%=((htype[i].invoiceDate).toString()).slice(3,16)%></td> -->
           <td><%=htype[i].invoiceDate%></td>
           <td><%=htype[i].invoiceNo%></td>
           <td><%=htype[i].invoiceAmt%></td>   
@@ -67,92 +66,74 @@
 
 </div>
 
-
-
-
-
-
-
-
-<!-- Add Hardware starts-->
 <div class="modal fade" id="editHardware" role="dialog" >
-    <div class="modal-dialog"  style="margin-left: 100px">
-      <!-- Modal content-->
-      <div class="modal-content" id="express2" style ="width:1100px;height:auto;">
+
+    <div class="modal-dialog" style="min-width: 80%;">
+      <div class="modal-content">
         <div class="modal-header" style="background-color:#f05f40;">
-          <center><label id="head10" class="modal-title" style="color:white;"> Edit Hardware </label>
-          <span id="dismiss"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:black;margin-bottom: 15px'></span>
+          <center><label id="head10" class="modal-title" style="color:white !important;"> Edit Hardware </label>
+          <span id="dismiss"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:white;margin-bottom: 15px'></span>
           </center>
         </div>
         <div id="err" class="col-lg-6 col-sm-offset-3"></div>
           <div class="modal-body">
-           <table class="table"><tr><td><td>
-                <label class="form-Label" >Hardware Type: </label><sup class="astrick">*</sup></td>
-             <td>
-                <input type="text" id="type1"   name="type1"  class="form-text-box textBox" value="" disabled>
-               <input type="hidden" id="type"   name="type"  class="form-control" value="" disabled>  
-               <label id="ltype" class="form-Label labelans hide"></label>           
-              </td></td><td><td>
-                <label class="form-Label" >Quantity: </label><sup class="astrick">*</sup></td>
-             <td>
-                <input type="number" maxlength="2"  class="form-text-box textBox" id="qty" name="qty" onchange="addline()" />
-                <label id="lqty" class="form-Label labelans hide"></label> 
-              </td></td><td><td>
-                <label class="form-Label">Vendor: </label><sup class="astrick">*</sup></td>
-            <td> 
-               <select  class="form-text-box textBox" style=""  name="vendor" id ="vendor" onchange=""> 
-              <option value='0' disabled selected>Select</option>
+            <div class="row fusion-form-elements view-edit-hardware">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label>Hardware Type: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                <input type="text" id="type1"   name="type1"  class="form-control textBox" value="" disabled>
+                <input type="hidden" id="type"   name="type"  class="form-control" value="" disabled>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label>Quantity: <sup class="astrick">*</sup></label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="number" maxlength="2"  class="form-control textBox" id="qty" name="qty" onchange="addline()" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label>Vendor: <sup class="astrick">*</sup></label>
+                <span id="lvendor" class="hide labelans"></span>
+                <select  class="form-control textBox" style=""  name="vendor" id ="vendor" onchange=""> 
+                  <option value='0' disabled selected>Select</option>
                <% for(i=0;i<vendor.length;i++){%>
-                <option value="<%=vendor[i].id%>"><%=vendor[i].name%></option>
+                  <option value="<%=vendor[i].id%>"><%=vendor[i].name%></option>
                 <%}%>
-              </select>
-              <label id="lvendor" class="form-Label labelans hide"></label> 
-
-             </td></td></tr><tr><td><td>
-                <label class="form-Label">Invoice Number: </label><sup class="astrick">*</sup>
-              </td><td>
-                <input type="text" maxlength="10"  class="form-text-box textBox" id="invoiceNo" name="invoiceNo" />
-                <label id="linvoiceNo" class="form-Label labelans hide"></label>
-                </td></td><td><td>
-
-                <label class="form-Label">Invoice Date: </label><sup class="astrick">*</sup>
-             </td><td>
-
-                <input type="text" class="form-text-box date textBox" id="Invoicedate" name="Invoicedate" />
-                   <label id="lInvoicedate" class="form-Label labelans hide"></label>
-             </td></td><td><td>
-
-                <label class="form-Label">Invoice Amount: </label><sup class="astrick">*</sup>
-              </td><td>
-                <input type="text" maxlength="11"  class="form-text-box textBox" id="invoiceAmt" name="invoiceAmt" />
-                   <label id="linvoiceAmt" class="form-Label labelans hide"></label>
-              </td></td></tr><tr><td><td>
-
-                <label class="form-Label">Purchased Order: </label><sup class="astrick">*</sup>
-             </td><td>
-                <input type="text" maxlength="50"  class="form-text-box textBox" id="order" name="order" />
-                   <label id="lorder" class="form-Label labelans hide"></label>
-            </td></td><td><td>
-
-
-             <input type="hidden" maxlength="50"   id="headerId"  /> 
-
-                <label class="form-Label">Delivery Date: </label><sup class="astrick">*</sup>
-           </td><td>
-                <input type="text " class="form-text-box date textBox" id="Deliverydate"name="Deliverydate" />
-                   <label id="lDeliverydate" class="form-Label labelans hide"></label>
-            </td></td></tr></table>
-            
-             <div class="form-group">
-             <div class=" col-md-12 table-responsive">
-               <table id='table1' class="table table-striped table-bordered table-hover table-condensed hide"style="overflow:scroll;width:100%;">
+                </select>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label>Invoice Number: <sup class="astrick">*</sup></label>
+                <span id="linvoiceNo" class="hide labelans"></span>
+                <input type="text" maxlength="10"  class="form-control textBox" id="invoiceNo" name="invoiceNo" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label>Invoice Date: <sup class="astrick">*</sup></label>
+                <span id="lInvoicedate" class="hide labelans"></span>
+                <input type="text" class="form-control textBox date " id="Invoicedate" name="Invoicedate" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label>Invoice Amount: <sup class="astrick">*</sup></label>
+                <span id="linvoiceAmt" class="hide labelans"></span>
+                <input type="text" maxlength="11"  class="form-control textBox" id="invoiceAmt" name="invoiceAmt" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label>Purchased Order: <sup class="astrick">*</sup></label>
+                <span id="lorder" class="hide labelans"></span>
+                <input type="text" maxlength="50"  class="form-control textBox" id="order" name="order" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label>Delivery Date: <sup class="astrick">*</sup></label>
+                <span id="lDeliverydate" class="hide labelans"></span>
+                <input type="text " class="form-control textBox date " id="Deliverydate"name="Deliverydate"/>
+              </div>
+            </div>
+            <div class="table-responsive">
+               <table id='table1' class="table table-striped table-bordered table-hover table-condensed hide view-hardware-table">
                  <thead id="headi">
                  </thead>
                  <tbody id="bodyi">
                  </tbody>
                </table>
-             </div>
-             </div>
+            </div>
+           
              </div>
             <div class="modal-footer"style="border-top:0px;">
               <center>
@@ -164,14 +145,10 @@
           </div>
         </div>
       </div>
-  
-
-
-
-    <!---->
+ 
     <div class="modal fade" id="editHardware1" role="dialog" >
     <div class="modal-dialog"  style="margin-left: 150px">
-      <!-- Modal content-->
+
       <div class="modal-content" id="express2" style ="width:1000px;height:auto;">
         <div class="modal-header" style="background-color:#f05f40;">
           <center><label id="head2" class="modal-title" style="color:white;font-size:14pt;"><b>View Hardware</b></label>
@@ -263,12 +240,9 @@
       </div>
       </div>
    
-
-    <!-- View More Details starts-->
-
 <div class="modal fade" id="viewMore" role="dialog">
     <div class="modal-dialog">
-      <!-- Modal content-->
+
       <div class="modal-content" id="express3">
         <div class="modal-header" style="background-color:#f05f40;">
           <center><label id="head" class="modal-title" style="color:white;font-size:14pt;"><b>View More</b></label></center>
@@ -295,37 +269,29 @@
     </div>
 
 <div class="modal " id="addModal"  role="dialog">
-  <div class="modal-dialog" style="display:table;">
-    <!-- Modal content-->
-    <div class="modal-content" id="express2" style="position: relative;overflow-y: auto;">
+
+  <div class="modal-dialog" style="min-width: 70%">
+    <div class="modal-content" style="overflow-y: auto;">
       <div class="modal-header" style="background-color:#f05f40;">
-        <center><label id="head1" class="modal-title" style="color:white; "> Add Component </label>
-        <span id="cut"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:black;margin-bottom: 15px'></span>
+        <center><label id="head1" class="modal-title" style="color:white !important; "> Add Component </label>
+        <span id="cut"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:white;margin-bottom: 15px'></span>
         </center>
       </div>
       <div id="err" class="col-lg-6 col-sm-offset-3"></div>
       <div class="modal-body">
         <div class="form-group" style="padding:10px;">
-          <div class=" col-md-12 table-responsive" id="addcompobody" style="margin-bottom: 20px;">
-            <!--table class="table table-striped table-bordered table-hover table-condensed" style="overflow-y:auto;">
-            <col width="10"><col width="10"><col width="20"><col width="10"><col width="10">
 
-                <tbody id="addcompobody">
-                </tbody>
-              </table-->
-             
+          <div class="table-responsive" id="addcompobody" style="margin-bottom: 20px;">
             
              </div>
               <input type="hidden" id="serids"/>
-              <div id="tablediv"></div>
+              <div id="tablediv" class="table-responsive"></div>
                 <input  id="submitid" type="button"class="btn btn-info" onclick="validatesubcomponent()" value="SUBMIT">
           </div>
         </div>
     </div>
   </div>
 </div>
-
-    <!-- Javascript function -->
 
 </body>
 <footer>
@@ -367,7 +333,6 @@ var idarray=[];
              $("#searchbox").keyup(function() {
         oTable1.fnFilter(this.value);
       });
-      //getlinedtata();
     });
 
     jQuery('.date').datetimepicker({
@@ -415,7 +380,6 @@ var idarray=[];
 
  i=0;
      function addCompModal(rowid){
-      //alert('jai mata di addcompmodel');
       addId(rowid);
       kid=0;
       $('#addcompobody').html('');
@@ -428,7 +392,6 @@ var idarray=[];
     row+='<%}%></select></div><div class="col-md-2"><input type="button"class="btn btn-info addcompdata" onclick="addsubcomponent()" value="ADD"></div></div>';
    
          $('#addcompobody').append(row);
-        // alert('jai ho');
          
          countAddCompModal++;
          i++
@@ -454,7 +417,6 @@ function addsubcomponent() {
     var selectedValue =typ.options[typ.selectedIndex].value;
     if (selectedValue == "0") {
         alert("Please select a type");
-        console.log("intype");
         return false;
     }
     if ($('#qty').val().length < 1 || $.trim($("#qty").val()) < 1) {
@@ -466,7 +428,6 @@ function addsubcomponent() {
         alert("Quantity cannot exceed 20!");
         document.getElementById('qty').value = '';
     } else {
-        console.log(selectedValue);
         $.ajax({
             url: '/getAttr',
             method: 'post',
@@ -478,16 +439,13 @@ function addsubcomponent() {
                 var head = '<tr style="height:12px"><th style="width:150px"># <span style="color:red" title="Remove Row" onclick="remove1('+kid+')" class="glyphicon glyphicon-remove-circle"></span></th><th >Component Name</th>';
                 allAttIds = [];
                 for (var i = 0; i < result[0].length; i++) {
-                    console.log('head' + i)
                     head = head + '<th>' + result[0][i].attribute + '</th>';
                     allAttIds.push(result[0][i].attId);
                 }
                 allAttIds2 = allAttIds;
               
-                /********************Important next line*************************/
                 head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty Start Date</th><th style = "width:100px;" id ="underconsideration">Warranty End Date</th></tr>';
                 $('#headij'.concat(kid)).append(head);
-                //$('#bodyk').empty();
                 arr.length = qty;
                 col = result[0].length;
                 attlength = col;
@@ -556,7 +514,6 @@ function addId(ids){
  }
 
 function del(id){ 
-  //alert(id);
   if(confirm("This action once done cannot be undone! Do you want to delete this?")==true)
   {
   $.ajax({
@@ -585,13 +542,11 @@ function description(id){
       $("#t6").html('');
       $("#t7").html('');
       $("#t8").html('');
-  //alert(id);
   $.ajax({ 
     url: '/getEditHardware',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
-      console.log("edit info----------------",data[0][0].componentName);
       $("#type").val(data[0][0].ACID);
       $("#t1").append(data[0][0].componentName);
       $("#t2").append(data[0][0].quantity);
@@ -601,18 +556,18 @@ function description(id){
       $("#t6").append(((data[0][0].invoiceDate).toString()).slice(0,11));
       $("#t7").append(data[0][0].invoiceNo);
       $("#t8").append(((data[0][0].deliveryDate).toString()).slice(0,11));
-      //$("#hdnId").val(data[0][0].id);
-      //getlinedtata();
-      //getlineValue(id);
+      
       getidfordescription(id);
     }
   });
 }
 
 function showInfo(id,flag){
-  if(flag){                                                               //view details
+  if(flag){                                                             
   $(".labelans").removeClass("hide");
+  $(".view-edit-hardware .astrick").addClass("hide");
   $(".textBox").addClass("hide");
+  $(".view-edit-hardware").removeClass("fusion-form-elements");
   $(".chnBtn").val("View");
   $("#head4").html("View Hardware");
   $(".hdwrbtn").addClass("hide");
@@ -623,9 +578,11 @@ function showInfo(id,flag){
 }
 else{ 
   $("#head10").html(" ");
-  $("#head10").append("Edit Hardware");                                                                //Edit Details
+  $("#head10").append("Edit Hardware");                                                             
   $(".labelans").addClass("hide");
+  $(".view-edit-hardware .astrick").removeClass("hide");
   $(".textBox").removeClass("hide");
+  $(".view-edit-hardware").addClass("fusion-form-elements");
   $(".chnBtn").val("Edit")
   $("#head4").html("Edit Hardware");
   $(".hdwrbtn").removeClass("hide");
@@ -636,13 +593,12 @@ else{
 }
 
   $("#hdnId").val('');
-  //alert(id);
+
   $.ajax({ 
     url: '/getEditHardware',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
-      console.log("edit info----------------",data[0]);
       $("#type").val(data[0][0].ACID);
       $("#type1").val(data[0][0].componentName);
       $("#qty").val(data[0][0].quantity);
@@ -676,15 +632,11 @@ function addline(){
   getlineValue(id);
 }
 
-///
-
 function getlinedtata(){
       $('#tableQuantity').removeClass('hide');
-   // var typ = document.getElementById('typel');
     var selectedValue = Math.floor($("#type").val());
     if (selectedValue == "0") {
         alert("Please select a type");
-        console.log("intype");
         return false;
     }
     if ($('#qty').val().length < 1 || $.trim($("#qty").val()) < 1) {
@@ -698,7 +650,6 @@ function getlinedtata(){
         alert("Quantity cannot exceed 20!");
         document.getElementById('qty').value = '';
     } else {
-        console.log(selectedValue);
         $.ajax({
             url: '/getAttr',
             method: 'post',
@@ -712,7 +663,6 @@ function getlinedtata(){
                 var head = '<tr ><th>#</th><th >Serial No.</th>';
                 allAttIds = [];
                 for (var i = 0; i < result[0].length; i++) {
-                    console.log('head' + i)
                     head = head + '<th>' + result[0][i].attribute + '</th>';
                     allAttIds.push(result[0][i].attId);
                 }
@@ -757,9 +707,8 @@ function getlinedtata(){
                      row = row + '<td class="hide"><input class="single form-text-box warrClass lineText" id="id'+i+'" type = "hidden" value="0"></td>';
 
 
-                    row = row + '<td class = "">' + '<input onclick="getsubline('+i+',0)" class="btn btn-danger"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
+                    row = row + '<td class = "">' + '<input onclick="getsubline('+i+',0)" class="btn btn-danger btn-sm"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
                   
-                   // addId(i);
                     $('#bodyi').append(row);
                 }
 
@@ -787,21 +736,15 @@ function getlinedtata(){
     }
   }
 
-
- // for description
-///
-
  function numericFilter(txb) {
          txb.value = txb.value.replace(/[^\0-9]/ig, "");
         }
 
 function getlinedtatafordescription(){
       $('#tableQuantity').removeClass('hide');
-   // var typ = document.getElementById('typel');
     var selectedValue = $("#type").val();
     if (selectedValue == "0") {
         alert("Please select a type");
-        console.log("intype");
         return false;
     }
     if ($('#qty').val().length < 1 || $.trim($("#qty").val()) < 1) {
@@ -815,7 +758,6 @@ function getlinedtatafordescription(){
         alert("Quantity cannot exceed 20!");
         document.getElementById('qty').value = '';
     } else {
-        console.log(selectedValue);
         $.ajax({
             url: '/getAttr',
             method: 'post',
@@ -829,7 +771,6 @@ function getlinedtatafordescription(){
                 var head = '<tr ><th>#</th><th >Serial No.</th>';
                 allAttIds = [];
                 for (var i = 0; i < result[0].length; i++) {
-                    console.log('head' + i)
                     head = head + '<th>' + result[0][i].attribute + '</th>';
                     allAttIds.push(result[0][i].attId);
                 }
@@ -876,7 +817,6 @@ function getlinedtatafordescription(){
 
                     row = row + '<td class = "">' + '<input onclick="getsubline('+i+',1)" class="btn btn-danger"type="button"data-toggle="modal"' + ' value="VIEW"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
                   
-                   // addId(i);
                     $('#bodyi').append(row);
                 }
 
@@ -903,7 +843,6 @@ function getlinedtatafordescription(){
         });
     }
   }
- //end 
 
   function sleepFunctionForStoppingTime(miliseconds) {
    var currentTime = new Date().getTime();
@@ -927,9 +866,7 @@ function getlinedtatafordescription(){
                  lineid=result[0][0].ids.split(',');
                
                for(var i=0;i<lineid.length;i++){
-               // alert(lineid[i]);
-               //  sleepFunctionForStoppingTime(100);
-             // getattrline(lineid[i],i);
+              
                 (function(i){
 
                       window.setTimeout(function(){ 
@@ -965,14 +902,16 @@ function getlinedtatafordescription(){
 
 });
 }
-//description
+
 function showInfoforDescription(id,flag){
   $('#trdiv').addClass('hide');
   if(flag){ 
   $("#head10").html(" "); 
-  $("#head10").append("View Hardware");                                                             //view details
+  $("#head10").append("View Hardware");                                                            
   $(".labelans").removeClass("hide");
+  $(".view-edit-hardware .astrick").addClass("hide");
   $(".textBox").addClass("hide");
+  $(".view-edit-hardware").removeClass("fusion-form-elements");
   $(".chnBtn").val("View");
   $("#head4").html("View Hardware");
   $(".hdwrbtn").addClass("hide");
@@ -981,9 +920,11 @@ function showInfoforDescription(id,flag){
   $(".lineText").attr('disabled','disabled');
   document.getElementsByClassName("lineText").disabled = true;
 }
-else{                                                                 //Edit Details
+else{                                                                
   $(".labelans").addClass("hide");
+  $(".view-edit-hardware .astrick").removeClass("hide");
   $(".textBox").removeClass("hide");
+  $(".view-edit-hardware").addClass("fusion-form-elements");
   $(".chnBtn").val("Edit")
   $("#head4").html("Edit Hardware");
   $(".hdwrbtn").removeClass("hide");
@@ -994,13 +935,11 @@ else{                                                                 //Edit Det
 }
 
   $("#hdnId").val('');
-  //alert(id);
   $.ajax({ 
     url: '/getEditHardware',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
-      console.log("edit info----------------",data[0]);
       $("#type").val(data[0][0].ACID);
       $("#type1").val(data[0][0].componentName);
       $("#qty").val(data[0][0].quantity);
@@ -1043,9 +982,7 @@ else{                                                                 //Edit Det
                  lineid=result[0][0].ids.split(',');
                
                for(var i=0;i<lineid.length;i++){
-               // alert(lineid[i]);
-               //  sleepFunctionForStoppingTime(100);
-             // getattrline(lineid[i],i);
+               
                 (function(i){
 
                       window.setTimeout(function(){ 
@@ -1074,7 +1011,6 @@ else{                                                                 //Edit Det
                 dataType:'json',
                 success:function(result)
                 {
-                  //getsubline(result[0][0].Id);
                   $('#id'.concat(nu)).val(id);
                   $('#serial'.concat(nu)).val(result[0][0].serialNo);
                   $('#brand'.concat(nu)).val(result[0][0].id);
@@ -1090,7 +1026,6 @@ else{                                                                 //Edit Det
 
          });
   }
-///
 function getsublineview(value){
   getsubline(value);
 }
@@ -1108,7 +1043,6 @@ function getsublineview(value){
                 dataType:'json',
                 success:function(result)
                 {
-                  //getsubline(result[0][0].Id);
                   $('#id'.concat(nu)).val(id);
                   $('#serial'.concat(nu)).val(result[0][0].serialNo);
                   $('#brand'.concat(nu)).val(result[0][0].id);
@@ -1139,9 +1073,7 @@ else{
  {
  
   addCompModal(k);
-  //$("#addComptable").dataTable().fnDestroy();
-  //$('#addcompobody').empty();
- // countAddCompModal=0;
+  
  var str1='';
   var id=$('#id'.concat(k)).val();
   if(kt==1){
@@ -1164,7 +1096,7 @@ else{
                 { saveId(k);
                  for(var i=0; i<result[0].length;i++)
                    { 
-                    var l=i+1;//sleepFunctionForStoppingTime(100)
+                    var l=i+1;
                     (function(i){
 
                       window.setTimeout(function(){ 
@@ -1180,7 +1112,7 @@ else{
                    getsublinevalue(k,l);  }, 3000);
                    $('#componentdata'.concat(k)).val(str1);
                     
-                      //alert(str1);
+                    
                 }
 
           });
@@ -1192,7 +1124,7 @@ function getsublinevalue(k,l)
  {
  var str1='';
   var id=$('#id'.concat(k)).val();
- //alert(id);
+
    $.ajax({
         url:'/getsublinevalue',
         method:'post',
@@ -1207,8 +1139,7 @@ function getsublinevalue(k,l)
                    { 
 
                   var zid=i+1;
-                  console.log('jai mata rani',result[0][i].brand,result[0][i].warrantyStart,result[0][i].warrantyEnd,result[0][i].id);
-                    console.log('jai mata rani id','#brands'.concat(zid),'#warrantyco1'.concat(zid),'#warrantyco2'.concat(zid),'#sublineid'.concat(zid));
+                 
                       $('#brands'.concat(zid)).val(result[0][i].brand);
                       $('#warrantyco1'.concat(zid)).val(result[0][i].warrantyStart);
                       $('#warrantyco2'.concat(zid)).val(result[0][i].warrantyEnd);
@@ -1372,37 +1303,6 @@ function validatehardvare(){
   
 }
 
-/*function validatesubcomponent(){
-         for(var  i=1;i<=kid;i++){
-  if($('#rowlineid'.concat(i)).val()==0){
-    if($('#brands'.concat(i)).val()==0){
-        alert('Please select Brand');
-        return false;
-       }
-      else if($('#warrantyco1'.concat(i)).val()==0){
-             alert('Please fill Warranty start date');
-             return false;
-        }
-         else if($('#warrantyco2'.concat(i)).val()==0){
-                alert('Please fill warranty end date');
-                return false;
-           }
-            else{
-                   var stratt='';
-                   var len1=$('#col'.concat(i)).val();
-                   for(var j=0;j<len1;j++){
-                   if($(('#0'.concat(j)).concat(i)).val()==0){
-                    alert('Please select attribute value');
-                    return false;
-                  }
-                  else{
-                    saveComp();
-                  }
-     };
-    } 
-} 
-}
-}*/
 
   function validatesubcomponent(){
      var to = $('#Deliverydate').val().split("/");
@@ -1477,7 +1377,7 @@ function saveComp(){
    str='?'; 
    } 
    }
-   //alert(tempArr);
+  
    $('#componentdata'.concat($('#serids').val())).val(tempArr);
    $("#cut").click();
 
@@ -1496,9 +1396,9 @@ function saveComp(){
    str1=str2+'$';
    str2='';
    dataArray[i]=str1;
-   //str1='$';
+   
     }
-   // alert(dataArray);
+  
     addHardware(dataArray);
   }
 
@@ -1517,20 +1417,15 @@ var  tagNo='PSSL'+ides;
                 success:function(result){
                  
              alert('data add successfully ');
-            //($("#editHardware").modal()).close();
             $('#dismiss').click();
                                       }
 
 });
 }
 
-/*******update hardware**********/
-
-
   function addlinedata(t1,t2,t3,t6,t7,headid,ctypeid,arr1,t8,ide){
    var arr3=[];
    arr3=arr1.split('?');
-   //alert(arr3);
     var arr2=[];
 
    $.ajax({
@@ -1555,7 +1450,6 @@ var  tagNo='PSSL'+ides;
                        var  inc=i;
                       arr2=arr3[i].split('#');
                       if(arr2[0]!=''){
-                     // alert(arr2[6]); 
 
                addsubline(arr2[0],arr2[1],arr2[2],arr2[3],arr2[4],arr2[5],arr2[6],headid,ctypeid,result,increment,inc);
                    }
@@ -1616,7 +1510,6 @@ function addsubline(st1,st2,st3,st4,st5,st6,ides,headerid,ctypeid,lineid,incr,in
 });
 }
 function addHardware(newOuterArr){
- //document.getElementById("submit").disabled = true;
  var array=[];
  var newarray=[];
  var compdata=[];
@@ -1652,23 +1545,5 @@ function addHardware(newOuterArr){
 
 });
 }
-/*
-  function dateVarifyofPhone() {
-                        var from = $('#fromdateforphone').val().split("-");
-                        var f = new Date(from[2], from[1] - 1, from[0]);
-                        var to = $('#todateforphone').val().split("-");
-                        var t = new Date(to[2], to[1] - 1, to[0]);
-                        if (new Date(f) <= new Date(t)) {
-                            return true;;
-                        } else {
-
-                            if (($('#fromdateforphone').val() != '') && ($('#todateforphone').val() != '')) {
-                                alert('Start date is greater than end date');
-                            }
-                            return false;
-                        }
-                    }
-
-*/
 
 </script>

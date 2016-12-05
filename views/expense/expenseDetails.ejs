@@ -6,11 +6,7 @@
  <% include ../partials/adminheader %>
 
 
-<!--  <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.css" rel="stylesheet" media="screen">
-                <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js"></script>
-                <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js">
-                </script>
- --> 
+
  <style>
 .dataTables_filter, .dataTables_length {
      display: none;
@@ -21,14 +17,12 @@
 <script type="text/javascript">
  var arrmonth=["sas","January","February","March","April","May","Jun","July","August","September","October","November","December"];
 var array=[];
-/*document id for data table and datepicher*/
+
 var str1='';
 $(document).ready(function() {
   $(".se-pre-con").fadeOut("slow");
 $('.otherexp-img-add').addClass('active');
 
-//showstatus(); 
-// getdate(); 
   $('#datebuttonuser').datepicker({
                     onSelect: function(dateText, inst) {
                         datepicherforUser();
@@ -56,9 +50,7 @@ $("#bugtable1").dataTable();
                             timepicker: false,
                             format: 'Y.m.d'
                         });
-        //.datepicker
-        // ({ dateFormat: "yy-mm-dd" }).val();  
-/* code for datepicher*/
+      
  jQuery('.datepicker').datetimepicker({
                             i18n: {
                                 de: {
@@ -77,14 +69,10 @@ $("#bugtable1").dataTable();
                             format: 'Y-m-d'
                         });
 
- /*for DataTable*/
-// var oTable=$("#bugtable").dataTable();
-
+ 
     $('#cli').addClass('hide');
             $('.users8').addClass('activetab');
-          /*  if(oTable){
-                oTable.destroy();
-            }*/
+        
           var  oTable = $("#bugtable").dataTable({
                 "bLengthChange": false,
                 "paging": false,
@@ -115,11 +103,10 @@ $("#bugtable1").dataTable();
       });
 
 });
-/*date function*/
 var ab=$(function(){
 var formatted_date = function(date){
-                var m = ("0"+ (date.getMonth()+1)).slice(-2); // in javascript month start from 0.
-                var d = ("0"+ date.getDate()).slice(-2); // add leading zero 
+                var m = ("0"+ (date.getMonth()+1)).slice(-2); 
+                var d = ("0"+ date.getDate()).slice(-2); 
                 var y = date.getFullYear();
                 return  y +'-'+m+'-'+d; 
 }
@@ -128,7 +115,7 @@ var formatted_date = function(date){
                  
         var day = curr_date.getDay();
                  
-        var diff = curr_date.getDate();  // - day + (day == 0 ? -6:1); // 0 for sunday
+        var diff = curr_date.getDate();  
            
                       var lastday = new Date(curr_date.getFullYear(), curr_date.getMonth() + 1 , 0).getDate();
                         if (diff < 16) {
@@ -147,22 +134,12 @@ var formatted_date = function(date){
                         $('#datebuttonuser').val(stardate);
                         $('#hiddendatebuttonuser').val(week_start_date);
                         $('#hiddendatebutton').val(week_start_date);
-     //alert(date);
-       /*
-         var week_end_date =formatted_date(new Date());hiddendatebuttonuser // limit current week date range upto current day.
-       */
+    
        showexpensDetailsofuser();
  
 });
 
 
-
-//alert(date);
-/*end*/
-/*end datepicher code*/
-
-
- /*end*/
  function datepicker1(){
  document.getElementById("datebutton").focus();
  datepicher(); 
@@ -173,15 +150,14 @@ function datepickerforotherUser(){
  document.getElementById("datebuttonuser").focus();
   
 }
- /*function for open attachment form*/
+
 
 function showAttechmentmodel(id){
- // alert("submit attechment");
+
 $('#claimeid').val(id);
  $("#myModal10").modal('show'); 
 }
-/*end*/
-/*date function in javascript*/
+
    function datepicherforUser() {
 
                         var date = $('#datebuttonuser').val();
@@ -232,7 +208,7 @@ function datepicher(){
        var date = new Date(selected);
     var newdate = new Date(date);
 
-    //newdate.setDate(newdate.getDate() + 15);
+  
     if(newdate.getDate()<16){
     
      var dd =("0"+1).slice(-2);
@@ -253,14 +229,13 @@ function datepicher(){
     });
 }
 function getdate() {
-  //alert('dashgfdhsd');
+ 
   toChekRasieExpenseOrNotforNext()
     var tt =  $('#hiddendatebutton').val();
 
     var date = new Date(tt);
     var newdate = new Date(date);
 
-    //newdate.setDate(newdate.getDate() + 15);
     if((newdate.getDate()<16)&&(("0"+(newdate.getMonth() + 1)).slice(-2)!=13)){
     
      var dd =("0"+16).slice(-2);
@@ -291,15 +266,12 @@ function getdate() {
 }
 
 function getdateprev() {
-  //alert('dashgfdhsd');
   toChekRasieExpenseOrNotforPrev()
     var tt = $('#hiddendatebutton').val() ;
 
     var date = new Date(tt);
     var newdate = new Date(date);
-     //alert(newdate.getDate());
-
-    //newdate.setDate(newdate.getDate() - 15);
+    
     if(newdate.getDate()<16){
       if(("0"+(newdate.getMonth())).slice(-2)!=00){
     var dd =("0"+16).slice(-2);
@@ -389,9 +361,7 @@ function getdateprev() {
                         var newdate = new Date(date);
                         if (newdate.getDate() < 16) {
                             if (("0" + (newdate.getMonth())).slice(-2) != 00) {
-                                /*var dd = ("0" + 16).slice(-2);
-                                var mm = ("0" + (newdate.getMonth())).slice(-2);
-                                var y = newdate.getFullYear();*/
+                        
                             if((newdate.getMonth())==2){
                             var dd = ('28').slice(-2);
                             var mm = ("0" + (newdate.getMonth())).slice(-2);
@@ -440,8 +410,7 @@ function getdateprev() {
                         showexpensDetailsofuser();
                       
                     }
-/*end*/
-/*function for show expense form according expense type*/
+
  function showexpensDetailsofuser11() {
      claimid="";
          $('#datetablediv').removeClass('hide');
@@ -475,7 +444,6 @@ showexpensDetailsofuser()
 
                     success: function(users1) {
                       var  users =users1[0];
-                      console.log(users1);
                      
                            var log='';
                          
@@ -552,8 +520,7 @@ showexpensDetailsofuser()
         }
         } 
 function expensedescription(expclaimId){
- // alert('agshdfga');
-        //date=$('#datebutton').val();
+
         $('#myModalexp').modal('show');
             var url1 = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin +'/ShowExpenseByapprover';
             $.ajax({
@@ -565,31 +532,20 @@ function expensedescription(expclaimId){
                },
                 dataType: 'json',
                 success: function(users1) {
-       //alert(users1[0].length);
 
             var  users =users1[0];
-                      console.log(users1);
                     
                       var user=users1[1][0].sum;
-                            //alert("hhdasghdfsasa"+user);
                             $('#totalExpenseforuser').val(user);
                                if (users.length == 0) {
-                             //$("#orderbody").empty();
                              $("tbody").empty();
                              $('tbody').append('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');
-                            // var table = $('#data_table').DataTable();
- 
-                            //  table.clear().draw();
-                            //$('#data_table').dataTable().fnDestroy();
-                          // window.location.reload();
+                      
                              }
                         if (users.length > 0) {
-                          // $("#tablebody").html('');
                             log='';
-                          console.log('bshdhggdvhewdvhgjogi',users1[0].length);
                             var log = "<thead><tr style='font-size:10px' >" + "<th>Expense Type</th>" + "<th>Trip/Assignment</th>" + "<th>From Date</th>" + "<th>To Date</th>" + "<th>Total Amount</th><th>Action</th></tr></thead><tbody id='tablebody' >";
                             for (var i = 0; i < users.length; i++) {
-                            // claimid=claimid+users[i].expenseclaimId+",";
                               
                                 log = log + "<tr style='height:10px;color:grey;font-size:10px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].description + "' id='l" + users[i].description + "'>" + "<td >" + users[i].description +  "</td>" + "<td >" + users[i].WBSName + "</td>" + "<td >" + users[i].fromdate + "</td>" + "<td >" + users[i].toDate + "</td><td>" + users[i].totalExpense + "</td><td >";
                                 if(users[i].anyFile!=undefined){
@@ -639,7 +595,6 @@ function expensedescription(expclaimId){
         
         } 
 
-/*end function dateVarify*/
 
   function showCommentandRemark(ids) {
   
@@ -682,14 +637,14 @@ function expensedescription(expclaimId){
 
 
 
-<!--DataTable Code for display the expense Details-->
+
 <div id="aprovediv" class="col-md-12 a " style="background-color:rgba(51, 60, 125, 0.62);margin-top:0%;">
         <div class="col-md-2"> <label id="statuslabel" style="margin-top:10px;color:white;padding-left50px;" class="">User : <%=user%></label>
        </div>
         
        <div class='col-md-1'></div>
         <div class="col-md-4 " id="datetablediv" style="height:29px;width:270px;background-color:white;margin-top:3px;border-radius: 25px;">
-       <!-- <div class="" style="height:40px;width:50px">-->
+      
             <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuser()'>
               <input type="hidden" id="hiddendatebuttonuser"><input disabled="disable" type='text' id="datebuttonuser" style="margin-top:3px;text-align: center;font-size:12px" class="shadow "  value=''/ onchange=" showexpensDetailsofuser()">
             

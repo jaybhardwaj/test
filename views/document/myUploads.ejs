@@ -30,7 +30,7 @@
                                  </tr>
                          </thead>
                         <tbody id="orderbody">
-                            <%console.log("myUploads details",myUploads);for(var i=myUploads[0].length-1;i>=0;i--) {%>
+                            <%for(var i=myUploads[0].length-1;i>=0;i--) {%>
                                 <tr class="" id = 'row_<%=myUploads[0][i].id%>'>
                                     <td><a download href="./attach/<%=myUploads[0][i].fpath%>"> <%=myUploads[0][i].name%></a></td>
                                     <td><%=myUploads[0][i].title%></td>
@@ -83,15 +83,13 @@
         $('.img-upl').addClass('active');
 
         otable = $("#myFiles").dataTable({
-           "iDisplayLength": 10, /*used to display no of element  on page load or relaod*/
-            "showNEntries": true, /* for displaying showing 10 out of 50 entries at left bottom corner*/
-            "bFilter": true,        /*dispalying search box at top right corner*/
-            "bLengthChange": true,  /*dispalying  show 10 out of 50 entries at top left corner*/
-            "aoColumnDefs": [{ //   "bSortable": false,
-                                //  "aTargets": [0]
+           "iDisplayLength": 10, 
+            "showNEntries": true, 
+            "bFilter": true,       
+            "bLengthChange": true, 
+            "aoColumnDefs": [{ 
                             }],
-            "order": []         /*we can provide order to every column "order": [[0,'asc'],[1,'des']] */
-            
+            "order": []       
       });
    $("#searchbox").keyup(function() {
         otable.fnFilter(this.value);

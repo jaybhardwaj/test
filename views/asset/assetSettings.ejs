@@ -137,18 +137,12 @@
       
     
 
-            <!--  <ul class="nav nav-pills nav-stacked">
-    <li class="active"><a data-toggle="pill" href="#desk">Desktop</a></li>
-    <li><a data-toggle="pill" href="#lap">Laptop</a></li>
-    <li><a data-toggle="pill" href="#acc">Accessories</a></li>
-    
-  </ul> -->
+            
   </div>
   <div class="col-md-1"></div>
-  <!-- <div class="col-md-1"></div> -->
+  
   <div class="col-md-4">
- <!--  <div class="tab-content">
-    <div id="desk" class="tab-pane fade in active"> -->
+ 
      <div class="row">Secondary Attributes</div>
       <div class="row">
     
@@ -252,22 +246,7 @@
 
       
     </div>
-   <!--  <div id="lap" class="tab-pane fade">
-      <center><h3>Laptop</h3></center>
-      <div class="row">
-      	<div class="col-md-6"></div>
-      	<div class="col-md-6"></div>
-      </div>
-    </div>
-    <div id="acc" class="tab-pane fade">
-      <center><h3>Accessories</h3></center>
-      <div class="row">
-      	<div class="col-md-6"></div>
-      	<div class="col-md-6"></div>
-      </div>
-    </div>
-    </div>
-    </div> -->
+   
   </div>
  <input id="ips1" class="hide"></input>
  <input id="ips2" class="hide"></input>
@@ -302,13 +281,10 @@
               size:'auto',
               width:150
             });
-           /* $('.single').addClass('col-xs-3').selectpicker('setStyle');*/
             function ajaxcall(acid){
               $('.attr').val('None');
               $('input').val('');
-              console.log("UD");
               $('.attr option').prop('disabled',false);
-              console.log(acid);
               $.ajax({
                 url:'/getMapping',
                 method:'post',
@@ -318,13 +294,11 @@
                   abc=result[0]
                  for(var i=0;i<abc.length;i++){
                     if(abc[i].flag=='0'){
-                      console.log("yesssss");
                       $('#ips'+abc[i].attNo).val(abc[i].AID);
                       $('#ps'+abc[i].attNo).val(abc[i].AID);
                      $('.'+abc[i].AID).prop('disabled',true);
                     }
                     if(abc[i].flag=='1'){
-                      console.log("no");
                       $('#iss'+abc[i].attNo).val(abc[i].AID);
                       $('#ss'+abc[i].attNo).val(abc[i].AID);
                      $('.'+abc[i].AID).prop('disabled',true);
@@ -374,10 +348,7 @@
                 }
                 }
               }
-              console.log(pri);
-              console.log(sec);
-              console.log(priAtt);
-              console.log(secAtt);
+             
               $.ajax({
                 url:"/saveMaster",
                 method:'post',
@@ -401,11 +372,9 @@
                dataType: 'json',
                 success: function(result){
             var data=JSON.stringify(result);
-            console.log(JSON.parse(data));
             var options = $("#assetComponent");
             options.empty();
 $.each(JSON.parse(data), function() {
-	console.log(data);
 	
     options.append($("<option />").val(this['id']).text(this['componentName']));
     
@@ -418,36 +387,18 @@ options.selectpicker('refresh');
           }
           var val;
           $(".attr").on('focus click keydown', function () {
-                console.log(this);
                   val=this.value;
                 
     }).change(function() {
-      console.log(this);if(val!='None'&& val!=this.value){
-      console.log("IF");
+      
          $('.'+val).prop('disabled',false);
          
           }
-          console.log('as'+this.id);
+         
         $('#i'+this.id).val(this.value);
        $('.'+this.value).prop('disabled',true);
-         /*console.log($('.'+this.value));*/
-       /*this.('selected','selected');*/
-       
-          });
-         /* $('select').bind('focus click keydown',function(){
-            $(this).data('prev',$(this).val());
-            console.log($(this).val());
-          }).bind('change',function(){
-            console.log($(this).data('prev'));
-            if($(this).data('prev')!='None'&& $(this).data('prev')!=$(this).val()){
-            $('.'+$(this).data('prev')).prop('enabled',false);    
-            }
-         
         
-         $('.'+$(this).val()).prop('disabled',true);
-          });*/
 var attribute=<%-JSON.stringify(attr)%>
-console.log(attribute);
 var options = $(".attr");
 $.each(attribute, function() {
     options.append($("<option />").val(this.id).text(this.attribute).addClass(function() {

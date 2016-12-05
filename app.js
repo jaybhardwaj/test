@@ -7,7 +7,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-// var RedisStore = require('connect-redis')(session);
 var logger = require('morgan');
 var errorHandler = require('errorhandler');
 var favicon = require('serve-favicon');
@@ -22,13 +21,12 @@ app.set('port', process.env.PORT || 8283);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(favicon( path.join(__dirname, '/public/images/favicon.ico')));
-// app.use(bodyParser.json({limit: '15mb'}));
-// app.use(bodyParser.urlencoded({ extended: false }))
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({
-  // store: new RedisStore({host: 'localhost', port: 6379}),
+
   secret: 'a234l7678s746kmdtjyjuyfjt2tyj4fhn5fgh24k7lu6jj4j75k2j56lkh24lk4j2l',
   resave: false,
   saveUninitialized: true

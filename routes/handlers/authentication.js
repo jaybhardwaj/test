@@ -24,7 +24,6 @@ var salt = bcrypt.genSaltSync(3);
         var pass=bcrypt.hashSync(req.body.password,salt);
         userauth.login(req.body.userid,pass,function(err, result) {
              if (err) {
-                console.log(err);
                  next(err);
                  res.json('0');
              } else {

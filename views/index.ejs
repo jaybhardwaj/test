@@ -7,7 +7,6 @@
 <body id="page-top" style="overflow-x:hidden" class="index-page">
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -18,7 +17,6 @@
                 <a class="navbar-brand page-scroll" href="#page-top"><img src="../img/logo.gif" width="50px" height="50px" style="margin-top:-15px"> </a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -47,14 +45,10 @@
                     </li>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container-fluid -->
     </nav>
-    <!--------------Forget password---------------->
     <div class="modal fade" id="forgetpass" role="dialog">
         <div class="modal-dialog">
-            <!-- Modal content-->
             <div class="modal-content" id="forget">
                 <div class="modal-header text-center" style="background-color:#f05f40;">
                         <h4 id="head4" class="modal-title" style="color:white;font-size:14pt;">Resend Password</h4>
@@ -246,7 +240,6 @@
 
 
 
-    <!---------------------------------Description of Modules Models -------------------------------->
       <div class="modal fade" id="bugModal" role="dialog">
             <div class="modal-dialog modal-md" style="">
                 <div class="modal-content" style=" ">
@@ -395,9 +388,7 @@
 
 
     <script>
-        // block address
     var blockDomain = ["gmail", "yahoo"];
-    //end block address
     function signIn() {
         resetError();
         var errorUsername = $('#errorUsername');
@@ -542,27 +533,22 @@
       var blcokEmailMsg = "Email Id @" + blockDomain.toString() + " is not allowed";
       var re1 = /@polestarllp.com$/;
       if (comp.length == '') {
-        /*alert("Enter Company Name ! ");*/
         $('#errorMcname').text('Enter Company Name');
         $('#mcname').focus();
         $('#1st').modal("show");
       } else if (eid.length == 0) {
-        /*alert("Please enter Email Id");*/
         $('#errorMemail').text('Enter Email Id');
         $('#memail').focus();
         $('#1st').modal("show");
       } else if (eid.length != 0 && !emailBlockIds(eid)) {
-        /* alert(blcokEmailMsg);*/
         $('#errorMemail').text(blcokEmailMsg);
         $('#memail').focus();
         $('#1st').modal("show");
       } else if (eid.length != 0 && !re1.test(eid)) {
-        /*alert("Email Id @polestarllp.com is allowed");*/
         $('#errorMemail').text('Email Id @polestarllp.com is allowed');
         $('#memail').focus();
         $('#1st').modal("show");
       } else if (pas.length == '') {
-        /*alert("Choose a password ! ");*/
         $('#errorMpass').text('Enter password');
         $('#mpass').focus();
         $('#1st').modal("show");
@@ -575,9 +561,7 @@
           },
           dataType: 'json',
           success: function(data) {
-            console.log(data);
             if (data[0][0].ifExist > 0) {
-              /*alert("This email Id is already registered .");*/
               $('#errorMemail').text('This email Id is already registered');
             } else {
               $('#hcname').val($('#mcname').val());
@@ -599,17 +583,14 @@
       var errorMlname = $('#errorMlname');
       var errorMcno = $('#errorMcno');
       if (fsname.length == '') {
-        /*alert("Enter First Name ! ");*/
         $('#mfname').focus();
         errorMfname.text('Enter First Name')
         $('#2nd').modal("show");
       } else if (lasname.length == '') {
-        /*alert("Enter Last Name! ");*/
         $('#mlname').focus();
         errorMlname.text('Enter Last Name');
         $('#2nd').modal("show");
       } else if (cont.length < 10 || cont.length > 11) {
-        /*alert("Enter Valid Contact No.! ");*/
         $('#mcno').focus();
         errorMcno.text('Enter Valid Contact No.');
         $('#2nd').modal("show");
@@ -633,9 +614,7 @@
         $('#hmodules').val(chkId);
         $('#cMessage1').text("You have choosen : " + $('#hmodules').val() + " Modules");
         $('#confirmExpress1').modal('toggle');
-        /*alert("You have choosen : " + $('#hmodules').val() + " Modules");*/
       } else {
-        /*alert('No Modules Selected');*/
         $('#errorModuleCheck').text('No Modules Selected');
         $("#3rd").modal("show");
       }
@@ -661,21 +640,17 @@
         },
         success: function(data) {
             document.getElementById('readytouse').disabled = false;
-          console.log(data);
           if (data[0][0].flag == -1) {
             alert('Something went wrong :(.');
           } else if (data[0][0].flag == 3) {
             $("#cMessage").text('Account created, Mail sending failed. Please contact admin.');
             $('#confirmExpress2').modal('toggle');
-            /*alert('Account created, Mail sending failed. Please contact admin.');*/
           } else if (data[0][0].flag > 0) {
             $("#cMessage").text('EmailId is already exist.Please register again with different email id.');
             $('#confirmExpress2').modal('toggle');
-            /*alert('EmailId is already exist.Please register again with different email id.');*/
           } else {
             $("#cMessage").text("Verify Your Account by clicking the confirmation link sent on your registered E-Mail id.");
             $('#confirmExpress2').modal('toggle');
-            /*alert("Verify Your Account by clicking the confirmation link sent on your registered E-Mail id.");*/
           }
         },
         dataType: 'JSON',

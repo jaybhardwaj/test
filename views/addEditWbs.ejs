@@ -56,15 +56,7 @@
             
             .dialog {
                 display: none;
-            }
-            
-          /*  input[type=radio] {
-                margin: 18px -1px 7px !important;
-                margin-top: 1px\9;
-                line-height: normal;
-            }
-            */
-            
+            }          
 
             body {
                 overflow-x: hidden;
@@ -92,12 +84,11 @@
 <span title="Go To WBS List" onclick="document.location.href='/wbsDetails';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;    padding-left: 13px;"  class="glyphicon glyphicon-arrow-left"></span>
   <span class="modal-title" style="padding-left:45%">WBS Details</span>
   <div class="row" style="padding-left: 50px;padding-right: 50px;padding-top: 1%">
- <!-- <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm"> -->
   <input type="text" name="wbshidden" class="hide" id="wbshidden" value='' />
-          <input type="text" name="flaghide" class="hide" id="flaghide" <%if(flag==1 ){ console.log( 'Nae is ', name)%>value='  <%=flag%>' <%} else{%> value=0 <%}%> />
+          <input type="text" name="flaghide" class="hide" id="flaghide" <%if(flag==1 ){ %>value='  <%=flag%>' <%} else{%> value=0 <%}%> />
           <input type="text" name="wbsidhide" class="hide" id="idhide" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSId%>' <%} else{%> value=0 <%}%> />
 
-      <div class="row editwbsinputs">
+      <div class="row fusion-form-elements">
           <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
             <label>Project Name:<sup  class="astrick">*</sup></label>
             <%if(flag==1  && typeof (name[0][0]) != 'undefined'){%> 
@@ -189,171 +180,7 @@
               <input type="radio" class="" name="wbsstatus" value=0 id="wbsstatus2" style="margin-top:10px;"> Inactive
           </div>
       </div>
-    <!-- <table class="table"  style="width: 100%;margin-bottom: 0px" >
-      <tr>
-        <td>
-          <td>
-            <label class="form-Label">Project Name:<sup>*</sup>    </label>
-           </td>
-           <td style="width:200px">
-            <%if(flag==1  && typeof (name[0][0]) != 'undefined'){%> 
-              <input type="text" class="form-control form-text-box" style="" name="proname" id="proname" maxlength="50" value='<%=name[0][0].projectTitle%>' disabled="true">
-              <%}%>
-              <%if(flag==0) {%>
-               <select class="  form-text-box"   onchange="getAllWbs($('#proname').val())" name="proname" id="proname" style="">
-              <option value='0' disabled selected>Select</option>
-              <% for(var i=0;i<allinfo.length;i++) {%>
-              <option value="<%=allinfo[i].id%>"<%if(flag==1&&name[0][0].projectId==allinfo[i].id){%>
-              selected<%}%>> <%=allinfo[i].projectTitle%> </option>
-              <%}%> </select> <% } %>
-          </td>
-          <td>
-            <td>
-            <label class="form-Label">WBS Name :<sup>*</sup></label>
-            </td>
-            <td>
-            <input onblur="return allWbs();" onkeypress="return specialCharacter(event)" type="text" placeholder="Enter a WBS Name" class="  form-text-box" style="" name="wbsname" id="wbsname" maxlength="50" onblur="myFunction(); checkprofield();" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSName%>' <%}%> >
-          </td>
-        </td>
-        <td>
-          <td>
-          <label class="form-Label">WBS Code :   </label>
-          </td>
-           <td>
-              <input type="text" placeholder="WBS Code" class=" form-text-box" style="" name="wbscode" id="wbscode" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSCode%>' <%}%> readonly>
-          <td>
-        </td>
-        <td>
-        <td>
-          <label class="form-Label">WBS Owner:   </label>
-          </td>
-           <td>
-          <select style="" class="form-text-box" id="wbsowner" name="wbsowner">
-          <option disabled selected value=0>Select</option>
-              <% for(var i=0;i<owner.length;i++) {%>
-              <option value="<%=owner[i].id%>"<%if(flag==1&&name[0][0].WBSOwner==owner[i].id){%>
-                selected<%}%>><%=owner[i].name%></option>
-              <%}%>
-              </select>
-        </td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <td>
-             <label class="form-Label">Planned Start Date: <sup>*</sup> </label>
-           </td>
-           <td>
-             <input type="text" maxlength="20" placeholder="Select Date" class="form-text-box"  id="datepicker" style="background-color: rgb(255, 255, 255);" name="wbspsdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'){%>value='<%=name[0][0].wplannedStartDate%>' <%}%> > 
-          </td>
-          <td>
-            <td>
-              <label class="form-Label">Planned End Date: <sup>*</sup> </label>
-            </td>
-            <td>
-            <input type="text" maxlength="20" placeholder="Select Date" name="wbspedate"  class="form-text-box" id="datepicker1" style="background-color: rgb(255, 255, 255);" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value='<%=name[0][0].wplannedEndDate%>' <%}%> >
-          </td>
-        </td>
-        <td>
-          <td>
-            <label class="form-Label">Actual Start Date:   </label>
-          </td>
-           <td>
-          <input type="text" maxlength="20" class="form-text-box" id="datepicker2" placeholder="Select Date"  style="background-color: rgb(255, 255, 255);" name="wbsasdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualStartDate){ if(name[0][0].wactualStartDate != '00/00/00'){%>value='<%=name[0][0].wactualStartDate%>' <%} else{%> value='' <%}}%>   > 
 
-          <td>
-        </td>
-        <td>
-          <td>
-           <label class="form-Label">Actual End Date:   </label>
-          </td>
-           <td>
-           <input type="text" maxlength="20" placeholder="Select Date" class="form-text-box" id="datepicker3"  style="background-color: rgb(255, 255, 255);" name="wbsaedate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualEndDate){ if(name[0][0].wactualEndDate != '00/00/00'){%>value='<%=name[0][0].wactualEndDate%>' <%} else{%> value='' <%}}%>  >
-        </td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <td>
-             <label class="form-Label">Estimate Effort:</label> 
-           </td>
-           <td>
-             <input type="number" style="width:44%;display:inline" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" placeholder="Effort" class="form-text-box"   name="wbseffort" id="wbseffort" maxlength="5" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].estimateEffort%>' <%}%> >
-
-             <select style="width:47%;float:right;margin-right:9%;padding:0px" id="wbseffort1" class="form-text-box" name="wbseffort1">
-                            <option disabled selected   value=0>Select</option>
-                            <option value=1>Man-Hours</option>
-                            <option value=2>Man-Days</option>
-                            <option value=3>Man-Weeks</option>
-                            <option value=4>Man-Months</option>
-                       </select>
-
-
-          </td>
-          <td>
-            <td>
-              <label class="form-Label">WBS Location: </label> 
-            </td>
-            <td>
-           <select   class="form-text-box" id="wbslocation" name="wbslocation">
-                   <option disabled selected value=0>Select</option> 
-
-                   <% for(var i=0;i<location.length;i++) {%> <option value="<%=location[i].id%>" <%if(flag==1&&location[i].id==name[0][0].WBSLocation) {%>selected<%}%>><%=location[i].location%></option> <%}%> 
-
-            </select>
-          </td>
-        </td>
-        <td>
-          <td>
-            <label class="form-Label">Assign to All:   </label> 
-          </td>
-           <td>
-             <select style="" id="assign" class="form-text-box" name="assign">
-                  <option  disabled selected  value=2>Select</option>
-                  <option value=1>Yes</option>
-                  <option value=0  selected="true">No</option>
-                </select>
-          <td>
-        </td>
-        <td>
-          <td>
-           <label class="form-Label">Type :</label>
-          </td>
-           <td>
-          
-            <div style="width: 108%;float: left;padding-right: 14px">
-              <select style="" id="typeValue" class="form-text-box" name="typeValue">
-                <option disabled selected   value=0>Select</option>
-                <option value=1>Time only</option>
-                <option value=2>Time & Expence</option>
-              </select>
-            </div>
-        </td>
-        </td>
-      </tr>
-      <tr>
-        <td >
-          <td <%if(flag==0 ){%> class="hide"<%}%> ><label class="form-Label " style="padding-top: 13px">Status :</label></td>
-          <td  <%if(flag==0 ){%> class="hide"<%}%> >
-              <input type="radio" class="" name="wbsstatus" value=1 id="wbsstatus1" style="margin-top:10px;"> Active 
-              <input type="radio" class="" name="wbsstatus" value=0 id="wbsstatus2" style="margin-top:10px;"> Inactive
-          </td>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td> <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        
-         
-      </tr>
-    </table> -->
      <div class="row " style="padding-bottom:20px;">
         <center> 
             <a href="/wbsDetails">
@@ -434,13 +261,11 @@
                     var pid = '<%=name[0][0].projectId%>';
                     getAllWbs(pid);
                     if ('<%=name[0][0].WBSLocation%>' == null) {
-                        //$("#wbslocation").prop("selectedIndex", -1);
                         $('#wbslocation').val(0);
                     } else {
                         $('#wbslocation').val('<%=name[0][0].WBSLocation%>');
                     }
 
-                    //$('#wbsowner').val('<%=name[0][0].WBSOwner%>');
 
                     if ('<%=name[0][0].WBSOwner%>' == null) {
                         $("#wbsowner").prop("selectedIndex", -1);
@@ -457,7 +282,6 @@
                         $("input[name=wbsstatus]").prop("selectedIndex", -1);
                     }
                     if ('<%=name[0][0].typeUnit%>' > 0) {
-                        //$("input[name=typeValue][value=<%=name[0][0].typeUnit%>]").prop('checked', true);
                         $('#typeValue').val('<%=name[0][0].typeUnit%>');
                     } else {
                         $("input[name=typeValue]").prop("selectedIndex", -1);
@@ -602,13 +426,9 @@
                     }
                 }
 
-                /*var sdate = $('#datepicker').datetimepicker("getDate");*/
                 var text = $('#datepicker').val();
-                /*var edate = $('#datepicker1').datetimepicker("getDate");*/
                 var text1 = $('#datepicker1').val();
-                /*var asdate = $('#datepicker2').datetimepicker("getDate");*/
                 var text2 = $('#datepicker2').val();
-                /*var aedate = $('#datepicker3').datetimepicker("getDate");*/
                 var text3 = $('#datepicker3').val();
                 var sdate = new Date(text);
                 var edate = new Date(text1);
@@ -648,8 +468,6 @@
                   }
                 }
 
-                //submitwbs();
-
                 addWbs1();
 
 
@@ -657,7 +475,6 @@
 
             function submitwbs() {
                 var flag = $('#flaghide').val();
-                //alert(flag);
                 if (flag == 1) {
                     alert('WBS Updated Successfully');
                 } else {
@@ -671,8 +488,7 @@
                         $('#wbshidden').val(0);
                     }
                 }
-                //addWbs1();
-                //return true;
+              
                 addWbs12();
             }
 
@@ -694,7 +510,6 @@
                             success: function(data) {
                               
                                 if(data[0][0].msg==0){
-                                            //addWbs12();
 
                                             submitwbs();
                                 }
@@ -716,8 +531,6 @@
 
             function addWbs12(){
 
-            //  alert('flag--'+$('#flaghide').val());
-              //alert('wbshidden--'+$('#wbshidden').val());
 
                               $.ajax({
                                 url: '/addEditWbsDetails',
@@ -741,7 +554,6 @@
                                    "typeValue": $('#typeValue').val(),
                                   },
                                   success: function(data) {
-                                    console.log('success',data);
                                     
                                       if ('<%=flag%>' == '0') {
                                           if ($('#wbshidden').val() == 1) {
@@ -798,7 +610,6 @@
               }
                 $("#datepicker").datetimepicker("destroy");
                 $("#datepicker1").datetimepicker("destroy");
-                //alert('pid---'+pid);
 
                 $.ajax({
                     url: '/getAllWbsForProject',
@@ -807,7 +618,6 @@
                         "pid": pid
                     },
                     success: function(data) {
-                        console.log('success', data);
                         var log = '',
                             log1 = '',
                             log2 = '';
@@ -836,7 +646,6 @@
 
 
                         }
-                        // console.log('log---',log);
                         otable.fnDestroy();
                         $('#tb').html(log);
                         otable = $('#wbstable').dataTable({
@@ -845,7 +654,6 @@
                     "bFilter": false,"bInfo": false,"bLengthChange": false
                         });
                         if (<%=flag%> == 0) {
-                            /*$('#datepicker').val('05/05/2015');*/
                             $('#datepicker').val(data[1][0].plannedStartDate);
                             $('#datepicker1').val(data[1][0].plannedEndDate);
                             var text = $('#datepicker').val();
@@ -859,10 +667,7 @@
                             var date=new Date(date);
                             var date1=new Date(date1);
 
-                            console.log('text----',text);
-                            console.log('text1----',text1);
-                            console.log('date----',date);
-                            console.log('date1----',date1);
+                          
 
                             if (text != '' && text1 != '') {
                                 $("#datepicker").datetimepicker({
@@ -896,8 +701,7 @@
                                 });
                             }
                         } else {
-                            /*$('#datepicker').val(data[1][0].plannedStartDate);
-                            $('#datepicker1').val(data[1][0].plannedEndDate);*/
+                           
                             var text = data[1][0].plannedStartDate;
                             var text1 = data[1][0].plannedEndDate;
                             var date = new Date(text);

@@ -4,10 +4,7 @@
 <% include ../partials/head %>  
     <% include ../partials/adminheader %>
 
-<!-- <script src = 'javascripts1/chosen.jquery.js'></script>
- -->
-  <!--  <link href="/Bootstrap/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">  
-  -->
+
 <style>
 label{
   font-size: 14px;
@@ -110,7 +107,6 @@ label{
 </div>
 </div>
 
-    <!--PAGE CONTENT ENDS-->
 <%include menu1.ejs%>
 <% include ../partials/footer %> 
  
@@ -135,7 +131,7 @@ function validation(){
                          return false;
                         }
 }
-//.......................................Document.Ready......................................
+
 var newDataTable;
 
 function deleteAllIds(){
@@ -181,35 +177,22 @@ $(document).ready(function() {
                             "bFilter": true,
                             "bLengthChange": false,
                             "aoColumnDefs": [{
-                                //   "bSortable": false,
-                                //  "aTargets": [0]
+                                
                             }],
                             "order": [
                                 [9, "asc"]
                             ]
                         });
   $('.dataTables_filter').hide();
-  console.log(newDataTable);
 
-      /*    $("#searchbox").keyup(function() {
-
-                        newDataTable.fnFilter(this.value);
-                    });
-*/
  getTabledata();
  
   $('#file').click(function(event){
-   // console.log('sdsdsddsdsdsd');
   if($("#selectsource").val()==0){
           event.preventDefault();
         }
   
   });
-
-
-//$('#edit').modal().draggable();
-
-
 
 
     $('#file').change(function() {
@@ -232,12 +215,9 @@ else {
 
 
         count = count + data.length;
-        console.log(count,data.length);
- // console.log(newDataTable);
- // console.log(data);
-  //var skillarr  = data[i].skillIds.split(',');
+
 for(var i =0;i<data.length;i++){
-         //console.log(data[i].skills); 
+
     data[i].skills = removeDuplicates(data[i].skills);
 var skillarr = [];
 data[i].targetPath = data[i].targetPath.replace('/public','');
@@ -245,7 +225,6 @@ if(data[i].skillIds!=null&&typeof data[i].skillIds!=undefined&&data[i].skillIds!
 {
 skillarr = data[i].skillIds.split(',')
 }
-//console.log(skillarr);
 var str2  = data[i].years+' years'+'  '+data[i].months+' months';
 
 str = '<a href="'+data[i].targetPath+'"Download><span class="glyphicon glyphicon-save" style="color:#2CB8E5;height:10px;cursor:pointer" title ="Download" ></span></a><span  class="glyphicon glyphicon-pencil" onclick = "glyphPencil(this.id)"   style="color:#06394A;height:20px;margin:5px" id = edit_'+data[i].id+' title ="edit"></span><input type="checkbox" onclick = "pushDeleteArray(this.id)" id = delete_'+data[i].id+'>';
@@ -267,7 +246,6 @@ if(data[i].years==-1&&data[i].months==-1) {str2 = 'Fresher';data[i].years=0;data
 
  skillIdsGroup[data[i].id] = skillarr;
  locationId[data[i].id]  = data[i].location;
- //glyphEventPencil();
  }
 
 
@@ -276,7 +254,6 @@ if(!data1[1]){
  $(".se-pre-con").fadeOut("slow");
 
 alert('All files have been parsed');
-//window.location.reload();
 window.location.href="/upload";
 }
 else if (data1[1]==1){
@@ -310,9 +287,7 @@ else{
 
 $('input').addClass('used');
 $('select').addClass('used');
-/*while(1){
-glyphEventPencil();
-}*/
+
   
 });
 
@@ -320,13 +295,10 @@ glyphEventPencil();
 function glyphEventPencil(){
 
   $('.glyphicon-pencil').click(function(){
-   // alert($(this).attr('id'));
   var alldataTable = [];
      id = parseInt($(this).attr('id').match(/\d{1,9}/)[0]);
-    console.log($(this).attr('id'),id);
     currentrow = $(this).closest('tr');
     var $td= $(this).closest('tr').children('td');  
-  //console.log($td);
 for(var  i =0;i<9;i++ ){
 alldataTable[i] = $td.eq(i).text();  
 }
@@ -339,19 +311,15 @@ alldataTable[10] = id;
 }
 
 function glyphPencil(idPencil){
-  //alert(idPencil);
   var alldataTable = [];
      id = parseInt(idPencil.match(/\d{1,9}/)[0]);
-    console.log($('#'+idPencil).attr('id'),id);
     currentrow = $('#'+idPencil).closest('tr');
     var $td= $('#'+idPencil).closest('tr').children('td');  
-  //console.log($td);
 for(var  i =0;i<9;i++ ){
 alldataTable[i] = $td.eq(i).text();  
 }
 alldataTable[10] = id;
 targetPath = $('#'+idPencil).prev().attr('href');
-console.log(alldataTable);
   showmodal(alldataTable)
 
 
@@ -364,7 +332,6 @@ console.log(alldataTable);
 function showmodal(alldatatable){
   
 var time;
-console.log(alldatatable[10]);
 $('.modal form input')[1].value = alldatatable[0];
 $('.modal form input')[2].value = alldatatable[2];
 
@@ -431,7 +398,6 @@ var glyphstr = str = '<a href="'+targetPath+'"Download><span class="glyphicon gl
   var locationstr = '';
 if($('#locationId').val()!='null'&&$('#locationId').val()!=''&&$('#locationId').val()!=null){
  locationstr = $('#location_'+$('#locationId').val()).html();
-  console.log(locationstr);
   }
 if($('#skillsId').val()!=null&&$('#skillsId').val()!='null'){
   ($('#skillsId').val()).forEach(function(element){
@@ -445,7 +411,6 @@ if($("#years").val()==0&&$("#months").val()==0) expstring = 'Fresher';
 newDataTable.fnUpdate([$('#name').val(),$('#email').val(),$('#phone').val(),expstring,locationstr,  $('#perm').val(),skillarr2,$('#qual').val(),$('#ins').val(),glyphstr] ,currentrow );
 
 
-//glyphEventPencil();
 
 makeajax();
 
@@ -455,7 +420,6 @@ makeajax();
 function pushDeleteArray(deleteId){
   
   var idDb = deleteId.match(/\d{1,9}/)[0];
-  console.log(deleteId,idDb);       
 
 if($('#' + deleteId).is(":checked")){
 
@@ -469,7 +433,6 @@ else{
 
    }
 
-console.log(deleteArray);
 
 
 }
@@ -485,7 +448,6 @@ skills2 = '';
 }
 if($('#locationId').val()=='null'||$('#locationId').val()==''||$('#locationId').val()==null){
  loc = -1;
- //alert(loc)
 }
 $.ajax({
 
@@ -525,7 +487,6 @@ error:function(){
 }
 
  
-//-------------------------------------------End Ready
 
 function select1source(){ 
   if($("#selectsource").val()==0){
@@ -584,7 +545,6 @@ count = 0;
 </script>
 <div class="modal fade" id="edit" data-backdrop="static" data-keyboard="false" >
         <div class="modal-dialog">
-            <!-- Modal content-->
           <div class="modal-content"  id="express2" style="height:400px;width:700px" >
                 <div class="modal-header" style="background-color:#f05f40;height:40px">
                     <center>

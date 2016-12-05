@@ -97,8 +97,7 @@ module.exports = {
                 
                 //------------------Dashboards <Phase1 : Not Lived> --------------------------
                 case 'vis_dashboard1' :
-            	//req.session.firstName=req.resultProfile[0][0].firstName;
-            	//req.session.logo=req.resultProfile[0][0].logo;
+            	
                 res.render('Report2',{ 	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:1,reportinfo:req.resultProfile,logo:req.session.logo,user:req.session.firstName,roleid:req.session.roleId,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
                 break;
@@ -278,10 +277,7 @@ module.exports = {
 				case 'projectDetails11' :
 				res.redirect('/projectDetails');
 				break;
-				/*case 'wbsDetails' :
-				res.render('wbsDetails',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.wbsResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
-				break;*/
+				
 				case 'wbsDetails' :
 				res.render('wbsDetails',{	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:1,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
@@ -374,7 +370,6 @@ module.exports = {
 				//------------------------------------------Asset-------------------------------
 
 case 'viewInventory':
-			// console.log("in render inven jai mata di",req.session.asstroleid);
 				res.render('asset/inventory',{notification:req.session.notification, 
 					myModules:req.session.modules,
 					allSuperVisors:req.session.allSupervisors,
@@ -385,7 +380,6 @@ case 'viewInventory':
 				})
 				break;
 
-			// new for hardware
 
 			case 'viewHardware': 
 				res.render('asset/viewHardware',{notification:req.session.notification, 
@@ -399,7 +393,6 @@ case 'viewInventory':
 		
 				break;
 			case 'viewFurniture' :
-			// console.log('jai mata di',req.resultFurniture);
 				res.render('asset/viewFurniture',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,notification:req.session.notification, 
 					flag:req.body.flag, stype:req.resultFurniture,roleid:req.session.roleId,
@@ -467,12 +460,10 @@ case 'viewInventory':
 					isRetailer:req.session.isRetailer,hideFlag:0,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
  
 				break;
-				//new 4 dynamic software
 			case 'addSoftware':
 				res.render('asset/addSoftware',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,notification:req.session.notification, 
 					isRetailer:req.session.isRetailer,hideFlag:0,stype:req.resultType,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid});
 				break;
-			 //new 4 assign soft
 			 case 'assignSoftware':
 				res.render('asset/assignSoftware',{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,notification:req.session.notification, 
 					isRetailer:req.session.isRetailer,hideFlag:0,logo:req.session.logo,roleid:req.session.roleId,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover});
@@ -484,11 +475,9 @@ case 'viewInventory':
 			case 'Update':
 				res.json(req.resultupdatedata);
 				break;
-				//new 4 hardware
 			case 'EditHardware':
 			res.json(req.resulteditHardware);
 			 break;
-//new for hardware
 			case 'updateHardware':
 				res.json(req.resultupdatehardware);
 				break;
@@ -515,7 +504,6 @@ case 'viewInventory':
             case 'ajaxTrans':
                 res.json(req.resultType);
                 break;
-            //new by palak
                 case 'ajaxHw' :
 				res.json(req.resultAttribute);
 				break; 
@@ -582,8 +570,7 @@ case 'viewInventory':
 					isRetailer:req.session.isRetailer,hideFlag:0,expenseType:req.resultExpensemaster[0],role:req.resultRoles[0],expenseMasterType:req.resultExpensemaster[1],roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,limit: req.session.limit,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,flag:0 ,assetrole:req.session.asstroleid});
 				break;
 			
-				/*end expense Jogendra singh/expdepartment:req.resultExpensemaster[2],/limit: req.session.limit,*/
-				<!--- added by saurav   -->
+				
 				case 'masters':
 			     var flag=req.flag==null?0:req.flag;
 
@@ -604,26 +591,7 @@ res.render('masters',
 			   		restriction:req.resultRestriction,allinfo :req.resultHoliday,
 			   		defaultModule:req.session.defaultModule,assetType:req.resultTypeSubtype,assetrole:req.session.asstroleid});
 			   break;
-				/*case 'masters':
-			     var flag=req.flag==null?0:req.flag;
-			   res.render('masters',
-			   	{myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,
-			   		bugMaster:req.bugMaster,otherMaster:req.otherMaster,
-			   		bugMasterSubData:req.bugMasterSubData,
-			   		hideFlag:1,expenseMaster:req.resultExpensemaster[0],
-			   		expenseType:req.resultExpensemaster[1],
-			   		roleid:req.session.roleId,
-			   		logo:req.session.logo,user:req.session.firstName,
-			   		limit: req.session.limit,
-			   		//assetType:req.resultTypeSubtype[0],
-			   		//assetComponent:req.resultTypeSubtype[1],attr:req.resultTypeSubtype[2],
-			   		flag:flag,customrole:req.resultCustomRoles[0],files:req.resultFiles,
-			   		industry:req.resultIndustry,business:req.resultBusiness,
-			   		document:req.resultDocument,technology:req.resultTechnology,
-			   		restriction:req.resultRestriction,allinfo :req.resultHoliday,
-			   		defaultModule:req.session.defaultModule});
-			   break;*/
+				
                              
                 case 'uploadHoliday':
                  res.redirect('/masters');
@@ -666,23 +634,7 @@ res.render('masters',
       myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
 					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid});
 				break ;
-		/*		case 'reqHod':
-				res.render('rms/reqhod',{
-					pdetails: req.hodResult[0],
-                skills: req.hodResult[2],
-                cities: req.hodResult[3],
-                adminhr: req.hodResult[4],
-                designation: req.hodResult[5],
-                priority: req.hodResult[6],
-                role: req.session.hrRole,
-                Name: req.session.Name,
-                flag: req.flag,
-                myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
-	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule
-            }); 
-			break ;*/
+		
 			case 'allrequisitions':
 			res.render('rms/allrequisitions',{	notification:req.session.notification,    pdetails:req.allrequisitions[0],role:req.session.hrRole,
    		   		Name:req.session.Name,flag:req.fl1,skills:req.allrequisitions[1],
@@ -729,7 +681,6 @@ res.render('masters',
 	            });
             break ;
             case 'viewReq':
-            // console.log("hr roles for view Reqsn. ",req.session.hrRole);	           
 	            res.render('rms/viewReq', {	notification:req.session.notification,    
 	                 role: req.session.hrRole,
 		                Name: '',
@@ -775,17 +726,7 @@ res.render('masters',
 	                defaultModule:req.session.defaultModule,assetrole:req.session.asstroleid
 	            });
             break;
-       /*     case 'reqApprover':
-            res.render('rms/reqApprover', {
-	                 pdetails: req.reqApprover[0],
-                role: req.session.hrRole,
-                Name: ' ',
-                myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
-					isRetailer:req.session.isRetailer,hideFlag:0,id:req.userid,user:req.session.firstName,
-	                roleid:req.session.roleId,logo:req.session.logo,retailerId:req.session.retailerId,
-	                defaultModule:req.session.defaultModule,projectDetails:req.projectDetails
-	            });
-            break;*/
+      
             case 'updateStatusReqViaMail':
             res.render('index'); 
             break;

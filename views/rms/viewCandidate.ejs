@@ -3,13 +3,11 @@
 
         <title>Candidates</title>
 
-        <!--  <link href="/Bootstrap/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">  
-  -->
+     
         <style>
    #currentjd_length{
     display: none;
    }
-/* history tab ----------------------*/
  .tip {
   width: 0px;
   height: 0px;
@@ -62,24 +60,6 @@
     border-left: thick solid #F3B293;
 }
 
- 
-/* .chosen-choices {
-                    background: none !important;
-                    background: white;
-                    border: none !important;
-                    border-bottom: 1px solid #e1e1e1 !important;
-                }
-                
-                .chosen-single,
-                .chosen-drop,
-                .chosen-choices li.search-choice {
-                    border-radius: 0px !important;
-                    box-shadow: none !important;
-                }
-                .chosen-container{
-                  width:100%!important;
-                }
- */
 
 .fileUpload {
     position: relative;
@@ -210,10 +190,8 @@
         </div>
 
 
-        <!---------------Edit Info------------>
         <div class="modal fade" id="edit" data-backdrop="static" data-keyboard="false" style="padding-right:20%">
             <div class="modal-dialog" style="width:72%">
-                <!-- Modal content-->
                 <div class="modal-content" id="express2" style="width:1100px margin-left:-80px;margin-top: 100px; ">
                     <div class="modal-header" style="background-color:#f05f40;height:40px">
                         <center>
@@ -282,10 +260,8 @@
             </div>
         </div>
  
-        <!---------------Tag ------------>
         <div class="modal fade" id="tag" style="height:auto">
             <div class="modal-dialog">
-                <!-- Modal content-->
                 <div class="modal-content" id="express2">
                
                      <div class="modal-header" style="background-color:#f05f40;height:40px">
@@ -330,12 +306,9 @@
                 </div>
             </div>
         </div>
-        <!-------------------------------------------->
-
-        <!---------------Schedule Interview ------------>
+ 
         <div class="modal fade" id="schedule">
             <div class="modal-dialog" style="width:100%">
-                <!-- Modal content-->
                 <center>
                     <div class="modal-content" id="express2" style="width:1000px;min-height:100px">
                         <div class="modal-header" style="background-color:#f05f40;height:40px">
@@ -344,7 +317,6 @@
                               <button type="button" class="close" data-dismiss="modal" style="margin-top:-28px;float:right">&times;</button>
                              </center>
                            
-                   <!--  <span style='color:#06394A;height:20px;float:right'title ='Close' >&times</span> -->
                   
                         </div>
                         <center>
@@ -421,10 +393,8 @@
             </div>
         </div>
 
-        <!---------------------------------------------------------->
-        <div class="modal fade" id="iremarkmodal" style="height:auto">
+                <div class="modal fade" id="iremarkmodal" style="height:auto">
             <div class="modal-dialog">
-                <!-- Modal content-->
                 <div class="modal-content" id="express2">
                     <div class="modal-header" style="background-color:#f05f40;height:40px">
                        <center>
@@ -442,7 +412,6 @@
             </div>
         </div>
 
-        <!--PAGE CONTENT ENDS-->
         <%include menu1.ejs%>
             <% include ../partials/footer %>
 
@@ -453,9 +422,7 @@
 
                     function deleteHistory(id, elementId) {
                         elementId = '#' + elementId;
-                        console.log('deletehistory');
                         if (!confirm('Are you sure you want to delete this pending schedule')) return;
-                        console.log($(elementId).closest('td'), $(elementId).closest());
                         $(elementId).closest('td').hide();
 
 
@@ -476,8 +443,7 @@
                     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
                     function getreleventState() {
-                        //alert($('#schtaggedJd').val());
-                        //alert($('#cdtidint').val());
+                        
                         $.ajax({
                             url: '/getreleventState',
                             type: 'post',
@@ -486,11 +452,9 @@
                                 "cid": $('#cdtidint').val()
                             },
                             success: function(data) {
-                                console.log("all data state: ",data);
                                 $('#schstate').html('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data[0].length; i++) {
                                   if(data[0][i].id!=1){
-                                    console.log("state name :",data[0][i].stateName);
                                     $('#schstate').append("<option value='" + data[0][i].id + "'>" + data[0][i].stateName + "</option>");
                                   }
                                 }
@@ -502,13 +466,8 @@
                         });
                     }
 
-                    //.......................................Document.Ready......................................
-
                     $(document).ready(function() {
-                     /*  $('#skillsId').tagger({ 
-                                        fieldWidth:'9em'
-                                        }); */
-
+                   
                         $('.viewCand-img').addClass("active");
 
                         $('#file').change(function() {
@@ -553,10 +512,7 @@
                             $(this).find('span').toggleClass('glyphicon-plus').toggleClass('glyphicon-minus');
                         });
 
-                      //  $('#schedule').draggable();
-                       // $('#tag').draggable();
-                       // $('#edit').draggable();
-
+                    
 
                         $('#history').click(function() {
                             $('#showhistorydiv').toggle();
@@ -584,31 +540,27 @@
 
 
                         $('#gsearch').keypress(function(e) {
-                            //alert(e);
-                            if (e.which == 13) { //Enter key pressed
-                                $('#gsearchimg').click(); //Trigger search button click event
+                            if (e.which == 13) { 
+                                $('#gsearchimg').click(); 
                             }
                         });
                         $('#aSearchdiv').keypress(function(e) {
-                            //alert(e);
-                            if (e.which == 13) { //Enter key pressed
-                                $('#asearchimg').click(); //Trigger search button click event
+                            if (e.which == 13) { 
+                                $('#asearchimg').click(); 
                             }
                         });
 
-                        /*$('#selecttag').multiselect();*/
 
                         $.ajax({
                             url: '/viewCandidate',
                             type: 'post',
                             success: function(data) {
-                              console.log("view all candidate",data[9]);
                                 var info = [];
                                 var c = 1;
                                 var cddid;
                                 for (var i = 0; i < data.length; i++) {
                                     countTag[data[i].id] = data[i].countTag;
-                                     //alert(data[i].resumeTitle);
+                                    
                                     var sicon = "<a data-toggle='modal' data-target='#schedule' onclick='scheduleInfo(" + data[i].id + ")'> <span  class='glyphicon glyphicon-dashboard' style='color:#06394A;height:10px;cursor:pointer' title ='Schedule Interview/View History' > </a>";
 
                                     var skl = data[i].skills;
@@ -642,14 +594,12 @@
                                     }
                                     data[i].check = "<input type='checkbox' class='chkAll' name='qcktagcheck' value='" + data[i].id + "' />";
                                     data[i].id = c++;
-                                    //       alert(c++ + "<input type='checkbox'></input>")
-
+                                   
                                     info.push($.map(data[i], function(k, v) {
                                         return k;
                                     }));
                                 }
 
-                                console.log("data while loading",info);
                                 table = $('#openreqstate').DataTable({
                                     data: info,
                                     columns: [
@@ -704,9 +654,7 @@
              
                     var abc;
 
-                    //-------------------------------------------End Ready
-
-
+                
                     function savequicktag() {
                         var qcdid = $('input[name="qcktagcheck"]:checked').map(function() {
                             return this.value;
@@ -836,12 +784,11 @@
                         $('#schedule').modal("hide");
 
                     }
-                    //-------------------show Schedule INFO---------------------
+              
                     function scheduleInfo(id) {
                       getreleventState();
                       
-                    /*    $("#schstate option[value=6]").hide();
-                       $("#schstate option[value=5]").hide();*/
+                   
 
                         $("#showhistorydiv").hide();
                         $.ajax({
@@ -852,11 +799,9 @@
                             },
                             success: function(data) {
                                 var strName = ''
-                                console.log('countTag is', data);
                                 if (countTag[id] > 1) {
                                     strName = "\n Tagged in multiple JD's";
                                 }
-                                console.log("Schedule popup: ", data);
                                 $('#cdtnameint').html(data[0][0].name);
                                 $('#taggedInMulJd').html(strName);
                                 $('#cdtidint').val(data[0][0].candidateID);
@@ -873,8 +818,7 @@
                                 for (var i = 0; i < data[3].length; i++) {
                                     $('#mode').append("<option value='" + data[3][i].id + "''>" + data[3][i].mode + "</option>");
                                 }
-                                //--------------------History Table...............................................
-                                //console.log(data[5]);
+                               
                                 $('#historytable').html('');
                                 var t = 0;
                                 var clr = 0;
@@ -882,13 +826,13 @@
                                 var jdcount = [];
                                 var temparr = [];
                                 var lastDate;
-                                // .............storing all jd title.........
+                              
                                 for (var i = 0; i < data[5].length; i++) {
-                                    // alert(data[5][i].title);
+                                  
                                     jdtemp.push(data[5][i].title);
                                 } 
                                 for (var i = 0; i < jdtemp.length; i++) {
-                                    temparr[jdtemp[i]] = (temparr[jdtemp[i]] || 0) + 1; //increments count if element already exists            
+                                    temparr[jdtemp[i]] = (temparr[jdtemp[i]] || 0) + 1;       
                                 }
                                 for (var i in temparr) {
                                     jdcount.push(temparr[i]);
@@ -927,11 +871,7 @@
                                           $("#schedulediv").removeClass("hide");
                                         }
                                         
-                                      /*  if(data[5][t].stateId==4){ 
-                                        alert();
-                                           $("#schstate option[value=6]").show();
-                                          $("#schstate option[value=5]").show();
-                                        } */ 
+                                      
                                         $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + deleteString + '</div><div style="font-size:10px">By- ' + data[5][t].firstName + '</div><div style="font-size:10px">On -' + date + '</div></div></td>'); 
                                         t++;
                                         clr++;
@@ -949,19 +889,16 @@
                                 $('#intdatetime').datetimepicker({
                                    minDate:todate
                                 }); 
-                                //$('#schtaggedJd').val(data[0][0].jdID);
-                               // $("#schtaggedJd").trigger("chosen:updated");
+                               
                                 $('#schtaggedJd').addClass('used'); 
                             }
                         });
                     }
 
                     function interviewerRemarks(msg) {
-                        // alert("rem function  "+msg);
+                    
                         $('#iremarkdiv').html("<label>" + msg + "</label>");
                     }
-
-                    //validatetag
                     function validatetag() {
 
                         if ($("#mgrdropdown").val() == 0) {
@@ -979,7 +916,6 @@
                                 "selecttag": $('#selecttag').val()
                             },
                             success: function(data) {
-                                console.log("Data afet tag", data);
                                 getAllTag($('#tcid').val());
                                 if (data[0][0].count == 1) {
                                     alert("You can not Tag same JD again! ");
@@ -1035,9 +971,7 @@
                     table1 = '';
 
                     function getAllTag(id) { 
-                        //$("#tagmorediv").hide();
-                        // $("#schedulediv").hide();
-                        console.log(id);
+                       
                         $.ajax({
                             url: '/getAllTag',
                             type: 'post',
@@ -1046,26 +980,22 @@
                             },
                             success: function(data) {
                           
-                                console.log("tag data", data[0] ,",",data[3] );
                                 $('#tcid').val(data[2][0].id);
 
                                 $('#cdtname').html(data[2][0].name);
                                 if (data[0].length < 1) {
                                     $('#tagstatus').html(" No Tagged JD's Yet  ");
-                                    //$('#currentjd').removeClass("normalTable");
                                 } else {
-                                    // $('#currentjd').addClass("normalTable");
                                     $('#tagstatus').html(" Currently Tagged JD's ");
                                 }
 
 
                                 var c = 1;
-                                /* $('#currentjd').html('<thead align="center"><tr style="border:2px solid #f05f40;color:black;strong:1px"><td style=''>#</td><td>JD Title</td></tr></thead><tbody>');*/
+                               
                                 var info = [];
                                 for (var i = 0; i < data[0].length; i++) {
 
-                                    /* $('#currentjd').append("<tr ><td style='border:1px solid #f05f40;padding-left:10px'>"+ c++ +"</td><td style='border:1px solid #f05f40;padding-left:10px'>"+data[0][i].title+"</td></tr>")*/
-                                    //data[0][i].sno=c++;
+                                 
                                     var obj = {};
                                     obj.sno = c++;
                                     deletebtn='';
@@ -1076,12 +1006,10 @@
                                     obj.title = data[0][i].title + deletebtn;
                                     obj.state = data[3][i].stateName;
                                     obj.status = data[3][i].statusName;
-                                  //  console.log("OBJ", obj);
 
                                     info.push($.map(obj, function(k, v) {
                                         return k;
                                     }));
-                                    //console.log("INFO", info);
                                 }
                                 if (table1 != '') {
                                     table1.destroy();
@@ -1100,7 +1028,6 @@
                                     "bLengthChange": true,
                                     "searching": false,
                                     "info":     false,
-                                     //"showNEntries" : false,
                                     "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]]
                                 });
                                 $('#currentjd').append('</tbody>');
@@ -1109,8 +1036,6 @@
                                 for (var i = 0; i < data[1].length; i++) {
                                     $('#mgrdropdown').append("<option value='" + data[1][i].id + "''>" + data[1][i].firstName + "</option>");
                                 }
-
-                                //.................Adding all states in dropDown
 
                                 $('#statedropdown').html('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data[4].length; i++) {
@@ -1136,8 +1061,7 @@
                                 "tagid": tagid
                             },
                             success: function(data) {
-                             //   console.log("delete data      -----", data);
-                              //  console.log("delete ", data[0]);
+              
                                 getAllTag(cdid);
                                 if (data[0] == 1)
                                     alert("Tagging removed Successfuly!");
@@ -1150,9 +1074,7 @@
                     function releventTag() {
 
                         var id = $("#mgrdropdown").val();
-                        //alert(id);
-                        /*var e = document.getElementById("elementId");
-var id = e.options[e.selectedIndex].value;*/
+                       
                         $.ajax({
                             url: '/getReleventTag',
                             type: 'post',
@@ -1160,7 +1082,6 @@ var id = e.options[e.selectedIndex].value;*/
                                 "id": id
                             },
                             success: function(data) {
-                              //  console.log("data for managers", data);
                                 $('#selecttag').html('');
                                 $('#selecttag').append('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data.length; i++) {
@@ -1169,12 +1090,9 @@ var id = e.options[e.selectedIndex].value;*/
                             }
                         });
                     }
-                    //-----------------showing relevent JD's in Quick Tag---------------
                     function qreleventTag() {
                         var id = $("#qmgrdropdown").val();
 
-                        /*var e = document.getElementById("elementId");
-var id = e.options[e.selectedIndex].value;*/
                         $.ajax({
                             url: '/getReleventTag',
                             type: 'post',
@@ -1182,7 +1100,6 @@ var id = e.options[e.selectedIndex].value;*/
                                 "id": id
                             },
                             success: function(data) {
-                              //  console.log("data after manager selection :", data);
                                 $('#qselecttag').html('');
                                 $('#qselecttag').append('<option  value="0">-select-</option>');
                                 for (var i = 0; i < data.length; i++) {
@@ -1193,7 +1110,6 @@ var id = e.options[e.selectedIndex].value;*/
                     }
 
                     function editcdt(id) {
-                        //alert(id);
                         $.ajax({
                             url: '/getCandidate',
                             type: 'post',
@@ -1222,7 +1138,6 @@ var id = e.options[e.selectedIndex].value;*/
                                 $('#qualification').addClass("used");
                                 var arr = [];
                                 var arrt=[];
-                                //console.log(data[3][0].skillid);
 
                                  if(data[3].length)
                                   arr = JSON.parse(JSON.stringify(data[3][0].skillid)).split(',');
@@ -1245,12 +1160,7 @@ var id = e.options[e.selectedIndex].value;*/
                                         fieldWidth:'9em'
                                         }); 
                                }
-                           
-                               
-                              //  $('#skillsId').val(arr.toString().split(',')).trigger('change');
-
-                               // $('#skillsId').trigger('chosen:updated');
-                              //  $('#skillsId').prop('disabled', false).trigger("chosen:updated");
+              
 
                                 $('#status').val(data[0][0].status);
                                 $('#status').addClass('used');
@@ -1269,7 +1179,6 @@ var id = e.options[e.selectedIndex].value;*/
 
                     function GetData() {
                         var str = $('#gsearch').val();
-                       // console.log("Search String: ", str);
                         var req11 = ")&(";
                         var req12 = ")|(";
                         var req21 = "&",
@@ -1286,9 +1195,7 @@ var id = e.options[e.selectedIndex].value;*/
 
 
                         var count = 0;
-                        //console.log("Orignal String:", str);
-                        //alert(str.split(req11).length);
-
+  
                         if (str.trim().length != 0) {
                             if (str.match("^[a-zA-Z0-9]+$")) {
                                 str = "(" + str + ")";
@@ -1333,7 +1240,6 @@ var id = e.options[e.selectedIndex].value;*/
                         } else {
                             count++;
                         }
-                        // alert("String is null "+str.trim().length);
                         var up = {
                             url: '/search',
                             type: 'post',
@@ -1377,7 +1283,6 @@ var id = e.options[e.selectedIndex].value;*/
                                     }
                                     data[i].check = "<input type='checkbox' class='chkAll' name='qcktagcheck' value='" + data[i].id + "' />";
                                     data[i].id = c++;
-                                    //       alert(c++ + "<input type='checkbox'></input>")
 
                                     info.push($.map(data[i], function(k, v) {
                                         return k;
@@ -1386,8 +1291,6 @@ var id = e.options[e.selectedIndex].value;*/
                               $("#openreqstate").dataTable().fnDestroy();
                                  $("#openreqstate").html('');
                                 
-                                console.log("data after search",info);
-                                //alert("a");
                           
                                 table = $('#openreqstate').DataTable({
                                     data: info,
@@ -1442,7 +1345,6 @@ var id = e.options[e.selectedIndex].value;*/
                     }
 
                     function aSearch() {
-                        //alert($('#gsearch').val() );
                         $.ajax({
                             url: '/aSearch',
                             type: 'post',
@@ -1489,7 +1391,6 @@ var id = e.options[e.selectedIndex].value;*/
                                     }
                                     data[i].check = "<input type='checkbox' class='chkAll' name='qcktagcheck' value='" + data[i].id + "' />";
                                     data[i].id = c++;
-                                    //       alert(c++ + "<input type='checkbox'></input>")
 
                                     info.push($.map(data[i], function(k, v) {
                                         return k;
@@ -1499,7 +1400,6 @@ var id = e.options[e.selectedIndex].value;*/
                                 }
                                  $("#openreqstate").dataTable().fnDestroy();
                                  $("#openreqstate").html('');
-                                console.log(info);
                                 table = $('#openreqstate').DataTable({
                                     data: info,
                                     columns: [{

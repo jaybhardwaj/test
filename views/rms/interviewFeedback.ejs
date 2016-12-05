@@ -21,7 +21,6 @@
                 }
                 
            
-                /* history tab */
                 
                 .tip {
                     width: 0px;
@@ -41,17 +40,14 @@
                 
                 .dialogbox .body {
                     position: relative;
-                    /*max-width: 300px;*/
                     height: auto;
                     margin: 20px 10px;
-                    /*padding: 5px;*/
                     background-color: #00B9F5;
                     border-radius: 3px;
                     border: 5px solid #00B9F5;
                 }
                 
                 .body .message {
-                    /*min-height: 30px;*/
                     border-radius: 3px;
                     font-family: Arial;
                     font-size: 12px;
@@ -91,12 +87,7 @@
                 <div class="secondry-color" style="padding-top:5%; overflow: hidden;"> 
                     <center> <label id="" class="modal-title"> Interview Feedback </label></center>
 
-                   <!--  <div  style="color:#f05f40;cursor:pointer;float: right;padding-right: 20px" >
-                        
-                        <span data-toggle="modal" onclick="scheduleInfo()" data-target="#historyModal" class="glyphicon glyphicon-plus" id="history" ><label> History</label></span>
-                    </div>
- -->
-                    <div class="row" style="padding: 5%;padding-top: 0%;padding-bottom: 2%">
+                   <div class="row" style="padding: 5%;padding-top: 0%;padding-bottom: 2%">
                         <form action="interviewData" enctype="multipart/form-data" method="post">
                             <input type="text" class="hide" name="id" id="id">
                             <input type="text" class="hide" name="stateId" id="stateId">
@@ -202,7 +193,7 @@
                                     </td>
                                     <td></td>
                                         <td>
-                                           <!--  <button  type="submit" id="submit" value="Submit" "  >Submit</button> -->
+                                         
                                            <button type="submit" class="button  btn" onClick="return validateSubmit()" style="width:90px;margin-top: 20px"><i class="fa fa-save"></i> Submit</button>
                                         </td>
                                         <td> <a class="form-Label" href="/rms" style="float:left;margin-left:6%">View all Interviews</a></td>
@@ -215,7 +206,6 @@
                         </form>
                     </div>
                 </div>
-                 <!--PAGE CONTENT ENDS-->
 
             <% include ../partials/footer %>
             </body>
@@ -224,10 +214,8 @@
 
 
 
-                <!---------------History Modal------------>
                 <div class="modal fade" id="historyModal" style="padding-right:20%;height:auto;width:auto">
                     <div class="modal-dialog">
-                        <!-- Modal content-->
                         <div class="modal-content" id="express2" style="">
                             <div class="modal-header" style="background-color:#f05f40;height:40px">
                                 <center>
@@ -252,10 +240,8 @@
 
                 </div>
 
-                <!---------------------------------------------------------->
                 <div class="modal fade" id="iremarkmodal" style="height:auto">
                     <div class="modal-dialog">
-                        <!-- Modal content-->
                         <div class="modal-content" id="express2">
                             <div class="modal-header" style="background-color:#f05f40;height:40px">
                                 <center>
@@ -308,7 +294,6 @@
                             $('.addDissable').css("color", "grey");
                             $('.addDissable').css("cursor", "auto-scroll");
 
-                            // $('.addDissable').css("background-color","white");
                         }
                     });
 
@@ -328,29 +313,24 @@
                             success: function(data) {
 
 
-                                //--------------------History Table...............................................
                                 $('#historytable').html('');
                                 var t = 0;
                                 var clr = 0;
                                 var jdtemp = [];
                                 var jdcount = [];
                                 var temparr = [];
-                                // .............storing all jd title.........
                                 for (var i = 0; i < data[5].length; i++) {
-                                    // alert(data[5][i].title);
                                     jdtemp.push(data[5][i].title);
                                 }
 
                                 for (var i = 0; i < jdtemp.length; i++) {
-                                    temparr[jdtemp[i]] = (temparr[jdtemp[i]] || 0) + 1; //increments count if element already exists            
+                                    temparr[jdtemp[i]] = (temparr[jdtemp[i]] || 0) + 1;  
                                 }
 
                                 for (var i in temparr) {
                                     jdcount.push(temparr[i]);
                                 }
 
-                                console.log("JDTEMP", jdtemp);
-                                console.log("JDCOUNT", jdcount);
                                 if(data[5][t].firstName===null){
                                     data[5][t].firstName="HR";
                                 }
@@ -368,7 +348,6 @@
                                         if (data[5][t].interviewerRemarks != null) {
                                             data[5][t].interviewerRemarks = JSON.stringify(data[5][t].interviewerRemarks);
                                             data[5][t].interviewerRemarks = data[5][t].interviewerRemarks.replace(/"/g, '"');
-                                            console.log(data[5][t].interviewerRemarks);
                                             irem = "<span class='glyphicon glyphicon-comment' onclick='interviewerRemarks(" + data[5][t].interviewerRemarks + ")' data-toggle='modal' data-target='#iremarkmodal' style='color:#06394A;height:20px;float:right;color:#337EB7' title =" + data[5][t].interviewerRemarks + " ></span>";
                                         }
                                         $('#historytable').append('<td class="verticalLine' + clr + '"><div style="margin:2px"><div style="font-size:11px"><u>' + data[5][t].stateName + "-" + data[5][t].rounds + '</u>' + irem + '</div><div style="font-size:10px">' + data[5][t].statusName + '</div><div style="font-size:10px">By- ' + data[5][t].firstName + '</div><div style="font-size:10px">On -' + date + '</div></div></td>');
@@ -385,7 +364,6 @@
                     }
 
                     function interviewerRemarks(msg) {
-                        // alert("rem function  "+msg);
                         $('#iremarkdiv').html("<label>" + msg + "</label>");
                     }
 
@@ -429,34 +407,9 @@
                             alert("Remarks can not be more than 500  characters");
                             return false;
                         }
-                         /*if (fileExt==""){
-
-                         }*/
+                         
 
                         alert("Response Submited Successfully!!");
                     }
-                    /*    
-            var data1 = new FormData($('#form123')[0]);
-           //    var files = $("#feedback").val();
-               $.ajax({
-                            url: 'interviewData',
-                            data: {
-                                "id":<%=cdt[0].id%>,
-                                'time': $('#timeTaken').val(),
-                                "isApprove":$("#status").val(),
-                                "rating":$('#rating').val(),
-                                "remarks":$('#remarks').val(),
-                                "stateId":<%=cdt[0].stateId%>,
-                                "cdtid":<%=cdt[0].cdtid%>,
-                                "modeid":<%=cdt[0].modeId%>,
-                                "rounds":<%=cdt[0].rounds%>,
-                                "feedback":data1;
-                            },
-                            method: 'post',
-                            success: function(data) {
-                              
-                              window.location.href="/interview";
-                            }
-                          });    
-*/
+                   
                 </script>
