@@ -34,9 +34,7 @@
                           , fieldWidth: "13em"
 
                         });
-        /* $(function () {
-             $("usersId").select2();
-            });*/
+        
 
  
 
@@ -60,12 +58,10 @@
 
 <body>
 
-<!--model-->
 
 <div class="modal " id="commentModal"  role="dialog">
 <center>
   <div class="modal-dialog" style="display:table;">
-    <!-- Modal content-->
     <div class="modal-content" id="express2" style="height:150px;width:250px">
       <div class="modal-header" style="background-color:#f05f40;">
         <center><label id="head4" class="modal-title" style="color:white; ">Reason </label>
@@ -92,9 +88,6 @@
   </div>
   </center>
 </div>
-
-<!--model end-->
-
     <div class="container-fluid   secondry-color" style=" ">
 
 
@@ -231,10 +224,8 @@
 </body>
 
 </html>
-<!---->
 <div class="modal " id="myModalcomp" role="dialog">
     <div class="modal-dialog" style="display:table;height:95%;">
-        <!-- Modal content-->
         <div class="modal-content" id="express2" style="height:200px;width:400px">
             <div class="modal-header" style="background-color:#f05f40;">
                 <center><label id="head4" class="modal-title" style="color:white;font-size:8pt;"><b>Select Component</b></label>
@@ -295,24 +286,20 @@
 
     function chooseType() {
           $('#assigndate').val('');
-        //$('#hw').val(0);
         
         var at = $("#chooseType").val();
 
         if (at == "0") {
-            //alert(at);
             $("#hardwareList").removeClass("hide");
             $("#softwareList").addClass("hide");
             $("#softwareLic").addClass("hide");
             $("#assignedtohardware").addClass("hide");
         } else if (at == "1") {
-            //alert(at);
             $("#hardwareList").addClass("hide");
             $("#softwareList").removeClass("hide");
             $("#hardwareTag").addClass("hide");
             $("#assignedtohardware").removeClass("hide");
         } else {
-            // alert(at);
             $("#hardwareList").addClass("hide");
             $("#softwareList").addClass("hide");
         }
@@ -369,7 +356,6 @@
 
     function addSubline(copId, copName, lineId, tagNo) {
 
-        console.log(copId, copName, lineId, tagNo);
         var row = '<tr><td>' + ++count + '</td><td>' + copName + '<input type="hidden" id="compId' + count + '" value=' + copId + '></td><td>' + tagNo + '<input type="hidden" id="line' + count + '" value=' + lineId + '></td><td><input id="date' + count + '" class="form-text-box date"></input><input  type="hidden" id="tsId' + count + '" value="0"></input>' + '<td><span id="assignreg' + count + '" style="margin-left:70px;color:green; " class="glyphicon glyphicon-ok-circle" onclick="save2db(' + count + ')"><span  style="margin-left:70px;color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent(' + lineId + ')"></span></td><td class="hide">0</td>' + '<td id="assign' + count + '" class="">Draft</td>';
         $('#bodyi1').append(row);
         jQuery('.date').datetimepicker({
@@ -402,7 +388,6 @@
                 dataType: 'json',
                 success: function(result) {
 
-                    console.log("-- -- -  -- dd --- - - ", result);
                     var name;
                     compname='';
                     var log='';
@@ -426,14 +411,13 @@
                             $("#assignapp" + count).addClass('hide');
                             row = row + '<span id="assignapp' + count + '" style="margin-left:0px; color:red; " class="glyphicon glyphicon-remove-circle" title="Deactivate" onclick="unasignedtheAsset(' + count + ')"></span></td><td id="assign' + count + '">assigned</td>';
                         } else {
-                            //row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
+                           
                             row = row + '';
                             $('#assignapp' + count).removeClass('hide');
                             $('#assignreg' + count).addClass('hide');
                             row = row + '</td><td class="hide">0' + '</td><td id="assign' + count + '">unassigned</td>';
                         }
-                       // $('#bodyi1').append(row);
-                         //$('#assTable').html(row);
+                      
                          log=log+row;
                     }
                     for (var i = 0; i < result[1].length; i++) {
@@ -451,14 +435,13 @@
                             $("#assignapp" + count).addClass('hide');
                             row = row + '<td id="assign' + count + '">assigned</td>';
                         } else {
-                            //row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
+                          
                             row = row + '';
                             $('#assignapp' + count).removeClass('hide');
                             $('#assignreg' + count).addClass('hide');
                             row = row + '</td><td class="hide">0' + '</td><td id="assign' + count + '">unassigned</td>';
                         }
-                       // $('#bodyi1').append(row);
-                      // $('#assTable').html(row);
+                     
                       log=log+row;
 
                     }
@@ -475,7 +458,6 @@
                     },
                     dataType: 'json',
                     success: function(result) {
-                        console.log("show hrd", result);
                         var qwer = JSON.stringify(result[1]);
                         var data = JSON.stringify(result[0]);
                         var options = $("#hw");
@@ -510,7 +492,6 @@
             $('#saveb1').removeClass('hide');
             $('#bodyi1').html('');
             count = 0;
-            //alert("tid--"+tid+"--uid--"+uid);
             $.ajax({
                 url: "/getTransDetails",
                 method: 'post',
@@ -521,7 +502,6 @@
                 },
                 dataType: 'json',
                 success: function(result) {
-                    console.log("-- -- -  -- dd --- - - ", result);
                     for (var i = 0; i < result[0].length; i++) {
                         var row = '<tr><td>' + ++count + '</td><td>' + result[0][i].componentName + '<input type="hidden" id="compId' + count + '" value=' + result[0][i].ACID + '></td><td>' +
                             result[0][i].tagNo + '<input type="hidden" id="line' + count + '" value=' + result[0][i].Id + '><input type="hidden" id="tsId' + count + '" value=' + result[0][i].tsId + '></td><td><input id="date' + count + '" class="form-text-box date" value="' + ((result[0][i].assignDate).toString()).slice(0, 10) + '"></input><td><span id="assignreg' + count + '" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db(' + count + ')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent(' + result[0][i].Id + ')"></span>';
@@ -543,8 +523,7 @@
                     for (var i = 0; i < result[1].length; i++) {
                         var row = '<tr><td>' + ++count + '</td><td>' + result[1][i].componentName + '<input type="hidden" id="compId' + count + '" value=' + result[1][i].ACID + '><input type="hidden" id="flag' + count + '" value=' + result[1][i].assign + '></td><td>' + result[1][i].tagNo + '<input type="hidden" id="line' + count + '" value=' + result[1][i].Id + '><input type="hidden" id="tsId' + count + '" value=' + result[1][i].tsId + '></td><td><input id="date' + count + '" class="form-text-box date" value="' + ((result[1][i].assignDate).toString()).slice(0, 10) + '"></input><td>';
                         if (result[1][i].assign == 1) {
-                            //row=row+'<span id="assignapp'+count+'" style="margin-left:70px; color:red; " class=" glyphicon glyphicon-remove-circle" onclick="unasigned('+count+')"></span></td>';
-                            row = row + '';
+                           row = row + '';
 
 
                             $('#assignreg' + count).removeClass('hide');
@@ -570,7 +549,6 @@
                     },
                     dataType: 'json',
                     success: function(result) {
-                        console.log(result);
                         var qwer = JSON.stringify(result[1]);
                         var data = JSON.stringify(result[0]);
                         var options = $("#hw");
@@ -670,7 +648,6 @@
                     return false;
                 } 
 
-                console.log("software licenced :", result);
 
 
                 var data = JSON.stringify(result[0]);
@@ -775,7 +752,6 @@
          
          
        
-       // console.log(uid, lid, cid, adate, tid);
     
         $.ajax({
             url: "/saveAssignment",
@@ -870,7 +846,6 @@
             dataType: 'json',
             success: function(result) {
 
-                //alert(result[0].length);
                 var coid = '';
                 var coName = '';
                 var lid = '';
@@ -890,8 +865,6 @@
         });
     }
 
-
-    //jayyyyy
     function sendmailtouser(flagg)
     {
          $.ajax({

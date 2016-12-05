@@ -19,107 +19,17 @@
 <div id="ModalAdd">
   <div id="ModalAddMesage"></div>
 <div class="row secondry-color" style="margin:0px;padding:0px;padding-top: 1% ">
- <!-- <form method="post" action="/wbsAssignmentInProjectWbs" method="post" class="login-form" id="form1" name="myForm"> -->
+ 
            <input type="text" name="wbshidden" class="hide" id="wbshidden" value=2 />
           <input type="text" name="proname" class="hide" id="proname" value='<%=project[0].id%>' />
           <input type="text" name="flaghide" class="hide" id="flaghide" value=0  />
           <input type="text" name="wbsidhide" class="hide" id="idhide" value=0  />
-          <!-- <input type="text" name="wbsstatus" class="hide" value=1 id="wbsstatus1"> -->
  
  
 <span class="modal-title" style="padding-left:45%;">Add WBS Details</span>
 
 <div class="row" style="padding:3%;padding-top:1%;padding-bottom:1%">
-<!-- <div class="col-md-12">
-  <div class="row editwbsinputs">
-  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>WBS Name:<sup  class="astrick">*</sup></label>
-            <input type="text" onblur="return allWbs();" onkeypress="return specialCharacter(event)" class="form-control" style=" " placeholder=" Enter a WBS Name " name="wbsname" id="wbsname" maxlength="25" onblur="myFunction(); checkprofield();" value=''>
-        <div class="fLeft"><span class="error" id="errorWbsname"></span></div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>WBS Code:</label>
-            <input type="text" class="form-control" style=" " placeholder="WBS Code" name="wbscode" id="wbscode" maxlength="50" value='' readonly>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>WBS Owner:</label>
-             <select style=" " class="form-control" id="wbsowner" name="wbsowner">
-               <option disabled selected value=0>Select</option>
-                <% for(var i=0;i<owner.length;i++) {%>
-                <option value="<%=owner[i].id%>"><%=owner[i].name%></option>
-                <%}%>
-        </select>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>WBS Location:</label>
-            <select style=" " class="form-control" id="wbslocation" name="wbslocation">
-                  <option disabled selected value=0>Select</option>
- 
-                  <% for(var i=0;i<location.length;i++) {%>
-                  <option value="<%=location[i].id%>"><%=location[i].location%></option>
-                  <%}%>
-        </select>
-          </div>
-     </div> 
-      <div class="row editwbsinputs">   
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>Planned Start Date:<sup  class="astrick">*</sup></label>
-            <input type="text" class="form-control" id="datepicker" maxlength="25" placeholder="Select Planned Start Date"  style=" " name="wbspsdate" value=''>
-        <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>Planned End Date:<sup  class="astrick">*</sup></label>
-            <input type="text" name="wbspedate" class="form-control" maxlength="25" placeholder="Select Planned End Date" id="datepicker1" style=" " value=''>
-        <div class="fLeft"><span class="error" id="errorWbspedate"></span></div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>Actual Start Date:</label>
-            <input type="text" class="form-control" id="datepicker2" maxlength="25" style="width: 102% " placeholder="Select Actual Start Date"  name="wbsasdate" value=''>
-        <div class="fLeft"><span class="error" id="errorDatepicker2"></span></div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>Actual End Date:</label>
-            <input type="text" class="form-control" id="datepicker3" maxlength="25" style="width: 102% " placeholder="Select Actual End Date" name="wbsaedate" value=''>
-        <div class="fLeft"><span class="error" id="errorDatepicker3"></span></div>
-          </div>
-      </div> 
-      <div class="row editwbsinputs">   
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>Estimate Effort:</label>
-            <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Enter Effort" class="form-control" style=" " name="wbseffort" id="wbseffort" maxlength="5" min="0">
-                      <div class="fLeft"><span class="error" id="errorWbseffort"></span></div>
-               <select style="display:inline-block" id="wbseffort1" class="form-control" name="wbseffort1">
-                            <option disabled selected   value=0>Select</option>
-                            <option value=1>Man-Hours</option>
-                            <option value=2>Man-Days</option>
-                            <option value=3>Man-Weeks</option>
-                            <option value=4>Man-Months</option>
-                       </select>
-                       <div class="fLeft"><span class="error" id="errorWbseffort1"></span></div>       
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>Type:</label>
-            <select style="display:inline-block; " id="typeValue" class="form-control" name="typeValue">
-                <option disabled selected  value=0>Select</option>
-                <option value=1>Time only</option>
-                <option value=2>Time & Expence</option>
-                </select>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>Assign to All:</label>
-            <select style=" width:103%" id="assign" class="form-control" name="assign">
-                <option disabled selected  value=2>Select</option>
-                <option value=1>Yes</option>
-                <option value=0 selected="true">No</option>
-              </select>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-            <label>>WBS Status:<sup  class="astrick">*</sup></label>
-            <input type="text" name="wbsstatus" class="hide" value=1 id="wbsstatus1" selected style=" "> Active
-        <input type="radio" name="wbsstatus" value=0 id="wbsstatus2" style=" "> Inactive
-          </div>
-       </div>  
-   </div>       -->
+
 <table class="table" style="margin-bottom:0px">
   <tr>
     <td>
@@ -384,7 +294,7 @@
                         </thead>
 
                         <tbody id="wbsstatus11" style="background-color: white;">
-                             <% for(var i=wbs.length-1;i>=0;i--) { console.log('gdgdrfgdsfrfgdsfsfsf---',i) %>
+                             <% for(var i=wbs.length-1;i>=0;i--) {  %>
                                <tr id="">
 
                                    <td>
@@ -443,18 +353,7 @@
     label {
         color: black;
     }
-    
-/*    .tagger {
-        border: -1px steelblue !important;
-        background-color: #fff !important;
-        cursor: text;
-        font-family: sans-serif;
-        font-size: 10pt !important;
-        padding: 10px 7px 3px 4px !important;
-        min-height: 19px !important;
-        display: table-cell !important;
-    }*/
-    
+
     .wbsowner {
         margin-top: 10px;
     }
@@ -499,18 +398,8 @@
             });
 
             $('#wbsstatus1').prop('checked', true);
-            /*   $("input[name=pstatus][value=" + 1 + "]").prop('checked', true);*/
             $('.project-img').addClass('active');
-            /*
-               $("#plocation").prop("selectedIndex", -1);
-              $("#pcomplexity").prop("selectedIndex", -1);
-              $('#plocation').val('<%=project[0].plocation%>');
-              $('#pcomplexity').val('<%=project[0].pcomplexity%>');*/
-
-
-            /* $("#datepicker").datepicker();
-             $("#datepicker1").datepicker();
-             */
+           
 
             $("#datepicker2").datetimepicker({
                 timepicker: false,
@@ -620,7 +509,6 @@ $('#pid').val('<%=prid[0].pid%>');
 $('#assign').on('change',function(){
               if( $(this).val()==="1"){
                 $('#assignmentDiv').addClass('hide');
-                //alluser="";
                 var string1="<select class='form-text-box' name='asd' multiple='multiple' id='asd'><option value=0 disabled>Select </option>" ;
 
                    <% for(var i=0;i<allUser1.length;i++) {%>
@@ -628,7 +516,6 @@ $('#assign').on('change',function(){
                             string1+="<option value='<%=allUser1[i].id%>' ><%=allUser1[i].firstName%></option>"  ;           
                        <%}%>
               string1+="</select>";
-              console.log(string1);
 
 
 
@@ -662,7 +549,6 @@ $('#assign').on('change',function(){
 
                             
 
-                    //alert(date+' '+date1);
                     $("#datepicker21").val(text);
                     $("#datepicker22").val(text1);
                       $("#datepicker21").datetimepicker({
@@ -691,7 +577,6 @@ $('#assign').on('change',function(){
                     var text1 = $('#datepicker1').val();
                     var date1 = new Date(text1);
 
-                    //alert(date+' '+date1);
                     $("#datepicker21").val(text);
                     $("#datepicker22").val(text1);
                       $("#datepicker21").datetimepicker({
@@ -942,7 +827,6 @@ $('#assign').on('change',function(){
 
 
          }
-            //return true;
             submitwbs();
         }
 
@@ -957,11 +841,9 @@ $('#assign').on('change',function(){
             mm=mm+1;
             var yr=td.getFullYear();
             st_ed_date=mm+"/"+dd+"/"+yr;
-            //var alluser=[];
             var startDt=document.getElementById("datepicker21").value;
             var endDt=document.getElementById("datepicker22").value;
             var s = document.getElementById("asd");
-          //  alert("length of s is"+s.options.length);
             for (var i = 0; i < s.options.length; i++) {
                  if (s.options[i].selected == true) {
                    var user = s.options[i].value;
@@ -990,21 +872,12 @@ $('#assign').on('change',function(){
                 var check1= '"/projectWbs?pid='+$('#proname').val()+'"';
                 confirmBox3("window.location.href="+check1,'window.location.href="/projectDetails"',8);
                 $('.se-pre-con').fadeOut('slow');  
-/*                  var r = confirm("Do you want to create more WBS and Assignment?"); 
-                        if (r == false) {  
-                            window.location.href="/projectDetails";
-                            
-                        }
-                        else{
-                          window.location.href="/projectWbs?pid="+$('#proname').val();
-                          $('.se-pre-con').fadeOut('slow');
-                        }*/
+
                     
 
               }
 
             });
-            //return false;
         }
 
 
@@ -1030,7 +903,7 @@ $('#assign').on('change',function(){
 
         function specialCharacter(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode
-                /*if ( !(charCode > 47 && charCode < 58) || !(charCode > 64 && charCode < 91) || !(charCode == 96 || charCode == 123) ) {*/
+               
             if ((charCode != 38 && charCode > 32 && charCode < 46) || (charCode > 57 && charCode < 64) || charCode == 126 || charCode == 96) {
                 messageBox("This special character or number is not allowed\n ");
                 return false;

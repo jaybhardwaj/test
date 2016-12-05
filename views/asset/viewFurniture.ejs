@@ -76,8 +76,9 @@
         <% include ../partials/footer %>
     </footer>
                  
-                 <!--edit furniture modal-->
+                
 <div class="modal fade" id="editfurniture" role="dialog">
+
  <div class="modal-dialog" style="min-width: 80%;">
       <!-- Modal content-->
       <div class="modal-content">
@@ -94,32 +95,32 @@
                 <span id="ltype" class="hide labelans"></span>
                 <input type="text" id="typel" class="form-control textBox" maxlength="50" name="typel" placeholder="name">
             </div>
-             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Quantity:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input name="qty" class="form-control textBox" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
+             </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                 <label class="form-Label" >Vendor:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                 <select  class="form-control textBox" style=""  name="vendor" id ="vendor" onchange=""> 
+                            <option value='0' disabled selected>Select</option>
+                                               <% for(i=0;i<stype[2].length;i++){%>
+                                           <option value="<%=stype[2][i].id%>"><%=stype[2][i].name%></option>
+                                                   <%}%>
+                 </select>
+             </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <label class="form-Label" >Quantity:<sup class="astrick">*</label>
                 <span id="lqty" class="hide labelans"></span>
                 <input name="qty" class="form-control textBox" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                 <label class="form-Label" >Vendor:<sup class="astrick">*</label>
-                <span id="lqty" class="hide labelans"></span>
-                 <select  class="form-control textBox" style=""  name="vendor" id ="vendor" onchange=""> 
-                                          <option value='0' disabled selected>Select</option>
-                                               <% for(i=0;i<stype[2].length;i++){%>
-                                           <option value="<%=stype[2][i].id%>"><%=stype[2][i].name%></option>
-                                                   <%}%>
-                 </select>
-              </div>
-               <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                <label class="form-Label" >Quantity:<sup class="astrick">*</label>
-                <span id="lqty" class="hide labelans"></span>
-                <input name="qty" class="form-control textBox" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
-              </div>
-               <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <label class="form-Label" >Purchased Order: </label>
                 <span id="lqty" class="hide labelans"></span>
                 <input type="text" maxlength="30"  class="form-control textBox" id="order" name="order" />
               </div>
-               <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <label class="form-Label" >Invoice Date:<sup class="astrick">*</label>
                 <span id="lqty" class="hide labelans"></span>
                 <input type="text" class="form-control textBox date"id="Invoicedate" name="Invoicedate" />
@@ -129,7 +130,7 @@
                 <span id="lqty" class="hide labelans"></span>
                 <input type="text" maxlength="30"  class="form-control textBox" id="invoiceNo" name="invoiceNo" />
               </div>
-               <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <label class="form-Label" >Invoice Amount:<sup class="astrick">*</label>
                 <span id="lqty" class="hide labelans"></span>
                 <input type="number" maxLength="12"  name="invoiceAmt" class="form-control textBox" id="invoiceAmt" onblur="calulateunitprice();"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">      
@@ -157,12 +158,12 @@
                                       <% for(i=0;i<stype[1].length;i++){%>
                                    <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
                                      <%}%>
-                 </select>
+                </select>
+
               </div>
-           
-         
-            </div>
-            </div>
+
+          </div>
+          </div>
             <div class="modal-footer" style="border-top:0px;">
             <div class="col-lg-12" style="margin-top:18px;">
               <center>
@@ -175,11 +176,6 @@
           </div>
         </div>
       </div>
-   
-
-    <!--end of modal-->
-
-
 
 <script>
 
@@ -194,7 +190,6 @@ $(document).ready(function(){
         
   <%if(flag==1){%>
       alert("Furniture successfully added!");
-     // window.location.href='/viewFurniture';
     <%}%>
   var oTable=$("#furtable").dataTable({
     "bLengthChange": false,
@@ -212,7 +207,7 @@ jQuery('.date').datetimepicker({
   format:'d/m/Y'
 });
 
- function del(id){ //alert(id);
+ function del(id){ 
   $.ajax({
     url:'/deleteHeader',
     method: 'POST',
@@ -226,14 +221,12 @@ jQuery('.date').datetimepicker({
 
 function edit(id){
   $("#hdnId").val('');
-  //
-  //alert(id);
+ 
   $.ajax({ 
     url: '/getEditStationary',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
-      console.log("edit info*****",data);
       $("#typel").val(data[0][0].name);
       $("#qty").val(data[0][0].quantity);
       $("#vendor").val(data[0][0].vendor);

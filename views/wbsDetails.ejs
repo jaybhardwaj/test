@@ -4,9 +4,7 @@
 
 <style>
  
-/* .dataTables_filter, .dataTables_length {
-     //display: none;
-    }*/
+
 #bugtable_filter input{
       width: 218px;
     }
@@ -51,33 +49,13 @@ $(document).ready(function() {
                 { "data": "WBSLocation"}
                 ],
                 "info":false,
-                // "bSort":false,
                 "autoWidth": true,
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
                   "processing": true,
                   "serverSide": true,
-                 // "deferLoading": 30
              
 "columnDefs": [ 
-                     //if(data[0][i].firstName==null){data[0][i].firstName='';}
-//                       if(data[0][i].location==null){data[0][i].location='';}
-//                       if(data[0][i].WBSName==null){data[0][i].WBSName='';}
-//                       if(data[0][i].WBSCode==null){data[0][i].WBSCode='';}
-//                       if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
-//                       if(data[0][i].WBSName==null){data[0][i].WBSName='';}
-//                       if(data[0][i].wplannedStartDate==null){data[0][i].wplannedStartDate='';}
-//                       if(data[0][i].wplannedEndDate==null){data[0][i].wplannedEndDate='';}
-//                       if(data[0][i].wactualStartDate==null){data[0][i].wactualStartDate='';}
-//                       if(data[0][i].wactualEndDate==null){data[0][i].wactualEndDate='';}
-//                       if(data[0][i].estimateEffort==''){data[0][i].estimateEffort='';}
-//                       if(data[0][i].estimateEffort1==0){data[0][i].estimateEffort1='';}
-//                       if(data[0][i].estimateEffort1==null){data[0][i].estimateEffort1='';}
-//                       if(data[0][i].estimateEffort1==1){data[0][i].estimateEffort1='Man-Hours';}
-//                       if(data[0][i].estimateEffort1==2){data[0][i].estimateEffort1='Man-Days';}
-//                       if(data[0][i].estimateEffort1==3){data[0][i].estimateEffort1='Man-Weeks';}
-//                       if(data[0][i].estimateEffort1==4){data[0][i].estimateEffort1='Man-Months';}
-//                       if(data[0][i].estimateEffort != ''){
-//                       data[0][i].estimateEffort = data[0][i].estimateEffort + ' ' + data[0][i].estimateEffort1;
+                   
                      {
                       "targets": 0,
                       "render":function(data,type,row){
@@ -85,7 +63,7 @@ $(document).ready(function() {
                              var text='';
                             else
                             var text=row.WBSName;
-                       var a=  "<input type='text' style='cursor: pointer;pointer-events:none;border:0px'readonly='true' id='wbsname_"+row.WBSId+"' value="+text+">";
+                       var a=  "<input type='text' style='cursor: pointer;pointer-events:none;border:0px'readonly='true' id='wbsname_"+row.WBSId+"' value='"+text+"'>";
                          return a;      
                       }
 
@@ -119,7 +97,7 @@ $(document).ready(function() {
                      {
                       "targets": 6,
                     "render":function(data,type,row){
-                      console.log(row.wactualStartDate)
+              
                       if(row.wactualStartDate==null || row.wactualStartDate=='00/00/00' )
                       {
                         var text=' '; 
@@ -158,7 +136,7 @@ $(document).ready(function() {
                          {
                       "targets": 8,
                       "render":function(data,type,row){
-                          console.log("estimated efort---",row.estimateEffort);
+                        
                         if(row.estimateEffort==''){row.estimateEffort='';}
                       if(row.estimateEffort1==1){row.estimateEffort1='Man-Hours';}
                       if(row.estimateEffort1==2){row.estimateEffort1='Man-Days';}
@@ -198,12 +176,10 @@ $(document).ready(function() {
 
 $('#bugtable tbody').on('click', 'tr', function () {
    ch=$(this).children();
-  // alert($(ch[4]).children()[2].id.split('_')[1]);
-   console.log("$(ch[0]).children()[0].id.split('_')[1]-----------",$(ch[0]).children()[0].id.split('_')[1]);
+  
    
   this.id="row_"+$(ch[0]).children()[0].id.split('_')[1];
   getProjectAssignment($(ch[0]).children()[0].id.split('_')[1]);
- // console.log("iiiiiiiiiiii--------",this);
   
      } );
 
@@ -222,8 +198,7 @@ projectTable=$('#projectTable').dataTable({
 
   $('#bugtable')
           .on( 'page.dt',   function () { 
-                    //otable.$('tr').click();
-                    //otable.$('tr').addClass('hide');
+         
                     otable.$('tr').removeClass('hide');
 
            } )
@@ -254,7 +229,7 @@ function formatDate(date) {
 
 
 
-function setValidation(id,date,date1,flag){//alert(flag)
+function setValidation(id,date,date1,flag){
   if(flag==1){
 
     $('body').on('focus',"#wpsdate_"+id, function(){
@@ -276,124 +251,9 @@ function setValidation(id,date,date1,flag){//alert(flag)
 }
 
 
- // function wbsStatus(){
- 
-
-//   otable = $('#bugtable').DataTable({
-//                 "ajax": {
-//                     url: '/wbsStatus',
-//                     type: 'POST',
-//                     data: function(d){
-//                       d.status=$("#selectwbs").val();
-//                     }
-//                 },
-//                 "columns": [
-//                 { "data": "WBSName" },
-//                 { "data": "WBSCode" },
-//                 { "data": "projectId" },
-//                 { "data": "WBSOwner"},
-//                 { "data": "wplannedStartDate" },
-//                 { "data": "wplannedEndDate" },
-//                 { "data": "wactualStartDate" },
-//                  { "data": "wactualEndDate" },
-//                 { "data": "estimateEffort" },
-//                 { "data": "WBSLocation"}
-//                 ],
-//                 "info":false,
-//                 "bSort":false,
-//                 "autoWidth": true,
-//                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]]
-//                   // "processing": true,
-//                   // "serverSide": true,
-//                  // "deferLoading": 30,
-             
-// });
-// }
-
 function wbsStatus(){
   otable.ajax.reload();
-//   var st=$("#selectwbs").val();
-//     $.ajax({
-//                 url: '/wbsStatus',
-//                 type: 'post',
-//                 data: { "status": st },
-//                 success: function(data) {
-//                     var log = '',log1='',log2='';
-                    
-//                     for (var i = data[0].length-1; i >=0 ; i--) {
-//                       if(data[0][i].firstName==null){data[0][i].firstName='';}
-//                       if(data[0][i].location==null){data[0][i].location='';}
-//                       if(data[0][i].WBSName==null){data[0][i].WBSName='';}
-//                       if(data[0][i].WBSCode==null){data[0][i].WBSCode='';}
-//                       if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
-//                       if(data[0][i].WBSName==null){data[0][i].WBSName='';}
-//                       if(data[0][i].wplannedStartDate==null){data[0][i].wplannedStartDate='';}
-//                       if(data[0][i].wplannedEndDate==null){data[0][i].wplannedEndDate='';}
-//                       if(data[0][i].wactualStartDate==null){data[0][i].wactualStartDate='';}
-//                       if(data[0][i].wactualEndDate==null){data[0][i].wactualEndDate='';}
-//                       if(data[0][i].estimateEffort==''){data[0][i].estimateEffort='';}
-//                       if(data[0][i].estimateEffort1==0){data[0][i].estimateEffort1='';}
-//                       if(data[0][i].estimateEffort1==null){data[0][i].estimateEffort1='';}
-//                       if(data[0][i].estimateEffort1==1){data[0][i].estimateEffort1='Man-Hours';}
-//                       if(data[0][i].estimateEffort1==2){data[0][i].estimateEffort1='Man-Days';}
-//                       if(data[0][i].estimateEffort1==3){data[0][i].estimateEffort1='Man-Weeks';}
-//                       if(data[0][i].estimateEffort1==4){data[0][i].estimateEffort1='Man-Months';}
-//                       if(data[0][i].estimateEffort != ''){
-//                       data[0][i].estimateEffort = data[0][i].estimateEffort + ' ' + data[0][i].estimateEffort1;
-//                       }
-//                       console.log('-------',data[0][i].plannedStartDate,' ',data[0][i].plannedEndDate);
-//                       var sdate=data[0][i].plannedStartDate;
-//                       var edate=data[0][i].plannedEndDate;
-//                       var date = new Date(sdate);
-//                       var date1 = new Date(edate);
-//                             var date = formatDate(date);
-//                             var date1 = formatDate(date1);
-//                             var date=new Date(date);
-//                             var date1=new Date(date1);
 
-//                       if(data[0][i].wactualStartDate=='00/00/00'){data[0][i].wactualStartDate='';}
-//                       if(data[0][i].wactualEndDate=='00/00/00'){data[0][i].wactualEndDate='';}
-//                       //alert(date+' '+date1)
-//                           log=log+ '<tr style=height:20px;color:grey;font-size:12px; class="rows" id="abc_'+data[0][i].WBSId+'" onclick="getProjectAssignment('+data[0][i].WBSId+');"><td><input type="text" style="cursor: pointer;pointer-events:none;border:0px"   id="wbsname_'+data[0][i].WBSId+'" value="'+data[0][i].WBSName+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td>'+data[0][i].WBSCode+'</td><td>'+data[0][i].projectTitle+'</td><td>'+data[0][i].firstName+'</td><td><input style="cursor: pointer;border:0px"   type="text"  readonly="true" id="wpsdate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="wpedate_'+data[0][i].WBSId+'" value="'+data[0][i].wplannedEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"></td><td><input type="text" readonly="true"  id="wasdate_'+data[0][i].WBSId+'" style="cursor: pointer;border:0px"   value="'+data[0][i].wactualStartDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"><div class="fLeft col-sm-12"><span class="error" id="errorWBS_'+data[0][i].WBSId+'"></span></div></td><td><input type="text" style="cursor: pointer;border:0px" readonly="true"  id="waedate_'+data[0][i].WBSId+'" value="'+data[0][i].wactualEndDate+'" onchange="changeProjectAssignment(0,'+data[0][i].WBSId+',0,1);"><div class="col-sm-12 fLeft"><span class="error" id="errorWaedate_'+data[0][i].WBSId+'"></span></div></td><td>'+data[0][i].estimateEffort+'</td> <td>'+data[0][i].location+'</td>';
-
-//                             setValidation(data[0][i].WBSId,date,date1,1);
-
-
-// if(data[0][i].projectTitle!='DummyProject'){
-//   if(data[0][i].WBSStatus==1){
-//                         log=log+' <td>   <a href="/addEditWbs?wbsid='+data[0][i].WBSId+'&flag=1"  onclick="return checkedit();"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px;margin-left:10px;margin-right:10px;" title="Edit WBS"></span></a>    <a onclick=" actinact('+data[0][i].WBSId+',1)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-right:10px;" title="click to inactive"></span></a></td> ';
-
-
-                           
-
-//                         }
-//                         else{
-//                           log=log+ '<td>   <a  onclick=" actinact('+data[0][i].WBSId+',0)"> <span class="glyphicon glyphicon-remove-sign" style="text-align:center;color:red;height:10px;margin-left:35px;" title="Check to active"></span></a> </td>';
-
-//                         }
-//                       }
-//                       else
-//                       {
-//                         log=log+'<td></td>';
-//                       }
-
-//                         log=log+'</tr>';
-                        
-//                     }otable.fnDestroy();
-//                     $('#wbsstatus').html(log);
-//                     otable=$('#bugtable').DataTable({
-//                       'iDisplayLength': 10,
-//                       "order":[]
-//                       });
-
-//                     otable.$('tr:first').click();
-//                     otable.$('tr').addClass('hide');
-//                     otable.$('tr:first').removeClass('hide');
-
-//                     otable.$('tr').removeClass('hide');
-//                 }
-
-//             });
 
  }
 
@@ -401,13 +261,7 @@ function wbsStatus(){
 
 
  function checkedit(){
- /* var r = confirm("Do you want to edit this WBS ?");
-    if (r == true) {
-        
-        return true;
-    } else {
-        return false;
-    }*/
+ 
     return true;
 }
 function checkactive(st){
@@ -422,7 +276,6 @@ function checkactive(st){
 }
 
 function actinact(wbsid,flag){
- //if(confirm("are you sure you want to inactive the wbs ?")==true)
  var r=checkactive(flag);
  if(r){
   $.ajax({
@@ -446,11 +299,9 @@ function getProjectAssignment(wbsid){
   $('#bugtable').dataTable().$("tr").removeClass('active-row');
  
   
- // $(".rows").removeClass('active-row');
             $("#row_"+wbsid).addClass('active-row');
 
 
-         // otable.$("tr").addClass('hide');
           $(".active-row").removeClass('hide');
              
 
@@ -473,7 +324,6 @@ function getProjectAssignment(wbsid){
 
                       log=log+ '<tr style=height:20px;color:grey;font-size:12px; onclick="highlight('+data[0][i].id+',0,1)" class="rows1"  id="projectRow_'+data[0][i].id+'"><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   value="'+data[0][i].projectTitle+'" id="pname_'+data[0][i].id+'" onchange="changeProjectAssignment('+data[0][i].id+',0,0,2);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="changeProjectAssignment('+data[0][i].id+',0,0,2);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="changeProjectAssignment('+data[0][i].id+',0,0,2);"></td></tr>';
 
-                      //setValidation(data[0][i].id,date,date1,2);
 
                       $('body').on('focus',"#psdate_"+data[0][i].id, function(){
                           $(this).datetimepicker({
@@ -507,9 +357,6 @@ function getProjectAssignment(wbsid){
 
 
                     for (var i = 0; i < data[1].length ; i++) {
-
-                      console.log('*********',data[1][i].wplannedStartDate,' ',data[1][i].wplannedEndDate);
-
                       var sdate=data[1][i].wplannedStartDate;
                       var edate=data[1][i].wplannedEndDate;
                       var date = new Date(sdate);
@@ -528,36 +375,15 @@ function getProjectAssignment(wbsid){
                              adate1 = new Date(formatDate(adate1));
                             
 
-                            //alert(sdate+' '+edate)
                        log1=log1+ '<tr style=height:20px;color:grey;font-size:12px; onclick="highlight(0,'+data[1][i].id+',2)" class="rows2"  id="assignmentRow_'+data[1][i].id+'"><td><input type="text"  readonly="true" style="cursor: pointer;border:0px"   value="'+data[1][i].projectTitle+'"></td><td><input type="text"  readonly="true" style="cursor: pointer;border:0px"   value="'+data[1][i].WBSName+'" id="assignname_'+data[1][i].id+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" value="' + data[1][i].firstName + '"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true"  id="assigndate_'+data[1][i].id+'" value="'+data[1][i].AssignmentDate+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px"   id="assignedate_'+data[1][i].id+'" value="'+data[1][i].AssignmentEndDate+'" onchange="changeProjectAssignment(0,0,'+data[1][i].id+',3);"></td></tr>';
 
-                       //setValidation(data[1][i].id,date,date1,2);
 
 
 
 
                                setdate(data[1][i].id,date,adate1,adate,date1);
 
-               /*        $('body').on('focus',"#assigndate_"+data[1][i].id, function(){
-                          $(this).datetimepicker({
-                                timepicker:false,
-                                format:"m/d/y",
-                                    scrollMouse: false,
-                                    scrollInput: false,
-                                    minDate: date,
-                                    maxDate: date1
-                               });
-                      });
-                       $('body').on('focus',"#assignedate_"+data[1][i].id, function(){
-                          $(this).datetimepicker({
-                                timepicker:false,
-                                format:"m/d/y",
-                                    scrollMouse: false,
-                                    scrollInput: false,
-                                    minDate: date,
-                                    maxDate: date1
-                               });
-                      });*/
+             
 
 
 
@@ -707,7 +533,6 @@ function highlight(pid,aid,flag){
 
 function changeProjectAssignment(projectId,wbsId,assignmentId,flag){
 resetError();
-//alert("projectId"+projectId+"wbsId"+wbsId+"assignmnetId"+assignmentId)
 var errorstartWBS = $('#errorWBS_'+wbsId);
 var errorWaedate = $('#errorWaedate_'+wbsId);
 var a=checkWBS(wbsId);
@@ -718,9 +543,8 @@ var c=checkAssignment(assignmentId,wbsId);
 
     if(a==true){
     var wbsname=$('#wbsname_'+wbsId).val();
-  //  alert("ttttttttttttt"+wbsname+"");
-    var wpsdate=$('#wpsdate_'+wbsId).val();//alert(wpsdate)
-    var wpedate=$('#wpedate_'+wbsId).val();//alert(wpedate)
+    var wpsdate=$('#wpsdate_'+wbsId).val();
+    var wpedate=$('#wpedate_'+wbsId).val();
     var wasdate=$('#wasdate_'+wbsId).val();
     var waedate=$('#waedate_'+wbsId).val();
 
@@ -745,8 +569,8 @@ var c=checkAssignment(assignmentId,wbsId);
 
     if(b==true){
     var pname=$('#pname_'+projectId).val();
-    var psdate=$('#psdate_'+projectId).val();//alert(psdate)
-    var pedate=$('#pedate_'+projectId).val();//alert(pedate)
+    var psdate=$('#psdate_'+projectId).val();
+    var pedate=$('#pedate_'+projectId).val();
     var asdate=$('#asdate_'+projectId).val();
     var aedate=$('#aedate_'+projectId).val();
 
@@ -772,33 +596,24 @@ var c=checkAssignment(assignmentId,wbsId);
 
   else{
 
-    //if(c==true){
       var assignname=$('#assignname_'+assignmentId).val();
       var assigndate=$('#assigndate_'+assignmentId).val();
       var assignedate=$('#assignedate_'+assignmentId).val();
-   // alert("");
       $.ajax({
                 url: '/changeProjectAssignment',
                 type: 'post',
                 data: {  "wid":0,"wbsname":"0","wpsdate":"0","wpedate":"0","wasdate":"0","waedate":"0","pid":0,"pname":"0","psdate":"0","pedate":"0","asdate":"0","aedate":"0","aid":assignmentId,"assignname":assignname,"assigndate":assigndate,"assignedate":assignedate, "flag": flag },
                 success: function(data) {
-                   console.log("data for change in assignmnet---",data);
-                   if(data[0][0].msg==2){
+                        if(data[0][0].msg==2){
                         messageBox2('Date validations of Assignment are not according to WBS','wbsStatus()');
                     }
                      if(data[0][0].msg!=2)
                     wbsStatus();
-                    /*else{
-                      alert('assignment updated');
-                    }*/
+                  
                 }
 
             });
 
-        /*}
-        else{
-          return false;
-        }*/
   }
 }
 
@@ -821,11 +636,9 @@ url: url,
 method: 'POST',
 data : {"type":type,'status':status},
 success: function(data) {
-    console.log('bugdata',data)
 data.unshift(header);
 alasql("SELECT * INTO CSV('WBS.csv') FROM ?",[data]);
-/*$(".se-pre-con").fadeOut("slow");
-$("#btnDownloadbug").prop('disabled', false);*/
+
 },
 dataType: 'JSON',
 });   
@@ -858,8 +671,7 @@ function showAll()
     </a> 
     <span class="modal-title" style="padding-left:35%">WBS Details</span> 
 
-    <!-- <input type="button" onclick="showAll()" value="Show All"> -->
-<!--     <img class="imageInc" src="../img/showAll.png" onclick="showAll()"  class="shadow" style="margin-left:10px " height="30px" title="Show All" width="30px">  -->
+  
      <span style="margin-left:10px" class="glyphicon glyphicon-fullscreen" onclick="showAll()" title="Show All" ></span>
        <select class="form-text-box" style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" id="selectwbs" onchange="wbsStatus()">
                  <option value="1">Active</option>

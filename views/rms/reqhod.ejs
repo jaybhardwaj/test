@@ -39,7 +39,6 @@
             padding-left: 5px;
         }
     </style>
-      <!---------------------------------View Detail modal box -------------------------------------->
       <div class="modal fade" id="jdDetailModal" role="dialog">
             <div class="modal-dialog modal-lg" style="">
                 <div class="modal-content" style=" ">
@@ -158,7 +157,6 @@
 
 
 
-        <!---------------------------------Copy/Edit modal box -------------------------------------->
         <div class="modal fade" id="mymodal" role="dialog" style="top:-23px; " data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" style="margin:0px;">
@@ -173,7 +171,7 @@
 
                             <div class="row" style="margin-top:1%;margin-bottom:1%">
                                 <div class="col-md-1 col-md-offset-5" id="submitButton">
-                                    <!-- <button type="submit" class="button bt-small" style="width:200%"><i class="fa fa-save"></i> Submit</button> -->
+                                    
                                 </div>
                             </div> 
           <div class="row ">
@@ -333,7 +331,7 @@
                     </div>
                 </div>
             </div>
-            <!--new-->
+          
                          <input name="flag" id="flag1" type="text" style="width:100%" class="hide">
                                             <input name="ide" id="ide" type="text" style="width:100%" class="hide">   
 
@@ -348,7 +346,7 @@
                 </div>
             </div>
         </div>
-        <!-----------------------------Main Page Content-------------------------->
+    
     <div class="secondry-color"   style="padding-top:4%;overflow: hidden;">
  
     <div style="margin:1% ;margin-top: 0px">
@@ -430,7 +428,6 @@
     </div>
 
 
-    <!--PAGE CONTENT ENDS-->
 <%include menu1.ejs%>
 <% include ../partials/footer %>   
             <script type="text/javascript">
@@ -444,9 +441,7 @@
                         alert("Please fill Job Title!");
                         return false;
                     }
-                 /*    var strLocation = '#location_'+$('#locationId').val()
-                    $('#locationnameId').val($(strLocation).html().trim()); */
-                           console.log($('#minsal').val() + '      ' + $('#maxsal').val());
+              
 
                     if(!$('#yox').val().trim().length){
                         alert("Please fill Experience!");
@@ -460,10 +455,7 @@
                         alert('Please select a skill!');
                         return false;
                     }
-                  /*    if($('#jobType').val()<1){
-                        alert("Select Job Type");
-                        return false;
-                        }*/
+                 
                         var decode = tinyMCE.activeEditor.getContent();
                         decode = decode.replace(/&nbsp;/g, '');
                         decode = decode.replace(/<p>/g, '');
@@ -488,10 +480,7 @@
                             arstr2[3] = $('#yox').val();
                             arstr2[4] = $('#nop').val();
                             var str2 = arstr2.toString();   
-                          /*  if (str1 == str2) {
-                                alert('You cannot create duplicate JD!')
-                                return false;
-                            } */
+                        
                         }
                         $('.addDisable').attr('disabled', false);   
                          $(".chosen-select").prop('disabled', false).trigger('chosen:updated');
@@ -508,7 +497,6 @@
                         if (flag == 'edit') {
                             $('#ModalHeading').html("Edit Requisition");
                         }
-                        // ce = flag;
                         $('#flag1').val(flag);
                         $('#ide').val(id);
                         $.ajax({
@@ -547,7 +535,6 @@
                                     $("#priority").val(info[0].priority);
                                     $('#expiresOn').val(info[0].expireDate);
                                     tinyMCE.activeEditor.setContent(info[0].description);
-                                    //$('#Description').html(info[0].description);
                                     $('#yox').val(info[0].Experience);
                                     $('#rec').val(info[0].recruiter);
                                     $('#jobType').val(info[0].jobType);
@@ -568,11 +555,9 @@
                                     var desc; 
                                     for (var i = 0; i < data.result[8].length; i++) {
                                          desc = data.result[8][i].description;
-                                         //console.log("Hiss ",desc);
                                         $('#historyTable').append("<tr style=padding-top:2%;width:100%;float:left;font-size:14px;color:grey><td style=color:black>" + counter++ + ".</td><td>\t" + data.result[8][i].name + " has edited <b style=color:black>" + data.result[8][i].columnName + "</b> to " + desc + " on <b>" + data.result[8][i].date.slice(0, 10) + "</b> </td></tr></br>");
                                     }
 
-                                //--------------View Detail Pop-Up
                                if (con == 7) {
                                     $('#ModalHeading').html("Requisition Details");
                                   
@@ -595,7 +580,6 @@
                                     }
                                     $('#dskillsId').html(arr.toString());
                                     $("#ddiscription").html(dviewinfo[0].description);
-                                    //-----History Div---------
                                     $('#dhistoryTable').html('');
                                     var counter = 1;
                                     var cname;
@@ -607,7 +591,6 @@
                                     }
                                 } 
                                 if (flag == "copy") {
-                                    //free to edit
                                     $('.addUsed').addClass("used");
                                     $('.addDisable').attr('disabled', false);  
                                     $(".tagger").removeClass("disabled1");
@@ -615,14 +598,14 @@
                                 }
                                 if (flag == "edit") {
                                     
-                                    if (con == 0) { // show everything and edit everything
+                                    if (con == 0) { 
                                         $('.addUsed').addClass("used");
                                         $('.addDisable').attr('disabled', false); 
                                         $('#skillsId').removeClass("hide"); 
                                          $(".tagger").removeClass("disabled1");
                                     }
                                     if (con == 2 ) {
-                                        //partial editing is allowed
+                                   
                                         
                                         $('.addUsed').addClass("used");
                                         $('.addDisable').attr('disabled', true);
@@ -639,7 +622,7 @@
                                         }).css("display","none"); 
 
                                         $(".tagger").addClass("disabled1");
-                                    //$('#skillsId').addClass("hide");
+                                
                                     $('#skillLabel').removeClass("hide");
                                     }
                                 }
@@ -660,7 +643,6 @@
                         return false;
                         }
                     }  
-                   // alert(flag);                  
                     $.ajax({
                         url: '/updateStatusReq',
                         data: {
@@ -670,7 +652,6 @@
                         },
                         method: 'post',
                         success: function(data) {
-                                console.log(data);
                             if(data[3][0].flag==0){
                                 alert("This Requisition is already deleted!")
                             }  
@@ -678,7 +659,6 @@
                                alert("Requisition Approved successfuly!") 
                                 location.reload();
                             }                    
-                            //location.reload();
                         }
                     });
                 }
@@ -687,7 +667,6 @@
 
                 var dataTable = $("#allrequisition").dataTable({
                     "showNEntries": false,
-                    // "dom": '<"top"i>rt<"bottom"flp><"clear">',
                     "bFilter": true,
                     "bLengthChange": false,
                     "bSort": true,
