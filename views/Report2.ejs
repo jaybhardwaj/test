@@ -148,8 +148,7 @@
                 </th>
                 <th>
                     <div class="inner-addon right-addon">
-                        <i class="glyphicon glyphicon-search"></i>
-                        <input id="fortNightDate" type="text" class="form-control datepicker" placeholder="Search" />
+                        <select id="fortnightFilter" class="form-control"></select>
                     </div>
                 </th>
                 <th>
@@ -211,7 +210,7 @@
                   d.hours = $('input#hours').val() || '';
                   d.Thumbhours = $('input#Thumbhours').val() || '';
                   d.DATEs = $('input#date').val() || '';
-                  d.fortNightDate = $('input#fortNightDate').val() || '';
+                  d.fortNightDate = $("select#fortnightFilter").val() ? $("select#fortnightFilter").val().toString() :'';
                   d.billable = $('input#billable').val() || '';
                   d.yearmonth = $("select#yearmonth").val() ? $("select#yearmonth").val().toString() :'';
 
@@ -262,10 +261,11 @@
                     var projectArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.project : [];
                     var wbsArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.wbs : [];
                     var monthyrArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.monthyearArr : [];
-
+                    var fortnightArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.fortnightDate : [];
                     var projectOptions ='';
                     var wbsOptions ='';
                     var monthyrOptions ='';
+                    var fortnightOptions ='';
                     projectArr.forEach(function(element) {
                         projectOptions += '<option>'+element.projectName+'</option>';
                     });
@@ -275,12 +275,17 @@
                     monthyrArr.forEach(function(element) {
                         monthyrOptions += '<option>'+element.yearmonth+'</option>';
                     });
+                    fortnightArr.forEach(function(element) {
+                        fortnightOptions += '<option>'+element.fortNightDate+'</option>';
+                    });
                     $('#projectName').append(projectOptions);
                     $('#WbsName').append(wbsOptions);
                     $('#yearmonth').append(monthyrOptions);
+                    $('#fortnightFilter').append(fortnightOptions);
                     $("#projectName").val("");
                     $("#WbsName").val("");
                     $("#yearmonth").val("");
+                    $("#fortnightFilter").val("");
                     // Apply the filter
                     $("#filterrow input[type='text']").on( 'blur', function () {
                         reportTable.ajax.reload();
