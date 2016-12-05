@@ -19,18 +19,28 @@
      .marginLeftRight{      
          margin-left: -31%;     
     width: 123%;        
-    }       
+    }     
+    .paddings{
+        padding-right: 0px;
+        padding-left: 0px;
+    }  
+    .marginTOP10{
+        margin-top: 10px;
+    }
 
 </style>
 
 <body>
     <div class="container-fluid secondry-color" style="padding-top:1%;min-height: 350px">
+    <div class="clearfix">
         <a href="/addSoftware" type="button" title="Add New Stationary" value="Addstationary">
-            <img class="addNewPlus" style="    margin-top: 1%;"></a>
+            <img class="addNewPlus"></a>
         <span class="modal-title" style="padding-left:41%;">List Of All Softwares</span>
-
-       <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="margin-left: 86%;margin-bottom: 1%;width: 13%;">
-         <div class="row" style="margin-left:1px;max-width: 100% ; overflow-y:auto" >
+        </div>
+        <div class="clearfix">
+       <input class="form-control" type="text" placeholder="search in this table" id="searchbox" style="margin-bottom: 10px;width: 200px;float:right">
+       </div>
+         <div class="row">
         <table class="table table-hover table-striped table-bordered rceDataTable" id="softtable" cellpadding="0" cellspacing="0" border="0" >
             <thead>
                 <tr>
@@ -39,7 +49,7 @@
                     <th style='background-color:grey;color:white'>Vendor</th>
                     <th style='background-color:grey;color:white'>Invoice date</th>
                     <th style='background-color:grey;color:white'>Description</th>
-                    <th style='background-color:grey;color:white; width:200px'>Licence Key</th>
+                    <th style='background-color:grey;color:white;' >Licence Key</th>
                     <th style='background-color:grey;color:white'>No. of Users</th>
                     <th style='background-color:grey;color:white'>Licence Expiry Date</th>
                     <th style='background-color:grey;color:white'>Licence Purchase Date</th>
@@ -97,9 +107,9 @@
 </footer>
 <!--edit      modal-->
 <div class="modal fade" id="editstation" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog " style="min-width:80%">
         <!--- Modal content-->
-        <div class="modal-content" id="exp2" style="width: 1100px;margin-left: -11%">
+        <div class="modal-content" id="exp2" style="">
             <div class="modal-header" style="background-color:#f05f40;">
                 <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Software</b></label>
                     <span id="closeedit" class='close closeedit' data-dismiss="modal" style='float:right;' title='Close'> &times;  </span>
@@ -108,104 +118,105 @@
             <div id="err" class="col-lg-6 col-sm-offset-3"></div>
             <div class="modal-body">
                 <div class="row" style="max-width: 100% overflow-y:auto" >
-                    <table class="table" id="editlisence"  >
-                        <tr>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Software Type: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <select id="typel" name="htype" class="form-text-box" value="" disabled="disable">
+                    <div class="col-lg-12">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                            <div class="col-lg-5 paddings">
+                                <label class="form-Label">Software Type: <sup class="astrick">*</sup></label>
+                            </div>
+                            <div class="col-lg-7 paddings">
+                                  <select id="typel" name="htype" class="form-control" value="" disabled="disable">
                                       <%for(var i=0;i<stype[0].length;i++){%>
                                       <option value='<%=stype[0][i].softType%>'><%=stype[0][i].componentName%></option>
                                                         <%}%>
                                     </select>
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Name: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input type='text' maxlength="50" name="name" class="form-text-box" id="name" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Vendor: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <!-- <input type='text'maxlength="50" name="vendor"class="form-text-box" id="vendor"/> -->
-
-                                    <select class="form-text-box" style="" name="vendor" id="vendor" onchange=""> 
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                            <div class="col-lg-5 paddings">
+                                <label class="form-Label">Name: <sup class="astrick">*</sup></label>
+                            </div>
+                            <div class="col-lg-7 paddings">
+                                <input type='text' maxlength="50" name="name" class="form-control" id="name" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                             <div class="col-lg-5 paddings">
+                                 <label class="form-Label">Vendor: <sup class="astrick">*</sup></label>
+                             </div>
+                             <div class="col-lg-7 paddings">
+                                  <select class="form-control" style="" name="vendor" id="vendor" onchange=""> 
                                     <option value='0' disabled selected>Select</option>
                                     <% for(i=0;i<stype[1].length;i++){%>
                                     <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
                                                    <%}%>
                                     </select>
+                            </div>
+                        </div> 
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                            <div class="col-lg-5 paddings">
+                                 <label class="form-Label">Invoice Date: <sup class="astrick">*</sup></label>
+                            </div>
+                            <div class="col-lg-7 paddings">
+                               <input type="" class="form-control date" id="Invoicedate" name="Invoicedate" />                            </div>
+                        </div>    
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                            <div class="col-lg-5 paddings">
+                                 <label class="form-Label">Licence Required:</label>
+                            </div>
+                            <div class="col-lg-7 paddings">
+                               <input name='test5' type="checkbox" id="test5" />
+                            </div>
+                        </div>    
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                            <div class="col-lg-5 paddings">
+                                 <label class="form-Label">Description: <sup class="astrick">*</sup></label>
+                            </div>
+                            <div class="col-lg-7 paddings">
+                               <textarea id='textarea' name="des" class="form-control"></textarea>
+                            </div>
+                        </div>   
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                            <div class="col-lg-5 paddings">
+                                  <label class="form-Label"># Users: <sup class="astrick">*</sup></label>
+                            </div>
+                            <div class="col-lg-7 paddings">
+                              <input type="number" name="users" class="form-control" disabled="disable" id="users" />                            </div>
+                        </div>  
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                            <div class="col-lg-5 paddings">
+                                 <label class="form-Label">Purchase Date: <sup class="astrick">*</sup></label>
+                            </div>
+                            <div class="col-lg-7 paddings">
+                              <input class="form-control date" id="pdate" name="pdate" />                          </div>
+                        </div>   
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
+                            <div class="col-lg-5 paddings">
+                                <label class="form-Label">Expiry Date: <sup class="astrick">*</sup></label>
+                            </div>
+                            <div class="col-lg-7 paddings">
+                               <input class="form-control date " id="edate" name="edate" />                         </div>
+                        </div>    
 
+                    </div>
 
-                                </td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Invoice Date: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input type="" class="form-text-box date" id="Invoicedate" name="Invoicedate" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Licence Required:</label>
-                                </td>
-                                <td>
-                                    <input name='test5' type="checkbox" id="test5" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Description: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <textarea id='textarea' name="des" class="form-text-box"></textarea>
-                                </td>
-                            </td>
-                        </tr>
+                   <!--  <table class="table" id="editlisence"  >
+                        
+                        
                 
                         <tr id="trrr">
-                            <td>
-                                <td>
-                                    <label class="form-Label"># Users: <sup class="astrick">*</sup></label>
+                           
+                            
+                                    
                                 </td>
                                 <td>
-                                    <input type="number" name="users" class="form-text-box" disabled="disable" id="users" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-
-                                    <label class="form-Label">Purchase Date: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input class="form-text-box date" id="pdate" name="pdate" />
-                                </td>
-                            </td>
-                            <td>
-                                <td>
-                                    <label class="form-Label">Expiry Date: <sup class="astrick">*</sup></label>
-                                </td>
-                                <td>
-                                    <input class="form-text-box date " id="edate" name="edate" />
+                                   
                                 </td>
                             </td>
                         </tr>
                    
                                      
                                               
-                    </table>
+                    </table> -->
                     </div>
                      <div class="row" id="licc" style="max-width: 100% overflow-y:auto" ></div>
                      <div><input type="text" class="hide" id="hid" name="alllicensekey"></input></div>
@@ -214,8 +225,8 @@
             <div class="modal-footer" style="border-top:0px;">
                 <center>
                     <input type="text" class="hide" value="" id="hdnId" name="hdnId">
-                    <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default"  >Cancel</button>
-                    <a onclick="return validate()" class="btn btn-default"  >Submit</a>
+                    <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-primary"  >Cancel</button>
+                    <a onclick="return validate()" class="btn btn-primary"  >Submit</a>
                 </center>
             </div>
         </div>
