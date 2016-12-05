@@ -4,9 +4,7 @@
 <head>
     <% include ./partials/head %>
 <style>
-/*.dataTables_filter{
-     display: none;
-    }*/
+
 .glyphicon-ok-circle{
   color:green!important;
  }
@@ -18,26 +16,10 @@ $(document).ready(function() {
 
 $('.se-pre-con').fadeOut('slow');
     var abc=$('#pstatus11').val();
-    console.log('pstatus---',abc);
     projectStatus(abc);
  $('.project-img').addClass('active');
 
-  // otable=$('#bugtable').dataTable({
-  //   'iDisplayLength': 10,
-  //   "order":[],
-  //   "bDestroy": true, 
-  //   "info":false,
-  // });
-
-   // $('#bugtable')
-   //        .on( 'page.dt',   function () { 
-   //                  //otable.$('tr').click();
-   //                  //otable.$('tr').addClass('hide');
-   //                  otable.$('tr').removeClass('hide');
-
-   //         } )
-   //        .dataTable();
-
+ 
   wbstable=$('#wbsTable').dataTable({
     'iDisplayLength': 10,
     "order":[],
@@ -52,70 +34,14 @@ $('.se-pre-con').fadeOut('slow');
     "info":false,
   });
 
-/*
-wbstable = $("#wbsTable").DataTable({
-                "ajax": {
-                    url: '/AssignmentWBSForProject',
-                    type: 'POST',
-                    data: function(d){
-                      d.status=$("#pstatus11").val();
-                    }
-                },
-                "columns": [
-                { "data": "WBSName" },
-                { "data": "wplannedStartDate" },
-                { "data": "wplannedEndDate" },
-                { "data": "wactualStartDate"},
-                { "data": "wactualEndDate" }
-                ],
 
-                "info":false,
-                // "bSort":false,
-                "autoWidth": true,
-                "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
-                  "processing": true,
-                 "serverSide": true,
-                 // "deferLoading": 30,
-                
-});*/
-
-
-/*$(".rows").removeClass('active-row');
-
-
-            $("#projectrow_"+pid).addClass('active-row');
-
-            otable.$("tr").addClass('hide');
-$(".active-row").removeClass('hide');
-
-
-    
-    $('#wbstable1').removeClass('hide');
-
-  assignmentTable=$('#assignmentTable').dataTable({
-    'iDisplayLength': 10,
-    "order":[],
-    "bDestroy": true, 
-    "info":false,
-  });*/
-
-
-  /* $("#searchbox").keyup(function() {
-        otable.fnFilter(this.value);
-      });*/
-/*$(window).bind('resize', function () {
-                otable.fnAdjustColumnSizing();
-              } );*/
 
   $('#pstatus11').change(function() {
-            console.log($(this).val());
           otable.ajax.reload();
-          //  projectStatus($(this).val());
         });
 
 $('#bugtable tbody').on('click', 'tr', function () {
    ch=$(this).children();
-   console.log("$(ch[0]).children()[0].id.split('_')[1]-----------",$(ch[0]).children()[0].id.split('_')[1]);
    
   this.id="row_"+$(ch[0]).children()[0].id.split('_')[1];
   allWBS($(ch[0]).children()[0].id.split('_')[1]);
@@ -126,21 +52,9 @@ $('#bugtable tbody').on('click', 'tr', function () {
 
 
 });
-      <!-- Swapnil-->
-             
-
-
-
-  <!--code ends-->
 
 function checkedit(){
-/*  var r = confirm("Do you want to edit this project ?");
-    if (r == true) {
-        
-        return true;
-    } else {
-        return false;
-    }*/
+
     return true;
 }
 
@@ -173,7 +87,6 @@ function formatDate(date) {
                     type: 'POST',
                     data: function(d){
                       d.status=$("#pstatus11").val();
-                      console.log(d.status);
                     }
                 },
                 "columns": [
@@ -188,12 +101,10 @@ function formatDate(date) {
                 ],
 
                 "info":false,
-                // "bSort":false,
                 "autoWidth": true,
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
                   "processing": true,
                   "serverSide": true,
-                 // "deferLoading": 30,
                    "columns": [
                 { "data": "projectTitle" },
                 { "data": "pcode" },
@@ -206,12 +117,10 @@ function formatDate(date) {
                 ],
 
                 "info":false,
-                // "bSort":false,
                 "autoWidth": true,
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
                   "processing": true,
                   "serverSide": true,
-                 // "deferLoading": 30,
                 "columnDefs": [ 
                 {
                        "targets": 0,
@@ -297,165 +206,27 @@ function formatDate(date) {
                       }
                      }
  ]
- // var log = '',log1='',log2='';
-                    
- //                    for (var i = data[0].length-1; i >=0 ; i--) {
-
- //                        if(row.projectTitle==null){row.projectTitle='';}
- //                        if(row.pcode==null){row.pcode='';}
- //                        if(row.ptype==0){row.ptype='';}
- //                        if(row.ptype==2){row.ptype='Time';}
- //                        if(row.ptype==1){row.ptype='Time & Expense';}
- //                        if(row.plannedStartDate==null){row.plannedStartDate='';}
- //                        if(row.plannedEndDate==null){row.plannedEndDate='';}
- //                        if(row.actualStartDate==null){row.actualStartDate='';}
- //                        if(row.actualEndDate==null){row.actualEndDate='';}
- //                        if(row.lastupdatedby==null){row.lastupdatedby='';}
-
- //                        if(row.actualStartDate=='00/00/00'){row.actualStartDate='';}
- //                      if(row.actualEndDate=='00/00/00'){row.actualEndDate='';}
-
-
-                       /*  log=log+ '<tr id="projectrow_'+row.id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+row.id+');"><td><a href="/projectWbs?pid='+row.id+'">'+row.projectTitle+'</a></td><td>'+row.pcode+'</td><td>'+row.ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="psdate_'+row.id+'" value="'+row.plannedStartDate+'" onchange="updateWbsAssignment('+row.id+',0,0,1)"><div class="col-sm-12 fLeft"><span class="error" id="errorPsdate_'+row.id+'"></span></div></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="pedate_'+row.id+'" value="'+row.plannedEndDate+'" onchange="updateWbsAssignment('+row.id+',0,0,1)"><span class="error" id="errorPedate_'+row.id+'"></span></div></td><td>'+row.lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+row.id+'">'+row.openbug+'</a></td><td><a href="/filterBug?status=4&pid='+row.id+'">'+row.closedbug+'</a></td>';*/
-
- //                        $('body').on('focus',"#psdate_"+row.id, function(){
- //                          $(this).datetimepicker({
- //                                timepicker:false,
- //                                format:"m/d/y",
- //                                    scrollMouse: false,
- //                                    scrollInput: false
- //                               });
- //                      });
- //                      $('body').on('focus',"#pedate_"+row.id, function(){
- //                          $(this).datetimepicker({
- //                                timepicker:false,
- //                                format:"m/d/y",
- //                                    scrollMouse: false,
- //                                    scrollInput: false
- //                               });
- //                      });
+ 
 });
  }
-    // $.ajax({
-    //             url: '/projectStatus',
-    //             type: 'post',
-    //             data: { "status": st },
-    //             success: function(data) {
-    //                  var log = '',log1='',log2='';
-                    
-    //                 for (var i = data[0].length-1; i >=0 ; i--) {
-
-    //                     if(data[0][i].projectTitle==null){data[0][i].projectTitle='';}
-    //                     if(data[0][i].pcode==null){data[0][i].pcode='';}
-    //                     if(data[0][i].ptype==0){data[0][i].ptype='';}
-    //                     if(data[0][i].ptype==2){data[0][i].ptype='Time';}
-    //                     if(data[0][i].ptype==1){data[0][i].ptype='Time & Expense';}
-    //                     if(data[0][i].plannedStartDate==null){data[0][i].plannedStartDate='';}
-    //                     if(data[0][i].plannedEndDate==null){data[0][i].plannedEndDate='';}
-    //                     if(data[0][i].actualStartDate==null){data[0][i].actualStartDate='';}
-    //                     if(data[0][i].actualEndDate==null){data[0][i].actualEndDate='';}
-    //                     if(data[0][i].lastupdatedby==null){data[0][i].lastupdatedby='';}
-
-    //                     if(data[0][i].actualStartDate=='00/00/00'){data[0][i].actualStartDate='';}
-    //                   if(data[0][i].actualEndDate=='00/00/00'){data[0][i].actualEndDate='';}
-
-
-                       /*  log=log+ '<tr id="projectrow_'+data[0][i].id+'" class="rows" style=height:20px;color:grey;font-size:12px; onclick="allWBS('+data[0][i].id+');"><td><a href="/projectWbs?pid='+data[0][i].id+'">'+data[0][i].projectTitle+'</a></td><td>'+data[0][i].pcode+'</td><td>'+data[0][i].ptype+'</td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="psdate_'+data[0][i].id+'" value="'+data[0][i].plannedStartDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><div class="col-sm-12 fLeft"><span class="error" id="errorPsdate_'+data[0][i].id+'"></span></div></td><td><input type="text" readonly="true"  style="cursor: pointer;border:0px" id="pedate_'+data[0][i].id+'" value="'+data[0][i].plannedEndDate+'" onchange="updateWbsAssignment('+data[0][i].id+',0,0,1)"><span class="error" id="errorPedate_'+data[0][i].id+'"></span></div></td><td>'+data[0][i].lastupdatedby+'</td><td><a href="/filterBug?status=1&pid='+data[0][i].id+'">'+data[0][i].openbug+'</a></td><td><a href="/filterBug?status=4&pid='+data[0][i].id+'">'+data[0][i].closedbug+'</a></td>';
-
-                        $('body').on('focus',"#psdate_"+data[0][i].id, function(){
-                           $(this).datetimepicker({
-                                 timepicker:false,
-                                 format:"m/d/y",
-                                    scrollMouse: false,
-                                     scrollInput: false
-                                });
-                       });
-                       $('body').on('focus',"#pedate_"+data[0][i].id, function(){*/
-    //                       $(this).datetimepicker({
-    //                             timepicker:false,
-    //                             format:"m/d/y",
-    //                                 scrollMouse: false,
-    //                                 scrollInput: false
-    //                            });
-    //                   });
-
-
-    //                         if(data[0][i].isActive==1){
-
-    //                           if(data[0][i].projectTitle != 'DummyProject'){
-                            
-    //                             log=log+'<td>   <a  onclick="projectAddEdit('+data[0][i].id+',1)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>  <a  onclick=" actinact('+data[0][i].id+',1,0)"><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a> </td>  </tr>';
-    //                         }
-    //                         else{
-    //                           log=log+'<td></td>';
-    //                         }
-    //                     }
-    //                     else{
-    //                         log=log+'<td>   <a onclick=" actinact('+data[0][i].id+',0,0)"> <span class="glyphicon glyphicon-remove-sign" style="color:red;width: 24px;height:10px;" title="Click to active"></span></a> </td>  </tr>';
-    //                     }
-
-    //                 }
-    //                 otable.fnDestroy();
-    //                 $('#pstatus').html(log);
-    //                 otable=$('#bugtable').dataTable({
-    //                     'iDisplayLength': 10,
-    //                     "order":[]
-    //                     });
-    //                 otable.$('tr:first').click();
-    //                 otable.$('tr').addClass('hide');
-    //                 otable.$('tr:first').removeClass('hide');
-
-      //   otable.$('tr').removeClass('hide');
-
-    //             }
-    //             //$('#bugtable').on('page', function () {alert('grsfs')} );
-
-
-
-    //         });
+   
 
   
  
 
  function allWBS(pid){
 
-//     otable = $("#wbsTable").DataTable({
-//                 "ajax": {
-//                     url: '/AssignmentWBSForProject',
-//                     type: 'POST',
-//                     data: function(d){
-//                       d.status=$("#pstatus11").val();
-//                     }
-//                 },
-//                 "columns": [
-//                 { "data": "WBSName" },
-//                 { "data": "wplannedStartDate" },
-//                 { "data": "wplannedEndDate" },
-//                 { "data": "wactualStartDate"},
-//                 { "data": "wactualEndDate" }
-//                 ],
 
-//                 "info":false,
-//                 // "bSort":false,
-//                 "autoWidth": true,
-//                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
-//                   "processing": true,
-//                  "serverSide": true,
-//                  // "deferLoading": 30,
-                
-// });
 
 
 $("#bugtable").dataTable().$("tr").addClass('hide');
 
 $("#bugtable").dataTable().$("tr").removeClass('active-row');
 
-//$(".rows").removeClass('active-row');
 
 
             $("#row_"+pid).addClass('active-row');
-           // $(".active-row").removeClass('hide');
-            //otable.$("tr").addClass('hide');
+          
 $(".active-row").removeClass('hide');
 
 
@@ -470,7 +241,6 @@ $(".active-row").removeClass('hide');
 
 
 
-                    console.log('all wbs for project data------',data[0]);
                     var log = '',log1='',log2='';
 
                     for (var i = data[0].length - 1; i >= 0; i--) {
@@ -492,9 +262,7 @@ $(".active-row").removeClass('hide');
                             if (data[0][i].wactualEndDate == null) {
                                 data[0][i].wactualEndDate = '';
                             }
-                            //example of onchange in string-------------------
-                            //log=' onchange="updateWBS('+data[0][i].WBSId+',this.value,\'wpedate\',\'wasdate\',\'waedate\')"';
-
+                          
                             var sdate=data[0][i].plannedStartDate;
                       var edate=data[0][i].plannedEndDate;
                       var date = new Date(sdate);
@@ -565,12 +333,11 @@ $('#wbsTable').dataTable();
  
  }
 
- function allAssignmentForWBS(wbsid){//alert(wbsid);
+ function allAssignmentForWBS(wbsid){
 
     $(".rows1").removeClass('active-row');
             $("#wbsrow_"+wbsid).addClass('active-row');
 
-    //$('#wbsrow_'+wbsid).css('background-color', '#ffd700');
     $('#assignmenttable1').removeClass('hide');
 
 
@@ -579,7 +346,6 @@ $('#wbsTable').dataTable();
                 type: 'post',
                 data: {"pid": 0 ,"wbsid":wbsid,"flag":2},
                 success: function(data) {
-                    console.log('---------',data);
                     var log = '',log1='',log2='';
                     for (var i = data[0].length - 1; i >= 0; i--) {
 
@@ -600,8 +366,7 @@ $('#wbsTable').dataTable();
                              adate1=new Date(adate1);
                               adate = new Date(formatDate(adate));
                              adate1 = new Date(formatDate(adate1));
-                            console.log("date--",date,"---date1---",date1);
-                            console.log("adate---",adate,"adate1---",adate1);
+                          
 
                             
                             log = log + '<tr  id="assignmentrow_'+data[0][i].id+'" onclick="abc('+data[0][i].id+');" class="rows2" style=height:20px;color:grey;font-size:12px><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" value="' + data[0][i].projectTitle + '"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" id="asname_'+data[0][i].id+'" value="' + data[0][i].WBSName + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td><td><input type="text" style="cursor: pointer;border:0px"   readonly="true" value="' + data[0][i].firstName + '"></td><td><input type="text" readonly="true"  id="aasdate_'+data[0][i].id+'"  style="cursor: pointer;border:0px"  value="' + data[0][i].AssignmentDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td><td><input type="text" readonly="true"  id="aaedate_'+data[0][i].id+'" style="cursor: pointer;border:0px"    value="' + data[0][i].AssignmentEndDate + '" onchange="updateWbsAssignment(0,'+data[0][i].WBSId+','+data[0][i].id+',3)"></td></tr>';
@@ -615,10 +380,7 @@ $('#wbsTable').dataTable();
 
                     assignmentTable.fnDestroy();
                     $('#assignmentTableBody').html(log);           
-                    /*wbstable=$('#wbsTable').dataTable({
-                        'iDisplayLength': 10,
-                        "order":[]
-                        });*/
+                    
 
                         $('#assignmentTable').dataTable();
 
@@ -712,8 +474,8 @@ $('#wbsTable').dataTable();
                 resetError();  
                 var errorPsdate = $('#errorPsdate_'+projectId);
                 var errorPedate = $('#errorPedate_'+projectId);
-                var psdate=$('#psdate_'+projectId).val();//alert(psdate)
-                var pedate=$('#pedate_'+projectId).val();//alert(pedate)
+                var psdate=$('#psdate_'+projectId).val();
+                var pedate=$('#pedate_'+projectId).val();
                 var asdate=$('#asdate_'+projectId).val();
                 var aedate=$('#aedate_'+projectId).val();
 
@@ -751,8 +513,8 @@ var a=checkWBS(wbsid,pid);
 var b=checkAssignment(wbsid,pid);
 var c=checkProject(pid);
 if(type==1){ 
-    var psdate=$('#psdate_'+pid).val();//alert(psdate)
-    var pedate=$('#pedate_'+pid).val();//alert(pedate)
+    var psdate=$('#psdate_'+pid).val();
+    var pedate=$('#pedate_'+pid).val();
     var asdate=$('#asdate_'+pid).val();
     var aedate=$('#aedate_'+pid).val();
          $.ajax({
@@ -794,7 +556,7 @@ else if(type== 2){
             return false;
         }
    }
-   else{ //alert('raadadea');
+   else{ 
 
     if(b==true){
     asname=$('#asname_'+asid).val();
@@ -811,11 +573,6 @@ else if(type== 2){
 
             });
 
-       
-                             
-
-                              /*var adate=data[0][i].AssignmentDate;
-                              var adate1=data[0][i].AssignmentEndDate;*/
                               adate=new Date(asdate);
                               adate1=new Date(aedate);
                               adate = new Date(formatDate(adate));
@@ -926,11 +683,9 @@ url: url,
 method: 'POST',
 data : {"type":type,'status':status},
 success: function(data) {
-    console.log('bugdata',data)
 data.unshift(header);
 alasql("SELECT * INTO CSV('Project.csv') FROM ?",[data]);
-/*$(".se-pre-con").fadeOut("slow");
-$("#btnDownloadbug").prop('disabled', false);*/
+
 },
 dataType: 'JSON',
 });   
@@ -964,8 +719,7 @@ function showAll()
 
                      <span class="modal-title" style="padding-left:35%">Projects Details</span>
 
-                     <!-- <input type="button" onclick="showAll()" value='Show All'> -->
-                   <!--   <img class="imageInc" src="../img/showAll.png" onclick="showAll()"  class="shadow" style="margin-left:10px " height="30px" title="Show All" width="30px">  -->
+                    
                    <span style="margin-left:10px" class="glyphicon glyphicon-fullscreen" onclick="showAll()" title="Show All" ></span>
                      <select style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" class="form-text-box" id ="pstatus11" name="pstatus" > 
                        <option value=1>Active</option>
@@ -977,8 +731,7 @@ function showAll()
                     <span id="download" class="glyphicon glyphicon-download" onclick="exportProject('project')" style="margin-left:300px;cursor: pointer;font-size:19px" title="Download Projects List" ></span>
 
 
-<!--   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
- -->  </div>
+ </div>
    <div  class="row" style="max-width:103%;overflow-y:auto ">  
      <table class="table stripe cell-border hover" id="bugtable" style="width: 100%"  > 
                <thead> 
@@ -1006,49 +759,7 @@ function showAll()
                   </thead>
                   
                <tbody id="pstatus">
-              <!--    <% for(var i=(allinfo.length)-1;i>=0;i--) { %>
-                                <tr  >
-                                    
-                                    <td>
-                                        <%=allinfo[i].projectTitle%>
-                                    </td>
-                                    <td>
-                                        <%=allinfo[i].pcode%>
-                                    </td>
-                                    <td>
-                                    <%if(allinfo[i].ptype=='timeinmaterial'){%>
-                                        <span>Time in Material</span>
-                                    <%}else { %>
-                                   <span>Fixed Cost</span>
-                                     <%}%>
-                                    </td>
-                                    <td>
-                                        <%=allinfo[i].plannedStartDate%>
-                                    </td>
-                                    <td>
-                                        <%=allinfo[i].plannedEndDate%>
-                                    </td>
-                                    
-                                    <td>
-                                        
-                                    </td>
-                                    <td>
-                                        
-                                    </td>
-                                    <td>
-                                        
-                                    </td>
-                                    
-                                     <td>
-                                        <a onclick="projectAddEdit(<%=allinfo[i].id%>,1,2)"> <span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit Project"></span></a>
-
-                                        <a onclick="actinact(<%=allinfo[i].id%>,1,2);" ><span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span></a>
-
-
-                                    </td>
-
-                                </tr> 
-                                <% } %>   -->
+            
               </tbody>
             </table>
             </div>

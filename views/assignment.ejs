@@ -38,8 +38,7 @@ var abc=$("#stat").val();
 var ae="AssignmentDate";
 var as="AssignmentEndDate";
 
-       /* $(document).ready(function() {*/
-   //alert("wwe");
+      
            $('.se-pre-con').fadeOut('slow');
            otable = $("#assigntable").DataTable({
 
@@ -62,12 +61,10 @@ var as="AssignmentEndDate";
                 ],
 
                 "info":false,
-              //  "bSort":false,
                 "autoWidth": true,
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
                  "processing": true,
                  "serverSide": true,
-               // "deferLoading": 30,
 
                  "columnDefs": [  
 
@@ -75,7 +72,6 @@ var as="AssignmentEndDate";
                        "targets":0,
                        "render":function(data,type,row){
 
-                       //  otable.row.id()
                          var a= "<label>"+row.projectTitle+"</label><input type='hidden' id=usid_"+row.Sno+" value="+row.userId+">";
                          return a;
                          
@@ -134,15 +130,13 @@ var as="AssignmentEndDate";
                         var a;
                           if(row.projectTitle != "DummyProject")
                           {
-                            console.log("2");
                                  a="<span onClick='inactive("+row.id+","+row.isActive+")'";
                                if(row.isActive==1)
-                                   {console.log("3_0");
+                                   {
                                   a=a+"class='glyphicon  glyphicon-ok-circle class1'";
                                    } 
                               else
                                     {
-                                      console.log("3_1");
                                       a=a+"class='glyphicon  glyphicon-remove-sign class2";
                                     }
 
@@ -152,7 +146,6 @@ var as="AssignmentEndDate";
                          {
                           a=""
                          }
-                         console.log("string a--",a);
                          return a;
                          
                          
@@ -167,19 +160,11 @@ var as="AssignmentEndDate";
   
             $('.user-img').addClass('active');
 
-
-            /*$('#assigntable tbody tr').click( function () {
-           // var aData = oTable.fnGetData( this );
-            alert(" aData[0]" ); // assuming the id is in the first column
-            } );*/
 $('#assigntable tbody').on('click', 'tr', function () {
    ch=$(this).children();
-  // alert($(ch[4]).children()[2].id.split('_')[1]);
-   console.log("$(ch[4]).children()[2].id.split('_')[1]-----------",$(ch[4]).children()[2].id.split('_')[1]);
    
   this.id="row_"+$(ch[4]).children()[2].id.split('_')[1];
   projectWbsForAssignment($(ch[4]).children()[2].id.split('_')[1]);
- // console.log("iiiiiiiiiiii--------",this);
   
      } );
 
@@ -188,22 +173,7 @@ $('#assigntable tbody').on('click', 'tr', function () {
 
 
 $('.se-pre-con').fadeOut('slow');
- /*otable=$('#assigntable').dataTable({
-    'iDisplayLength': 10, 
-    "info":false,
-     "bFilter": true,
-    "order":[]
-  });
 
- $('#assigntable')
-          .on( 'page.dt',   function () { 
-                    //otable.$('tr').click();
-                    //otable.$('tr').addClass('hide');
-                    otable.$('tr').removeClass('hide');
-
-           } )
-          .dataTable();
-*/
  projectTable=$('#projectTable').dataTable({
     'iDisplayLength': 10,
     "order":[],
@@ -216,14 +186,6 @@ $('.se-pre-con').fadeOut('slow');
                     "bFilter": false,"bInfo": false,"bLengthChange": false
   });
 
-
-  /* $("#searchbox").keyup(function() {
-        otable.ajax.reload();
-      });*/
-
-  /* $(window).bind('resize', function () {
-                otable.fnAdjustColumnSizing();
-              } );*/
 ShowAssignments();
  $('.assignment-img').addClass('active');
 
@@ -264,7 +226,6 @@ ShowAssignments();
 
 
  function validDate(i,id){
-//alert("i am in valid date. - i---"+i+"id---"+id);
 
                       var date = new Date($('#ws_'+i).val());
                       var date1 = new Date($('#we_'+i).val());
@@ -291,10 +252,8 @@ ShowAssignments();
  }
 function updateAssing(ldate,id,a,date,i){  
 
-//alert("ldate--"+ldate+"id--"+id+"a--"+a+"date---"+date+"i--"+i);  
    if(a==1)
     {  
-     // alert("change start date");
         checkTimeSheetDate(i,a);       
          setTimeout(function(){
           if(time)
@@ -313,12 +272,12 @@ function updateAssing(ldate,id,a,date,i){
           }
     }
      else
-    {  //alert("change end date");
+    { 
           checkTimeSheetDate(i,a);
          
            setTimeout(function(){
          if(time)
-           {  console.log(" can only forward this date");
+           {  
              if(new Date($('#as_'+i).val())>new Date(date.value))
              {
              $('#j_'+id).val($('#as_'+i).val());
@@ -353,15 +312,13 @@ function updateAssing(ldate,id,a,date,i){
 
                   success:function(data){
                       $(".active-row").click();
-                   console.log(" hi iam in success");
-                 //alert('swf');
+             
                  }
                   });
      
 }
 
 function checkTimeSheetDate(i,b){
- // alert("i---"+i+"b---"+b);
   if(b==1)
 {var a=new Date($('#ae_'+i).val());
 }
@@ -388,10 +345,9 @@ if(a1<=15){
                     },
                     success: function(data)
                                          {
-                                            console.log(" from checkUserTimesheet is "+data[0].length);
                                             if(data[0].length!=0)
                                                     {time=1;
-                                                     console.log("it should not change the value of assignmnet date")}
+                                                    }
                                                         else
                                                           time=0;
                                           }                          
@@ -424,7 +380,6 @@ function ShowAssignments(){
             
        }
 function inactive(b,flag){;
-  // alert("i am in inactivewith id ---"+b);     
   if(flag==1)
     var a="deactivate";
     else
@@ -452,7 +407,6 @@ $('#projectDiv').removeClass('hide');
 
 $('#wbsDiv').removeClass('hide');
 
-//alert(aid);
   $.ajax({
                 url: '/projectWbsForAssignment',
                 type: 'post',
@@ -515,7 +469,6 @@ $('#wbsDiv').removeClass('hide');
 
                        log1 = log1 + '<tr  id="wbsrow_'+data[1][i].WBSId+'" class="rows2" onclick="highlight(0,'+data[1][i].WBSId+',2)"   style=height:20px;color:grey;font-size:12px ><td><input type="text"  style="cursor: pointer;border:0px"  readonly="true"  id="wbsname_'+data[1][i].WBSId+'" value="' + data[1][i].WBSName + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td><td><input type="text"  style="cursor: pointer;border:0px"  readonly="true" style="border:0px" class="wpsdate" id="wpsdate_'+data[1][i].WBSId+'"  value="' + data[1][i].wplannedStartDate + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td><td><input type="text" style="cursor: pointer;border:0px"    class="wpedate"  readonly="true"  id="wpedate_'+data[1][i].WBSId+'" style="border:0px" value="' + data[1][i].wplannedEndDate + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td><td><input type="text"  style="cursor: pointer;border:0px"  id="wasdate_'+data[1][i].WBSId+'"  readonly="true"  class="wasdate"  style="border:0px"  value="' + data[1][i].wactualStartDate + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td><td><input type="text" style="cursor: pointer;border:0px"   id="waedate_'+data[1][i].WBSId+'" class="waedate"  readonly="true"   style="border:0px"  value="' + data[1][i].wactualEndDate + '" onchange="changeProjectWbs(0,'+data[1][i].WBSId+',3)"></td></tr>';
 
-                       //alert(sdate+'-------'+edate);
                         $('body').on('focus',"#wpsdate_"+data[1][i].WBSId, function(){
                             $(this).datetimepicker({
                                     timepicker: false,
@@ -587,8 +540,8 @@ function highlight(pid,wbsid,flag){
 
  function checkProject(projectId){
   var pname=$('#pname_'+projectId).val();
-    var psdate=$('#psdate_'+projectId).val();//alert(psdate)
-    var pedate=$('#pedate_'+projectId).val();//alert(pedate)
+    var psdate=$('#psdate_'+projectId).val();
+    var pedate=$('#pedate_'+projectId).val();
     var asdate=$('#asdate_'+projectId).val();
     var aedate=$('#aedate_'+projectId).val();
 
@@ -596,12 +549,7 @@ function highlight(pid,wbsid,flag){
                 var edate = new Date(pedate);
                 var pasdate = new Date(asdate);
                 var paedate = new Date(aedate);
-                //alert(pname);
-                 /*if (pname.val().trim().length == 0 ||  pname == '') {
-                    alert("Please Enter Project Name First");
-                    return false;
-                }
-*/
+              
 
                 if (sdate > edate) {
                     alert('Planned End Date can not be less than Planned Start Date');
@@ -635,11 +583,7 @@ function highlight(pid,wbsid,flag){
                 var asdate = new Date(wasdate);
                 var aedate = new Date(waedate);
 
-                 /*if (wbsname.val().trim().length == 0 ||  wbsname == '') {
-                    alert("Please Enter WBS Name First");
-                    return false;
-                }*/
-
+              
 
                 if (sdate > edate) {
                     alert('Planned End Date can not be less than Planned Start Date');
@@ -673,8 +617,8 @@ function changeProjectWbs(pid,wid,flag){
   if(flag==2){
     if(b==true){
     var pname=$('#pname_'+pid).val();
-    var psdate=$('#psdate_'+pid).val();//alert(psdate)
-    var pedate=$('#pedate_'+pid).val();//alert(pedate)
+    var psdate=$('#psdate_'+pid).val();
+    var pedate=$('#pedate_'+pid).val();
     var asdate=$('#asdate_'+pid).val();
     var aedate=$('#aedate_'+pid).val();
 
@@ -685,17 +629,13 @@ function changeProjectWbs(pid,wid,flag){
                 type: 'post',
                 data: { "pid":pid,"pname":pname,"psdate":psdate,"pedate":pedate,"asdate":"0","aedate":"0","wid":0, "wbsname": "0","wpsdate":"0" ,"wpedate":"0", "wasdate":"0","waedate":"0","flag":flag},
                 success: function(data) {
-                   //$(".active-row").click();
-
-
+                 
                    if(data[0][0].msg==1){
                         alert('Date validations of Project are not according to WBS');
                     }
 
                     ShowAssignments();
-                    /*else{
-                      alert('WBS updated');
-                    }*/
+                  
 
 
                 }
@@ -724,10 +664,7 @@ function changeProjectWbs(pid,wid,flag){
                         alert('Date validations of WBS are not according to Assignment');
                     }
 
-                    //ShowAssignments();
-                    /*else{
-                      alert('WBS updated');
-                    }*/
+                   
 
                    
                 }
@@ -755,8 +692,7 @@ data : {"type":type,'status':status},
 success: function(data) {
 data.unshift(header);
 alasql("SELECT * INTO CSV('Assignment.csv') FROM ?",[data]);
-/*$(".se-pre-con").fadeOut("slow");
-$("#btnDownloadbug").prop('disabled', false);*/
+
 },
 dataType: 'JSON',
 });   
@@ -786,10 +722,7 @@ function showAll()
     <img  title="Create New"   class="addNewPlus"></a>
      <span class="modal-title" style="padding-left:35%"> Assignments</span>
 
-     <!--  <input type="button" onclick="showAll()" value='Show All'>
- -->
-
-<!--  <img class="imageInc" src="../img/showAll.png" onclick="showAll()"  class="shadow" style="margin-left:10px " height="30px" title="Show All" width="30px">  -->
+   
 <span style="margin-left:10px" class="glyphicon glyphicon-fullscreen" onclick="showAll()" title="Show All" ></span>
  <select  id="stat" class="form-text-box" style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px" onChange="ShowAssignments()"> 
         <option value='1'>    Active         </option>
@@ -799,8 +732,6 @@ function showAll()
 
       <span id="download" class="glyphicon glyphicon-download" onclick="exportAssignment('assignment')" style="margin-left:315px;cursor: pointer;font-size:19px" title="Download Assignments List" ></span>
 
-  <!-- <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> 
- -->
 
   </div>
    <div  class="row" style="max-width:103%;overflow-y:auto "> 

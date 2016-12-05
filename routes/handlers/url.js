@@ -32,7 +32,6 @@ module.exports = {
 		next();
 	}, 
  	errorSWW :function(req,res,next){
- 		console.log("loaaaaaaaaaaaaaaaa");
     req.page = 'errorSWW';
     next();
 	},
@@ -83,12 +82,7 @@ module.exports = {
 		req.page = 'addEditClient';
 		next();
 	},
-	/*showEditClient:function(req, res, next) {
-		req.clientid=req.query.id;
-		req.page = 'showEditClient';
-		next();
-	},*/
-	//---------------Masters
+	
 		setpageSettings:function(req,res,next){
 
 			if(req.session.modules.indexOf(config.Asset)>=0)
@@ -623,7 +617,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 
 	inventory:function(req,res,next){
-		console.log("in url inven");
 		if(req.session.modules.indexOf(config.Asset)>=0)
 		 	{
 		       req.page='viewInventory';
@@ -753,7 +746,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 	},
 	
-	//new 4 hardware
 	setpageViewHardware:function(req,res,next){
 
 		if(req.session.modules.indexOf(config.Asset)>=0)
@@ -770,7 +762,6 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 	
 	},
-	//new 4 hardware
 	editHardware: function(req,res,next){
 		req.page='EditHardware';
 		next();
@@ -778,7 +769,7 @@ if(req.session.modules.indexOf(config.Time)>=0)
 	setUpdateHardware:function(req,res,next){
 		req.page='updateHardware';
 		next();
-	},//hardware end
+	},
 	setpageEdit: function(req,res,next){
 		req.page='Edit';
 		next();
@@ -1052,7 +1043,6 @@ hr:function(req,res,next){
 	//---------------------------------------Project----------------------------------------------
 	task:function(req,res,next){
 		 if(req.session.modules.indexOf(config.Project)>=0){
-		 	console.log("url task");
 		req.page="task";
 		next();
 	}
@@ -1062,7 +1052,6 @@ hr:function(req,res,next){
 	},
 		resource:function(req,res,next){
 		 if(req.session.modules.indexOf(config.Project)>=0){
-		 	console.log("url task");
 		req.page="resource";
 		next();
 	}
@@ -1085,7 +1074,6 @@ error:function(req,res,next){
 	},		 
 	gantt:function(req,res,next){
 	 if(req.session.modules.indexOf(config.Project)>=0){
-		 	console.log("url task");
 		req.page="gantt";
 		next();
 	}

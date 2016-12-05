@@ -328,10 +328,8 @@
                 <tr>
                     <th>File Name</th>
                     <th>File Title</th>
-                   <!--  <th>Author</th> -->
                      <th>Uploaded By</th>
                     <th>Upload Date</th>
-                  <!--   <th>Total Downloads</th> -->
                     <th>File Rating</th>
                      <th>Rate</th>
                     <%if(roleid!=1){%><th>Status</th><%}%>
@@ -351,18 +349,14 @@
                             <td>
                                 <%=files[0][i].title%>
                             </td>
-                            <!-- <td>
-                                <%=files[0][i].author%>
-                            </td> -->
+                           
                             <td>
                                 <%=files[0][i].userName%>
                             </td>
                             <td>
                                 <%=files[0][i].uploadDate%>
                             </td>
-                             <!-- <td>
-                                <%=files[0][i].no_of_downloads%>
-                            </td> -->
+                             
                             <td>
                                 <%if(files[0][i].Rating==null || files[0][i].Rating==0){%>
                                 not yet rated.
@@ -662,7 +656,6 @@ stringStar+='<i class="fa fa-star" style="color: #000000;" aria-hidden="true"></
                else{
 
 
-             // document.getElementById("data_table").rows[rowid].cells.item(4).innerHTML =result[0][0].Rating;
 
 var ratingstr='';
              for(var k=0;k<result[0][0].Rating;k++)
@@ -691,8 +684,7 @@ function downloadFile(rowid,fileid){
             dataType: 'json',
             success: function(result) {                  
 
-           /*   document.getElementById("data_table").rows[rowid].cells.item(5).innerHTML =result[0][0].no_of_downloads;
-               */
+          
             }
            
         });
@@ -1003,18 +995,13 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                      
                         destroy: true,
                         "iDisplayLength": 10,
-                        /*used to display no of element  on page load or relaod*/
+                       
                         "showNEntries": true,
-                        /* for displaying showing 10 out of 50 entries at left bottom corner*/
                         "bFilter": false,
-                        /*dispalying search box at top right corner*/
                         "bLengthChange": true,
-                        /*dispalying  show 10 out of 50 entries at top left corner*/
-                        "aoColumnDefs": [{ //   "bSortable": false,
-                            //  "aTargets": [0]
+                        "aoColumnDefs": [{ 
                         }],
-                        "order": emptyArr /*we can provide order to every column "order": [[0,'asc'],[1,'des']] */
-
+                        "order": emptyArr 
                     });
                    
                     $('.se-pre-con').fadeOut('slow');
@@ -1047,7 +1034,6 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 },
                 success: function(data) {
 
-                    console.log("sucessssss", data);
                     document.getElementById("title1").value = data[0][0].title;
                     document.getElementById("authname").value = data[0][0].author;
                     document.getElementById("desc").value = data[0][0].description;
@@ -1079,7 +1065,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                     }
                     document.getElementById("rest").value = temp.slice(0, -2);
 
-                    /* alert($('tech1').val());*/
+                  
 
                 }
             });
@@ -1309,8 +1295,7 @@ function submitFileChanges(){
               $("#btn-cancel").click();
 
              document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(1).innerHTML= $('#file_title').val();
-           /* document.getElementById("data_table").rows['row_'+fileIdForModelBox].cells.item(2).innerHTML =$('#author_name').val();*/
-
+         
 
           
             },
@@ -1318,7 +1303,6 @@ function submitFileChanges(){
         });
       }
  var myBackup = $('#editRole').clone();    
-    // Delegated events because we make a copy, and the copied button does not exist onDomReady
     $('body').on('click','#cancel',function() {
          setTimeout(function(){ $('#editRole').remove();
         var myClone = myBackup.clone();

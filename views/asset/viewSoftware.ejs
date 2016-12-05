@@ -95,10 +95,8 @@
 <footer>
     <% include ../partials/footer %>
 </footer>
-<!--edit      modal-->
 <div class="modal fade" id="editstation" role="dialog">
     <div class="modal-dialog modal-lg">
-        <!--- Modal content-->
         <div class="modal-content" id="exp2" style="width: 1100px;margin-left: -11%">
             <div class="modal-header" style="background-color:#f05f40;">
                 <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Software</b></label>
@@ -135,7 +133,7 @@
                                     <label class="form-Label">Vendor: <sup class="astrick">*</sup></label>
                                 </td>
                                 <td>
-                                    <!-- <input type='text'maxlength="50" name="vendor"class="form-text-box" id="vendor"/> -->
+                                   
 
                                     <select class="form-text-box" style="" name="vendor" id="vendor" onchange=""> 
                                     <option value='0' disabled selected>Select</option>
@@ -235,7 +233,6 @@
   
 
     function edit(id) {
-        //alert(id);
          $(".jay").html('');
         $("#hdnId").val('');
         $.ajax({
@@ -246,13 +243,11 @@
             },
             success: function(data) {
                 abcde = data;
-                console.log("edit info--------------", data[0][0].softType);
                 $("#name").val(data[0][0].name);
                 $("#typel").val(data[0][0].softType);
                 $("#vendor").val(data[0][0].vendor);
                 $("#Invoicedate").val(data[0][0].invoiceDate);
                 $("#textarea").val(data[0][0].description);
-                //alert(data[0][0].licenceKey);
                 if (data[0][0].licenceKey != null) {
                     $("#test5").prop("checked",true);
                     $("#lic").removeClass('hide');
@@ -274,7 +269,6 @@
                 var ty=data[0][0].licenceKey;
                 var tyt=ty.split(',');
                 var logstr='';
-                 //$('#licc').append('<table></table>');
                   for(var i=0;i<typ;i++)
                   {
                     k=i+1;
@@ -299,7 +293,6 @@
         });
         
     }
- /*$('#licc').append('<div class="col-md-2" style="margin-bottom:10px"><label for="key" class="form-Label" style="padding-top:0px;">Licence Key:'+ k +' <sup class="astrick">*</sup> </label></div><div class="col-md-2" style="margin-bottom:10px"><input type="text" value="'+updattedlic+'" class="form-text-box marginLeftRight" id="lic'+ i +'" ></div>');*/
 
     $(document).ready(function() {
 
@@ -311,16 +304,15 @@ var trArr = $("#lineTableId tr");
 for(var i =0;i<trArr.length;i++){
     var td = $('#licsoft'.concat(i)).val();
     if(td!='')
-    {                        //$(trArr[i]).children("td")[5].innerHTML;
+    {                      
 var arrays=td.split(',');
 var strlic='';
 for(var j=0;j<arrays.length;j++)
 {
     var lickey=myFunction1(arrays[j]);
     strlic=strlic+','+lickey;
-    //alert(strlic);
+  
 }
-//alert(strlic);
 $(trArr[i]).children("td")[5].innerHTML  = strlic;
 }
 }
@@ -379,13 +371,7 @@ $(trArr[i]).children("td")[5].innerHTML  = strlic;
         }
 
        if ($('#test5').prop('checked')) {
-            //  alert("You have selected licence rqd."); //checked
-           /* if ($('#key').val().length < 1 || $.trim($("#key").val()) == "") {
-                alert("Licence key is Missing!");
-                return false;
-            }*/
-
-            if (us.length < 1 || isNaN(us) || us.trim().length < 0) { //alert(us);
+                if (us.length < 1 || isNaN(us) || us.trim().length < 0) { 
                 alert("Enter valid number of Users!");
                 return false;
             }
@@ -427,10 +413,10 @@ $(trArr[i]).children("td")[5].innerHTML  = strlic;
 
                     }
                     $('#hid').val(arr);
-                    //alert($('#hid').val());
+                  
 
         }
-        //alert($('#Invoicedate').val());
+    
         $.ajax({
             url: '/updateSoftware',
             method: 'POST',
@@ -485,8 +471,7 @@ var sddmost=makeid();
 var firstco=first.concat(sddmost);
 var final=firstco.concat(secont);
 return final;
-   // document.getElementById("demo").innerHTML =final;
-//myFunction1(final);
+  
 }    
 
  function myFunction1(str1) {

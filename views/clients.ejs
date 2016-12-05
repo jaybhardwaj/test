@@ -42,9 +42,7 @@
                         <th>Client_Account_Lead</th>
                         <th>Location</th>
                         <th>Address</th>
-                        <!-- <th>Contact Person</th>
-                        <th>Contact Person Email</th>
-                        <th>Contact Phone</th> -->
+                        
                         <th>Action</th>
 
                     </tr>
@@ -59,9 +57,7 @@
                  <td id="row_<%=clients[i].id%>15"+  ><%=clients[i].leadName%></td>
                  <td  id="row_<%=clients[i].id%>16"+  ><%=clients[i].locName%></td>
                  <td  id="row_<%=clients[i].id%>17"+  ><%=clients[i].address%></td>
-           <!--       <td  id="row_<%=clients[i].id%>8"+  ><%=clients[i].clientContactPerson%></td>
-                 <td  id="row_<%=clients[i].id%>9"+  ><%=clients[i].clientContactPersonEmail%></td>
-                 <td  id="row_<%=clients[i].id%>10"+  ><%=clients[i].clientContactPhone%></td> -->
+       
                  <td>
                  <span <%if(clients[i].isActive==1){%> onclick="addEditClient(1,<%=clients[i].id%>)" class="glyphicon glyphicon-pencil" style="color:red;height:10px"  title="Edit Client" <%}%>></span>               
                     <a <%if(clients[i].isActive==1){%>
@@ -120,11 +116,11 @@
 <div id="ModalAdd"></div>
 <div id="ModalAddMesage"></div>
 
-  <!-- Modal -->
+
   <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
     
-      <!-- Modal content-->
+  
       <div class="modal-content">
         <div class="modal-header">
          <h4 class="modal-title">Add/Edit client contact person</h4>
@@ -145,7 +141,7 @@
 <div class="col-sm-12 height11"></div>
 <div class="col-sm-12">         
       <label class="form-label">Contact Number:</label><sup class="astrick">*</sup>
-<!-- <input  type="number"  maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"  tabindex="3"/> -->
+
 <input  type="text"  phoneno = "/^\d{10}$/" maxlength = "10" oninput="javascript: if (this.value.length > this.maxLength && this.value.match(phoneno)) this.value = this.value.slice(0, this.maxLength);" class="form-text-box clearAll" id="ccontact"  tabindex="3"/>
 <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
 </div>
@@ -184,7 +180,6 @@
                                 },
                                 method: 'post',
                                 success: function(pdetails) {
-                                    console.log(pdetails)
                                     if(otableclint != null)otableclint.fnDestroy();
                                     $('#client-contact-body').html(ch);
                                     for (var i = 0; i < pdetails.length; i++) {                                 
@@ -317,7 +312,6 @@ if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
                                 method: 'post',
                                 success: function(pdetails) {
                                     acd=pdetails;
-                                    console.log(pdetails)
                                   if(pdetails[1][0].flag=='1')
                                     {
                                         successMyModal.text('Successfully Created');
@@ -431,7 +425,6 @@ $(window).bind('resize', function () {
               } );
             $('.client-img').addClass('active');
 
-            //$("#client-table tr:first").click();
             oTable.$('tr:first').click();
         });
 
@@ -526,11 +519,9 @@ url: url,
 method: 'POST',
 data : {"type":type,'status':status},
 success: function(data) {
-    console.log('bugdata',data)
 data.unshift(header);
 alasql("SELECT * INTO CSV('Client.csv') FROM ?",[data]);
-/*$(".se-pre-con").fadeOut("slow");
-$("#btnDownloadbug").prop('disabled', false);*/
+
 },
 dataType: 'JSON',
 });   

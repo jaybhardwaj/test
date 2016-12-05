@@ -69,10 +69,10 @@
         <% include ../partials/footer %>
     </footer>
                  
-                 <!--edit furniture modal-->
+                
 <div class="modal fade" id="editfurniture" role="dialog">
     <div class="modal-dialog">
-      <!-- Modal content-->
+     
       <div class="modal-content" id="express2" style="width:1000px;margin-left: -33%">
         <div class="modal-header" style="background-color:#f05f40;height: 40px">
           <span id="closeedit"  class='close closeedit' data-dismiss="modal" style='float:right;'title ='Close' > &times;  </span>
@@ -91,7 +91,6 @@
             <td><td>
                 <label class="form-Label" >Quantity:<sup class="astrick">*</label>
               </td><td>
-                <!-- <input type="number" maxlength="2"  class="form-text-box" id="qty" name="qty"/> -->
                  <input name="qty" class="form-text-box" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
               </td>
             </td>
@@ -99,7 +98,6 @@
             <label class="form-Label" >Vendor:<sup class="astrick">*</label>
               </td>
               <td>
-                <!-- <input type="text" maxlength="50"  class="form-text-box" id="vendor" name="vendor"/> -->
                 <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
               <option value='0' disabled selected>Select</option>
                 <% for(i=0;i<stype[2].length;i++){%>
@@ -183,10 +181,7 @@
           </div>
         </div>
       </div>
-   
-
-    <!--end of modal-->
-
+ 
 <script>
 
 function calulateunitprice(){
@@ -200,7 +195,6 @@ $(document).ready(function(){
         
   <%if(flag==1){%>
       alert("Furniture successfully added!");
-     // window.location.href='/viewFurniture';
     <%}%>
   var oTable=$("#furtable").dataTable({
     "bLengthChange": false,
@@ -218,7 +212,7 @@ jQuery('.date').datetimepicker({
   format:'d/m/Y'
 });
 
- function del(id){ //alert(id);
+ function del(id){ 
   $.ajax({
     url:'/deleteHeader',
     method: 'POST',
@@ -232,14 +226,12 @@ jQuery('.date').datetimepicker({
 
 function edit(id){
   $("#hdnId").val('');
-  //
-  //alert(id);
+ 
   $.ajax({ 
     url: '/getEditStationary',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
-      console.log("edit info*****",data);
       $("#typel").val(data[0][0].name);
       $("#qty").val(data[0][0].quantity);
       $("#vendor").val(data[0][0].vendor);

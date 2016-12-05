@@ -73,24 +73,11 @@
 
 
 
-       //  otable=$('#usertable').dataTable({
-         //  'iDisplayLength': 10,
-           //"ordering": false,
-            //"order":[],
-            // "aoColumns": [{ "bSortable": false },{ "bSortable": false }],
-           // "bDestroy": true, 
-           // "info":false,
-            /* "columnDefs": [ {
-                        "targets": [0,1,2,3,4,5],
-                        "orderable": false
-                          } ]*/
-        //  });
+       
    $("#searchbox").keyup(function() {
         otable.fnFilter(this.value);
       });
-// $(window).bind('resize', function () {
-//                 otable.fnAdjustColumnSizing();
-//               } );
+
             $('.user-img').addClass('active');
 
             var abc=$('#active').val();
@@ -120,7 +107,6 @@
             var row_id="#row_"+uid;
             var rowid="row_"+uid;
             if(flag==1){
-               /* if(confirm("Are you sure you want to Deactivate this user?")){*/
                  $.ajax({
                     url: '/changeUserStatus',
                     type: 'post',
@@ -141,11 +127,9 @@
                     }
                 }
            });
-       /* }*/
     }
         else
         {
-             /*if(confirm("Are you sure you want to Activate this user?")){*/
              $.ajax({
                 url: '/changeUserStatus',
                 type: 'post',
@@ -167,7 +151,6 @@
                 }
                 }
            });
-       /* }*/
         }
                 }
 
@@ -177,7 +160,6 @@
 
 
  function userStatus(st){
-  console.log('aaaa');
   
    otable=$('#usertable').dataTable({"bDestroy": true,
                 "ajax": {
@@ -197,12 +179,10 @@
                ],
                 
                 "info":false,
-                // "bSort":false,
                 "autoWidth": true,
                 "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
                  "processing": true,
                   "serverSide": true,
-                 // "deferLoading": 30,
                 "columnDefs": [ 
 
                       {
@@ -210,7 +190,6 @@
                        "render":function(data,type,row){
                          if(row.managerName == ""||row.managerName==null)
                           {mgrname=" No Concerned Manager";
-                         //console.log("no manaager Concerned");
                      }
                     else 
                           mgrname=row.managerName;
@@ -247,50 +226,7 @@
 
 
 
-/*function userStatus(){
-         $.ajax({
-                url: '/userStatus',
-                type: 'post',
-                data: { "status": $('#active').val() },
-                success: function(data) {
-                    console.log('sssssssssssssssssssss', data);
-                    var log = '',mgrname='';
-                    var act='<span class="glyphicon glyphicon-ok-sign" style="color:green;height:10px;margin-left:20px;" title="click to inactive"></span>';
 
-                var inact='<span style="color:red;height:10px" class="glyphicon  glyphicon-remove-sign"></span>';
-
-                for (var i=data[0].length-1;i>=0;i--){ 
-                    if(data[0][i].managerName == ""||data[0][i].managerName==null)
-                          mgrname=" No Concerned Manager";
-                    else 
-                          mgrname=data[0][i].managerName;
-                    log=log+ '<tr id=row_'+data[0][i].id+'><td id=row_'+data[0][i].id+'1'+'>'+data[0][i].firstName+'</td><td id=row_'+data[0][i].id+'2'+'>'+data[0][i].userEmail+'</td><td id=row_'+data[0][i].id+'3'+'>'+data[0][i].ecode+'</td><td id=row_'+data[0][i].id+'4'+'>'+data[0][i].contactNumber+'</td><td id=row_'+data[0][i].id+'5'+'>'+data[0][i].roleName+'</td><td id=row_'+data[0][i].id+'6'+'>'+ mgrname +'</td><td>';
-                 //   if(data[0][i].isRetailer != 1) {
-                            if (data[0][i].isActive) {
-                                log+='<a onclick=addEditUser('+data[0][i].id+')><span class="glyphicon glyphicon-pencil" style="color:red;height:10px" title="Edit user"></span></a><a onclick=onclick=confirmBox2("'+data[0][i].id+',0","actinact",1);>'+act+'</a>';
-                              }
-                            else if (data[0][i].isActive==0) {
-                                            log+='<a onclick=confirmBox2("'+data[0][i].id+',1","actinact",2);>'+inact+'</a>';}
-                                    }
-                          /* else {
-                                log+='<span style="color:green;height:10px" class="glyphicon  glyphicon-ban-circle"></span>';
-                            }
-                }*/
-              //  otable.fnDestroy();
-                //$('#pstatus').html(log);
-               // otable=$('#usertable').dataTable({
-                 //    "aLengthMenu": [[10,20,50,100,-1],["10", "20","50","100","all"]],
-                   // 'iDisplayLength': 10,
-                    //"ordering": false,
-                   // "order":[]
-                    /*"columnDefs": [ {
-                        "targets": [0,1,2,3,4,5],
-                        "orderable": false
-                          } ]*/
-             //   });
-               // }
-            //});
-//}*/
  
     </script>
 
@@ -308,11 +244,9 @@ url: url,
 method: 'POST',
 data : {"type":type,'status':status},
 success: function(data) {
-    console.log('bugdata',data)
 data.unshift(header);
 alasql("SELECT * INTO CSV('Users.csv') FROM ?",[data]);
-/*$(".se-pre-con").fadeOut("slow");
-$("#btnDownloadbug").prop('disabled', false);*/
+
 },
 dataType: 'JSON',
 });   

@@ -170,126 +170,6 @@ width:24% !important;
       </div>
 
 
-  <!--       <table class="table form-table">
-          <tr>
-            <td>
-              <td><label  style="padding:2%;color: #524A4A;font-size: 11px"> Project Name: <sup>*</sup> </label></td>
-              <td><input type="text"   placeholder="  Enter Project Name  " class="form-text-box"  style="width:100%"  name="pname" id ="idpname" maxlength="50" onblur=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>'<%}%>>
-                <div class="fLeft"><span class="error" id="errorIdpname"></span></div>
-              </td>
-            </td>
-            <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px" >Project Code:</label></td>
-              <td> <input type="text" style="width:107%" class="form-text-box" placeholder="Project Code" name="pcode" id ="pcode" onkeypress="return specialchar(event)" <%if(flag==1){%>value='<%=name[0].pcode%>' <%}%> readonly>
-                <div class="fLeft"><span class="error" id="errorPcode"></span></div>
-              </td>
-            </td>
-            <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Client: <sup>*</sup></label></td>
-              <td>
-              <select  class="form-text-box" style=""  name="pclient" id ="pclient" onchange="getSelectedOptions($('#pclient :selected').val())"> 
-              <option value='0' disabled selected>Select</option>
-                  <% for(var i=0;i<client.length;i++) {%>
-                <option value="<%=client[i].id%>"><%=client[i].clientName%></option>
-                 <%}%>
-              </select>
-              <div class="fLeft"><span class="error" id="errorPclient"></span></div>
-              </td>
-            </td>
-
-
-            <td>
-              <td class=""><label style="padding:2%;color: #524A4A;font-size: 11px">Client Contact Person:</label></td>
-              <td class="">
-              <div id="contactDiv">
-               <select multiple="multiple" class="form-text-box" style=""  name="ccontact" id ="ccontact"> 
-              </select> 
-              <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
-              </div>
-              </td>
-
-              </td> 
-          </tr>
-          <tr>
-
-          <td>
-              <td style="width:110px"><label style="padding:2%;color: #524A4A;font-size: 11px">Technology: <sup>*</sup></label></td>
-              <td>
-              <select multiple="multiple" class="form-text-box" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Project Technology..."> 
-              <option  value='0' disabled selected>Select</option>
-                <% for(var i=0;i<tech.length;i++) {%>
-                <option value="<%=tech[i].id%>"><%=tech[i].description1%></option>
-                      <%}%>
-              </select>
-              <div class="fLeft"><span class="error" id="errorPtech"></span></div>
-              </td>
-            </td>
-
-
-            <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Planned Start Date: <sup>*</sup></label></td>
-              <td> <input type="text" maxlength="20" placeholder="Select Date"  style="width:107%"   class= "form-text-box" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>>
-                <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>
-              </td>
-            </td>
-            <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Planned End Date: <sup>*</sup></label></td>
-              <td><input type="text" style="width:100%"  maxlength="20" placeholder="Select Date" name="pedate"  class="form-text-box" id ="datepicker1" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> >
-                <div class="fLeft"><span class="error" id="errorDatepicker1"></span></div>
-              </td>
-            </td>
-            <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Complexity: </label></td>
-              <td>
-              <select style="" class="form-text-box" id ="pcomplexity" name="pcomplexity" >
-                <option  value='0' disabled selected>Select</option>
-                <option  value='simple'<%if(flag==1&&name[0].pcomplexity=='simple'){%>selected<%}%> > simple </option>
-                <option  value='medium'<%if(flag==1&&name[0].pcomplexity=='medium'){%>selected<%}%> > medium </option>
-                <option  value='complex'<%if(flag==1&&name[0].pcomplexity=='complex'){%>selected<%}%>> complex </option>
-              </select>
-              <div class="fLeft"><span class="error" id="errorPcomplexity"></span></div>
-            </td>
-            </td>
-            
-          </tr>
-          <tr>
-
-          <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px"> Location:</label></td>
-              <td><select class="form-text-box" id ="plocation" name="plocation" >
-                <option value='0' disabled selected >Select</option>
-                  <% for(var i=0;i<location.length;i++) {%>
-                <option value="<%=location[i].id%>"<%if(flag==1&&name[0].locid==location[i].id){%>selected<%}%> ><%=location[i].location%></option>
-                  <%}%>
-              </select>
-              <div class="fLeft"><span class="error" id="errorPlocation"></span></div>
-            </td>
-            </td>
-
-
-          <td>
-            <td><label style="padding:2%;color: #524A4A;font-size: 11px" >Description:</label></td>
-            <td>  <textarea placeholder="Enter Project Description" id="DescriptionID" style="margin-top:-1%;max-height: 60px;width: 144px;height:60px;resize:none" class="form-text-box" row=2 name="pdescription" maxlength="250" onkeypress="return specialchar2(event)" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
-             <div class="fLeft"><span class="error" id="errorDescriptionID"></span></div> 
-          </td>
-          <td>
-            <td  <%if(flag==0 ){%> class="hide"<%}%> ><label style="padding:2%;color: #524A4A;font-size: 11px">Status</label></td>
-            <td  <%if(flag==0 ){%> class="hide"<%}%> >
-            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checkded="true"> Active
-              <input type="radio" name="pstatus"  value= 0  id = "pstatus2" required  style="margin-top:3%;"> Inactive
-            </td>
-          </td>
-          </td>
-          <td>
-            <td><label ></label></td>
-            <td></td>
-          </td>
-          <td>
-            <td><label ></label></td>
-            <td></td>
-          </td>
-        </tr>
-        </table> -->
 <div class="text-center"><span class="success" id="successProjectAddEdit"></span><span class="error" id="errorProjectAddEdit"></span></div>
 <script>
   $("#pclient").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].cname%>",<%}}%>]).prop("selected", false);
@@ -391,112 +271,7 @@ width:24% !important;
 
 
 
-        <!-- <table class="table">
-        <tr>
-          <td><td></td><td></td></td>
-          <td><td></td><td></td></td>
-          <td><td></td><td></td></td>
-          <td><td id="select1" class='hide'><button class="btn btn-primary" id="selectAll">Select All</button></td><td id="select2" class='hide'><button class="btn btn-primary"  id="selectNone">Select None</button></td>
-              </td>
-        </tr>
-          <tr>
-          
-              <td style="width: 100px"><label   style="padding:2%;color: #524A4A;font-size: 11px">Actual Start Date :</label></td>
-              <td><input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-text-box" id="datepicker2" style="margin-top:2%;background-color:white; background-color: rgb(255, 255, 255);width:96%" name="asdate" <%if(flag==1){if(name[0].actualStartDate !='00/00/00'){%>value='<%=name[0].actualStartDate%>' <%} else{%> value='' <%}}%> >
-             </td>
-            
-              <td style="width: 100px"><label  style="padding:2%;color: #524A4A;font-size: 11px">Actual End Date :</label></td>
-              <td> <input type="text"  maxlength="20" placeholder=" -- Select Actual End Date" class= "form-text-box" id="datepicker3" style="background-color:white;margin-top:2%; background-color: rgb(255, 255, 255);width:96%" name="aedate"  <%if(flag==1){if(name[0].actualEndDate !='00/00/00'){%>value='<%=name[0].actualEndDate%>' <%} else{%> value='' <%}}%> ></td>
-            
-           
-              <td style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Comercial Head</label></td>
-              <td><select style="" class="form-text-box" id="pcommercialhead" name="pcommercialhead" >
-                <option   value='0' disabled selected>Select</option>
-                <% for(var i=0;i<teamlead.length;i++) {%>
-                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].commercialHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
-                  <%}%> 
-              </select> 
-             </td>
-            -->
-            
 
-              <!-- <button class="btn btn-primary" id="selectAll" style="margin-bottom:4px">Select All</button>
-              <button class="btn btn-primary"  id="selectNone">Select None</button> -->
-              
- <!--  <td><label style="padding:2%;color: #524A4A;font-size: 11px">Account Lead:</label></td>
-              <td> <select class="form-text-box" id="paccounthead" name="paccounthead" >
-                <option value='0' selected disabled >Select</option>
-                <% for(var i=0;i<teamlead.length;i++) {%>
-                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].accountHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
-        <%}%> </select>
-        <div class="fLeft"><span class="error" id="errorPaccounthead"></span></div>
-             </td>
-          </tr>
-          <tr>
-          
-          
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Manager:</label></td>
-              <td> <select class="form-text-box" id ="pmanager" name="pmanager" >
-                <option value='0' selected disabled>Select</option>
-                <% for(var i=0;i<manager.length;i++) {%>
-                <option value="<%=manager[i].id%>"<%if(flag==1&&name[0].manager==manager[i].id){%>selected<%}%> ><%=manager[i].name%></option>
-               <%}%>
-              </select>
-              </td>
-            
-
-             
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px">Is Plan Required:</label></td>
-              <td> <select class="form-text-box" id ="planReq" name="planReq" >
-                <option value="1" selected>Yes</option>
-                <option value="0">No</option>
-              </select>
-              </td>
-            
-
-
-           
-              
-           
-            <td style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Assign to All</label></td>
-             
- 
-              <td><select style="" id="assign" class="form-text-box" name="assign" onclick="AssigntoAll()">
-                
-                  <option disabled=""  value="2" >Select</option>
-                  <option value="1" >Yes</option>
-                  <option value="0" selected  >No</option>
-                </select></td>
-
-
-              <td id="resr" style="width: 100px"><label style="padding:2%;color: #524A4A;font-size: 11px">Resources: <sup class="astrick">*</sup></label></td>
-
-             
-              <td > <div id="presourceDiv" >
-              <select multiple="multiple" class="form-text-box" style="margin-top:3%;width:100%;"  name="presource" id ="presource" maxlength="50">
-                <% for(var i=0;i<resource.length;i++) {%>
-                <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
-                <%}%>
-              </select>
-              <%if(flag==1){for(var i=0;i<name.length;i++){%>
-              
-              <%}}%>
-
-              <script type="text/javascript">
-   $("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
-   $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){ %>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
-</script>  </div>
-            <div class="fLeft"><span class="error" id="errorPresource"></span></div>
-                      
-              </td>
-           
-          </tr>
-          <tr>
-            <td></td><td></td><td></td><td></td> 
-           <td></td><td></td><td></td><td></td>
-              <td></td><td></td><td></td><td></td> 
-          </tr>
-        </table>   -->
        
           <center style="margin-bottom: 1%">
           <a href="/projectDetails">
@@ -550,59 +325,6 @@ width:24% !important;
         </div>  
 
 
-<!-- 
-        <table class="table form-table" >
-          <tr>
-            <td>
-              <td><label style="padding:2%;color: #524A4A;font-size: 11px;width:107px">Billable:</label></td>
-              <td>
-               <input type="radio" name="isBillable"  value= 1  id = "isBillable1" required  style="margin-top:3%;"> Yes
-              <input type="radio" name="isBillable"  value= 0  id = "isBillable2" required  style="margin-top:3%;"> No
-              </td>
-            </td>
-            <td>
-              <td><label style="padding:4%;color: #524A4A;font-size: 11px;width:107px">Project Type:</label></td>
-              <td>
-              <select style="width:145%" id="ptype1" class="form-text-box" name="ptype">
-                  <option disabled selected value=0>Select</option>
-              <% for(var i=0;i<allPtype.length;i++) {%>
-              <option value="<%=allPtype[i].id%>"><%=allPtype[i].description1%></option>
-              <%}%>
-                </select>
-              </td>
-            </td>
-
-            <td>
-              <td><label style="padding:8%;color: #524A4A;font-size: 11px;width:107px;margin-top:-4%">Tax Code:</label></td>
-              <td> <input type="text" placeholder="Enter Tax Code"  class= "form-text-box" id="taxCode" style="margin-top:%;" name="taxCode"  maxlength="20"  <%if(flag==1){%>value='<%=name[0].taxCode%>' <%}%>>
-              </td>
-            </td>
-            <td>
-              <td><label style="padding:6%;color: #524A4A;font-size: 11px;width:107px">PO Number:</label></td>
-              <td style="width: 220px">
-              <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "10" min = "1" max = "99999" placeholder=" -- Enter PO Number -- "class= "form-text-box" id="poNumber" style="margin-top:%;" name="poNumber" <%if(flag==1){%>value='<%=name[0].poNumber%>'<%}%> >
-              </td>
-            </td>
-          </tr> 
-          <tr>
-            <td>
-              <td><label style="padding:4%;color: #524A4A;font-size: 11px;width:107px">Project Category:</label></td>
-              <td>
-              <select style="width:145%" id="pcat" class="form-text-box" name="pcat">
-                  <option selected disabled value=0>Select</option>
-              <% for(var i=0;i<allPcat.length;i++) {%>
-              <option value="<%=allPcat[i].id%>"><%=allPcat[i].description1%></option>
-              <%}%>
-                </select>
-              </td>
-            </td>
-          </tr>
-          <tr>
-            <td></td><td></td><td></td><td></td> 
-           <td></td><td></td><td></td><td></td>
-              <td></td><td></td><td></td><td></td> 
-          </tr>
-        </table> -->
 
             <center style="padding-bottom: 1%">
             <a href="/projectDetails">
@@ -639,76 +361,30 @@ width:24% !important;
   var pressButton=0;
   var abcd=0;
     $(document).ready(function() {
-      // setTimeout(function(){});
       $(".chosen-select").chosen();
 
       $('.se-pre-con').fadeOut('slow');
-
-      // $('#pclient').tagger({
-      //   "fieldWidth":"13em"
-      // });  
-      // $('#ptech').tagger({
-      //   "fieldWidth":"13em"
-      // }); 
-
-      //  $('#presource').tagger({
-      //   "fieldWidth":"13em"
-      // });
-      // $("#presource").searchableOptionList();
-
-      // $('#presource').tagger({
-      //   "fieldWidth":"13em"
-      // });
-
-      // $('#pcomplexity').tagger({
-      //   "fieldWidth":"13em"
-      // });
-      // $('#pcommercialhead').tagger({
-      //   "fieldWidth":"13em"
-      // });
-      // $('#paccounthead').tagger({
-      //   "fieldWidth":"13em"
-      // });
-
-      // $('#pmanager').tagger({
-      //   "fieldWidth":"13em"
-      // });
-
-      //  $('#ccontact').tagger({
-      //   "fieldWidth":"13em"
-      // });
-
-  
-  // $('#plocation').tagger({
-  //       "fieldWidth":"13em"
-  //     });
 
   $("input[name=pstatus][value=" + 1 + "]").prop('checked', true);
   $("input[name=isBillable][value=" + 1 + "]").prop('checked', true);
   $("input[name=ptype][value=" + 1 + "]").prop('checked', true);
   $("input[name=pclient][value=" + 0 + "]").prop('checked', true);
   $('.project-img').addClass('active');
-  //$("#pcomplexity").prop("selectedIndex", -1);
 
 if( '<%=flag%>'=='1'){
          <%if(name.length){%>
-           //$("input[name=ptype][value=<%=name[0].ptype%>]").prop('checked', true);
            $("input[name=pstatus][value=<%=name[0].pstatus%>]").prop('checked', true);
            $("input[name=isBillable][value=<%=name[0].isBillable%>]").prop('checked', true);
 
            $('#pcomplexity').val('<%=name[0].pcomplexity%>');
             $('#planReq').val('<%=name[0].isPlanReq%>');
- //$('#completed').val('<%=name[0].completed%>');
-  //   alert('<%=name[0].assigntoall%>');
-       //alert("eeeeeeeeeeeeeeeeeeeeeeeee"+<%=allProjects[0].assigntoall%>);
+
             if ('<%=name[0].assigntoall%>' == '1') {
                         $('#assign').val('<%=name[0].assigntoall%>');
                         $('#presourceDiv').addClass('hide');
                          $('#resr').addClass('hide');
-                        //alert("1")
                     } else {
-                      //alert("name[0].assigntoall")
-                       // alert("2");
+                     
                         $("#assign").val('<%=name[0].assigntoall%>');
                          $('#presourceDiv').removeClass('hide');
                          $('#resr').removeClass('hide');
@@ -720,13 +396,11 @@ if('<%=name[0].projectTitle%>'=='DummyProject'){
 
 
       if ('<%=name[0].ptype%>' == null) {
-                        //$("#wbslocation").prop("selectedIndex", -1);
                         $('#ptype1').val(0);
                     } else {
                         $('#ptype1').val('<%=name[0].ptype%>');
                     }
       if ('<%=name[0].category%>' == null) {
-          //$("#wbslocation").prop("selectedIndex", -1);
           $('#pcat').val(0);
       } else {
           $('#pcat').val('<%=name[0].category%>');
@@ -754,12 +428,9 @@ getSelectedOptions($('#pclient').val());
                             string1+="<option value='<%=resource[i].id%>' selected><%=resource[i].name%></option>"  ;           
                        <%}%>
               string1+="</select>";
-            //  console.log(string1);
               $("#presourceDiv").html(string1);
               $(".chosen-select1").chosen();
-                   // $('#presource').tagger({
-                   //  "fieldWidth":"13em"
-                   //    }); 
+                  
     });
 
     $('#selectNone').click( function() {
@@ -770,35 +441,26 @@ getSelectedOptions($('#pclient').val());
                             string1+="<option value='<%=resource[i].id%>' ><%=resource[i].name%></option>"  ;           
                        <%}%>
               string1+="</select>";
-             // console.log(string1);
               $("#presourceDiv").html(string1);
               $(".chosen-select1").chosen();
-                   // $('#presource').tagger({
-                   //  "fieldWidth":"13em"
-                   //    }); 
+                   
     });
 
 });
 
-   /* function abcd(){
-      alert('vdfsvfdsvgsd');
-      //$("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
-    }
-*/
+ 
 
     $('#pclient').change(function() {
-       //alert('123');
     }); 
 
-function getSelectedOptions(cid){//alert(cid);
+function getSelectedOptions(cid){
   $.ajax({
                 url: '/clientContactAccToClient',
                 type: 'post',
                 data: { "cid": cid},
                 success: function(data) {
   
-               $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
-               console.log('name id---<%=name.length%>','data id---',data[0].length);
+               $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
 
                   var string1="<select class='chosen-select' multiple='multiple' id=\"ccontact\"><option value=0 disabled>Select </option>" ;
                   var temparr=[];
@@ -807,9 +469,8 @@ function getSelectedOptions(cid){//alert(cid);
                 
                         string1+="<option value="+data[0][i].id+" <%if(flag==1){for(var j=0;j<name.length;j++){%>";
 
-                        console.log('name id---<%=name[j].ccmid%>','data id---',data[0][i].id);
                         if(data[0][i].id=='<%=name[j].ccmid%>' && temparr.indexOf('<%=name[j].ccmid%>')<0){
-                          //console.log(i,'--j=<%=j%>');
+                         
                           string1+='selected';
                           temparr.push('<%=name[j].ccmid%>');
 
@@ -818,15 +479,12 @@ function getSelectedOptions(cid){//alert(cid);
                         string1+="<%}}%>>"+data[0][i].Name+"</option>"  ;           
                         }
               string1+="</select>";
-              console.log(string1);
 
 
 
               $("#contactDiv").html(string1);
                   $(".chosen-select").chosen();
-                   // $('#ccontact').tagger({
-                   //  "fieldWidth":"13em"
-                   //    }); 
+                  
                 }
 
             });
@@ -860,9 +518,8 @@ function getSelectedOptions(cid){//alert(cid);
     function allProjects() {
       var abc=1;
               if('<%=flag%>'=='0'){
-                console.log('all project size---',<%=allProjects.length%>);
                 <%if(allProjects.length>0){%>
-               <%  for(var j=0;j< allProjects.length; j++){console.log("---------------",allProjects[j].projectTitle);%>
+               <%  for(var j=0;j< allProjects.length; j++){%>
                     if($('#idpname').val()=='<%=allProjects[j].projectTitle%>'){
                     alert('Project Already Exists.\nChange the name of project');
                     abc=0;
@@ -992,7 +649,6 @@ function getSelectedOptions(cid){//alert(cid);
       resetError();
       var errorPresource = $('#errorPresource');
       var abc=validBasicInfo();
-      //alert('abc--'+abc);
       if(abc){
              var text = $('#datepicker2').val();
              var date = new Date(text);
@@ -1042,7 +698,6 @@ function getSelectedOptions(cid){//alert(cid);
            else{
              addedit=1;
               }
-              //$('#tabDetail').val(2);
               tabDisable=2;
               if(pressButton==2){$('#tabDetail').val(1);addProject();}
               else{$('#tabDetail').val(1);return true;}
@@ -1098,7 +753,6 @@ function getSelectedOptions(cid){//alert(cid);
 
 
             function addProject1(){
-            //  alert("going for suubmit");
                             resetError();
                             var successProjectAddEdit = $('#successProjectAddEdit');
                             var pclient=$("#pclient").val().toString();
@@ -1138,7 +792,6 @@ function getSelectedOptions(cid){//alert(cid);
                                    "assigntoallforproject":$('#assign').val()
                                   },
                                   success: function(data) {
-                                    console.log('success',data);
                                    $("#pid").val(data[0][0].lid); 
                                      if(data[0][0].flag == 1){
                                       successProjectAddEdit.text("Successfully Added");
@@ -1152,17 +805,7 @@ function getSelectedOptions(cid){//alert(cid);
                                   dataType: 'JSON',
                                 });
             }
-/*
-            var addProject1Modal = function(lid) {
 
-                                    var r = confirm("Do you want to create WBS ?");
-                                    if (r == true) {
-                                    window.location.href = "/projectWbs?pid="+lid;
-                                    } else {
-                                    window.location.href = "/projectDetails";
-                                    }
-                                    $('.se-pre-con').fadeOut('slow');
-            }*/
 
             function validDocInfo(prevOrNext) {
               $("#tab" + prevOrNext).click();
@@ -1178,13 +821,11 @@ function specialCharacter(evt) {
 
 
     function AssigntoAll(){
-    // alert("aaaa");
       if($('#assign').val()==1)
      {
        $('#selectAll').click();
       $('#presourceDiv').addClass('hide');
-       // $('#select1').addClass('hide');
-       // $('#select2').addClass('hide');
+
          $('#resr').addClass('hide');
         
         
@@ -1192,8 +833,7 @@ function specialCharacter(evt) {
     {
       $('#selectNone').click();
       $('#presourceDiv').removeClass('hide');
-     // $('#select1').removeClass('hide');
-     //   $('#select2').removeClass('hide');
+
      $('#resr').removeClass('hide');
         
     }
