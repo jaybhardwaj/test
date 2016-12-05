@@ -60,6 +60,7 @@
       var curr_wbsnm = [];
       var curr_asgnmnt_id = [];
       var curr_wbs_id = [];
+      var report_data=[];
       
       
       
@@ -1122,6 +1123,8 @@
                   var assignments = [];
                   var wbsids = [];
                   var wbsname = [];
+                   var report_data;
+                  var report_data='';
                   for (var j = 0; j < no_of_asgmnt; j++) {
          
                       var tsid = data[0].i;
@@ -1138,9 +1141,28 @@
                           else
                               var user = 0;
                           alluser.push(user);
+                           if (($('#id' + colmid).val() != "" || $('#id' + colmid).val() != 0) && i < temp+1){
+
+
+     var dddate = new Date($('#t_h'+i).val()).getFullYear() + '-' + (new Date($('#t_h'+i).val()).getMonth() + 1) + '-' + new Date($('#t_h'+i).val()).getDate();
+
+                                          console.log('(',curr_asgnmnt_id[j],',',curr_wbs_id[j],',',tsid,',',dddate,',',$('#id' + colmid).val(),',',sdate,')');
+                          
+
+                                          report_data=report_data+curr_asgnmnt_id[j]+","+curr_wbs_id[j]+","+tsid+",'"+dddate+"',"+$('#id' + colmid).val()+",'"+sdate+"'),(";
+
+                            }
+                          
                       }
+                      
                       alluser.push('||');
+
+                         
                   }
+
+
+
+report_data=report_data.substring(0,report_data.length - 3);
                  
                   for (var j = no_of_asgmnt; j < no_of_asgmnt + 1; j++) {
                       alluser.push('"#"');
@@ -1163,7 +1185,8 @@
                       data: {
                           "alluser": alluser,
                           "temp": temp,
-                          "timesheetid": tsid
+                          "timesheetid": tsid,
+                                     "report_data":report_data
                       },
                       success: function(data) {
       

@@ -2734,10 +2734,10 @@ getTimeSheetData: function(userId,roleId,retailerId,callback){
         });
       },
 
-       submitTimesheetAssignment: function(alluser,allcolumn,timesheetid,callback){
+       submitTimesheetAssignment: function(alluser,allcolumn,timesheetid,report_data,callback){
         var query={
-          sql:'call usp_time_submitTimesheetAssignment(?,?,?)',
-          values:[alluser,allcolumn,timesheetid]
+          sql:'call usp_time_submitTimesheetAssignment(?,?,?,?)',
+          values:[alluser,allcolumn,timesheetid,report_data]
         };
 
         //console.log("submitting hours ",query);

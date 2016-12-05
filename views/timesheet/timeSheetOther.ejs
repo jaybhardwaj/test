@@ -255,6 +255,7 @@ var day2= new Date(w2);
                      //   alert(ata[2][0].firstName);
                         // document.getElementById('Currsname').innerHTML = data[2][0].firstName;
                         $('#myrep_dropuserdata').val(data[2][0].id);
+
                         $('#myrep_dropuserdata').trigger("chosen:updated");
                         //$('#Currsname').val(data[1][0].firstName);
                         // alert("length of data one is "+data[1].length);
@@ -753,6 +754,8 @@ function parseDate(input) {
                   <div class="col-lg-6-col-md-6 col-sm-6">
                     <label class="col-lg-3-col-md-3 col-sm-3" style="margin-top:7px">Name : </label>
                     <div id="myrep_drop" class="col-lg-9-col-md-9 col-sm-9">
+                      <select style="" class="form-text-box" id="dropuserdata" onchange="DropdownUsers()">
+                      </select>
                     </div>
                   </div>
                   <div class="col-lg-6-col-md-6 col-sm-6">
@@ -1153,6 +1156,7 @@ function parseDate(input) {
                 },
                 success: function(data) {
                     alert("TimeSheet have been Approved Successfuly");
+
                     ////console.log("--------------------werwerwe------------------");
                     document.getElementById('timestatus').innerHTML = for_status[data[0][0].status];
                     if ((data[0][0].status == 3) && (<%=roleid%> == 1)) {
@@ -1181,7 +1185,14 @@ function parseDate(input) {
                         $('#Approved').removeClass('hide');*/
                     }
                     ////console.log("kkkkkk");
+
                     getUserUnderSupervisor();
+                    console.log(user_for_approved_id,'amit');
+                    setTimeout(function(argument) {
+                      $('#myrep_dropuserdata').val(user_for_approved_id);
+                    $('#myrep_dropuserdata').trigger("chosen:updated");
+                    },500)
+                    
                 }
 
 
@@ -1291,7 +1302,7 @@ function parseDate(input) {
                if(my_manager_isRetailer==1){ $('#drop').html(string1);}
                $('#myrep_drop').html(string2);
                   chosenSelectDropdown();
-            
+
              /*   $("#dropuserdata").tagger({
                     "fieldWidth":"20em"
                 });
