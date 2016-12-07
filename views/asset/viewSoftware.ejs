@@ -38,7 +38,7 @@
         <span class="modal-title" style="padding-left:41%;">List Of All Softwares</span>
         </div>
         <div class="clearfix">
-       <input class="form-control" type="text" placeholder="search in this table" id="searchbox" style="margin-bottom: 10px;width: 200px;float:right">
+       <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox" style="margin-bottom: 10px;width: 200px;float:right">
        </div>
          <div class="row">
         <table class="table table-hover table-striped table-bordered rceDataTable" id="softtable" cellpadding="0" cellspacing="0" border="0" >
@@ -107,100 +107,75 @@
 </footer>
 <div class="modal fade" id="editstation" role="dialog">
 
-    <div class="modal-dialog " style="min-width:80%">
-        <div class="modal-content" id="exp2" style="">
-            <div class="modal-header" style="background-color:#f05f40;">
-                <center><label id="head4" class="modal-title" style="color:white;font-size:14pt;"><b>Edit Software</b></label>
-                    <span id="closeedit" class='close closeedit' data-dismiss="modal" style='float:right;' title='Close'> &times;  </span>
-                </center>
-            </div>
-            <div id="err" class="col-lg-6 col-sm-offset-3"></div>
-            <div class="modal-body">
-                <div class="row" style="max-width: 100% overflow-y:auto" >
-                    <div class="col-lg-12">
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                <label class="form-Label">Software Type: <sup class="astrick">*</sup></label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                                  <select id="typel" name="htype" class="form-control" value="" disabled="disable">
+     <div class="modal-dialog" style="min-width: 80%;">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:#f05f40;">
+          <center><label id="head10" class="modal-title" style="color:white !important;"> Edit Software </label>
+          <span id="dismiss"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:white;margin-bottom: 15px'></span>
+          </center>
+        </div>
+         <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+          <div class="modal-body">
+            <div class="row fusion-form-elements view-edit-hardware">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+               <label class="form-Label">Software Type: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                 <select id="typel" name="htype" class="form-control input-sm textBox" value="" disabled="disable">
                                       <%for(var i=0;i<stype[0].length;i++){%>
                                       <option value='<%=stype[0][i].softType%>'><%=stype[0][i].componentName%></option>
                                                         <%}%>
-                                    </select>
-
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                <label class="form-Label">Name: <sup class="astrick">*</sup></label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                                <input type='text' maxlength="50" name="name" class="form-control" id="name" />
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                             <div class="col-lg-5 paddings">
-                                 <label class="form-Label">Vendor: <sup class="astrick">*</sup></label>
-                             </div>
-                             <div class="col-lg-7 paddings">
-                                  <select class="form-control" style="" name="vendor" id="vendor" onchange=""> 
+                 </select>
+             </div>
+             <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label">Name: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                <input type='text' maxlength="50" name="name" class="form-control input-sm textBox" id="name" />
+              </div>
+           
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label">Vendor: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                 <select class="form-control input-sm textBox" style="" name="vendor" id="vendor" onchange=""> 
 
                                     <option value='0' disabled selected>Select</option>
                                     <% for(i=0;i<stype[1].length;i++){%>
                                     <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
                                                    <%}%>
-                                    </select>
-                            </div>
-                        </div> 
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                 <label class="form-Label">Invoice Date: <sup class="astrick">*</sup></label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                               <input type="" class="form-control date" id="Invoicedate" name="Invoicedate" />                            </div>
-                        </div>    
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                 <label class="form-Label">Licence Required:</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                               <input name='test5' type="checkbox" id="test5" />
-                            </div>
-                        </div>    
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                 <label class="form-Label">Description: <sup class="astrick">*</sup></label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                               <textarea id='textarea' name="des" class="form-control"></textarea>
-                            </div>
-                        </div>   
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                  <label class="form-Label"># Users: <sup class="astrick">*</sup></label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                              <input type="number" name="users" class="form-control" disabled="disable" id="users" />                            </div>
-                        </div>  
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                 <label class="form-Label">Purchase Date: <sup class="astrick">*</sup></label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                              <input class="form-control date" id="pdate" name="pdate" />                          </div>
-                        </div>   
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                <label class="form-Label">Expiry Date: <sup class="astrick">*</sup></label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                               <input class="form-control date " id="edate" name="edate" />                         </div>
-                        </div>    
+                </select>           
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                 <label class="form-Label">Invoice Date: <sup class="astrick">*</sup></label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <input type="" class="form-control input-sm textBox date" id="Invoicedate" name="Invoicedate" />
+            </div>
+             <div class="col-lg-4 col-md-4 col-sm-6">
+                 <label class="form-Label">Licence Required:</label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <input name='test5' type="checkbox" id="test5" />
+            </div>
+             <div class="col-lg-4 col-md-4 col-sm-6">
+                 <label class="form-Label">Description: <sup class="astrick">*</sup></label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <textarea id='textarea' name="des" class="form-control input-sm textBox"></textarea>
+            </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                 <label class="form-Label"># Users: <sup class="astrick">*</sup></label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <input type="number" name="users" class="form-control input-sm textBox" disabled="disable" id="users" />    
+            </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label">Purchase Date: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                <input class="form-control input-sm textBox date" id="pdate" name="pdate" />        
+            </div>
+             <div class="col-lg-4 col-md-4 col-sm-6">
+                 <label class="form-Label">Expiry Date: <sup class="astrick">*</sup></label>
+                 <span id="ltype" class="hide labelans"></span>
+                 <input class="form-control input-sm textBox date " id="edate" name="edate" />        
+            </div>
 
-                    </div>
 
-                  
                     </div>
                      <div class="row" id="licc" style="max-width: 100% overflow-y:auto" ></div>
                      <div><input type="text" class="hide" id="hid" name="alllicensekey"></input></div>

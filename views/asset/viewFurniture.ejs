@@ -79,117 +79,91 @@
                 
 <div class="modal fade" id="editfurniture" role="dialog">
 
-    <div class="modal-dialog" style="min-width:80%;">
-      <div class="modal-content" id="express2" >
-
-        <div class="modal-header" style="background-color:#f05f40;height: 40px">
-          <span id="closeedit"  class='close closeedit' data-dismiss="modal" style='float:right;'title ='Close' > &times;  </span>
-          <center><label id="head4" class="modal-title"  style="color:white;">Edit Furniture</label>
-        
-         </center> 
+ <div class="modal-dialog" style="min-width: 80%;">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:#f05f40;">           
+         <center><label id="head10" class="modal-title" style="color:white !important;"> Edit Furniture </label>
+          <span id="dismiss"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:white;margin-bottom: 15px'></span>
+          </center>
         </div>
        <div id="err" class="col-lg-6 col-sm-offset-3"></div>
           <div class="modal-body">
-
-          <div class="row" style="max-width: 100% overflow-y:auto" >
-           <div class="col-lg-12">
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                <label class="form-Label" >Name:<sup class="astrick">*</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                                   <input type="text" id="typel" class="form-control" maxlength="50" name="typel" placeholder="name">
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                <label class="form-Label" >Quantity:<sup class="astrick">*</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                                 <input name="qty" class="form-control" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                             <div class="col-lg-5 paddings">
-                                 <label class="form-Label" >Vendor:<sup class="astrick">*</label>
-                             </div>
-                             <div class="col-lg-7 paddings">
-                                     <select  class="form-control" style=""  name="vendor" id ="vendor" onchange=""> 
-                                          <option value='0' disabled selected>Select</option>
+           <div class="row fusion-form-elements view-edit-hardware">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Name:<sup class="astrick">*</label>
+                <span id="ltype" class="hide labelans"></span>
+                <input type="text" id="typel" class="form-control textBox" maxlength="50" name="typel" placeholder="name">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Quantity:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input name="qty" class="form-control textBox" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
+             </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                 <label class="form-Label" >Vendor:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                 <select  class="form-control textBox" style=""  name="vendor" id ="vendor" onchange=""> 
+                            <option value='0' disabled selected>Select</option>
                                                <% for(i=0;i<stype[2].length;i++){%>
                                            <option value="<%=stype[2][i].id%>"><%=stype[2][i].name%></option>
                                                    <%}%>
-                                      </select>
-                            </div>
-                        </div> 
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                <label class="form-Label" >Purchased Order: </label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                               <input type="text" maxlength="30"  class="form-control" id="order" name="order" />                            </div>
-                        </div>    
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                 <label class="form-Label" >Invoice Date:<sup class="astrick">*</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                              <input type="text" class="form-control date"id="Invoicedate" name="Invoicedate" />
-                            </div>
-                        </div>    
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                  <label class="form-Label" >Invoice Number:<sup class="astrick">*</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                                <input type="text" maxlength="30"  class="form-control" id="invoiceNo" name="invoiceNo" />
-                            </div>
-                        </div>   
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                 <label class="form-Label" >Invoice Amount:<sup class="astrick">*</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                              <input type="number" maxLength="12"  name="invoiceAmt" class="form-control" id="invoiceAmt" onblur="calulateunitprice();"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">                          </div>
-                        </div>  
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                 <label class="form-Label" >Delivery Date:<sup class="astrick">*</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                              <input type="text"class="form-control date" id="Deliverydate"name="Deliverydate" />                      </div>
-                        </div>   
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                               <label class="form-Label" >Unit Price:<sup class="astrick">*</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                               <input readonly="readonly" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-control" id="uprice"   placeholder="Unit Price">                      </div>
-                        </div>   
-                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                <label class="form-Label" >Color:</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                               <input type="text" maxlength="20"  class="form-control" id="color" name="color" />  </div>
-                        </div>  
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 marginTOP10">
-                            <div class="col-lg-5 paddings">
-                                <label class="form-Label" >Brand:</label>
-                            </div>
-                            <div class="col-lg-7 paddings">
-                                <select  class="form-control" style=""  name="brand" id ="brand" onchange=""> 
+                 </select>
+             </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Quantity:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input name="qty" class="form-control textBox" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Purchased Order: </label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text" maxlength="30"  class="form-control textBox" id="order" name="order" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Invoice Date:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text" class="form-control textBox date"id="Invoicedate" name="Invoicedate" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Invoice Number:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text" maxlength="30"  class="form-control textBox" id="invoiceNo" name="invoiceNo" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Invoice Amount:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="number" maxLength="12"  name="invoiceAmt" class="form-control textBox" id="invoiceAmt" onblur="calulateunitprice();"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">      
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Delivery Date:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text"class="form-control textBox date" id="Deliverydate"name="Deliverydate" />      
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Unit Price:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                 <input readonly="readonly" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-control textBox" id="uprice"   placeholder="Unit Price">    
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Color:</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text" maxlength="20"  class="form-control textBox" id="color" name="color" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <label class="form-Label" >Brand:</label>
+                <span id="lqty" class="hide labelans"></span>
+                <select  class="form-control textBox" style=""  name="brand" id ="brand" onchange=""> 
                                   <option value='0' disabled selected>Select</option>
                                       <% for(i=0;i<stype[1].length;i++){%>
                                    <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
                                      <%}%>
-                                </select></div>
-                        </div>  
+                </select>
 
-                    </div>
-       
-            </div>
-            </div>
+              </div>
+
+          </div>
+          </div>
             <div class="modal-footer" style="border-top:0px;">
             <div class="col-lg-12" style="margin-top:18px;">
               <center>
@@ -202,7 +176,7 @@
           </div>
         </div>
       </div>
- 
+
 <script>
 
 function calulateunitprice(){

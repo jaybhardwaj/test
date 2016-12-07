@@ -183,20 +183,30 @@ var locationId = [],
 
     timesheetdragreport: function(req, res, next) {
         var tempStr = [];
+
+
+          if(req.body.isemployeeName =="true"){
+            tempStr.push("l.employeeName");
+        }
+
+         if(req.body.isemployeecode =="true"){
+            tempStr.push("l.employeecode");
+        }
+
         if(req.body.isWbsName =="true"){
-            tempStr.push("wbs");
+            tempStr.push("l.wbsName");
         }
         if(req.body.isprojectName =="true"){
-            tempStr.push("project");
+            tempStr.push("l.projectName");
         }
         if(req.body.isfortNightDate =="true"){
-            tempStr.push("fortnight");
+            tempStr.push("l.fortNightDate");
         }
         if(req.body.isDATEs =="true"){
-            tempStr.push("dateon");
+            tempStr.push("l.DATEs");
         }
         if(req.body.isyearmonth =="true"){
-            tempStr.push("ymonth");
+            tempStr.push("l.yearmonth");
         }
 
         var startPoint = req.body.start;
@@ -224,10 +234,12 @@ var locationId = [],
             }
             var tempobj = JSON.stringify(result[0]);
             var desiredObj = JSON.parse(tempobj);
+           // console.log("result[0]----",result[0]);
             if(desiredObj[0]){
                 desiredObj[0].project = JSON.parse(JSON.stringify(result[2]));
                 desiredObj[0].wbs = JSON.parse(JSON.stringify(result[1]));
                 desiredObj[0].monthyearArr = JSON.parse(JSON.stringify(result[3]));
+                desiredObj[0].fortnightDate = JSON.parse(JSON.stringify(result[4]));
             }
             if(desiredObj[0]){
                 return res.json({"sEcho": parseInt(req.body.draw),
