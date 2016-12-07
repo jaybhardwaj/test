@@ -147,11 +147,9 @@ var locationId = [],
 
         modelPortal.notification(edit,notificationForApproveReject,type,notification,assignedTo,flag,req.session.userId, req.session.retailerId,function(err, result) {
              if (err) {
-                 next(err);
-                 res.json('0');
-             } else {
+                 return res.json('0');
 
-              
+             } else {              
                 req.session.notification=null;
 
                 req.session.notification=result[0][0];
