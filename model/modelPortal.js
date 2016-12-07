@@ -2340,6 +2340,270 @@ getsoftwareexpirtdetails:function(id,callback){
         });
 },
 
+
+
+/* project tree*/
+  projectfortree : function (retailerId,flag,callback){       
+     var q ={
+          sql: 'call usp_projecttreeview(?,?)',
+        values: [retailerId,flag]
+       
+        };
+        ////console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }, 
+
+     showassignment : function (retailerId,callback){       
+     var q ={
+          sql: 'call usp_assignmentbywbs(?)',
+        values: [retailerId]
+       
+        };
+        ////console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }, 
+
+
+ showclients : function (flag,retailerId,callback){       
+     var q ={
+          sql: 'call usp_clientByretailer(?,?)',
+        values: [flag,retailerId]
+       
+        };
+        ////console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+
+ activeinactive : function (retailerId,actval,flag,callback){       
+     var q ={
+          sql: 'call usp_Inactiveproject(?,?,?)',
+        values: [retailerId,actval,flag]
+       
+        };
+        ////console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }, 
+
+
+ showprojects : function (flag,retailerId,callback){       
+     var q ={
+          sql: 'call usp_projectbyclient(?,?)',
+        values: [flag,retailerId]
+       
+        };
+        ////console.log(q);assignmentedit
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }, 
+
+
+ assignmentedit : function (retailerId,callback){       
+     var q ={
+          sql: 'call usp_editAssignment(?)',
+        values: [retailerId]
+       
+        };
+        ////console.log(q);assignmentedit
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }, 
+
+ showwbs : function (retailerId,callback){       
+     var q ={
+          sql: 'call usp_wbsByproject(?)',
+        values: [retailerId]
+       
+        };
+        ////console.log(q);showwbsProjectby
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }, 
+
+     updateProjectDate : function (retailerId,date,callback){       
+     var q ={
+          sql: 'call usp_projectplanedLastDate(?,?)',
+        values: [retailerId,date]
+       
+        };
+        ////console.log(q);showwbsProjectby
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+        updatewbsDate : function (retailerId,date,callback){       
+     var q ={
+          sql: 'call usp_wbsdate(?,?)',
+        values: [retailerId,date]
+       
+        };
+        ////console.log(q);showwbsProjectby
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+         updatewbsandproject : function (retailerId,date,callback){       
+     var q ={
+          sql: 'call usp_projectwbsplanedLastDate(?,?)',
+        values: [retailerId,date]
+       
+        };
+        ////console.log(q);showwbsProjectby
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+     showwbsProjectby : function (retailerId,callback){       
+     var q ={
+          sql: 'call usp_wbsdetailsbyproject(?)',
+        values: [retailerId]
+       
+        };
+        ////console.log(q);showwbsProjectby
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+     editwbsdetail : function (retailerId,callback){       
+     var q ={
+          sql: 'call usp_editwbsdetails(?)',
+        values: [retailerId]
+       
+        };
+        ////console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }, 
+
+      changeAssignmentDate : function (aasid,flag,assdate,callback){       
+     var q ={
+          sql: 'call usp_changeAssignmentdate(?,?,?)',
+        values: [aasid,flag,assdate]
+       
+        };
+        ////console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    }, 
+
+
+
+     clientsedit : function (retailerId,callback){       
+     var q ={
+          sql: 'call usp_clientsedit(?)',
+        values: [retailerId]
+       
+        };
+        ////console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+
+ getprojectresource : function (retailerId,wbsid,callback){       
+     var q ={
+          sql: 'call usp_projectresource(?,?)',
+        values: [retailerId,wbsid]
+       
+        };
+        ////console.log(q);
+        mysql(q, function(err, result) {
+            if (err) {
+               console.log(err);
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
 /*--------------------------------------------------------------holiday part----------------------------------------------------------*/ 
 
      holidayhome: function(userId,roleId,retailerId, callback) {
