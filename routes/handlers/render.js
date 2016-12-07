@@ -734,6 +734,23 @@ res.render('masters',
 
             //----------------------------------Project-------------------------------------------
 
+            case 'projectDetailsfortree' :
+			
+				res.render('projectwithtree',{allPtype:req.projectResults[9],allPcat:req.projectResults[8],	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.projectResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid,flag:req.flagForProject,name:req.projectResults[0],allProjects:req.projectResults[7],location:req.projectResults[1],
+					resource:req.projectResults[5],flagForTab:req.projectResults[6],
+					tech:req.projectResults[2],manager:req.projectResults[4],teamlead:req.projectResults[5],
+					client:req.projectResults[3] ,clientflag:1});
+				break;
+				case 'projectDetailsclient' :
+			
+				res.render('projectwithtree',{allPtype:req.projectResults[9],allPcat:req.projectResults[8],	notification:req.session.notification,    myModules:req.session.modules,allSuperVisors:req.session.allSupervisors,mySupervisor:req.session.mySupervisor,
+					isRetailer:req.session.isRetailer,hideFlag:1,allinfo:req.projectResults,roleid:req.session.roleId,logo:req.session.logo,user:req.session.firstName,defaultModule:req.session.defaultModule,isApp:req.session.isApprover,assetrole:req.session.asstroleid,flag:req.flagForProject,name:req.projectResults[0],allProjects:req.projectResults[7],location:req.projectResults[1],
+					resource:req.projectResults[5],flagForTab:req.projectResults[6],
+					tech:req.projectResults[2],manager:req.projectResults[4],teamlead:req.projectResults[5],
+					client:req.projectResults[3],clientflag:0});
+				break;
+
 
 case 'task':
              res.render('project/task', {		notification:req.session.notification,                   

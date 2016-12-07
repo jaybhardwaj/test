@@ -30,7 +30,19 @@ module.exports = {
 		req.userid=0;
 		req.page = 'users';
 		next();
-	}, 
+	},
+
+   	setProjecttree: function(req, res, next) {
+		req.page = 'projectDetailsfortree';
+		next();
+	},
+
+
+	setinactiveClient: function(req, res, next) {
+		req.page = 'projectDetailsclient';
+		next();
+	},
+
  	errorSWW :function(req,res,next){
     req.page = 'errorSWW';
     next();
