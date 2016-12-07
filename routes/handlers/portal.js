@@ -1934,6 +1934,206 @@ Docmaster:function(req,res,next){
 
     },
 
+
+     /***** tree*****/
+   projectfortree:function(req,res,next){
+      
+modelPortal.projectfortree(req.session.retailerId,req.body.flag ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+      showclients:function(req,res,next){
+      
+modelPortal.showclients(req.body.flag,req.session.retailerId ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+
+      showprojects:function(req,res,next){
+      
+modelPortal.showprojects(req.body.flag,req.body.clientid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+         assignmentedit:function(req,res,next){
+      
+modelPortal.assignmentedit(req.body.clientid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+         changeAssignmentDate:function(req,res,next){
+      console.log("***********************",req.body);
+modelPortal.changeAssignmentDate(req.body.assid,req.body.flag,req.body.assgnDate ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+         activeinactive:function(req,res,next){
+      
+modelPortal.activeinactive(req.body.clientid,req.body.actval,req.body.flag ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+      showwbs:function(req,res,next){
+      
+modelPortal.showwbs(req.body.projectid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },  
+
+        updateProjectDate:function(req,res,next){
+      
+modelPortal.updateProjectDate(req.body.proid,req.body.penddate ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+           updatewbsDate:function(req,res,next){
+      
+modelPortal.updatewbsDate(req.body.proid,req.body.penddate ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+   updatewbsandproject:function(req,res,next){
+      
+modelPortal.updatewbsandproject(req.body.proid,req.body.penddate ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);updatewbsandproject
+                 res.json(result);
+                } 
+        });
+   },
+
+         editwbsdetail:function(req,res,next){
+      
+modelPortal.editwbsdetail(req.body.wbsid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);clientseditgetprojectresource showwbsProjectby
+                 res.json(result);
+                } 
+        });
+   },
+
+            showwbsProjectby:function(req,res,next){
+      
+modelPortal.showwbsProjectby(req.body.clientid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);clientseditgetprojectresource 
+                 res.json(result);
+                } 
+        });
+   },
+
+
+            getprojectresource:function(req,res,next){
+      
+modelPortal.getprojectresource(req.body.ids ,req.body.wbsid,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);clientsedit
+                 res.json(result);
+                } 
+        });
+   },
+
+      clientsedit:function(req,res,next){
+      
+modelPortal.clientsedit(req.body.clientid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+      showassignment:function(req,res,next){
+      
+modelPortal.showassignment(req.body.wbsid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+
 //--------------------------Project-WBS-------------------
  projectDetails: function(req, res, next) {
          modelPortal.getProjectDetails(req.session.userId,req.session.roleId,req.session.retailerId,
@@ -2227,7 +2427,7 @@ addEditWbsDetails: function(req, res, next) {
          });
      },
 
-     projectAddEdit: function(req, res, next) {
+    /* projectAddEdit: function(req, res, next) {
        
            modelPortal.projectAddEdit(req.pid,req.flag,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
@@ -2245,6 +2445,45 @@ addEditWbsDetails: function(req, res, next) {
                 req.projectResults=result;
              
 
+             next();
+
+
+                 }
+             }
+         });
+     },*/
+
+         projectAddEdit: function(req, res, next) {
+         var pids,flags;
+        if(req.pid!=undefined){
+            pids=req.pid;
+        }
+        else{
+              pids=0;
+        }
+
+           if(req.flag!=undefined){
+            flags=req.flag;
+        }
+        else{
+              flags=0;
+        }
+       
+           modelPortal.projectAddEdit(pids,flags,req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+                if(flag==1){
+                    req.projectResults=result;
+              //console.log("project data on edit flag 1",result);
+             next();
+                     
+                 }
+                 else{
+                req.projectResults=result;
+             //console.log("project data on edit flag not 1",result);
              next();
 
 

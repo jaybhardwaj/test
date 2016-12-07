@@ -8,7 +8,11 @@ var url = require('./handlers/url');
 var fs = require('fs'); 
 var path = require('path');
 var multer  = require('multer');
-var upload = multer({ dest: './public/attach/' });
+var upload = multer({ dest: './public/attach/',limits: {
+    fieldNameSize: 999999999,
+    fieldSize: 999999999
+  }
+});
 // var bodyParser=require('body-parser');
 var busboy=require('busboy');
  
@@ -88,6 +92,23 @@ app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
     app.post('/downloadFileCount',portal.downloadFileCount);
 
     //app.get('/Documenterror',url.Documenterror,render.redirect);
+
+
+      app.get('/projecttreeview',url.setProjecttree, portal.projectDetails,portal.projectAddEdit,render.redirect);
+  app.post('/projectfortree',portal.projectfortree);
+  app.post('/showclients',portal.showclients);
+  app.post('/showprojects',portal.showprojects);
+  app.post('/showwbs',portal.showwbs);
+  app.post('/updateProjectDate',portal.updateProjectDate);
+  app.post('/updatewbsandproject',portal.updatewbsandproject);
+  app.post('/updatewbsDate',portal.updatewbsDate);
+  app.post('/showwbsProjectby',portal.showwbsProjectby);
+  app.post('/assignmentedit',portal.assignmentedit);
+  app.post('/activeinactive',portal.activeinactive);
+  app.post('/getprojectresource',portal.getprojectresource);
+  app.post('/editwbsdetail',portal.editwbsdetail);
+  app.post('/clientsedit',portal.clientsedit);
+  app.post('/showassignment',portal.showassignment);
   
 //------------------------------------------Asset-------------------------------
 //jay
