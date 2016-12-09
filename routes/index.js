@@ -263,8 +263,9 @@ app.post('/selectAdminHr',portal.selectAdminHr);
 app.post('/updateCandidate',portal.updateCandidate);
 app.post('/interviewData', upload.single('feedback'),portal.interviewData);
 app.get('/interviewFeedback',url.interviewFeedback,portal.interviewFeedback,render.redirect);
-
+ app.post('/changeAssignmentDate',portal.changeAssignmentDate);
 app.post('/error',url.error,render.redirect);
+app.post('/getClientContact',portal.getClientContact);
  app.post('/getClientContacts',portal.getClientContacts);
  app.post('/addeditClientContacts',portal.addeditClientContacts);
 
@@ -334,13 +335,16 @@ app.post('/createExcelProj',portal.createExcelProj);
 	app.post('/userStatus',portal.userStatus);
     app.post('/changeUserStatus', portal.changeUserStatus,render.redirect);
 	//-----------------Clients-----------
+   app.post('/submitAssignmenttree',portal.submitAssignmenttree);
 	app.get('/clients',url.setpageClient, portal.getClient,render.redirect);
 	app.post('/createEditClient',url.setpagecreateEditClient,portal.getClient,render.redirect);
 	app.post('/addEditClient', url.addEditClient,portal.addEditClient,render.redirect);
+    app.post('/addEditClient111',portal.addEditClient111);
 	app.post('/createClient', url.setpagecreateEditClient,portal.addEditClient,render.redirect);
     app.get('/mailServerInfo',url.setpagemailserverInfo,portal.mailServerInfo,render.redirect);
     app.post('/mailServerConfigure',portal.mailServerConfigure);
     app.post('/mailTest',portal.mailTest);
+app.get('/inactiveclient',url.setinactiveClient, portal.projectDetails,portal.projectAddEdit,render.redirect);
 
 
 	//--------------Profile---------------
@@ -371,17 +375,17 @@ app.post('/createExcelProj',portal.createExcelProj);
 	app.post('/changeProjectStatus', portal.changeProjectStatus,render.redirect);
 	app.get('/addEditProject',url.setAddEditProject, portal.addEditProject,render.redirect);
 	app.post('/addEditPro',url.setAddEditPro,portal.addEditPro,render.redirect);
-
+  app.post('/editproject', portal.editproject);
 	app.post('/projectAddEdit',url.setProjectAddEdit,portal.projectAddEdit,portal.getRole,render.redirect);
 	app.post('/projectAddEditDetailsWithFlag',url.setProjectAddEditDetailsWithFlag, portal.projectAddEditDetailsWithFlag,render.redirect);
 
 	app.get('/projectWbs',url.setProjectWbs,portal.projectWbs,render.redirect);
 
   app.get('/wbsDetails',url.wbsDetails,render.redirect);
-app.post('/wbsStatus', portal.wbsStatus);
+  app.post('/wbsStatus', portal.wbsStatus);
 	app.post('/changeWbsStatus', portal.changeWbsStatus,render.redirect);
 	app.get('/addEditWbs',url.setAddEditWbs, portal.addEditWbs,render.redirect);
-	app.post('/addEditWbsDetails',url.setAddEditWbsDetails,portal.addEditWbsDetails,render.redirect);
+	app.post('/addEditWbsDetails',portal.addEditWbsDetails,render.redirect);
 
 app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
 
@@ -436,7 +440,7 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
     app.post('/customRolesUpdate',portal.updateCustomRole);
     app.post('/docActiveInactive',portal.docActiveInactive);
     app.post('/getRolesInfo',portal.getRolesInfo);
-	app.post('/addEditClientAjax',portal.addEditClientAjax);
+	   app.post('/addEditClientAjax',portal.addEditClientAjax);
       app.post('/fileDetialsUpdate',portal.fileDetialsUpdate);
 
 

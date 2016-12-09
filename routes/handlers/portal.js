@@ -585,6 +585,62 @@ FilterDataForSelect:function(req,res,next){
          });
      },
 
+
+      addEditClient111: function(req, res, next) {
+         
+         var hid=req.body.hiddenid;
+         if(req.body.hiddenid.length==0){hid=-1;}
+         modelPortal.addEditClient(
+                    hid, 
+                    req.body.hiddeneditflag,
+                    req.body.ccode,
+                    req.body.cname,
+                    req.body.cabbname,                    
+                    req.body.category,
+                    req.body.cal,
+                    req.body.location,
+                    req.body.address,
+                    req.body.ccontactperson,
+                    req.body.ccperemail,
+                    req.body.clconphone,
+                     req.body.active,
+                    req.session.userId,
+                    req.session.userId, 
+                    req.session.retailerId,                    
+                     function(err, resultClient) {
+                     if (err) {
+                       
+                         next(err);
+                         return;
+                     }
+                    res.json(resultClient);
+         });
+     },
+
+ submitAssignmenttree: function(req, res, next) {
+
+           modelPortal.submitAssignment(
+            req.body.flag,
+            req.body.assignmentId,
+            req.body.procode,
+            req.body.wbs,
+            req.body.user,
+            req.body.status,
+            req.body.asdate,
+            req.body.aedate,
+             req.body.curdat,
+            req.session.retailerId,
+         function(err, result) {
+
+            if(err){
+
+                 next(err);
+             } else {
+          res.json(result);
+             }
+         });
+     }, 
+
 addEditClientAjax : function(req, res, next) {
                 var hid=req.body.id;
                 modelPortal.addEditClientAjax( req.session.userId,req.session.roleId,req.session.retailerId , req.body.id,req.body.name,req.body.id1,function(err, resultClient) {
@@ -2368,7 +2424,6 @@ req.projectResults=result;
 
 addEditWbsDetails: function(req, res, next) {
         req.proname=req.body.proname;
-    
         req.wbshidden=req.body.wbshidden;
            modelPortal.addEditWbsDetails(req.body.assign,req.body.flaghide,req.body.wbsidhide,req.body.wbsname,req.body.wbscode,
             req.body.proname,
@@ -2380,16 +2435,16 @@ addEditWbsDetails: function(req, res, next) {
              if (err) {
                  next(err);
              } else {
-
-                if(req.wbshidden==13){
+/*
+                if(req.wbshidden==13){*/
 
                     res.json(result);
-                        
-                        }
-                        else{
+/*                        
+                        }*/
+                        // else{
                             
-                            next();
-                        }
+                        //     next();
+                        // }
 
              }
          });
@@ -2566,7 +2621,6 @@ addEditWbsDetails: function(req, res, next) {
 
 
     projectAddEditDetailsWithFlag: function(req, res, next) {
-        
         var flag=req.body.hdnId;
        
 var tab=req.body.tabDetail;
@@ -2591,10 +2645,10 @@ var tab=req.body.tabDetail;
 
             req.session.userId,req.session.roleId,req.session.retailerId,req.body.assigntoallforproject,
             function(err, result) {
-
              if (err) {
                  next(err);
              } else {
+
              res.json(result);
                 
              }
@@ -2798,6 +2852,18 @@ createEditAssignment:  function(req, res, next) {
         
          });
      },
+
+
+changeAssignmentDate:function(req,res,next){
+modelPortal.changeAssignmentDate(req.body.assid,req.body.flag,req.body.assgnDate ,function(err,result){
+            if(err){
+                
+            }   
+            else{
+                 res.json(result);
+                } 
+        });
+   },
 
 submitAssignment: function(req, res, next) {
 
@@ -5528,6 +5594,22 @@ upload_resume:function(req,res,next){
         });
     },
 
+ getClientContact:function(req,res,next){
+        modelPortal.getClientContact(req.body.ids,
+           function(err,result){
+            if(err){
+            }   
+            else{
+                    res.json(result[0]);
+                }    
+
+
+
+        });
+    },
+
+
+
     getClientContacts:function(req,res,next){
         modelPortal.getClientContacts(req.session.userId,req.session.roleId,req.session.retailerId,req.body.clientid,
            function(err,result){
@@ -5977,6 +6059,25 @@ modelPortal.projStatus(req.session.retailerId,function(err,result){
 
 
 },
+
+editproject: function(req, res, next) {
+      
+     
+           modelPortal.projectAddEdit(req.body.pid,req.body.flag,req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+               res.json(result);
+                     
+                 }
+                      
+         });
+     },
+
+
+
 getAllTreeForProjStatus:function(req,res,next){
 
 modelPortal.getAllTreeForProjStatus(req.body.proId,function(err,result){

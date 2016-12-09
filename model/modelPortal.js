@@ -2349,10 +2349,8 @@ getsoftwareexpirtdetails:function(id,callback){
         values: [retailerId,flag]
        
         };
-        ////console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-               console.log(err);
             }
             else {
             callback(err,result);
@@ -2366,7 +2364,6 @@ getsoftwareexpirtdetails:function(id,callback){
         values: [retailerId]
        
         };
-        ////console.log(q);
         mysql(q, function(err, result) {
             if (err) {
                console.log(err);
@@ -2869,6 +2866,23 @@ getTimeSheetData: function(userId,roleId,retailerId,callback){
             callback(err, result);
         });
       },
+
+   changeAssignmentDate : function (aasid,flag,assdate,callback){       
+     var q ={
+          sql: 'call usp_changeAssignmentdate(?,?,?)',
+        values: [aasid,flag,assdate]
+       
+        };
+        mysql(q, function(err, result) {
+            if (err) {
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+
 
        submitTimesheetAssignment: function(alluser,allcolumn,timesheetid,report_data,callback){
         var query={
@@ -3508,6 +3522,23 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         });         
     },
 
+
+    getClientContact : function (clientId,callback){
+       var q ={
+          sql: "call usp_clientconPerson(?)",
+        values: [clientId]
+       
+        }; 
+        mysql(q, function(err, result) {
+            if (err) {
+            }
+            else {
+            callback(err,result);
+            }
+        });         
+    },
+
+
     getClientContacts : function (userId,roleId,retailerId,clientId,callback){
        var q ={
           sql: "call usp_getClientContacts(?,?)",
@@ -3516,6 +3547,7 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         }; 
         mysql(q, function(err, result) {
             if (err) {
+                ////console.log(err);
             }
             else {
             callback(err,result);
@@ -3530,8 +3562,11 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [body.cname,body.cemail,body.ccontact,body.clientId,body.id,retailerId,body.password]
        
         }; 
+
         mysql(q, function(err, result) {
+            console.log("sha....",q,err,result);
             if (err) {
+                ////console.log(err);
             }
             else {
             callback(err,result);

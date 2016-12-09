@@ -38,10 +38,7 @@ module.exports = {
 	},
 
 
-	setinactiveClient: function(req, res, next) {
-		req.page = 'projectDetailsclient';
-		next();
-	},
+	
 
  	errorSWW :function(req,res,next){
     req.page = 'errorSWW';
@@ -94,7 +91,11 @@ module.exports = {
 		req.page = 'addEditClient';
 		next();
 	},
-	
+	setinactiveClient: function(req, res, next) {
+		req.page = 'projectDetailsclient';
+		next();
+	},
+
 		setpageSettings:function(req,res,next){
 
 			if(req.session.modules.indexOf(config.Asset)>=0)
