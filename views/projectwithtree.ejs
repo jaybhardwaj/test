@@ -197,9 +197,15 @@ var wbsEdate='';
         setTimeout(function(){  
     $('#all').click();   }, 1500);
 
-
+   if(usersid[i]==user){
+         errorCreateAssignment.text(" select person has been already asssigned a assignment on this document");
+              return false;
+           }
           $('.se-pre-con').fadeOut('slow');
-
+   if(usersid[i]==user){
+         errorCreateAssignment.text(" select person has been already asssigned a assignment on this document");
+              return false;
+           }
            $("#cabbname").focusout(function(){
 
                   
@@ -571,7 +577,6 @@ function checkedit(){
     var vals=$('#in'+ids+'').val(); //(vals==1)&&
     $(".anvi").addClass('hide');
     if((prantid!=0)){
-     
      $('#div'+ids+'').removeClass('hide');
      $('#in'+ids+'').val("0");
     }
@@ -1510,6 +1515,7 @@ document.getElementById("inactive").disabled = false;
                               document.getElementById("createProject2").disabled = true;
                               if($('input:radio[name=pstatus]:checked').val()==0){
                               activeInactive1onedit($("#pid").val(),1,2)}
+                              console.log("gupta");
                               $.ajax({
                                 url: '/projectAddEditDetailsWithFlag',
                                 method: 'POST',
@@ -1542,7 +1548,7 @@ document.getElementById("inactive").disabled = false;
                                    "tabDetail":$('#tabDetail').val()
                                   },
                                   success: function(data) {
-                                   // console.log('success',data);
+                                    console.log('success',data);
                                     document.getElementById("createProject").disabled = false;
                               document.getElementById("createProject1").disabled = false;
                               document.getElementById("createProject2").disabled = false;
@@ -2476,7 +2482,7 @@ x.disabled=true;
 
       $.ajax({
 
-                                url: '/addEditClient',
+                                url: '/addEditClient111',
                                 method: 'POST',
                                 data: {
                                   "ccode":$('#ccode').val(),
@@ -2495,9 +2501,10 @@ x.disabled=true;
                                
                                   },
                                   success: function(data) {
+                                  
                                     document.getElementById('addclientbutton').disabled=false;
                                     var log='';
-                                    console.log('success',data[0]);
+                                  
                                     if($('#hiddenid').val()==0){
                                    $('#createclientcontect').html('');
                                       $('#createclientcontect').append('<button title="Create Client Contect" class="btn btn-primary" style="background-color: #f05f40;"   data-toggle="modal" data-target="#myModal" onclick="addEditContacts(0,'+data[1][0].flag+')">Add</button>');
@@ -2954,11 +2961,11 @@ var endDt=document.getElementById("asdatepicker1").value;
            var wb=$('#wbs2').val();
            /*for(var j=0;j<usersid.length;j++){ 
            
-         /* if(usersid[i]==user){
+          if(usersid[i]==user){
          errorCreateAssignment.text(" select person has been already asssigned a assignment on this document");
               return false;
-           }*/
-        /* }*/
+           }
+         }*/
        }
         
     } 
@@ -3228,7 +3235,7 @@ document.getElementById("assignbutton").disabled=true;
                     }
 /*************show assignment*************/
 function showactiveproject(){
-  window.location.href="/projectDetails"
+  window.location.href="/projecttreeview"
 
 }
 
@@ -3266,7 +3273,7 @@ function showinactiveproject(){
 
 <!--add project data-->
 
- <div id="projectadd" class="container-fluid user-list  col-md-8 hide" style="float:right; margin-top:-655px">
+ <div id="projectadd" class="container-fluid user-list  col-md-8 hide"  style="float:right; margin-top:-655px">
     <div  style="margin-top:1%">
     <span class="modal-title" style="padding-left:45%">Project Details</span>
     <!--form id="projectform" method="post">
@@ -3286,7 +3293,100 @@ function showinactiveproject(){
       <label for="tab5">Billing</label>
 
       <section id="content1">
-        <table class="table form-table">
+       <div class="col-md-12">  
+      <div class="row fusion-form-elements">
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Project Name:<sup  class="astrick">*</sup></label>
+            <input type="text"   placeholder=" Enter Project Name " class="form-control input-sm"  style=""  name="pname" id ="idpname" maxlength="50" onblur=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>'<%}%>>
+                <div class="fLeft"><span class="error" id="errorIdpname"></span></div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Project Code:</label>
+            <input type="text" style="" class="form-control input-sm" placeholder="Project Code" name="pcode" id ="pcode" onkeypress="return specialchar(event)" <%if(flag==1){%>value='<%=name[0].pcode%>' <%}%> readonly>
+                <div class="fLeft"><span class="error" id="errorPcode"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Client:<sup  class="astrick">*</sup></label>
+            <select  class="form-control input-sm" style=""  name="pclient" id ="pclient" onchange="getSelectedOptions($('#pclient :selected').val())"> 
+              <option value='0' disabled selected>Select</option>
+                  <% for(var i=0;i<client.length;i++) {%>
+                <option value="<%=client[i].id%>"><%=client[i].clientName%></option>
+                 <%}%>
+              </select>
+              <div class="fLeft"><span class="error" id="errorPclient"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Client Contact Person:</label>
+              <div id="contactDiv">
+                <select multiple="multiple" class="form-control input-sm chosen-select" style=""  name="ccontact" id ="ccontact"> 
+                </select> 
+                <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
+              </div>
+          </div>
+         </div> 
+         <div class="row fusion-form-elements">
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Technology:<sup  class="astrick">*</sup></label>
+            <select multiple="multiple" class="form-control input-sm chosen-select" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Technology"> 
+              <option  value='0' disabled selected>Select</option>
+                <% for(var i=0;i<tech.length;i++) {%>
+                <option value="<%=tech[i].id%>"><%=tech[i].description1%></option>
+                      <%}%>
+              </select>
+              <div class="fLeft"><span class="error" id="errorPtech"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Planned Start Date:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20" placeholder="Select Date"  style=""   class= "form-control input-sm" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>>
+                <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Planned End Date:<sup  class="astrick">*</sup></label>
+            <input type="text" style=""  maxlength="20" placeholder="Select Date" name="pedate"  class="form-control input-sm" id ="datepicker1" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> >
+                <div class="fLeft"><span class="error" id="errorDatepicker1"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Complexity:</label>
+            <select style="" class="form-control input-sm chosen-select" id ="pcomplexity" name="pcomplexity" >
+                <option  value='0' disabled selected>Select</option>
+                <option  value='simple'<%if(flag==1&&name[0].pcomplexity=='simple'){%>selected<%}%> > simple </option>
+                <option  value='medium'<%if(flag==1&&name[0].pcomplexity=='medium'){%>selected<%}%> > medium </option>
+                <option  value='complex'<%if(flag==1&&name[0].pcomplexity=='complex'){%>selected<%}%>> complex </option>
+              </select>
+              <div class="fLeft"><span class="error" id="errorPcomplexity"></span></div>
+          </div>
+          </div> 
+          <div class="row fusion-form-elements">
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Location:</label>
+            <select class="form-control input-sm chosen-select" id ="plocation" name="plocation" >
+                <option value='0' disabled selected >Select</option>
+                  <% for(var i=0;i<location.length;i++) {%>
+                <option value="<%=location[i].id%>"<%if(flag==1&&name[0].locid==location[i].id){%>selected<%}%> ><%=location[i].location%></option>
+                  <%}%>
+              </select>
+              <div class="fLeft"><span class="error" id="errorPlocation"></span></div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Description:</label>
+            <textarea placeholder="Enter Project Description" id="DescriptionID" style="" class="form-control input-sm" row=2 name="pdescription" maxlength="250" onkeypress="return specialchar2(event)" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
+             <div class="fLeft"><span class="error" id="errorDescriptionID"></span></div> 
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-4 "style="display:none"<%if(flag==0 ){%> style="display:none"<%}%> >
+            <label>Status:</label><br>
+            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checked="true"> Active
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="pstatus"  value= 0  id = "pstatus2" required  style="margin-top:3%;"> Inactive
+
+          </div>
+         </div> 
+
+      </div>
+
+
+ <table class="table form-table">
           <tr>
             <td>
               <td><label  style="padding:2%;color: #524A4A;font-size: 11px"> Project Name: <sup>*</sup> </label></td>
@@ -3427,6 +3527,83 @@ function showinactiveproject(){
          
       </section>
       <section id="content2">
+       <div class="col-md-12">  
+        <div class="row fusion-form-elements" style="margin-left:411px">
+          <div > <button class="btn btn-primary" id="selectAll">Select All</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button class="btn btn-primary"  id="selectNone">Select None</button></div>
+        </div>
+        <br>
+      <div class="row fusion-form-elements">
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Actual Start Date :</label>
+            <input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-control input-sm" id="datepicker2" style="" name="asdate" <%if(flag==1){if(name[0].actualStartDate !='00/00/00'){%>value='<%=name[0].actualStartDate%>' <%} else{%> value='' <%}}%> >
+          </div>  
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Actual End Date:</label>
+            <input type="text"  maxlength="20" placeholder="  Select Actual End Date" class= "form-control input-sm" id="datepicker3" style="" name="aedate"  <%if(flag==1){if(name[0].actualEndDate !='00/00/00'){%>value='<%=name[0].actualEndDate%>' <%} else{%> value='' <%}}%> >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Comercial Head :</label>
+            <select class="form-control input-sm " id="pcommercialhead" name="pcommercialhead" >
+                <option   value='0' disabled selected>Select</option>
+                <% for(var i=0;i<teamlead.length;i++) {%>
+                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].commercialHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
+                  <%}%> 
+              </select>
+          </div>
+        
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Account Lead :</label>
+            <select class="form-control input-sm " id="paccounthead" name="paccounthead" >
+                <option value='0' selected disabled >Select</option>
+                <% for(var i=0;i<teamlead.length;i++) {%>
+                <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].accountHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
+                <%}%> </select>
+                <div class="fLeft"><span class="error" id="errorPaccounthead"></span></div>
+          </div>
+        </div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Manager :</label>
+            <select class="form-control input-sm " id ="pmanager" name="pmanager" >
+                <option value='0' selected disabled>Select</option>
+                <% for(var i=0;i<manager.length;i++) {%>
+                <option value="<%=manager[i].id%>"<%if(flag==1&&name[0].manager==manager[i].id){%>selected<%}%> ><%=manager[i].name%></option>
+               <%}%>
+              </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Is Plan Required:</label>
+            <select class="form-control input-sm" id ="planReq" name="planReq" >
+                <option value="1" selected>Yes</option>
+                <option value="0">No</option>
+              </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4" id="resr">
+            <label>Resources:<sup  class="astrick">*</sup></label>
+            <div id="presourceDiv">
+            <select multiple="multiple" class="form-control input-sm " name="presource" id ="presource" maxlength="50">
+                <% for(var i=0;i<resource.length;i++) {%>
+                <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
+                <%}%>
+              </select>
+              <%if(flag==1){
+                for(var i=0;i<name.length;i++){%>
+              
+              <%}}%>
+
+              <script type="text/javascript">
+                $("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
+                $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){ %>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
+              </script>
+              </div>  
+              <div class="fLeft"><span class="error" id="errorPresource"></span></div>
+          </div>
+        </div>
+       </div>
+    
+
         
         <table class="table">
         <tr>
