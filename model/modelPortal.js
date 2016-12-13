@@ -2867,23 +2867,6 @@ getTimeSheetData: function(userId,roleId,retailerId,callback){
         });
       },
 
-   changeAssignmentDate : function (aasid,flag,assdate,callback){       
-     var q ={
-          sql: 'call usp_changeAssignmentdate(?,?,?)',
-        values: [aasid,flag,assdate]
-       
-        };
-        mysql(q, function(err, result) {
-            if (err) {
-            }
-            else {
-            callback(err,result);
-            }
-        });         
-    },
-
-
-
        submitTimesheetAssignment: function(alluser,allcolumn,timesheetid,report_data,callback){
         var query={
           sql:'call usp_time_submitTimesheetAssignment(?,?,?,?)',

@@ -2045,19 +2045,6 @@ modelPortal.assignmentedit(req.body.clientid ,function(err,result){
         });
    },
 
-         changeAssignmentDate:function(req,res,next){
-      console.log("***********************",req.body);
-modelPortal.changeAssignmentDate(req.body.assid,req.body.flag,req.body.assgnDate ,function(err,result){
-            if(err){
-                ////console.log("there is an error",err);
-            }   
-            else{
-               // console.log("project tree view",result);
-                 res.json(result);
-                } 
-        });
-   },
-
          activeinactive:function(req,res,next){
       
 modelPortal.activeinactive(req.body.clientid,req.body.actval,req.body.flag ,function(err,result){
@@ -2855,7 +2842,7 @@ createEditAssignment:  function(req, res, next) {
 changeAssignmentDate:function(req,res,next){
 modelPortal.changeAssignmentDate(req.body.assid,req.body.flag,req.body.assgnDate ,function(err,result){
             if(err){
-                
+                console.log(err);
             }   
             else{
                  res.json(result);
