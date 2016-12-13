@@ -833,7 +833,6 @@ addBug :function(req, res, next) {
         var targetPaths = '';
         var fnames ='';
         if(req.body.fileUrls){
-            console.log('amit');
             var tempurlArr = req.body.fileUrls.split('amit');
            
             var async = require("async");
@@ -868,7 +867,6 @@ addBug :function(req, res, next) {
                 if(err){
                 }
                 else{
-                    console.log('amit1');
                     filenames = nameArr.toString();
                     fnames = fnameArr.toString();
                     targetPaths = urlArr.toString();
@@ -881,13 +879,12 @@ addBug :function(req, res, next) {
                         req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
                         req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
                         if (error) {
-                        
+                            console.log(error);
                         }
                         else{ 
-                            console.log('amit3');
+                            
                             mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,req.body.titlebox,function(error, resultMail) {
                                  if (!error) {
-                                    console.log(req.page,'amit3');
                                    next();
                                  }
                              }); 
@@ -907,10 +904,11 @@ addBug :function(req, res, next) {
                 req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
                 req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
                 if (error) {
-                
+                console.log(error);
                  }
-                 else{ 
-                    mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,req.body.titlebox,function(error, resultMail) {
+                 else{
+                    var tempEmailPass = JSON.parse(JSON.stringify(result[0][0]));
+                    mailTemplates.addBug(tempEmailPass.emailId,tempEmailPass.pass,req.body.titlebox,function(error, resultMail) {
                          if (!error) {
                            next();
                          }
