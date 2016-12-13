@@ -28,13 +28,14 @@
                             $(this).fadeTo("fast", .5).removeAttr("href");
                         });
 
-    $('#usersId').tagger({
-                          baseURL: '../img/'
-                         , tabindexOffset: 400
-                          , fieldWidth: "13em"
+    // $('#usersId').tagger({
+    //                       baseURL: '../img/'
+    //                      , tabindexOffset: 400
+    //                       , fieldWidth: "13em"
 
-                        });
-        
+    //                     });
+
+        $('#usersId').chosen();
 
  
 
@@ -72,7 +73,7 @@
       <div class="modal-body">
         <div class="form-group">
           <div class=" col-md-12 table-responsive">
-           <select id='faultyreason'class="form-text-box" style="width: 100%"><option value='0' selected=>--select--</option><option value="1">Full Damage</option><option value="2">partially damage</option><option value="3">User Problem</option></select>
+           <select id='faultyreason'class="form-control input-sm" style="width: 100%"><option value='0' selected="">--select--</option><option value="1">Full Damage</option><option value="2">partially damage</option><option value="3">User Problem</option></select>
             <div class="row" style="padding-top: 17px">
             <div class="col-md-6">
              <input   type="button"class="btn btn-primary btn-ms" onclick="cancel();" value="CANCEL" style="width: 100%">
@@ -95,62 +96,62 @@
 
             <div class="row" >
 
-                <div class="col-md-2" style="width: 13em;">
+                <div class="col-md-2">
 
                     <label class="form-Label">Select User :</label>
-                    <select id="usersId" class="form-text-box" onchange="getData(1,1)">
+                    <select id="usersId" class="form-control input-sm" onchange="getData(1,1)">
             <option value="0"selected="">select</option>
               <%for(var i=0;i<users.length;i++){if(users[i].isActive ==1){%><option value='<%=users[i].id%>'><%=users[i].Name%></option>
               <%}}%>
           </select>
                 </div>
-                <div class="col-md-2" style="width: 13em;">
+                <div class="col-md-2">
                     <label class="form-Label">Type:</label>
 
-                    <select id="chooseType" class="form-text-box" onchange="chooseType()">
+                    <select id="chooseType" class="form-control input-sm" onchange="chooseType()">
               <option value=''>Select</option>
               <option value="0">Hardware</option>
               <option value="1">Software</option>
             </select>
                 </div>
-                <div id="hardwareList" class="hide col-md-2" style="width: 13em;">
+                <div id="hardwareList" class="hide col-md-2">
                     <label class="form-Label">Hardware List:</label>
-                    <select id="hw" type="dropdown" class="form-text-box" onchange="getList('1',this.value)"> 
+                    <select id="hw" type="dropdown" class="form-control input-sm" onchange="getList('1',this.value)"> 
                 </select>
                 </div>
-                <div id="softwareList" class="hide col-md-2" style="width: 13em;">
+                <div id="softwareList" class="hide col-md-2">
                     <label class="form-Label">Software List:</label>
-                    <select id="ac" type="dropdown" class="form-text-box" onchange="getAcc()"></select>
+                    <select id="ac" type="dropdown" class="form-control input-sm" onchange="getAcc()"></select>
                 </div>
 
                 <div id="assignedtohardware" class="hide col-md-2" style="width: 14em;">
                     <label class="form-Label">Assigned Desktop/Laptop:</label>
-                    <select id="as" type="dropdown" class="form-text-box"></select>
+                    <select id="as" type="dropdown" class="form-control input-sm"></select>
 
                 </div>
 
-                <div id="hardwareTag" class="hide col-md-2" style="width: 13em;">
+                <div id="hardwareTag" class="hide col-md-2">
                     <label class="form-Label">Hardware Tag:</label>
-                    <select id="hdwTagOption" class="form-text-box " onchange="showdate()">
+                    <select id="hdwTagOption" class="form-control input-sm " onchange="showdate()">
             <option value=''>Select</option>
             </select>
                 </div>
-                <div id="softwareLic" class="hide col-md-2" style="width: 13em;">
+                <div id="softwareLic" class="hide col-md-2">
                     <label class="form-Label">Software Licence:</label>
-                    <select id="acccc" class="form-text-box ">
+                    <select id="acccc" class="form-control input-sm ">
                 </select>
                 </div>
-                <div id="date123" class=" col-md-2" style="width: 13em;">
+                <div id="date123" class=" col-md-2">
                     <label class="form-Label">Assign Date:</label>
-                    <input id="assigndate" class="form-text-box date">
+                    <input id="assigndate" class="form-control input-sm date">
                 </div>
              
-                <input type="submit" class="btn btn-primary btn-xs" value="Assign" style="margin-top:2.2%" onclick="save2db();">
+                <input type="submit" class="btn btn-primary btn-sm" value="Assign" style="margin-top:31px" onclick="save2db();">
                 
             </div>
 
           <div id="main">
-            <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
+            <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
             <table class=" table-striped  table-hover " id="adTable" style="padding-top: 10px">
                 <thead id="headi">
 
@@ -196,7 +197,7 @@
        </div>
        <div id="main1" class="hide">
        <span title="Go To Assigned User List" onclick="showInfo1();" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;padding-top: 10px"  class="glyphicon glyphicon-arrow-left"></span>
-          <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%">
+          <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%">
             <table class=" table-striped  table-hover " id="assTable" style="padding-top: 10px">
                 <thead id="headi1">
 
@@ -327,7 +328,7 @@
                 });
             });
             if (check == false) {
-                var row = '<tr><td>' + ++count + '</td><td>' + $("#ac option:selected").text() + '</td><td>' + elem[0].value + '</td><td><input class="form-text-box datetimepicker"></input>' +
+                var row = '<tr><td>' + ++count + '</td><td>' + $("#ac option:selected").text() + '</td><td>' + elem[0].value + '</td><td><input class="form-control input-sm datetimepicker"></input>' +
                     '<td><button>Unassign</button></td>';
                 $('#bodyi1').append(row);
             }
@@ -356,7 +357,7 @@
 
     function addSubline(copId, copName, lineId, tagNo) {
 
-        var row = '<tr><td>' + ++count + '</td><td>' + copName + '<input type="hidden" id="compId' + count + '" value=' + copId + '></td><td>' + tagNo + '<input type="hidden" id="line' + count + '" value=' + lineId + '></td><td><input id="date' + count + '" class="form-text-box date"></input><input  type="hidden" id="tsId' + count + '" value="0"></input>' + '<td><span id="assignreg' + count + '" style="margin-left:70px;color:green; " class="glyphicon glyphicon-ok-circle" onclick="save2db(' + count + ')"><span  style="margin-left:70px;color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent(' + lineId + ')"></span></td><td class="hide">0</td>' + '<td id="assign' + count + '" class="">Draft</td>';
+        var row = '<tr><td>' + ++count + '</td><td>' + copName + '<input type="hidden" id="compId' + count + '" value=' + copId + '></td><td>' + tagNo + '<input type="hidden" id="line' + count + '" value=' + lineId + '></td><td><input id="date' + count + '" class="form-control input-sm date"></input><input  type="hidden" id="tsId' + count + '" value="0"></input>' + '<td><span id="assignreg' + count + '" style="margin-left:70px;color:green; " class="glyphicon glyphicon-ok-circle" onclick="save2db(' + count + ')"><span  style="margin-left:70px;color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent(' + lineId + ')"></span></td><td class="hide">0</td>' + '<td id="assign' + count + '" class="">Draft</td>';
         $('#bodyi1').append(row);
         jQuery('.date').datetimepicker({
             timepicker: false,
@@ -504,7 +505,7 @@
                 success: function(result) {
                     for (var i = 0; i < result[0].length; i++) {
                         var row = '<tr><td>' + ++count + '</td><td>' + result[0][i].componentName + '<input type="hidden" id="compId' + count + '" value=' + result[0][i].ACID + '></td><td>' +
-                            result[0][i].tagNo + '<input type="hidden" id="line' + count + '" value=' + result[0][i].Id + '><input type="hidden" id="tsId' + count + '" value=' + result[0][i].tsId + '></td><td><input id="date' + count + '" class="form-text-box date" value="' + ((result[0][i].assignDate).toString()).slice(0, 10) + '"></input><td><span id="assignreg' + count + '" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db(' + count + ')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent(' + result[0][i].Id + ')"></span>';
+                            result[0][i].tagNo + '<input type="hidden" id="line' + count + '" value=' + result[0][i].Id + '><input type="hidden" id="tsId' + count + '" value=' + result[0][i].tsId + '></td><td><input id="date' + count + '" class="form-control input-sm date" value="' + ((result[0][i].assignDate).toString()).slice(0, 10) + '"></input><td><span id="assignreg' + count + '" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db(' + count + ')"></span><span  style="margin-left:70px; color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent(' + result[0][i].Id + ')"></span>';
                         if (result[0][i].assign == 1) {
 
                             row = row + '<span id="assignreg' + count + '" style="margin-left:70px;color:green; " class="hide glyphicon glyphicon-ok-circle" onclick="save2db(' + count + ')"></span></td>'
@@ -521,7 +522,7 @@
                         $('#bodyi1').append(row);
                     }
                     for (var i = 0; i < result[1].length; i++) {
-                        var row = '<tr><td>' + ++count + '</td><td>' + result[1][i].componentName + '<input type="hidden" id="compId' + count + '" value=' + result[1][i].ACID + '><input type="hidden" id="flag' + count + '" value=' + result[1][i].assign + '></td><td>' + result[1][i].tagNo + '<input type="hidden" id="line' + count + '" value=' + result[1][i].Id + '><input type="hidden" id="tsId' + count + '" value=' + result[1][i].tsId + '></td><td><input id="date' + count + '" class="form-text-box date" value="' + ((result[1][i].assignDate).toString()).slice(0, 10) + '"></input><td>';
+                        var row = '<tr><td>' + ++count + '</td><td>' + result[1][i].componentName + '<input type="hidden" id="compId' + count + '" value=' + result[1][i].ACID + '><input type="hidden" id="flag' + count + '" value=' + result[1][i].assign + '></td><td>' + result[1][i].tagNo + '<input type="hidden" id="line' + count + '" value=' + result[1][i].Id + '><input type="hidden" id="tsId' + count + '" value=' + result[1][i].tsId + '></td><td><input id="date' + count + '" class="form-control input-sm date" value="' + ((result[1][i].assignDate).toString()).slice(0, 10) + '"></input><td>';
                         if (result[1][i].assign == 1) {
                            row = row + '';
 

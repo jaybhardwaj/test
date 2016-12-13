@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -7,10 +7,12 @@
   <title>All Bug</title>
     <% include ../partials/head %>
 
-  <% include header %>
-       <% include ../partials/adminheader %>
-       
-       
+  
+
+      <!-- background-image: linear-gradient(to left, rgb(20, 30, 48), rgb(36, 59, 85));
+    background-color: rgb(36, 59, 85);
+    background-image: linear-gradient(to left, rgb(0, 0, 0), rgb(67, 67, 67));
+    background-color: rgb(67, 67, 67); -->
 
   <style>
   .selectedBug{
@@ -27,7 +29,10 @@
 .modified-date-hidden{
   display: none;
 }
-
+#data_table_length{
+  clear: both;
+  margin-top: 4px;
+}
 td.child{
   display: table-cell;
 }
@@ -39,6 +44,9 @@ td.child{
 }
 #bugDetails td{
   text-align: center;
+}
+#bugDetails td.child{
+  text-align: left;
 }
 
 
@@ -89,7 +97,7 @@ td.child{
       }
       .ms-choice > span {
     position: relative;}
-    sup{
+    /*sup{
       color: white;
        width: 40px;
        height: 40px;
@@ -99,7 +107,7 @@ td.child{
        border-radius: 20px;
        margin-left: 5px;
         padding: 3px;
-    } 
+    }*/ 
 
     .btn btn-danger, .multiselect dropdown-toggle btn btn-link >button-group {
       margin-left-10px;
@@ -164,9 +172,18 @@ td.child{
 .tab-content .active{
   background-color: transparent;
 }
-  </style>
+#bugDetails input, #bugDetails select{
+  height: 25px;
+  padding: 2px;
+}
+</style>
 
 </head>
+<body>
+
+<% include ../partials/adminheader %>
+<% include header %>
+
 
 
 <br/>
@@ -192,10 +209,10 @@ $('ul.dropdown-menu li a').on('click', function (event) {
         column.visible( ! column.visible() );
     } );
 window.onload = function() {
-  setTimeout(function(){
-    $('input[value="in"]').attr("checked","checked")
+  // setTimeout(function(){
+  //   $('input[value="in"]').attr("checked","checked")
   
-  },500);
+  // },500);
     $("#advanceSearch select,#advanceSearch input[type='radio'],#advanceSearch input[name='createdate'],#advanceSearch input[name='closedate']").change(function(){
        otable.ajax.reload();
      });
@@ -213,7 +230,7 @@ window.onload = function() {
 
 
 
- <div class="row" style="padding:2%;padding-top:5px;padding-bottom:0px">
+ <div class="row" style="padding:10px">
   
   
 <div style="overflow-x:auto; width:100%">
@@ -236,13 +253,14 @@ window.onload = function() {
 </a>
 
 </div> 
+<a href="" id="download" style="float:right;margin-right:40px;cursor: pointer" title="Download CSV of Bugs" onclick="exportBug()" class="dt-button hide"><span class="glyphicon glyphicon-download-alt" ></span> Download</a>
 </div>
 </div>
 
         
    
       <input class="hide" id="allSelected" name="showSelect">
-            <table id="data_table" class=" responsive nowrap table-striped table-bordered"   cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
+            <table id="data_table" class="nowrap display table-striped table-bordered"   cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
                 <thead>
                 <tr>
 
@@ -360,13 +378,13 @@ window.onload = function() {
         </div>
     
 
-    <div class="row secondry-color" style="width:98%;margin-left:1%;padding-top:5px;padding-bottom:1%;">
+    <div class="row secondry-color" style="padding: 10px">
       <div class="col-md-12" style=" height:auto;width:100%;padding-right:0px;padding-left:0px" >
-        <ul class="nav nav-tabs" style="background-color:none;font-size:13px">
+        <ul class="nav nav-pills" style="background-color:none;font-size:13px">
           <li class="active"><a data-toggle="tab" href="#home">Description</a></li>
           <li><a data-toggle="tab" href="#menu1">Overview</a></li>
-          <li><a data-toggle="tab" href="#menu2">Comment<sup id="commCount"></sup></a></li>
-          <li><a data-toggle="tab" href="#menu3">Attachment<sup id="attCount"></sup></a></li> 
+          <li><a data-toggle="tab" href="#menu2">Comment<span id="commCount" class="label label-success"></span></a></li>
+          <li><a data-toggle="tab" href="#menu3">Attachment<span id="attCount" class="label label-success"></span></a></li> 
         </ul>
         <div class="tab-content">
           
@@ -382,9 +400,9 @@ window.onload = function() {
               <span id="Raised_name"><span id="asdf"></span></span>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6" id="tr-linkto">
-              <div class="col-lg-3 col-md-3 col-sm-3" style="color:#f05f40;padding-top: 7px;">Linked Task :</div>
-              <div class="col-lg-9 col-md-9 col-sm-9">
-                <select class="form-control" id="linkedTo" name="linkedTo">
+              <div class="col-lg-3 col-md-3 col-sm-3" style="color:#f05f40;padding-top: 7px;padding-left: 0">Linked Task :</div>
+              <div class="col-lg-9 col-md-9 col-sm-9" style="padding-left: 0">
+                <select class="form-control" id="linkedTo" name="linkedTo" >
                     <option value="0">Select task</option>>
             <% for(var i=0;i<linkTo.length;i++) { %>
                     <option value="<%=linkTo[i].id %>"><%=linkTo[i].name%></option>
@@ -417,7 +435,7 @@ window.onload = function() {
             <div class="" style="margin-top:20px;margin-bottom:50px">
               <label class="" style="font-size:14px;color:#f05f40;margin-left:1.5%;">Upload File </label>
                 <form  id="form123" method="post" style="margin-left:1%;" enctype="multipart/form-data" name="comment">
-                  <input type="file" id="fupUploadSheet" name="addBugAttachment" class="upload" onchange="UploadSheet()"/>
+                  <input type="file" id="fupUploadSheet" name="addBugAttachment" class="upload" onchange="UploadSheet()" accept="image/*"/>
                   (Max. Size:2Mb)
                   
               </form> 
@@ -436,14 +454,12 @@ window.onload = function() {
  <script> 
 
 
-        $('body').on('focus',".select-vbug11", function(){
- 
- 
- $(this).datetimepicker({
-                 timepicker: false,
-                format: 'm/d/y',
-               
-            });});
+        // $('body').on('focus',".select-vbug11", function(){
+        //     $(this).datetimepicker({
+        //          timepicker: false,
+        //         format: 'm/d/y',
+        //     });
+        // });
 
       function BugFilter()
       {
@@ -465,7 +481,8 @@ var radio=[];
 
 }
 
-  $(document).ready(function(){ 
+  $(document).ready(function(){
+
 $('#hideColumnsId').tagger({
         "fieldWidth":"20em", 
         displayHierarchy: false
@@ -550,6 +567,9 @@ $('#hideColumnsId').tagger({
                           d.projectis = $("input[name='projectis']:checked").val();
                       }
                 },
+                scrollX : true,
+                // scrollY: 400,
+                scrollCollapse: true,
                 "columns": [
                 { "data": "Sno" },
                 { "data": "id" },
@@ -570,13 +590,13 @@ $('#hideColumnsId').tagger({
                 "aaSorting":[],
                 "autoWidth": true,
                 "bSortCellsTop":true,
-                responsive: true,
-                dom: 'Bfrtip',
+                // responsive: true,
+                dom: 'Blfrtip',
                 colReorder: true,
                 buttons: [
                     'colvis'
                 ],
-                "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+                "lengthMenu":[[5,10,20,10000],[5,10,20,"All"]],
                 "processing": true,
                 "serverSide": true,
               
@@ -594,7 +614,18 @@ $('#hideColumnsId').tagger({
                       $('.paginate_button.current').next().click();
                     });
                     $('tbody tr:first-child').click();
-                    
+
+                    if($('.paginate_button').index($('.paginate_button.current')) ==$('.paginate_button').length-2){
+                      $('.paginate_button.next').addClass('disabled');
+                    }
+                    else{
+                        $('.paginate_button.next').removeClass('disabled');
+                    }
+                    $('input[value="in"]').attr("checked","checked");
+                    $('.datepicker').datetimepicker({
+                         timepicker: false,
+                        format: 'd/m/Y'
+                    });
                 },
                 "columnDefs": [  
                     {
@@ -606,8 +637,8 @@ $('#hideColumnsId').tagger({
                       "width": "50px",
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
-                          return '<input type="hidden" id="hiddentitle'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'bugTitle'"+')" value="'+data+'">'+
-                                '<input type="text" id="bugtitle'+current_index+'" style="width:100%;background-color:none;border:none" maxlength="75" onchange=" updatebugdetails('+row.id+',this,'+"'bugTitle',"+current_index+')" value="'+data+'">';
+                          return '<input class="form-control input-sm" type="hidden" id="hiddentitle'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'bugTitle'"+')" value="'+data+'">'+
+                                '<input type="text" class="form-control input-sm" id="bugtitle'+current_index+'" style="width:100%;background-color:none;" maxlength="75" onchange=" updatebugdetails('+row.id+',this,'+"'bugTitle',"+current_index+')" value="'+data+'">';
                       }
                     },
                     {
@@ -663,7 +694,7 @@ $('#hideColumnsId').tagger({
                             }
                           }
 
-                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'status'"+')">'+tempOptions+
+                          return '<select class="select-vbug form-control input-sm" onchange="updatebugdetails('+row.id+',this,'+"'status'"+')">'+tempOptions+
                           
                         '</select>';
                       }
@@ -683,7 +714,7 @@ $('#hideColumnsId').tagger({
                             }
                           }
 
-                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'priority'"+')">'+tempOptions+
+                          return '<select class="select-vbug form-control input-sm" onchange="updatebugdetails('+row.id+',this,'+"'priority'"+')">'+tempOptions+
                           
                         '</select>';
                       }
@@ -703,7 +734,7 @@ $('#hideColumnsId').tagger({
                             }
                           }
 
-                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'severity'"+')">'+tempOptions+
+                          return '<select class="select-vbug form-control input-sm" onchange="updatebugdetails('+row.id+',this,'+"'severity'"+')">'+tempOptions+
                           
                         '</select>';
                       }
@@ -723,7 +754,7 @@ $('#hideColumnsId').tagger({
                             }
                           }
 
-                          return '<select class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'technology'"+')">'+tempOptions+
+                          return '<select class="select-vbug form-control input-sm" onchange="updatebugdetails('+row.id+',this,'+"'technology'"+')">'+tempOptions+
                           
                         '</select>';
                       }
@@ -733,7 +764,7 @@ $('#hideColumnsId').tagger({
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
 
-                          return '<input class=""  id="estimatedEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'estimatedEffort'"+',this.id,'+"'"+row.enddate+"'"+')" value="'+data+'" style="border:none;max-width: 70px;"  >';
+                          return '<input class="form-control input-sm"  id="estimatedEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'estimatedEffort'"+',this.id,'+"'"+row.enddate+"'"+')" value="'+data+'" style="max-width: 70px;"  >';
                       }
                     },
                     {
@@ -741,7 +772,7 @@ $('#hideColumnsId').tagger({
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
 
-                          return '<input class=""  id="actualEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'actualEffort'"+',this.id,'+row.enddate+')" value="'+data+'" style="border:none;max-width: 70px;"  >';
+                          return '<input class="form-control input-sm"  id="actualEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'actualEffort'"+',this.id,'+row.enddate+')" value="'+data+'" style="max-width: 70px;"  >';
                       }
                     },
                     {
@@ -762,7 +793,7 @@ $('#hideColumnsId').tagger({
                             }
                           }
 
-                          return '<select style="width:70%" class="select-vbug" onchange="updatebugdetails('+row.id+',this,'+"'assingedToUserId'"+')">'+tempOptions+'</select>';
+                          return '<select style="width:70%" class="select-vbug form-control input-sm" onchange="updatebugdetails('+row.id+',this,'+"'assingedToUserId'"+')">'+tempOptions+'</select>';
                         }
                     },
                     {
@@ -777,11 +808,11 @@ $('#hideColumnsId').tagger({
                             tempEnddate = '';
                           }
 
-                          return '<input class="datepicker select-vbug11"  id="end'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'effectiveEndDate'"+',this.id,'+"'"+data+"'"+')" style="border:none;width: 100%;" value="'+tempEnddate+'"">';
+                          return '<input type="text"class="datepicker select-vbug11 form-control input-sm"  id="end'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'effectiveEndDate'"+',this.id,'+"'"+tempEnddate+"'"+')" style="width: 100%;" value="'+tempEnddate+'"">';
                       }
                     },
-                    {"targets": [8,9,10,11],"width": "25px"},
-                    {"targets": [3,4,5,6,7],"width": "30px"}
+                    // {"targets": [8,9,10,11],"width": "25px"},
+                    // {"targets": [3,4,5,6,7],"width": "30px"}
                    ]         
             });
 
@@ -851,13 +882,13 @@ $("input:checkbox").click(function(){
               $(this).html('&laquo; Filter').removeClass('hide1').addClass('show');
           }
       });
-      var todate=new Date();
+      // var todate=new Date();
      
-       $(".datepicker").datetimepicker({
-                 timepicker: false,
-                format: 'm/d/y',
-                minDate:todate
-            });
+      //  $(".datepicker").datetimepicker({
+      //            timepicker: false,
+      //           format: 'm/d/y',
+      //           minDate:todate
+      //       });
    
   });
 
@@ -895,7 +926,7 @@ $("input:checkbox").click(function(){
         var dat=(new Date(data[i].createdDate).toString());
         dat=dat.slice(0,24);
 
-        att=att+'<div class="comment-divs" id="'+data[i].id+'" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[i].orignalFilePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+'" style="width:100px;height:100px"></a></div>'+deleteBtn+'</div>';
+        att=att+'<div class="comment-divs" id="'+data[i].id+'" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[i].orignalFilePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[i].orignalFilePath.replace('/root/fusion/public/',' ')+'" style="height:100px"></a></div>'+deleteBtn+'</div>';
 
  
      
@@ -1015,7 +1046,7 @@ var over='';
         var dat=(new Date(data[2][i].createdDate).toString());
         dat=dat.slice(0,24);
 
-          att=att+'<div class="comment-divs" id="'+data[2][i].id+'" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[2][i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[2][i].filePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[2][i].filePath.replace('/root/fusion/public/',' ')+'" style="width:100px;height:100px"></a></div>'+deleteBtn+'</div>';
+          att=att+'<div class="comment-divs" id="'+data[2][i].id+'" style="border: solid thin #aaa;padding: 8px;border-radius: 5px;margin-bottom: 10px;width: 250px;float:left;margin-right: 10px;position:relative"><i class="fa fa-user" style="color:#f05f40"></i> '+data[2][i].firstName+'<br><i class="fa fa-clock-o" style="color:#f05f40"></i> '+dat+'<div><a href="'+data[2][i].filePath.replace("/root/fusion/public/"," ")+'" download ><img src="'+data[2][i].filePath.replace('/root/fusion/public/',' ')+'" style="height:100px"></a></div>'+deleteBtn+'</div>';
           
         }
         $('#attachment').html(att);
@@ -1073,24 +1104,25 @@ $(".btndesc").removeClass('hide');
  
   function updatebugdetails(bugid,e,type,id,endate){
 
-         if(isNaN(e.value)){
-          e.value = "";
-          }
-        else{
-          e.value;
-          }
+        //  if(isNaN(e.value)){
+        //   e.value = "";
+        //   }
+        // else{
+        //   e.value;
+        //   }
       
 if(type=='effectiveEndDate')
    {
     var tempdate = $(e).parent().prev().text();
     var open_date = new Date(tempdate.replace( /(\d{2})\/(\d{2})\/(\d{2})/, "$2/$1/$3"));
-    var close_date = new Date(e.value);
-    
+    var close_date = new Date(e.value.replace( /(\d{2})\/(\d{2})\/(\d{2})/, "$2/$1/$3"));
+    console.log(open_date,close_date,e.value);
     var timeDiff = Math.floor(close_date.getTime() - open_date.getTime());
     var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); 
+    console.log(diffDays);
     if(diffDays <0){
       alert('Invalid Closure Date');
-      $(e).val('');
+      $(e).val(endate);
     }
     else{
         var up ={

@@ -7,15 +7,27 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-    <% if(logo){%> <a href="/portal" class="subheaderMaster">  <img src="/attach/<%=logo%>" class="subheaderMaster"  height="70px" width="70px" /></a>
+      <div style="display: inline-block;float: right;padding: 14px;" class="password-logout-section">
+    <div style="display: inline-block;position: relative;" >
+    <a class="dropdown-toggle" id="dropdownToggleId" data-toggle="dropdown"> <label class="header-title" style="color:#f04050;">Hi, <%= user%> </label> <span class="caret"></span> </a>
+    <ul class="dropdown-menu" style="text-align:center;right: 0;left: auto;">
+      <% if(!parseInt(isRetailer)){ %>
+        <li><a style="cursor:pointer;font-size:12px" onclick="changeselectedsup()" data-toggle="modal" data-target="#changeSuper"><i class="fa fa-user-secret" style="float:left;margin-top:3px;margin-left:-9px" aria-hidden="true"></i>Change Supervisor</a></li>
+        <%}%>
+          <li><a data-toggle='modal' data-target='#changepass' style="cursor:pointer;font-size:12px"><i class="fa fa-key" style="float:left;margin-top:3px;margin-left:-9px" aria-hidden="true"></i>Change Password</a></li>
+    </ul>
+    </div>
+    <a class="imageInc" href="/logout"><img src="/img/logout.png" id="logout" width="25px" height="25px" style=" margin-top:-2px " /></a>
+  </div>
+    <% if(logo){%> <a href="/portal" class="subheaderMaster">  <img src="/attach/<%=logo%>" class="subheaderMaster"  height="70px" /></a>
       <%}else {%>
-        <a href="/portal" class="subheaderMaster"> <img class="subheaderMaster" src="/images/brand_logo.gif" href="/portal" height="70px" width="70px" /></a>
+        <a href="/portal" class="subheaderMaster"> <img class="subheaderMaster" src="/images/brand_logo.gif" href="/portal" height="70px" /></a>
         <%}%>
   </div>
   <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav navbar-right">
       <%if(roleid==1){%>
-        <li> <img src="../img/cart.png" class="hide subheaderMastersrc" id="cart" title="install new module" data-toggle="modal" data-target="#mymodel" style="width: 38px;margin-top: 18%;margin-right: 10px;"> </li>
+        <li id="cart" class="hide"> <img src="../img/cart.png" class="subheaderMastersrc" title="install new module" data-toggle="modal" data-target="#mymodel" style="width: 38px;margin-top: 18%;margin-right: 10px;"> </li>
         <%}%>
           <%if((roleid==1)||(assetrole== 1)){%>
             <li class="modulemenu active setting-tab">
@@ -24,8 +36,8 @@
             <%}%>
               <%if(myModules.indexOf(1)>=0){%>
                 <li id="noti_Container" class="modulemenu bug-tab">
-                  <div id="noti_Counter" class = "notiClass"></div>
-                  <a id="bugAdminHeader" class="page-scroll " href="/bugHome"> <label class="header-title">BUG </label> </a>
+                  <!-- <div id="noti_Counter" class = "notiClass label label-danger"></div> -->
+                  <a id="bugAdminHeader" class="page-scroll " href="/bugHome"> <label class="header-title">BUG </label><span id="noti_Counter" class = "notiClass label label-danger fusion-navbar-labels"></span></a>
                 </li>
                 <%}%>
                   <%if(myModules.indexOf(6)>=0){%>
@@ -45,7 +57,8 @@
                             <%}%>
                               <%if(myModules.indexOf(2)>=0){%>
                                 <li id="noti_Container_timesheet" class="modulemenu timesheet-tab">
-                                  <div id="noti_Counter_timesheet" class = "notiClass"></div> <a class="page-scroll " href="/timesheet?flag=0"><label class="header-title">TIMESHEET  </label></a> </li>
+                                 <!--  <div id="noti_Counter_timesheet" class = "notiClass label label-danger"></div> -->
+                                  <a class="page-scroll " href="/timesheet?flag=0"><label class="header-title">TIMESHEET  </label><span id="noti_Counter_timesheet" class = "notiClass label label-danger fusion-navbar-labels"></span></a></li>
                                 <%}%>
                                   <%if(myModules.indexOf(7)>=0){%>
                                     <li class="modulemenu rms-tab"> <a class="page-scroll " href="/rms"><label class="header-title">RMS  </label></a> </li>
@@ -53,11 +66,8 @@
                                       <%if(myModules.indexOf(5)>=0){%>
                                         <li class="modulemenu project-tab"> <a class="page-scroll " href="/task"><label class="header-title">Project</label></a> </li>
                                         <%}%>
-                                          <li style=" float:right ;" title="Logout">
-                                            <a class="imageInc" href="/logout"><img src="/img/logout.png" id="logout" width="25px" height="25px" style=" margin-top:-2px " /></a>
-                                          </li>
-                                
-                                          <li class="modulemenu">
+                                          
+                                          <li class="modulemenu password-logout-section-large">
                                             <a class="dropdown-toggle" id="dropdownToggleId" data-toggle="dropdown"> <label class="header-title" style="color:#f04050;">Hi, <%= user%> </label> <span class="caret"></span> </a>
                                             <ul class="dropdown-menu" style="text-align:center">
                                               <% if(!parseInt(isRetailer)){ %>
@@ -65,6 +75,9 @@
                                                 <%}%>
                                                   <li><a data-toggle='modal' data-target='#changepass' style="cursor:pointer;font-size:12px"><i class="fa fa-key" style="float:left;margin-top:3px;margin-left:-9px" aria-hidden="true"></i>Change Password</a></li>
                                             </ul>
+                                          </li>
+                                          <li title="Logout" class="password-logout-section-large">
+                                            <a class="imageInc" href="/logout" style="padding: 12px 0;"><img src="/img/logout.png" id="logout" width="25px" height="25px" style="margin: 0 !important;padding: 0;" /></a>
                                           </li>
     </ul>
   </div>
