@@ -241,8 +241,8 @@ var locationId = [],
             }
             if(desiredObj[0]){
                 return res.json({"sEcho": parseInt(req.body.draw),
-                "iTotalRecords": desiredObj[0].totalRecord,
-                "iTotalDisplayRecords": desiredObj[0].totalRecord,
+                "iTotalRecords": JSON.parse(JSON.stringify(result[5][0])).totalRecord,
+                "iTotalDisplayRecords": JSON.parse(JSON.stringify(result[5][0])).totalRecord,
                 "aaData": desiredObj});
              }
              else{
