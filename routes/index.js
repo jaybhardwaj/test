@@ -374,6 +374,17 @@ app.get('/inactiveclient',url.setinactiveClient, portal.projectDetails,portal.pr
           res.send({"data":result});
        });
   });
+  app.post('/getThemes',function(req,res){
+    var query = {
+           sql: "select * from t_styles"
+       };
+       mysql(query, function(err, result) {
+          if(err){
+            return res.send(404);
+          }
+          res.send(result);
+       });
+  });
   app.post('/projectStatus',portal.projectStatus);
 
 	app.post('/changeProjectStatus', portal.changeProjectStatus,render.redirect);
