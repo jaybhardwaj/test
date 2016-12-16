@@ -8,10 +8,10 @@
 
 
  <style>
-.dataTables_filter, .dataTables_length {
+/*.dataTables_filter, .dataTables_length {
      display: none;
      margin-right:40px; 
-    }
+    }*/
  </style>
 </header>
 <script type="text/javascript">
@@ -611,15 +611,23 @@ function expensedescription(expclaimId){
                  $('#showcomment').html('');
                   $('#myModalshowcomment').modal('show');
                   if(data[0][0].anyFile==''){
-                  $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                    $('#showcomment').append('<div class="fusion-comment-divs"><i class="fa fa-user"></i> '+data[0][0].firstName+'<div>No comment</div></div>');
+
+                  // $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
                   }else{
-                    $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[0][0].anyFile+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");}
+                    $('#showcomment').append('<div class="fusion-comment-divs"><i class="fa fa-user"></i> '+data[0][0].firstName+'<div>'+data[0][0].anyFile+'</div></div>');
+
+                    // $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[0][0].anyFile+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[0][0].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                  }
                     if(data[1].length>0){
                     for (var i = 0; i < data[1].length; i++) {
                        if(data[1][i].remark==''){
-                   $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                        $('#showcomment').append('<div class="fusion-comment-divs"><i class="fa fa-user"></i> '+data[1][i].firstName+'<div>No comment</div></div>');
+
+                   // $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+'No comment'+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
                   }else{
-                    $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[1][i].remark+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
+                    $('#showcomment').append('<div class="fusion-comment-divs"><i class="fa fa-user"></i> '+data[1][i].firstName+'<div>'+data[1][i].remark+'</div></div>');
+                    // $('#showcomment').append("<div style='font-size:12px;margin-top:5px;'>"+data[1][i].remark+"</div>"+"<div style='font-size:10px;color:blue;'>By &nbsp Mr. "+data[1][i].firstName+"</div>"+"<div style='border-bottom-style: outset;border-color:grey; border-width: 1px;'></div>");
                   }
                     }
                   }
@@ -638,20 +646,26 @@ function expensedescription(expclaimId){
 
 
 
-<div id="aprovediv" class="col-md-12 a " style="background-color:rgba(51, 60, 125, 0.62);margin-top:0%;">
-        <div class="col-md-2"> <label id="statuslabel" style="margin-top:10px;color:white;padding-left50px;" class="">User : <%=user%></label>
+<div id="aprovediv" class="col-md-12 a " style="background-color:rgba(51, 60, 125, 0.62);padding: 10px 0px;margin-bottom: 20px;">
+        <div class="col-md-2" align="center"> <label id="statuslabel" style="color:white" class="">User : <%=user%></label>
        </div>
         
        <div class='col-md-1'></div>
-        <div class="col-md-4 " id="datetablediv" style="height:29px;width:270px;background-color:white;margin-top:3px;border-radius: 25px;">
+        <div class="col-md-6 " align="center" >
+            <div id="datetablediv" class="fusion-fortnight-picker">
+                <img src="../img/bug/left.jpg" class="shadow" style="" title=" Expense" onclick='getdateprevuser()'>
+                <input type="hidden" id="hiddendatebuttonuser"><input disabled="disable" type='text' id="datebuttonuser" class="shadow "  value='' onchange=" showexpensDetailsofuser()">
+                <span class="glyphicon glyphicon-calendar" title="choose date" onclick='datepickerforotherUser()'></span>
+                <img src="../img/bug/Right.jpg" class="shadow" title=" Expense" onclick='getdateuser()'>
+            </div>
       
-            <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuser()'>
+           <!--  <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuser()'>
               <input type="hidden" id="hiddendatebuttonuser"><input disabled="disable" type='text' id="datebuttonuser" style="margin-top:3px;text-align: center;font-size:12px" class="shadow "  value=''/ onchange=" showexpensDetailsofuser()">
             
             <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateuser()'>
-             <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUser()'></span>
+             <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUser()'></span> -->
        </div>
-       <div class='col-md-2' style="float: right;"><select style="margin-top: 5px" id="selectstatus" class="form-text-box" onchange="showexpensDetailsofuser()"><option value="1"> All</option><option value="2">pending</option><option value="3">approve</option><option value="4">Rejected</option></select></div> 
+       <div class='col-md-2' align="center"><select id="selectstatus" class="form-control input-sm" onchange="showexpensDetailsofuser()" style="width: 200px"><option value="1"> All</option><option value="2">pending</option><option value="3">approve</option><option value="4">Rejected</option></select></div> 
        </div>
       
        
@@ -662,11 +676,11 @@ function expensedescription(expclaimId){
 
 
 <div class="secondry-color" id="accordions">
-<div style="margin-left: 10px;margin-right: 10px">
-<input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
+<div class="fusion-table-container">
+<!-- <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px">  -->
 
 
-        <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable" style="width:100%">
+        <table class="table table-hover table-striped table-bordered rceDataTable responsive" cellpadding="0" cellspacing="0" border="0" id="bugtable" style="width:100%">
             
          </table>
         </div>
@@ -679,8 +693,37 @@ function expensedescription(expclaimId){
                     
 </div>
 
+<div class="modal fade" id="myModalexp" role="dialog" >
+    <div class="modal-dialog" style="min-width: 80%">
+      <div class="modal-content">
+        <form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" id="dismiss">×</button>
+              <h4 class="modal-title">Expense Details</h4>
+          </div>
+          <div class="modal-body">
+            <div id="accordions1" class="fusion-table-container">
+              <table class="table table-hover table-striped table-bordered rceDataTable responsive" cellpadding="0" cellspacing="0" border="0" id="bugtable1">
+                <thead>
+                   <th style='font-size:12px;background-color:grey;color:white'>Expense Type</th>
+                   <th style='font-size:12px;background-color:grey;color:white'>Trip/Assignment</th>
+                   <th style='font-size:12px;background-color:grey;color:white'>From</th>
+                   <th style='font-size:12px;background-color:grey;color:white'>To</th>
+                   <th style='font-size:12px;background-color:grey;color:white'>Amount(INR)</th>
+                   <th style='font-size:12px;background-color:grey;color:white'>Action</th>
+                </thead> 
+             </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
 
-<form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+<!-- <form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
        <div class="modal fade" id="myModalexp" role="dialog" style="margin-left:;">
 
             <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
@@ -694,9 +737,9 @@ function expensedescription(expclaimId){
                 </div>
             
        <div class="secondry-color" id="accordions1">
-       <div style="margin-left: 10px;margin-right: 10px">
+       <div class="fusion-table-container">
         <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> 
-        <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="bugtable1">
+        <table class="table table-hover table-striped table-bordered rceDataTable responsive" cellpadding="0" cellspacing="0" border="0" id="bugtable1">
             <thead>
                          <th style='font-size:12px;background-color:grey;color:white'>Expense Type</th>
                          <th style='font-size:12px;background-color:grey;color:white'>Trip/Assignment</th>
@@ -711,9 +754,9 @@ function expensedescription(expclaimId){
          </div>
      </div>
                    
-</form>
+</form> -->
 
-
+<!-- 
 <form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
        <div class="modal fade" id="myModalshowcomment" role="dialog" style="border-style: solid;
     border-color:black;">
@@ -734,7 +777,25 @@ function expensedescription(expclaimId){
          </div>
      </div>
                    
-</form>
+</form> -->
+<div class="modal fade" id="myModalshowcomment" role="dialog" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="/fileAttechment" method="post" name="rbug" enctype="multipart/form-data">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" id="dismiss">×</button>
+              <h4 class="modal-title">Comments</h4>
+          </div>
+          <div class="modal-body">
+            <div id="showcomment"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
 
 </body>
 </html>

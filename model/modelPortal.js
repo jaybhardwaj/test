@@ -397,11 +397,13 @@ addBug: function(estimatedEffort,actualEffort,linkTo,userId,project,status,assig
         var query = {
             sql: 'call usp_bug_addBug(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
             values: [estimatedEffort,actualEffort,linkTo,userId,project,status,assignedTo,priority,
-        severity,technology,type,tclosure,title,description,targetpath,filename,origFname,detectedBy,
+        severity,technology,type,tclosure.toString(),title,description,targetpath,filename,origFname,detectedBy,
         cycle,retailerid]
         };
         mysql(query, function(err, result) {
-            if(err){}
+            if(err){
+                console.log(err)
+            }
             callback(err, result); 
         });
     },
