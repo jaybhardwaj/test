@@ -3400,7 +3400,7 @@ function Popup(data) {
 
     <div id="submitdiv" class="col-md-12 a" style="background-color:rgba(51, 60, 125, 0.62); padding: 10px 0px;margin-bottom: 20px">
 
-        <div class="col-md-2"> <label id="statuslabel" style="color:white" class="">User : <%=user%></label>
+        <div class="col-md-2" align="center"> <label id="statuslabel" style="color:white" class="">User : <%=user%></label>
         </div>
         <div class="col-md-1"> <label id="statusbutton" style="margin-top:10px;color:white" class="" value='panding'>
         
@@ -3592,12 +3592,10 @@ function Popup(data) {
         </div>
     </div>
     
-    <div id="aprovedivapp" class="col-md-12 a hide" style="background-color:rgba(51, 60, 125, 0.62);margin-top:-.1%;">
-        <div class="col-md-2" style=" padding-left: 0px;">
-            <label style="line-height:20px !important;color:white;margin-left:20px;margin-top: 10px;font-size: 12px">Select User :</label>
-        </div>
-        <div class="col-md-2" style="padding-right: 142px">
-            <select class="form-control input-sm" id='typeExpapp' name="client" style="width: 175px;margin-top:5px;margin-bottom:5px;float:right;" onchange="showExpenseforapprover()">
+    <div id="aprovedivapp" class=" clearfix a hide" style="background-color:rgba(51, 60, 125, 0.62);padding: 10px 0">
+        <div class="col-md-3" align="center">
+            <label style="color:white">Select User :</label>
+            <select class="form-control input-sm" id='typeExpapp' name="client" style="width: 175px;display: inline-block;" onchange="showExpenseforapprover()">
                       <option value=0>--Select--</option>                              
                        <%for(var i=bilableusers.length-1;i>=0;i--)
                         {   var y,w;
@@ -3623,13 +3621,49 @@ function Popup(data) {
                       <%}}}%>                                
                </select>
         </div>
-        <div class='col-md-1'></div>
-        <div class="col-md-4" id="datetabledivapp" style="height:29px;width:270px;background-color:white;margin-top:3px;border-radius: 25px;">
+        <!-- <div class="col-md-2" style="padding-right: 142px">
+            <select class="form-control input-sm" id='typeExpapp' name="client" style="width: 175px;margin-top:5px;margin-bottom:5px;float:right;" onchange="showExpenseforapprover()">
+                      <option value=0>--Select--</option>                              
+                       <%for(var i=bilableusers.length-1;i>=0;i--)
+                        {   var y,w;
+                          if(bilableusers[i].Status==0){
+                         
+                           y= bilableusers[i].id; %> 
+                      <option value="<%=bilableusers[i].id%>">
+                        <%=bilableusers[i].firstName%> (Pending)
+ 
+                      </option>
+                        <%} if(bilableusers[i].Status==1)  { 
+                    
+                        if(y != bilableusers[i].id) {  w= bilableusers[i].id; %> 
+                        <option value="<%=bilableusers[i].id%>">
+                        <%=bilableusers[i].firstName%> (Approved)
+                      </option>
+                      <%} }if(bilableusers[i].Status==100){ 
+                        if((y != bilableusers[i].id)&&(w != bilableusers[i].id)) { %> 
+                        <option value="<%=bilableusers[i].id%>">
+ 
+                        <%=bilableusers[i].firstName%> (Rejected)
+                      </option>
+                      <%}}}%>                                
+               </select>
+        </div> -->
+        <!-- <div class='col-md-1'></div> -->
+        <!-- <div class="col-md-4" id="datetabledivapp" style="height:29px;width:270px;background-color:white;margin-top:3px;border-radius: 25px;">
             <img src="../img/bug/left.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateprevuserapp()'>
             <input type="hidden" id="hiddendatebuttonuserapp"><input disabled="disable" type='text' id="datebuttonuserapp" style="margin-top:3px;text-align: center;font-size:12px" class="shadow " value='' / onchange=" showexpensDetailsofuserapp()">
 
             <img src="../img/bug/Right.jpg" class="shadow" style="" height="15px" width="15px" title=" Expense" onclick='getdateuserapp()'>
             <span class="glyphicon glyphicon-calendar" style="" height="15px" width="15px" title="choose date" onclick='datepickerforotherUserapp()'></span>
+        </div> -->
+        <div class="col-md-6" align="center">
+          <div id='datetabledivapp' class="fusion-fortnight-picker">
+              <img src="../img/bug/left.jpg" class="shadow" title=" Expense" onclick='getdateprevuserapp()'>
+              <input type="hidden" id="hiddendatebuttonuserapp">
+              <input disabled="disable" type='text' id="datebuttonuserapp" class="shadow " value='' / onchange=" showexpensDetailsofuserapp()">
+              <span class="glyphicon glyphicon-calendar" title="choose date" onclick='datepickerforotherUserapp()'></span>
+              <img src="../img/bug/Right.jpg" class="shadow" title=" Expense" onclick='getdateuserapp()'>
+          </div>
         </div>
         <div class="col-md-1 hide" id='backbuton' style="float:right;">
          <button type='button' id="backapp" class="form-control" style="margin-top:2px;margin-bottom:2px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="back()" value='back'>Back</button>   
@@ -3638,7 +3672,7 @@ function Popup(data) {
    
      <div class="secondry-color hide" id="accordionshome">
         <div class="fusion-table-container">
-        <label style="width: 13%;margin-top: 10px;margin-bottom: 10px;color:#f04050;margin-left: 597px;">Expense Status</label>
+        <label class="fusion-page-title">Expense Status</label>
             <!-- <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchboxhome" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> -->
             <table class="table table-hover table-striped table-bordered rceDataTable responsive" cellpadding="0" cellspacing="0" border="0" id="homeTable">
 
@@ -3650,7 +3684,7 @@ function Popup(data) {
     border-bottom:solid #f05f40;"></div>
     <div id="totalandaddEX" class="clearfix a" style="background-color:rgba(51, 60, 125, 0.62);padding: 10px 0">
         <div class="col-md-2">
-            <label id='explabel' style="line-height:20px !important;color:white;margin-left:40px;margin-top: 8px;font-size: 12px">Select Expense Type:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
+            <label id='explabel' style="color:white">Select Expense Type:<span Style="font-size:10px;margin-bottom:10px; color:red">*</span></label>
         </div>
         <div class="col-md-3">
             <select class="form-control input-sm" style="margin-top:4px;margin-bottom:3px;  float:left;width:200px;" id='typeEx' name="client" onchange="showexpensDetails()">
@@ -3769,6 +3803,7 @@ function Popup(data) {
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6" class="total-expense-fields">
                     <label>Total Expense : <sup class="astrick">*</sup></label>
+                    <input type="hidden" name="hotelexpensetypeid" value="1">
                     <input type="number" min="1" step="any" maxlength="45" readonly class="form-control input-sm" id="htex" name="htex" required/>
                       <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
                   </div>
@@ -3789,7 +3824,7 @@ function Popup(data) {
         </div>
     </div>
 
-   <!--  <form method="post" id='hotel'>
+  <!--   <form method="post" id='hotel'>
         <div class="modal fade" id="myModal1" role="dialog" style="margin-left:;">
             <div style="height:auto;width:800px;margin-left:250px;margin-top:30px;z-index:1;position:absolute" class="panel panel-default">
                 <div class="panel-heading" id="panelHead1" role="button" style="background-color:#f05f40; color:white; height:40px;">
@@ -4929,8 +4964,8 @@ function Popup(data) {
                   <h4 id="head4" class="modal-title">Expense Details</h4>
               </div>
               <div class="modal-body">
-                <input Type="hidden" id="ffornightDate" name="fortnightDate" value="0">
-                <input Type="hidden" id="flagfood" name="edit" value="0">
+                <input type="hidden" id="ffornightDate" name="fortnightDate" value="0">
+                <input type="hidden" id="flagfood" name="edit" value="0">
                 <input type="hidden" id="extfood" name="exthotel" value="0">
                 <input type="hidden" id="extclaimfood" name="extclaimhotel" value="0">
                 <input type="hidden" name="travelexpensetypeid" value="3">

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <style type="text/css">
-.dataTables_filter, .dataTables_length {
+/*.dataTables_filter, .dataTables_length {
      display: none;
-    }
+    }*/
 .glyphicon-ok-circle{
   color:green!important;
  }
@@ -21,16 +21,23 @@
 
 	<body>
 		<div class="secondry-color">
-			<div style="padding:2%;padding-top:1%">
-			<span class="modal-title" style="padding-left:37%">Inventory Details</span>
-               <select style="float:left;width:auto; margin-bottom:1%;margin-left:10px;margin-top: 3px"class="form-text-box" id='active' name="active" onchange="viewInventType()">
-               <option value="-1">All</option> 
-                <% for(var i=0;i<2;i++){ %>
-                  <option value="<%=assetType[i].id%>"><%=assetType[i].type%></option>
-                  <%}%>       
-              </select>   
-               <span id="download" class="glyphicon glyphicon-download" onclick="exportInventory('inventory')" style="margin-left:354px;cursor: pointer;font-size:19px" title="Download Inventory Details" > </span> 
-               <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
+               
+      <div class="fusion-table-container">
+        <span class="fusion-page-title">Inventory Details</span>
+        <div class="header-top-section clearfix">
+        <div class="page-top-div clearfix" style="display: inline-block;"> 
+          <select style="width:120px;display: inline-block;" class="form-control input-sm" id='active' name="active" onchange="viewInventType()">
+           <option value="-1">All</option> 
+            <% for(var i=0;i<2;i++){ %>
+              <option value="<%=assetType[i].id%>"><%=assetType[i].type%></option>
+              <%}%>       
+          </select>
+          </div> 
+           <!-- <span id="download" class="glyphicon glyphicon-download" onclick="exportInventory('inventory')" style="margin-left:354px;cursor: pointer;font-size:19px" title="Download Inventory Details" > </span> -->
+
+          <a id="download" style="float:right;cursor: pointer" title="Download Inventory Details" onclick="exportInventory('inventory')" class="dt-button"><span class="glyphicon glyphicon-download-alt" ></span> Download</a> 
+               <!-- <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> -->
+        </div>
 				<table  class="table stripe cell-border hover responsive "  id="inventTable">
 					<thead>
 						<th>S.No.</th>
