@@ -18,7 +18,7 @@
       padding:0px;
       
 }
-.form-text-box {
+/*.form-control input-sm {
     display: block;
     width: 90%;
     height: 25px;
@@ -35,7 +35,7 @@
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-}
+}*/
 .dataTables_filter, .dataTables_length {
      display: none;
     }
@@ -121,12 +121,6 @@
         position:relative;top:10%;margin-left:0%
     }    
    
-    .col-md-3 {
-    width: 20%;
-}
-.col-md-6 {
-    width: 60%;
-}
 
 
 
@@ -178,7 +172,17 @@
  
 <div class="container-fluid secondry-color" > 
   <div class="row">
-    <div class="fileUplaodDivClass col-md-3 " style="width:18%">
+    <!-- <div class="main-box-raisebug box-size">
+        <div class="row " >
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div><b>Reported By</b></div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <span class="label label-info"><b><%=user%></b></span>
+            </div>
+        </div>
+    </div> -->
+    <div class="fileUplaodDivClass col-md-3 " style="margin-bottom: 10px">
             <div class="" style=" margin-left:16%;"><label class="form-Label ">File Upload (size limit :20 mb)</label></div>
             <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" >
                 <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:0%;">
@@ -250,7 +254,7 @@
                     </div>
                     <div class="form-Label">
                         <input type="hidden" id="<%=restriction[0][0].id%>" required name="rLevelhide" value="<%=restriction[0][0].id%>">
-                        <select id="my-select5" required name="rLevel" class="form-text-box form-Label" style="width: 100%;padding: 3px;">
+                        <select id="my-select5" required name="rLevel" class="form-control input-sm form-Label" style="width: 100%;padding: 3px;">
                              <%for(var i=0;i<restriction[0].length;i++){%>
                             <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                             <%}%>
@@ -261,22 +265,74 @@
 
 
 
-                <div class="col-md-6 col-md-offset-4 " id="lastfiveuploads6" style="margin-top:0%;">
+                <div class="col-md-6 col-md-offset-4 " id="lastfiveuploads6" style="margin-top:0%;" align="center">
                     <input type="submit" value="Submit" id="" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()">
                 </div>
       </form>
   
     </div>
 
-    <div class="col-md-9" style="width:81%">
+    <div class="col-md-9">
         <div name="cse" id="searchbox_demo" class="clearfix">
             <input placeholder="Search Documents by keyword" class=" form-control" name="q" id="searchBoxId" type="text" size="34" style="width: 220px;float: right;"/>
         </div>
-        <table>
+        <span id="advanceSearch">Advance Search</span>
+        <div class="row fusion-form-elements advanceSearch hide">
+            <div class="col-lg-4 col-md-4 col-lg-6">
+                <label>Industry:</label>
+                <select id="select2" multiple="multiple" required name="business1"  class="form-control input-sm">
+                                  <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                            
+                            </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-lg-6">
+                <label>User Department:</label>
+                <select id="select2" multiple="multiple" required name="business1"  class="form-control input-sm">
+                                  <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                            
+                            </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-lg-6">
+                <label>Document Type:</label>
+                <select id="select3" multiple="multiple" required name="doctype"  class="form-control input-sm">
+                                            <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
+                                          
+ 
+                                        </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-lg-6">
+                <label>Application Area:</label>
+                <select id="select4" multiple="multiple" required name="newTec1"  class="form-control input-sm">
+                                            <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
+
+                                                
+                                        </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-lg-6">
+                <label>Restriction Level:</label>
+                <select id="select5" multiple="true" required name="rLevel1" class="form-control input-sm">
+                                                     <%for(var i=0;i<restriction[0].length;i++){%>
+                                                    <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                                                    <%}%>
+                                            </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-lg-6">
+                <span  onclick="filterdata();" ><input type="image" src="../images/candidate_search.png" id="searchBoxId1" height="33px" title="Search" style=""></span>
+            </div>
+        </div>
+       <!--  <table>
 		<tr id="advanceSearch"><td style="width:200px;font-size:13px;color:#f05f40">Advance Search</td></tr> 
            <tr class="advanceSearch hide">
             <td><label class="form-Label ">Industry:</label></td>
-            <td class="tdClassTextBox"> <select id="select1" multiple="multiple" required name="industry1" class="form-text-box">
+            <td class="tdClassTextBox"> <select id="select1" multiple="multiple" required name="industry1" class="form-control input-sm">
                                               <%if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
                                             <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
                                             <%}}}%>
@@ -284,14 +340,14 @@
                             </select></td>
 
             <td><label class="form-Label ">User Department:</label></td>
-            <td class="tdClassTextBox">  <select id="select2" multiple="multiple" required name="business1"  class="form-text-box">
+            <td class="tdClassTextBox">  <select id="select2" multiple="multiple" required name="business1"  class="form-control input-sm">
                                   <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
                             <%}}}%>
                             
                             </select></td>
             <td><label class="form-Label ">Document Type:</label></td>
-            <td class="tdClassTextBox">   <select id="select3" multiple="multiple" required name="doctype"  class="form-text-box">
+            <td class="tdClassTextBox">   <select id="select3" multiple="multiple" required name="doctype"  class="form-control input-sm">
                                             <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
                             <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
                             <%}}}%>
@@ -302,7 +358,7 @@
              </tr>
              <tr class="advanceSearch hide">
                 <td><label class="form-Label ">Application Area:</label></td>
-            <td class="tdClassTextBox"> <select id="select4" multiple="multiple" required name="newTec1"  class="form-text-box">
+            <td class="tdClassTextBox"> <select id="select4" multiple="multiple" required name="newTec1"  class="form-control input-sm">
                                             <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
                             <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
                             <%}}}%>
@@ -310,7 +366,7 @@
                                                 
                                         </select></td>
             <td><label class="form-Label ">Restriction Level:</label></td>
-            <td class="tdClassTextBox"> <select id="select5" multiple="true" required name="rLevel1" class="form-text-box">
+            <td class="tdClassTextBox"> <select id="select5" multiple="true" required name="rLevel1" class="form-control input-sm">
                                                      <%for(var i=0;i<restriction[0].length;i++){%>
                                                     <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                                                     <%}%>
@@ -319,13 +375,13 @@
              <span  onclick="filterdata();" ><input type="image" src="../images/candidate_search.png" id="searchBoxId1" height="33px" title="Search" style=""></span>
             </td>
            </tr>
-        </table>
+        </table> -->
 
 
      
 
  <div class="row">
-            <table id="data_table" class="table table-bordered" cellspacing="0" align="centre" style="max-width:100%;padding: 1%;">
+            <table id="data_table" class="table table-bordered responsive" cellspacing="0" align="centre" style="max-width:100%;padding: 1%;">
                 <thead>
                 <tr>
                     <th>File Name</th>
@@ -428,7 +484,7 @@
                             <label class="form-Label" > File Title:</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea class="form-text-box"  id="title1" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly></textarea>
+                            <textarea class="form-control input-sm"  id="title1" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly></textarea>
                         </div>
                     </div>
 
@@ -437,7 +493,7 @@
                             <label class="form-Label" > Author Name:</label>
                         </div>
                         <div class="col-md-8">
-                       <textarea class="form-text-box"  id="authname" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly></textarea>
+                       <textarea class="form-control input-sm"  id="authname" style="width:100%;resize: none;margin-bottom:3%" name="fname" readonly></textarea>
                         </div>
                     </div>
 
@@ -455,7 +511,7 @@
                             <label class="form-Label" >Industry :</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea class="form-text-box" name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                            <textarea class="form-control input-sm" name="descbox" id="industry" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
                            
 
                         </div>
@@ -465,7 +521,7 @@
                             <label class="form-Label" >User Department:</label>
                         </div>
                         <div class="col-md-8">
-                              <textarea class="form-text-box" name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                              <textarea class="form-control input-sm" name="descbox" id="business" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
                            
                            
                         </div>
@@ -476,7 +532,7 @@
                             <label class="form-Label" >Document Type:</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea class="form-text-box" name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                            <textarea class="form-control input-sm" name="descbox" id="docType" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
                           
                         </div>
                     </div>
@@ -487,7 +543,7 @@
                             <label class="form-Label" >Application Area:</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea class="form-text-box" name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
+                            <textarea class="form-control input-sm" name="descbox" id="tech1" value=" " placeholder="Description" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" readonly="readonly"></textarea>
                            
 
 
@@ -499,7 +555,7 @@
                             <label class="form-Label" >Restriction Lavel:</label>
                         </div>
                         <div class="col-md-8">
-                           <textarea class="form-text-box"  id="rest" value="" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" name="fname" readonly>
+                           <textarea class="form-control input-sm"  id="rest" value="" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" name="fname" readonly>
                         </textarea>
                         </div>
                     </div>
@@ -532,7 +588,7 @@
                <label class="form-Label"  style="padding:0px">File Title:<sup  style="color:red">*</sup></label>
                </div>
                <div class="col-md-7">
-                <input placeholder="Enter File Title Here" type="text" maxlength="50"  style="width:100%" class="form-text-box" id="file_title" name="rname" />
+                <input placeholder="Enter File Title Here" type="text" maxlength="50"  style="width:100%" class="form-control input-sm" id="file_title" name="rname" />
                </div>
             </div>
             <div class="row a"  style="padding-top:2%"> 
@@ -540,7 +596,7 @@
                <label class="form-Label" style="padding:0px">Author Name:<sup  style="color:red">*</sup></label>
                </div>
                <div class="col-md-7">
-                <input placeholder="Enter Author Name Here" type="text" maxlength="50"  style="width:100%" class="form-text-box" id="author_name" name="rname" />
+                <input placeholder="Enter Author Name Here" type="text" maxlength="50"  style="width:100%" class="form-control input-sm" id="author_name" name="rname" />
                </div>
             </div>
              <div class="row a"  style="padding-top:2%"> 
