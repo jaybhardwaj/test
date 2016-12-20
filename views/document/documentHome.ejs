@@ -18,6 +18,7 @@
       padding:0px;
       
 }
+/*.tooltip_templates { display: none; }*/
 /*.form-control input-sm {
     display: block;
     width: 90%;
@@ -42,12 +43,12 @@
 .ms-drop ul {
     max-height: 120px !important;
 }
-.ms-parent {
+/*.ms-parent {
     width:200px;
     display: inline-block;
     position: relative;
     vertical-align: middle;
-}    
+} */   
 .color3{
     padding-left: 1%;
     padding-top: 2%;
@@ -182,7 +183,7 @@
             </div>
         </div>
     </div> -->
-    <div class="fileUplaodDivClass col-md-3 " style="margin-bottom: 10px">
+    <div class="fileUplaodDivClass col-lg-3 col-md-3 col-sm-4" style="margin-bottom: 10px;padding: 10px 0;">
             <div class="" style=" margin-left:16%;"><label class="form-Label ">File Upload (size limit :20 mb)</label></div>
             <form name="formName" action="/attachDocFile" id="formID" method="post" enctype="multipart/form-data" >
                 <div class="col-md-10 col-md-offset-1 " id="lastfiveuploads7" style="margin-top:0%;">
@@ -191,13 +192,13 @@
                 </div>
 
                 <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
-                    <input type="text" id="ftitle" maxlength="50" required name="title" placeholder=" File Title(Required)" style="width:100%; ">
+                    <input type="text" id="ftitle" maxlength="50" class="form-control input-sm" required name="title" placeholder=" File Title(Required)" style="width:100%; ">
                 </div>
                 <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
-                    <input type="text" id="fauthor" maxlength="50" equired name="authname" placeholder=" Author Name(Required)" style="width:100%">
+                    <input type="text" class="form-control input-sm" id="fauthor" maxlength="50" equired name="authname" placeholder=" Author Name(Required)" style="width:100%">
                 </div>
                 <div class="col-md-10 col-md-offset-1 form-Label" id="lastfiveuploads6" style="margin-top:0%;">
-                    <textarea rows="6" cols="12" maxlength="500" id="des" name="descbox" placeholder=" Description(Required) Limit:100 words" style="width:100%;resize: none;"></textarea>
+                    <textarea rows="6" class="form-control" cols="12" maxlength="500" id="des" name="descbox" placeholder=" Description(Required) Limit:100 words" style="width:100%;resize: none;"></textarea>
                 </div>
 
                 <div class="col-md-10 col-md-offset-1" style="margin-top:1%">
@@ -265,40 +266,41 @@
 
 
 
-                <div class="col-md-6 col-md-offset-4 " id="lastfiveuploads6" style="margin-top:0%;" align="center">
-                    <input type="submit" value="Submit" id="" class="btn btn-success" style=" margin-bottom: 19%;height: 30px;background-color: #f05f40;border-color: #f05f40;margin-top: 13%;" onclick="return validation()">
+                <div id="lastfiveuploads6" class="col-md-10 col-md-offset-1" align="center" style="margin-top: 10px">
+                    <input type="submit" value="Submit" id="" class="btn" onclick="return validation()"> 
+                    <a class="tooltip-fusion" onclick="getAccessList()" style="float: right;font-size: 20px;margin-top: 2px;"><span class="glyphicon glyphicon-search" ></span></a>
                 </div>
       </form>
   
     </div>
 
-    <div class="col-md-9">
+    <div class="col-lg-9 col-md-9 col-sm-8">
         <div name="cse" id="searchbox_demo" class="clearfix">
             <input placeholder="Search Documents by keyword" class=" form-control" name="q" id="searchBoxId" type="text" size="34" style="width: 220px;float: right;"/>
         </div>
-        <span id="advanceSearch">Advance Search</span>
+        <span id="advanceSearch" class="fusion-page-title">Advance Search</span>
         <div class="row fusion-form-elements advanceSearch hide">
-            <div class="col-lg-4 col-md-4 col-lg-6">
-                <label>Industry:</label>
-                <select id="select2" multiple="multiple" required name="business1"  class="form-control input-sm">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div><label>Industry:</label></div>
+                <select id="select1" multiple="multiple" required name="business1"  class="">
                                   <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
                             <%}}}%>
                             
                             </select>
             </div>
-            <div class="col-lg-4 col-md-4 col-lg-6">
-                <label>User Department:</label>
-                <select id="select2" multiple="multiple" required name="business1"  class="form-control input-sm">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div><label>User Department:</label></div>
+                <select id="select2" multiple="multiple" required name="business1"  class="">
                                   <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
                             <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
                             <%}}}%>
                             
                             </select>
             </div>
-            <div class="col-lg-4 col-md-4 col-lg-6">
-                <label>Document Type:</label>
-                <select id="select3" multiple="multiple" required name="doctype"  class="form-control input-sm">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div><label>Document Type:</label></div>
+                <select id="select3" multiple="multiple" required name="doctype"  class="">
                                             <%if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][0].Active==1){%>
                             <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
                             <%}}}%>
@@ -306,9 +308,9 @@
  
                                         </select>
             </div>
-            <div class="col-lg-4 col-md-4 col-lg-6">
-                <label>Application Area:</label>
-                <select id="select4" multiple="multiple" required name="newTec1"  class="form-control input-sm">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div><label>Application Area:</label></div>
+                <select id="select4" multiple="multiple" required name="newTec1"  class="">
                                             <%if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
                             <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
                             <%}}}%>
@@ -316,15 +318,15 @@
                                                 
                                         </select>
             </div>
-            <div class="col-lg-4 col-md-4 col-lg-6">
-                <label>Restriction Level:</label>
-                <select id="select5" multiple="true" required name="rLevel1" class="form-control input-sm">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div><label>Restriction Level:</label></div>
+                <select id="select5" multiple="true" required name="rLevel1" class="">
                                                      <%for(var i=0;i<restriction[0].length;i++){%>
                                                     <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
                                                     <%}%>
                                             </select>
             </div>
-            <div class="col-lg-4 col-md-4 col-lg-6">
+            <div class="col-lg-4 col-md-4 col-sm-6">
                 <span  onclick="filterdata();" ><input type="image" src="../images/candidate_search.png" id="searchBoxId1" height="33px" title="Search" style=""></span>
             </div>
         </div>
@@ -466,6 +468,22 @@
     </div> 
  </div> 
 </div>
+</div>
+<div class="modal fade" id="viewAccessList" role="dialog" >
+    <div class="modal-dialog" style="width:200px">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" id="dismiss">×</button>
+            <h4 id="head10" class="modal-title">User List</h4>
+        </div>
+        <div class="modal-body" id="accessListbody" style="max-height: 300px;overflow-y: scroll;">
+       
+        </div>
+        <div class="modal-footer">
+          <button data-dismiss="modal" class="btn">Close</button>
+        </div>
+      </div>
+    </div>
 </div>
 </body>
 
@@ -691,6 +709,30 @@
 
 </div>
 <script>
+function getAccessList(){
+    $.ajax({
+            url: '/getAccessList',
+            type: 'post' ,
+            data: {
+                'industry': $('#my-select1').val() ? $('#my-select1').val().toString() :'',
+                'department':$('#my-select2').val() ? $('#my-select2').val().toString() :'',
+                'documentType':$('#my-select3').val() ? $('#my-select3').val().toString() :'',
+                'applicationArea':$('#my-select4').val() ? $('#my-select4').val().toString() :'',
+                'RestrictionLevel':$('#my-select5').val() ? $('#my-select5').val().toString() :''
+            },
+            success: function(result) {
+               if(result.length){
+                    var userHtml = '';
+                    result.forEach(function(item,index){
+                        userHtml += '<p>'+item.firstName+'</p>'
+                    });
+                    $('#accessListbody').html(userHtml);
+                    $('#viewAccessList').modal();
+               }
+            }
+           
+    });
+}
 function submitUpdatedRated(rowid,fileid,rating){
   var stringStar="";
 for(var i=0;i<rating;i++){
@@ -824,8 +866,59 @@ function downloadFile(rowid,fileid){
       
         var otable;
         $(document).ready(function() {
+            // $('.tooltip-fusion').tooltipster({
+            //     trigger: 'click',
+            //     height:'200px',
+            //     contentAsHTML:true,
+            //     content: 'Loading...',
+            //     // 'instance' is basically the tooltip. More details in the "Object-oriented Tooltipster" section.
+            //     functionPosition: function(instance, helper, position){
+            //         console.log(position,'ooo');
+            //         // position.size.height = 42;
+            //         return position;
+            //     },
+            //     functionBefore: function(instance, helper) {
+                    
+            //         var $origin = $(helper.origin);
+                    
+            //         // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
+            //         // if ($origin.data('loaded') !== true) {
 
-          
+            //             $.ajax({
+            //                 url: '/getAccessList',
+            //                 type: 'post' ,
+            //                 data: {
+            //                     'industry': $('#my-select1').val() ? $('#my-select1').val().toString() :'',
+            //                     'department':$('#my-select2').val() ? $('#my-select2').val().toString() :'',
+            //                     'documentType':$('#my-select3').val() ? $('#my-select3').val().toString() :'',
+            //                     'applicationArea':$('#my-select4').val() ? $('#my-select4').val().toString() :'',
+            //                     'RestrictionLevel':$('#my-select5').val() ? $('#my-select5').val().toString() :''
+            //                 },
+            //                 success: function(result) {
+            //                    if(result.length){
+            //                         var userHtml = '<h3>User List</h3>';
+            //                         result.forEach(function(item,index){
+            //                             userHtml += '<p>'+item.firstName+'</p>'
+            //                         });
+            //                         // $('#access-users').html(userHtml);
+            //                         instance.content(userHtml);
+
+            //                         // to remember that the data has been loaded
+            //                         $origin.data('loaded', true);
+            //                    }
+            //                    else{
+            //                         var userHtml = '<h3>No Users</h3>';
+            //                         instance.content(userHtml);
+
+            //                         // to remember that the data has been loaded
+            //                         $origin.data('loaded', true);
+            //                    }
+            //                 }
+                           
+            //             });
+            //         // }
+            //     }
+            // });
 
                 
 	$("#advanceSearch").click(function(){
@@ -861,19 +954,19 @@ function downloadFile(rowid,fileid){
 
 
             $('#select1').multipleSelect({
-            width: '75%'
+            width: '100%'
         });
             $('#select2').multipleSelect({
-            width: '75%'
+            width: '100%'
         });
             $('#select3').multipleSelect({
-            width: '75%'
+            width: '100%'
         });
             $('#select4').multipleSelect({
-            width: '75%'
+            width: '100%'
         });
             $('#select5').multipleSelect({
-            width: '75%'
+            width: '100%'
         });
            $('#my-select').multipleSelect({
             width: '75%'

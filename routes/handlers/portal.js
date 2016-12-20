@@ -1641,7 +1641,6 @@ attachDocFile: function(req, res, next) {
                         if (exe == 'doc' || exe == 'docx' || exe == 'rtf' || exe == 'txt' || exe == 'csv') {
                             textract.fromFileWithPath(newpath, config, function(error, text) {
                                 if (error) {
-                                   
                                     if(count==zipEntries.length){
                                         parseAll(textLowerCase, req,strname,1, next);
                                     }
@@ -1651,14 +1650,23 @@ attachDocFile: function(req, res, next) {
                                         var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
                                         textLowerCase= union_arrays(textLowerCase,textLowerCase1);
                                        
+                                        var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                        textLowerCasezip=union_arrays(textLowerCasezip,[]);
                                          if(count==zipEntries.length){
-                                            parseAll(textLowerCase, req,strname,1, next);
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                                parseAll(textLowerCase, req,strname,1, next);
+                                            });
+                                         }
+                                         else{
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                            });
                                          } 
                                          count++;
   
                                 }
                                 
                             });
+
                         }
                         else if (exe == 'pptx') {
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation", newpath, function(error, text) {
@@ -1673,8 +1681,17 @@ attachDocFile: function(req, res, next) {
                                 } else if (typeof text != undefined) {
                                        var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
                                           textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+
+                                          var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                          textLowerCasezip=union_arrays(textLowerCasezip,[]);
                                        if(count==zipEntries.length){
-                                         parseAll(textLowerCase, req,strname,1, next);
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                                parseAll(textLowerCase, req,strname,1, next);
+                                            });
+                                       }
+                                       else{
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                            });
                                        } 
                                         count++;
                                 }
@@ -1685,7 +1702,6 @@ attachDocFile: function(req, res, next) {
                         else if (exe == 'pdf') {
                             var processor = pdf_extract(newpath, options, function(err) {
                                 if (err) {
-                                  
                                     if(count==zipEntries.length){
                                              parseAll(textLowerCase, req,strname,1, next);
                                     } 
@@ -1698,11 +1714,18 @@ attachDocFile: function(req, res, next) {
                                     text = text.concat(data.text_pages[i]);
                                 }
                                var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-
-                                  textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                               textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                               
+                               var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                               textLowerCasezip=union_arrays(textLowerCasezip,[]);
                                 if(count==zipEntries.length){
-                                   
-                                     parseAll(textLowerCase, req,strname,1, next);
+                                    parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                        parseAll(textLowerCase, req,strname,1, next);
+                                    });
+                                }
+                                else{
+                                    parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                    });
                                 } 
                                  count++;
                             });
@@ -1727,8 +1750,13 @@ attachDocFile: function(req, res, next) {
                         }
                         else {
                             if(count==zipEntries.length){
-                                   
-                                     parseAll(textLowerCase, req,strname,1, next);
+                                parseAllzip('', req, namefile,foldername,function(){
+                                    parseAll(textLowerCase, req,strname,1, next);
+                                });
+                            }
+                            else{
+                                parseAllzip('', req, namefile,foldername,function(){
+                                });
                             } 
                              count++;
                         }
@@ -6327,6 +6355,45 @@ function parseAll(textLowerCase, req, strname, temp, next) {
 
 
         });
+
+}
+function parseAllzip(textLowerCase, req, strname,folderName,cb) {
+    var parsedData;
+    if(textLowerCase){
+        var largeArr = [];
+        var conjunctionArr = ['if', 'and', 'the', 'is', 'because', 'on', 'to', 'in', 'from', 'of', 'above', 'be', 'would', 'for', 'each', 'at', 'under', 'by', 'been', 'no', 'my', 'upon', 'been', 'it0', 'will', 'there', 'that', 'this', 'has', 'have', 'had', 'up', 'with', 'own', 'are', 'any', 'may', 'about', 'used', 'can', 'into', 'as', 'not', 'we', 'or', 'than', 'also', 'using', 'see', 'its', 'more', 'such', 'what', 'us', 'there', 'so', 'them', 'Your', 'just', 'our', 'why', 'but', 'am', '//', '>=', '<=', 'over', 'per', '#1', '#2', '#3', '#4', '#5', '#6', 'etc)', 'recent', 'due', '(the', 'an', 'out', 'here'];
+        for (var i = 0, len = textLowerCase.length; i < len; i++) {
+            if ((largeArr.indexOf(textLowerCase[i]) < 0) && (conjunctionArr.indexOf(textLowerCase[i]) < 0) && (textLowerCase[i].length > 1) && (isNaN(textLowerCase[i]))) {
+                largeArr.push(textLowerCase[i]);
+            }
+        }
+        if (!largeArr.length) {
+            parsedData = null;
+        } else {
+            parsedData = largeArr.join(',');
+        }
+    }
+    else{
+        parsedData='';
+    }  
+    var industry = req.body.industry == null ? '' : req.body.industry.toString();
+    var business = req.body.business == null ? '' : req.body.business.toString();
+    var doctype = req.body.doctype == null ? '' : req.body.doctype.toString();
+    var tec = req.body.newTec == null ? '' : req.body.newTec.toString();
+    var restriction = req.body.rLevel == null ? '' : req.body.rLevel.toString();
+
+    modelPortal.attachDocFile(req.session.userId, req.session.retailerId,
+    folderName+'/'+strname, req.body.currfolder, strname, req.body.descbox, req.body.authname,
+    industry, business, req.body.title, doctype, tec, req.session.roleId, restriction,
+    req.body.industryhide, req.body.businesshide, req.body.doctypehide, req.body.newTechide,
+    req.body.rLevelhide, parsedData,
+    function(err, result) {
+        if (err) {
+            console.log(err)
+        } else {
+            cb()
+        }
+    });
 
 }
 

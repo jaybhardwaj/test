@@ -385,6 +385,21 @@ app.get('/inactiveclient',url.setinactiveClient, portal.projectDetails,portal.pr
           res.send(result);
        });
   });
+  app.post('/getAccessList',function(req,res){
+    var obj = req.body;
+    var query={
+        sql: 'call usp_doc_getusersforacess(?,?,?,?,?)',
+        values: [obj.industry,obj.department,obj.documentType,obj.applicationArea,obj.RestrictionLevel]
+    };
+    mysql(query, function(err, result) {
+      if(err){
+        return res.send(404);
+      }
+      var tempobj = JSON.stringify(result[0]);
+      var desiredObj = JSON.parse(tempobj);
+      res.send(desiredObj);
+    });
+  });
   app.post('/projectStatus',portal.projectStatus);
 
 	app.post('/changeProjectStatus', portal.changeProjectStatus,render.redirect);
