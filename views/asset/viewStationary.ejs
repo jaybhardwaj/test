@@ -7,29 +7,29 @@
        <% include ../partials/adminheader %>
 </head>
 <style type="text/css">
-   .dataTables_filter, .dataTables_length {
+   /*.dataTables_filter, .dataTables_length {
      display: none;
-    }
+    }*/
 </style>
 <body>
   <div class="container-fluid secondry-color" style="padding-top:1%">
-  
+    <span class="fusion-page-title">List Of All Stationary</span>
     
-      <a href="/addStationary"type="button" title="Add New Stationary"  value="Addstationary"><img   class="addNewPlus" ></a>
-        <span class="modal-title" style="padding-left:41%;">List Of All Stationary</span>
-  <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
-  <table class="table table-hover table-striped table-bordered rceDataTable"id="stationtable" cellpadding="0" cellspacing="0" border="0"style="width:100%">
+      <a href="/addStationary"type="button" title="Add New Stationary"  value="Addstationary"><img src="/img/add.png"  class="addNewPlus" ></a>
+        
+<!--   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> -->
+  <table class="table table-hover table-striped table-bordered rceDataTable responsive"id="stationtable" cellpadding="0" cellspacing="0" border="0" style="width:100%">
     <thead>
       <tr>
-        <th style='background-color:grey;color:white'>Name</th>
-        <th style='background-color:grey;color:white'>Quantity</th>
-        <th style='background-color:grey;color:white'>Vendor</th>
-        <th style='background-color:grey;color:white'>Purchase Order</th>
-        <th style='background-color:grey;color:white'>Invoice Date</th>
-        <th style='background-color:grey;color:white'>Incoice Number</th>
-        <th style='background-color:grey;color:white'>Incoice Amount</th>
-        <th style='background-color:grey;color:white'>Delivery Date</th>
-        <th style='background-color:grey;color:white'>Edit/Delete</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Vendor</th>
+        <th>Purchase Order</th>
+        <th>Invoice Date</th>
+        <th>Incoice Number</th>
+        <th>Incoice Amount</th>
+        <th>Delivery Date</th>
+        <th>Edit/Delete</th>
       </tr>
       <tbody>
         <%for(var i=0;i<stype[0].length;i++){%>
@@ -59,8 +59,66 @@
 <footer>
   <% include ../partials/footer %>
 </footer>
+  
+  <div class="modal fade" id="editstation" role="dialog" >
+    <div class="modal-dialog" style="min-width: 60%">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close closeedit" data-dismiss="modal" id="closeedit">×</button>
+            <h4 id="head10" class="modal-title">Edit Stationary</h4>
+        </div>
+        <div class="modal-body">
+        <div id="err"></div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Name: <sup class="astrick">*</sup></label>
+            <input type="text" maxlength="45" class="form-control input-sm" id="typel"  name="typel"/>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Quantity: <sup class="astrick">*</sup></label>
+            <input type="number"  class="form-control input-sm" id="qty" name="qty"/>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Vendor: <sup class="astrick">*</sup></label>
+            <select  class="form-control input-sm" style=""  name="vendor" id ="vendor" onchange=""> 
+              <option value='0' disabled selected>Select</option>
+                <% for(i=0;i<stype[1].length;i++){%>
+                <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
+                <%}%>
+              </select>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Purchased Order: <sup class="astrick">*</sup></label>
+            <input type="text" maxlength="50"  class="form-control input-sm" id="order" name="order" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Invoice Date: <sup class="astrick">*</sup></label>
+            <input type="text" class="form-control input-sm date"id="Invoicedate" name="Invoicedate" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Invoice Number: <sup class="astrick">*</sup></label>
+            <input type="text" maxlength="30"  class="form-control input-sm" id="invoiceNo" name="invoiceNo" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Invoice Amount: <sup class="astrick">*</sup></label>
+            <input type="number" maxLength="12"  name="invoiceAmt" class="form-control input-sm" id="invoiceAmt"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Delivery Date: <sup class="astrick">*</sup></label>
+            <input type="text" class="form-control input-sm date" id="Deliverydate"name="Deliverydate" />
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <input type="text" class="hide" value="" id="hdnId" name="hdnId">
+          <button onclick="return validate()" class="btn btn-default">Submit</button>
+          <button id="cancel"type="reset"data-dismiss="modal"class="btn btn-default">Cancel</button>
+        </div>
+      </div>
+    </div>
+</div>
 
-  <div class="modal fade" id="editstation" role="dialog">
+<!--   <div class="modal fade" id="editstation" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content" id="express2" style="width: 1100px;margin-left: -33%">
         <div class="modal-header" style="background-color:#f05f40;">
@@ -135,7 +193,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
  

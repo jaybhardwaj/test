@@ -170,7 +170,7 @@ module.exports = {
 				res.json(req.resultAddComment);	
 				break;
 				case 'addBug':
-				res.redirect('/viewBug');	
+							{console.log('amit5');res.redirect('/viewBug');}	
 				break;
 				case 'bugAttachment':
 				res.json(req.resultAddAttachment);	

@@ -241,8 +241,8 @@ var locationId = [],
             }
             if(desiredObj[0]){
                 return res.json({"sEcho": parseInt(req.body.draw),
-                "iTotalRecords": desiredObj[0].totalRecord,
-                "iTotalDisplayRecords": desiredObj[0].totalRecord,
+                "iTotalRecords": JSON.parse(JSON.stringify(result[5][0])).totalRecord,
+                "iTotalDisplayRecords": JSON.parse(JSON.stringify(result[5][0])).totalRecord,
                 "aaData": desiredObj});
              }
              else{
@@ -879,16 +879,17 @@ addBug :function(req, res, next) {
                         req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
                         req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
                         if (error) {
-                        
-                         }
-                         else{ 
+                            console.log(error);
+                        }
+                        else{ 
+                            
                             mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,req.body.titlebox,function(error, resultMail) {
-                                 if (error) {
-                                   
+                                 if (!error) {
+                                   next();
                                  }
                              }); 
                         }
-                        next();    
+                            
                     });
                 }
             });
@@ -903,16 +904,17 @@ addBug :function(req, res, next) {
                 req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
                 req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
                 if (error) {
-                
+                console.log(error);
                  }
-                 else{ 
-                    mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,req.body.titlebox,function(error, resultMail) {
-                         if (error) {
-                           
+                 else{
+                    var tempEmailPass = JSON.parse(JSON.stringify(result[0][0]));
+                    mailTemplates.addBug(tempEmailPass.emailId,tempEmailPass.pass,req.body.titlebox,function(error, resultMail) {
+                         if (!error) {
+                           next();
                          }
                      }); 
                 }
-                next();    
+                    
             });
         }
        
@@ -1639,7 +1641,6 @@ attachDocFile: function(req, res, next) {
                         if (exe == 'doc' || exe == 'docx' || exe == 'rtf' || exe == 'txt' || exe == 'csv') {
                             textract.fromFileWithPath(newpath, config, function(error, text) {
                                 if (error) {
-                                   
                                     if(count==zipEntries.length){
                                         parseAll(textLowerCase, req,strname,1, next);
                                     }
@@ -1649,14 +1650,23 @@ attachDocFile: function(req, res, next) {
                                         var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
                                         textLowerCase= union_arrays(textLowerCase,textLowerCase1);
                                        
+                                        var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                        textLowerCasezip=union_arrays(textLowerCasezip,[]);
                                          if(count==zipEntries.length){
-                                            parseAll(textLowerCase, req,strname,1, next);
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                                parseAll(textLowerCase, req,strname,1, next);
+                                            });
+                                         }
+                                         else{
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                            });
                                          } 
                                          count++;
   
                                 }
                                 
                             });
+
                         }
                         else if (exe == 'pptx') {
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation", newpath, function(error, text) {
@@ -1671,8 +1681,17 @@ attachDocFile: function(req, res, next) {
                                 } else if (typeof text != undefined) {
                                        var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
                                           textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+
+                                          var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                          textLowerCasezip=union_arrays(textLowerCasezip,[]);
                                        if(count==zipEntries.length){
-                                         parseAll(textLowerCase, req,strname,1, next);
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                                parseAll(textLowerCase, req,strname,1, next);
+                                            });
+                                       }
+                                       else{
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                            });
                                        } 
                                         count++;
                                 }
@@ -1683,7 +1702,6 @@ attachDocFile: function(req, res, next) {
                         else if (exe == 'pdf') {
                             var processor = pdf_extract(newpath, options, function(err) {
                                 if (err) {
-                                  
                                     if(count==zipEntries.length){
                                              parseAll(textLowerCase, req,strname,1, next);
                                     } 
@@ -1696,11 +1714,18 @@ attachDocFile: function(req, res, next) {
                                     text = text.concat(data.text_pages[i]);
                                 }
                                var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
-
-                                  textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                               textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                               
+                               var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                               textLowerCasezip=union_arrays(textLowerCasezip,[]);
                                 if(count==zipEntries.length){
-                                   
-                                     parseAll(textLowerCase, req,strname,1, next);
+                                    parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                        parseAll(textLowerCase, req,strname,1, next);
+                                    });
+                                }
+                                else{
+                                    parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                    });
                                 } 
                                  count++;
                             });
@@ -1725,8 +1750,13 @@ attachDocFile: function(req, res, next) {
                         }
                         else {
                             if(count==zipEntries.length){
-                                   
-                                     parseAll(textLowerCase, req,strname,1, next);
+                                parseAllzip('', req, namefile,foldername,function(){
+                                    parseAll(textLowerCase, req,strname,1, next);
+                                });
+                            }
+                            else{
+                                parseAllzip('', req, namefile,foldername,function(){
+                                });
                             } 
                              count++;
                         }
@@ -2035,19 +2065,6 @@ modelPortal.showprojects(req.body.flag,req.body.clientid ,function(err,result){
          assignmentedit:function(req,res,next){
       
 modelPortal.assignmentedit(req.body.clientid ,function(err,result){
-            if(err){
-                ////console.log("there is an error",err);
-            }   
-            else{
-               // console.log("project tree view",result);
-                 res.json(result);
-                } 
-        });
-   },
-
-         changeAssignmentDate:function(req,res,next){
-      console.log("***********************",req.body);
-modelPortal.changeAssignmentDate(req.body.assid,req.body.flag,req.body.assgnDate ,function(err,result){
             if(err){
                 ////console.log("there is an error",err);
             }   
@@ -2855,7 +2872,7 @@ createEditAssignment:  function(req, res, next) {
 changeAssignmentDate:function(req,res,next){
 modelPortal.changeAssignmentDate(req.body.assid,req.body.flag,req.body.assgnDate ,function(err,result){
             if(err){
-                
+                console.log(err);
             }   
             else{
                  res.json(result);
@@ -4441,12 +4458,12 @@ addUser: function(req, res, next) {
       var rtype=req.body.rtype==''?'':req.body.rtype;
       var randomPassword = randomString(10);
       var encriptPass=bcrypt.hashSync(randomPassword,salt);
-    
+        var tempchangedate = req.body.levelchangeDate.slice(0, 6) + "20" + req.body.levelchangeDate.slice(6);
          modelPortal.addUser(req.body.timesheet,req.body.isClient,req.body.clientId,req.body.isbill,req.body.expense,inNum,
             req.body.hdnUserId, req.body.firstName, req.body.lastName, req.body.emailId, req.body.contactNumber, billingRate,
              req.body.userRole, req.body.manager, req.body.defaultModule, req.body.customRole,encriptPass,
             req.body.ecode,req.body.designation,req.body.level,modules,req.body.doj,req.body.dob,req.body.doc,rtype,
-          req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,req.body.assetrole,req.body.levelchangeDate,function(err, result) {
+          req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,req.body.assetrole,tempchangedate,function(err, result) {
              if (err) {
                  next(err);
              } else {
@@ -6338,6 +6355,45 @@ function parseAll(textLowerCase, req, strname, temp, next) {
 
 
         });
+
+}
+function parseAllzip(textLowerCase, req, strname,folderName,cb) {
+    var parsedData;
+    if(textLowerCase){
+        var largeArr = [];
+        var conjunctionArr = ['if', 'and', 'the', 'is', 'because', 'on', 'to', 'in', 'from', 'of', 'above', 'be', 'would', 'for', 'each', 'at', 'under', 'by', 'been', 'no', 'my', 'upon', 'been', 'it0', 'will', 'there', 'that', 'this', 'has', 'have', 'had', 'up', 'with', 'own', 'are', 'any', 'may', 'about', 'used', 'can', 'into', 'as', 'not', 'we', 'or', 'than', 'also', 'using', 'see', 'its', 'more', 'such', 'what', 'us', 'there', 'so', 'them', 'Your', 'just', 'our', 'why', 'but', 'am', '//', '>=', '<=', 'over', 'per', '#1', '#2', '#3', '#4', '#5', '#6', 'etc)', 'recent', 'due', '(the', 'an', 'out', 'here'];
+        for (var i = 0, len = textLowerCase.length; i < len; i++) {
+            if ((largeArr.indexOf(textLowerCase[i]) < 0) && (conjunctionArr.indexOf(textLowerCase[i]) < 0) && (textLowerCase[i].length > 1) && (isNaN(textLowerCase[i]))) {
+                largeArr.push(textLowerCase[i]);
+            }
+        }
+        if (!largeArr.length) {
+            parsedData = null;
+        } else {
+            parsedData = largeArr.join(',');
+        }
+    }
+    else{
+        parsedData='';
+    }  
+    var industry = req.body.industry == null ? '' : req.body.industry.toString();
+    var business = req.body.business == null ? '' : req.body.business.toString();
+    var doctype = req.body.doctype == null ? '' : req.body.doctype.toString();
+    var tec = req.body.newTec == null ? '' : req.body.newTec.toString();
+    var restriction = req.body.rLevel == null ? '' : req.body.rLevel.toString();
+
+    modelPortal.attachDocFile(req.session.userId, req.session.retailerId,
+    folderName+'/'+strname, req.body.currfolder, strname, req.body.descbox, req.body.authname,
+    industry, business, req.body.title, doctype, tec, req.session.roleId, restriction,
+    req.body.industryhide, req.body.businesshide, req.body.doctypehide, req.body.newTechide,
+    req.body.rLevelhide, parsedData,
+    function(err, result) {
+        if (err) {
+            console.log(err)
+        } else {
+            cb()
+        }
+    });
 
 }
 
