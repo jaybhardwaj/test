@@ -3,27 +3,10 @@
 
 <head>
     <% include ./partials/head %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
 <style>
 /******/
-.select2-container--default .select2-selection--multiple {
-height:10px !important;
-}
 
-.select2-container--default .select2-search--inline .select2-search__field{
-border:0px !important;
-}
-
-
-
-.select2-container--default .select2-selection--multiple .select2-selection__rendered {
-    list-style: none;
-    margin: 0;
-    /*padding: 0 5px 5px 5px;*/
-    width: 100%;
-    box-sizing: border-box;
-}
 
 
 #projectDetailModal input {
@@ -147,6 +130,14 @@ a{
 </head>
 </style>
 <script type="text/javascript">
+function handleClick(elem){
+      if(elem.value ==2){
+        $(".chosen-select1").chosen();
+      }
+      if(elem.value ==3){
+        $(".chosen-select2").chosen();
+      }
+  }
 var currentprojname=[];
 var currentwbsname=[];
 var projname=[];
@@ -160,7 +151,7 @@ var projectEdate='';
 var wbsSdate='';
 var wbsEdate='';
   $( document ).ready( function( ) {
-  
+    $(".chosen-select").chosen();
     if(<%=clientflag%>==1){
     projectStatus(1);
      document.getElementById("actproject").checked = true;
@@ -197,19 +188,14 @@ var wbsEdate='';
         setTimeout(function(){  
     $('#all').click();   }, 1500);
 
-   if(usersid[i]==user){
-         errorCreateAssignment.text(" select person has been already asssigned a assignment on this document");
-              return false;
-           }
+
           $('.se-pre-con').fadeOut('slow');
-   if(usersid[i]==user){
-         errorCreateAssignment.text(" select person has been already asssigned a assignment on this document");
-              return false;
-           }
+
            $("#cabbname").focusout(function(){
 
                   
-                    $('#ccode').val($('#cname').val().slice(0,3)+'_'+$(this).val());     
+                    $('#ccode').val($('#cname').val().slice(0,3)+'_'+$(this).val());   
+                     
                  });
 
               var oTable = $("#homeTable").dataTable({
@@ -339,6 +325,18 @@ if( '<%=flag%>'=='1'){
 
            $('#pcomplexity').val('<%=name[0].pcomplexity%>');
             $('#planReq').val('<%=name[0].isPlanReq%>');
+
+
+            if ('<%=name[0].assigntoall%>' == '1') {
+                        $('#assign').val('<%=name[0].assigntoall%>');
+                        $('#presourceDiv').addClass('hide');
+                         $('#resr').addClass('hide');
+                    } else {
+                     
+                        $("#assign").val('<%=name[0].assigntoall%>');
+                         $('#presourceDiv').removeClass('hide');
+                         $('#resr').removeClass('hide');
+                    }
  //$('#completed').val('<%=name[0].completed%>');
 
 
@@ -382,7 +380,7 @@ getSelectedOptions($('#pclient').val());
 }
 
     $('#selectAll').click( function() {
-              var string1="<select class='form-text-box' name='presource' multiple='multiple' id='presource'><option value=0 disabled>Select </option>" ;
+              var string1="<select class='form-text-box chosen-select1' name='presource' multiple='multiple' id='presource'><option value=0 disabled>Select </option>" ;
 
                    <% for(var i=0;i<resource.length;i++) {%>
                 
@@ -391,14 +389,15 @@ getSelectedOptions($('#pclient').val());
               string1+="</select>";
               console.log(string1);
               $("#presourceDiv").html(string1);
-                   $('#presource').select2({
+              $(".chosen-select1").chosen();
+                   /*$('#presource').select2({
                     allowClear: true,
                     "fieldWidth":"13em"
-                      }); 
+                      });*/ 
     });
 
     $('#selectNone').click( function() {
-              var string1="<select class='form-text-box' name='presource' multiple='multiple' id='presource'><option value=0 disabled>Select </option>" ;
+              var string1="<select class='form-text-box chosen-select1' name='presource' multiple='multiple' id='presource'><option value=0 disabled>Select </option>" ;
 
                    <% for(var i=0;i<resource.length;i++) {%>
                 
@@ -407,32 +406,58 @@ getSelectedOptions($('#pclient').val());
               string1+="</select>";
               console.log(string1);
               $("#presourceDiv").html(string1);
-                   $('#presource').select2({
+              $(".chosen-select1").chosen();
+                  /* $('#presource').select2({
                     "fieldWidth":"13em"
-                      }); 
+                      }); */
     });
     });
 
+function AssigntoAll(){
+      if($('#assign').val()==1)
+     {
+       $('#selectAll').click();
+      $('#presourceDiv').addClass('hide');
+
+         $('#resr').addClass('hide');
+        
+        
+   } else
+    {
+      $('#selectNone').click();
+      $('#presourceDiv').removeClass('hide');
+
+     $('#resr').removeClass('hide');
+        
+    }
+  }
   function projectAddEdit(projectId,flag) {
     
      $('#presource').val(" ").trigger("change"); 
+     $('#presource').trigger("chosen:updated");
+
       $('#ptech').val(" ").trigger("change");
+     $('#ptech').trigger("chosen:updated");
        $('#pcomplexity').val(" ").trigger("change");
+      $('#pcomplexity').trigger("chosen:updated");
         $('#pcommercialhead').val(" ").trigger("change");
+       $('#pcommercialhead').trigger("chosen:updated");
          $('#paccounthead').val(" ").trigger("change");
+         $('#paccounthead').trigger("chosen:updated");
           $('#plocation').val(" ").trigger("change");
+         $('#plocation').trigger("chosen:updated");
            $('#ccontact').val(" ").trigger("change");
-          
+           $('#ccontact').trigger("chosen:updated");
     // $('#pid').val(data[0][0].id);
     $('#pactive').removeClass('hide');
     $('#showallclient').addClass('hide');
     var log='';
     $('#projectform').trigger("reset");
-      $("#ptech").html("");
+    /*  $("#ptech").html("");
        <% for(var i=0;i<tech.length;i++) {%>
               log=log+"<option value='<%=tech[i].id%>'><%=tech[i].description1%></option>";
                       <%}%>
-            $("#ptech").append(log);
+            $("#ptech").append(log);*/
                   
       var techarr=[];
       var userarr=[];
@@ -443,15 +468,22 @@ getSelectedOptions($('#pclient').val());
                 data:{"pid":projectId,"flag":flag },
                 
                 success: function(data) {
-                
+                console.log(data,'meee00');
                      var log = '<ul>',log1='',log2=''; 
                       $('#pid').val(data[0][0].id);
                       $('#idpname').val(data[0][0].projectTitle);
                       $('#pcode').val(data[0][0].pcode);
+                      //$('#ptech').trigger("chosen:updated");
+                      $('#paccounthead').val(data[0][0].accountHead);
+                      $('#pcommercialhead').val(data[0][0].commercialHead);
+                      $('#pmanager').val(data[0][0].manager);
                       $('#pclienttet').val(data[0][0].clientName);
                       $('#DescriptionID').val(data[0][0].description);
                       $('#datepicker').val(data[0][0].plannedStartDate);
                       $('#datepicker1').val(data[0][0].plannedEndDate);
+                      //$('#ptech').val(data[0][0].description1);
+                      $('#plocation').val(data[0][0].plocation);
+                      $('#pcomplexity').val(data[0][0].pcomplexity);
                       if(data[0][0].actualStartDate=='00/00/00'){
                       $('#datepicker2').val('');
                       $('#datepicker3').val('');}
@@ -475,46 +507,63 @@ getSelectedOptions($('#pclient').val());
                         alert(data[0][0].isActive);
                         document.getElementById("pstatus2").checked = true;
                        }
-                       $('#pcommercialhead').val(data[0][0].commercialHead).select2({
+                 /*      $('#pcommercialhead').val(data[0][0].commercialHead).select2({
                                         fieldWidth:'13em'
-                                        });
-                       $('#paccounthead').val(data[0][0].accountHead).select2({
-                                        fieldWidth:'13em'
-                                        });
+                                        });*/
+                       // $('#paccounthead').val(data[0][0].accountHead).select2({
+                       //                  fieldWidth:'13em'
+                       //                  });
 
-                       $('#pmanager').val(data[0][0].manager).select2({
-                                        fieldWidth:'13em'
-                                        });
+                       // $('#pmanager').val(data[0][0].manager).select2({
+                       //                  fieldWidth:'13em'
+                       //                  });
 
                        $('#pclient').val(data[0][0].clid);
                        $('#pclienttet').val();
-                       $('#pcomplexity').val(data[0][0].pcomplexity).select2({
-                                        fieldWidth:'13em'
-                                        });
-                       $('#plocation').val(data[0][0].locid).select2();
+                       // $('#pcomplexity').val(data[0][0].pcomplexity).select2({
+                       //                  fieldWidth:'13em'
+                       //                  });
+                       // $('#plocation').val(data[0][0].locid).select2();
                         for(var i=0;i<data[0].length;i++){
                          
                           techarr[i]=data[0][i].technologyId;
+
                        }
-                       
+                    
                          for(var i=0;i<data[0].length;i++){
                           userarr[i]=data[0][i].userId;
                           
                        }
-
-                        $('#ptech').val(techarr).select2({  
+                       $('#ptech').val(techarr);
+                       $('#presource').val(userarr);
+                        /*$('#ptech').val(techarr).select2({  
                                          allowClear: true ,
                                         fieldWidth:'13em'
-                                        });
+                                        });*/
 
-                         $('#presource').val(userarr).select2({   
+                        /* $('#presource').val(userarr).select2({   
                                         fieldWidth:'13em'
-                                        });
+                                        });*/
                           setTimeout(function(){
-                             $('#ccontact').val(" ").trigger("change");
-                          $('#ccontact').val(data[0][0].ccmid).select2({   
-                                        fieldWidth:'13em'
-                                        });},1000);
+                            $('#ptech').trigger("chosen:updated");
+                            $('#presource').trigger("chosen:updated");
+                            $('#cal').trigger("chosen:updated");
+                            $('#pcomplexity').trigger("chosen:updated");
+                            $('#pcommercialhead').trigger("chosen:updated");
+                            $('#paccounthead').trigger("chosen:updated");
+                            $('#plocation').trigger("chosen:updated");
+                              $('#ptype1').trigger("chosen:updated");
+
+                            $('#pmanager').trigger("chosen:updated");
+                            $('#pcat').trigger("chosen:updated");
+                            $('#poNumber').trigger("chosen:updated");
+                            $('#ccontact').val(" ").trigger("change");
+                            $('#taxCode').trigger("chosen:updated");
+
+                          // $('#ccontact').val(data[0][0].ccmid).select2({   
+                          //               fieldWidth:'13em'
+                          //               });
+                        },50);
 
          }
        });
@@ -572,13 +621,32 @@ function checkedit(){
   }
 
 
-  function showhide(ids,flags,prantid){
+  function showhide(ids,flags,prantid,myelement){
    
     var vals=$('#in'+ids+'').val(); //(vals==1)&&
+   
     $(".anvi").addClass('hide');
     if((prantid!=0)){
-     $('#div'+ids+'').removeClass('hide');
+       if(flags==0){
+     $('#div'+ids).removeClass('hide');
      $('#in'+ids+'').val("0");
+   }
+    if(flags==1){
+     $('#divclient'+ids).removeClass('hide');
+     $('#in'+ids+'').val("0");
+   }
+   if(flags==2){
+     $('#divp'+ids).removeClass('hide');
+     $('#in'+ids+'').val("0");
+   }
+   if(flags==3){
+     $('#divw'+ids).removeClass('hide');
+     $('#in'+ids+'').val("0");
+   }
+   if(flags==4){
+     $('#divs'+ids).removeClass('hide');
+     $('#in'+ids+'').val("0");
+   }
     }
     else{
     $('#div'+ids+'').addClass('hide');
@@ -618,8 +686,10 @@ function checkedit(){
                                       $("#cabbname").val('');
                                       $("#category").val('');
                                       $("#cal").val('');
+                                      $('#cal').trigger("chosen:updated");
                                       $("#ccode").val('');
                                       $("#clocation").val('');
+                                      $('#clocation').trigger("chosen:updated");
                                       $('#caddress').val('');
                                       $('#createclientcontect').html('');
 
@@ -637,23 +707,26 @@ function checkedit(){
 
                      var log = '<ul id="treeul">',log1='',log2='';
                                                                      //showaddwbsform('+data[0][i].id+','+projname+')
+                    
                     for (var i = data[0].length-1; i >=0 ; i--) {
                       //$('#projecttreevew').append(showaddprojectform()
                   var projname =  data[0][i].clientName.toString();
-                     log=log+'<li class=""><a class="c'+data[0][i].id+'" id="'+data[0][i].id+'" onclick="showhide('+data[0][i].id+',1,'+data[0][i].id+')"><span class="fa fa-folder" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].clientName+'</a><div class="hide anvi" id="div'+data[0][i].id+'" style="margin-left: 235px;width:100px;margin-top: -22px"><input type="hidden" id="tet'+data[0][i].id+'" value="'+data[0][i].clientName+'"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="clientsEdit('+data[0][i].id+',1)" title="Edit Client" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="addp'+data[0][i].id+'" title="Add Project" onclick="showaddprojectform('+data[0][i].id+','+i+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span  id="ac'+data[0][i].id+'" onclick="activeInactive('+data[0][i].id+',1,1)" title="Deactivate the Client" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[0][i].id+'" onclick="activeInactive('+data[0][i].id+',0,1)" class="glyphicon  glyphicon-remove-sign hide" title="Activate" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="client'+data[0][i].id+'"></ul></li>';
+                     log=log+'<li class=""><a class="c'+data[0][i].id+'" id="client_Anchor'+data[0][i].id+'" onclick="showhide('+data[0][i].id+',1,'+data[0][i].id+',this)"><span class="fa fa-folder" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].clientName+'</a><div class="hide anvi" id="divclient'+data[0][i].id+'" style="margin-left: 235px;width:100px;margin-top: -22px"><input type="hidden" id="tet'+data[0][i].id+'" value="'+data[0][i].clientName+'"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="clientsEdit('+data[0][i].id+',1)" title="Edit Client" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="addproj'+data[0][i].id+'" title="Add Project" onclick="showaddprojectform('+data[0][i].id+','+i+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span  id="activeClient'+data[0][i].id+'" onclick="activeInactive('+data[0][i].id+',1,1,this)" title="Deactivate Client" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveClient'+data[0][i].id+'" onclick="activeInactive('+data[0][i].id+',0,1,this)" class="glyphicon  glyphicon-remove-sign hide" title="Activate Client" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="client'+data[0][i].id+'"></ul></li>';
+
                       if(data[0][i].isActive==0){ 
+                      // $(element).css("color","red");
                         $("#".concat(data[0][i].id)).css("color","red");
-                        $("#ac".concat(data[0][i].id)).addClass("hide");
-                        $("#addp".concat(data[0][i].id)).addClass("hide");
-                       $("#ina".concat(data[0][i].id)).removeClass("hide");
-                      // $("#c".concat(data[0][i].id)).addClass("hide");
+                        $("#activeClient".concat(data[0][i].id)).addClass("hide");
+                        $("#addproj".concat(data[0][i].id)).addClass("hide");
+                       $("#inactiveClient".concat(data[0][i].id)).removeClass("hide");
+                     
                        }
                        else{
                            
-                        $("#ac".concat(data[0][i].id)).removeClass("hide"); 
-                         $("#ina".concat(data[0][i].id)).addClass("hide");
-                          $("#addp".concat(data[0][i].id)).removeClass("hide");
-                        // $("#c".concat(data[0][i].id)).removeClass("hide");
+                        $("#activeClient".concat(data[0][i].id)).removeClass("hide"); 
+                         $("#inactiveClient".concat(data[0][i].id)).addClass("hide");
+                          $("#addproj".concat(data[0][i].id)).removeClass("hide");
+                        
                        }
 
 
@@ -665,27 +738,30 @@ function checkedit(){
                      currentprojname[i] =  data[1][i].projectTitle.toString();
                       pstartdate[i]=data[1][i].plannedStartDate;
                       pendDate[i]=data[1][i].plannedEndDate;
-                     $('#client'+data[1][i].cname+'').append('<li class=""><a id="'+data[1][i].id+'" class="c'+data[1][i].cname+'"  onclick="showhide('+data[1][i].id+',2,'+data[1][i].cact+')"><span  class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+data[1][i].projectTitle+'</a><div class="hide cd'+data[1][i].cname+' anvi " id="div'+data[1][i].id+'" style="margin-left: 200px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[1][i].id+'" value="1"><span onclick="projectAddEdit('+data[1][i].id+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="add'+data[1][i].id+'" title="Add WBS" onclick="showaddwbsform('+data[1][i].id+','+i+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ac'+data[1][i].id+'" onclick="activeInactive('+data[1][i].id+',1,2)" title="Deactivate the Project" class="glyphicon glyphicon-ok-sign hide" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[1][i].id+'" title="Activate" onclick="activeInactive('+data[1][i].id+',0,2)"class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="project'+data[1][i].id+'"></ul></li>');
-                      if(data[1][i].isActive==0){$("#".concat(data[1][i].id)).css("color","red");
-                        $("#ac".concat(data[1][i].id)).addClass("hide");
+                     $('#client'+data[1][i].cname+'').append('<li class=""><a id="project_Anchor'+data[1][i].id+'" class="c'+data[1][i].cname+'"  onclick="showhide('+data[1][i].id+',2,'+data[1][i].cact+',this)"><span  class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+data[1][i].projectTitle+'</a><div class="hide cd'+data[1][i].cname+' anvi " id="divp'+data[1][i].id+'" style="margin-left: 200px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[1][i].id+'" value="1"><span onclick="projectAddEdit('+data[1][i].id+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="add'+data[1][i].id+'" title="Add WBS" onclick="showaddwbsform('+data[1][i].id+','+i+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeProject'+data[1][i].id+'" onclick="activeInactive('+data[1][i].id+',1,2,this)" title="Deactivate Project" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveProject'+data[1][i].id+'" title="Activate Project" onclick="activeInactive('+data[1][i].id+',0,2,this)"class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="project'+data[1][i].id+'"></ul></li>');
+
+                      
+
+                      if(data[1][i].isActive==0){
+                        $("#".concat(data[1][i].id)).css("color","red");
+                        $("#activeProject".concat(data[1][i].id)).addClass("hide");
                         $("#add".concat(data[1][i].id)).addClass("hide");
-                       $("#ina".concat(data[1][i].id)).removeClass("hide");
+                       $("#inactiveProject".concat(data[1][i].id)).removeClass("hide");
                           if(data[1][i].cact==0){
                        $(".c".concat(data[1][i].cname)).css("color","red");
                        $(".cd".concat(data[1][i].cname)).addClass("hide"); 
                        }
                        }
                        else{
-                        $("#ac".concat(data[1][i].id)).removeClass("hide"); 
-                         $("#ina".concat(data[1][i].id)).addClass("hide");
+                        $("#activeProject".concat(data[1][i].id)).removeClass("hide"); 
+                         $("#inactiveProject".concat(data[1][i].id)).addClass("hide");
                          $("#add".concat(data[1][i].id)).removeClass("hide");
                        }
                        
                 }
-//log=log+'</ul>';
-               // $('#treeview').append(log); //user:glyphicon glyphicon-user//client:glyphicon glyphicon-th-list//proj:glyphicon glyphicon-folder-open
+             
 
-                  for (var i = data[2].length-1; i >=0 ; i--) {   //$('#projecttreeview').append(
+                  for (var i = data[2].length-1; i >=0 ; i--) {   
                      (function(i){
 
                    currentwbsname[i]=data[2][i].WBSName;
@@ -693,20 +769,22 @@ function checkedit(){
                    wstartdate[i]=data[2][i].wplannedStartDate;  
                    wendDate[i]=data[2][i].wplannedEndDate;
                       window.setTimeout(function(){ 
-                      $('#project'+data[2][i].projectId+'').append('<li class=""><a class="c'+data[2][i].cname+' p'+data[2][i].projectId+'" id="'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].WBSID+',3,'+data[2][i].pact+')"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].WBSName+'</a><div class="hide anvi pd'+data[2][i].projectId+' c'+data[2][i].cname+'" id="div'+data[2][i].WBSID+'" style="margin-left: 190px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[2][i].WBSID+'" value="1"><span onclick="Editwbsdetail('+data[2][i].WBSID+')" class="glyphicon glyphicon-edit" title="Edit Wbs" style="color:red;font-size: 15px"></span><span id="addass'+data[2][i].id+'" onclick="addassignmentinwbs('+data[2][i].WBSID+','+i+','+data[2][i].projectId+','+data[2][i].WBSID+')" class="glyphicon glyphicon-plus-sign" title="add Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ac'+data[2][i].WBSID+' "onclick="activeInactive('+data[2][i].WBSID+',1,3)" title="Deactivate" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[2][i].WBSID+'" onclick="activeInactive('+data[2][i].WBSID+',0,3)" class="glyphicon  glyphicon-remove-sign hide" title="Activate" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="wbs'+data[2][i].WBSID+'"></ul></li>');
-                      if(data[2][i].isActive==0){$("#".concat(data[2][i].WBSID)).css("color","red");
-                        $("#ac".concat(data[2][i].WBSID)).addClass("hide");
+                      $('#project'+data[2][i].projectId+'').append('<li class=""><a class="c'+data[2][i].cname+' p'+data[2][i].projectId+'" id="'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].WBSID+',3,'+data[2][i].pact+',this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].WBSName+'</a><div class="hide anvi pd'+data[2][i].projectId+' c'+data[2][i].cname+'" id="divw'+data[2][i].WBSID+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[2][i].WBSID+'" value="1"><span onclick="Editwbsdetail('+data[2][i].WBSID+')" class="glyphicon glyphicon-edit" title="Edit Wbs" style="color:red;font-size: 15px"></span><span id="addass'+data[2][i].id+'" onclick="addassignmentinwbs('+data[2][i].WBSID+','+i+','+data[2][i].projectId+','+data[2][i].WBSID+')" class="glyphicon glyphicon-plus-sign" title="Add Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeWbs'+data[2][i].WBSID+'"onclick="activeInactive('+data[2][i].WBSID+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[2][i].WBSID+'" onclick="activeInactive('+data[2][i].WBSID+',0,3,this)" class="glyphicon  glyphicon-remove-sign hide" title="Activate WBS" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="wbs'+data[2][i].WBSID+'"></ul></li>');
+                      
+                      if(data[2][i].isActive==0){
+                        $("#".concat(data[2][i].WBSID)).css("color","red");
+                        $("#activeWbs".concat(data[2][i].WBSID)).addClass("hide");
                          $("#addass".concat(data[2][i].WBSID)).addClass("hide");
-                       $("#ina".concat(data[2][i].WBSID)).removeClass("hide");
+                        $("#inactiveWbs".concat(data[2][i].WBSID)).removeClass("hide");
                           if(data[2][i].pact==0){
-                       $(".p".concat(data[2][i].projectId)).css("color","red");     
-                       $(".pd".concat(data[2][i].projectId)).addClass("hide"); 
-                       }
+                            $(".p".concat(data[2][i].projectId)).css("color","red");     
+                            $(".pd".concat(data[2][i].projectId)).addClass("hide"); 
+                          }
                        }
                        else{
-                          $("#addass".concat(data[2][i].WBSID)).removeClass("hide");
-                        $("#ac".concat(data[2][i].WBSID)).removeClass("hide"); 
-                        $("#ina".concat(data[2][i].WBSID)).addClass("hide");
+                        $("#addass".concat(data[2][i].WBSID)).removeClass("hide");
+                        $("#activeWbs".concat(data[2][i].WBSID)).removeClass("hide"); 
+                        $("#inactiveWbs".concat(data[2][i].WBSID)).addClass("hide");
                        }
                         }, i * 4);
 
@@ -720,18 +798,20 @@ function checkedit(){
   
                       window.setTimeout(function(){ 
                         
-                      $('#wbs'+data[3][i].WBSID+'').append('<li class=""><a id="'+data[3][i].id+'" class="c'+data[3][i].cname+' p'+data[3][i].ProjectId+' w'+data[3][i].WBSID+'" onclick="showhide('+data[3][i].id+',4,'+data[3][i].wact+')"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[3][i].name+'</a><div class="hide anvi c'+data[3][i].cname+' pd'+data[3][i].ProjectId+' wd'+data[3][i].WBSID+'" id="div'+data[3][i].id+'" style="margin-left: 120px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[3][i].id+'" value="1"><span id="ac'+data[3][i].id+'" onclick="activeInactive('+data[3][i].id+',1,4)"class="glyphicon glyphicon-ok-sign" title="Deactivate" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[3][i].id+'" onclick="activeInactive('+data[3][i].id+',0,4)" class="glyphicon  glyphicon-remove-sign hide "  title="Activate" style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
-                      if(data[3][i].isActive==0){$("#".concat(data[3][i].id)).css("color","red");
-                      $("#ac".concat(data[3][i].id)).addClass("hide");
-                       $("#ina".concat(data[3][i].id)).removeClass("hide");
+                      $('#wbs'+data[3][i].WBSID+'').append('<li class=""><a id="'+data[3][i].id+'" class="c'+data[3][i].cname+' p'+data[3][i].ProjectId+' w'+data[3][i].WBSID+'" onclick="showhide('+data[3][i].id+',4,'+data[3][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[3][i].name+'</a><div class="hide anvi c'+data[3][i].cname+' pd'+data[3][i].ProjectId+' wd'+data[3][i].WBSID+'" id="divs'+data[3][i].id+'" style="margin-left: 160px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[3][i].id+'" value="1"><span id="activeAssignment'+data[3][i].id+'" onclick="activeInactive('+data[3][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign" title="Deactivate Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[3][i].id+'" onclick="activeInactive('+data[3][i].id+',0,4,this)" class="glyphicon  glyphicon-remove-sign hide "  title="Activate Assignment" style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
+                      if(data[3][i].isActive==0){
+                     
+                        $("#".concat(data[3][i].id)).css("color","red");
+                      $("#activeAssignment".concat(data[3][i].id)).addClass("hide");
+                       $("#inactiveAssignment".concat(data[3][i].id)).removeClass("hide");
                        if(data[3][i].wact==0){
-                        // $(".w".concat(data[3][i].WBSID)).css("color","red"); 
-                       $(".wd".concat(data[3][i].WBSID)).addClass("hide"); 
+                         $(".wd".concat(data[3][i].WBSID)).addClass("hide"); 
                        }
                        }
                        else{
-                        $("#ac".concat(data[3][i].id)).removeClass("hide"); 
-                         $("#ina".concat(data[3][i].id)).addClass("hide");
+                    
+                        $("#activeAssignment".concat(data[3][i].id)).removeClass("hide"); 
+                         $("#inactiveAssignment".concat(data[3][i].id)).addClass("hide");
                        }
                         }, i*6);
 
@@ -770,7 +850,7 @@ function getSelectedOptions(cid){//alert(cid);
                $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){console.log(name[i].ccmid)%>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
                console.log('name id---<%=name.length%>','data id---',data[0].length);
 
-                  var string1="<select multiple='multiple' id=\"ccontact\"><option value=0 disabled>Select </option>" ;
+                  var string1="<select class='chosen-select' multiple='multiple' id=\"ccontact\"><option value=0 disabled>Select </option>" ;
                   var temparr=[];
 
                    for(var i =0;i<data[0].length;i++){   
@@ -793,10 +873,11 @@ function getSelectedOptions(cid){//alert(cid);
 
 
               $("#contactDiv").html(string1);
-                  
-                   $('#ccontact').select2({
-                    "fieldWidth":"13em"
-                      }); 
+               $(".chosen-select").chosen();
+               //$('#ccontact').trigger("chosen:updated");
+                   // $('#ccontact').select2({
+                   //  "fieldWidth":"13em"
+                   //    }); 
                 }
 
             });
@@ -899,11 +980,18 @@ function allProjects() {
                                       $("#clocation").val(users1[0][0].location);
                                       $('#caddress').val(users1[0][0].address);
                                      // $('#typeValue').val(users1[0][0].typeUnit);*/
-                                    console.log("jai mata di",users1[0]);
+                                    console.log("showlist",users1[0]);
+                                    setTimeout(function(){
+                            $('#cal').trigger("chosen:updated");
+                            $('#category').trigger("chosen:updated");
+                            $('#caddress').trigger("chosen:updated");
+                            $('#clocation').trigger("chosen:updated");
+                            
+                        },50);
                                   }
                                 });
                      $('#createclientcontect').html('');
-                    $('#createclientcontect').append('<button title="Create Client Contect" class="btn btn-primary" style="background-color: #f05f40;"   data-toggle="modal" data-target="#myModal" onclick="addEditContacts(0,'+clientid+')">Add</button>');
+                    $('#createclientcontect').append('<button title="Create Client Contact" class="btn btn-primary" style="background-color: #f05f40;"   data-toggle="modal" data-target="#myModal" onclick="addEditContacts(0,'+clientid+')">Create Contact</button>');
                     getContacts(clientid);
 
  }
@@ -966,17 +1054,17 @@ document.getElementById("inactive").disabled = false;
  }
 
 
- function activeInactive(clientid1,actval1,flag1){
+ function activeInactive(clientid1,actval1,flag1,myelement){
   if(actval1==1){
-   var a = confirm("Are you sure you want to Dectivate?");
+   var a = confirm("Are you sure you want to Deactivate?");
                         if (a == true) {
-                            activeInactive1(clientid1,actval1,flag1);
+                            activeInactive1(clientid1,actval1,flag1,myelement);
                         }
   }
   else{
      var a = confirm("Are you sure you want to Activate?");
                         if (a == true) {
-                            activeInactive1(clientid1,actval1,flag1);
+                            activeInactive1(clientid1,actval1,flag1,myelement);
                         }
   }
 
@@ -1002,8 +1090,14 @@ document.getElementById("inactive").disabled = false;
                                     var users = users1[0];
                                     if(actval==1){
                                      $("#".concat(clientid)).css('color','red');
-                                       $("#ac".concat(clientid)).addClass("hide");
-                                       $("#ina".concat(clientid)).removeClass("hide");
+                                       /*$("#activeClient".concat(clientid)).addClass("hide");
+                                       $("#inactiveClient".concat(clientid)).removeClass("hide");
+                                       $("#activeProject".concat(clientid)).addClass("hide");
+                                       $("#inactiveProject".concat(clientid)).removeClass("hide");
+                                       $("#activeWbs".concat(clientid)).addClass("hide");
+                                       $("#inactiveWbs".concat(clientid)).removeClass("hide");
+                                       $("#activeAssignment".concat(clientid)).addClass("hide");
+                                       $("#inactiveAssignment".concat(clientid)).removeClass("hide");*/
                                        if(flag==1){
                                         $(".c".concat(clientid)).css('color','red');
                                         $(".cd".concat(clientid)).addClass('hide');
@@ -1020,8 +1114,14 @@ document.getElementById("inactive").disabled = false;
                                    }
                                      else{
                                        $("#".concat(clientid)).css('color','black');
-                                        $("#ac".concat(clientid)).removeClass("hide");
-                                       $("#ina".concat(clientid)).addClass("hide");
+                                      /* $("#activeClient".concat(clientid)).removeClass("hide");
+                                       $("#inactiveClient".concat(clientid)).addClass("hide");
+                                       $("#activeProject".concat(clientid)).removeClass("hide");
+                                       $("#inactiveProject".concat(clientid)).addClass("hide");
+                                       $("#activeWbs".concat(clientid)).removeClass("hide");
+                                       $("#inactiveWbs".concat(clientid)).addClass("hide");
+                                       $("#activeAssignment".concat(clientid)).removeClass("hide");
+                                       $("#inactiveAssignment".concat(clientid)).addClass("hide");*/
                                           if(flag==1){
                                         $(".c".concat(clientid)).css('color','black');
                                         $(".cd".concat(clientid)).removeClass('hide');
@@ -1041,7 +1141,7 @@ document.getElementById("inactive").disabled = false;
 
  }
 
-  function activeInactive1(clientid,actval,flag){
+  function activeInactive1(clientid,actval,flag,myelement){
     var act;
     if(actval==1){
       act=0;
@@ -1060,40 +1160,92 @@ document.getElementById("inactive").disabled = false;
                                 success: function(users1) {
                                     var users = users1[0];
                                     if(actval==1){
-                                     $("#".concat(clientid)).css('color','red');
-                                       $("#ac".concat(clientid)).addClass("hide");
-                                       $("#ina".concat(clientid)).removeClass("hide");
+                                      console.log(flag,'flagvalue');
+                                       console.log($(myelement).closest('.anvi').prev(),'amit');
+                                       console.log($(myelement).closest('.anvi').next('a'),'child');
+                                       console.log( $(myelement).siblings("ul.level1"),'plooo');
+                                      $(myelement).closest('.anvi').prev().css('color','red');
+                                     $("#".concat(clientid)).css('color','red');                                                                  
+                                       /*$("#activeWbs".concat(clientid)).addClass("hide");
+                                       $("#inactiveWbs".concat(clientid)).removeClass("hide");*/
+                                      
+                                      
                                        if(flag==1){
-                                        $(".c".concat(clientid)).css('color','red');
-                                        $(".cd".concat(clientid)).addClass('hide');
+                                        $('#client'+clientid + ' a').css('color','red');
+                                          $('#client'+clientid +' .glyphicon-ok-sign').addClass("hide");
+                                          $('#client'+clientid +' .glyphicon-remove-sign').removeClass("hide");
+                                         $("#activeClient".concat(clientid)).addClass("hide");
+                                       $("#inactiveClient".concat(clientid)).removeClass("hide");
+                                        /*$(".c".concat(clientid)).css('color','red');
+                                        $(".cd".concat(clientid)).addClass('hide');*/
                                        }
                                         if(flag==2){
-                                        $(".p".concat(clientid)).css('color','red');
-                                        $(".pd".concat(clientid)).addClass('hide');
+                                          $('#project'+clientid + ' a').css('color','red');
+                                          $('#project'+clientid +' .glyphicon-ok-sign').addClass("hide");
+                                          $('#project'+clientid +' .glyphicon-remove-sign').removeClass("hide");
+                                        $("#activeProject".concat(clientid)).addClass("hide");
+                                        $("#inactiveProject".concat(clientid)).removeClass("hide");
+                                       /*$(".p".concat(clientid)).css('color','red');
+                                        $(".pd".concat(clientid)).addClass('hide');*/
                                        }
                                         if(flag==3){
-                                        $(".w".concat(clientid)).css('color','red');
-                                        $(".wd".concat(clientid)).addClass('hide');
+                                          $('#wbs'+clientid +' .w'+clientid).css('color','red');
+                                          $('#wbs'+clientid +' .wd'+clientid +' .glyphicon-ok-sign').addClass("hide");
+                                          $('#wbs'+clientid +' .wd'+clientid +' .glyphicon-remove-sign').removeClass("hide");
+                                          $("#activeWbs".concat(clientid)).addClass("hide");
+                                       $("#inactiveWbs".concat(clientid)).removeClass("hide");
+                                       $(myelement).closest('.anvi').next().css('color','red');
+                                        /*$(".w".concat(clientid)).css('color','red');
+                                        $(".wd".concat(clientid)).addClass('hide');*/
+
                                        }
-                                     messageBox("Deactivated successfully");
+                                       if(flag==4){
+                                        $("#activeAssignment".concat(clientid)).addClass("hide");
+                                       $("#inactiveAssignment".concat(clientid)).removeClass("hide");
+                                       }
+                                     messageBox("Deactivated Successfully");
                                    }
                                      else{
+                                       console.log(flag,'flagvalue');
+                                      console.log($(myelement).closest('.anvi').prev(),'shalu');
+                                      $(myelement).closest('.anvi').prev().css('color','black');
                                        $("#".concat(clientid)).css('color','black');
-                                        $("#ac".concat(clientid)).removeClass("hide");
-                                       $("#ina".concat(clientid)).addClass("hide");
+                                     
+                                       /*$("#activeWbs".concat(clientid)).removeClass("hide");
+                                       $("#inactiveWbs".concat(clientid)).addClass("hide");*/
+                                       
                                           if(flag==1){
-                                        $(".c".concat(clientid)).css('color','black');
-                                        $(".cd".concat(clientid)).removeClass('hide');
+                                       $('#client'+clientid + ' a').css('color','black');
+                                          $('#client'+clientid +' .glyphicon-ok-sign').removeClass("hide");
+                                          $('#client'+clientid +' .glyphicon-remove-sign').addClass("hide");     
+                                       $("#activeClient".concat(clientid)).removeClass("hide");
+                                       $("#inactiveClient".concat(clientid)).addClass("hide");
+                                       /* $(".c".concat(clientid)).css('color','black');
+                                        $(".cd".concat(clientid)).removeClass('hide');*/
                                        }
                                         if(flag==2){
-                                        $(".p".concat(clientid)).css('color','Black');
-                                        //$(".pd".concat(clientid)).removeClass('hide');
+                                          $('#project'+clientid + ' a').css('color','black');
+                                          $('#project'+clientid +' .glyphicon-ok-sign').removeClass("hide");
+                                          $('#project'+clientid +' .glyphicon-remove-sign').addClass("hide");
+                                        $("#activeProject".concat(clientid)).removeClass("hide");
+                                        $("#inactiveProject".concat(clientid)).addClass("hide");   
+                                        /*$(".p".concat(clientid)).css('color','Black');*/
+                                       
                                        }
                                         if(flag==3){
-                                        $(".w".concat(clientid)).css('color','black');
-                                        //$(".wd".concat(clientid)).removeClass('hide');
+                                           $('#wbs'+clientid +' .w'+clientid).css('color','black');
+                                          $('#wbs'+clientid +' .wd'+clientid +' .glyphicon-ok-sign').removeClass("hide");
+                                          $('#wbs'+clientid +' .wd'+clientid +' .glyphicon-remove-sign').addClass("hide");
+                                        $("#activeWbs".concat(clientid)).removeClass("hide");
+                                       $("#inactiveWbs".concat(clientid)).addClass("hide");
+                                       /* $(".w".concat(clientid)).css('color','black');*/
+                                        
                                        }
-                                     messageBox("Actived successfully");
+                                       if(flag==4){
+                                       $("#activeAssignment".concat(clientid)).removeClass("hide");
+                                       $("#inactiveAssignment".concat(clientid)).addClass("hide");
+                                       }
+                                     messageBox("Activated Successfully");
                                      }
                                   }
                                 });
@@ -1337,53 +1489,60 @@ document.getElementById("inactive").disabled = false;
               var cliname=$("#tet".concat(ides)).val();
         document.getElementById("pstatus1").checked = true;
         $('#showallclient').addClass('hide');
-       $('#pclient').val(ides);        
-     $('#pclienttet').val(cliname);
-     $('#presource').val(" ").trigger("change"); 
-      $('#ptech').val(" ").trigger("change");
-       $('#pcomplexity').val(" ").trigger("change");
+        $('#pclient').val(ides);        
+        $('#pclienttet').val(cliname);
+        $('#presource').val(" ").trigger("change"); 
+        $('#presource').trigger("chosen:updated");
+        $('#ptech').val(" ").trigger("change");
+        $('#ptech').trigger("chosen:updated");
+        $('#pcomplexity').val(" ").trigger("change")
+        $('#pcomplexity').trigger("chosen:updated");
         $('#pcommercialhead').val(" ").trigger("change");
-         $('#paccounthead').val(" ").trigger("change");
-          $('#plocation').val(" ").trigger("change");
+        $('#paccounthead').val(" ").trigger("change");
+        $('#paccounthead').trigger("chosen:updated");
+        $('#plocation').val(" ").trigger("change");
+        $('#plocation').trigger("chosen:updated");
+        $('#pmanager').val(" ").trigger("change");
+        $('#pmanager').trigger("chosen:updated");
 
      
-      $('#ptech').select2({  
+     /* $('#ptech').select2({  
                                          allowClear: true ,
                                         fieldWidth:'13em'
-                                        });
+                                        });*/
      
        
-      $('#presource').select2({
+     /* $('#presource').select2({
         "fieldWidth":"13em"
-      });
+      });*/
       //$("#presource").searchableOptionList();
 
-     $('#presource').select2({
+    /* $('#presource').select2({
         "fieldWidth":"13em"
-      });
+      });*/
 
-      $('#pcomplexity').select2({
-        "fieldWidth":"20em"
-      });
-      $('#pcommercialhead').select2({
+      // $('#pcomplexity').select2({
+      //   "fieldWidth":"20em"
+      // });
+      /*$('#pcommercialhead').select2({
         "fieldWidth":"13em"
-      });
-      $('#paccounthead').select2({
-        "fieldWidth":"13em"
-      });
+      });*/
+      // $('#paccounthead').select2({
+      //   "fieldWidth":"13em"
+      // });
 
-      $('#pmanager').select2({
-        "fieldWidth":"13em"
-      });
+      // $('#pmanager').select2({
+      //   "fieldWidth":"13em"
+      // });
 
       /* $('#ccontact').tagger({
         "fieldWidth":"13em"
       });*/
 
   
-  $('#plocation').val('').select2({
-        "fieldWidth":"13em"
-      });
+  // $('#plocation').val('').select2({
+  //       "fieldWidth":"13em"
+  //     });
         getClientContact(ides);       
              
             }
@@ -1400,8 +1559,12 @@ document.getElementById("inactive").disabled = false;
                  $("#aa").addClass('hide');
                                $("#wbsname").val('');
                                $("#wbscode").val('');
-                                  
-                               $("#wbsowner").val('');
+                                  /*dgf*/
+                                 $("#wbshidden").val('');
+                                 $("#flaghide").val('');
+                                 $("#idhide").val('');
+
+                                 $("#wbsowner").val('');
                                   
                                $("#datepickerw2").val('');
                               $('#datepickerw3').val('');
@@ -1440,7 +1603,7 @@ document.getElementById("inactive").disabled = false;
                                   $('#wbshtable').removeClass('hide');
                                    $('#asstable').addClass('hide');
                                     var users = users1[0];
-                                   // console.log("asahsfdghafsdh jai mata di ",users);
+                                   console.log("asahsfdghafsdh ",users);
                              
 
                                     var log = '';
@@ -1450,7 +1613,7 @@ document.getElementById("inactive").disabled = false;
                                     for (var i = 0; i < users.length; i++) {
                                     
                                      
-                                        log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].projectTitle + "' id='l" + users[i].projectTitle+ "'>" + "<td >" + users[i].WBSName+ "</td>" + "<td >" + users[i].WBSCode + "</td>" + "<td >" + users[i].projectTitle + "</td>" + "<td >" + users[i].wplannedStartDate.toString().slice(0,10) + "</td>" + "<td >" + users[i].wplannedEndDate.toString().slice(0,10) + "</td>" + "<td ><span class='glyphicon glyphicon-edit' onclick='Editwbsdetail("+users[i].WBSId+")';></span><span class='glyphicon glyphicon glyphicon-plus-sign' style='margin-left:50px;color:green' onclick='addassignmentinwbs("+users[i].WBSId+","+(currentwbsname.indexOf(users[i].WBSName))+","+users[i].projectId+","+users[i].WBSId+")';></span></td>" ;
+                                        log = log + "<tr style='height:20px;color:grey;font-size:12px;'  id='" + users[i].id + "><input type='hidden' value='" + users[i].projectTitle + "' id='l" + users[i].projectTitle+ "'>" + "<td >" + users[i].WBSName+ "</td>" + "<td >" + users[i].WBSCode + "</td>" + "<td >" + users[i].projectTitle + "</td>" + "<td >" + users[i].wplannedStartDate.toString().slice(0,10) + "</td>" + "<td >" + users[i].wplannedEndDate.toString().slice(0,10) + "</td>" + "<td ><span class='glyphicon glyphicon-edit' title='Edit Wbs' onclick='Editwbsdetail("+users[i].WBSId+")';></span><span class='glyphicon glyphicon glyphicon-plus-sign' title='Add Assignment' style='margin-left:50px;color:green' onclick='addassignmentinwbs("+users[i].WBSId+","+(currentwbsname.indexOf(users[i].WBSName))+","+users[i].projectId+","+users[i].WBSId+")';></span></td>" ;
                                       
 
                                         log = log + "</tr>";
@@ -1515,7 +1678,6 @@ document.getElementById("inactive").disabled = false;
                               document.getElementById("createProject2").disabled = true;
                               if($('input:radio[name=pstatus]:checked').val()==0){
                               activeInactive1onedit($("#pid").val(),1,2)}
-                              console.log("gupta");
                               $.ajax({
                                 url: '/projectAddEditDetailsWithFlag',
                                 method: 'POST',
@@ -1545,17 +1707,18 @@ document.getElementById("inactive").disabled = false;
                                    "pmanager": $('#pmanager').val(),
                                     "hdnId": $("#hdnId").val(),
                                     "pid": $("#pid").val(),
-                                   "tabDetail":$('#tabDetail').val()
+                                   "tabDetail":$('#tabDetail').val(),
+                                    "assigntoallforproject":$('#assign').val()
                                   },
                                   success: function(data) {
-                                    console.log('success',data);
+                                   // console.log('success',data);
                                     document.getElementById("createProject").disabled = false;
                               document.getElementById("createProject1").disabled = false;
                               document.getElementById("createProject2").disabled = false;
                                    $("#pid").val(data[0][0].lid); 
                                      if(data[0][0].flag == 1){
 
-                                      messageBox("Successfully Added");
+                                      messageBox("Project Added Successfully ");
                                       currentprojname.push(pname);
                                        pstartdate.push($("#datepicker").val());
                                        pendDate.push($('#datepicker1').val());
@@ -1564,13 +1727,15 @@ document.getElementById("inactive").disabled = false;
                                       var log="";
                                       $("#client".concat(pclient)).addClass('parent');
                                        $("#client".concat(pclient)).addClass('active');
-                                       log=log+'<li class="parent active"><a onclick="showhide('+data[0][0].lid+')"><span class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+pname+'</a><div class="hide anvi" id="div'+data[0][0].lid+'" style="margin-left: 235px;width:200px;margin-top: -22px"><input type="hidden" id="in'+data[0][0].lid+'" value="1"><span onclick="projectAddEdit('+data[0][0].lid+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span title="Add WBS" onclick="showaddwbsform('+data[0][0].lid+','+(currentprojname.length-1)+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ac'+data[0][0].lid+'" onclick="activeInactive('+data[0][0].lid+',1,2)" title="InActive the Project" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[0][0].lid+'" onclick="activeInactive('+data[0][0].lid+',0,2)"class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="project'+data[0][0].lid+'"></ul></li>';
+                                       log=log+'<li class="parent active"><a id="project_Anchor'+data[0][0].lid+'"onclick="showhide('+data[0][0].lid+',2,34,this)"><span class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+pname+'</a><div class="hide anvi" id="divp'+data[0][0].lid+'" style="margin-left: 200px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[0][0].lid+'" value="1"><span onclick="projectAddEdit('+data[0][0].lid+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span title="Add WBS" onclick="showaddwbsform('+data[0][0].lid+','+(currentprojname.length-1)+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeProject'+data[0][0].lid+'" onclick="activeInactive('+data[0][0].lid+',1,2,this)" title="Deactivate Project" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveProject'+data[0][0].lid+'" title="Activate Project" onclick="activeInactive('+data[0][0].lid+',0,2,this)"class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="project'+data[0][0].lid+'"></ul></li>';
                                      $("#client".concat(pclient)).append(log);
                                  
                                     }
 
                                      else {
-                                      messageBox("Successfully Updated");
+$('#project_Anchor'+data[0][0].lid+'').text($('#idpname').val());
+                                      messageBox(" Project  Updated Successfully");
+
                                      }
                                     // var check1= '"/projectWbs?pid='+data[0][0].lid+'"';
                                     // confirmBox3("window.location.href="+check1,'window.location.href="/projectDetails"',7);
@@ -1675,11 +1840,11 @@ function specialCharacter(evt) {
                 var text = $('#datepickerw2').val();
                 var date = new Date(text);
                 if(new Date($('#datepickerw1').val())< new Date(wbsSdate)){
-                 messageBox("Wbs Start Date is less then Project Start Date");
+                 messageBox("WBS Start Date is less than Project Start Date");
                 }
 
                if(new Date($('#datepickerw2').val())< new Date(wbsEdate)){
-                messageBox("Wbs End Date is less then Project End Date");
+                messageBox("WBS End Date is less than Project End Date");
                 }
 
                 if (text != '') {
@@ -1699,7 +1864,7 @@ function specialCharacter(evt) {
 
             var psdate=new Date($('#datepickerw').val());var pedate=new Date($('#datepickerw1').val());    
             if(psdate< new Date(projectSdate)){
-                  messageBox('wbs Planned Start Date is less than Project Planned Start Date');
+                  messageBox('WBS Planned Start Date is less than Project Planned Start Date');
 
                   return false;
                 }
@@ -1821,9 +1986,9 @@ function specialCharacter(evt) {
                                     }
                                    
                                    $('#ccontact').append(log);
-                                    $('#ccontact').select2({
-                                      "fieldWidth":"13em"
-                                           });     
+                                    // $('#ccontact').select2({
+                                    //   "fieldWidth":"13em"
+                                    //        });     
                                     }
                                   });
                                 }
@@ -1845,7 +2010,7 @@ function specialCharacter(evt) {
                                   $('#asd').html('');
                                   $('#asd').val(" ").trigger("change");
                                     var users = users1[0];
-                                    console.log("jai mata di",users1[0]);
+                                    console.log("bumbum bhole",users1[0]);
                                     var log='';
                                     for(i=0;i<users1[0].length;i++){
                                     
@@ -1857,9 +2022,11 @@ function specialCharacter(evt) {
                                     }
                                     //$("#asdDiv").html(log);
                                     $('#asd').append(log);
-                                     $('#asd').select2({
-                                      "fieldWidth":"13em"
-                                           });
+                                    $(".chosen-select").chosen();
+                                    $('#asd').trigger("chosen:updated");
+                                     // $('#asd').select2({
+                                     //  "fieldWidth":"13em"
+                                     //       });
                                      $("#asdDiv").removeClass('hide');
                                    // $('#asd').append(log);
              $('#aprocode').val(wbsprojname[flag]);
@@ -1911,7 +2078,9 @@ function specialCharacter(evt) {
 
                                 success: function(users1) {
                                     var users = users1[0];
+                                    console.log(users,"swapnilll");
                                       $('#assign').val(users1[0][0].assignToAll);
+                                      $("#wbshidden").val(wbsid);
                                       $("#flaghide").val(1);
                                       $("#idhide").val(users1[0][0].WBSID);
                                       $("#wbsname").val(users1[0][0].WBSName);
@@ -2055,7 +2224,7 @@ function specialCharacter(evt) {
                                 method: 'post',
                                 success: function(data) {
                                   if(data[0][0].flag==1){
-                                    messageBox('Project PlannedEndDate update Successfully');
+                                    messageBox('Project PlannedEndDate Updated Successfully');
                                   }
                                 }
                               });
@@ -2075,7 +2244,7 @@ function specialCharacter(evt) {
                                 method: 'post',
                                 success: function(data) {
                                   if(data[0][0].flag==1){
-                                    messageBox('Project PlannedEndDate updated Successfully');
+                                    messageBox('Project PlannedEndDate Updated Successfully');
                                      wbsEdate=pdate;
                                   }
                                 }
@@ -2095,7 +2264,7 @@ function specialCharacter(evt) {
                                 method: 'post',
                                 success: function(data) {
                                   if(data[0][0].flagp==1){
-                                    messageBox('Wbs PlannedEndDate update Successfully');
+                                    messageBox('WBS PlannedEndDate Updated Successfully');
                                     wbsEdate=pdate;
 
                                   }
@@ -2110,9 +2279,7 @@ function specialCharacter(evt) {
                               });
             }
 
-            function kuchnahi(){
-
-            }
+            
 
             function submitwbs() {
               resetError();
@@ -2192,13 +2359,16 @@ function specialCharacter(evt) {
                                 url: '/addEditWbsDetails',
                                 method: 'POST',
                                 data: {
+                              
+                                 
+                                  "wbshidden": $("#wbshidden").val(),
                                   "assign": $('#assign').val(),
                                   "flaghide": $("#flaghide").val(),
                                   "wbsidhide": $("#idhide").val(),
                                   "wbsname": $("#wbsname").val(),
                                   "wbscode":$("#wbscode").val(),
                                   "proname": $("#proname").val(),
-                                 "wbsowner": $("#wbsowner").val(),
+                                  "wbsowner": $("#wbsowner").val(),
                                    "wbspsdate": $("#datepickerw").val(),
                                   "wbspedate": $('#datepickerw1').val(),
                                   "wbsasdate": $("#datepickerw2").val(),
@@ -2210,27 +2380,30 @@ function specialCharacter(evt) {
                                    "typeValue": $('#typeValue').val(),
                                   },
                                   success: function(data) {
-                                    console.log('success',data[1][0].flag);
+                                    
+console.log(data,"wifi");
                                    document.getElementById("wbsbuton").disabled =false;
                                     if(data[1][0].flag>1){
                                       wbsprojname.push($("#pronameid").val());
                                       currentwbsname.push($("#wbsname").val());
                                        wstartdate.push($("#datepickerw").val());
                                           wendDate.push($('#datepickerw1').val());
-                                       $('#project'+$("#proname").val()+'').append('<li class="parent active"><a onclick="showhide('+data[1][0].flag+',3)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+$("#wbsname").val()+'</a><div class="hide anvi" id="div'+data[1][0].flag+'" style="margin-left: 120px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="Editwbsdetail('+data[1][0].flag+')" title="edit Wbs" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span onclick="addassignmentinwbs('+data[1][0].flag+','+(wbsprojname.length-1)+','+$("#proname").val()+','+data[1][0].flag+')" title="Add Asssignment" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span></span><span id="ac'+data[1][0].flag+' "onclick="activeInactive('+data[1][0].flag+',1,3)" title="Deactivate" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[1][0].flag+'" onclick="activeInactive('+data[1][0].flag+',0,3)"class="glyphicon  glyphicon-remove-sign hide  " style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="wbs'+data[1][0].flag+'"></ul></li>');
+                                       $('#project'+$("#proname").val()+'').append('<li class="parent active"><a id="wbs_Anchor'+data[1][0].flag+'" onclick="showhide('+data[1][0].flag+',3,45,this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+$("#wbsname").val()+'</a><div class="hide anvi" id="divw'+data[1][0].flag+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="Editwbsdetail('+data[1][0].flag+')" title="edit Wbs" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span onclick="addassignmentinwbs('+data[1][0].flag+','+(wbsprojname.length-1)+','+$("#proname").val()+','+data[1][0].flag+')" title="Add Asssignment" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span></span><span id="activeWbs'+data[1][0].flag+'"onclick="activeInactive('+data[1][0].flag+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[1][0].flag+'" title="Activate WBS" onclick="activeInactive('+data[1][0].flag+',0,3,this)"class="glyphicon  glyphicon-remove-sign hide  " style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="wbs'+data[1][0].flag+'"></ul></li>');
                                        if(data[2].length>1){
                                         for(var i=0;i<data[2].length;i++){
-                                           $('#wbs'+data[2][i].WBSID+'').append('<li class=""><a id="'+data[2][i].id+'" class="c'+data[2][i].cname+' p'+data[2][i].ProjectId+' w'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].id+',3,'+data[2][i].wact+')"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].name+'</a><div class="hide anvi c'+data[2][i].cname+' pd'+data[2][i].ProjectId+' wd'+data[2][i].WBSID+'" id="div'+data[2][i].id+'" style="margin-left: 120px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[2][i].id+'" value="1"><span onclick="Editassignment('+data[2][i].id+')" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="ac'+data[2][i].id+'" onclick="activeInactive('+data[2][i].id+',1,4)"class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[2][i].id+'" onclick="activeInactive('+data[2][i].id+',0,4)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
+                                           $('#wbs'+data[2][i].WBSID+'').append('<li class=""><a id="'+data[2][i].id+'" class="c'+data[2][i].cname+' p'+data[2][i].ProjectId+' w'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].id+',4,'+data[2][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].name+'</a><div class="hide anvi c'+data[2][i].cname+' pd'+data[2][i].ProjectId+' wd'+data[2][i].WBSID+'" id="divs'+data[2][i].id+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[2][i].id+'" value="1"><span onclick="Editassignment('+data[2][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[2][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[2][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[2][i].id+'" title="Activate Assignment" onclick="activeInactive('+data[2][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
 
                                         }
 
                                        }
-                                       messageBox('WBS Add Successfully');
+                                       messageBox('WBS Added Successfully');
                                       showaddwbsform($("#proname").val(),(currentprojname.length-1))
 
                                     }
                                       
                                       else{
+                                  console.log($("#wbshidden").val(),"qwerty");  
+                                  $('#wbs_Anchor'+$("#wbshidden").val()+'').text($('#wbsname').val());
                                         messageBox('WBS Updated Successfully');
                                        showwbs($("#proname").val());
                                       }
@@ -2501,22 +2674,24 @@ x.disabled=true;
                                
                                   },
                                   success: function(data) {
-                                  
                                     document.getElementById('addclientbutton').disabled=false;
                                     var log='';
-                                  
+                                    
                                     if($('#hiddenid').val()==0){
                                    $('#createclientcontect').html('');
-                                      $('#createclientcontect').append('<button title="Create Client Contect" class="btn btn-primary" style="background-color: #f05f40;"   data-toggle="modal" data-target="#myModal" onclick="addEditContacts(0,'+data[1][0].flag+')">Add</button>');
+                               
+                                      $('#createclientcontect').append('<button title="Create Client Contect" class="btn btn-primary" style="background-color: #f05f40;"   data-toggle="modal" data-target="#myModal" onclick="addEditContacts(0,'+data[1][0].flag+')">Create Contact</button>');
                                       getContacts(data[1][0].flag);
 
-                                      log=log+'<li class="parent active"><a onclick="showhide('+data[1][0].flag+',1,1)"><span class="fa fa-folder" style="font-size:15px;color:green;padding-right:10px"></span>'+$('#cname').val()+'</a><div class="hide anvi" id="div'+data[1][0].flag+'" style="margin-left: 135px;width:100px;margin-top: -22px"><input type="hidden" id="tet'+data[1][0].flag+'" value="'+$('#cname').val()+'"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="clientsEdit('+data[1][0].flag+',1)" title="Edit Client" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span title="Add Project" onclick="showaddprojectform('+data[1][0].flag+',1)" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span  id="ac'+data[1][0].flag+'" onclick="activeInactive('+data[1][0].flag+',1,1)" title="InActive the Client" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[1][0].flag+'" onclick="activeInactive('+data[1][0].flag+',0,1)" class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="client'+data[1][0].flag+'" style="display:block"></ul></li>';
+                                      log=log+'<li class="parent active"><a id="client_Anchor'+data[1][0].flag+'" onclick="showhide('+data[1][0].flag+',1,1,this)"><span class="fa fa-folder" style="font-size:15px;color:green;padding-right:10px"></span>'+$('#cname').val()+'</a><div class="hide anvi" id="divclient'+data[1][0].flag+'" style="margin-left: 212px;width:100px;margin-top: -22px"><input type="hidden" id="tet'+data[1][0].flag+'" value="'+$('#cname').val()+'"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="clientsEdit('+data[1][0].flag+',1)" title="Edit Client" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span title="Add Project" onclick="showaddprojectform('+data[1][0].flag+',1)" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span  id="activeClient'+data[1][0].flag+'" onclick="activeInactive('+data[1][0].flag+',1,1,this)" title="Deactivate Client" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveClient'+data[1][0].flag+'" title="Activate Client" onclick="activeInactive('+data[1][0].flag+',0,1,this)" class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="client'+data[1][0].flag+'" style="display:block"></ul></li>';
                                        $('#treeul').append(log);
-                                    messageBox("create successfully");
+                                    messageBox("Client Added Successfully");
                                     showclient();
                                   }
                                     else{
-                                      messageBox("update successfully");
+
+                  $('#client_Anchor'+$('#hiddenid').val()+'').text($('#cname').val());
+                                      messageBox(" Client Updated Successfully");
                                       showclient();
                                     }
 
@@ -2526,9 +2701,6 @@ x.disabled=true;
     }
   }
 
-
-
-  /**/
      function getContacts(clientId){
       
            // $("#clientcontect").removeClass('hide');
@@ -2548,7 +2720,7 @@ x.disabled=true;
                                 },
                                 method: 'post',
                                 success: function(pdetails) {
-                                    console.log(pdetails)
+                                    console.log("karry",pdetails)
                                     if(otableclint != null)otableclint.fnDestroy();
                                     $('#client-contact-body').html(ch);
                                     for (var i = 0; i < pdetails.length; i++) {                                 
@@ -2638,7 +2810,7 @@ var con=document.getElementById("client-contact-table").rows[rowId].cells.item(2
           var errorMyModal= $('#errorMyModal');
           var successMyModal= $('#successMyModal');
 
-/*var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
  var numreg = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
 
@@ -2669,13 +2841,13 @@ if($("#cocontact").val().trim().length <=0 )
     $("#cocontact").focus();
     return ;
 }
-if($("#ccontact").val().trim().length!=0 && isNaN($("#ccontact").val()))
+/*if($("#ccontact").val().trim().length!=0 && isNaN($("#ccontact").val()))
 {
     errorContact.text('Enter valid contact no');
     $("#cocontact").focus();
     return ;
-}
-if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
+}*/
+/*if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
 {
     errorContact.text('Enter valid contact no');
     $("#cocontact").focus();
@@ -2695,14 +2867,16 @@ if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
                                 method: 'post',
                                 success: function(pdetails) {
                                     acd=pdetails;
-                                    console.log(pdetails)
-                                  if(pdetails[1][0].flag=='1')
+                                    console.log(pdetails,'shaly');
+                                 
+                           /*       if(pdetails[0][0].flag=='-1')*/
+                                    if(pdetails[1][0].flag=='1')
                                     {
                                         successMyModal.text('Successfully Created');
                                         setTimeout(function(){
                                             successMyModal.text('');
                                           getContacts($("#cclientid").val());
-                                        },2000);
+                                        },1000);
                                         
                                    }
                                    else
@@ -2712,7 +2886,7 @@ if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
                                           setTimeout(function(){
                                             successMyModal.text('');
                                            getContacts($("#cclientid").val());
-                                        },2000);
+                                        },50);
                                     }
                                     else
                                     {
@@ -2751,6 +2925,7 @@ if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
 /******************show allclient*************/
     function showclient() {
       var flag1=<%=clientflag%>;
+   
                          var no=0;
                        var totaltime=0;
                         $("#addclient").addClass('hide');
@@ -2774,7 +2949,7 @@ if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
                                 success: function(users1) {
                                     var users = users1[0];
                              
-
+                                  console.log('fetching clientlist',users);
                                     var log = '';
 
                                     log = "<thead><tr style='font-size:12px' >" + "<th>Client Name</th>" + "<th>Time</th></tr></thead><tbody id='tablebody' >";
@@ -2858,7 +3033,7 @@ if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
 
                                 success: function(users1) {
                                     var users = users1[0];
-                             
+                             console.log('fetching projectlist',users);
 
                                     var log = '';
 
@@ -2917,7 +3092,7 @@ if($("#ccontact").val().trim().length!=0 && ($("#ccontact").val().length !=10))
 
                     }
 
-  function cencelassign(){
+  function cancelassign(){
     $('#aa').addClass('hide');
   }                  
 /*************show project*************/
@@ -2961,11 +3136,11 @@ var endDt=document.getElementById("asdatepicker1").value;
            var wb=$('#wbs2').val();
            /*for(var j=0;j<usersid.length;j++){ 
            
-          if(usersid[i]==user){
+         /* if(usersid[i]==user){
          errorCreateAssignment.text(" select person has been already asssigned a assignment on this document");
               return false;
-           }
-         }*/
+           }*/
+        /* }*/
        }
         
     } 
@@ -2987,12 +3162,12 @@ var endDt=document.getElementById("asdatepicker1").value;
                      }
         }
    if (c == -1)
-    { messageBox("please select status"); 
+    { messageBox("Please Select Status"); 
      return false;}
 
 
        if($('#asd').val()==null)
-     { errorAsd.text("Please select Users"); 
+     { errorAsd.text("Please Select Users"); 
       return false;  }
       
       var text = $('#asdatepicker').val();
@@ -3003,10 +3178,10 @@ var endDt=document.getElementById("asdatepicker1").value;
       if(new Date(text)>new Date(text1)){errorDatepicker1.text('Assignment End Date can not be less than Assignment Start Date');return false;}
      
       if(new Date(text) <new Date(wbsSdate)){
-       messageBox("Assignment Start Date is less then Wbs Start Date"); return false;
+       messageBox("Assignment Start Date is less than WBS Start Date"); return false;
       }
         if(new Date(text)> new Date(wbsEdate)){
-        messageBox("Assignment Start Date is grater then Wbs Start Date"); return false;
+        messageBox("Assignment Start Date is greater then WBS Start Date"); return false;
       }
         if(new Date(text1)> new Date(wbsEdate)){
          //messageBox(" Assignment End Date is grater then Wbs End Date"); return false;
@@ -3041,12 +3216,16 @@ document.getElementById("assignbutton").disabled=true;
                     },
 
                   success:function(data){
+                    console.log("mydata",data);
+                   console.log(data[0][0].id,'sfvdfvalue');
                     document.getElementById("assignbutton").disabled=false;
+console.log("checkin flag value",$("#flagid").val());
                    /* addassignmentinwbs($('#wbs2').val(),$("#flagid").val(),$('#procode').val())
                     $('#wbs'+$('#wbs2').val()+'').html('');
                     $('#wbs'+$('#wbs2').val()+'').addClass('parent');
                      $('#wbs'+$('#wbs2').val()+'').addClass('active');*/
                     if($("#flagid").val()==1){
+                      $('#assignment_Anchor'+data[0][0].id+'').text($('#asd').text());
                       messageBox('Assignment Updated Successfully');
                       showassgnment(data[0][0].WBSID);
 
@@ -3055,7 +3234,7 @@ document.getElementById("assignbutton").disabled=true;
                     else{
                        for( var i=0;i<data[0].length;i++){
                      
-                  $('#wbs'+data[0][i].WBSID+'').append('<li class=""><a id="'+data[0][i].id+'" class="c'+data[0][i].cname+' p'+data[0][i].ProjectId+' w'+data[0][i].WBSID+'" onclick="showhide('+data[0][i].id+',3,'+data[0][i].wact+')"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].name+'</a><div class="hide anvi c'+data[0][i].cname+' pd'+data[0][i].ProjectId+' wd'+data[0][i].WBSID+'" id="div'+data[0][i].id+'" style="margin-left: 120px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="Editassignment('+data[0][i].id+')" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="ac'+data[0][i].id+'" onclick="activeInactive('+data[0][i].id+',1,4)"class="glyphicon glyphicon-ok-sign hide " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="ina'+data[0][i].id+'" onclick="activeInactive('+data[0][i].id+',0,4)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
+                  $('#wbs'+data[0][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[0][i].id+'" class="c'+data[0][i].cname+' p'+data[0][i].ProjectId+' w'+data[0][i].WBSID+'" onclick="showhide('+data[0][i].id+',4,'+data[0][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].name+'</a><div class="hide anvi c'+data[0][i].cname+' pd'+data[0][i].ProjectId+' wd'+data[0][i].WBSID+'" id="divs'+data[0][i].id+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="Editassignment('+data[0][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[0][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[0][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[0][i].id+'"title="Activate Assignment" onclick="activeInactive('+data[0][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
                         }
                       messageBox('Assignment Added Successfully');
       
@@ -3089,7 +3268,7 @@ document.getElementById("assignbutton").disabled=true;
 
                                 success: function(users1) {
                                     var users = users1[0];
-                             
+                             console.log('fetching users in wbs list',users);
 
                                     var log = '';
 
@@ -3176,7 +3355,7 @@ document.getElementById("assignbutton").disabled=true;
                                 success: function(users1) {
                                     var users = users1[0];
                              
-
+                                    console.log('fetch assignment list',users);
                                     var log = '';
 
                                     log = "<thead><tr style='font-size:12px' >" + "<th>User Name</th>" + "<th>Time</th></tr></thead><tbody id='tablebody' >";
@@ -3260,7 +3439,7 @@ function showinactiveproject(){
  <div class="row secondry-color">
 
 <!--div id="wrapper" style="margin-left: -245px;margin-top: 24px"-->
-<div class="tree col-md-4" style="overflow-y: scroll; height:660px;width:430px;margin-top: -21px;
+<div class="tree col-md-4" style="overflow-y: scroll; height:660px;width:430px;margin-top: -19px;
 ">
     <button id="all" class="hide">Project</button>
  <div style="margin-left:40px" ><input type="radio" id="actproject" name="" onclick="showactiveproject()"   style="margin-top:3%" > Active
@@ -3286,49 +3465,43 @@ function showinactiveproject(){
       <input type="hidden" id="tabDetail" name="tabDetail">
       <input type="hidden" id="pid" name="pid" <%if(flag==1){%>value='<%=name[0].id%>' <%} else{%> value=0 <%}%>>
       <input type="hidden" id="hdnId" name="hdnId" <%if(flag==1){ %>value='<%=flag%>' <%} else{%> value=0 <%}%>> 
-      <input id="tab1" class="tabradio" type="radio" name="tabs" value="1" checked> <label for="tab1">Basic Details</label> 
-       <input id="tab2" class="tabradio" type="radio" name="tabs" value="2" > 
+      <input id="tab1" class="tabradio" type="radio" name="tabs" value="1" onclick="handleClick(this);" checked> <label for="tab1">Basic Details</label> 
+       <input id="tab2" class="tabradio" type="radio" name="tabs" value="2" onclick="handleClick(this);" > 
        <label for="tab2">Project Data</label>
-      <input id="tab5" class="tabradio"   type="radio" name="tabs" value="3" > 
+      <input id="tab5" class="tabradio"   type="radio" name="tabs" value="3" onclick="handleClick(this);"  > 
       <label for="tab5">Billing</label>
 
       <section id="content1">
-       <div class="col-md-12">  
-      <div class="row fusion-form-elements">
-          <div class="col-lg-3 col-md-3 col-sm-4">
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Project Name:<sup  class="astrick">*</sup></label>
-            <input type="text"   placeholder=" Enter Project Name " class="form-control input-sm"  style=""  name="pname" id ="idpname" maxlength="50" onblur=" return allProjects(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>'<%}%>>
+            <input type="text"   placeholder=" Enter Project Name " class="form-control input-sm"  style=""  name="pname" id ="idpname" maxlength="50" onblur=" myFunction1(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>'<%}%>>
                 <div class="fLeft"><span class="error" id="errorIdpname"></span></div>
           </div>
-
-          <div class="col-lg-3 col-md-3 col-sm-4">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Project Code:</label>
-            <input type="text" style="" class="form-control input-sm" placeholder="Project Code" name="pcode" id ="pcode" onkeypress="return specialchar(event)" <%if(flag==1){%>value='<%=name[0].pcode%>' <%}%> readonly>
+            <input type="text" style="" class="form-control input-sm" placeholder="Project Code" name="pcode" id ="pcode" onkeypress="return specialCharacter(event)" <%if(flag==1){%>value='<%=name[0].pcode%>' <%}%> readonly>
                 <div class="fLeft"><span class="error" id="errorPcode"></span></div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Client:<sup  class="astrick">*</sup></label>
-            <select  class="form-control input-sm" style=""  name="pclient" id ="pclient" onchange="getSelectedOptions($('#pclient :selected').val())"> 
-              <option value='0' disabled selected>Select</option>
-                  <% for(var i=0;i<client.length;i++) {%>
-                <option value="<%=client[i].id%>"><%=client[i].clientName%></option>
-                 <%}%>
-              </select>
+            <input type="hidden" class="form-control input-sm" style=""  name="pclient" id ="pclient" > 
+              <input type="text" class="form-control" style=""  name="pclientte" id ="pclienttet" >
               <div class="fLeft"><span class="error" id="errorPclient"></span></div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4">
-            <label>Client Contact Person:</label>
+        </div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+           <label>Client Contact Person:</label>
               <div id="contactDiv">
                 <select multiple="multiple" class="form-control input-sm chosen-select" style=""  name="ccontact" id ="ccontact"> 
                 </select> 
                 <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
               </div>
           </div>
-         </div> 
-         <div class="row fusion-form-elements">
-          <div class="col-lg-3 col-md-3 col-sm-4">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Technology:<sup  class="astrick">*</sup></label>
-            <select multiple="multiple" class="form-control input-sm chosen-select" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Technology"> 
+             <select multiple="multiple" class="form-control input-sm chosen-select" style="" name="ptech" id ="ptech" maxlength="50" placeholder="Choose Project Technology..."> 
               <option  value='0' disabled selected>Select</option>
                 <% for(var i=0;i<tech.length;i++) {%>
                 <option value="<%=tech[i].id%>"><%=tech[i].description1%></option>
@@ -3336,20 +3509,21 @@ function showinactiveproject(){
               </select>
               <div class="fLeft"><span class="error" id="errorPtech"></span></div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4">
-            <label>Planned Start Date:<sup  class="astrick">*</sup></label>
-            <input type="text" maxlength="20" placeholder="Select Date"  style=""   class= "form-control input-sm" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Planned Start Date:<sup  class="astrick">*</sup></label>
+             <input type="text" maxlength="20" placeholder="Select Date"  style=""   class= "form-control input-sm" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>>
                 <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>
           </div>
-
-          <div class="col-lg-3 col-md-3 col-sm-4">
-            <label>Planned End Date:<sup  class="astrick">*</sup></label>
+        </div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+               <label>Planned End Date:<sup  class="astrick">*</sup></label>
             <input type="text" style=""  maxlength="20" placeholder="Select Date" name="pedate"  class="form-control input-sm" id ="datepicker1" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> >
                 <div class="fLeft"><span class="error" id="errorDatepicker1"></span></div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4">
-            <label>Complexity:</label>
-            <select style="" class="form-control input-sm chosen-select" id ="pcomplexity" name="pcomplexity" >
+          <div class="col-lg-4 col-md-4 col-sm-6">
+             <label>Complexity:</label>
+            <select style="" class="form-control input-sm chosen-select" id ="pcomplexity" name="pcomplexity" data-placeholder="choose Complexity" >
                 <option  value='0' disabled selected>Select</option>
                 <option  value='simple'<%if(flag==1&&name[0].pcomplexity=='simple'){%>selected<%}%> > simple </option>
                 <option  value='medium'<%if(flag==1&&name[0].pcomplexity=='medium'){%>selected<%}%> > medium </option>
@@ -3357,10 +3531,8 @@ function showinactiveproject(){
               </select>
               <div class="fLeft"><span class="error" id="errorPcomplexity"></span></div>
           </div>
-          </div> 
-          <div class="row fusion-form-elements">
-          <div class="col-lg-3 col-md-3 col-sm-4">
-            <label>Location:</label>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Location:</label>
             <select class="form-control input-sm chosen-select" id ="plocation" name="plocation" >
                 <option value='0' disabled selected >Select</option>
                   <% for(var i=0;i<location.length;i++) {%>
@@ -3369,34 +3541,32 @@ function showinactiveproject(){
               </select>
               <div class="fLeft"><span class="error" id="errorPlocation"></span></div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4">
-            <label>Description:</label>
-            <textarea placeholder="Enter Project Description" id="DescriptionID" style="" class="form-control input-sm" row=2 name="pdescription" maxlength="250" onkeypress="return specialchar2(event)" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
+        </div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Description:</label>
+            <textarea placeholder="Enter Project Description" id="DescriptionID" style="" class="form-control input-sm" row=2 name="pdescription" maxlength="250" onkeypress="" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
              <div class="fLeft"><span class="error" id="errorDescriptionID"></span></div> 
           </div>
-
-          <div class="col-lg-3 col-md-3 col-sm-4 "style="display:none"<%if(flag==0 ){%> style="display:none"<%}%> >
+                    <div class="col-lg-4 col-md-4 col-sm-6" id="pactive" <%if(flag==0 ){%> style="display:none"<%}%> >
             <label>Status:</label><br>
-            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checked="true"> Active
-             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="pstatus"  value= 0  id = "pstatus2" required  style="margin-top:3%;"> Inactive
+            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checkded="true"> Active
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="pstatus"  value= 0  id = "pstatus2" required  style="margin-top:3%;"> Inactive
 
           </div>
-         </div> 
+        </div>
 
-      </div>
-
-
- <table class="table form-table">
+        <!--       <table class="table form-table">
           <tr>
             <td>
               <td><label  style="padding:2%;color: #524A4A;font-size: 11px"> Project Name: <sup>*</sup> </label></td>
-              <td><input type="text"   placeholder=" -- Enter Project Name -- " class="form-text-box"  style="width:89%"  name="pname" id ="idpname" maxlength="50" onblur=" myFunction1(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>' <%}%>>
+              <td><input type="text"   placeholder=" Enter Project Name  " class="form-control"  style=""  name="pname" id ="idpname" maxlength="50" onblur=" myFunction1(); " <%if(flag==1){%>value='<%=name[0].projectTitle%>' <%}%>>
                 <div class="fLeft"><span class="error" id="errorIdpname"></span></div>
               </td>
             </td>
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px" >Project Code:</label></td>
-              <td> <input type="text" style="width:89%" class="form-text-box" placeholder="Project Code" name="pcode" id ="pcode" onkeypress="return specialchar(event)" <%if(flag==1){%>value='<%=name[0].pcode%>' <%}%> readonly>
+              <td> <input type="text" style="" class="form-control" placeholder="Project Code" name="pcode" id ="pcode" onkeypress="return specialCharacter(event)" <%if(flag==1){%>value='<%=name[0].pcode%>' <%}%> readonly>
                 <div class="fLeft"><span class="error" id="errorPcode"></span></div>
               </td>
             </td>
@@ -3405,13 +3575,9 @@ function showinactiveproject(){
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Client: <sup>*</sup></label></td>
               <td>
-              <input type="hidden" class="form-text-box" style=""  name="pclient" id ="pclient" > 
-              <input type="text" class="form-text-box" style=""  name="pclientte" id ="pclienttet" >
-              <!--option value='0' disabled selected>Select</option>
-                  <% for(var i=0;i<client.length;i++) {%>
-                <option value="<%=client[i].id%>"><%=client[i].clientName%></option>
-                 <%}%>
-              </select-->
+              <input type="hidden" class="form-control" style=""  name="pclient" id ="pclient" > 
+              <input type="text" class="form-control" style=""  name="pclientte" id ="pclienttet" >
+              
               <div class="fLeft"><span class="error" id="errorPclient"></span></div>
               </td>
             </td>
@@ -3420,7 +3586,7 @@ function showinactiveproject(){
               <td class=""><label style="padding:2%;color: #524A4A;font-size: 11px">Client Contact Person:</label></td>
               <td class="">
               <div id="contactDiv">
-               <select multiple="multiple" class="form-text-box" style=""  name="ccontact" id ="ccontact" data-placeholder="Choose Client Contect Person"> 
+               <select multiple="multiple" class="form-control" style=""  name="ccontact" id ="ccontact" data-placeholder="Choose Client Contect Person"> 
               </select> 
               <div class="fLeft"><span class="error" id="errorCcontact"></span></div>
               </div>
@@ -3433,7 +3599,7 @@ function showinactiveproject(){
           <td>
               <td style="width:110px"><label style="padding:2%;color: #524A4A;font-size: 11px">Technology: <sup>*</sup></label></td>
               <td id="idptechtd">
-              <select multiple="multiple" class="form-text-box" style="height:10px;width:88%" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Project Technology..."> 
+              <select multiple="multiple" class="form-control" style="" name="ptech" id ="ptech" maxlength="50" data-placeholder="Choose Project Technology..."> 
               <option  value='0' disabled selected>Select</option>
                 <% for(var i=0;i<tech.length;i++) {%>
                 <option value="<%=tech[i].id%>"><%=tech[i].description1%></option>
@@ -3446,7 +3612,7 @@ function showinactiveproject(){
 
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Planned Start Date: <sup>*</sup></label></td>
-              <td> <input type="text" maxlength="20" placeholder="Select Date"  style="width:89%"   class= "form-text-box" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>>
+              <td> <input type="text" maxlength="20" placeholder="Select Date"  style=""   class= "form-control" id="datepicker" name="psdate" <%if(flag==1){%>value='<%=name[0].plannedStartDate%>'<%}%>>
                 <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>
               </td>
             </td>
@@ -3454,14 +3620,14 @@ function showinactiveproject(){
           <tr>
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Planned End Date: <sup>*</sup></label></td>
-              <td><input type="text" style="width:89%"  maxlength="20" placeholder="Select Date" name="pedate"  class="form-text-box" id ="datepicker1" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> >
+              <td><input type="text" style=""  maxlength="20" placeholder="Select Date" name="pedate"  class="form-control" id ="datepicker1" <%if(flag==1){%>value='<%=name[0].plannedEndDate%>'  <%}%> >
                 <div class="fLeft"><span class="error" id="errorDatepicker1"></span></div>
               </td>
             </td>
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px">Complexity: </label></td>
               <td>
-              <select style="" class="form-text-box" id ="pcomplexity" name="pcomplexity" data-placeholder="choose Complexity" >
+              <select style="" class="form-control" id ="pcomplexity" name="pcomplexity" data-placeholder="choose Complexity" >
                 <option  value='0' disabled selected>Select</option>
                 <option  value='simple'<%if(flag==1&&name[0].pcomplexity=='simple'){%>selected<%}%> > simple </option>
                 <option  value='medium'<%if(flag==1&&name[0].pcomplexity=='medium'){%>selected<%}%> > medium </option>
@@ -3476,7 +3642,7 @@ function showinactiveproject(){
 
           <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px"> Location:</label></td>
-              <td><select class="form-text-box" id ="plocation" name="plocation" data-placeholder="Choose location" >
+              <td><select class="form-control" id ="plocation" name="plocation" data-placeholder="Choose location" >
                 <option value='0' disabled selected >Select</option>
                   <% for(var i=0;i<location.length;i++) {%>
                 <option value="<%=location[i].id%>"<%if(flag==1&&name[0].locid==location[i].id){%>selected<%}%> ><%=location[i].location%></option>
@@ -3488,7 +3654,7 @@ function showinactiveproject(){
 
           <td>
             <td><label style="padding:2%;color: #524A4A;font-size: 11px" >Description:</label></td>
-            <td>  <textarea placeholder="Enter Project Description" id="DescriptionID" style="margin-top:-1%;max-height: 60px;width:89%;height:60px;resize:none" class="form-text-box" row=2 name="pdescription" maxlength="250" onkeypress="" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
+            <td>  <textarea placeholder="Enter Project Description" id="DescriptionID" style="" class="form-control" row=2 name="pdescription" maxlength="250" onkeypress="" <%if(flag==1){%>value="<%=name[0].description%><%}%>"><%if(flag==1){%><%=name[0].description%><%}%></textarea> 
              <div class="fLeft"><span class="error" id="errorDescriptionID"></span></div> 
           </td>
           </td>
@@ -3497,7 +3663,7 @@ function showinactiveproject(){
           <td>
             <td  <%if(flag==0 ){%> class="hide"<%}%> ><label style="padding:2%;color: #524A4A;font-size: 11px">Status</label></td>
             <td  <%if(flag==0 ){%> class="hide"<%}%> >
-            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checkded="true"> Active
+            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checked="true"> Active
               <input type="radio" name="pstatus"  value= 0  id = "pstatus2" required  style="margin-top:3%;"> Inactive
             </td>
           </td>
@@ -3507,7 +3673,7 @@ function showinactiveproject(){
             <td></td>
           </td></td>
         </tr>
-        </table>
+        </table> -->
 <div class="text-center"><span class="success" id="successProjectAddEdit"></span><span class="error" id="errorProjectAddEdit"></span></div>
 <script>
   $("#pclient").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].cname%>",<%}}%>]).prop("selected", false);
@@ -3515,75 +3681,82 @@ function showinactiveproject(){
 </script> 
           <center  style="margin-bottom:1% "> 
        
-          <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+          
          
          
           <input type="submit"  id="createProject" value="Submit"  onclick="validBasicInfo1()" name="submit" class="btn btn-primary " style="background-color: #f05f40;">
 
           <input type="button"  value="Next"  onclick="validDocInfo(2)" class="btn btn-primary" style="background-color: #f05f40;">
-        
+        <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
            
           </center>
          
       </section>
       <section id="content2">
-       <div class="col-md-12">  
-        <div class="row fusion-form-elements" style="margin-left:411px">
-          <div > <button class="btn btn-primary" id="selectAll">Select All</button>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button class="btn btn-primary"  id="selectNone">Select None</button></div>
+        <div class="row">
+          <div class="hide" id="select1"><button class="btn btn-primary" id="selectAll">Select All</button></div>
+          <div class="hide" id="select2"><button class="btn btn-primary"  id="selectNone">Select None</button></div>
         </div>
-        <br>
-      <div class="row fusion-form-elements">
-          <div class="col-lg-3 col-md-3 col-sm-4">
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Actual Start Date :</label>
             <input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-control input-sm" id="datepicker2" style="" name="asdate" <%if(flag==1){if(name[0].actualStartDate !='00/00/00'){%>value='<%=name[0].actualStartDate%>' <%} else{%> value='' <%}}%> >
           </div>  
-          <div class="col-lg-3 col-md-3 col-sm-4">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Actual End Date:</label>
             <input type="text"  maxlength="20" placeholder="  Select Actual End Date" class= "form-control input-sm" id="datepicker3" style="" name="aedate"  <%if(flag==1){if(name[0].actualEndDate !='00/00/00'){%>value='<%=name[0].actualEndDate%>' <%} else{%> value='' <%}}%> >
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4">
-            <label>Comercial Head :</label>
-            <select class="form-control input-sm " id="pcommercialhead" name="pcommercialhead" >
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Commercial Head :</label>
+            <select class="form-control input-sm chosen-select1" id="pcommercialhead" name="pcommercialhead" >
                 <option   value='0' disabled selected>Select</option>
                 <% for(var i=0;i<teamlead.length;i++) {%>
                 <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].commercialHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
                   <%}%> 
               </select>
           </div>
-        
-          <div class="col-lg-3 col-md-3 col-sm-4">
+        </div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Account Lead :</label>
-            <select class="form-control input-sm " id="paccounthead" name="paccounthead" >
+            <select class="form-control input-sm chosen-select1" id="paccounthead" name="paccounthead" >
                 <option value='0' selected disabled >Select</option>
                 <% for(var i=0;i<teamlead.length;i++) {%>
                 <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].accountHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
                 <%}%> </select>
                 <div class="fLeft"><span class="error" id="errorPaccounthead"></span></div>
           </div>
-        </div>
-        <div class="row fusion-form-elements">
-          <div class="col-lg-3 col-md-3 col-sm-4">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Manager :</label>
-            <select class="form-control input-sm " id ="pmanager" name="pmanager" >
+            <select class="form-control input-sm chosen-select1" id ="pmanager" name="pmanager" >
                 <option value='0' selected disabled>Select</option>
                 <% for(var i=0;i<manager.length;i++) {%>
                 <option value="<%=manager[i].id%>"<%if(flag==1&&name[0].manager==manager[i].id){%>selected<%}%> ><%=manager[i].name%></option>
                <%}%>
               </select>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4">
+          <div class="col-lg-4 col-md-4 col-sm-6">
             <label>Is Plan Required:</label>
             <select class="form-control input-sm" id ="planReq" name="planReq" >
-                <option value="1" selected>Yes</option>
-                <option value="0">No</option>
+                <option value="1" >Yes</option>
+                <option selected="selected"  value="0" >No</option>
               </select>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-4" id="resr">
+        </div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Assign to All:</label>
+            <select style="" id="assign" class="form-control input-sm" name="assign" onclick="AssigntoAll()">
+                
+                  <option disabled=""  value="2" >Select</option>
+                  <option value="1" >Yes</option>
+                  <option value="0" selected  >No</option>
+                </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6" id="resr">
             <label>Resources:<sup  class="astrick">*</sup></label>
             <div id="presourceDiv">
-            <select multiple="multiple" class="form-control input-sm " name="presource" id ="presource" maxlength="50">
+            <select multiple="multiple" class="form-control input-sm chosen-select1" name="presource" id ="presource" maxlength="50">
                 <% for(var i=0;i<resource.length;i++) {%>
                 <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
                 <%}%>
@@ -3601,11 +3774,8 @@ function showinactiveproject(){
               <div class="fLeft"><span class="error" id="errorPresource"></span></div>
           </div>
         </div>
-       </div>
-    
 
-        
-        <table class="table">
+     <!--   <table class="table">
         <tr>
           <td><td></td><td></td></td>
           <td><td><button class="btn btn-primary" id="selectAll">Select All</button></td><td><button class="btn btn-primary"  id="selectNone">Select None</button></td>
@@ -3614,18 +3784,18 @@ function showinactiveproject(){
           <tr>
             <td>
               <td ><label   style="padding:2%;color: #524A4A;font-size: 11px">Actual Start Date :</label></td>
-              <td><input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-text-box" id="datepicker2" style="margin-top:2%;background-color:white; background-color: rgb(255, 255, 255);width:100%" name="asdate" <%if(flag==1){if(name[0].actualStartDate !='00/00/00'){%>value='<%=name[0].actualStartDate%>' <%} else{%> value='' <%}}%> >
+              <td><input type="text"  maxlength="20" placeholder="Select Actual Start Date"  class= "form-control" id="datepicker2" style="margin-top:2%;background-color:white; background-color: rgb(255, 255, 255);width:100%" name="asdate" <%if(flag==1){if(name[0].actualStartDate !='00/00/00'){%>value='<%=name[0].actualStartDate%>' <%} else{%> value='' <%}}%> >
              </td>
             </td>
             <td>
               <td ><label  style="padding:2%;color: #524A4A;font-size: 11px">Actual End Date :</label></td>
-              <td> <input type="text"  maxlength="20" placeholder=" -- Select Actual End Date" class= "form-text-box" id="datepicker3" style="background-color:white;margin-top:2%; background-color: rgb(255, 255, 255);width:100%" name="aedate"  <%if(flag==1){if(name[0].actualEndDate !='00/00/00'){%>value='<%=name[0].actualEndDate%>' <%} else{%> value='' <%}}%> ></td>
+              <td> <input type="text"  maxlength="20" placeholder=" -- Select Actual End Date" class= "form-control" id="datepicker3" style="background-color:white;margin-top:2%; background-color: rgb(255, 255, 255);width:100%" name="aedate"  <%if(flag==1){if(name[0].actualEndDate !='00/00/00'){%>value='<%=name[0].actualEndDate%>' <%} else{%> value='' <%}}%> ></td>
             </td>
             </tr>
           <tr>
             <td>
               <td ><label style="padding:2%;color: #524A4A;font-size: 11px">Comercial Head</label></td>
-              <td><select style="width: 100%" class="form-text-box" id="pcommercialhead" name="pcommercialhead" data-placeholder="Choose Commercial Head" >
+              <td><select style="width: 100%" class="form-control" id="pcommercialhead" name="pcommercialhead" data-placeholder="Choose Commercial Head" >
                 <option   value='0' disabled selected>Select</option>
                 <% for(var i=0;i<teamlead.length;i++) {%>
                 <option value="<%=teamlead[i].id%>"<%if(flag==1&&name[0].commercialHead==teamlead[i].id){%>selected<%}%> ><%=teamlead[i].name%></option>
@@ -3635,8 +3805,7 @@ function showinactiveproject(){
             </td>
             <td>
 
-              <!-- <button class="btn btn-primary" id="selectAll" style="margin-bottom:4px">Select All</button>
-              <button class="btn btn-primary"  id="selectNone">Select None</button> -->
+             
 
               <td ><label style="padding:2%;color: #524A4A;font-size: 11px">Resources: <sup class="astrick">*</sup></label></td>
               <td > <div id="presourceDiv"><select multiple="multiple" class="form-text-box" style="margin-top:0%;width:100%;"  name="presource" id ="presource" maxlength="50" data-placeholder="Choose Resource...">
@@ -3649,7 +3818,7 @@ function showinactiveproject(){
               <%}}%>
 
               <script type="text/javascript">
-  // $("#presource").val([<%if(flag==1){for(var i=0;i<name.length;i++){%>"<%=name[i].userId%>",<%}}%>]).prop("selected", false);
+ 
    $("#ccontact").val([<%if(flag==1){for(var i=0;i<name.length;i++){ %>"<%=name[i].ccmid%>",<%}}%>]).prop("selected",false);
 </script>  </div>
             <div class="fLeft"><span class="error" id="errorPresource"></span></div>
@@ -3699,23 +3868,61 @@ function showinactiveproject(){
             <td></td><td></td><td></td><td></td> 
               <td></td><td></td><td></td><td></td> 
           </tr>
-        </table> 
+        </table> -->
        
           <center style="margin-bottom: 1%">
          
-          <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+          
           
           <input type="submit"  id="createProject1" value="Submit"  onclick="validBugInfo1()" name="submit" class="btn btn-primary " style="background-color: #f05f40;">
-
-
           <input type="button"  value="Next"  onclick="validDocInfo(5)" class="btn btn-primary" style="background-color: #f05f40;">
-
+          <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
 
           </center>
         
       </section>
       <section id="content5">
-        <table class="table form-table" >
+      <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+             <label>Billable:</label> <br>
+            <div>
+            <input type="radio"   name="isBillable"  value= 1  id = "isBillable1" required  style="margin-top:3%;"> Yes
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="isBillable"  value= 0  id = "isBillable2" required  style="margin-top:3%;" > No
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+             <label>Project Type:</label>
+            <select style="" id="ptype1" class="form-control input-sm" name="ptype">
+                  <option disabled selected value=0>Select</option>
+              <% for(var i=0;i<allPtype.length;i++) {%>
+              <option value="<%=allPtype[i].id%>"><%=allPtype[i].description1%></option>
+              <%}%>
+            </select>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Tax Code:</label>
+            <input type="text" placeholder="Enter Tax Code"  class= "form-control input-sm" id="taxCode" style="" name="taxCode"  maxlength="20"  <%if(flag==1){%>value='<%=name[0].taxCode%>' <%}%>>
+          </div>
+      </div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>PO Number:</label>
+            <input type="number" class="form-control input-sm" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "10" min = "1" max = "99999" placeholder="  Enter PO Number " id="poNumber" style="" name="poNumber" <%if(flag==1){%>value='<%=name[0].poNumber%>'<%}%> >
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Project Category:</label>
+            <select style="" id="pcat" class="form-control input-sm" name="pcat">
+                  <option selected disabled value=0>Select</option>
+              <% for(var i=0;i<allPcat.length;i++) {%>
+              <option value="<%=allPcat[i].id%>"><%=allPcat[i].description1%></option>
+              <%}%>
+                </select>
+          </div>
+        </div>
+        
+
+
+       <!-- <table class="table form-table" >
           <tr>
             <td>
               <td><label style="padding:2%;color: #524A4A;font-size: 11px;width:107px">Billable:</label></td>
@@ -3766,15 +3973,11 @@ function showinactiveproject(){
            <td></td><td></td><td></td><td></td>
               
           </tr>
-        </table>
+        </table>-->
 
-            <center style="padding-bottom: 1%">
-           
-          <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
-         
-         
-          <input type="submit"  id="createProject2" value="Submit"  onclick="validFinanceInfo1()" name="submit" class="btn btn-primary projbuton" style="background-color: #f05f40;">
-         
+            <center style="padding-bottom: 1%">  
+            <input type="submit"  id="createProject2" value="Submit"  onclick="validFinanceInfo1()" name="submit" class="btn btn-primary projbuton" style="background-color: #f05f40;">
+             <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">       
              </center>
 
       
@@ -3792,11 +3995,110 @@ function showinactiveproject(){
 
   <span class="modal-title" style="padding-left:45%">WBS Details</span>
   <div class="row" style="padding-left:0px;padding-right:0px;padding-top: 1%">
- <!-- <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm"> -->
+
   <input type="text" name="wbshidden" class="hide" id="wbshidden" value='' />
-          <input type="text" name="flaghide" class="hide" id="flaghide" <%if(flag==1 ){ console.log( 'Nae is ', name)%>value='  <%=flag%>' <%} else{%> value=0 <%}%> />
-          <input type="text" name="wbsidhide" class="hide" id="idhide" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSId%>' <%} else{%> value=0 <%}%> />
-    <table class="table"  style="width: 100%;margin-bottom: 0px" >
+  <input type="text" name="flaghide" class="hide" id="flaghide" <%if(flag==1 ){ console.log( 'Nae is ', name)%>value='  <%=flag%>' <%} else{%> value=0 <%}%> />
+    <input type="text" name="wbsidhide" class="hide" id="idhide" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSId%>' <%} else{%> value=0 <%}%> />
+
+     <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Project Name:<sup  class="astrick">*</sup></label>
+            <input type="hidden" class="form-control input-sm" style="" name="proname" id="proname" maxlength="50" value='' disabled="true">
+            <input type="text" class="form-control input-sm " style="" name="pronameid" id="pronameid" maxlength="50" value='' disabled="true">
+              <div class="fLeft"><span class="error" id="errorProname"></span></div> 
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>WBS Name:<sup  class="astrick">*</sup></label>
+            <input onblur="return allWbs();" onkeypress="return specialCharacter(event)" type="text" placeholder="Enter a WBS Name" class="  form-control input-sm" style="" name="wbsname" id="wbsname" maxlength="50" onblur="myFunction(); checkprofield();" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSName%>' <%}%> >
+            <div class="fLeft"><span class="error" id="errorWbsname"></span></div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>WBS Code:</label>
+            <input type="text" placeholder="WBS Code" class="form-control input-sm" style="" name="wbscode" id="wbscode" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSCode%>' <%}%> readonly>
+          </div>
+     </div> 
+     <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>WBS Owner:</label>
+            <select style="" class="form-control input-sm" id="wbsowner" name="wbsowner">
+                 <option disabled selected value=0>Select</option>
+                <% for(var i=0;i<resource.length;i++) {%>
+                <option value="<%=resource[i].id%>"><%=resource[i].name%></option>
+                <%}%>
+            </select>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Planned Start Date:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20" placeholder="Select Date" class="form-control input-sm"  id="datepickerw" style="background-color: rgb(255, 255, 255);" name="wbspsdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'){%>value='<%=name[0][0].wplannedStartDate%>' <%}%> > 
+             <div class="fLeft"><span class="error" id="errorWbspsdate"></span></div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Planned End Date:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20" placeholder="Select Date" name="wbspedate"  class="form-control input-sm" id="datepickerw1" style="background-color: rgb(255, 255, 255);" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value='<%=name[0][0].wplannedEndDate%>' <%}%> >
+            <div class="fLeft"><span class="error" id="errorWbspedate"></span></div>
+          </div>
+    </div>   
+    <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Actual Start Date:</label>
+            <input type="text" maxlength="20" class="form-control input-sm" id="datepickerw2" placeholder="Select Date"  style="background-color: rgb(255, 255, 255);" name="wbsasdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualStartDate){ if(name[0][0].wactualStartDate != '00/00/00'){%>value='<%=name[0][0].wactualStartDate%>' <%} else{%> value='' <%}}%>   > 
+            <div class="fLeft"><span class="error" id="errorDatepicker2"></span></div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Actual End Date:</label>
+            <input type="text" maxlength="20" placeholder="Select Date" class="form-control input-sm" id="datepickerw3"  style="background-color: rgb(255, 255, 255);" name="wbsaedate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualEndDate){ if(name[0][0].wactualEndDate != '00/00/00'){%>value='<%=name[0][0].wactualEndDate%>' <%} else{%> value='' <%}}%>  >
+            <div class="fLeft"><span class="error" id="errordatepicker3"></span></div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Estimate Effort:</label>
+            <input type="number" style="" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" placeholder="Effort" class="form-control input-sm"   name="wbseffort" id="wbseffort" maxlength="5" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].estimateEffort%>' <%}%> >
+
+            <select style="" id="wbseffort1" class="form-control input-sm" name="wbseffort1">
+                            <option disabled selected   value=0>Select</option>
+                            <option value=1>Man-Hours</option>
+                            <option value=2>Man-Days</option>
+                            <option value=3>Man-Weeks</option>
+                            <option value=4>Man-Months</option>
+            </select>
+            <div class="fLeft"><span class="error" id="errorWbseffort1"></span></div>
+          </div>
+    </div> 
+    <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>WBS Location:</label>
+            <select   class="form-control input-sm" id="wbslocation" name="wbslocation">
+                   <option disabled selected value=0>Select</option> 
+
+                   <% for(var i=0;i<location.length;i++) {%> <option value="<%=location[i].id%>" <%if(flag==1&&location[i].id==name[0][0].WBSLocation) {%>selected<%}%>><%=location[i].location%></option> <%}%> 
+
+            </select>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Assign to All:</label>
+            <select style="" id="assign" class="form-control input-sm" name="assign">
+                  <option  disabled selected  value=2>Select</option>
+                  <option value=1>Yes</option>
+                  <option value=0  selected="true">No</option>
+            </select>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Type :</label>
+            <select style="" id="typeValue" class="form-control input-sm" name="typeValue">
+                <option disabled selected   value=0>Select</option>
+                <option value=1>Time only</option>
+                <option value=2>Time & Expense</option>
+              </select>
+          </div>
+    </div>
+    <div class="row fusion-form-elements">
+                    <div class="col-lg-4 col-md-4 col-sm-6" id="wbsstatus"<%if(flag==0 ){%> style="display:none"<%}%> >
+            <label>Status:</label>
+              <input type="radio" class="" name="wbsstatus" value=1 id="wbsstatus1" style="margin-top:10px;"> Active 
+              <input type="radio" class="" name="wbsstatus" value=0 id="wbsstatus2" style="margin-top:10px;"> Inactive
+          </div>
+    </div>  
+      
+    <!--<table class="table"  style="width: 100%;margin-bottom: 0px" >
       <tr>
         <td>
           <td>
@@ -3954,14 +4256,15 @@ function showinactiveproject(){
         
          
       </tr>
-    </table>
+    </table> -->
     <div class="text-center"><span class="success" id="successWbsDetails"></span></div>
      <div class="row " style="padding-bottom:20px;">
         <center> 
            
-                <input type="button" name="cancel" onclick="closewbsform()" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+                
 
             <input id="wbsbuton" type="submit" value="Submit" onclick="return checkfield();" name="submit" class="btn btn-primary document.getElementById("wbsbuton1").disabled = true;">
+            <input type="button" name="cancel" onclick="closewbsform()" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
         </center>
     </div>  
    
@@ -3984,6 +4287,7 @@ function showinactiveproject(){
 
 <!--endWBS-->
 <!--client add-->
+
  <div id="addclient" class="col-md-8 hide" style="float:right;margin-top: -655px; overflow: auto;height:654px ">
        
                     <span class="modal-title" style="padding-left:45%">Client Details</span>
@@ -3991,7 +4295,71 @@ function showinactiveproject(){
                  
                 <input type="text" class="hide" id='hiddenid' name="hiddenid" value="0" > 
                     <input type="text" class="hide" id='hiddeneditflag' name="hiddeneditflag">
- <table class="table" style="margin-top: 1%">
+
+    <div class="row fusion-form-elements">
+      <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Client Name:<sup  class="astrick">*</sup></label>
+          <input type="text" maxlength="40"  onkeypress="return specialCharacter(event)" 
+            class="form-control input-sm" id="cname" name="cname" placeholder="Name" />
+            <div class="fLeft"><span class="error" id="errorCname"></span></div>
+      </div>      
+      <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Client Abbreviate Name:<sup  class="astrick">*</sup></label>
+            <input type="text"   onkeypress="return specialCharacter(event)"  maxlength="45" class="form-control input-sm" id="cabbname" name="cabbname" placeholder="Abbrivated Name"/>
+            <div class="fLeft"><span class="error" id="errorCabbname"></span></div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Category</label>
+        <select  class="form-control input-sm" name="category" id="category" maxlength="50" onchange="" ;>
+          <option value="Silver">Silver</option>
+          <option value="Gold">Gold</option>
+           <option value="Diamond">Diamond</option>
+            </select>
+            <div class="fLeft"><span class="error" id="errorCategory"></span></div>
+      </div>
+    </div> 
+    <div class="row fusion-form-elements">
+      <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Account Lead:</label>
+            <span id="errmsg" style="color:red"></span>
+        <select name="cal" id="cal" class="form-control input-sm chosen-select"  >
+        <option value="0">Select</option>
+            <%for(var i=0;i<resource.length;i++){%>
+              <option value="<%=resource[i].id%>" ><%=resource[i].name%>
+              </option>
+            <%}%>
+        </select>
+          <div class="fLeft"><span class="error" id="errorCal"></span></div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Client Code:</label>
+          <input type="text"   maxlength="45" class="form-control input-sm" id="ccode" name="ccode" placeholder="auto generated" readonly/>
+          <div class="fLeft"><span class="error" id="errorCcode"></span></div>
+      </div>      
+      <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Location:</label>
+        <select name="clocation" class="form-control input-sm chosen-select" id="clocation"  >
+          <option value="0">--Select--</option>
+          <%for(var i=0;i<location.length;i++){%>
+          <option value="<%=location[i].id%>" ><%=location[i].location%>
+          </option>
+           <%}%>
+        </select>
+            <div class="fLeft"><span class="error" id="errorLocation"></span></div>
+      </div>
+    </div>
+    <div class="row fusion-form-elements">
+      <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Address:</label>
+           <textarea type="" placeholder="Client Address"   maxlength="300" height="103" class="form-control input-sm" id="caddress" name="caddress"> 
+           </textarea>
+                <div class="fLeft"><span class="error" id="errorAddress"></span>
+                </div>
+      </div> 
+    </div>       
+    
+              
+ <!-- <table class="table" style="margin-top: 1%">
         
     <tr>
         <td>
@@ -4067,14 +4435,15 @@ function showinactiveproject(){
        
     </tr>   
     
-</table>          
+</table>      -->    
  <div class="text-center"><span class="error" id="errorCreateClient"></span><span class="success" id="successCreateClient"></span></div>
-                                <center style="padding-bottom: 0%;margin-top: -26px" >
+                                <center style="padding-bottom: 0%;" >
                                    
-                                  <input type="button" name="cancel" value="Cancel" onclick="closelientform();" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+                                  
                                  
                                   <button id="addclientbutton" class="btn btn-primary " onclick="addclient()"  style="background-color: #f05f40;">Submit</button> 
                                  <span id="createclientcontect"></span>
+                                 <input type="button" name="cancel" value="Cancel" onclick="closelientform();" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
                                 </center>
              
      
@@ -4111,9 +4480,60 @@ function showinactiveproject(){
                           <input type="hidden" name="assignmentId" id="assignmentId" value="0">
                             <input type="hidden" name="ascode" id="ascodeid" value=''> 
                             
-   <span class="modal-title" style="padding-left: 44%;padding-bottom: 1%"> Assingment Details</span>  
+   <span class="modal-title" style="padding-left: 44%;padding-bottom: 1%"> Assignment Details</span>  
     <input type="hidden" value=""id='pcount'name='pcount'> 
-    <table class="table">
+    <div class="row fusion-form-elements">
+      <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>Project Name:<sup  class="astrick">*</sup></label>
+          <input type="hidden" class="form-control input-sm" value="" id='procode'name='pclient' disabled="disable"> 
+          <input type="text" class="form-control input-sm" value="" id='aprocode'name='apclient' disabled="disable">
+        <div class="fLeft"><span class="error" id="errorProcode"></span></div>
+      </div>      
+      <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>WBS Name:<sup  class="astrick">*</sup></label>
+            <div id="wbsDiv"> 
+             <input type="hidden" class="form-control input-sm" value=""id='wbs2'name='wbs2' disabled="disable">
+            <input type="text" class="form-control input-sm" value=""id='awbs2'name='awbs2' disabled="disable"> 
+            </div>
+          <div class="fLeft"><span class="error" id="errorWbs2"></span></div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>User:<sup  class="astrick">*</sup></label>
+         <div id="asdDiv"> 
+           <select class="form-control input-sm chosen-select" name="asd" id="asd" multiple="multiple" style="" data-placeholder="choose users"> 
+            </select>
+         </div>
+        <input type="text" id="auser" class="form-control hide" disabled="disable">
+        <div class="fLeft"><span class="error" id="errorAsd"></span></div>
+      </div> 
+    </div> 
+    
+    <div class="row fusion-form-elements">     
+      <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Start Date:<sup  class="astrick">*</sup></label>
+             <input type="text"  name="Edate" class="form-control input-sm datepicker" placeholder="choose a date"  id="asdatepicker" style=" cursor: pointer; " onClick="" readonly="true" >
+          <div class="fLeft"><span class="error" id="errorDatepicker"></span></div>   
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6">
+          <label>End Date:<sup  class="astrick">*</sup></label>
+         <input type="text"  name="Edate" class="form-control input-sm datepicker" placeholder="choose a date" id="asdatepicker1" style=" cursor: pointer;  " 
+           onClick="" readonly="true" >
+          <div class="fLeft"><span class="error" id="errorDatepicker1"></span></div> 
+      </div> 
+            <div class="col-lg-4 col-md-4 col-sm-6 assignmentstatus" <%if(flag==0 ){%> style="display:none"<%}%>>
+        <label>Status:<sup class="astrick">*</sup></label>
+          <div class="radio assignmentstatus" id="rad">
+            <input type="hidden" id="act" >
+             <label style="margin-right:9px"><input type="radio" style="margin-top:0px"   name="status" id="active" value='1' checked >Active</label>
+            <label><input type="radio" style="margin-top:0px" name="status" id="inactive" value='0' >InActive</label> 
+          </div>
+      </div>
+    </div> 
+      
+     
+      
+      
+   <!-- <table class="table">
   <tr>
     <td>
       <td><label class="form-label" style="margin-top: 2%;">Project Name:<sup class="astrick">*</sup></label></td>
@@ -4182,11 +4602,12 @@ function showinactiveproject(){
     </td>
    <td></td>
   </tr> 
-</table>
+</table>-->
  <div class="text-center"><span class="success" id="successCreateAssignment"></span><span class="error" id="errorCreateAssignment"></span></div>
        <center style="margin-bottom:1%"> 
-          <input type="button" onclick="cencelassign()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+          
           <input type="button" value="Submit" onclick="submitdata();" id="assignbutton" name="submit" class="btn btn-primary" style="background-color: #f05f40;">
+          <input type="button" onclick="cancelassign()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
  
         </center>
         
@@ -4251,8 +4672,9 @@ function showinactiveproject(){
 </div>        
 <div class="col-sm-12 height11"></div>
 <div class="modal-footer center">
-        <button type="button" class="btn" data-dismiss="modal" id="createCancelBtn" onclick="resetError();" tabindex="6">Close</button>
+        
         <button type="button" class="btn " id="createSaveBtn" onclick="createEditContact()" tabindex="5">Save</button>
+        <button type="button" class="btn" data-dismiss="modal" id="createCancelBtn" onclick="resetError();" tabindex="6">Close</button>
         <div class="col-sm-12 height11"></div>
 </div>
 
