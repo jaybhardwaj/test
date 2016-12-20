@@ -769,7 +769,7 @@ function checkedit(){
                    wstartdate[i]=data[2][i].wplannedStartDate;  
                    wendDate[i]=data[2][i].wplannedEndDate;
                       window.setTimeout(function(){ 
-                      $('#project'+data[2][i].projectId+'').append('<li class=""><a class="c'+data[2][i].cname+' p'+data[2][i].projectId+'" id="'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].WBSID+',3,'+data[2][i].pact+',this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].WBSName+'</a><div class="hide anvi pd'+data[2][i].projectId+' c'+data[2][i].cname+'" id="divw'+data[2][i].WBSID+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[2][i].WBSID+'" value="1"><span onclick="Editwbsdetail('+data[2][i].WBSID+')" class="glyphicon glyphicon-edit" title="Edit Wbs" style="color:red;font-size: 15px"></span><span id="addass'+data[2][i].id+'" onclick="addassignmentinwbs('+data[2][i].WBSID+','+i+','+data[2][i].projectId+','+data[2][i].WBSID+')" class="glyphicon glyphicon-plus-sign" title="Add Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeWbs'+data[2][i].WBSID+'"onclick="activeInactive('+data[2][i].WBSID+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[2][i].WBSID+'" onclick="activeInactive('+data[2][i].WBSID+',0,3,this)" class="glyphicon  glyphicon-remove-sign hide" title="Activate WBS" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="wbs'+data[2][i].WBSID+'"></ul></li>');
+                      $('#project'+data[2][i].projectId+'').append('<li class=""><a class="c'+data[2][i].cname+' p'+data[2][i].projectId+'" id="wbs_Anchor'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].WBSID+',3,'+data[2][i].pact+',this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].WBSName+'</a><div class="hide anvi pd'+data[2][i].projectId+' c'+data[2][i].cname+'" id="divw'+data[2][i].WBSID+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[2][i].WBSID+'" value="1"><span onclick="Editwbsdetail('+data[2][i].WBSID+')" class="glyphicon glyphicon-edit" title="Edit Wbs" style="color:red;font-size: 15px"></span><span id="addass'+data[2][i].id+'" onclick="addassignmentinwbs('+data[2][i].WBSID+','+i+','+data[2][i].projectId+','+data[2][i].WBSID+')" class="glyphicon glyphicon-plus-sign" title="Add Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeWbs'+data[2][i].WBSID+'"onclick="activeInactive('+data[2][i].WBSID+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[2][i].WBSID+'" onclick="activeInactive('+data[2][i].WBSID+',0,3,this)" class="glyphicon  glyphicon-remove-sign hide" title="Activate WBS" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="wbs'+data[2][i].WBSID+'"></ul></li>');
                       
                       if(data[2][i].isActive==0){
                         $("#".concat(data[2][i].WBSID)).css("color","red");
@@ -940,16 +940,21 @@ function allProjects() {
                 }
     }   
 
-    function closelientform(){
-       $('#addclient').addClass('hide'); 
+    function closelientform(clientanchorid){
+      // $('#addclient').addClass('hide'); 
+       $('#client_Anchor'+clientanchorid+'').click();
     }
 
-       function closewbsform(){
-       $('#addwbs').addClass('hide'); 
+       function closewbsform(wbsanchorid){
+       //$('#addwbs').addClass('hide'); 
+       //$('#wbsanchorid').click();
+       $('#wbs_Anchor'+wbsanchorid+'').click();
     }
 
-       function closeprojectform(){
-       $('#projectadd').addClass('hide'); 
+       function closeprojectform(projectanchorid){
+       //$('#projectadd').addClass('hide'); 
+     $('#project_Anchor'+projectanchorid+'').click();
+     
     }
 
        function closeassignmentform(){
@@ -1719,6 +1724,7 @@ document.getElementById("inactive").disabled = false;
                                      if(data[0][0].flag == 1){
 
                                       messageBox("Project Added Successfully ");
+                                      /*showproject(data[0][0].lid);*/
                                       currentprojname.push(pname);
                                        pstartdate.push($("#datepicker").val());
                                        pendDate.push($('#datepicker1').val());
@@ -3461,7 +3467,7 @@ function showinactiveproject(){
     <!--span title="Go To project List" onclick="document.location.href='/projectDetails';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;"  class="glyphicon glyphicon-arrow-left"></span>
       <span class="modal-title" style="margin-left:42%"><%if(flag==0){%>Add Project Details<%} else{%>Edit Project Details.<%}%></span--> </div>
       <main>
-        
+       
       <input type="hidden" id="tabDetail" name="tabDetail">
       <input type="hidden" id="pid" name="pid" <%if(flag==1){%>value='<%=name[0].id%>' <%} else{%> value=0 <%}%>>
       <input type="hidden" id="hdnId" name="hdnId" <%if(flag==1){ %>value='<%=flag%>' <%} else{%> value=0 <%}%>> 
@@ -3687,7 +3693,7 @@ function showinactiveproject(){
           <input type="submit"  id="createProject" value="Submit"  onclick="validBasicInfo1()" name="submit" class="btn btn-primary " style="background-color: #f05f40;">
 
           <input type="button"  value="Next"  onclick="validDocInfo(2)" class="btn btn-primary" style="background-color: #f05f40;">
-        <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+        <input type="button" onclick="closeprojectform($('#pid').val())" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
            
           </center>
          
@@ -3876,7 +3882,7 @@ function showinactiveproject(){
           
           <input type="submit"  id="createProject1" value="Submit"  onclick="validBugInfo1()" name="submit" class="btn btn-primary " style="background-color: #f05f40;">
           <input type="button"  value="Next"  onclick="validDocInfo(5)" class="btn btn-primary" style="background-color: #f05f40;">
-          <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+          <input type="button" onclick="closeprojectform($('#pid').val())" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
 
           </center>
         
@@ -3977,7 +3983,9 @@ function showinactiveproject(){
 
             <center style="padding-bottom: 1%">  
             <input type="submit"  id="createProject2" value="Submit"  onclick="validFinanceInfo1()" name="submit" class="btn btn-primary projbuton" style="background-color: #f05f40;">
-             <input type="button" onclick="closeprojectform()" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">       
+           
+             <input type="button" onclick="closeprojectform($('#pid').val())" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">      
+             
              </center>
 
       
@@ -4264,7 +4272,7 @@ function showinactiveproject(){
                 
 
             <input id="wbsbuton" type="submit" value="Submit" onclick="return checkfield();" name="submit" class="btn btn-primary document.getElementById("wbsbuton1").disabled = true;">
-            <input type="button" name="cancel" onclick="closewbsform()" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+            <input type="button" name="cancel" onclick="closewbsform($('#wbshidden').val())" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
         </center>
     </div>  
    
@@ -4443,7 +4451,7 @@ function showinactiveproject(){
                                  
                                   <button id="addclientbutton" class="btn btn-primary " onclick="addclient()"  style="background-color: #f05f40;">Submit</button> 
                                  <span id="createclientcontect"></span>
-                                 <input type="button" name="cancel" value="Cancel" onclick="closelientform();" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
+                                 <input type="button" name="cancel" value="Cancel" onclick="closelientform($('#hiddenid').val());" form="cancelform" class="btn btn-primary" style="background-color: #f05f40">
                                 </center>
              
      
