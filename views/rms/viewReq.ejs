@@ -29,27 +29,29 @@
             </style>
 
     <body>
-
-        <div class="secondry-color" style="width:100%;padding:3%;padding-top:4%;overflow-x:hidden ;overflow: hidden;"> 
-          
-          <div class="row" style="padding-top:1%">
-               <select class="form-text-box action hide" style="color:black;width:150px;float:left" id="selectAdminHr">
-             
-                <%for(var i = 0 ;i<adminhr.length;i++){%>
-                    <option value="<%=adminhr[i].id%>" id="adminhr_<%=adminhr[i].id%>">
-                        <%=adminhr[i].firstName%>
-                    </option>
-                    <%}%>
-                        <option value="-1" id = 'allid'>All</option>
-            </select>
-             <label id="" class="modal-title" style="padding-left:35%"> Requisitions </label>    
-         <input type="text" class="form-text-box" id="searchbox" style="float:right;width:120px" placeholder="search"> 
-              
-          </div>
+        <%include menu1.ejs%>
+        <div class="secondry-color"> 
+          <label class="fusion-page-title"> Requisitions </label>
         
-        <div class="row "   ">
-
-            <table id="openreqstate1" class="table cell-border" style="font-size:13px;width:100%;margin-top:1%">
+        <div class="row fusion-table-container">
+            <div class="row fusion-table-top-section" align="center">
+                <div>
+                   <select class="form-control input-sm action hide" style="width:150px" id="selectAdminHr">
+                 
+                    <%for(var i = 0 ;i<adminhr.length;i++){%>
+                        <option value="<%=adminhr[i].id%>" id="adminhr_<%=adminhr[i].id%>">
+                            <%=adminhr[i].firstName%>
+                        </option>
+                        <%}%>
+                            <option value="-1" id = 'allid'>All</option>
+                    </select>
+                </div>
+                <div class="fusion-table-search-container">
+                    <label>Search: </label><input type="search" class="form-control input-sm fusion-table-search" id="searchbox">
+                </div>
+              
+            </div>
+            <table id="openreqstate1" class="table cell-border responsive" style="font-size:13px;width:100%">
                 <thead>
                     <tr>
                         <th >Title</th>
@@ -64,14 +66,14 @@
                         <th class='hide'></th>
                     </tr>
                 </thead>
-                <tbody style="margin-top:7%;padding-top:7%" id="tbodyReq">
+                <tbody id="tbodyReq">
                 
                 </tbody>
             </table>
         </div> 
 </div>
 
-<%include menu1.ejs%>
+
 <% include ../partials/footer %> 
 
 
@@ -330,15 +332,11 @@
      display: none;
     }
 
-        thead th {
+       /* thead th {
             text-align: center;
             background-color: #7FCEE6;
             color: #4D4E50;
-        }
-        
-        td {
-            text-align: center;
-        }
+        }*/
 
           .detailLabelTitle {
             background-color: none;
