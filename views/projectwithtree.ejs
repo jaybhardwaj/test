@@ -1039,7 +1039,7 @@ function allProjects() {
                                       $("#ccode").val(users1[0][0].clientCode);
                                       $("#clocation").val(users1[0][0].location);
                                       $('#caddress').val(users1[0][0].address);
-                                     // $('#typeValue').val(users1[0][0].typeUnit);*/
+                                     
                                     console.log("showlist",users1[0]);
                                     setTimeout(function(){
                             $('#cal').trigger("chosen:updated");
@@ -1055,6 +1055,9 @@ function allProjects() {
                     getContacts(clientid);
 
  }
+
+ 
+
 
  function Editassignment(assignId){
   $('.assignmentstatus').removeClass('hide');
@@ -1932,7 +1935,7 @@ function specialCharacter(evt) {
                 messageBox("WBS End Date is less than Project End Date");
                 return false;
                 }
-if(new Date($('#datepickerw2').val())< new Date($('#datepickerw3').val())){
+if(new Date($('#datepickerw2').val())> new Date($('#datepickerw3').val())){
                 messageBox("WBS Actual End Date is less than WBS Actual Start Date");
                 return false;
                 }
@@ -2805,8 +2808,8 @@ x.disabled=true;
                                   "cabbname": $("#cabbname").val(),
                                   "category": $("#category").val(),
                                   "cal": $("#cal").val(),
-                                  "clocation":$("#clocation").val(),
-                                  "caddress": $("#caddress").val(),
+                                  "location":$("#clocation").val(),
+                                  "address": $("#caddress").val(),
                                   "ccontactperson":'a' ,
                                   "ccperemail": 'a',
                                   "clconphone": '12',
@@ -3013,6 +3016,7 @@ if($("#cocontact").val().trim().length <=0 )
                                     if(pdetails[1][0].flag=='1')
                                     {
                                         successMyModal.text('Successfully Created');
+                                        $('#myModal').modal('hide');
                                         setTimeout(function(){
                                             successMyModal.text('');
                                           getContacts($("#cclientid").val());
@@ -3345,6 +3349,7 @@ document.getElementById("assignbutton").disabled=true;
                     url:'/submitAssignmenttree',
                     type:'post',
                     data:{
+
                       "flag":$("#flagid").val(),
                       "assignmentId":$("#assignmentId").val(),
                       "procode":$('#procode').val(),
@@ -3355,8 +3360,9 @@ document.getElementById("assignbutton").disabled=true;
                       "aedate":$('#asdatepicker1').val(),
                         "curdat":st_ed_date
                     },
-
+ 
                   success:function(data){
+                    console.log('xxxx',data);
                     document.getElementById("assignbutton").disabled=false;
                    
                     if(!$("#active").is(":checked"))
@@ -3374,7 +3380,7 @@ document.getElementById("assignbutton").disabled=true;
                }  
 
                     if($("#flagid").val()==1){
-                      $('#assignment_Anchor'+$("#assignmentId").val()).text($('#asd').text());
+                      //$('#assignment_Anchor'+$("#assignmentId").val()).text($('#asd').text());
                       messageBox('Assignment Updated Successfully');
                       showassgnment(data[0][0].WBSID);
 
