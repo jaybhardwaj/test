@@ -23,6 +23,39 @@ label{
   word-wrap:break-word;
   max-width:100px; 
  overflow:hidden; 
+}
+
+.upload-resume-section {
+    border: 2px groove threedface;
+    border-top: none;
+    padding: 0.5em;
+    margin: 1em 2px;
+}
+.upload-resume-section > h1 {
+    font-size: 15px !important;
+    font: 1em normal;
+    margin: -1em -0.5em 0;
+}   
+.upload-resume-section > h1 > span {
+    float: left;
+}
+.upload-resume-section > h1:before {
+    border-top: 2px groove threedface;
+    content: ' ';
+    float: left;
+    margin: 0.5em 2px 0 -1px;
+    width: 0.75em;
+}
+.upload-resume-section > h1:after {
+    border-top: 2px groove threedface;
+    content: ' ';
+    display: block;
+    height: 1.5em;
+    left: 2px;
+    margin: 0 1px 0 0;
+    overflow: hidden;
+    position: relative;
+    top: 0.5em;
 } 
 </style>
  
@@ -31,7 +64,7 @@ label{
     <div class="se-pre-con hide"></div>
 <%include menu1.ejs%>
   <div class="secondry-color">
-  <div>
+<!--   <div>
   <table style="width:100%;">
     <tr>
        <td style = 'width:16% '>
@@ -59,9 +92,8 @@ label{
     <td></td> 
    </tr>
    </table> 
-   </div>
-   <div style="padding-top:1%">
-<table>
+   </div> -->
+<!-- <table>
   <tr>
     <td>
       <span>Search :</span>  <input type="text" class="form-text-box" id="searchbox"> 
@@ -70,11 +102,32 @@ label{
     <td>
         <form action = '/submitparsedData' method = 'post'>
             <button type="submit" onclick = 'return confirmmessage()'  value="Cancel" data-dismiss="modal"  class="closeedit btn  " style = " margin-left:10px"> Submit All</button>
-           </form> 
+        </form> 
     </td>
     
   </tr>
-</table>       
+</table> -->  
+  <div class="fusion-table-container"> 
+    <div class="row">
+      <div class="upload-resume-section col-lg-6 col-md-6 col-sm-8">
+          <h1><span>Upload Resume</span></h1>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label>Select Source of Resume</label>
+            <select id="selectsource" class="form-control input-sm" name="selectsource" style = ' '>
+              <option value='0'>-select-</option>
+              <%for(var i=0;i<source.length;i++){  %>
+              <option value="<%=source[i].id%>"> <%=source[i].sourcename%> </option>  
+              <%}%>    
+            </select>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label>Select Resume</label>
+            <form id="form" action="/upload_resume" method="post"  onsubmit="return validation()" enctype="multipart/form-data">            
+                 <input  type="file" id="file" onclick = 'select1source()' style = ' ' name="attach" value="Upload Resume"  >
+            </form>
+          </div>
+      </div>
+    </div>    
      <table id="openreqstate1" class="table  cell-border responsive" style="font-size:13px;width:100%">
                  <!-- <col width="80">
                  <col width="80">
@@ -87,23 +140,28 @@ label{
                     <col width="130">
                       <col width="80"> -->
              
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>E-mail</th>
-                        <th>Phone</th>
-                        <th>Experience</th>
-                        <th>Current Location</th>
-                        <th >Permananent Address</th>
-                        <th>Skills</th>
-                        <th>Qualification</th>
-                        <th>Institute</th>
-                         <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-                </table>
-  <button type="button" onclick = 'deleteAllIds()' value="Cancel"  class="closeedit btn " style = " margin-bottom:10px;float:right"> Delete Selected</button>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th>Phone</th>
+            <th>Experience</th>
+            <th>Current Location</th>
+            <th >Permananent Address</th>
+            <th>Skills</th>
+            <th>Qualification</th>
+            <th>Institute</th>
+             <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    </table>
+    <div align="right">
+      <form action = '/submitparsedData' method = 'post' style="display: inline-block;margin-right: 10px">
+          <button type="submit" onclick = 'return confirmmessage()'  value="Cancel" data-dismiss="modal"  class="closeedit btn"> Submit All</button>
+      </form>
+      <button type="button" onclick = 'deleteAllIds()' value="Cancel"  class="closeedit btn " style = " margin-bottom:10px;float:right"> Delete Selected</button>
+    </div>
 </div>
 </div>
 
@@ -183,7 +241,7 @@ $(document).ready(function() {
                                 [9, "asc"]
                             ]
                         });
-  $('.dataTables_filter').hide();
+  // $('.dataTables_filter').hide();
 
  getTabledata();
  
