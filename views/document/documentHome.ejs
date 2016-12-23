@@ -18,6 +18,11 @@
       padding:0px;
       
 }
+.view-details-document > div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 35px;
+}
 /*.tooltip_templates { display: none; }*/
 /*.form-control input-sm {
     display: block;
@@ -57,7 +62,7 @@
     padding-bottom: 61%;
     padding-right: 1%;
 }
-.form-control {
+/*.form-control {
     display: block;
     width: 100%;
     height: 34px;
@@ -74,9 +79,9 @@
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-}
+}*/
 
-.ms-choice > span {
+/*.ms-choice > span {
     position: absolute;
     top: 0;
     left: 0;
@@ -87,7 +92,7 @@
     display: block;
     padding-left: 8px;
     font-size: 10px;
-}
+}*/
 
     
     .glyphicon-folder-open {
@@ -102,7 +107,7 @@
         border: 1px solid #669ECC !important;
     }
     
-    thead {
+    /*thead {
         background-color: #808080;
         color: white;
         font-size: 12px;
@@ -111,7 +116,7 @@
     tbody {
         color: #808080;
         font-size: 12px;
-    }
+    }*/
     
   
     }
@@ -402,7 +407,7 @@
 
                         <tr class="" id='row_<%=files[0][i].id%>'>
                             <td>
-                                <a onclick="downloadFile('row_<%=files[0][i].id%>','<%=files[0][i].id%>')" download href="./attach/<%=files[0][i].fpath%>">
+                                <a onclick="downloadFile('row_<%=files[0][i].id%>','<%=files[0][i].id%>')" download href="./attach/<%=files[0][i].fpath%>" style="display: inline-block;max-width: 150px;overflow: hidden;text-overflow: ellipsis;">
                                     <%=files[0][i].name%>
                                 </a>
                             </td>
@@ -487,17 +492,67 @@
 </div>
 </body>
 
-
+<div class="modal fade" id="editHardware" role="dialog" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" id="dismiss">×</button>
+            <h4 id="head10" class="modal-title">Edit Hardware</h4>
+        </div>
+        <div class="modal-body">
+        
+       
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+      </div>
+    </div>
+</div>
 <div class="modal fade" id="tag1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
 
-            <div class="modal-content" id="express2" style="">
-                <div class="modal-header" style="background-color:#f05f40; ">
-                    <center><label id="head4" class="modal-title" style="color:white;"><b>View Details</b></label></center>
-                     <button type="button" class="close" id='cancel' style="margin-top: -31px" aria-label="Close" data-dismiss="modal">&times;</button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" id='cancel'>×</button>
+                    <h4 class="modal-title">View Details</h4>
                 </div>
-                <div class="modal-body" style="width:auto">
-                    <div class="row ">
+                <div class="modal-body">
+                    <div class="row view-details-document">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label> File Title:</label>
+                            <span id="title1"></span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label> Author Name:</label>
+                            <span id="authname"></span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label> Description:</label>
+                            <span id="desc"></span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label> Industry:</label>
+                            <span id="industry"></span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label> User Department:</label>
+                            <span id="business"></span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label> Document Type:</label>
+                            <span id="docType"></span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label> Application Area:</label>
+                            <span id="tech1"></span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label> Restriction Lavel:</label>
+                            <span id="rest"></span>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
                         <div class="col-md-4">
                             <label class="form-Label" > File Title:</label>
                         </div>
@@ -576,20 +631,112 @@
                            <textarea class="form-control input-sm"  id="rest" value="" style="width:100%;resize:vertical ; max-height:100px ;margin-bottom:3%" name="fname" readonly>
                         </textarea>
                         </div>
-                    </div>
-                    <div class="row">
+                    </div> -->
+                    <!-- <div class="row">
                         <center>
                             <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default" style="background-color:#f05f40;color:black;padding-top: 4px; width:100px;height:30px;margin-top:10px;color:white">Close</button>
 
                         </center>
-                    </div>
+                    </div> -->
 
+                </div>
+                <div class="modal-footer">
+                    <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-default">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
- <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" id='btn-cancel'>×</button>
+            <h4 class="modal-title">Edit File Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row fusion-form-elements">
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <label>File Title: <sup>*</sup></label>
+                    <input placeholder="Enter File Title Here" type="text" maxlength="50"  style="width:100%" class="form-control input-sm" id="file_title" name="rname" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <label>Author Name: <sup>*</sup></label>
+                    <input placeholder="Enter Author Name Here" type="text" maxlength="50"  style="width:100%" class="form-control input-sm" id="author_name" name="rname" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <label>Industry: <sup>*</sup></label>
+                    <input type="hidden" id="<%=industry[0].id%>" maxlength="50" required name="industryhide" value="<%=industry[0].id%>">
+                    <div id="ii">
+                    <select multiple = "multiple" class="multiplebox clearField" id="my-selectII" required name="i_name" maxlength="50">
+                      <%
+                      if(industry[0].length>0){for(var i=0;i<industry[0].length;i++){if(industry[0][i].Active==1){%>
+                            <option value="<%=industry[0][i].values_id%>"><%=industry[0][i].values%></option>
+                            <%}}}%>
+                    </select> 
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <label>User Department: <sup>*</sup></label>
+                    <input type="hidden" id="<%=business[0].id%>" maxlength="50" required name="businesshide" value="<%=business[0].id%>">
+                       <div id="bb">
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectBB" required name="b_name">
+                            <%if(business[0].length>0){for(var i=0;i<business[0].length;i++){if(business[0][i].Active==1){%>
+                            <option value="<%=business[0][i].values_id%>"><%=business[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                      </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <label>Document Type: <sup>*</sup></label>
+                    <input type="hidden" id="<%=document[0].id%>" maxlength="50" required name="doctypehide" value="<%=document[0].id%>">
+                          <div id="dd">
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectDD" required name="d_name">
+                             <%
+                             if(document[0].length>0){for(var i=0;i<document[0].length;i++){if(document[0][i].Active==1){%>
+                            <option value="<%=document[0][i].values_id%>"><%=document[0][i].values%></option>
+                            <%}}}%>
+                        </select>
+                      </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <label>Application Area: <sup>*</sup></label>
+                    <input type="hidden" id="<%=technology[0].id%>" maxlength="50" required name="newTechide" value="<%=technology[0].id%>">
+                        <div id="tt">  
+                         <select multiple = "multiple" class="multiplebox clearField" id="my-selectTT" required name="t_name">
+                         <%
+                         if(technology[0].length>0){for(var i=0;i<technology[0].length;i++){if(technology[0][i].Active==1){%>
+                            <option value="<%=technology[0][i].values_id%>"><%=technology[0][i].values%></option>
+                            <%}}}%>
+                        </select> 
+                      </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <label>Restriction Level: <sup>*</sup></label>
+                    <input type="hidden" id="<%=restriction[0].id%>" maxlength="50"  required name="rLevelhide" value="<%=restriction[0].id%>">
+                    <div id="rr">  
+                        <select multiple = "multiple" class="multiplebox clearField" id="my-selectRR" required name="res_name">
+                             <%for(var i=0;i<restriction[0].length;i++){%>
+                                        <option value="<%=restriction[0][i].values_id%>"><%=restriction[0][i].values%></option>
+                            <%}%>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <label>Description: <sup>*</sup></label>
+                    <textarea rows="4" cols="12" class="" maxlength="500" id="file_description" name="rname" placeholder=" Description(Required) Limit:100 words" style="width:100%;resize: none;font-size:10px"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn"  onClick="docValidation()">Submit</button>
+            <button id='btn-cancel' type="reset" data-dismiss="modal"  class="btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--  <div class="modal fade" id="editRole" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content"  style="padding-bottom:2%" id="express2">
                 
@@ -707,7 +854,7 @@
             </div>
             </div>
 
-</div>
+</div> -->
 <script>
 function getAccessList(){
     $.ajax({
@@ -1003,6 +1150,7 @@ function downloadFile(rowid,fileid){
                
                 "order": [],
                 "fixedColumns": true,
+                "columnDefs": [{"targets": [0],"width": "20%"}]
                 
             });
           
@@ -1108,7 +1256,7 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                             bgstr = 'style = "background-color:#ffffb3"';
 
                         }
-                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a onclick="downloadFile(row_'+tabledata[i].id+','+tabledata[i].id+')"  download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate +'</td><td>' ;
+                        charstr = charstr + '<tr id="row_' + tabledata[i].id + '"' + bgstr + '><td><a style="display: inline-block;max-width: 150px;overflow: hidden;text-overflow: ellipsis;" onclick="downloadFile(row_'+tabledata[i].id+','+tabledata[i].id+')"  download= "" href= "./attach/' + tabledata[i].fpath + '">' + tabledata[i].name + '</a></td><td>' + tabledata[i].title + '</td><td>'+ tabledata[i].userName + '</td><td>' + tabledata[i].uploadDate +'</td><td>' ;
                                 if(tabledata[i].Rating==null){
                                var rateString= "not yet rated." ;
                                 }else{
@@ -1150,8 +1298,9 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                         "showNEntries": true,
                         "bFilter": false,
                         "bLengthChange": true,
-                        "aoColumnDefs": [{ 
-                        }],
+                        // "aoColumnDefs": [{ 
+                        // }],
+                        "columnDefs": [{"targets": [0],"width": "20%"}],
                         "order": emptyArr 
                     });
                    
@@ -1185,36 +1334,36 @@ var selectVariable=<%-JSON.stringify(files[1])%>;
                 },
                 success: function(data) {
 
-                    document.getElementById("title1").value = data[0][0].title;
-                    document.getElementById("authname").value = data[0][0].author;
-                    document.getElementById("desc").value = data[0][0].description;
-                    document.getElementById("rest").value = data[0][0].restriction;
+                    document.getElementById("title1").innerHTML = data[0][0].title;
+                    document.getElementById("authname").innerHTML = data[0][0].author;
+                    document.getElementById("desc").innerHTML = data[0][0].description;
+                    document.getElementById("rest").innerHTML = data[0][0].restriction;
                     var temp = "";
                     for (var i = 0; i < data[1].length; i++) {
                         temp += data[1][i].doctype + ' , ';
                     }
-                    document.getElementById("docType").value = temp.slice(0, -2);
+                    document.getElementById("docType").innerHTML = temp.slice(0, -2);
                     temp = "";
                     for (var i = 0; i < data[2].length; i++) {
                         temp += data[2][i].industry + ' , ';
                     }
-                    document.getElementById("industry").value = temp.slice(0, -2);
+                    document.getElementById("industry").innerHTML = temp.slice(0, -2);
                     temp = "";
                     for (var i = 0; i < data[3].length; i++) {
                         temp += data[3][i].business + ' , ';
                     }
-                    document.getElementById("business").value = temp.slice(0, -2);
+                    document.getElementById("business").innerHTML = temp.slice(0, -2);
                     temp = "";
                     for (var i = 0; i < data[4].length; i++) {
                         temp += data[4][i].technology + ' , ';
                     }
-                    document.getElementById("tech1").value = temp.slice(0, -2);
+                    document.getElementById("tech1").innerHTML = temp.slice(0, -2);
 
                     temp = "";
                     for (var i = 0; i < data[5].length; i++) {
                         temp += data[5][i].restriction + ' , ';
                     }
-                    document.getElementById("rest").value = temp.slice(0, -2);
+                    document.getElementById("rest").innerHTML = temp.slice(0, -2);
 
                   
 
