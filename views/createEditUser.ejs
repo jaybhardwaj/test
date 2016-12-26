@@ -336,15 +336,23 @@
 
               <div class="col-lg-3 col-md-3 col-sm-4" id="ExpenseDiv">
                 <label>Approver(<%=modules[j].Name%>) :</label>
-                <select class="form-control input-sm" style="" id='expense' name="role1">
-                  <option value='0'>No</option> 
-                  <option value='1'>Yes</option>
-                </select>
+                <div class="clearfix">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0">
+                    <select class="form-control input-sm" style="" id='expense' name="role1">
+                      <option value='0'>No</option> 
+                      <option value='1'>Yes</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0">
+                    <input type="number" maxlength="10" class="form-control input-sm" id="inNum" name="inNum" placeholder="Approve Limit" onkeypress="return specialCharacter(event)"/> 
+                    <div class="fLeft"><span class="error" id="errorInNum"></span></div>
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-4" style="min-height: 0">
+              <!-- <div class="col-lg-3 col-md-3 col-sm-4" style="min-height: 0">
                 <input type="number" maxlength="10" class="form-control input-sm" id="inNum" name="inNum" placeholder="Approve Limit" onkeypress="return specialCharacter(event)" style="width:auto;margin-top:25px"/> 
                   <div class="fLeft"><span class="error" id="errorInNum"></span></div>
-              </div>
+              </div> -->
               
                   <%}%>
                   
@@ -402,9 +410,10 @@
                   </select>
                   <div class="fLeft"><span class="error" id="errorHrRole"></span></div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-4" style="min-height: 0">
+                <div class="col-lg-3 col-md-3 col-sm-4" style="min-height: 0" id='hodListdiv'>
+                  <label>Select Hod:</label>
                   <select class="form-control input-sm"  style="" id='hodList' name="hodList" style="    margin-top: 25px;">
-                      <option selected="true" value="0">Select Hod</option>
+                      <option selected="true" value="0">Select</option>
                     <%for(var i=0;i<allHod.length;i++){%>
                       <option value="<%=allHod[i].id%>"><%=allHod[i].hodName%></option>  
                       <%}%>              
@@ -615,10 +624,10 @@ $(".typeahead").typeahead({
 
        var hrArr1=$('#hrRole').val();   
         if(hrArr1!=null&&hrArr1.indexOf("3")>-1)  {  
-         $('#hodList').show();                
+         $('#hodListdiv').show();                
         }
         else{     
-           $('#hodList').hide();   
+           $('#hodListdiv').hide();   
         }
 
     
@@ -851,10 +860,10 @@ $(".typeahead").typeahead({
     var hrArr=$('#hrRole').val();
    
     if(hrArr!=null&&hrArr.indexOf("3")>-1)  {   
-         $('#hodList').show();                
+         $('#hodListdiv').show();                
         }
         else{                  
-           $('#hodList').hide();   
+           $('#hodListdiv').hide();   
         }
     }
 
@@ -1134,7 +1143,7 @@ $(".typeahead").typeahead({
       if(modulesValues.indexOf("7")<0){
         $("#hrRole").val('0');
         $("#hodList").val('0');
-        $("#hodList").addClass('hide');
+        $("#hodListdiv").addClass('hide');
       }
       var modules=modulesValues.toString();
       
