@@ -1057,7 +1057,7 @@
                                     "paging": true,
                                     "binfo": false,
                                     "bDestroy": true,
-
+                                    responsive:teue,
                                     "aoColumnDefs": [{
                                         "bSortable": false,
                                         "aTargets": [-1]
@@ -3416,8 +3416,8 @@ function Popup(data) {
         </div>
         
         <div class='col-md-2'></div>
-        <div class="col-md-1 hide " id='rasebutton' style="float:right;">
-         <button type='button' id="print" class="form-control" style="margin-top:2px;margin-bottom:2px;height:29px; background-color:#23527c;color:white; font-size:10px;float:right" onclick="printtheExpense()" value='Print'>Preview</button>   
+        <div class="col-md-1 hide " id='rasebutton' align="center">
+         <button type='button' id="print" class="btn" onclick="printtheExpense()" value='Print'>Preview</button>   
         </div>
     </div>
 
@@ -5724,8 +5724,66 @@ function Popup(data) {
         </div>
 
     </form> -->
-
-      <form action="/file" method="post" name="rbug" enctype="multipart/form-data">
+    <div class="modal fade clsContent" id="printmodel" role="dialog" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form action="/file" method="post" name="rbug" enctype="multipart/form-data">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" id="dismiss">×</button>
+                  <h4 id="head10" class="modal-title">Expense Details</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row" id="contentdetails">
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label>Employee Name:</label>
+                    <span id="empname"></span>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label>Employee Code:</label>
+                    <span id="empcode"></span>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label>Supervisor Name:</label>
+                    <span id="empsuper"></span>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label>Approver:</label>
+                    <span id="empapp"></span>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label>Expense from Date:</label>
+                    <span id="empfrom"></span>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label>Expense To Date:</label>
+                    <span id="empto"></span>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label>Total Expense:</label>
+                    <span id="emptotal"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="fusion-table-container table-responsive">
+                <table class="table table-hover table-striped table-bordered rceDataTable responsive" cellpadding="0" cellspacing="0" border="0">
+                      <thead>
+                          <th>Expense Type</th>
+                          <th>Trip/Assignment</th>
+                          <th>From Date</th>
+                          <th>To Date</th>
+                          <th>Amount</th>
+                      </thead>
+                      <tbody id="bodyi"></tbody>
+                  </table>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn" onclick="PrintElem('contentdetails')"><span class="fa fa-print"></span> Print</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+<!--       <form action="/file" method="post" name="rbug" enctype="multipart/form-data">
       <div>
         <div class="modal fade clsContent" id="printmodel" role="dialog" style="border-style: solid;
     border-color:black;">
@@ -5765,15 +5823,15 @@ function Popup(data) {
                     </tr>
                 </table>
                   <table style="width:100%; border: 1px solid black;" class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0">
-                            <thead>
-                                <th style='font-size:14px;background-color:grey;color:white'>Expense Type</th>
-                                <th style='font-size:14px;background-color:grey;color:white'>Trip/Assignment</th>
-                                <th style='font-size:14px;background-color:grey;color:white'>From Date</th>
-                                <th style='font-size:14px;background-color:grey;color:white'>To Date</th>
-                                <th style='font-size:14px;background-color:grey;color:white'>Amount</th>
-                            </thead>
-                            <tbody id="bodyi"></tbody>
-                        </table>
+                      <thead>
+                          <th>Expense Type</th>
+                          <th>Trip/Assignment</th>
+                          <th>From Date</th>
+                          <th>To Date</th>
+                          <th>Amount</th>
+                      </thead>
+                      <tbody id="bodyi"></tbody>
+                  </table>
                         
                 </div>
                 <div class="row"><center>
@@ -5782,7 +5840,7 @@ function Popup(data) {
             </div>
         </div>
       </div>
-    </form>
+    </form> -->
 
      <form action="/fileAtt" method="post" name="rb" enctype="multipart/form-data">
         <div class="modal fade" id="sanctionedmodel" role="dialog" style="border-style: solid;

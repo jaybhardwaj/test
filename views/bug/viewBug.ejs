@@ -18,6 +18,9 @@
   .selectedBug{
     border: 2px solid green;
 
+  }
+  #advanceSearch input{
+    height: 25px;
   } 
 #grp-btn{
   padding: 2px 5px;
@@ -195,11 +198,6 @@ td.child{
 <% include ../partials/adminheader %>
 <% include header %>
 
-
-
-<br/>
-
-
 <div class="container" style="margin:0">
 
 </div>
@@ -222,10 +220,14 @@ $('ul.dropdown-menu li a').on('click', function (event) {
 window.onload = function() {
     $("#advanceSearch select,#advanceSearch input[type='radio'],#advanceSearch input[name='createdate'],#advanceSearch input[name='closedate']").change(function(){
        otable.ajax.reload();
+       var idUpdated = $(this).attr('name');
+        $('#'+idUpdated).val($(this).val());
      });
 
     $('#advanceSearch input[type="text"]').on('input',function(){
       otable.ajax.reload();
+      var idUpdated = $(this).attr('name');
+      $('#'+idUpdated).val($(this).val());
     });
 };
 
@@ -251,7 +253,7 @@ window.onload = function() {
 
 </div>
 <div class="row"> 
-  <div class="col-lg-12" align="center">
+  <div class="col-lg-12" align="center" style="margin-bottom: 10px">
       <div style="display:inline;position:relative" id="download-section">
         <a href="javascript:showhide('advanceSearch')">Advanced Search</a>
       </div> 
@@ -262,6 +264,43 @@ window.onload = function() {
         
    
       <input class="hide" id="allSelected" name="showSelect">
+
+<div id="advanced-search-hiden" style="display: none;">
+  <input type="text" class="form-control input-sm" id="bugId">
+  <input type="text" class="form-control input-sm" id="title1">
+  <select style="color: black" multiple="multiple" id="project"><% for(var i=0;i<project.length;i++) { %>
+  <option value="<%=project[i].id%>"><%=project[i].projectTitle%></option>
+  <%}%></select>
+
+  <select style="color: black" multiple="multiple" id="status">
+  <% for(var i=0;i<status.length;i++) { %>
+  <option value="<%=status[i].id%>"><%=status[i].description1%></option>
+  <%}%>
+    </select>
+
+  <select style="color: black" multiple="multiple" id="priority"><% for(var i=0;i<priority.length;i++) { %>
+  <option value="<%=priority[i].id %>"><%=priority[i].description1%></option>
+   <%}%>
+  </select>
+  <select style="color: black" multiple="multiple" id="severity"><% for(var i=0;i<severity.length;i++) { %>
+   <option value="<%=severity[i].id %>" ><%=severity[i].description1%></option>
+  <%}%>
+  </select>
+  <select style="color: black" multiple="multiple" id="technology"><% for(var i=0;i<technology.length;i++) { %>
+  <option value="<%=technology[i].id %>" ><%=technology[i].description1%></option>
+  <%}%>
+  </select>
+  <input type="text" class="form-control input-sm" id="esteffort">
+  <input type="text" class="form-control input-sm" id="acteffort">
+  <select style="color: black" multiple="multiple" id="assingedto">
+     <%for(var i=0;i<allusers.length;i++) {%>
+  <option  value="<%=allusers[i].userId%>" ><%=allusers[i].Name%></option>
+  <%}%>
+  </select>
+  <input type="text" class="form-control input-sm" id="createdate">
+  <input type="text" class="form-control input-sm" id="closedate">
+</div>
+
             <table id="data_table" class="nowrap display table-striped table-bordered"   cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
                 <thead>
                 <tr>
@@ -293,21 +332,21 @@ window.onload = function() {
                     <input type="text" class="form-control input-sm" name="bugId"></td>
                     <td>
                     
-                    <input type="text" class="form-control input-sm" name="title"></td>
+                    <input type="text" class="form-control input-sm" name="title" style="width: 100px"></td>
                     <td>
-                    <div  id="project" >
-              <input type="radio" name="projectis" value="in" checked>Is <input type="radio" name="projectis" value="not in">Is Not
-            </div>
+                    <!-- <div  id="project" >
+                      <input type="radio" name="projectis" value="in" checked>Is <input type="radio" name="projectis" value="not in">Is Not
+                    </div> -->
                     <select style="color: black" id="projects1" multiple="multiple" name="project"><% for(var i=0;i<project.length;i++) { %>
                     <option value="<%=project[i].id%>"><%=project[i].projectTitle%></option>
                     <%}%></select>
                       
                     </td>
                     <td>
-                      <div id="status"> 
-              <input type="radio" name="statusis" value="in" checked>Is
-              <input type="radio" name="statusis" value="not in">Is Not
-            </div>
+                      <!-- <div id="status"> 
+                        <input type="radio" name="statusis" value="in" checked>Is
+                        <input type="radio" name="statusis" value="not in">Is Not
+                      </div> -->
                     <select style="color: black" id="status1" multiple="multiple" name="status">
                       <% for(var i=0;i<status.length;i++) { %>
                       <option value="<%=status[i].id%>"><%=status[i].description1%></option>
@@ -316,9 +355,9 @@ window.onload = function() {
                        
                     </td>
                     <td>
-                    <div id="priority">
-              <input type="radio" name="priorityis" value="in" checked>Is<input type="radio" name="priorityis" value="not in">Is Not
-            </div>
+                    <!-- <div id="priority">
+                      <input type="radio" name="priorityis" value="in" checked>Is<input type="radio" name="priorityis" value="not in">Is Not
+                    </div> -->
                     <select style="color: black" id="priority1" multiple="multiple" name="priority"><% for(var i=0;i<priority.length;i++) { %>
                     <option value="<%=priority[i].id %>"><%=priority[i].description1%></option>
                      <%}%>
@@ -326,9 +365,9 @@ window.onload = function() {
                     
                     </td>
                     <td>
-                    <div id="severity">
-              <input type="radio" name="severityis"" value="in" checked>Is<input type="radio" name="severityis" value="not in">Is Not
-            </div>
+                    <!-- <div id="severity">
+                      <input type="radio" name="severityis"" value="in" checked>Is<input type="radio" name="severityis" value="not in">Is Not
+                    </div> -->
                     <select style="color: black" id="severity1" multiple="multiple" name="severity"><% for(var i=0;i<severity.length;i++) { %>
                      <option value="<%=severity[i].id %>" ><%=severity[i].description1%></option>
                     <%}%>
@@ -336,9 +375,9 @@ window.onload = function() {
                     
                     </td>
                     <td>
-                    <div id="technology">
-              <input type="radio" name="technologyis" value="in" checked>Is <input type="radio" name="technologyis" value="not in">Is Not
-            </div>
+                    <!-- <div id="technology">
+                      <input type="radio" name="technologyis" value="in" checked>Is <input type="radio" name="technologyis" value="not in">Is Not
+                    </div> -->
                     <select style="color: black" id="technology1" multiple="multiple" name="technology"><% for(var i=0;i<technology.length;i++) { %>
                     <option value="<%=technology[i].id %>" ><%=technology[i].description1%></option>
                     <%}%>
@@ -353,9 +392,9 @@ window.onload = function() {
                      
                     <input type="text" class="form-control input-sm" name="acteffort"></td>
                     <td>
-                     <div id="assingedto">
-              <input type="radio" name="assingedtois" value="in" checked>Is<input type="radio" name="assingedtois" value="not in">Is Not
-           </div>
+                     <!-- <div id="assingedto">
+                        <input type="radio" name="assingedtois" value="in" checked>Is<input type="radio" name="assingedtois" value="not in">Is Not
+                     </div> -->
                     <select style="color: black" id="assigned1" multiple="multiple" name="assingedto">
                        <%for(var i=0;i<allusers.length;i++) {%>
                     <option  value="<%=allusers[i].userId%>" ><%=allusers[i].Name%></option>
@@ -555,24 +594,25 @@ $('#hideColumnsId').tagger({
                     url: '/filterBug',
                     type: "POST",
                     "data": function ( d ) {
-                          d.bugId = $("input[name='bugId']").val();
-                          d.priority = $("select[name='priority']").val() ? $("select[name='priority']").val().toString() :'';
-                          d.severity = $("select[name='severity']").val() ? $("select[name='severity']").val().toString() :'';
-                          d.assingedto = $("select[name='assingedto']").val() ? $("select[name='assingedto']").val().toString() :'';
-                          d.technology = $("select[name='technology']").val() ? $("select[name='technology']").val().toString() :'';
-                          d.project = $("select[name='project']").val() ? $("select[name='project']").val().toString() :'';
-                          d.title = $("input[name='title']").val();
-                          d.esteffort = $("input[name='esteffort']").val();
-                          d.acteffort = $("input[name='acteffort']").val();
-                          d.createdate = $("input[name='createdate']").val();
-                          d.closedate = $("input[name='closedate']").val();
-                          d.status = $("select[name='status']").val() ? $("select[name='status']").val().toString() :'';
-                          d.statusis = $("input[name='statusis']:checked").val();
-                          d.priorityis = $("input[name='priorityis']:checked").val();
-                          d.severityis = $("input[name='severityis']:checked").val();
-                          d.assingedtois = $("input[name='assingedtois']:checked").val();
-                          d.technologyis = $("input[name='technologyis']:checked").val();
-                          d.projectis = $("input[name='projectis']:checked").val();
+                          d.bugId = $("input[id='bugId']").val();
+                          d.priority = $("select[id='priority']").val() ? $("select[id='priority']").val().toString() :'';
+                          d.severity = $("select[id='severity']").val() ? $("select[id='severity']").val().toString() :'';
+                          d.assingedto = $("select[id='assingedto']").val() ? $("select[id='assingedto']").val().toString() :'';
+                          d.technology = $("select[id='technology']").val() ? $("select[id='technology']").val().toString() :'';
+                          d.project = $("select[id='project']").val() ? $("select[id='project']").val().toString() :'';
+                          d.title = $("input[id='title1']").val();
+                          d.esteffort = $("input[id='esteffort']").val();
+                          d.acteffort = $("input[id='acteffort']").val();
+                          d.createdate = $("input[id='createdate']").val();
+                          d.closedate = $("input[id='closedate']").val();
+                          d.status = $("select[id='status']").val() ? $("select[id='status']").val().toString() :'';
+                          // d.statusis = $("input[id='statusis']:checked").val();
+                          d.statusis = 'in';
+                          d.priorityis = 'in';
+                          d.severityis = 'in';
+                          d.assingedtois = 'in';
+                          d.technologyis = 'in';
+                          d.projectis = 'in';
                       }
                 },
                 // scrollX : true,
@@ -593,14 +633,11 @@ $('#hideColumnsId').tagger({
                 { "data": "startdate"},
                 { "data": "enddate" },
                 ],
-             
                 "info":false,
                 "aaSorting":[],
                 "autoWidth": false,
                 "bSortCellsTop":true,
-                // responsive: true,
                 dom: 'Blfrtip',
-                colReorder: true,
                 buttons: [
                     'colvis'
                 ],
@@ -609,14 +646,6 @@ $('#hideColumnsId').tagger({
                 "serverSide": true,
               
                 "fnDrawCallback": function (oSettings) {
-                    $("#bugDetails tr").click(function() {
-                        $('#bugDetails tr').css({"background-color":"white"});
-                        $(this).css({"background-color":"#c5c5c5"});
-                        var serial_number = $(this).children("td").first().text();
-                        var bug_id = $(this).find("td").eq(1).text();
-                      
-                        showdetails(bug_id,serial_number -1);
-                    });
                     $('.next').removeClass("disabled");
                     $(".next").click(function() {
                       $('.paginate_button.current').next().click();
@@ -629,7 +658,6 @@ $('#hideColumnsId').tagger({
                     else{
                         $('.paginate_button.next').removeClass('disabled');
                     }
-                    // $('input[value="in"]').attr("checked","checked");
                     $('.datepicker').datetimepicker({
                          timepicker: false,
                         format: 'd/m/Y'
@@ -642,11 +670,10 @@ $('#hideColumnsId').tagger({
                     },
                     {
                       "targets": 2,
-                      // "width": "50px",
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
                           return '<input class="form-control input-sm" type="hidden" id="hiddentitle'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'bugTitle'"+')" value="'+data+'">'+
-                                '<input type="text" class="form-control input-sm" id="bugtitle'+current_index+'" style="width:100%;background-color:none;" maxlength="75" onchange=" updatebugdetails('+row.id+',this,'+"'bugTitle',"+current_index+')" value="'+data+'">';
+                                '<input type="text" class="form-control input-sm" id="bugtitle'+current_index+'" style="width:100px;background-color:none;" maxlength="75" onchange=" updatebugdetails('+row.id+',this,'+"'bugTitle',"+current_index+')" value="'+data+'">';
                       }
                     },
                     {
@@ -828,6 +855,14 @@ $('#hideColumnsId').tagger({
                     // {"targets": [3,4,5,6,7,10],"width": "120px"}
                    ]         
             });
+otable.columns.adjust().draw();
+$('#data_table tbody').on('click', 'tr', function () {
+    var data = otable.row( this ).data();
+    $('#bugDetails tr').css({"background-color":"white"});
+    $(this).css({"background-color":"#c5c5c5"});
+    if(data)
+      showdetails(data.id,data.Sno -1);
+});
 
 $("input:checkbox:not(:checked)").each(function() {
     var column = otable.column( $(this).attr("name") );

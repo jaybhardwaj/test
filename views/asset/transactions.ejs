@@ -15,10 +15,11 @@
                             otable.fnFilter(this.value);
                         });
                           var otable1 = $("#assTable").dataTable({
-                    "order":[],
-                    "bDestroy": true, 
-                    "info":false
-                } );
+                            "order":[],
+                            "scrollX": true,
+                            "bDestroy": true, 
+                            "info":false
+                        });
                         $("#searchbox1").keyup(function() {
                             otable1.fnFilter(this.value);
                         });
@@ -59,8 +60,25 @@
 
 <body>
 
+<div class="modal fade" id="commentModal" role="dialog" >
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" id="cut">×</button>
+            <h4 class="modal-title">Reason</h4>
+        </div>
+        <div class="modal-body">
+            <select id='faultyreason' class="form-control input-sm"><option value='0' selected="">--select--</option><option value="1">Full Damage</option><option value="2">partially damage</option><option value="3">User Problem</option></select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" onclick="unasigned(numbercount)">OK</button>
+          <button class="btn" onclick="cancel()">CANCEL</button>
+        </div>
+      </div>
+    </div>
+</div>
 
-<div class="modal " id="commentModal"  role="dialog">
+<!-- <div class="modal " id="commentModal"  role="dialog">
 <center>
   <div class="modal-dialog" style="display:table;">
     <div class="modal-content" id="express2" style="height:150px;width:250px">
@@ -88,7 +106,7 @@
     </div>
   </div>
   </center>
-</div>
+</div> -->
     <div class="container-fluid   secondry-color" style=" ">
 
 
@@ -196,8 +214,8 @@
             </table>
 
        </div>
-       <div id="main1" class="hide">
        <span title="Go To Assigned User List" onclick="showInfo1();" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;padding-top: 10px"  class="glyphicon glyphicon-arrow-left"></span>
+       <div id="main1" class="hide table-responsive">
          <!--  <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%"> -->
             <table class=" table-striped  table-hover responsive" id="assTable" width="100%">
                 <thead id="headi1">

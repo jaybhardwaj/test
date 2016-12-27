@@ -10,37 +10,20 @@
     .dataTables_filter {
      display: none;
     }
-
-        thead th {
-            text-align: center;
-            background-color: #7FCEE6;
-            color: #4D4E50;
-        }
-        
-        td {
-            text-align: center;
-        }
-
-  
-        .col-md-4{
-            padding-right: 5px;
-            padding-left: 5px;
-        }
-
-        .tagger{
-            width:154px;
-        }
-
-
-   
+ 
     </style>
 
    
       <div class="secondry-color" style=" overflow: hidden;padding: 2%;padding-top:3%">
-        <div class="row" style="padding-top: 2%;margin:0px " >
-             <span class="modal-title" style="padding-left:46%; ">All Requisition</span> 
-             <input type="text" class="form-text-box" id="searchbox" placeholder="search" style="float: right;width: 13%"></div>
-            <table id="openreqstate1" class="table  cell-border" style="font-size:13px;width:100%;margin-top:1%">
+        <span class="fusion-page-title">All Requisition</span>
+        <div class="row fusion-table-container">
+            <div class="row fusion-table-top-section" align="center">
+                <div></div>
+                <div class="fusion-table-search-container">
+                    <label>Search: </label><input type="search" class="form-control input-sm fusion-table-search" id="searchbox">
+                </div>
+            </div>
+            <table id="openreqstate1" class="table  cell-border responsive" style="font-size:13px;width:100%;margin-top:1%">
                 <thead>
                     <tr>
                         <th style="text-align:center">Title</th>
@@ -125,6 +108,7 @@
                         <%}%>
                 </tbody>
             </table>
+            </div>
         </div>
 </div>
 
@@ -246,7 +230,130 @@
         </div>
         </div>
  
-        <div class="modal fade" id="mymodal" role="dialog" style="top:-23px; " data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="mymodal" role="dialog" >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form onsubmit='return validateForm()' id="raise-requisition" name="myform" class="max-width" method="post" action="/raiseRequisition">
+          <div class="modal-header">
+              <button type="button" onClick="window.location.href='/allrequisitions'" class="close">&times;</button>
+              <h4 id="ModalHeading" class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <div class="row fusion-form-elements">
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Job Title:<sup class="astrick">*</sup></label>
+                <input name="JobTitle" type="text" id="jobTitle" class="form-control input-sm addUsed addDisable"  maxlength="250" required>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Designation:<sup class="astrick">*</sup></label>
+                <select id="browsers"  class="form-control input-sm addUsed addDisable" name="designation" required>
+                            
+                    <%for(var i = 0 ;i<designation.length;i++){%>
+                        <option id="skillsm_<%=designation[i].desigId%>" value="<%=designation[i].desigId%>">
+                            <%=designation[i].desigName%>
+                        </option>
+                        <%}%>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Skills:<sup class="astrick">*</sup></label>
+                <select max-size="1" multiple class="form-control input-sm " id='skillsId' name="skills">
+                            
+                    <%for(var i = 0 ;i<skills.length;i++){%>
+                        <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>"><%=skills[i].skills%></option>
+                        <%}%>
+                </select>
+                <label id="skillLabel" class="hide"></label>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Location:<sup class="astrick">*</sup></label>
+                <select name="Location" id="location" class="form-control input-sm addUsed addDisable"  required>
+                             
+                    <%for(var i = 0 ;i<cities.length;i++){%>
+                        <option id="skills_<%=cities[i].id%>" value="<%=cities[i].id%>">
+                            <%=cities[i].location%>
+                        </option>
+                        <%}%>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>positions:<sup class="astrick">*</sup></label>
+                <input type = 'text'  style = 'display:none;' id = 'locationnameId' name = 'locationName'>
+                <input name="NoOfPostions" placeholder="no. of positions" class="form-control input-sm" id="nop" type="number"  required max="9999999" min="1" required>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Experience:<sup class="astrick">*</sup></label>
+                <input name="YearsOfExp"  class="form-control input-sm addUsed addDisable" id="yox" placeholder="Yrs" type="text" step="0.1"  maxlength="10"   required>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Expires On:<sup class="astrick">*</sup></label>
+                <input class="form-control input-sm" placeholder="no. of positions" name="ExpiresOn" id="expiresOn" type="text" required>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Admin-HR:<sup class="astrick">*</sup></label>
+                <select name="adminhr" id="adminhr" class="form-control input-sm addUsed addDisable"  required>
+                         
+                    <%for(var i = 0 ;i<adminhr.length;i++){%>
+                        <option id="skills_<%=adminhr[i].id%>" value="<%=adminhr[i].id%>">
+                            <%=adminhr[i].firstName%>
+                        </option>
+                        <%}%>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Priority:<sup class="astrick">*</sup></label>
+                <select name="mailPriority" class="form-control input-sm addUsed " id="priority"   >
+                    <option id="0" selected>select</option>
+                    <%for(var i = 0 ;i<priority.length;i++){%>
+                        <option id="priority_<%=priority[i].id%>" value="<%=priority[i].id%>">
+                            <%=priority[i].priority%>
+                        </option>
+                        <%}%>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Minimum Salary:<sup class="astrick">*</sup></label>
+                <input name="MinimumSalary" id="minsal" class="form-control input-sm addUsed addDisable" placeholder="min. salary" type="number"  min="1" max="1000000000">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Maximum Salary:<sup class="astrick">*</sup></label>
+                <input name="MaximumSalary" id="maxsal" class="form-control input-sm addUsed addDisable" placeholder="max. salary" type="number"  min="1" max="10000000000"  >
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Suggested Interviewer:<sup class="astrick">*</sup></label>
+                <input name="RecruiterName" class="form-control input-sm addUsed addDisable" id="rec" type="text"  maxlength="50" placeholder="name of Interviewer">
+              </div>
+            </div>
+            <div class="row">
+                <ul class="nav nav-tabs" style="background-color:none;font-size:13px">
+                    <li class="active"><a data-toggle="tab" style="color:grey" href="#jd">Job Description</a></li>
+                    <li><a data-toggle="tab" style="color:grey" href="#history">History</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="jd" class="tab-pane fade in active" style="margin-top:2%;">
+                        <textarea class="ckeditor" name="Description" row="3" id="Description" maxlength="2000" placeholder="JobDescription"></textarea>
+                        (max. 4000 characters.)
+                    </div>
+                    <div id="history" class="tab-pane fade" style="height:100px;overflow-y:scroll;margin-top:2%"> 
+                        <table id="historyTable" style="font-size:12px; ;">
+                        </table>
+
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input name="flag" id="flag1" type="text" style="width:100%" class="hide">
+            <input name="ide" id="ide" type="text" style="width:100%" class="hide">   
+            <button type="submit" class="btn"><i class="fa fa-save"></i> Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+       <!--  <div class="modal fade" id="mymodal" role="dialog" style="top:-23px; " data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" style="margin:0px;">
                     <div class="modal-header" style="background-color:#f05f40;height:40px">
@@ -382,7 +489,7 @@
                     <label class="form-Label">Minimum Salary:</label>
                     </div>
                     <div class="col-md-8">
-                    <input name="MinimumSalary" id="minsal" class="form-text-box addUsed addDisable" placeholder="min. salary" type="number" style="width:100%" min="1" max="1000000000"  >
+                    <input name="MinimumSalary" id="minsal" class="form-text-box addUsed addDisable" placeholder="min. salary" type="number" style="width:100%" min="1" max="1000000000">
                     </div>        
                 </div>
                 <div class="col-md-4">
@@ -398,7 +505,7 @@
                     <label class="form-Label">Suggested Interviewer:</label>
                     </div>
                     <div class="col-md-8">
-                    <input name="RecruiterName" class="form-text-box addUsed addDisable" id="rec" type="text" style="width:100%" maxlength="50" placeholder="name of Interviewer"  >
+                    <input name="RecruiterName" class="form-text-box addUsed addDisable" id="rec" type="text" style="width:100%" maxlength="50" placeholder="name of Interviewer">
                     </div>        
                 </div>
             </div>          
@@ -434,7 +541,7 @@
                     
                 </div>
             </div>
-        </div>             
+        </div> -->             
                 <script>
                  var str1;var flage;
                     tinymce.init({

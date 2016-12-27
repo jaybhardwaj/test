@@ -2,7 +2,13 @@
 <html lang="en">
 
 <head>
-
+    <style type="text/css">
+      @media screen and (max-width: 767px) {
+          #compo {
+              margin: 10px 0;
+          }
+      }
+    </style>
      <% include ../partials/head %>
        <% include assetheader %>
        <% include ../partials/adminheader %>
@@ -37,7 +43,7 @@
 <div class="container-fluid secondry-color">
   <div class="row" style="padding:1%">
  <span title="Go To User List" onclick="document.location.href='/viewHardware';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;"  class="glyphicon glyphicon-arrow-left"></span>
-    <span class="modal-title" style="padding-left:47%;">Add Hardware</span>
+    <span class="fusion-page-title">Add Hardware</span>
   </div>
   <div class="row" style="margin-left:5%;">
   </div>
@@ -86,7 +92,7 @@
       </div>
     </div> 
   
-    <div class="form-group">
+    <div class="clearfix">
       <div id="tableQuantity" class=" hide col-md-12 table-responsive">
 
         <table id="tableforattribute" class="table hide" style="overflow:scroll;width:100%;">
@@ -97,14 +103,9 @@
         </table>
       </div>
     </div>
-    <div class="form-group row" style="padding-bottom:20px;">
-      <div class="col-md-1 col-md-offset-5">
-        <input type="button" class="btn btn-danger hide" id="cancel" value="Cancel">
-      </div>
-      <div class="col-md-1">
-        <input type="button" onclick="validatehardvare()"style="position:relative;left:-22%;" class="btn btn-info hide"value="Submit" id="submit">
-      </div>
-      
+    <div align="center">
+      <input type="button" onclick="validatehardvare()" class="btn btn-info hide" value="Submit" id="submit">
+      <input type="button" class="btn btn-danger hide" id="cancel" value="Cancel">
     </div>
   </div>
   <input name="lineString" type="text" class="hide" id="inf">
@@ -112,7 +113,29 @@
 <input name="comps" type="text" class="hide" id="inf2">
 </form>
 </div>
-<div class="modal " id="addModal"  role="dialog">
+
+<div class="modal fade" id="addModal" role="dialog" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" id="cut">×</button>
+            <h4 class="modal-title">Add Component</h4>
+        </div>
+        <div class="modal-body row">
+          <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+          <div class=" col-md-12" id="addcompobody">
+          </div>
+          <div id="tablediv" class="table-responsive"></div>
+          <input type="hidden" id="serids">
+        </div>
+        <div class="modal-footer">
+          <input   type="button" class="btn btn-info" onclick="validatesubcomponent()" value="SUBMIT">
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- <div class="modal " id="addModal"  role="dialog">
   <div class="modal-dialog" style="display:table;">
     <div class="modal-content" id="express21" style="position: relative;overflow-y: auto;">
       <div class="modal-header" style="background-color:#f05f40;">
@@ -123,18 +146,16 @@
       <div id="err" class="col-lg-6 col-sm-offset-3"></div>
       <div class="modal-body" style=" ">
         <div class="form-group">
-        <div class=" col-md-12 table-responsive" id="addcompobody" style="margin-bottom: 20px;">
-              </div>
-              <div id="tablediv"></div>
-              <input type="hidden" id="serids">
-              <input   type="button"class="btn btn-info" onclick="validatesubcomponent()" value="SUBMIT">
-             
-
-            </div>
+          <div class=" col-md-12 table-responsive" id="addcompobody" style="margin-bottom: 20px;">
           </div>
+          <div id="tablediv"></div>
+          <input type="hidden" id="serids">
+          <input   type="button"class="btn btn-info" onclick="validatesubcomponent()" value="SUBMIT">
         </div>
+      </div>
     </div>
-  </div>
+    </div>
+  </div> -->
 </div>
 <footer>
   <% include ../partials/footer %>
@@ -155,11 +176,11 @@
       $('#addcompobody').html('');
       $('#tablediv').html('');
      
-    var row = '<div class="row" id="tr'+countAddCompModal+''+i+'"><div class="col-md-3" style="padding-left:1px"> Subcomponent:</div><div class="col-md-3"><select class = "form-text-box form-control input-sm" id="compo"><option value=" ">--Select--</option><%for(var i=0;i<htype[0].length;i++){%>';
+    var row = '<div class="row" id="tr'+countAddCompModal+''+i+'"><div class="col-md-3"> Subcomponent:</div><div class="col-md-3" style=""><select class = "form-control input-sm form-control input-sm" id="compo"><option value=" ">--Select--</option><%for(var i=0;i<htype[0].length;i++){%>';
     if($('#typel').val() != "<%=htype[0][i].id%>"){
         row+='<option value="<%=htype[0][i].id%>"><%=htype[0][i].componentName%></option>';
       } 
-    row+='<%}%></select></div><div class="col-md-2"><input type="button"class="btn btn-info addcompdata" onclick="addsubcomponent()" value="ADD"></div></div>';
+    row+='<%}%></select></div><div class="col-md-2" style=""><input type="button"class="btn btn-info addcompdata" onclick="addsubcomponent()" value="ADD"></div></div>';
    
          $('#addcompobody').append(row);
          
@@ -402,7 +423,7 @@ function addcompo() {
                 allAttIds1 = allAttIds;
               
               
-                head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty Start Date</th><th style = "width:100px;" id ="underconsideration">Warranty End Date</th><th "width:100px;"  class = "">Components<span class="glyphicon glyphicon-copy" style="color:red;margin-left:20px;width:25px" title="copy to all" onclick="savetocomponent()"></span></th></tr>';
+                head = head + '<th >Brand</th><th id ="underconsideration">Warranty Start Date</th><th id ="underconsideration">Warranty End Date</th><th>Components<span class="glyphicon glyphicon-copy" style="color:red;margin-left:20px;width:25px" title="copy to all" onclick="savetocomponent()"></span></th></tr>';
                 $('#headi').append(head);
                 $('#bodyi').empty();
                 arr.length = qty;
@@ -410,11 +431,11 @@ function addcompo() {
                 attlength = col;
                 for (var i = 0; i < qty; i++) {
                     var k = i
-                    var row = '<tr><td>' + ++k + '</td><td><input class="form-text-box" placeholder="Enter serial number"' +
+                    var row = '<tr><td>' + ++k + '</td><td><input class="form-control input-sm" placeholder="Enter serial number"' +
                         ' id="serial' + i + '"></td>';
                     for (var o = 0; o < result[0].length; o++) {
 
-                        row = row + '<td><select class="form-text-box" id="' + i + o + '"><option value="0">Select</option>';
+                        row = row + '<td><select class="form-control input-sm" id="' + i + o + '"><option value="0">Select</option>';
 
 
                         for (var dropdownValues = 0; dropdownValues < result[1].length; dropdownValues++) {
@@ -430,17 +451,17 @@ function addcompo() {
                    
 
 
-                    row = row + '<td><select class="form-text-box" id="brand' + i + '"><option value="0">Select</option>';
+                    row = row + '<td><select class="form-control input-sm" style="min-width:80px" id="brand' + i + '"><option value="0">Select</option>';
 
                     for (var dropdownValues = 0; dropdownValues < result[2].length; dropdownValues++) {
                         row = row + '<option value="' + result[2][dropdownValues].id + '">' + result[2][dropdownValues].value + '</option>';
                     }
-                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker1" placeholder="Start Date" id="warranty' + i + '" type = "text"></td><td><input' + ' class="form-text-box datetimepicker1" placeholder="End Date" id="warranty1o' + i + '" type = "text"></td>';
+                    row = row + '</select></td><td><input' + ' class="form-control input-sm datetimepicker1" placeholder="Start Date" id="warranty' + i + '" type = "text"></td><td><input' + ' class="form-control input-sm datetimepicker1" placeholder="End Date" id="warranty1o' + i + '" type = "text"></td>';
                     row = row + '<td class="hide"><input' + ' class="single form-control input-sm warrClass" id="componentdata' + i + '" type = "hidden"></td>';
                 
 
 
-                    row = row + '<td class = "">' + '<input title="add Subcomponent" onclick="addCompModal('+i+')" class="btn btn-danger"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
+                    row = row + '<td align="center">' + '<input title="add Subcomponent" onclick="addCompModal('+i+')" class="btn btn-danger"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + ' id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
 
                     $('#bodyi').append(row);
                 }
@@ -519,11 +540,11 @@ function addsubcomponent() {
                 attlength1 = col;
                 for (var i = 0; i < qty; i++) {
                     var k = i
-                    var row = '<tr><td>' + ++k + '<input type="hidden" class="form-text-box" id="rowlineid'+kid+'" value="0"></td><td><input type="hidden" class="form-text-box" id="attrid'+kid+'" value='+allAttIds.toString()+'><input type="hidden" class="form-text-box" id="col'+kid+'" value='+col+'><input type="hidden" class="form-text-box" placeholder="Enter serial number"' +
+                    var row = '<tr><td>' + ++k + '<input type="hidden" class="form-control input-sm" id="rowlineid'+kid+'" value="0"></td><td><input type="hidden" class="form-control input-sm" id="attrid'+kid+'" value='+allAttIds.toString()+'><input type="hidden" class="form-control input-sm" id="col'+kid+'" value='+col+'><input type="hidden" class="form-control input-sm" placeholder="Enter serial number"' +
                         ' id="serial12' + kid + '" value='+selectedValue+'>'+$("#compo option:selected").text()+'</td>';
                     for (var o = 0; o < result[0].length; o++) {
 
-                        row = row + '<td><select style="width:100px;" class="form-text-box" id="' + i + o +kid+ '"><option value="0">Select</option>';
+                        row = row + '<td><select style="width:100px;" class="form-control input-sm" id="' + i + o +kid+ '"><option value="0">Select</option>';
 
 
                         for (var dropdownValues = 0; dropdownValues < result[1].length; dropdownValues++) {
@@ -535,13 +556,13 @@ function addsubcomponent() {
                         row = row + '</select></td>';
 
                     }
-                    row = row + '<td><select style="width:100px" class="form-text-box" id="brands' + kid + '"><option value="0">Select</option>';
+                    row = row + '<td><select style="width:100px" class="form-control input-sm" id="brands' + kid + '"><option value="0">Select</option>';
 
                     for (var dropdownValues = 0; dropdownValues < result[2].length; dropdownValues++) {
                         row = row + '<option value="' + result[2][dropdownValues].id + '">' + result[2][dropdownValues].value + '</option>';
                     }
-                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker2" id="warrantyco1' + kid + '" type = "text"></td>';
-                    row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker2" id="warrantyco2' + kid + '" type = "text"></td>';
+                    row = row + '</select></td><td><input' + ' class="form-control input-sm datetimepicker2" id="warrantyco1' + kid + '" type = "text"></td>';
+                    row = row + '</select></td><td><input' + ' class="form-control input-sm datetimepicker2" id="warrantyco2' + kid + '" type = "text"></td>';
                     row = row + '<td class="hide"><input' + ' class="single form-control input-sm warrClass" id="componen' + i + '" type = "hidden"></td>';
                 
                     $('#bodyk'.concat(kid)).append(row);

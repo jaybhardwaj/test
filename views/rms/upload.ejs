@@ -23,15 +23,48 @@ label{
   word-wrap:break-word;
   max-width:100px; 
  overflow:hidden; 
+}
+
+.upload-resume-section {
+    border: 2px groove threedface;
+    border-top: none;
+    padding: 0.5em;
+    margin: 1em 2px;
+}
+.upload-resume-section > h1 {
+    font-size: 15px !important;
+    font: 1em normal;
+    margin: -1em -0.5em 0;
+}   
+.upload-resume-section > h1 > span {
+    float: left;
+}
+.upload-resume-section > h1:before {
+    border-top: 2px groove threedface;
+    content: ' ';
+    float: left;
+    margin: 0.5em 2px 0 -1px;
+    width: 0.75em;
+}
+.upload-resume-section > h1:after {
+    border-top: 2px groove threedface;
+    content: ' ';
+    display: block;
+    height: 1.5em;
+    left: 2px;
+    margin: 0 1px 0 0;
+    overflow: hidden;
+    position: relative;
+    top: 0.5em;
 } 
 </style>
  
 
 
     <div class="se-pre-con hide"></div>
-
-  <div class="secondry-color" style=" padding:5% 1%;overflow: hidden;">
-  <div   style="border:2px solid #f05f40;padding:1%">
+<%include menu1.ejs%>
+  <div class="secondry-color">
+<!--   <div>
   <table style="width:100%;">
     <tr>
        <td style = 'width:16% '>
@@ -59,9 +92,8 @@ label{
     <td></td> 
    </tr>
    </table> 
-   </div>
-   <div style="padding-top:1%">
-<table>
+   </div> -->
+<!-- <table>
   <tr>
     <td>
       <span>Search :</span>  <input type="text" class="form-text-box" id="searchbox"> 
@@ -70,13 +102,34 @@ label{
     <td>
         <form action = '/submitparsedData' method = 'post'>
             <button type="submit" onclick = 'return confirmmessage()'  value="Cancel" data-dismiss="modal"  class="closeedit btn  " style = " margin-left:10px"> Submit All</button>
-           </form> 
+        </form> 
     </td>
     
   </tr>
-</table>       
-     <table id="openreqstate1" class="table  cell-border" style="font-size:13px;width:100%;margin-top:1%">
-                 <col width="80">
+</table> -->  
+  <div class="fusion-table-container"> 
+    <div class="row">
+      <div class="upload-resume-section col-lg-6 col-md-6 col-sm-8">
+          <h1><span>Upload Resume</span></h1>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label>Select Source of Resume</label>
+            <select id="selectsource" class="form-control input-sm" name="selectsource" style = ' '>
+              <option value='0'>-select-</option>
+              <%for(var i=0;i<source.length;i++){  %>
+              <option value="<%=source[i].id%>"> <%=source[i].sourcename%> </option>  
+              <%}%>    
+            </select>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label>Select Resume</label>
+            <form id="form" action="/upload_resume" method="post"  onsubmit="return validation()" enctype="multipart/form-data">            
+                 <input  type="file" id="file" onclick = 'select1source()' style = ' ' name="attach" value="Upload Resume"  >
+            </form>
+          </div>
+      </div>
+    </div>    
+     <table id="openreqstate1" class="table  cell-border responsive" style="font-size:13px;width:100%">
+                 <!-- <col width="80">
                  <col width="80">
                     <col width="80">
                  <col width="80">
@@ -85,29 +138,34 @@ label{
                     <col width="80">
                  <col width="80">
                     <col width="130">
-                      <col width="80">
+                      <col width="80"> -->
              
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>E-mail</th>
-                        <th>Phone</th>
-                        <th>Experience</th>
-                        <th>Current Location</th>
-                        <th >Permananent Address</th>
-                        <th>Skills</th>
-                        <th>Qualification</th>
-                        <th>Institute</th>
-                         <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-                </table>
-  <button type="button" onclick = 'deleteAllIds()' value="Cancel"  class="closeedit btn " style = " margin-bottom:10px;float:right"> Delete Selected</button>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th>Phone</th>
+            <th>Experience</th>
+            <th>Current Location</th>
+            <th >Permananent Address</th>
+            <th>Skills</th>
+            <th>Qualification</th>
+            <th>Institute</th>
+             <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    </table>
+    <div align="right">
+      <form action = '/submitparsedData' method = 'post' style="display: inline-block;margin-right: 10px">
+          <button type="submit" onclick = 'return confirmmessage()'  value="Cancel" data-dismiss="modal"  class="closeedit btn"> Submit All</button>
+      </form>
+      <button type="button" onclick = 'deleteAllIds()' value="Cancel"  class="closeedit btn " style = " margin-bottom:10px;float:right"> Delete Selected</button>
+    </div>
 </div>
 </div>
 
-<%include menu1.ejs%>
+
 <% include ../partials/footer %> 
  
 
@@ -183,7 +241,7 @@ $(document).ready(function() {
                                 [9, "asc"]
                             ]
                         });
-  $('.dataTables_filter').hide();
+  // $('.dataTables_filter').hide();
 
  getTabledata();
  
@@ -544,32 +602,88 @@ count = 0;
 
 </script>
 <div class="modal fade" id="edit" data-backdrop="static" data-keyboard="false" >
-        <div class="modal-dialog">
-          <div class="modal-content"  id="express2" style="height:400px;width:700px" >
-                <div class="modal-header" style="background-color:#f05f40;height:40px">
-                    <center>
-                        <h4 id="head4" class="modal-title" style="color:#052F71;font-size:14pt;width:auto;margin-top:-5px"><b>Edit Information </b><a id="closeedit" >
-                     <span  class='glyphicon glyphicon-remove closeedit' data-dismiss="modal" style='color:#06394A;height:20px;float:right'title ='Close' > 
-                  </a> </h4>
-                    </center>  
-                                      
-                </div>
-        <form  method="post">        
-            <div class="modal-body" style = 'height:50%;'>
+        <div class="modal-dialog  modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close closeedit" data-dismiss="modal" id="dismiss">×</button>
+              <h4 class="modal-title">Edit Information</h4>
+            </div>
+          <form  method="post">        
+            <div class="modal-body">
               <input type="hidden" name="hcid"   id="hcid" >
-              <table style="table-layout: fixed; width: 100%">
+              <div class="row fusion-form-elements">
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Name:<sup class='astrick'>*</sup></label>
+                  <input name="name" class="form-control input-sm" id="name" maxlength="100"  > 
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Phone No.:<sup class='astrick'>*</sup></label>
+                  <input name="phone" class="form-control input-sm" id="phone" maxlength="10" minlength="10" >
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Experience:<sup class='astrick'>*</sup></label>
+                  <div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0">
+                      <input name="years" class="form-control input-sm" id="years" maxlength="100" placeholder="Years">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right: 0">
+                      <input name="months" class="form-control input-sm"  id="months" maxlength="100" placeholder="Months">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Email id:<sup class='astrick'>*</sup></label>
+                  <input name="email" class="form-control input-sm" id="email" maxlength="100" >
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Current Location:<sup class='astrick'>*</sup></label>
+                  <select class="form-control input-sm" id='locationId' name="location" >
+                    <option value = 'null'></option>
+                          <%for(var i = 0 ;i<location.length;i++){%>
+                    <option id="location_<%=location[i].id%>" value="<%=location[i].id%>">
+                                  <%=location[i].location%>
+                    </option>
+                              <%}%>
+                  </select>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Permanent address:<sup class='astrick'>*</sup></label>
+                  <input name="perm" class="form-control input-sm" id="perm" maxlength="300" >
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Skills:<sup class='astrick'>*</sup></label>
+                  <select size="1" multiple class="form-control input-sm"  id='skillsId' name="skills">
+                      <option value = 'null'></option>
+                      <%for(var i = 0 ;i<skills.length;i++){%>
+                          <option id="skills_<%=skills[i].id%>" value="<%=skills[i].id%>">
+                              <%=skills[i].skills%>
+                          </option>
+                          <%}%>
+
+                  </select>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Qualification:<sup class='astrick'>*</sup></label>
+                  <input name="qual" class="form-control input-sm" id="qual" maxlength="100" >
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                  <label>Institute:<sup class='astrick'>*</sup></label>
+                  <input name="ins" class="form-control input-sm"  id="ins" maxlength="100" >
+                </div>
+              </div>
+              <!-- <table style="table-layout: fixed; width: 100%">
                 <tr style='height:100px'>
                   <td width = '33%'>
                    <div >
                    <label class="form-Label">Name :<sup class='astrick'>*</sup></label>
-                      <input name="name" class="form-text-box" id="name" maxlength="100" style="width:95%" >                      
+                      <input name="name" class="form-control input-sm" id="name" maxlength="100" style="width:95%" >                      
                       
                    </div>
                   </td>
                   <td width = '33%'>
                    <div >
                    <label class="form-Label">Phone No.:<sup class='astrick'>*</sup></label>
-                      <input name="phone" class="form-text-box" id="phone" maxlength="10" minlength="10" style="width:95%">
+                      <input name="phone" class="form-control input-sm" id="phone" maxlength="10" minlength="10" style="width:95%">
                       
                    </div>
                  </td>
@@ -578,14 +692,14 @@ count = 0;
 
                      <div >
                      <label style = 'MARGIN-LEFT: 36%;' class="form-Label">Years :<sup class='astrick'>*</sup></label>
-                        <input name="years" class="form-text-box" id="years" maxlength="100" style="width:83%;">
+                        <input name="years" class="form-control input-sm" id="years" maxlength="100" style="width:83%;">
                         
                      </div>
                      </td>
                      <td width = '16.5%;'>
                      <div >
                       <label style = 'margin-left: 33%;' class="form-Label">Months :<sup class='astrick'>*</sup></label>
-                        <input name="months" class="form-text-box"  id="months" maxlength="100" style="width:83%">
+                        <input name="months" class="form-control input-sm"  id="months" maxlength="100" style="width:83%">
                        
                      </div>
                     </td>
@@ -669,9 +783,12 @@ count = 0;
                   </td>
                   </tr>
             
-           </table>
+           </table> -->
             </div>    
-                         
+            <div class="modal-footer">
+              <button type="button"  data-dismiss="modal" class="btn waves-effect waves-light" onclick="return validateedit()" value="Save"><i class="fa fa-save"></i> Save</button>
+              <button type="button" value="Cancel" data-dismiss="modal"  class="closeedit btn waves-effect waves-light"><i class="fa fa-save"></i> Cancel</button>
+            </div>           
             </form>        
                     
               </div>
