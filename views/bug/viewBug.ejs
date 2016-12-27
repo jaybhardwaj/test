@@ -332,7 +332,7 @@ window.onload = function() {
                     <input type="text" class="form-control input-sm" name="bugId"></td>
                     <td>
                     
-                    <input type="text" class="form-control input-sm" name="title" style="width: 100px"></td>
+                    <input type="text" class="form-control input-sm" name="title1" style="width: 100px"></td>
                     <td>
                     <!-- <div  id="project" >
                       <input type="radio" name="projectis" value="in" checked>Is <input type="radio" name="projectis" value="not in">Is Not
@@ -476,7 +476,7 @@ window.onload = function() {
             <div class="" style="margin-top:20px;margin-bottom:50px">
               <label class="" style="font-size:14px;color:#f05f40;margin-left:1.5%;">Upload File </label>
                 <form  id="form123" method="post" style="margin-left:1%;" enctype="multipart/form-data" name="comment">
-                  <input type="file" id="fupUploadSheet" name="addBugAttachment" class="upload" onchange="UploadSheet()" accept="image/*"/>
+                  <input type="file" id="fupUploadSheet" name="addBugAttachment" class="upload" onchange="UploadSheet()"/>
                   (Max. Size:2Mb)
                   
               </form> 
@@ -594,19 +594,19 @@ $('#hideColumnsId').tagger({
                     url: '/filterBug',
                     type: "POST",
                     "data": function ( d ) {
-                          d.bugId = $("input[id='bugId']").val();
-                          d.priority = $("select[id='priority']").val() ? $("select[id='priority']").val().toString() :'';
-                          d.severity = $("select[id='severity']").val() ? $("select[id='severity']").val().toString() :'';
-                          d.assingedto = $("select[id='assingedto']").val() ? $("select[id='assingedto']").val().toString() :'';
-                          d.technology = $("select[id='technology']").val() ? $("select[id='technology']").val().toString() :'';
-                          d.project = $("select[id='project']").val() ? $("select[id='project']").val().toString() :'';
-                          d.title = $("input[id='title1']").val();
-                          d.esteffort = $("input[id='esteffort']").val();
-                          d.acteffort = $("input[id='acteffort']").val();
-                          d.createdate = $("input[id='createdate']").val();
-                          d.closedate = $("input[id='closedate']").val();
-                          d.status = $("select[id='status']").val() ? $("select[id='status']").val().toString() :'';
-                          // d.statusis = $("input[id='statusis']:checked").val();
+                          d.bugId = $("input#bugId").val();
+                          d.priority = $("select#priority").val() ? $("select#priority").val().toString() :'';
+                          d.severity = $("select#severity").val() ? $("select#severity").val().toString() :'';
+                          d.assingedto = $("select#assingedto").val() ? $("select#assingedto").val().toString() :'';
+                          d.technology = $("select#technology").val() ? $("select#technology").val().toString() :'';
+                          d.project = $("select#project").val() ? $("select#project").val().toString() :'';
+                          d.title = $("input#title1").val();
+                          d.esteffort = $("input#esteffort").val();
+                          d.acteffort = $("input#acteffort").val();
+                          d.createdate = $("input#createdate").val();
+                          d.closedate = $("input#closedate").val();
+                          d.status = $("select#status").val() ? $("select#status").val().toString() :'';
+                          // d.statusis = $("input#statusis']:checked").val();
                           d.statusis = 'in';
                           d.priorityis = 'in';
                           d.severityis = 'in';
@@ -1134,7 +1134,6 @@ $(".btndesc").removeClass('hide');
     var files = $("#fupUploadSheet").val();
       var id1=$("#bugidhidden").val();
     data1.append('id',id1);
-  
     $.ajax({
         url:'/bugAttachment',
         method: 'POST',
@@ -1144,6 +1143,9 @@ $(".btndesc").removeClass('hide');
       success: function(data) {
         alert("File uploaded successfully!");
         showattachment(data);
+      },
+      error: function(err) {
+        alert('invalid file format');
       },
       dataType: 'JSON',
     });

@@ -13,17 +13,8 @@ var upload = multer({ dest: './public/attach/',limits: {
     fieldSize: 999999999
   }
 });
-// var bodyParser=require('body-parser');
 var busboy=require('busboy');
  
-// module.exports = function (app) {
-// 	app.use(bodyParser.json());
-// app.use(bodyParser({
-// 	keepExtensions:true,
-// 	uploadDir: '../public/attach'
-// }));
-
-
 module.exports = function (app) {
 	app.post('/registration', portal.registration);
 	app.post('/recoverPassword', portal.recoverPassword);
@@ -67,7 +58,7 @@ app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
 	app.post('/bugDetails',url.bugDetails,portal.bugDetails,render.redirect);
 	app.post('/updateBugDetails',url.updateBugDetails,portal.updateBugDetails,render.redirect);
 	app.post('/addComment',url.addComment,portal.addComment,render.redirect);
-	app.post('/bugAttachment',upload.single('addBugAttachment'),url.bugAttachment,portal.bugAttachment,render.redirect);
+	app.post('/bugAttachment',url.bugAttachment,portal.bugAttachment,render.redirect);
 	app.post('/getAlltech',url.getAlltech,portal.getAlltech,render.redirect);
 	app.post('/filterBug',url.filterBug,portal.filterBug,render.redirect);
 	app.get('/filterBug',url.filterBug,portal.filterBug,render.redirect);
