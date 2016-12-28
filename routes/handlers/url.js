@@ -1,5 +1,21 @@
 'use strict';
  var config = require('../../config/config').modules;
+var path = require('path');
+
+var multer  = require('multer');
+
+var uploadBugfile = multer({ dest: './public/attach/',limits: {
+    fieldNameSize: 999999999,
+    fieldSize: 999999999
+    },
+    fileFilter: function (req, file, cb) {
+      if (path.extname(file.originalname) == '.exe') {
+        return cb(new Error('exe files are not allowed'));
+      }
+      return cb(null,true);
+    }
+  });
+
 module.exports = { 
 	getEmpData:function(req,res,next){
 		req.emp_id=req.query.emp_id;
@@ -263,6 +279,7 @@ setDashboard1: function(req, res, next) {
 	}
 	},
 	addBug:function(req,res,next){
+		console.log(req.files,'amit');
 	var arr=[];
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
@@ -320,15 +337,21 @@ setDashboard1: function(req, res, next) {
 	}
 	},
 	bugAttachment:function(req,res,next){
-		if(req.session.modules.indexOf(config.Bug)>=0)
-		 	{
-	    req.page='bugAttachment';
-		next();	
-	}
-		else
-	{
-			res.redirect('/portal')
-	}
+		var avatarUpload = uploadBugfile.single('addBugAttachment');
+		avatarUpload(req, res,function(err){
+			if(err){
+				return res.status(404).send('invalid file format');
+			}
+			else{
+				if(req.session.modules.indexOf(config.Bug)>=0){
+				    req.page='bugAttachment';
+					next();	
+				}
+				else{
+						res.redirect('/portal')
+				}
+			}
+		});
 	},
 	getAlltech:function(req,res,next){
 		if(req.session.modules.indexOf(config.Bug)>=0)
