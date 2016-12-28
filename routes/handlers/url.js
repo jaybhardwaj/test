@@ -1,20 +1,32 @@
 'use strict';
  var config = require('../../config/config').modules;
 var path = require('path');
-
+var mime = require('mime');
 var multer  = require('multer');
+var fs =require('fs');
 
-var uploadBugfile = multer({ dest: './public/attach/',limits: {
-    fieldNameSize: 999999999,
-    fieldSize: 999999999
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/attach/'); // Absolute path. Folder must exist, will not be created for you.
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() +file.originalname);
+  }
+});
+
+var uploadBugfile = multer({ storage: storage,
+	limits: {
+	    fieldNameSize: 999999999,
+	    fieldSize: 999999999
     },
     fileFilter: function (req, file, cb) {
-      if (path.extname(file.originalname) == '.exe') {
-        return cb(new Error('exe files are not allowed'));
+      var tempExt = path.extname(file.originalname).substring(1);
+      if(['jpg','jpeg','png','pdf','ppt','pptx','doc','docx','xls','xlsx','csv','zip','txt'].indexOf(tempExt) > -1){
+        return cb(null,true);
       }
-      return cb(null,true);
+      return cb(new Error('invalid file format'));
     }
-  });
+});
 
 module.exports = { 
 	getEmpData:function(req,res,next){
@@ -279,7 +291,6 @@ setDashboard1: function(req, res, next) {
 	}
 	},
 	addBug:function(req,res,next){
-		console.log(req.files,'amit');
 	var arr=[];
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
@@ -343,13 +354,26 @@ setDashboard1: function(req, res, next) {
 				return res.status(404).send('invalid file format');
 			}
 			else{
-				if(req.session.modules.indexOf(config.Bug)>=0){
-				    req.page='bugAttachment';
-					next();	
-				}
-				else{
-						res.redirect('/portal')
-				}
+				var mmm = require('mmmagic'),
+				      Magic = mmm.Magic;
+
+				  var magic = new Magic(mmm.MAGIC_MIME_TYPE);
+				  magic.detectFile(req.file.path, function(err, result) {
+				      if (err) throw err;
+				      var fileExtension = mime.extension(result);
+				   	  if(['jpg','jpeg','png','pdf','ppt','pptx','doc','docx','xls','xlsx','csv','zip','txt'].indexOf(fileExtension) > -1){
+				   	  	if(req.session.modules.indexOf(config.Bug)>=0){
+						    req.page='bugAttachment';
+							next();	
+						}
+						else{
+								res.redirect('/portal')
+						}
+				   	  }
+				   	  else{
+				   	  	fs.unlink(req.file.path, function(err) {return res.status(404).send('invalid file format');})
+				   	  }
+				  });		
 			}
 		});
 	},

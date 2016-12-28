@@ -995,19 +995,20 @@ if(req.body.colname == 'assingedToUserId'){
 
     bugAttachment: function(req, res, next) {  
     var filename;
-    var targetPath;
     var fname;
     var fileSize;
    
-    var targetPath='./'+req.file.path+req.file.originalname;
-    if(1){
-        fs.rename(req.file.path,targetPath,function(err){
-            if(err)
-            throw err;
-        });
-    }
-    var targetPath=(req.file.path+req.file.originalname).replace('public/','');             
-       
+    // var targetPath='./'+req.file.path+req.file.originalname;
+    // if(1){
+    //     fs.rename(req.file.path,targetPath,function(err){
+    //         if(err)
+    //         throw err;
+    //     });
+    // }
+    // var targetPath=(req.file.path+req.file.originalname).replace('public/',''); 
+
+    var targetPath=req.file.path.replace('public/','');
+
         modelPortal.bugAttachment(
             req.body.id,
             req.session.userId,

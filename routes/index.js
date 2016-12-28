@@ -8,10 +8,24 @@ var url = require('./handlers/url');
 var fs = require('fs'); 
 var path = require('path');
 var multer  = require('multer');
-var upload = multer({ dest: './public/attach/',limits: {
-    fieldNameSize: 999999999,
-    fieldSize: 999999999
+// var upload = multer({ dest: './public/attach/',limits: {
+//     fieldNameSize: 999999999,
+//     fieldSize: 999999999
+//   }
+// });
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/attach/'); // Absolute path. Folder must exist, will not be created for you.
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() +file.originalname);
   }
+});
+var upload = multer({ storage: storage,
+  limits: {
+      fieldNameSize: 999999999,
+      fieldSize: 999999999
+  },
 });
 var busboy=require('busboy');
  
