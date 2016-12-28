@@ -5,7 +5,9 @@
     <% include ./partials/head %>
 
 <style>
-/******/
+.action-buttons{
+  float: right;
+}
 
 
 
@@ -26,9 +28,9 @@
 .active{
   background-color:transparent;
 }
-.tree li {
+/*.tree li {
     width:200px;
-}
+}*/
 tr{
   width: 100%;
 }
@@ -52,7 +54,7 @@ a{
     text-decoration: none;
 }
 .tree li.parent > a {
-    padding: 0 0 0 28px;
+    /*padding: 0 0 0 28px;*/
     color: black;
     font-size: 12px;
 }
@@ -87,7 +89,7 @@ a{
     display: none;
     margin: 0 0 0 8px;
   /*overflow: hidden;*/
-    padding: 0 0 0 25px;
+    padding: 0 0 0 8px;
 }
 .tree ul li ul li {
     position: relative;
@@ -101,27 +103,34 @@ a{
 .tree ul li ul li ul li ul{
     border-left: 1px solid black;
     display: none;
-    margin: 0 0 0 12px;
+    margin: 0 0 0 8px;
   /*overflow: hidden;*/
-    padding: 0 0 0 25px;
+    padding: 0 0 0 8px;
 }
 
 .tree ul li ul li ul li ul li:before {
-    border-bottom: 1px dashed black;
+    /*border-bottom: 1px dashed black;
     content: "";
     left: -20px;
     position: absolute;
     top: 12px;
-    width: 15px;
+    width: 15px;*/
+
+    border-bottom: 1px dashed black;
+    content: "";
+    left: -8px;
+    position: absolute;
+    top: 12px;
+    width: 4px;
 }
 /*end*/
 .tree ul li ul li:before {
     border-bottom: 1px dashed black;
     content: "";
-    left: -20px;
+    left: -8px;
     position: absolute;
     top: 12px;
-    width: 15px;
+    width: 4px;
 }
 #wrapper {
     margin: 0 auto;
@@ -790,7 +799,7 @@ console.log("client testing",data,"flagvalueee",flag);
                     for (var i = data[0].length-1; i >=0 ; i--) {
                       //$('#projecttreevew').append(showaddprojectform()
                   var projname =  data[0][i].clientName.toString();
-                     log=log+'<li class=""><a class="c'+data[0][i].id+'" id="client_Anchor'+data[0][i].id+'" onclick="showhide('+data[0][i].id+',1,'+data[0][i].id+',this)"><span class="fa fa-folder" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].clientName+'</a><div class="hide anvi" id="divclient'+data[0][i].id+'" style="margin-left: 235px;width:100px;margin-top: -22px"><input type="hidden" id="tet'+data[0][i].id+'" value="'+data[0][i].clientName+'"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="clientsEdit('+data[0][i].id+',1)" title="Edit Client" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="addproj'+data[0][i].id+'" title="Add Project" onclick="showaddprojectform('+data[0][i].id+','+i+')" class="'+addproject+'"style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveClient'+data[0][i].id+'" onclick="activeInactive('+data[0][i].id+','+data[0][i].isActive+',1,this)" class="'+act+'" title="'+mytitle+'"style="'+mystyle+'"></span></div><ul id="client'+data[0][i].id+'"></ul></li>';
+                     log=log+'<li class=""><a class="c'+data[0][i].id+'" id="client_Anchor'+data[0][i].id+'" onclick="showhide('+data[0][i].id+',1,'+data[0][i].id+',this)"><span class="fa fa-folder" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].clientName+'</a><div class="hide anvi action-buttons" id="divclient'+data[0][i].id+'"><input type="hidden" id="tet'+data[0][i].id+'" value="'+data[0][i].clientName+'"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="clientsEdit('+data[0][i].id+',1)" title="Edit Client" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="addproj'+data[0][i].id+'" title="Add Project" onclick="showaddprojectform('+data[0][i].id+','+i+')" class="'+addproject+'"style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveClient'+data[0][i].id+'" onclick="activeInactive('+data[0][i].id+','+data[0][i].isActive+',1,this)" class="'+act+'" title="'+mytitle+'"style="'+mystyle+'"></span></div><ul id="client'+data[0][i].id+'"></ul></li>';
 
                       if(data[0][i].isActive==0){ 
                   
@@ -827,7 +836,7 @@ console.log("client testing",data,"flagvalueee",flag);
                      currentprojname[i] =  data[1][i].projectTitle.toString();
                       pstartdate[i]=data[1][i].plannedStartDate;
                       pendDate[i]=data[1][i].plannedEndDate;
-                     $('#client'+data[1][i].cname+'').append('<li class=""><a id="project_Anchor'+data[1][i].id+'" class="c'+data[1][i].cname+'"  onclick="showhide('+data[1][i].id+',2,'+data[1][i].cact+',this)"><span  class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+data[1][i].projectTitle+'</a><div class="hide cd'+data[1][i].cname+' anvi " id="divp'+data[1][i].id+'" style="margin-left: 200px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[1][i].id+'" value="1"><span onclick="projectAddEdit('+data[1][i].id+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="add'+data[1][i].id+'" title="Add WBS" onclick="showaddwbsform('+data[1][i].id+','+i+')" class="'+addproject+'" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveProject'+data[1][i].id+'" title="'+mytitle+'"onclick="activeInactive('+data[1][i].id+','+data[1][i].isActive+',2,this)"class="'+act+'" style="'+mystyle+'""></span></div><ul id="project'+data[1][i].id+'"></ul></li>');
+                     $('#client'+data[1][i].cname+'').append('<li class=""><a id="project_Anchor'+data[1][i].id+'" class="c'+data[1][i].cname+'"  onclick="showhide('+data[1][i].id+',2,'+data[1][i].cact+',this)"><span  class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+data[1][i].projectTitle+'</a><div class="action-buttons hide cd'+data[1][i].cname+' anvi " id="divp'+data[1][i].id+'"><input type="hidden" id="in'+data[1][i].id+'" value="1"><span onclick="projectAddEdit('+data[1][i].id+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="add'+data[1][i].id+'" title="Add WBS" onclick="showaddwbsform('+data[1][i].id+','+i+')" class="'+addproject+'" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveProject'+data[1][i].id+'" title="'+mytitle+'"onclick="activeInactive('+data[1][i].id+','+data[1][i].isActive+',2,this)"class="'+act+'" style="'+mystyle+'""></span></div><ul id="project'+data[1][i].id+'"></ul></li>');
 
                       
 
@@ -860,7 +869,7 @@ console.log("client testing",data,"flagvalueee",flag);
                    wstartdate[i]=data[2][i].wplannedStartDate;  
                    wendDate[i]=data[2][i].wplannedEndDate;
                       window.setTimeout(function(){ 
-                      $('#project'+data[2][i].projectId+'').append('<li class=""><a class="c'+data[2][i].cname+' p'+data[2][i].projectId+'" id="wbs_Anchor'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].WBSID+',3,'+data[2][i].pact+',this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].WBSName+'</a><div class="hide anvi pd'+data[2][i].projectId+' c'+data[2][i].cname+'" id="divw'+data[2][i].WBSID+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[2][i].WBSID+'" value="1"><span onclick="Editwbsdetail('+data[2][i].WBSID+')" class="glyphicon glyphicon-edit" title="Edit Wbs" style="color:red;font-size: 15px"></span><span id="addass'+data[2][i].id+'" onclick="addassignmentinwbs('+data[2][i].WBSID+','+i+','+data[2][i].projectId+','+data[2][i].WBSID+')" class="glyphicon glyphicon-plus-sign" title="Add Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeWbs'+data[2][i].WBSID+'"onclick="activeInactive('+data[2][i].WBSID+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[2][i].WBSID+'" onclick="activeInactive('+data[2][i].WBSID+',0,3,this)" class="glyphicon  glyphicon-remove-sign hide" title="Activate WBS" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="wbs'+data[2][i].WBSID+'"></ul></li>');
+                      $('#project'+data[2][i].projectId+'').append('<li class=""><a class="c'+data[2][i].cname+' p'+data[2][i].projectId+'" id="wbs_Anchor'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].WBSID+',3,'+data[2][i].pact+',this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].WBSName+'</a><div class="hide anvi action-buttons pd'+data[2][i].projectId+' c'+data[2][i].cname+'" id="divw'+data[2][i].WBSID+'"><input type="hidden" id="in'+data[2][i].WBSID+'" value="1"><span onclick="Editwbsdetail('+data[2][i].WBSID+')" class="glyphicon glyphicon-edit" title="Edit Wbs" style="color:red;font-size: 15px"></span><span id="addass'+data[2][i].id+'" onclick="addassignmentinwbs('+data[2][i].WBSID+','+i+','+data[2][i].projectId+','+data[2][i].WBSID+')" class="glyphicon glyphicon-plus-sign" title="Add Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeWbs'+data[2][i].WBSID+'"onclick="activeInactive('+data[2][i].WBSID+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[2][i].WBSID+'" onclick="activeInactive('+data[2][i].WBSID+',0,3,this)" class="glyphicon  glyphicon-remove-sign hide" title="Activate WBS" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="wbs'+data[2][i].WBSID+'"></ul></li>');
                       
                       if(data[2][i].isActive==0){
         
@@ -897,7 +906,7 @@ console.log("client testing",data,"flagvalueee",flag);
   
                       window.setTimeout(function(){ 
                         
-                      $('#wbs'+data[3][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[3][i].id+'" class="c'+data[3][i].cname+' p'+data[3][i].ProjectId+' w'+data[3][i].WBSID+'" onclick="showhide('+data[3][i].id+',4,'+data[3][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[3][i].name+'</a><div class="hide anvi c'+data[3][i].cname+' pd'+data[3][i].ProjectId+' wd'+data[3][i].WBSID+'" id="divs'+data[3][i].id+'" style="margin-left: 160px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[3][i].id+'" value="1"><span id="activeAssignment'+data[3][i].id+'" onclick="activeInactive('+data[3][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign" title="Deactivate Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[3][i].id+'" onclick="activeInactive('+data[3][i].id+',0,4,this)" class="glyphicon  glyphicon-remove-sign hide "  title="Activate Assignment" style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
+                      $('#wbs'+data[3][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[3][i].id+'" class="c'+data[3][i].cname+' p'+data[3][i].ProjectId+' w'+data[3][i].WBSID+'" onclick="showhide('+data[3][i].id+',4,'+data[3][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[3][i].name+'</a><div class="action-buttons hide anvi c'+data[3][i].cname+' pd'+data[3][i].ProjectId+' wd'+data[3][i].WBSID+'" id="divs'+data[3][i].id+'"><input type="hidden" id="in'+data[3][i].id+'" value="1"><span id="activeAssignment'+data[3][i].id+'" onclick="activeInactive('+data[3][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign" title="Deactivate Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[3][i].id+'" onclick="activeInactive('+data[3][i].id+',0,4,this)" class="glyphicon  glyphicon-remove-sign hide "  title="Activate Assignment" style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
                       if(data[3][i].isActive==0){
                          // console.log(' inactive assignment shaluuu');
                         $("#".concat(data[3][i].id)).css("color","red");
@@ -1881,7 +1890,7 @@ if(!$("#pstatus1").is(":checked"))
                                       var log="";
                                       $("#client".concat(pclient)).addClass('parent');
                                        $("#client".concat(pclient)).addClass('active');
-                                       log=log+'<li class="parent active"><a id="project_Anchor'+data[0][0].lid+'"onclick="showhide('+data[0][0].lid+',2,34,this)"><span class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+pname+'</a><div class="hide anvi" id="divp'+data[0][0].lid+'" style="margin-left: 200px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[0][0].lid+'" value="1"><span onclick="projectAddEdit('+data[0][0].lid+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span title="Add WBS" onclick="showaddwbsform('+data[0][0].lid+','+(currentprojname.length-1)+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeProject'+data[0][0].lid+'" onclick="activeInactive('+data[0][0].lid+',1,2,this)" title="Deactivate Project" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveProject'+data[0][0].lid+'" title="Activate Project" onclick="activeInactive('+data[0][0].lid+',0,2,this)"class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="project'+data[0][0].lid+'"></ul></li>';
+                                       log=log+'<li class="parent active"><a id="project_Anchor'+data[0][0].lid+'"onclick="showhide('+data[0][0].lid+',2,34,this)"><span class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+pname+'</a><div class="hide anvi action-buttons" id="divp'+data[0][0].lid+'"><input type="hidden" id="in'+data[0][0].lid+'" value="1"><span onclick="projectAddEdit('+data[0][0].lid+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span title="Add WBS" onclick="showaddwbsform('+data[0][0].lid+','+(currentprojname.length-1)+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeProject'+data[0][0].lid+'" onclick="activeInactive('+data[0][0].lid+',1,2,this)" title="Deactivate Project" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveProject'+data[0][0].lid+'" title="Activate Project" onclick="activeInactive('+data[0][0].lid+',0,2,this)"class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="project'+data[0][0].lid+'"></ul></li>';
                                      $("#client".concat(pclient)).append(log);
                                  
                                     }
@@ -2597,10 +2606,10 @@ $("#datepickerw1").datetimepicker({
                                       currentwbsname.push($("#wbsname").val());
                                        wstartdate.push($("#datepickerw").val());
                                           wendDate.push($('#datepickerw1').val());
-                                       $('#project'+$("#proname").val()+'').append('<li class="parent active"><a id="wbs_Anchor'+data[1][0].flag+'" onclick="showhide('+data[1][0].flag+',3,45,this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+$("#wbsname").val()+'</a><div class="hide anvi" id="divw'+data[1][0].flag+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="Editwbsdetail('+data[1][0].flag+')" title="edit Wbs" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span onclick="addassignmentinwbs('+data[1][0].flag+','+(wbsprojname.length-1)+','+$("#proname").val()+','+data[1][0].flag+')" title="Add Asssignment" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span></span><span id="activeWbs'+data[1][0].flag+'"onclick="activeInactive('+data[1][0].flag+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[1][0].flag+'" title="Activate WBS" onclick="activeInactive('+data[1][0].flag+',0,3,this)"class="glyphicon  glyphicon-remove-sign hide  " style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="wbs'+data[1][0].flag+'"></ul></li>');
+                                       $('#project'+$("#proname").val()+'').append('<li class="parent active"><a id="wbs_Anchor'+data[1][0].flag+'" onclick="showhide('+data[1][0].flag+',3,45,this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+$("#wbsname").val()+'</a><div class="hide anvi action-buttons" id="divw'+data[1][0].flag+'"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="Editwbsdetail('+data[1][0].flag+')" title="edit Wbs" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span onclick="addassignmentinwbs('+data[1][0].flag+','+(wbsprojname.length-1)+','+$("#proname").val()+','+data[1][0].flag+')" title="Add Asssignment" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span></span><span id="activeWbs'+data[1][0].flag+'"onclick="activeInactive('+data[1][0].flag+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[1][0].flag+'" title="Activate WBS" onclick="activeInactive('+data[1][0].flag+',0,3,this)"class="glyphicon  glyphicon-remove-sign hide  " style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="wbs'+data[1][0].flag+'"></ul></li>');
                                        if(data[2].length>1){
                                         for(var i=0;i<data[2].length;i++){
-                                           $('#wbs'+data[2][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[2][i].id+'" class="c'+data[2][i].cname+' p'+data[2][i].ProjectId+' w'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].id+',4,'+data[2][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].name+'</a><div class="hide anvi c'+data[2][i].cname+' pd'+data[2][i].ProjectId+' wd'+data[2][i].WBSID+'" id="divs'+data[2][i].id+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[2][i].id+'" value="1"><span onclick="Editassignment('+data[2][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[2][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[2][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[2][i].id+'" title="Activate Assignment" onclick="activeInactive('+data[2][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
+                                           $('#wbs'+data[2][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[2][i].id+'" class="c'+data[2][i].cname+' p'+data[2][i].ProjectId+' w'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].id+',4,'+data[2][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].name+'</a><div class="action-buttons hide anvi c'+data[2][i].cname+' pd'+data[2][i].ProjectId+' wd'+data[2][i].WBSID+'" id="divs'+data[2][i].id+'"><input type="hidden" id="in'+data[2][i].id+'" value="1"><span onclick="Editassignment('+data[2][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[2][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[2][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[2][i].id+'" title="Activate Assignment" onclick="activeInactive('+data[2][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
 
                                         }
 
@@ -2890,10 +2899,10 @@ x.disabled=true;
                                     if($('#hiddenid').val()==0){
                                    $('#createclientcontect').html('');
                                
-                                      $('#createclientcontect').append('<button title="Create Client Contect" class="btn btn-primary" style="background-color: #f05f40;"   data-toggle="modal" data-target="#myModal" onclick="addEditContacts(0,'+data[1][0].flag+')">Create Contact</button>');
+                                      $('#createclientcontect').append('<button title="Create Client Contact" class="btn btn-primary" style="background-color: #f05f40;"   data-toggle="modal" data-target="#myModal" onclick="addEditContacts(0,'+data[1][0].flag+')">Create Contact</button>');
                                       getContacts(data[1][0].flag);
 
-                                      log=log+'<li class="parent active"><a id="client_Anchor'+data[1][0].flag+'" onclick="showhide('+data[1][0].flag+',1,1,this)"><span class="fa fa-folder" style="font-size:15px;color:green;padding-right:10px"></span>'+$('#cname').val()+'</a><div class="hide anvi" id="divclient'+data[1][0].flag+'" style="margin-left: 212px;width:100px;margin-top: -22px"><input type="hidden" id="tet'+data[1][0].flag+'" value="'+$('#cname').val()+'"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="clientsEdit('+data[1][0].flag+',1)" title="Edit Client" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span title="Add Project" onclick="showaddprojectform('+data[1][0].flag+',1)" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span  id="activeClient'+data[1][0].flag+'" onclick="activeInactive('+data[1][0].flag+',1,1,this)" title="Deactivate Client" name="xyz" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveClient'+data[1][0].flag+'" title="Activate Client" onclick="activeInactive('+data[1][0].flag+',0,1,this)" class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="client'+data[1][0].flag+'" style="display:block"></ul></li>';
+                                      log=log+'<li class="parent active"><a id="client_Anchor'+data[1][0].flag+'" onclick="showhide('+data[1][0].flag+',1,1,this)"><span class="fa fa-folder" style="font-size:15px;color:green;padding-right:10px"></span>'+$('#cname').val()+'</a><div class="hide anvi action-buttons" id="divclient'+data[1][0].flag+'"><input type="hidden" id="tet'+data[1][0].flag+'" value="'+$('#cname').val()+'"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="clientsEdit('+data[1][0].flag+',1)" title="Edit Client" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span title="Add Project" onclick="showaddprojectform('+data[1][0].flag+',1)" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span  id="activeClient'+data[1][0].flag+'" onclick="activeInactive('+data[1][0].flag+',1,1,this)" title="Deactivate Client" name="xyz" class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveClient'+data[1][0].flag+'" title="Activate Client" onclick="activeInactive('+data[1][0].flag+',0,1,this)" class="glyphicon  glyphicon-remove-sign hide" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="client'+data[1][0].flag+'" style="display:block"></ul></li>';
                                        $('#treeul').append(log);
                                     messageBox("Client Added Successfully");
                                     showclient();
@@ -3470,7 +3479,7 @@ document.getElementById("assignbutton").disabled=true;
                       $('#wbs'+$('#wbs2').val()).html(''); 
                        for( var i=0;i<data[0].length;i++){
                    
-                  $('#wbs'+data[0][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[0][i].id+'" class="c'+data[0][i].cname+' p'+data[0][i].ProjectId+' w'+data[0][i].WBSID+'" onclick="showhide('+data[0][i].id+',4,'+data[0][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].name+'</a><div class="hide anvi c'+data[0][i].cname+' pd'+data[0][i].ProjectId+' wd'+data[0][i].WBSID+'" id="divs'+data[0][i].id+'" style="margin-left: 165px;width:100px;margin-top: -22px"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="Editassignment('+data[0][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[0][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[0][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[0][i].id+'"title="Activate Assignment" onclick="activeInactive('+data[0][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
+                  $('#wbs'+data[0][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[0][i].id+'" class="c'+data[0][i].cname+' p'+data[0][i].ProjectId+' w'+data[0][i].WBSID+'" onclick="showhide('+data[0][i].id+',4,'+data[0][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].name+'</a><div class="action-buttons hide anvi c'+data[0][i].cname+' pd'+data[0][i].ProjectId+' wd'+data[0][i].WBSID+'" id="divs'+data[0][i].id+'"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="Editassignment('+data[0][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[0][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[0][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[0][i].id+'"title="Activate Assignment" onclick="activeInactive('+data[0][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
                         }
                       messageBox('Assignment Added Successfully');
       
@@ -3690,12 +3699,11 @@ function showinactiveproject(){
  <div class="row secondry-color">
 
 <!--div id="wrapper" style="margin-left: -245px;margin-top: 24px"-->
-<div class="tree col-md-4" style="overflow-y: scroll; height:660px;width:430px;margin-top: -19px;
-">
+<div class="tree col-lg-3 col-md-4 col-sm-4" style="overflow-y: scroll; height:660px;">
     <button id="all" class="hide">Project</button>
- <div style="margin-left:40px" ><input type="radio" id="actproject" name="" onclick="showactiveproject()"   style="margin-top:3%" > Active
+ <div><input type="radio" id="actproject" name="" onclick="showactiveproject()"   style="margin-top:3%" > Active
               <input type="radio" id="actprojectin" name="" onclick="showinactiveproject()"   style="margin-top:3%;"> Inactive</div>  
-<ul ><li id="treeview"><a onclick="showhide('00',0)"><span class="fa fa-university" style="color:green;font-size: 15px;padding-right:10px"></span>All Clients</a><div class="hide anvi" id="div00" style="margin-left: 268px;width:200px;margin-top: -22px"><input type="hidden" id="in00" value="1"><span title="Add Client" onclick="showclientform()" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span></div></li></ul>
+<ul style="padding-left: 0"><li id="treeview"><a onclick="showhide('00',0)"><span class="fa fa-university" style="color:green;font-size: 15px;padding-right:10px"></span>All Clients</a><div class="hide anvi action-buttons" id="div00"><input type="hidden" id="in00" value="1"><span title="Add Client" onclick="showclientform()" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span></div></li></ul>
  
 </div>
 <!--/div-->
@@ -3703,7 +3711,7 @@ function showinactiveproject(){
 
 <!--add project data-->
 
- <div id="projectadd" class="container-fluid user-list  col-md-8 hide"  style="float:right; margin-top:-655px">
+ <div id="projectadd" class="container-fluid user-list  col-lg-9 col-md-8 col-sm-8 hide">
     <div  style="margin-top:1%">
     <span class="fusion-page-title">Project Details</span>
     <!--form id="projectform" method="post">
@@ -4238,10 +4246,9 @@ function showinactiveproject(){
       </main>
       </form>
     </div>
-</div>
 <!--end project data-->
 <!--addWBS-->
-<div id="addwbs" class="col-md-8 hide" style="float:right;margin-top: -655px ; overflow: auto;height:654px">
+<div id="addwbs" class="col-lg-9 col-md-8 col-sm-8 hide">
  <div id="ModalAdd"></div> 
       <div id="ModalAddMesage"></div>
 
@@ -4541,7 +4548,7 @@ function showinactiveproject(){
 <!--endWBS-->
 <!--client add-->
 
- <div id="addclient" class="col-md-8 hide" style="float:right;margin-top: -655px; overflow: auto;height:654px ">
+ <div id="addclient" class="col-lg-9 col-md-8 col-sm-8 hide">
        
                     <span class="fusion-page-title" >Client Details</span>
                            
@@ -4726,7 +4733,7 @@ function showinactiveproject(){
   
 <!--client end-->
 <!--assignment add-->
-<div id="aa" class="col-md-8 hide" style="float:right;margin-top: -655px " >
+<div id="aa" class="col-lg-9 col-md-8 col-sm-8 hide">
  
 <form id="addassignform"  method="post" onsubmit="" name="client" >
                           <input type="hidden" name="flag" id="flagid" value="0">
@@ -4869,7 +4876,7 @@ function showinactiveproject(){
   
 <!--client end-->
 <!--description-->
- <div id="showallclient" class="col-md-8 hide" style="float:right;margin-top: -655px ">
+ <div id="showallclient" class="col-lg-9 col-md-8 col-sm-8 hide">
         <div style="margin-left: 10px;margin-right: 10px">
         <div class="row">
         <label id="alldetails" style="width: 17%;margin-top: 10px;margin-bottom: 10px;color:#f04050;margin-left: 350px;"></label></div>
@@ -4883,6 +4890,7 @@ function showinactiveproject(){
             </table>
         </div>
     </div>
+  </div>
     <!--description-->
 
     <!--client contect-->
