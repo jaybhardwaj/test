@@ -213,7 +213,7 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
             ]
         };
         mysql(query, function(err, result) {
-
+//console.log(query,'zzzzz');
 
             callback(err, result);
         });
@@ -1284,6 +1284,8 @@ getAllAssignment: function(userId,roleId,retailerId,start,end,status,search,sort
             
         };
 
+       // console.log("query-------",query);
+
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2351,8 +2353,10 @@ getsoftwareexpirtdetails:function(id,callback){
         values: [retailerId,flag]
        
         };
+       // console.log(q,"query");
         mysql(q, function(err, result) {
             if (err) {
+              //  console.log("error**",err);
             }
             else {
             callback(err,result);
@@ -2383,7 +2387,7 @@ getsoftwareexpirtdetails:function(id,callback){
         values: [flag,retailerId]
        
         };
-        ////console.log(q);
+      
         mysql(q, function(err, result) {
             if (err) {
                console.log(err);
@@ -2401,10 +2405,10 @@ getsoftwareexpirtdetails:function(id,callback){
         values: [retailerId,actval,flag]
        
         };
-        ////console.log(q);
+     //   console.log(q);
         mysql(q, function(err, result) {
             if (err) {
-               console.log(err);
+              // console.log(err);
             }
             else {
             callback(err,result);
@@ -2422,7 +2426,7 @@ getsoftwareexpirtdetails:function(id,callback){
         ////console.log(q);assignmentedit
         mysql(q, function(err, result) {
             if (err) {
-               console.log(err);
+              // console.log(err);
             }
             else {
             callback(err,result);
@@ -2437,12 +2441,14 @@ getsoftwareexpirtdetails:function(id,callback){
         values: [retailerId]
        
         };
+       // console.log("assignmentedit....",q);
         ////console.log(q);assignmentedit
         mysql(q, function(err, result) {
             if (err) {
                console.log(err);
             }
             else {
+           //     console.log('assignmentres....',result);
             callback(err,result);
             }
         });         
@@ -2575,7 +2581,7 @@ getsoftwareexpirtdetails:function(id,callback){
         values: [retailerId]
        
         };
-        ////console.log(q);
+      //console.log(q,'noteeretailerid....');
         mysql(q, function(err, result) {
             if (err) {
                console.log(err);
@@ -3549,11 +3555,14 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         }; 
 
         mysql(q, function(err, result) {
-            console.log("sha....",q,err,result);
+           // console.log("sha....",q);
+           
             if (err) {
+                
                 ////console.log(err);
             }
             else {
+              //  console.log("sol....",result);
             callback(err,result);
             }
         });         
@@ -3564,10 +3573,12 @@ getscheduleInfo : function (userId,roleId,retailerId,cid,callback){
         values: [body.id,body.password]
        
         };
+      //  console.log('sendemail....',q);
         mysql(q, function(err, result) {
             if (err) {
             }
             else { 
+          //      console.log("myresult",result);
             callback(err,result);
             }
         });         

@@ -782,7 +782,9 @@ function checkedit(){
 console.log("client testing",data,"flagvalueee",flag);
                      var log = '<ul id="treeul">',log1='',log2='';
                                                                      //showaddwbsform('+data[0][i].id+','+projname+')
-
+ $('#alldetails').html('');
+       $('#alldetails').append('Clients List');
+    showclient();
                                                                      ddd=data;
                     if(data[0][1].isActive==1){
                       var act='glyphicon glyphicon-ok-sign';
@@ -3421,7 +3423,7 @@ var td= new Date();
   var yr=td.getFullYear();
   st_ed_date=mm+"/"+dd+"/"+yr;
 
-document.getElementById("assignbutton").disabled=true;
+document.getElementById("assignbutton").disabled=false;
      $.ajax({        
                     url:'/submitAssignmenttree',
                     type:'post',
@@ -3445,11 +3447,13 @@ document.getElementById("assignbutton").disabled=true;
                   {
                     //console.log('NIUR');
                     activeInactive(parseInt($("#assignmentId").val()),1,4);
+                    return 0;
                   }
                   else if(statusval==1)
                   {
                     //console.log('saini');
                     activeInactive(parseInt($("#assignmentId").val()),0,4);
+                    return 1;
                   }
                     document.getElementById("assignbutton").disabled=false;
                    
@@ -3659,12 +3663,16 @@ document.getElementById("assignbutton").disabled=true;
                     }
 /*************show assignment*************/
 function showactiveproject(){
+
   window.location.href="/projecttreeview"
 
 }
 
 function showinactiveproject(){
+
+
  window.location.href="/inactiveclient"
+
 }
   function formatDate(date) {
                   date1=date.getFullYear();
