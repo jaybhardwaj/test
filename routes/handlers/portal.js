@@ -1493,16 +1493,20 @@ deleteFileByIdPermanentely: function(req,res,next){
    var delPath = path.resolve('./public/attach/');
 
     modelPortal.deleteFileByIdPermanentely(req.session.userId,req.session.roleId,req.session.retailerId,req.body.status,req.body.status1,function(err,result){
-    if(err){
-        next(err);
-        return;
-    }
- 
-  delPath = path.resolve('./public/attach/'+result[0][0].fpath);
- 
-  fs.unlinkSync(delPath);
-  res.json('succs');
-   });
+        if(err){
+            next(err);
+            return;
+        }
+     
+      delPath = path.resolve('./public/attach/'+result[0][0].fpath);
+     
+      fs.unlink(delPath,function(err){
+        if(err){
+            console.log(err);
+        }
+        res.send('Deleted successfully');
+      });
+    });
         
  },
 
@@ -3861,25 +3865,25 @@ insertExpense: function(req, res, next) {
     var form=JSON.parse(formdata);
     var flag=form.edit;
     if((exp==1)&&(flag==0)){
-    modelPortal.insertHotelExpense(form.hotelexpensetypeid,form.hoteltrip,form.fromDate,form.toDate,form.hotelName,form.hotelReason,form.hotelifOther,form.hotelperDayRate,form.hotelTotalDay,form.hotelCurrency,form.htex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
-     if (errorRoles) {
-                 next(errorRoles);
-                return;
-             }
-            
-              res.json('success');
-    });
-}
+        modelPortal.insertHotelExpense(form.hotelexpensetypeid,form.hoteltrip,form.fromDate,form.toDate,form.hotelName,form.hotelReason,form.hotelifOther,form.hotelperDayRate,form.hotelTotalDay,form.hotelCurrency,form.htex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
+         if (errorRoles) {
+                     next(errorRoles);
+                    return;
+                 }
+                
+                  res.json('success');
+        });
+    }
 
     if((exp==1)&&(flag==1)){
-    modelPortal.updateHotelExpense(form.hotelexpensetypeid,form.hoteltrip,form.fromDate,form.toDate,form.hotelName,form.hotelReason,form.hotelifOther,form.hotelperDayRate,form.hotelTotalDay,form.hotelCurrency,form.htex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
-    if (errorRoles) {
-                 next(errorRoles);
-                 return;
-             }
-             res.json('success');
-    });
-}
+        modelPortal.updateHotelExpense(form.hotelexpensetypeid,form.hoteltrip,form.fromDate,form.toDate,form.hotelName,form.hotelReason,form.hotelifOther,form.hotelperDayRate,form.hotelTotalDay,form.hotelCurrency,form.htex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
+        if (errorRoles) {
+                     next(errorRoles);
+                     return;
+                 }
+                 res.json('success');
+        });
+    }
 
   if((exp==2)&&(flag==0)){
     modelPortal.insertTravelExpense(form.travelexpensetypeid,form.traveltrip,form.travelFromDate,form.travelToDate,form.travelType,form.travelReason,form.travelIfNot,form.TravelRatePerDay,form.travelTotalDay,form.travelCurrency,form.travelex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
@@ -3892,34 +3896,34 @@ insertExpense: function(req, res, next) {
   }
 
     if((exp==2)&&(flag==1)){
-    modelPortal.updateTravelExpense(form.travelexpensetypeid,form.traveltrip,form.travelFromDate,form.travelToDate,form.travelType,form.travelReason,form.travelIfNot,form.TravelRatePerDay,form.travelTotalDay,form.travelCurrency,form.travelex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
-     if (errorRoles) {
-                 next(errorRoles);
-                 return;
-             }
-             res.json('success');
-    });
-  }
+        modelPortal.updateTravelExpense(form.travelexpensetypeid,form.traveltrip,form.travelFromDate,form.travelToDate,form.travelType,form.travelReason,form.travelIfNot,form.TravelRatePerDay,form.travelTotalDay,form.travelCurrency,form.travelex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
+         if (errorRoles) {
+                     next(errorRoles);
+                     return;
+                 }
+                 res.json('success');
+        });
+    }
 
    if((exp==3)&&(flag==0)){
-   modelPortal.insertFoodExpense(form.travelexpensetypeid,form.foodtrip,form.foodFromDate,form.foodToDate,form.foodReason,form.foodCurrency,form.foodtex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
-     if (errorRoles) {
-                 next(errorRoles);
-                 return;
-             }
-            res.json('success');
-    });
-  }
+       modelPortal.insertFoodExpense(form.travelexpensetypeid,form.foodtrip,form.foodFromDate,form.foodToDate,form.foodReason,form.foodCurrency,form.foodtex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
+         if (errorRoles) {
+                     next(errorRoles);
+                     return;
+                 }
+                res.json('success');
+        });
+    }
 
     if((exp==3)&&(flag==1)){
-   modelPortal.updateFoodExpense(form.travelexpensetypeid,form.foodtrip,form.foodFromDate,form.foodToDate,form.foodReason,form.foodCurrency,form.foodtex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
-     if (errorRoles) {
-                 next(errorRoles);
-                 return;
-             }
-            res.json('success');
-    });
-  }
+       modelPortal.updateFoodExpense(form.travelexpensetypeid,form.foodtrip,form.foodFromDate,form.foodToDate,form.foodReason,form.foodCurrency,form.foodtex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
+         if (errorRoles) {
+                     next(errorRoles);
+                     return;
+                 }
+                res.json('success');
+        });
+    }
 
    if((exp==4)&&(flag==0)){
    modelPortal.insertPhoneExpense(form.travelexpensetypeid,form.phonetrip,form.phoneFromDate,form.phoneToDate,form.phoneReason,form.phoneCurrency,form.phoneExp,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){

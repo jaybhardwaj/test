@@ -570,11 +570,15 @@ $('#hideColumnsId').tagger({
                 }); 
              jQuery('#createdDate').datetimepicker({
                             timepicker: false,
-                            format: 'd/m/Y'
+                            format: 'd/m/Y',
+                            scrollMonth : false,
+        scrollInput : false
                         });
                jQuery('#closureDate').datetimepicker({
                             timepicker: false,
-                            format: 'd/m/Y'
+                            format: 'd/m/Y',
+                            scrollMonth : false,
+        scrollInput : false
                         });
                       $(function() {
   var thHeight = $("table#data_table th:first").height();
@@ -660,8 +664,17 @@ $('#hideColumnsId').tagger({
                     }
                     $('.datepicker').datetimepicker({
                          timepicker: false,
-                        format: 'd/m/Y'
+                        format: 'd/m/Y',
+                        scrollMonth : false,
+        scrollInput : false
                     });
+                },
+                "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                  var page = this.fnPagingInfo().iPage;
+                   var length = this.fnPagingInfo().iLength;
+                   var index = (page * length + (iDisplayIndex +1));
+                   $('td:eq(0)', nRow).html(index);
+                  console.log(nRow, aData, iDisplayIndex, iDisplayIndexFull,index,'amit');
                 },
                 "columnDefs": [  
                     {
@@ -860,8 +873,9 @@ $('#data_table tbody').on('click', 'tr', function () {
     var data = otable.row( this ).data();
     $('#bugDetails tr').css({"background-color":"white"});
     $(this).css({"background-color":"#c5c5c5"});
-    if(data)
+    if(data){
       showdetails(data.id,data.Sno -1);
+    }
 });
 
 $("input:checkbox:not(:checked)").each(function() {
