@@ -48,7 +48,7 @@ a{
 }
 .tree > ul > li > a {
     color: #3B4C56;
-    /*display: block;*/
+    // display: block;
     font-weight: normal;
     position: relative;
     text-decoration: none;
@@ -452,7 +452,6 @@ $("#datepickerw3").datetimepicker({
                     scrollMouse: false,
                     scrollInput: false
                 });
-
 $("#asdatepicker").change(function(){
 var text1 = $("#asdatepicker").val();
  var date1 = new Date(text1);                      
@@ -631,7 +630,7 @@ function AssigntoAll(){
                             $('#pmanager').trigger("chosen:updated");
                             $('#pcat').trigger("chosen:updated");
                             $('#poNumber').trigger("chosen:updated");
-                            $('#ccontact').val(" ").trigger("change");
+                            $('#ccontact').trigger("chosen:updated");
                             $('#taxCode').trigger("chosen:updated");
 
                           // $('#ccontact').val(data[0][0].ccmid).select2({   
@@ -696,7 +695,7 @@ function checkedit(){
 
 
   function showhide(ids,flags,prantid,myelement){
-   
+   console.log("i m in showhide");
     var vals=$('#in'+ids+'').val(); //(vals==1)&&
    
     $(".anvi").addClass('hide');
@@ -772,7 +771,7 @@ function checkedit(){
 
    function projectStatus(flag){
     
-
+/*alert('ggggg'+flag);*/
     $.ajax({
                 url: '/projectfortree',
                 data: { "flag": flag},
@@ -822,31 +821,33 @@ console.log("client testing",data,"flagvalueee",flag);
                 }
                 log=log+'</ul>';
                 $('#treeview').append(log);
-                if(data[1][1].isActive==1){
+                /*if(data[1][1].isActive==1){
                       var act='glyphicon glyphicon-ok-sign';
                       var mystyle='color:green ;font-size: 15px;margin-left: 20px';
                       var mytitle='Deactivate Project';
                       var addproject='glyphicon glyphicon-plus-sign  ';
+                      var myid='activeProject"+data[1][i].id+"';
                     }
                     else{
                       var act='glyphicon  glyphicon-remove-sign';
                       var mystyle='color:red ;font-size: 15px;margin-left: 20px';
                        var mytitle='Activate Project';
                        var addproject='glyphicon glyphicon-plus-sign hide ';
-                    }
+                       var myid='inactiveProject"+data[1][i].id+"';
+                    }*/
                       for (var i = data[1].length-1; i >=0 ; i--) {
                      currentprojname[i] =  data[1][i].projectTitle.toString();
                       pstartdate[i]=data[1][i].plannedStartDate;
                       pendDate[i]=data[1][i].plannedEndDate;
-                     $('#client'+data[1][i].cname+'').append('<li class=""><a id="project_Anchor'+data[1][i].id+'" class="c'+data[1][i].cname+'"  onclick="showhide('+data[1][i].id+',2,'+data[1][i].cact+',this)"><span  class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+data[1][i].projectTitle+'</a><div class="action-buttons hide cd'+data[1][i].cname+' anvi " id="divp'+data[1][i].id+'"><input type="hidden" id="in'+data[1][i].id+'" value="1"><span onclick="projectAddEdit('+data[1][i].id+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="add'+data[1][i].id+'" title="Add WBS" onclick="showaddwbsform('+data[1][i].id+','+i+')" class="'+addproject+'" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveProject'+data[1][i].id+'" title="'+mytitle+'"onclick="activeInactive('+data[1][i].id+','+data[1][i].isActive+',2,this)"class="'+act+'" style="'+mystyle+'""></span></div><ul id="project'+data[1][i].id+'"></ul></li>');
+                     $('#client'+data[1][i].cname+'').append('<li class=""><a id="project_Anchor'+data[1][i].id+'" class="c'+data[1][i].cname+'"  onclick="showhide('+data[1][i].id+',2,'+data[1][i].cact+',this)"><span  class="fa fa-life-ring" style="font-size:15px;color:green;padding-right:10px"></span>'+data[1][i].projectTitle+'</a><div class="action-buttons hide cd'+data[1][i].cname+' anvi " id="divp'+data[1][i].id+'"><input type="hidden" id="in'+data[1][i].id+'" value="1"><span onclick="projectAddEdit('+data[1][i].id+',1)" title="Edit Project" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span id="add'+data[1][i].id+'" title="Add WBS" onclick="showaddwbsform('+data[1][i].id+','+i+')" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeProject'+data[1][i].id+'" title="Deactivate Project" onclick="activeInactive('+data[1][i].id+',1,2,this)" class="glyphicon glyphicon-ok-sign" style="color:green ;font-size: 15px;margin-left: 20px"></span><span id="inactiveProject'+data[1][i].id+'" title="Activate Project" onclick="activeInactive('+data[1][i].id+',0,2,this)" class="glyphicon glyphicon-remove-sign hide" style="color:red ;font-size: 15px;margin-left: 20px"></span></div><ul id="project'+data[1][i].id+'"></ul></li>');
 
-                      
+                     
 
                       if(data[1][i].isActive==0){
                         $("#".concat(data[1][i].id)).css("color","red");
-                      //  $("#activeProject".concat(data[1][i].id)).addClass("hide");
+                       $("#activeProject".concat(data[1][i].id)).addClass("hide");
                         $("#add".concat(data[1][i].id)).addClass("hide");
-                     //  $("#inactiveProject".concat(data[1][i].id)).removeClass("hide");
+                     $("#inactiveProject".concat(data[1][i].id)).removeClass("hide");
                           if(data[1][i].cact==0){
                                 // console.log(' inactive projectt shaluuu');
                        $(".c".concat(data[1][i].cname)).css("color","red");
@@ -855,10 +856,11 @@ console.log("client testing",data,"flagvalueee",flag);
                        }
                        else{
                         //  console.log(' active projectt shaluuu'); 
-                      //  $("#activeProject".concat(data[1][i].id)).removeClass("hide"); 
-                       //  $("#inactiveProject".concat(data[1][i].id)).addClass("hide");
+                       $("#activeProject".concat(data[1][i].id)).removeClass("hide"); 
+                        $("#inactiveProject".concat(data[1][i].id)).addClass("hide");
                          $("#add".concat(data[1][i].id)).removeClass("hide");
                        }
+                       
                        
                 }
              
@@ -871,7 +873,7 @@ console.log("client testing",data,"flagvalueee",flag);
                    wstartdate[i]=data[2][i].wplannedStartDate;  
                    wendDate[i]=data[2][i].wplannedEndDate;
                       window.setTimeout(function(){ 
-                      $('#project'+data[2][i].projectId+'').append('<li class=""><a class="c'+data[2][i].cname+' p'+data[2][i].projectId+'" id="wbs_Anchor'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].WBSID+',3,'+data[2][i].pact+',this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].WBSName+'</a><div class="hide anvi action-buttons pd'+data[2][i].projectId+' c'+data[2][i].cname+'" id="divw'+data[2][i].WBSID+'"><input type="hidden" id="in'+data[2][i].WBSID+'" value="1"><span onclick="Editwbsdetail('+data[2][i].WBSID+')" class="glyphicon glyphicon-edit" title="Edit Wbs" style="color:red;font-size: 15px"></span><span id="addass'+data[2][i].id+'" onclick="addassignmentinwbs('+data[2][i].WBSID+','+i+','+data[2][i].projectId+','+data[2][i].WBSID+')" class="glyphicon glyphicon-plus-sign" title="Add Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeWbs'+data[2][i].WBSID+'"onclick="activeInactive('+data[2][i].WBSID+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[2][i].WBSID+'" onclick="activeInactive('+data[2][i].WBSID+',0,3,this)" class="glyphicon  glyphicon-remove-sign hide" title="Activate WBS" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="wbs'+data[2][i].WBSID+'"></ul></li>');
+                      $('#project'+data[2][i].projectId+'').append('<li class=""><a class="c'+data[2][i].cname+' p'+data[2][i].projectId+'" id="wbs_Anchor'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].WBSID+',3,'+data[2][i].pact+',this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].WBSName+'</a><div class="hide anvi action-buttons pd'+data[2][i].projectId+' c'+data[2][i].cname+'" id="divw'+data[2][i].WBSID+'"><input type="hidden" id="in'+data[2][i].WBSID+'" value="1"><span onclick="Editwbsdetail('+data[2][i].WBSID+')" class="glyphicon glyphicon-edit" title="Edit Wbs" style="color:red;font-size: 15px"></span><span id="addass'+data[2][i].WBSID+'" onclick="addassignmentinwbs('+data[2][i].WBSID+','+i+','+data[2][i].projectId+','+data[2][i].WBSID+')" class="glyphicon glyphicon-plus-sign" title="Add Assignment" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="activeWbs'+data[2][i].WBSID+'"onclick="activeInactive('+data[2][i].WBSID+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[2][i].WBSID+'" onclick="activeInactive('+data[2][i].WBSID+',0,3,this)" class="glyphicon  glyphicon-remove-sign hide" title="Activate WBS" style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul id="wbs'+data[2][i].WBSID+'"></ul></li>');
                       
                       if(data[2][i].isActive==0){
         
@@ -980,7 +982,7 @@ function getSelectedOptions(cid){
 
               $("#contactDiv").html(string1);
                $(".chosen-select").chosen();
-               //$('#ccontact').trigger("chosen:updated");
+               $('#ccontact').trigger("chosen:updated");
                    // $('#ccontact').select2({
                    //  "fieldWidth":"13em"
                    //    }); 
@@ -1315,15 +1317,19 @@ $("#asdatepicker1").datetimepicker({
                   $(".cd".concat(clientid)).addClass('hide');*/
             }
             if(flag==2){
-                $('#project'+clientid + ' a').css('color','red');
-                $('#project_Anchor'+clientid + ' a').css('color','red');
-                $('#project'+clientid +' .glyphicon-ok-sign').addClass("hide");
-                $('#project'+clientid +' .glyphicon-remove-sign').removeClass("hide");
+                $('#project'+clientid +' .p'+clientid).css('color','red');
+                $('#project'+clientid +' .pd'+clientid +' .glyphicon-ok-sign').addClass("hide");
+                $('#project'+clientid +' .pd'+clientid+' .glyphicon-remove-sign').removeClass("hide");
                 $("#activeProject".concat(clientid)).addClass("hide");
                 $("#inactiveProject".concat(clientid)).removeClass("hide");
-                $("#project_Anchor".concat(clientid)).addClass("hide");
-                 $("#divp".concat(clientid)).addClass("hide");
-                 $("#project".concat(clientid)).addClass("hide");
+                $('#project_Anchor'+clientid).css('color','red');
+                $("#pstatus2").attr('checked', 'checked');
+                $(myelement).closest('.anvi').next().css('color','red');
+                $("#add".concat(clientid)).addClass("hide");
+                $('#project'+clientid +' .pd'+clientid +' .glyphicon-plus-sign').addClass("hide"); 
+                //$("#project_Anchor".concat(clientid)).addClass("hide");
+                // $("#divp".concat(clientid)).addClass("hide");
+                // $("#project".concat(clientid)).addClass("hide");
                  /*$(".p".concat(clientid)).css('color','red');
                    $(".pd".concat(clientid)).addClass('hide');*/
             }
@@ -1333,8 +1339,10 @@ $("#asdatepicker1").datetimepicker({
               $('#wbs'+clientid +' .wd'+clientid +' .glyphicon-remove-sign').removeClass("hide");
               $("#activeWbs".concat(clientid)).addClass("hide");
               $("#inactiveWbs".concat(clientid)).removeClass("hide");
+              $('#wbs_Anchor'+clientid ).css('color','red');
               $("#wbsstatus2").attr('checked', 'checked');
               $(myelement).closest('.anvi').next().css('color','red');
+              $('#wbs'+clientid +' .addass'+clientid +' .glyphicon-plus-sign').addClass("hide"); 
               /*$(".w".concat(clientid)).css('color','red');
                $(".wd".concat(clientid)).addClass('hide');*/
 
@@ -1343,8 +1351,8 @@ $("#asdatepicker1").datetimepicker({
                //$('.w'+clientid).css('color','red');
                $("#activeAssignment".concat(clientid)).addClass("hide");
                $("#inactiveAssignment".concat(clientid)).removeClass("hide");
-               $("#inactive").attr('checked', 'checked');
                $('#assignment_Anchor'+clientid ).css('color','red');
+               $("#inactive").attr('checked', 'checked');
 
             }
         messageBox("Deactivated Successfully");
@@ -1367,15 +1375,18 @@ $("#asdatepicker1").datetimepicker({
                  $(".cd".concat(clientid)).removeClass('hide');*/
             }
             if(flag==2){
-                $('#project'+clientid + ' a').css('color','black');
-                $('#project_Anchor'+clientid + ' a').css('color','black');
-                $('#project'+clientid +' .glyphicon-ok-sign').removeClass("hide");
-                $('#project'+clientid +' .glyphicon-remove-sign').addClass("hide");
+                $('#project'+clientid +' .p'+clientid).css('color','black');
+                $('#project'+clientid +' .pd'+clientid +' .glyphicon-ok-sign').removeClass("hide");
+                $('#project'+clientid +' .pd'+clientid+' .glyphicon-remove-sign').addClass("hide");
                 $("#activeProject".concat(clientid)).removeClass("hide");
-                $("#inactiveProject".concat(clientid)).addClass("hide");   
-                $("#project_Anchor".concat(clientid)).addClass("hide");
-                 $("#divp".concat(clientid)).addClass("hide");
-                 $("#project".concat(clientid)).addClass("hide");
+                $("#inactiveProject".concat(clientid)).addClass("hide");  
+                $('#project_Anchor'+clientid).css('color','black'); 
+                $("#pstatus1").attr('checked', 'checked');
+                $("#add".concat(clientid)).removeClass("hide");
+                $('#project'+clientid +' .pd'+clientid +' .glyphicon-plus-sign').removeClass("hide"); 
+               // $("#project_Anchor".concat(clientid)).addClass("hide");
+               //  $("#divp".concat(clientid)).addClass("hide");
+               //  $("#project".concat(clientid)).addClass("hide");
                 /*$(".p".concat(clientid)).css('color','Black');*/
             }
             if(flag==3){
@@ -1385,6 +1396,8 @@ $("#asdatepicker1").datetimepicker({
                 $("#activeWbs".concat(clientid)).removeClass("hide");
                 $("#inactiveWbs".concat(clientid)).addClass("hide");
                 $("#wbsstatus1").attr('checked', 'checked');
+                $('#wbs_Anchor'+clientid ).css('color','black');
+                $('#wbs'+clientid +' .addass'+clientid +' .glyphicon-plus-sign').removeClass("hide"); 
                 /* $(".w".concat(clientid)).css('color','black');*/
             }
             if(flag==4){
@@ -1653,7 +1666,8 @@ $("#asdatepicker1").datetimepicker({
         $('#plocation').trigger("chosen:updated");
         $('#pmanager').val(" ").trigger("change");
         $('#pmanager').trigger("chosen:updated");
-
+        $('#ccontact').val(" ").trigger("change");
+        $('#ccontact').trigger("chosen:updated");
      
      /* $('#ptech').select2({  
                                          allowClear: true ,
@@ -1860,11 +1874,15 @@ $("#asdatepicker1").datetimepicker({
                                     "assigntoallforproject":$('#assign').val()
                                   },
                                   success: function(data) {
-if(!$("#pstatus1").is(":checked"))
+                                    console.log(data,"projectdata");
+
+/*if(!$("#pstatus1").is(":checked"))
           {
                          $('#activeProject'+$("#pid").val()).addClass('hide');
                   $('#inactiveProject'+$("#pid").val()).removeClass('hide');
                   $('#project_Anchor'+$("#pid").val()).css('color','red');
+                  
+
 
                             }
           else{
@@ -1872,7 +1890,9 @@ if(!$("#pstatus1").is(":checked"))
                          $('#activeProject'+$("#pid").val()).removeClass('hide');
                          $('#inactiveProject'+$("#pid").val()).addClass('hide');
                          $('#project_Anchor'+$("#pid").val()).css('color','black');
-               }  
+                            
+               }  */
+              
 
                                     document.getElementById("createProject").disabled = false;
                               document.getElementById("createProject1").disabled = false;
@@ -1898,8 +1918,27 @@ if(!$("#pstatus1").is(":checked"))
                                     }
 
                                      else {
-$('#project_Anchor'+data[0][0].lid+'').text($('#idpname').val());
-                                      messageBox(" Project  Updated Successfully");
+
+                 $( "#pactive" ).change(function() {
+                    alert( "wwooo" );
+
+                  var pstatusval = $("input[type='radio'][name='pstatus']:checked").val();
+                  if(pstatusval==0)
+                  {
+                    //console.log('NIUR');
+                    activeInactive(parseInt($("#pid").val()),1,2);
+                    return 0;
+                  }
+                  else if(pstatusval==1)
+                  {
+                    //console.log('saini');
+                    activeInactive(parseInt($("#pid").val()),0,2);
+                    return 1;
+                  }
+
+                 });
+                $('#project_Anchor'+data[0][0].lid+'').text($('#idpname').val());
+                messageBox(" Project Updated Successfully");
 
                                      }
                                     // var check1= '"/projectWbs?pid='+data[0][0].lid+'"';
@@ -2163,6 +2202,7 @@ if(new Date($('#datepickerw2').val())> new Date($('#datepickerw3').val())){
                                     }
                                    
                                    $('#ccontact').append(log);
+                                   $('#ccontact').trigger("chosen:updated");
                                     // $('#ccontact').select2({
                                     //   "fieldWidth":"13em"
                                     //        });     
@@ -2183,11 +2223,10 @@ if(new Date($('#datepickerw2').val())> new Date($('#datepickerw3').val())){
                                 dataType: 'json',
 
                                 success: function(users1) {
-                                 
                                   $('#asd').html('');
                                   $('#asd').val(" ").trigger("change");
                                     var users = users1[0];
-                                  //  console.log("bumbum bhole",users1[0]);
+                                   console.log("bumbumxccxfcxf",users1[0]);
                                     var log='';
                                     for(i=0;i<users1[0].length;i++){
                                     
@@ -2556,11 +2595,11 @@ $("#datepickerw1").datetimepicker({
 
             function addWbs12(){
               
-              document.getElementById("wbsbuton").disabled = true;
+              document.getElementById("wbsbuton").disabled = false;
              
-              if($('input:radio[name=wbsstatus]:checked').val()==0){
+             /* if($('input:radio[name=wbsstatus]:checked').val()==0){
                 activeInactive1onedit($("#idhide").val(),1,4);
-              }
+              }*/
               
 
                               $.ajax({
@@ -2588,51 +2627,90 @@ $("#datepickerw1").datetimepicker({
                                    "typeValue": $('#typeValue').val(),
                                   },
                                   success: function(data) {
-    if(!$("#wbsstatus1").is(":checked"))
-          {
-                         $('#activeWbs'+$("#wbshidden").val()).addClass('hide');
-                  $('#inactiveWbs'+$("#wbshidden").val()).removeClass('hide');
-                  $('#wbs_Anchor'+$("#wbshidden").val()).css('color','red');
-
-                            }
-          else{
-                  
-                         $('#activeWbs'+$("#wbshidden").val()).removeClass('hide');
-                         $('#inactiveWbs'+$("#wbshidden").val()).addClass('hide');
-                         $('#wbs_Anchor'+$("#wbshidden").val()).css('color','black');
-               }                                
+                                    console.log(data,"wbsdata");
+              //bugid 455
+             /* if($("#wbsstatus").is(':visible')){
+                  var wbsstatusval = $("input[type='radio'][name='wbsstatus']:checked").val();
+                  if(wbsstatusval==0)
+                  {
+                    //console.log('NIUR');
+                    activeInactive(parseInt($("#idhide").val()),1,3);
+                    return 0;
+                  }
+                  else if(wbsstatusval==1)
+                  {
+                    //console.log('saini');
+                    activeInactive(parseInt($("#idhide").val()),0,3);
+                    return 1;
+                  }
+                }*/
+                       document.getElementById("wbsbuton").disabled =false;
+                /* if(!$("#wbsstatus1").is(":checked")){
+                  //activeInactive(parseInt($("#idhide").val()),1,3);
+                  $('#activeWbs'+$("#idhide").val()).addClass('hide');
+                  $('#inactiveWbs'+$("#idhide").val()).removeClass('hide');
+                  $('#wbs_Anchor'+$("#idhide").val()).css('color','red');
+                  }
+                 else{
+                  // activeInactive(parseInt($("#idhide").val()),0,3);
+                  $('#activeWbs'+$("#idhide").val()).removeClass('hide');
+                  $('#inactiveWbs'+$("#idhide").val()).addClass('hide');
+                  $('#wbs_Anchor'+$("#idhide").val()).css('color','black');
+                  }   */                             
 //console.log(data,"wifi");
-                                   document.getElementById("wbsbuton").disabled =false;
-                                    if(data[1][0].flag>1){
-                                      wbsprojname.push($("#pronameid").val());
-                                      currentwbsname.push($("#wbsname").val());
-                                       wstartdate.push($("#datepickerw").val());
-                                          wendDate.push($('#datepickerw1').val());
-                                       $('#project'+$("#proname").val()+'').append('<li class="parent active"><a id="wbs_Anchor'+data[1][0].flag+'" onclick="showhide('+data[1][0].flag+',3,45,this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+$("#wbsname").val()+'</a><div class="hide anvi action-buttons" id="divw'+data[1][0].flag+'"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="Editwbsdetail('+data[1][0].flag+')" title="edit Wbs" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span onclick="addassignmentinwbs('+data[1][0].flag+','+(wbsprojname.length-1)+','+$("#proname").val()+','+data[1][0].flag+')" title="Add Asssignment" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span></span><span id="activeWbs'+data[1][0].flag+'"onclick="activeInactive('+data[1][0].flag+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[1][0].flag+'" title="Activate WBS" onclick="activeInactive('+data[1][0].flag+',0,3,this)"class="glyphicon  glyphicon-remove-sign hide  " style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="wbs'+data[1][0].flag+'"></ul></li>');
-                                       if(data[2].length>1){
-                                        for(var i=0;i<data[2].length;i++){
-                                           $('#wbs'+data[2][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[2][i].id+'" class="c'+data[2][i].cname+' p'+data[2][i].ProjectId+' w'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].id+',4,'+data[2][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].name+'</a><div class="action-buttons hide anvi c'+data[2][i].cname+' pd'+data[2][i].ProjectId+' wd'+data[2][i].WBSID+'" id="divs'+data[2][i].id+'"><input type="hidden" id="in'+data[2][i].id+'" value="1"><span onclick="Editassignment('+data[2][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[2][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[2][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[2][i].id+'" title="Activate Assignment" onclick="activeInactive('+data[2][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
-
-                                        }
-
-                                       }
-                                       messageBox('WBS Added Successfully');
-                                       $('#wbs_Anchor'+$("#wbshidden").val()).click();
-                                      showaddwbsform($("#proname").val(),(currentprojname.length-1))
+                                        
+              if(data[1][0].flag>1){
+                alert("0");
+                wbsprojname.push($("#pronameid").val());
+                currentwbsname.push($("#wbsname").val());
+                wstartdate.push($("#datepickerw").val());
+                wendDate.push($('#datepickerw1').val());
+                $('#project'+$("#proname").val()+'').append('<li class="parent active"><a id="wbs_Anchor'+data[1][0].flag+'" onclick="showhide('+data[1][0].flag+',3,45,this)"><span class="fa fa-tasks" style="font-size:15px;color:green;padding-right:10px"></span>'+$("#wbsname").val()+'</a><div class="hide anvi action-buttons" id="divw'+data[1][0].flag+'"><input type="hidden" id="in'+data[1][0].flag+'" value="1"><span onclick="Editwbsdetail('+data[1][0].flag+')" title="edit Wbs" class="glyphicon glyphicon-edit" style="color:red;font-size: 15px"></span><span onclick="addassignmentinwbs('+data[1][0].flag+','+(wbsprojname.length-1)+','+$("#proname").val()+','+data[1][0].flag+')" title="Add Asssignment" class="glyphicon glyphicon-plus-sign" style="color:green;font-size: 15px;margin-left: 20px"></span></span><span id="activeWbs'+data[1][0].flag+'"onclick="activeInactive('+data[1][0].flag+',1,3,this)" title="Deactivate WBS" class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveWbs'+data[1][0].flag+'" title="Activate WBS" onclick="activeInactive('+data[1][0].flag+',0,3,this)"class="glyphicon  glyphicon-remove-sign hide  " style="color:red;font-size: 15px;margin-left: 20px"></span></div><ul style="display:block" id="wbs'+data[1][0].flag+'"></ul></li>');
+                    if(data[2].length>1){
+                      alert("1");
+                    for(var i=0;i<data[2].length;i++){
+                       $('#wbs'+data[2][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[2][i].id+'" class="c'+data[2][i].cname+' p'+data[2][i].ProjectId+' w'+data[2][i].WBSID+'" onclick="showhide('+data[2][i].id+',4,'+data[2][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[2][i].name+'</a><div class="action-buttons hide anvi c'+data[2][i].cname+' pd'+data[2][i].ProjectId+' wd'+data[2][i].WBSID+'" id="divs'+data[2][i].id+'"><input type="hidden" id="in'+data[2][i].id+'" value="1"><span onclick="Editassignment('+data[2][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[2][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[2][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign" style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[2][i].id+'" title="Activate Assignment" onclick="activeInactive('+data[2][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
+                         }
+                  }
+               messageBox('WBS Added Successfully');
+               $('#wbs_Anchor'+$("#idhide").val()).click();
+               showaddwbsform($("#proname").val(),(currentprojname.length-1))
 
                                         
-   }
+        }
                                       
-                                      else{
+        else{
                                 //  console.log($("#wbshidden").val(),"qwerty");  
-                                  $('#wbs_Anchor'+$("#wbshidden").val()+'').text($('#wbsname').val());
-                                        messageBox('WBS Updated Successfully');
-                                       showwbs($("#proname").val());
-                                      }
+alert("2");
+         $('#wbs_Anchor'+$("#idhide").val()+'').text($('#wbsname').val());
 
-                                      $('.se-pre-con').fadeOut('slow');
+                $( "#wbsstatus" ).change(function() {
+              //alert( "wwooo" );
 
-                                  }
+                  var wbsstatusval = $("input[type='radio'][name='wbsstatus']:checked").val();
+                  if(wbsstatusval==0)
+                  {
+                    alert("3");
+                    //console.log('NIUR');
+                    activeInactive(parseInt($("#idhide").val()),1,3);
+                    return 0;
+                  }
+                  else if(wbsstatusval==1)
+                  {
+                    //console.log('saini');
+                    activeInactive(parseInt($("#idhide").val()),0,3);
+                    return 1;
+                  }
+
+                 });
+                alert("4");
+         messageBox('WBS Updated Successfully');
+         showwbs($("#proname").val());
+       }
+
+       $('.se-pre-con').fadeOut('slow');
+
+       }
                             });
             }
 
@@ -2910,7 +2988,7 @@ x.disabled=true;
                                     showclient();
                                   }
                                     else{
-
+                  
                   $('#client_Anchor'+$('#hiddenid').val()+'').text($('#cname').val());
                                       messageBox(" Client Updated Successfully");
                                       showclient();
@@ -3173,6 +3251,7 @@ if($("#cocontact").val().trim().length <=0 )
                                     var users = users1[0];
                              
                                console.log('fetching clientlist',users);
+
                                     var log = '';
 
                                     log = "<thead><tr style='font-size:12px' >" + "<th>Client Name</th>" + "<th>Time</th></tr></thead><tbody id='tablebody' >";
@@ -3216,13 +3295,13 @@ if($("#cocontact").val().trim().length <=0 )
                                     });
                                 
                        $('#totalclient').html("Total Client :");
-                       //$('#totalclient').append("Total Client");
+                      
                        $('#totalno').html('');
                        $('#totalno').append(no)
                        $('#totaltime').html('');
                        $('#totaltime').append(totaltime);
+                       $('.se-pre-con').fadeOut('slow');
                                 }
-
                             }));
                         }
 
@@ -3441,37 +3520,33 @@ document.getElementById("assignbutton").disabled=false;
                     },
  
                   success:function(data){
-                  console.log('xxxx',data);
+                  console.log('xssss',data);
+            if($(".assignmentstatus").is(':visible')){
                   var statusval = $("input[type='radio'][name='status']:checked").val();
-                  if(statusval==0)
-                  {
+                  if(statusval==0){
                     //console.log('NIUR');
                     activeInactive(parseInt($("#assignmentId").val()),1,4);
                     return 0;
                   }
-                  else if(statusval==1)
-                  {
+                  else if(statusval==1){
                     //console.log('saini');
                     activeInactive(parseInt($("#assignmentId").val()),0,4);
                     return 1;
                   }
                     document.getElementById("assignbutton").disabled=false;
                    
-                    if(!$("#active").is(":checked"))
-          {
-                         $('#activeAssignment'+$("#assignmentId").val()).addClass('hide');
+                 if(!$("#active").is(":checked")){
+                  $('#activeAssignment'+$("#assignmentId").val()).addClass('hide');
                   $('#inactiveAssignment'+$("#assignmentId").val()).removeClass('hide');
                   $('#assignment_Anchor'+$("#assignmentId").val()).css('color','red');
 
-                            }
-          else{
-                  
-                         $('#activeAssignment'+$("#assignmentId").val()).removeClass('hide');
-                         $('#inactiveAssignment'+$("#assignmentId").val()).addClass('hide');
-                         $('#assignment_Anchor'+$("#assignmentId").val()).css('color','black');
-               }  
-
-                    if($("#flagid").val()==1){
+                 }
+                 else{
+                  $('#activeAssignment'+$("#assignmentId").val()).removeClass('hide');
+                  $('#inactiveAssignment'+$("#assignmentId").val()).addClass('hide');
+                  $('#assignment_Anchor'+$("#assignmentId").val()).css('color','black');
+                 }  
+         } else   if($("#flagid").val()==1){
                       //$('#assignment_Anchor'+$("#assignmentId").val()).text($('#asd').text());
                       messageBox('Assignment Updated Successfully');
                       showassgnment(data[0][0].WBSID);
@@ -3485,6 +3560,7 @@ document.getElementById("assignbutton").disabled=false;
                    
                   $('#wbs'+data[0][i].WBSID+'').append('<li class=""><a id="assignment_Anchor'+data[0][i].id+'" class="c'+data[0][i].cname+' p'+data[0][i].ProjectId+' w'+data[0][i].WBSID+'" onclick="showhide('+data[0][i].id+',4,'+data[0][i].wact+',this)"><span class="fa fa-user" style="font-size:15px;color:green;padding-right:10px"></span>'+data[0][i].name+'</a><div class="action-buttons hide anvi c'+data[0][i].cname+' pd'+data[0][i].ProjectId+' wd'+data[0][i].WBSID+'" id="divs'+data[0][i].id+'"><input type="hidden" id="in'+data[0][i].id+'" value="1"><span onclick="Editassignment('+data[0][i].id+')" class="glyphicon glyphicon-edit hide" style="color:red;font-size: 15px"></span><span id="activeAssignment'+data[0][i].id+'" title="Deactivate Assignment" onclick="activeInactive('+data[0][i].id+',1,4,this)"class="glyphicon glyphicon-ok-sign  " style="color:green;font-size: 15px;margin-left: 20px"></span><span id="inactiveAssignment'+data[0][i].id+'"title="Activate Assignment" onclick="activeInactive('+data[0][i].id+',0,4,this)"class="glyphicon  glyphicon-remove-sign hide " style="color:red;font-size: 15px;margin-left: 20px"></span></div></li>');
                         }
+                       
                       messageBox('Assignment Added Successfully');
       
                        showassgnment(data[0][0].WBSID);
@@ -3704,6 +3780,7 @@ function showinactiveproject(){
         </div>
 <div id="ModalAdd"></div>
 <div id="ModalAddMesage"></div>
+<div class="se-pre-con"></div>
  <div class="row secondry-color">
 
 <!--div id="wrapper" style="margin-left: -245px;margin-top: 24px"-->
@@ -3817,7 +3894,7 @@ function showinactiveproject(){
           </div>
                     <div class="col-lg-4 col-md-4 col-sm-6" id="pactive" <%if(flag==0 ){%> style="display:none"<%}%> >
             <label>Status:</label><br>
-            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checkded="true"> Active
+            <input type="radio" name="pstatus"  value= 1  id = "pstatus1" required  style="margin-top:3%" checked="true"> Active
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="pstatus"  value= 0  id = "pstatus2" required  style="margin-top:3%;"> Inactive
 
           </div>
@@ -4889,9 +4966,9 @@ function showinactiveproject(){
         <div class="row">
         <label id="alldetails" style="width: 17%;margin-top: 10px;margin-bottom: 10px;color:#f04050;margin-left: 350px;"></label></div>
         <label id="totalclient" style="width: 13%;font-size:10px;margin-top: 10px;margin-bottom: 10px;color:#f04050;">Total Clients</label>
-        <label id="totalno" style="width: 24%;font-size:10px;margin-top: 10px;margin-bottom: 10px;color:black;">10</label>
+        <label id="totalno" style="width: 24%;font-size:10px;margin-top: 10px;margin-bottom: 10px;color:black;"></label>
           <label id="booktime" style="width: 17%;font-size:10px;margin-top: 10px;margin-bottom: 10px;color:#f04050;">Total Time Booked :</label>
-        <label id="totaltime" style="width: 10%;font-size:10px;margin-top: 10px;margin-bottom: 10px;color:black;">100000</label> 
+        <label id="totaltime" style="width: 10%;font-size:10px;margin-top: 10px;margin-bottom: 10px;color:black;"></label> 
             <input class="form-text-box" type="text" placeholder="search in this table" id="searchboxhome" style="float:right;width: 25%;margin-top: 10px;margin-bottom: 10px">
             <table class="table table-hover table-striped table-bordered rceDataTable" cellpadding="0" cellspacing="0" border="0" id="homeTable">
 
