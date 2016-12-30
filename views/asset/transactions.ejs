@@ -8,17 +8,19 @@
                     $(document).ready(function() {
                         jQuery('#assigndate').datetimepicker({
                             timepicker: false,
-                            format: 'd/m/Y'
+                            format: 'd/m/Y',
+                            scrollMonth : false,
+        scrollInput : false
                         });
                         var otable = $("#adTable").dataTable();
                         $("#searchbox").keyup(function() {
                             otable.fnFilter(this.value);
                         });
-                          var otable1 = $("#assTable").dataTable({
-                            "order":[],
-                            "scrollX": true,
-                            "bDestroy": true, 
-                            "info":false
+                          otable1 = $("#assTable").dataTable({
+                            // "order":[],
+                            // // "scrollX": true,
+                            // "bDestroy": true, 
+                            // "info":false
                         });
                         $("#searchbox1").keyup(function() {
                             otable1.fnFilter(this.value);
@@ -169,7 +171,7 @@
                 
             </div>
 
-          <div id="main" class="table-responsive">
+          <div id="main">
             <!-- <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> -->
             <table class=" table-striped  table-hover responsive" id="adTable" style="padding-top: 10px">
                 <thead id="headi">
@@ -217,7 +219,7 @@
        <span title="Go To Assigned User List" onclick="showInfo1();" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;padding-top: 10px"  class="glyphicon glyphicon-arrow-left"></span>
        <div id="main1" class="hide table-responsive">
          <!--  <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%"> -->
-            <table class=" table-striped  table-hover responsive" id="assTable" width="100%">
+            <table class=" table-striped  table-hover" id="assTable" width="100%">
                 <thead id="headi1">
 
                     <th>#</th>
@@ -254,7 +256,7 @@
             </div>
             <div id="err" class="col-lg-6 col-sm-offset-3"></div>
             <div class="modal-body">
-                <div class="form-group table-responsive" >
+                <div class="form-group">
                     <div id='componentiddiv'>
                         <table id='addComptable1' class="table table-striped table-bordered table-hover table-condensed responsive" style="overflow-y:auto;">
                             <col width="10">
@@ -350,6 +352,8 @@
                 var row = '<tr><td>' + ++count + '</td><td>' + $("#ac option:selected").text() + '</td><td>' + elem[0].value + '</td><td><input class="form-control input-sm datetimepicker"></input>' +
                     '<td><button>Unassign</button></td>';
                 $('#bodyi1').append(row);
+                otable1.destroy();
+                otable1 = $('#assTable').DataTable();
             }
         }
     });
@@ -378,9 +382,13 @@
 
         var row = '<tr><td>' + ++count + '</td><td>' + copName + '<input type="hidden" id="compId' + count + '" value=' + copId + '></td><td>' + tagNo + '<input type="hidden" id="line' + count + '" value=' + lineId + '></td><td><input id="date' + count + '" class="form-control input-sm date"></input><input  type="hidden" id="tsId' + count + '" value="0"></input>' + '<td><span id="assignreg' + count + '" style="margin-left:70px;color:green; " class="glyphicon glyphicon-ok-circle" onclick="save2db(' + count + ')"><span  style="margin-left:70px;color:green; " class=" glyphicon glyphicon-tasks" onclick="getsubComponent(' + lineId + ')"></span></td><td class="hide">0</td>' + '<td id="assign' + count + '" class="">Draft</td>';
         $('#bodyi1').append(row);
+        otable1.destroy();
+        otable1 = $('#assTable').DataTable();
         jQuery('.date').datetimepicker({
             timepicker: false,
-            format: 'd/m/Y'
+            format: 'd/m/Y',
+            scrollMonth : false,
+        scrollInput : false
         });
 
     }
@@ -466,6 +474,8 @@
 
                     }
                     $('#bodyi1').html(log);
+                    otable1.destroy();
+                    otable1 = $('#assTable').DataTable();
                 }
             });
             if (tid == '1') {
@@ -539,6 +549,8 @@
                             row = row + '<td class="hide">0' + '</td><td id="assign' + count + '">unassigned</td>';
                         }
                         $('#bodyi1').append(row);
+                        otable1.destroy();
+                        otable1 = $('#assTable').DataTable();
                     }
                     for (var i = 0; i < result[1].length; i++) {
                         var row = '<tr><td>' + ++count + '</td><td>' + result[1][i].componentName + '<input type="hidden" id="compId' + count + '" value=' + result[1][i].ACID + '><input type="hidden" id="flag' + count + '" value=' + result[1][i].assign + '></td><td>' + result[1][i].tagNo + '<input type="hidden" id="line' + count + '" value=' + result[1][i].Id + '><input type="hidden" id="tsId' + count + '" value=' + result[1][i].tsId + '></td><td><input id="date' + count + '" class="form-control input-sm date" value="' + ((result[1][i].assignDate).toString()).slice(0, 10) + '"></input><td>';
@@ -556,6 +568,8 @@
                             row = row + '<td class="hide">0' + '</td><td id="assign' + count + '">unassigned</td>';
                         }
                         $('#bodyi1').append(row);
+                        otable1.destroy();
+                        otable1 = $('#assTable').DataTable();
                     }
                 }
             });

@@ -8,10 +8,24 @@ var url = require('./handlers/url');
 var fs = require('fs'); 
 var path = require('path');
 var multer  = require('multer');
-var upload = multer({ dest: './public/attach/',limits: {
-    fieldNameSize: 999999999,
-    fieldSize: 999999999
+// var upload = multer({ dest: './public/attach/',limits: {
+//     fieldNameSize: 999999999,
+//     fieldSize: 999999999
+//   }
+// });
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/attach/'); // Absolute path. Folder must exist, will not be created for you.
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() +file.originalname);
   }
+});
+var upload = multer({ storage: storage,
+  limits: {
+      fieldNameSize: 999999999,
+      fieldSize: 999999999
+  },
 });
 var busboy=require('busboy');
  
@@ -43,10 +57,9 @@ app.post('/blockUser',portal.blockUser);
   app.post('/blockretailer',portal.blockretailer);  
   app.post('/retailerfordesboard',portal.retailerfordesboard); 
      app.get('/reports',url.setDashboard,portal.profile,render.redirect);
-    app.get('/TimesheetReport',url.setDashboard1,render.redirect); 
+
      app.post('/timesheetdragreport',portal.timesheetdragreport); 
  app.post('/FilterDataForSelect',portal.FilterDataForSelect);
-app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
 
 	//------------------------BUG-------------------------------------------------
   app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);
@@ -289,6 +302,10 @@ app.post('/createExcelProj',portal.createExcelProj);
       next();
     }
   });
+
+
+
+    
     app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,portal.holidayhome,portal.select_ExpenseMaster,portal.getDataAsset,
       portal.getCustomRole,portal.getIndustry,portal.getBusiness,
       portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
@@ -303,8 +320,9 @@ app.post('/createExcelProj',portal.createExcelProj);
 	app.post('/settingdata',portal.settingdata);
 	app.post('/getothermaster',portal.getothermaster);
 	
-	 
 
+    app.get('/TimesheetReport',url.setDashboard1,render.redirect);  
+   app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
 	app.post('/selectStatus',portal.selectStatus);
 	app.post('/updateStatus',portal.updateStatus);
 	app.post('/addStatus',portal.addStatus);

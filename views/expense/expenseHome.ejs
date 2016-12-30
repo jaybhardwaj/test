@@ -16,6 +16,10 @@
                     .se-pre-con {
                         background-color: transparent !important;
                     }
+                    #expense-page-loaded {
+                        background-color: white !important;
+                    }
+
                 </style>
                 </header>
                 <script type="text/javascript">
@@ -81,7 +85,9 @@
                                 }
                             },
                             timepicker: false,
-                            format: 'Y.m.d'
+                            format: 'Y.m.d',
+                            scrollMonth : false,
+        scrollInput : false
                         });
                        
                             
@@ -91,7 +97,9 @@
                         $('.datepicker').datetimepicker({
                            timepicker: false,
                             format: 'd-m-Y',
-                             minDate: ab
+                             minDate: ab,
+                             scrollMonth : false,
+        scrollInput : false
                           });
                         $('#cli').addClass('hide');
                         $('.users8').addClass('activetab');
@@ -1057,7 +1065,7 @@
                                     "paging": true,
                                     "binfo": false,
                                     "bDestroy": true,
-                                    responsive:teue,
+                                    responsive:true,
                                     "aoColumnDefs": [{
                                         "bSortable": false,
                                         "aTargets": [-1]
@@ -1077,7 +1085,20 @@
                                         "width": "10%"
                                     }, {
                                         "width": "10%"
-                                    }]
+                                    }],
+                                    fnPreDrawCallback: function () {
+                                        // Initialize the responsive datatables helper once.
+                                        if (!responsiveHelper) {
+                                            responsiveHelper = new ResponsiveDatatablesHelper(tableElement, breakpointDefinition);
+                                        }
+                                    },
+                                    fnRowCallback  : function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                                        console.log('amit');
+                                        responsiveHelper.createExpandIcon(nRow);
+                                    },
+                                    fnDrawCallback : function (oSettings) {
+                                        responsiveHelper.respond();
+                                    }
                                 });
 
                                 $("#searchbox").keyup(function() {
@@ -3474,8 +3495,8 @@ function Popup(data) {
     <div id="showMessage" class="hide" style="height:px;width:200px;"><label id="showm" style="color:green;font-size:15px"></label></div>
 
     <div class="secondry-color" id="accordionsdata">
-    <div class="se-pre-con"></div>
-        <div class="fusion-table-container table-responsive">
+    <div class="se-pre-con" id="expense-page-loaded"></div>
+        <div class="fusion-table-container">
             <!-- <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> -->
             <table id="data_table" class="table table-hover table-striped table-bordered rceDataTable responsive" cellspacing="0" width="100%">
                 
@@ -3584,7 +3605,7 @@ function Popup(data) {
 
 
     <div class="secondry-color hide" id="accordions">
-        <div class="fusion-table-container table-responsive">
+        <div class="fusion-table-container">
             <!-- <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox1" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> -->
             <table class="table table-hover table-striped table-bordered rceDataTable responsive" cellpadding="0" cellspacing="0" border="0" id="bugtable">
 
@@ -3671,7 +3692,7 @@ function Popup(data) {
     </div>
    
      <div class="secondry-color hide" id="accordionshome">
-        <div class="fusion-table-container table-responsive">
+        <div class="fusion-table-container">
         <label class="fusion-page-title">Expense Status</label>
             <!-- <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchboxhome" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> -->
             <table class="table table-hover table-striped table-bordered rceDataTable responsive" cellpadding="0" cellspacing="0" border="0" id="homeTable">
@@ -3806,12 +3827,6 @@ function Popup(data) {
                     <input type="hidden" name="hotelexpensetypeid" value="1">
                     <input type="number" min="1" step="any" maxlength="45" readonly class="form-control input-sm" id="htex" name="htex" required/>
                       <span class="inrs hide" style="padding-top:0px;width:30px;font-size: 10px;color:green">In INR</span>
-                  </div>
-                </div>
-                <div class="row fusion-form-elements">
-                  <div class="col-lg-6 col-md-6 col-sm-9">
-                    <label>Reason for Fooding/entertainment: <sup class="astrick">*</sup></label>
-                    <input type="text" maxlength="45" class="form-control input-sm" id="foodre" name="foodReason" required />
                   </div>
                 </div>
               </div>
@@ -5545,7 +5560,7 @@ function Popup(data) {
                 </div>
 
                 <div class="secondry-color" id="accordions1">
-                    <div class="fusion-table-container table-responsive">
+                    <div class="fusion-table-container">
                         <!-- <input class="form-control input-sm" type="text" placeholder="search in this table" id="searchbox11" style="float:right;width: 13%;margin-top: 10px;margin-bottom: 10px"> -->
                         <table class="table table-hover table-striped table-bordered rceDataTable responsive" cellpadding="0" cellspacing="0" border="0" id="bugtable1">
                             <thead>
@@ -5855,7 +5870,7 @@ function Popup(data) {
                     </center>
                 </div>
 
-                <div class="col-md-12 table-responsive" id='show' style="margin-bottom: 10px">
+                <div class="col-md-12" id='show' style="margin-bottom: 10px">
                  <table class="table"  >
                   <tr>
                             <td>

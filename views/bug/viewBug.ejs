@@ -219,15 +219,15 @@ $('ul.dropdown-menu li a').on('click', function (event) {
     } );
 window.onload = function() {
     $("#advanceSearch select,#advanceSearch input[type='radio'],#advanceSearch input[name='createdate'],#advanceSearch input[name='closedate']").change(function(){
-       otable.ajax.reload();
        var idUpdated = $(this).attr('name');
         $('#'+idUpdated).val($(this).val());
+        otable.ajax.reload();
      });
 
     $('#advanceSearch input[type="text"]').on('input',function(){
-      otable.ajax.reload();
       var idUpdated = $(this).attr('name');
       $('#'+idUpdated).val($(this).val());
+      otable.ajax.reload();
     });
 };
 
@@ -300,7 +300,7 @@ window.onload = function() {
   <input type="text" class="form-control input-sm" id="createdate">
   <input type="text" class="form-control input-sm" id="closedate">
 </div>
-<div class="table-responsive">
+
             <table id="data_table" class="nowrap display table-striped table-bordered"   cellspacing="0" width="100%" style="ALIGN-CONTENT: CENTER;">
                 <thead>
                 <tr>
@@ -332,7 +332,7 @@ window.onload = function() {
                     <input type="text" class="form-control input-sm" name="bugId"></td>
                     <td>
                     
-                    <input type="text" class="form-control input-sm" name="title1" style="width: 100px"></td>
+                    <input type="text" class="form-control input-sm" name="title1" style="min-width: 100px"></td>
                     <td>
                     <!-- <div  id="project" >
                       <input type="radio" name="projectis" value="in" checked>Is <input type="radio" name="projectis" value="not in">Is Not
@@ -414,7 +414,6 @@ window.onload = function() {
               
                 </tbody>
             </table>
-          </div>
             </form>
             </div>
         </div>
@@ -571,11 +570,15 @@ $('#hideColumnsId').tagger({
                 }); 
              jQuery('#createdDate').datetimepicker({
                             timepicker: false,
-                            format: 'd/m/Y'
+                            format: 'd/m/Y',
+                            scrollMonth : false,
+        scrollInput : false
                         });
                jQuery('#closureDate').datetimepicker({
                             timepicker: false,
-                            format: 'd/m/Y'
+                            format: 'd/m/Y',
+                            scrollMonth : false,
+        scrollInput : false
                         });
                       $(function() {
   var thHeight = $("table#data_table th:first").height();
@@ -661,8 +664,17 @@ $('#hideColumnsId').tagger({
                     }
                     $('.datepicker').datetimepicker({
                          timepicker: false,
-                        format: 'd/m/Y'
+                        format: 'd/m/Y',
+                        scrollMonth : false,
+        scrollInput : false
                     });
+                },
+                "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                  var page = this.fnPagingInfo().iPage;
+                   var length = this.fnPagingInfo().iLength;
+                   var index = (page * length + (iDisplayIndex +1));
+                   $('td:eq(0)', nRow).html(index);
+                  console.log(nRow, aData, iDisplayIndex, iDisplayIndexFull,index,'amit');
                 },
                 "columnDefs": [  
                     {
@@ -674,7 +686,7 @@ $('#hideColumnsId').tagger({
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
                           return '<input class="form-control input-sm" type="hidden" id="hiddentitle'+current_index+'" onchange="updatebugdetails('+row.id+',this,'+"'bugTitle'"+')" value="'+data+'">'+
-                                '<input type="text" class="form-control input-sm" id="bugtitle'+current_index+'" style="width:100px;background-color:none;" maxlength="75" onchange=" updatebugdetails('+row.id+',this,'+"'bugTitle',"+current_index+')" value="'+data+'">';
+                                '<input type="text" class="form-control input-sm" id="bugtitle'+current_index+'" style="min-width:100px;background-color:none;" maxlength="75" onchange=" updatebugdetails('+row.id+',this,'+"'bugTitle',"+current_index+')" value="'+data+'">';
                       }
                     },
                     {
@@ -804,7 +816,7 @@ $('#hideColumnsId').tagger({
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
 
-                          return '<input class="form-control input-sm"  id="estimatedEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'estimatedEffort'"+',this.id,'+"'"+row.enddate+"'"+')" value="'+data+'" style="max-width: 70px;"  >';
+                          return '<input class="form-control input-sm"  id="estimatedEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'estimatedEffort'"+',this.id,'+"'"+row.enddate+"'"+')" value="'+data+'" style="min-width: 70px;"  >';
                       }
                     },
                     {
@@ -812,7 +824,7 @@ $('#hideColumnsId').tagger({
                       "render": function(data,type,row){
                           var current_index = row.Sno - 1;
 
-                          return '<input class="form-control input-sm"  id="actualEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'actualEffort'"+',this.id,'+row.enddate+')" value="'+data+'" style="max-width: 70px;"  >';
+                          return '<input class="form-control input-sm"  id="actualEffort'+current_index+'" onblur="updatebugdetails('+row.id+',this,'+"'actualEffort'"+',this.id,'+row.enddate+')" value="'+data+'" style="min-width: 70px;"  >';
                       }
                     },
                     {
@@ -861,8 +873,9 @@ $('#data_table tbody').on('click', 'tr', function () {
     var data = otable.row( this ).data();
     $('#bugDetails tr').css({"background-color":"white"});
     $(this).css({"background-color":"#c5c5c5"});
-    if(data)
+    if(data){
       showdetails(data.id,data.Sno -1);
+    }
 });
 
 $("input:checkbox:not(:checked)").each(function() {
@@ -1146,7 +1159,7 @@ $(".btndesc").removeClass('hide');
         showattachment(data);
       },
       error: function(err) {
-        alert('invalid file format');
+        alert(err.responseText);
       },
       dataType: 'JSON',
     });
