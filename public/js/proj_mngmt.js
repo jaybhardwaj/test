@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 var varForMakingLocalVarGlobalForTimer ;
 var thisDateBeforeSelect = '';
 var workingHoursInADay = 9;
@@ -535,7 +539,10 @@ function addRow(currentId) {
     ultimateEndId++;
      initializeJquery();
     var numValuePair = updateNumberSequenceInFirstColumn();
+<<<<<<< HEAD
     // debugger;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
      var globalvarForGlyphcomment = '#'+ ultimateEndId + '_rowid_' + individualId + ' td  .glyphicon-comment';
     setTimeout(function(){changeDdOnAdd(newcurrentId, idAddedUsedEverywhereInThisFunction, numValuePair)},2000);
      setTimeout(function(){focusOnNewCreate(idAddedUsedEverywhereInThisFunction)
@@ -690,11 +697,17 @@ function createNewVersion(submitFlag) {
     }
     updateArr = updateArr.join('||');
  // console.log('updateArr is',updateArr);
+<<<<<<< HEAD
   // debugger;
 var changedEle = changedEleArr.join();
 
     $('.se-pre-con').fadeIn('slow');
 //debugger
+=======
+var changedEle = changedEleArr.join();
+
+    $('.se-pre-con').fadeIn('slow');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     $.ajax({
         url: '/insNewVer',
         type: 'post',
@@ -774,7 +787,10 @@ var collaborate = '';
 if($('#collaborateId').val()!=null){
  collaborate  = $('#collaborateId').val().join();
 }
+<<<<<<< HEAD
 //debugger;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
     $.ajax({
         url: '/saveTask',
@@ -914,7 +930,10 @@ if(somethingZeroFlag)      { somethingUpdated = 0;}
 
 
 
+<<<<<<< HEAD
 debugger;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     if (joinFlag) {
         for (var i = 0; i < updateArr.length; i++) {
             updateArr[i] = updateArr[i].join('$@$');
@@ -954,8 +973,11 @@ commentString = '';
 if($('#collaborateId').val()!=null){
  collaborate  = $('#collaborateId').val().join();
 }
+<<<<<<< HEAD
 //debugger;
  debugger;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     $.ajax({
         url: '/saveTask',
         type: 'post',
@@ -1324,7 +1346,10 @@ function deleteThisRowHereAndNow(rowId){
  var endDateEle = $('#'+rowId+' input')[2];
  var endDate     = $(endDateEle).val();
  var x = endDate.indexOf('$$Kaspar0v')
+<<<<<<< HEAD
  //debugger;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  if(x!=-1){
     setTimeout(function(){
     $('#' + rowId).addClass('deleteCss');
@@ -1332,7 +1357,10 @@ function deleteThisRowHereAndNow(rowId){
 setTimeout(function(){  disableEverything(rowId);},1000);
      endDate = endDate.slice(0,x);
      $(endDateEle).val(endDate);
+<<<<<<< HEAD
      //debugger;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     },500);
     }
     
@@ -1920,7 +1948,10 @@ addcolHideClassOnTagger();
             var nextEle = $(this).next()[0];
             var newId   = $(nextEle).attr("id");
               someThingUpdated = 1;
+<<<<<<< HEAD
               debugger;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          changedEleFunc(newId,9);
 
               showSaveSubmit();
@@ -2285,14 +2316,25 @@ $('#sendMailTo').tagger({
       , indentMultiplier: 2, baseURL: './img/'
        , placeholder: 'send mail to'
       });
+<<<<<<< HEAD
 
+=======
+ $($("#sendMailTo").next()[0]).addClass("hide");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 $('#collaborateId').tagger({
         "fieldWidth":"20em", 
         displayHierarchy: false
       , indentMultiplier: 2, baseURL: './img/'
        , placeholder: 'Collaborate with',
+<<<<<<< HEAD
 
       })
+=======
+       display:'none'
+
+      });
+ $($("#collaborateId").next()[0]).addClass("hide");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 $('#hideColumnsId').tagger({
         "fieldWidth":"20em", 
@@ -2302,7 +2344,11 @@ $('#hideColumnsId').tagger({
 
       });
 
+<<<<<<< HEAD
 
+=======
+ $($("#hideColumnsId").next()[0]).addClass("hide");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 setTimeout(function(){
 
 $('.mailClass input').removeAttr('disabled').removeClass('disablePointer');
@@ -2322,7 +2368,11 @@ $('.collaborateClass input').removeAttr('disabled').removeClass('disablePointer'
 
 $('.datePickerFilter').on("keyup", datePickerFilterFunction);
 $('#dueDate').change(dueDateFunction);
+<<<<<<< HEAD
  debugger;
+=======
+ //debugger;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  for(var j =0;j<newChangedEleArrFromDb.length;j++){
 var individualIdthis = newChangedEleArrFromDb[j][0];
 var parentThis;
@@ -2341,7 +2391,11 @@ for (var i = 0; i <= ultimateEndId; i++) {
         $(ele).addClass("changedEleClassCss");
         $(newEle1).addClass("changedEleClassCss");
         $(newEle2).addClass("changedEleClassCss");
+<<<<<<< HEAD
         debugger;
+=======
+       // debugger;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  }
 
 }
@@ -3744,7 +3798,11 @@ function sendProjExcelTo(){
     else{
          $('.tagger').addClass('hide');
          $("#sendmailId , #collButtonId").css('cssText','display:none!important');
+<<<<<<< HEAD
          debugger;
+=======
+       //  debugger;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
         }
 
@@ -3822,7 +3880,11 @@ var trArr = $("#tbody123 tr");
 for(var i =0;i<trArr.length;i++){
 $($(trArr[i]).children("td")[childId]).addClass("hide");
 }
+<<<<<<< HEAD
 debugger;
+=======
+//debugger;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 }
 
 function UnhideAll(childId){
@@ -3832,7 +3894,11 @@ var trArr = $("#tbody123 tr");
 for(var i =0;i<trArr.length;i++){
 $($(trArr[i]).children("td")[childId]).removeClass("hide");
 }
+<<<<<<< HEAD
 debugger;
+=======
+//debugger;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 }
 
 
@@ -3943,7 +4009,11 @@ var tdlVal = $(this).val();
    else{
      $($(this).prev()[0]).css("padding-left","0px");
    }
+<<<<<<< HEAD
     debugger;
+=======
+   // debugger;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         
 updateAllArr(tdEle, 1);
 
@@ -4050,12 +4120,20 @@ var value  = idThis.split('_');
 var individualId = value[0];
 idThis = '#' +idThis;
 
+<<<<<<< HEAD
 var str = '<tr class = "commentTr"><td colspan="16"><textarea class = "commentTextArea" placeholder = "Enter Comment Here ..." autofocus></textarea></td></tr>'
+=======
+var str = '<tr class = "commentTr"><td colspan="13"><textarea class = "commentTextArea" placeholder = "Enter Comment Here ..."  autofocus></textarea></td></tr>'
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 $(idThis).after(str);
 sleepFunctionForStoppingTime(200);
 nextTr = $(thisTr).next()[0];
 createNewCommentRows(individualId,nextTr);
 $('.commentTextArea').keypress(commentTextAreaFunction);
+<<<<<<< HEAD
+=======
+$('.commentTextArea').focus();
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 //if(allCommentsArr[individualId]
 
 //debugger;

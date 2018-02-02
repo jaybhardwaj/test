@@ -15,11 +15,118 @@
 
  
  </style>
+<<<<<<< HEAD
  <div class="secondry-color" style=" margin-top:3%;overflow: hidden;">
    <center> <label id="" class="modal-title" style="padding: 1%">Raise Requisition </label></center>
     <div style="margin:0px">
         <form onsubmit='return validateForm()' id="raise-requisition" name="myform" class="max-width" method="post" action="/raiseRequisition" >
             <div class="row">
+=======
+ <%include menu1.ejs%>
+ <div class="secondry-color">
+    <label class="fusion-page-title">Raise Requisition </label>
+    <div class="container">
+        <form onsubmit='return validateForm()' id="raise-requisition" name="myform" class="max-width" method="post" action="/raiseRequisition">
+            <div class="row fusion-form-elements">
+
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Job Title:<sup class="astrick">*</sup></label>
+                <input type="text" name="JobTitle" id="jobTitle" class="form-control input-sm" placeholder="job title"  maxlength="100" required>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Designation:<sup class="astrick">*</sup></label>
+                <select id="browsers" name="designation" class="form-control input-sm"   required>
+                    <option value="">select</option>
+                    <%for(var i = 0 ;i<desig.length;i++){%>
+                        <option value="<%=desig[i].id%>">
+                            <%=desig[i].desigName%>
+                        </option>
+                        <%}%>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Skills:<sup class="astrick">*</sup></label>
+                <select size="1" multiple class="form-control input-sm" placehoder="select skills" id='skillsId'  name="skills" >
+                    <%for(var i = 0 ;i<skills.length;i++){%>
+                        <option value="<%=skills[i].id%>">
+                            <%=skills[i].skills%>
+                        </option>
+                        <%}%>
+                            <option></option>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Location:<sup class="astrick">*</sup></label>
+                <select name="Location" id="locationId" class="form-control input-sm" required>
+                    <option value=''>select</option>
+                    <% for (var i = 0; i <cities.length; i++) {%>
+                        <option value="<%=cities[i].id%>" id = 'location_<%=cities[i].id%>'>
+                            <%=cities[i].location%>
+                        </option>
+                        <%}%>
+                 </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Positions:<sup class="astrick">*</sup></label>
+                <input type = 'text'  style = 'display:none;' id = 'locationnameId' name = 'locationName'>
+                <input name="NoOfPostions" placeholder="Positions" class="form-control input-sm" id="nop" type="number" required max="9999999" min="1" required/>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Experience:<sup class="astrick">*</sup></label>
+                <input name="YearsOfExp"  class="form-control input-sm" id="yox" placeholder="Experience" type="text"  maxlength="10"   required/>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Expires On:<sup class="astrick">*</sup></label>
+                <input  class="form-control input-sm" placeholder="Date of Expiry" name="ExpiresOn" id="expiresOn" type="text" required/>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Admin-HR:<sup class="astrick">*</sup></label>
+                <select name="adminhr" class="form-control input-sm" id="" required>
+                    <option value=''>select</option>
+                    <% for (var i = 0; i < adminhr.length; i++) {%>
+                        <option value="<%=adminhr[i].id%>">
+                            <%=adminhr[i].firstName%>
+                        </option>
+                        <%}%>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Priority:<sup class="astrick">*</sup></label>
+                <select name="mailPriority" class="form-control input-sm" id="priority">
+                    <option value=''>select</option>
+                    <option value="1">Urgent</option>
+                    <option value="2">Normal</option>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Minimum Salary:<sup class="astrick">*</sup></label>
+                <input name="MinimumSalary" class="form-control input-sm" placeholder="p.a" id="minsal" type="number" min="1" max="1000000000"/>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Maximum Salary:<sup class="astrick">*</sup></label>
+                <input name="MaximumSalary" class="form-control input-sm" placeholder="p.a" id="maxsal" type="number" min="1" max="1000000000"/>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Suggested Interviewer:<sup class="astrick">*</sup></label>
+                <input name="RecruiterName" class="form-control input-sm" placeholder="interviewer" id="RecruiterName" type="text" maxlength="50"/>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <label>Type:<sup class="astrick">*</sup></label>
+                <select name="jobType" class="form-control input-sm"  id="jobType">
+                    <option value=" ">select</option>
+                    <option value="1">Contractual</option>
+                    <option value="2">Permanent</option>
+                </select>
+              </div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-6">
+                    <label>Job Description:<sup class="astrick">*</sup></label>
+                    <textarea name="Description" id="Description" class="form-control"  placeholder="JobDescription"></textarea>
+                </div>
+            </div>
+            <!-- <div class="row">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 <div class="col-md-4">
                     <div class="col-md-4">
                     <label class="form-Label">Job Title :<sup class="astrick">*</sup></label>
@@ -35,7 +142,11 @@
                     <div class="col-md-8">
                      <select id="browsers" style="width: 100%" name="designation" class="form-text-box"   required>
                                 <option value="">select</option>
+<<<<<<< HEAD
                                 <%for(var i = 0 ;i<desig.length;i++){ console.log("desination on view",desig)%>
+=======
+                                <%for(var i = 0 ;i<desig.length;i++){%>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     <option value="<%=desig[i].id%>">
                                         <%=desig[i].desigName%>
                                     </option>
@@ -153,7 +264,11 @@
                     <label class="form-Label">Suggested Interviewer:</label>
                     </div>
                     <div class="col-md-8">
+<<<<<<< HEAD
                     <input name="RecruiterName" class="form-text-box" placeholder="interviewer" id="RecruiterName" type="text" style="width:100%" maxlength="50"  />
+=======
+                    <input name="RecruiterName" class="form-text-box" placeholder="interviewer" id="RecruiterName" type="text" style="width:100%" maxlength="50"/>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     </div>        
                 </div>
             </div>
@@ -179,6 +294,7 @@
                       <textarea name="Description" id="Description"   placeholder="JobDescription" style="width:90%" ></textarea>
                       (max. 4000 characters.)
                     </div>               
+<<<<<<< HEAD
             </div>
             <div class="row" style="margin-top:1%; ">
                 <div class="col-md-1 col-md-offset-6"  >
@@ -192,6 +308,17 @@
 </body>
     <!--PAGE CONTENT ENDS-->
 <%include menu1.ejs%>
+=======
+            </div> -->
+            <div class="row" align="center" style="margin-top: 10px">
+                <button type="submit" class="button btn"><i class="fa fa-save"></i> Submit</button>
+            </div>
+        </form>
+       </div>
+    </div>
+</body>
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 <% include ../partials/footer %> 
  
             <script>
@@ -202,7 +329,10 @@
                     }
                     var strLocation = '#location_'+$('#locationId').val()
                     $('#locationnameId').val($(strLocation).html().trim());
+<<<<<<< HEAD
                            console.log($('#minsal').val() + '      ' + $('#maxsal').val());
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                     if(!$('#yox').val().trim().length){
                         alert("Please fill Experience");
@@ -220,10 +350,14 @@
                         alert('Please select a skill from dropdown');
                         return false;
                     }
+<<<<<<< HEAD
                     /*  if($('#jobType').val()<1){
                         alert("Select Job Type");
                         return false;
                         }*/
+=======
+                   
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     var decode = tinyMCE.activeEditor.getContent();
                     decode = decode.replace(/&nbsp;/g, '');
                     decode = decode.replace(/<p>/g, '');
@@ -259,7 +393,13 @@
                     },
                     timepicker: false,
                     format: 'm/d/y',
+<<<<<<< HEAD
                     minDate:todate
+=======
+                    minDate:todate,
+                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 });
 
 
@@ -271,6 +411,7 @@
                     $("#tinymce").prop('required', true);
 
 
+<<<<<<< HEAD
                     /*$('#Description').bind('keyup', function(e){ 
                          alert($(this).val().length); 
                     });
@@ -281,5 +422,10 @@
                         alert("asdas");
                       return (Object.value.length <= MaxLen);
                     }*/
+=======
+                  
+                });
+              
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             </script> 
             </html>

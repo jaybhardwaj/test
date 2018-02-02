@@ -7,6 +7,7 @@
 
     <% include header %>
 
+<<<<<<< HEAD
 
 
 <style>
@@ -16,13 +17,95 @@
 
 
 	
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	<title>Home</title>
 	
 
 		<div class="secondry-color">
+<<<<<<< HEAD
 		
 			<div class="row "  style="padding-top:2%;padding-left:20px;padding-right:20px;margin-right:1px;padding-bottom: 2%">
 				<div class="col-md-6" >		
+=======
+			<div class="fusion-table-container">
+				<span class="fusion-page-title">Assinged to Me</span>
+				<table id="AssingedTable" class="table-striped responsive" style="width:100%">
+					<thead>
+						<th>S no.</th>
+						<th>Title</th>
+						<th>Project</th>
+						<th>Priority</th>
+						<th>Date</th>
+					</thead>
+					<tbody>
+						<% var c=1;for(var i=0;i<bug.length;i++){ %>
+						<tr>
+							<td><%= c++ %></td>
+							<td><%=bug[i].bugTitle%></td>
+							<td><%=bug[i].projectName%></td>
+							<td><%=bug[i].priority%></td>
+							<td><%=bug[i].createdDate%></td>
+						</tr>
+						<%}%>
+					</tbody>
+				</table>
+			</div>
+			<div class="fusion-table-container">
+				<span class="fusion-page-title">Recent Activity</span>
+				<table id="activityTable" class="table-striped responsive" style="width:100%">
+					<thead>
+						<!-- <th>S no.</th> -->
+						<th>Bug Title</th>
+						<th>Activity Type</th>
+						<th>By</th>
+						<th>Project</th>
+						<th>Create Date</th>
+					</thead>
+					<tbody>
+						<%for(var i=0;i<activity.length;i++){%>
+							<%if(activity[i].flag=="bug"){%>
+								<%if(activity[i].createdDate>=activity[i].lastModifiedDate){%>
+								<tr>
+									<td><%=activity[i].bugTitle%></td>
+									<td>Created</td>
+									<td><%=activity[i].firstName%></td>
+									<td><%=activity[i].projectName%></td>
+									<td><%=activity[i].createdDate%></td>
+								</tr>
+								<%}else{%>
+								<tr>
+									<td><%=activity[i].bugTitle%></td>
+									<td>Modified</td>
+									<td><%=activity[i].firstName%></td>
+									<td><%=activity[i].projectName%></td>
+									<td><%=activity[i].createdDate%></td>
+								</tr>
+								<%}%>
+							<%}else if(activity[i].flag=="comment"){%>
+							<tr>
+								<td><%=activity[i].bugTitle%></td>
+								<td>Comment</td>
+								<td><%=activity[i].firstName%></td>
+								<td><%=activity[i].projectName%></td>
+								<td><%=activity[i].createdDate%></td>
+							</tr>
+							<%}else{%>
+							<tr>
+								<td><%=activity[i].bugTitle%></td>
+								<td>Attachment</td>
+								<td><%=activity[i].firstName%></td>
+								<td><%=activity[i].projectName%></td>
+								<td><%=activity[i].createdDate%></td>
+							</tr>
+							<%}%>
+						<%}%>
+					</tbody>
+				</table>
+			</div>
+			<div class="row "  style="padding-top:2%;padding-left:20px;padding-right:20px;margin-right:1px;padding-bottom: 2%">
+				<!-- <div class="col-md-6" >		
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 					<div class="main-box " style="height:400px">
 					<div class="horizontal-bar  " style="width:100%; font-weight: bold;padding-left:5px;padding-top:5px;height:30px">
 					<span class="glyphicon glyphicon-user"></span>
@@ -58,8 +141,13 @@
 							</div>
 						</center>
 					</div> 
+<<<<<<< HEAD
 				</div>
 				<div class="col-md-6">
+=======
+				</div> -->
+				<!-- <div class="col-md-6">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 					<div class="main-box " style="height:400px;">
 						<div class="horizontal-bar" style="width:100%;padding-top:5px;padding-left:5px; font-weight: bold;height:30px">
 						<span class="glyphicon glyphicon-flash"></span>
@@ -92,7 +180,11 @@
 						</center>
 						
 					</div>
+<<<<<<< HEAD
 				</div>
+=======
+				</div> -->
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 			</div>
 		</div>	
 		
@@ -101,9 +193,22 @@
 <script>
 $(document).ready(function() {
   $('.bughome-img').addClass('active');
+<<<<<<< HEAD
 
 
   });
+=======
+  $('#AssingedTable').dataTable({
+  	iDisplayLength:5,
+  	"columnDefs": [{"targets": [0,1,2,3,4],"width": "20%"}]
+  });
+  $('#activityTable').dataTable({
+  	iDisplayLength:5,
+  	"columnDefs": [{"targets": [0,1,2,3,4],"width": "20%"}]
+  });
+
+});
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 </script>
 
 	</body>

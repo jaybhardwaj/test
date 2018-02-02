@@ -23,9 +23,15 @@
     })
 
     // Closes the Responsive Menu on Menu Item Click
+<<<<<<< HEAD
     $('.navbar-collapse ul li a').click(function() {
         $('.navbar-toggle:visible').click();
     });
+=======
+    // $('.navbar-collapse ul li a').click(function() {
+    //     $('.navbar-toggle:visible').click();
+    // });
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
     // Fit Text Plugin for Main Header
     $("h1").fitText(

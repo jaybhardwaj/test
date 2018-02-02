@@ -1,0 +1,320 @@
+<% include ./partials/head %>
+<% include ./partials/adminheader %>
+<% include ./partials/setting-header %>
+<style>
+.dt-buttons a.buttons-columnVisibility:before,
+.dt-buttons a.buttons-columnVisibility.active span:before {
+    display:block;
+    position:absolute;
+    top:1.2em;
+    left:0;
+    width:12px;
+    height:12px;
+    box-sizing:border-box;
+}
+
+.dt-buttons a.buttons-columnVisibility:before {
+    content:' ';
+    margin-top:-6px;
+    margin-left:10px;
+    border:1px solid black;
+    border-radius:3px;
+}
+
+.dt-buttons a.buttons-columnVisibility.active span:before {
+    content:'\2714';
+    margin-top:-11px;
+    margin-left:12px;
+    text-align:center;
+    text-shadow:1px 1px #DDD, -1px -1px #DDD, 1px -1px #DDD, -1px 1px #DDD;
+}
+
+.dt-buttons a.buttons-columnVisibility span {
+    margin-left:20px;    
+}
+.buttons-columnVisibility{
+    margin-bottom: 10px;
+}
+
+.dt-buttons {
+    border: 2px groove threedface;
+    border-top: none;
+    padding: 0.5em;
+    margin: 1em 2px;
+}
+.dt-buttons > h1 {
+    font: 1em normal;
+    margin: -1em -0.5em 0;
+}   
+.dt-buttons > h1 > span {
+    float: left;
+}
+    .dt-buttons > h1:before {
+        border-top: 2px groove threedface;
+        content: ' ';
+        float: left;
+        margin: 0.5em 2px 0 -1px;
+        width: 0.75em;
+    }
+    .dt-buttons > h1:after {
+        border-top: 2px groove threedface;
+        content: ' ';
+        display: block;
+        height: 1.5em;
+        left: 2px;
+        margin: 0 1px 0 0;
+        overflow: hidden;
+        position: relative;
+        top: 0.5em;
+    }
+    #filterrow th{
+        padding: 7px;
+    }
+    #filterrow .form-control{
+        height: 30px;
+    }
+
+.inner-addon {
+  position: relative;
+}
+
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;color:#999;}
+
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+.dataTables_processing{
+    z-index:999;
+}
+#reportTable_wrapper .dt-buttons{
+    width: 100%;
+    text-align: center;
+}
+</style>
+<div class="se-pre-con"></div>
+<div class="fusion-table-container table-responsive">
+    <table class=" table-striped display nowrap  table-hover table table-bordered" id="reportTable">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Employee Code</th>
+                <th>Wbs Name</th>
+                <th>Project Name</th>
+                <th>Date</th>
+                <th>FortNight Date</th>
+                <th>Billable</th>
+                <th>Year-Month</th>
+                <th>Hours</th>
+                <th>ThumbHours</th>
+            </tr>
+            <tr id="filterrow">
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="employeeName" type="text" class="form-control input-sm" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="employeecode" type="text" class="form-control input-sm" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <select id="WbsName" class="multi-selects" multiple></select>
+                </th>
+                <th>
+                   
+                        <select id="projectName" class="multi-selects" multiple></select>
+                  
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="date" type="text" class="form-control datepicker" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <select id="fortnightFilter" class="multi-selects" multiple></select>
+                    </div>
+                </th>
+                <th>
+                    <select id="billable" class="form-control input-sm">
+                      <option value="" selected disabled>Search</option>
+                      <option value="YES">YES</option>
+                      <option value="NO">NO</option>
+                    </select>
+                </th>
+                <th>
+                    <select id="yearmonth" class="multi-selects" multiple></select>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="hours" type="text" class="form-control input-sm" placeholder="Search" />
+                    </div>
+                </th>
+                <th>
+                    <div class="inner-addon right-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input id="Thumbhours" type="text" class="form-control input-sm" placeholder="Search" />
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="reportBody">
+        </tbody>
+    </table>
+</div>
+<footer>
+    <% include ./partials/footer %>
+</footer>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    reportTable = $("#reportTable").DataTable({
+          "ajax": {
+              url: '/timesheetdragreport',
+              type: "POST",
+              "data": function ( d ) {
+                  d.isemployeeName = $('#reportTable th:contains("Employee Name")')[0]?true:false;
+                  d.isemployeecode = $('#reportTable th:contains("Employee Code")')[0]?true:false;
+                  d.isWbsName = $('#reportTable th:contains("Wbs Name")')[0]?true:false;
+                  d.isprojectName = $('#reportTable th:contains("Project Name")')[0]?true:false;
+                  d.ishours = $('#reportTable th:contains("Hours")').html()=="Hours";
+                  d.isThumbhours = $('#reportTable th:contains("ThumbHours")')[0]?true:false;
+                  d.isDATEs = $('#reportTable th:contains("Date")').html()=="Date";
+                  d.isfortNightDate = $('#reportTable th:contains("FortNight Date")')[0]?true:false;
+                  d.isbillable = $("select#billable").val() ? $("select#billable").val().toString() :'';
+                  d.isyearmonth = $('#reportTable th:contains("Year-Month")')[0]?true:false;
+
+                  d.employeeName = $('input#employeeName').val() || '';
+                  d.employeecode = $('input#employeecode').val() || '';
+                  d.WbsName = $("select#WbsName").val() ? $("select#WbsName").val().toString() :'';
+                  d.projectName = $("select#projectName").val() ? $("select#projectName").val().toString() :'';
+                  d.hours = $('input#hours').val() || '';
+                  d.Thumbhours = $('input#Thumbhours').val() || '';
+                  d.DATEs = $('input#date').val() || '';
+                  d.fortNightDate = $("select#fortnightFilter").val() ? $("select#fortnightFilter").val().toString() :'';
+                  d.billable = $('input#billable').val() || '';
+                  d.yearmonth = $("select#yearmonth").val() ? $("select#yearmonth").val().toString() :'';
+
+              }
+          },
+          "columns": [
+          // { "data": "Sno" },
+          { "data": "employeeName" },
+          { "data": "employeecode" },
+          { "data": "wbsName"},
+          { "data": "projectName" },
+          { "data": "DATEs"},
+          { "data": "fortNightDate" },
+          { "data": "billable" },
+          { "data": "yearmonth" },
+          { "data": "hours" },
+          { "data": "Thumbhours" },
+          ],
+          "columnDefs": [  
+              {
+                "targets": 6,
+                "render": function(data,type,row){
+                    if(data ==1){
+                      return 'YES';
+                    }
+                    else{
+                      return 'NO';
+                    }
+                }
+              }
+          ],
+          // scrollX : true,
+          // scrollY: 400,
+          // scrollCollapse: true,
+          "info":false,
+          "autoWidth": true,
+          "bSortCellsTop":true,
+          //responsive: true,
+          dom: 'Bfrtip',
+          colReorder: true,
+          buttons: [
+              {
+                  extend: 'columnsToggle',
+                  columns: ':lt(8)'
+              }
+              // ,'excel', 'print','csv'
+          ],
+          "lengthMenu":[[5,10,20,-1],[5,10,20,"All"]],
+          "processing": true,
+          "serverSide": true,
+          "fnDrawCallback": function (oSettings) {
+                if($('select:not(:has(option))').length){
+
+                    var projectArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.project : [];
+                    var wbsArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.wbs : [];
+                    var monthyrArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.monthyearArr : [];
+                    var fortnightArr = oSettings.aoData[0] ? oSettings.aoData[0]._aData.fortnightDate : [];
+                    var projectOptions ='';
+                    var wbsOptions ='';
+                    var monthyrOptions ='';
+                    var fortnightOptions ='';
+                    projectArr.forEach(function(element) {
+                        projectOptions += '<option value="'+element.id+'">'+element.projectName+'</option>';
+                    });
+                    wbsArr.forEach(function(element) {
+                        wbsOptions += '<option value="'+element.WBSID+'">'+element.WbsName+'</option>';
+                    });
+                    monthyrArr.forEach(function(element) {
+                        monthyrOptions += '<option>'+element.yearmonth+'</option>';
+                    });
+                    var firstFortnight
+                    fortnightArr.forEach(function(element,index) {
+                        if(index==0){
+                          firstFortnight = element.fortNightDate;
+                        }
+                        fortnightOptions += '<option>'+element.fortNightDate+'</option>';
+                    });
+                    $('#projectName').append(projectOptions);
+                    $('#WbsName').append(wbsOptions);
+                    $('#yearmonth').append(monthyrOptions);
+                    $('#fortnightFilter').append(fortnightOptions);
+                    $("#projectName").val("");
+                    $("#WbsName").val("");
+                    $("#yearmonth").val("");
+                    $("#fortnightFilter").val("");
+                    $('.multi-selects').multipleSelect({minimumCountSelected:1,placeholder: "Search",width: 120});
+                    $("#fortnightFilter").multipleSelect("setSelects", [firstFortnight]);
+                    // Apply the filter
+                    $("#filterrow input[type='text']").on( 'blur', function () {
+                        reportTable.ajax.reload();
+                    });
+                    $("#filterrow select").on( 'change', function () {
+                        reportTable.ajax.reload();
+                    });
+                }
+                
+
+                $('.se-pre-con').hide();
+                $(document).on('click', '.buttons-columnVisibility', function(event) {
+                    event.stopImmediatePropagation();
+                    reportTable.ajax.reload();
+                });
+                $('.dt-buttons').find('h1').first().remove();
+                $('.dt-buttons').prepend('<h1><span>Column Visibility</span></h1>');
+          },
+
+      }); 
+    });
+    $(".datepicker").datetimepicker({
+         timepicker: false,
+        format: 'm/d/y',
+        scrollMonth : false,
+        scrollInput : false
+    });
+</script>

@@ -4,6 +4,14 @@
 
     <head>
         <style>
+<<<<<<< HEAD
+=======
+.editwbsinputs>div{
+    min-height:70px;
+    margin-bottom: 20px;
+} 
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              .tagger {
                 border: -1px steelblue !important;
                 background-color: #fff !important;
@@ -51,6 +59,7 @@
             
             .dialog {
                 display: none;
+<<<<<<< HEAD
             }
             
           /*  input[type=radio] {
@@ -60,6 +69,9 @@
             }
             */
             
+=======
+            }          
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
             body {
                 overflow-x: hidden;
@@ -76,6 +88,10 @@
     <body>
         <div>
             <% include ./partials/adminheader %>
+<<<<<<< HEAD
+=======
+             <% include ./partials/setting-header %>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         </div>
 
 
@@ -86,6 +102,7 @@
 <span title="Go To WBS List" onclick="document.location.href='/wbsDetails';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;    padding-left: 13px;"  class="glyphicon glyphicon-arrow-left"></span>
   <span class="modal-title" style="padding-left:45%">WBS Details</span>
   <div class="row" style="padding-left: 50px;padding-right: 50px;padding-top: 1%">
+<<<<<<< HEAD
  <!-- <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm"> -->
   <input type="text" name="wbshidden" class="hide" id="wbshidden" value='' />
           <input type="text" name="flaghide" class="hide" id="flaghide" <%if(flag==1 ){ console.log( 'Nae is ', name)%>value='  <%=flag%>' <%} else{%> value=0 <%}%> />
@@ -182,11 +199,72 @@
              <input type="number" style="width:44%;display:inline" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" placeholder="Effort" class="form-text-box"   name="wbseffort" id="wbseffort" maxlength="5" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].estimateEffort%>' <%}%> >
 
              <select style="width:47%;float:right;margin-right:9%;padding:0px" id="wbseffort1" class="form-text-box" name="wbseffort1">
+=======
+  <input type="text" name="wbshidden" class="hide" id="wbshidden" value='' />
+          <input type="text" name="flaghide" class="hide" id="flaghide" <%if(flag==1 ){ %>value='  <%=flag%>' <%} else{%> value=0 <%}%> />
+          <input type="text" name="wbsidhide" class="hide" id="idhide" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSId%>' <%} else{%> value=0 <%}%> />
+
+      <div class="row fusion-form-elements">
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Project Name:<sup  class="astrick">*</sup></label>
+            <%if(flag==1  && typeof (name[0][0]) != 'undefined'){%> 
+              <input type="text" class="form-control " style="" name="proname" id="proname" maxlength="50" value='<%=name[0][0].projectTitle%>' disabled="true">
+              <%}%>
+              <%if(flag==0) {%>
+               <select class="form-control input-sm"   onchange="getAllWbs($('#proname').val())" name="proname" id="proname" style="">
+                     <option value='0' disabled selected>Select</option>
+                     <% for(var i=0;i<allinfo.length;i++) {%>
+                     <option value="<%=allinfo[i].id%>"<%if(flag==1&&name[0][0].projectId==allinfo[i].id){%>
+                     selected<%}%>> <%=allinfo[i].projectTitle%> </option>
+                     <%}%> 
+              </select> <% } %>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>WBS Name:<sup  class="astrick">*</sup></label>
+            <input onblur="return allWbs();" onkeypress="return specialCharacter(event)" type="text" placeholder="Enter a WBS Name" class="  form-control" style="" name="wbsname" id="wbsname" maxlength="50" onblur="myFunction(); checkprofield();" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSName%>' <%}%> >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>WBS Code:</label>
+            <input type="text" placeholder="WBS Code" class="form-control input-sm" style="" name="wbscode" id="wbscode" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSCode%>' <%}%> readonly>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>WBS Owner:</label>
+            <select style="" class="form-control input-sm" id="wbsowner" name="wbsowner">
+                 <option disabled selected value=0>Select</option>
+                <% for(var i=0;i<owner.length;i++) {%>
+                <option value="<%=owner[i].id%>"<%if(flag==1&&name[0][0].WBSOwner==owner[i].id){%>
+                selected<%}%>><%=owner[i].name%></option>
+                <%}%>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Planned Start Date:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20" placeholder="Select Date" class="form-control input-sm"  id="datepicker" style="background-color: rgb(255, 255, 255);" name="wbspsdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'){%>value='<%=name[0][0].wplannedStartDate%>' <%}%> > 
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Planned End Date:<sup  class="astrick">*</sup></label>
+            <input type="text" maxlength="20" placeholder="Select Date" name="wbspedate"  class="form-control input-sm" id="datepicker1" style="background-color: rgb(255, 255, 255);" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value='<%=name[0][0].wplannedEndDate%>' <%}%> >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Actual Start Date:</label>
+            <input type="text" maxlength="20" class="form-control input-sm" id="datepicker2" placeholder="Select Date"  style="background-color: rgb(255, 255, 255);" name="wbsasdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualStartDate){ if(name[0][0].wactualStartDate != '00/00/00'){%>value='<%=name[0][0].wactualStartDate%>' <%} else{%> value='' <%}}%>   > 
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Actual End Date:</label>
+            <input type="text" maxlength="20" placeholder="Select Date" class="form-control input-sm" id="datepicker3"  style="background-color: rgb(255, 255, 255);" name="wbsaedate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualEndDate){ if(name[0][0].wactualEndDate != '00/00/00'){%>value='<%=name[0][0].wactualEndDate%>' <%} else{%> value='' <%}}%>  >
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Estimate Effort:</label>
+            <input type="number" style="" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" placeholder="Effort" class="form-control input-sm"   name="wbseffort" id="wbseffort" maxlength="5" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].estimateEffort%>' <%}%> >
+
+            <select style="" id="wbseffort1" class="form-control input-sm" name="wbseffort1">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                             <option disabled selected   value=0>Select</option>
                             <option value=1>Man-Hours</option>
                             <option value=2>Man-Days</option>
                             <option value=3>Man-Weeks</option>
                             <option value=4>Man-Months</option>
+<<<<<<< HEAD
                        </select>
 
 
@@ -197,11 +275,19 @@
             </td>
             <td>
            <select   class="form-text-box" id="wbslocation" name="wbslocation">
+=======
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>WBS Location:</label>
+            <select   class="form-control input-sm" id="wbslocation" name="wbslocation">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                    <option disabled selected value=0>Select</option> 
 
                    <% for(var i=0;i<location.length;i++) {%> <option value="<%=location[i].id%>" <%if(flag==1&&location[i].id==name[0][0].WBSLocation) {%>selected<%}%>><%=location[i].location%></option> <%}%> 
 
             </select>
+<<<<<<< HEAD
           </td>
         </td>
         <td>
@@ -224,10 +310,25 @@
           
             <div style="width: 108%;float: left;padding-right: 14px">
               <select style="" id="typeValue" class="form-text-box" name="typeValue">
+=======
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Assign to All:</label>
+            <select style="" id="assign" class="form-control input-sm" name="assign">
+                  <option  disabled selected  value=2>Select</option>
+                  <option value=1>Yes</option>
+                  <option value=0  selected="true">No</option>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4">
+            <label>Type :</label>
+            <select style="" id="typeValue" class="form-control input-sm" name="typeValue">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 <option disabled selected   value=0>Select</option>
                 <option value=1>Time only</option>
                 <option value=2>Time & Expence</option>
               </select>
+<<<<<<< HEAD
             </div>
         </td>
         </td>
@@ -255,6 +356,16 @@
          
       </tr>
     </table>
+=======
+          </div>
+           <div class="col-lg-3 col-md-3 col-sm-4"<%if(flag==0 ){%> style="display:none"<%}%> >
+            <label>Status:</label>
+              <input type="radio" class="" name="wbsstatus" value=1 id="wbsstatus1" style="margin-top:10px;"> Active 
+              <input type="radio" class="" name="wbsstatus" value=0 id="wbsstatus2" style="margin-top:10px;"> Inactive
+          </div>
+      </div>
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
      <div class="row " style="padding-bottom:20px;">
         <center> 
             <a href="/wbsDetails">
@@ -319,13 +430,23 @@
                     timepicker: false,
                     format: 'm/d/y',
                     scrollMouse: false,
+<<<<<<< HEAD
                     scrollInput: false
+=======
+                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 });
                 $("#datepicker3").datetimepicker({
                     timepicker: false,
                     format: 'm/d/y',
                     scrollMouse: false,
+<<<<<<< HEAD
                     scrollInput: false
+=======
+                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 });
 
 
@@ -335,13 +456,19 @@
                     var pid = '<%=name[0][0].projectId%>';
                     getAllWbs(pid);
                     if ('<%=name[0][0].WBSLocation%>' == null) {
+<<<<<<< HEAD
                         //$("#wbslocation").prop("selectedIndex", -1);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                         $('#wbslocation').val(0);
                     } else {
                         $('#wbslocation').val('<%=name[0][0].WBSLocation%>');
                     }
 
+<<<<<<< HEAD
                     //$('#wbsowner').val('<%=name[0][0].WBSOwner%>');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                     if ('<%=name[0][0].WBSOwner%>' == null) {
                         $("#wbsowner").prop("selectedIndex", -1);
@@ -358,7 +485,10 @@
                         $("input[name=wbsstatus]").prop("selectedIndex", -1);
                     }
                     if ('<%=name[0][0].typeUnit%>' > 0) {
+<<<<<<< HEAD
                         //$("input[name=typeValue][value=<%=name[0][0].typeUnit%>]").prop('checked', true);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                         $('#typeValue').val('<%=name[0][0].typeUnit%>');
                     } else {
                         $("input[name=typeValue]").prop("selectedIndex", -1);
@@ -503,6 +633,7 @@
                     }
                 }
 
+<<<<<<< HEAD
                 /*var sdate = $('#datepicker').datetimepicker("getDate");*/
                 var text = $('#datepicker').val();
                 /*var edate = $('#datepicker1').datetimepicker("getDate");*/
@@ -510,6 +641,11 @@
                 /*var asdate = $('#datepicker2').datetimepicker("getDate");*/
                 var text2 = $('#datepicker2').val();
                 /*var aedate = $('#datepicker3').datetimepicker("getDate");*/
+=======
+                var text = $('#datepicker').val();
+                var text1 = $('#datepicker1').val();
+                var text2 = $('#datepicker2').val();
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 var text3 = $('#datepicker3').val();
                 var sdate = new Date(text);
                 var edate = new Date(text1);
@@ -549,8 +685,11 @@
                   }
                 }
 
+<<<<<<< HEAD
                 //submitwbs();
 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 addWbs1();
 
 
@@ -558,7 +697,10 @@
 
             function submitwbs() {
                 var flag = $('#flaghide').val();
+<<<<<<< HEAD
                 //alert(flag);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 if (flag == 1) {
                     alert('WBS Updated Successfully');
                 } else {
@@ -572,8 +714,12 @@
                         $('#wbshidden').val(0);
                     }
                 }
+<<<<<<< HEAD
                 //addWbs1();
                 //return true;
+=======
+              
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 addWbs12();
             }
 
@@ -595,7 +741,10 @@
                             success: function(data) {
                               
                                 if(data[0][0].msg==0){
+<<<<<<< HEAD
                                             //addWbs12();
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                                             submitwbs();
                                 }
@@ -617,8 +766,11 @@
 
             function addWbs12(){
 
+<<<<<<< HEAD
               alert('flag--'+$('#flaghide').val());
               //alert('wbshidden--'+$('#wbshidden').val());
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                               $.ajax({
                                 url: '/addEditWbsDetails',
@@ -642,7 +794,10 @@
                                    "typeValue": $('#typeValue').val(),
                                   },
                                   success: function(data) {
+<<<<<<< HEAD
                                     console.log('success',data);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     
                                       if ('<%=flag%>' == '0') {
                                           if ($('#wbshidden').val() == 1) {
@@ -699,7 +854,10 @@
               }
                 $("#datepicker").datetimepicker("destroy");
                 $("#datepicker1").datetimepicker("destroy");
+<<<<<<< HEAD
                 //alert('pid---'+pid);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                 $.ajax({
                     url: '/getAllWbsForProject',
@@ -708,7 +866,10 @@
                         "pid": pid
                     },
                     success: function(data) {
+<<<<<<< HEAD
                         console.log('success', data);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                         var log = '',
                             log1 = '',
                             log2 = '';
@@ -737,7 +898,10 @@
 
 
                         }
+<<<<<<< HEAD
                         // console.log('log---',log);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                         otable.fnDestroy();
                         $('#tb').html(log);
                         otable = $('#wbstable').dataTable({
@@ -746,7 +910,10 @@
                     "bFilter": false,"bInfo": false,"bLengthChange": false
                         });
                         if (<%=flag%> == 0) {
+<<<<<<< HEAD
                             /*$('#datepicker').val('05/05/2015');*/
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                             $('#datepicker').val(data[1][0].plannedStartDate);
                             $('#datepicker1').val(data[1][0].plannedEndDate);
                             var text = $('#datepicker').val();
@@ -760,10 +927,14 @@
                             var date=new Date(date);
                             var date1=new Date(date1);
 
+<<<<<<< HEAD
                             console.log('text----',text);
                             console.log('text1----',text1);
                             console.log('date----',date);
                             console.log('date1----',date1);
+=======
+                          
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                             if (text != '' && text1 != '') {
                                 $("#datepicker").datetimepicker({
@@ -772,7 +943,12 @@
                                     maxDate: date1,
                                     format: 'm/d/y',
                                     scrollMouse: false,
+<<<<<<< HEAD
                                     scrollInput: false
+=======
+                                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                 });
                                 $("#datepicker1").datetimepicker({
                                     timepicker: false,
@@ -780,25 +956,44 @@
                                     maxDate: date1,
                                     format: 'm/d/y',
                                     scrollMouse: false,
+<<<<<<< HEAD
                                     scrollInput: false
+=======
+                                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                 });
                             } else {
                                 $("#datepicker").datetimepicker({
                                     timepicker: false,
                                     format: 'm/d/y',
                                     scrollMouse: false,
+<<<<<<< HEAD
                                     scrollInput: false
+=======
+                                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                 });
                                 $("#datepicker1").datetimepicker({
                                     timepicker: false,
                                     format: 'm/d/y',
                                     scrollMouse: false,
+<<<<<<< HEAD
                                     scrollInput: false
                                 });
                             }
                         } else {
                             /*$('#datepicker').val(data[1][0].plannedStartDate);
                             $('#datepicker1').val(data[1][0].plannedEndDate);*/
+=======
+                                    scrollMonth : false,
+        scrollInput : false
+                                });
+                            }
+                        } else {
+                           
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                             var text = data[1][0].plannedStartDate;
                             var text1 = data[1][0].plannedEndDate;
                             var date = new Date(text);
@@ -816,7 +1011,12 @@
                                 maxDate: date1,
                                 format: 'm/d/y',
                                 scrollMouse: false,
+<<<<<<< HEAD
                                 scrollInput: false
+=======
+                                scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                             });
 
 
@@ -826,7 +1026,12 @@
                                 maxDate: date1,
                                 format: 'm/d/y',
                                 scrollMouse: false,
+<<<<<<< HEAD
                                 scrollInput: false
+=======
+                                scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                             });
 
                         }

@@ -9,6 +9,7 @@
 
 </head>
 <style type="text/css">
+<<<<<<< HEAD
    .dataTables_filter, .dataTables_length {
      display: none;
     }
@@ -35,6 +36,34 @@
         <th style='background-color:grey;color:white'>Purchase Order</th>
         <th style='background-color:grey;color:white'>Delivery Date</th>
         <th style='background-color:grey;color:white'>Edit/Delete</th>
+=======
+   /*.dataTables_filter, .dataTables_length {
+     display: none;
+    }*/
+</style>
+<body id="viewHardware">
+ 
+ <div class="container-fluid secondry-color" style="min-height: 350px">
+  <span class="fusion-page-title">List Of All Hardware</span>
+  
+  <a href="/hardware" type="button" title="Add New Stationary"  value="Addstationary"><img   class="addNewPlus" src="/img/add.png" ></a>
+    
+     
+ <!-- <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">  -->
+  <table class="table table-hover table-striped table-bordered rceDataTable responsive"id="hardtable" cellpadding="0" cellspacing="0" border="0" style="width:100%">
+    <thead>
+
+      <tr>
+        <th>Hardware Type</th>
+        <th>Quantity</th>
+        <th>Vendor</th>
+        <th>Invoice Date</th>
+        <th>Invoice No.</th>
+        <th>Invoice Amount</th>
+        <th>Purchase Order</th>
+        <th>Delivery Date</th>
+        <th>Edit/Delete</th>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       </tr>
       <tbody>
         <%for(var i=0;i<htype.length;i++){%>
@@ -42,7 +71,10 @@
           <td><%=htype[i].componentName%></td>
           <td><%=htype[i].quantity%></td>
           <td><%=htype[i].vendor%></td>
+<<<<<<< HEAD
          <!--  <td><%=((htype[i].invoiceDate).toString()).slice(3,16)%></td> -->
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
           <td><%=htype[i].invoiceDate%></td>
           <td><%=htype[i].invoiceNo%></td>
           <td><%=htype[i].invoiceAmt%></td>   
@@ -67,6 +99,7 @@
 
 </div>
 
+<<<<<<< HEAD
 
 
 
@@ -146,11 +179,74 @@
              <div class="form-group">
              <div class=" col-md-12 table-responsive">
                <table id='table1' class="table table-striped table-bordered table-hover table-condensed hide"style="overflow:scroll;width:100%;">
+=======
+<div class="modal fade" id="editHardware" role="dialog" >
+
+    <div class="modal-dialog" style="min-width: 80%;">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" id="dismiss">×</button>
+            <h4 id="head10" class="modal-title">Edit Hardware</h4>
+        </div>
+        <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+          <div class="modal-body">
+            <div class="row fusion-form-elements view-edit-hardware">
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label>Hardware Type: <sup class="astrick">*</sup></label>
+                <span id="ltype" class="hide labelans"></span>
+                <input type="text" id="type1"   name="type1"  class="form-control input-sm textBox" value="" disabled>
+                <input type="hidden" id="type"   name="type"  class="form-control input-sm" value="" disabled>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label>Quantity: <sup class="astrick">*</sup></label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="number" maxlength="2"  class="form-control input-sm textBox" id="qty" name="qty" onchange="addline()" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label>Vendor: <sup class="astrick">*</sup></label>
+                <span id="lvendor" class="hide labelans"></span>
+                <select  class="form-control input-sm textBox" style=""  name="vendor" id ="vendor" onchange=""> 
+                  <option value='0' disabled selected>Select</option>
+               <% for(i=0;i<vendor.length;i++){%>
+                  <option value="<%=vendor[i].id%>"><%=vendor[i].name%></option>
+                <%}%>
+                </select>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label>Invoice Number: <sup class="astrick">*</sup></label>
+                <span id="linvoiceNo" class="hide labelans"></span>
+                <input type="text" maxlength="10"  class="form-control input-sm textBox" id="invoiceNo" name="invoiceNo" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label>Invoice Date: <sup class="astrick">*</sup></label>
+                <span id="lInvoicedate" class="hide labelans"></span>
+                <input type="text" class="form-control input-sm textBox date " id="Invoicedate" name="Invoicedate" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label>Invoice Amount: <sup class="astrick">*</sup></label>
+                <span id="linvoiceAmt" class="hide labelans"></span>
+                <input type="text" maxlength="11"  class="form-control input-sm textBox" id="invoiceAmt" name="invoiceAmt" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label>Purchased Order: <sup class="astrick">*</sup></label>
+                <span id="lorder" class="hide labelans"></span>
+                <input type="text" maxlength="50"  class="form-control input-sm textBox" id="order" name="order" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label>Delivery Date: <sup class="astrick">*</sup></label>
+                <span id="lDeliverydate" class="hide labelans"></span>
+                <input type="text " class="form-control input-sm textBox date " id="Deliverydate"name="Deliverydate"/>
+              </div>
+            </div>
+            <div class="table-responsive">
+               <table id='table1' class="table table-striped table-bordered table-hover table-condensed hide view-hardware-table responsive">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  <thead id="headi">
                  </thead>
                  <tbody id="bodyi">
                  </tbody>
                </table>
+<<<<<<< HEAD
              </div>
              </div>
              </div>
@@ -160,10 +256,20 @@
                 <button id="cancel"type="reset"data-dismiss="modal" class="btn">Cancel</button>
                 <input type="submit"    onclick="return validatehardvare()" class="btn hdwrbtn" value="Submit">
               </center>
+=======
+            </div>
+           
+             </div>
+            <div class="modal-footer">
+              <input type="text" class="hide" value="" id="hdnId" name="hdnId">
+                <button id="cancel" type="reset"data-dismiss="modal" class="btn">Cancel</button>
+                <input type="submit"    onclick="return validatehardvare()" class="btn hdwrbtn" value="Submit">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             </div>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
   
 
 
@@ -172,6 +278,12 @@
     <div class="modal fade" id="editHardware1" role="dialog" >
     <div class="modal-dialog"  style="margin-left: 150px">
       <!-- Modal content-->
+=======
+ 
+    <div class="modal fade" id="editHardware1" role="dialog" >
+    <div class="modal-dialog"  style="margin-left: 150px">
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       <div class="modal-content" id="express2" style ="width:1000px;height:auto;">
         <div class="modal-header" style="background-color:#f05f40;">
           <center><label id="head2" class="modal-title" style="color:white;font-size:14pt;"><b>View Hardware</b></label>
@@ -235,7 +347,11 @@
           
              </div>
              <div id='componentid'>
+<<<<<<< HEAD
                 <table id ='addComptable1' class="table table-striped table-bordered table-hover table-condensed" style="overflow-y:auto;">
+=======
+                <table id ='addComptable1' class="table table-striped table-bordered table-hover table-condensed responsive" style="overflow-y:auto;">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             <col width="10"><col width="10"><col width="20"><col width="10"><col width="10">
 
                 <thead id="modalHead">
@@ -263,6 +379,7 @@
       </div>
       </div>
    
+<<<<<<< HEAD
 
     <!-- View More Details starts-->
 
@@ -271,11 +388,22 @@
       <!-- Modal content-->
       <div class="modal-content" id="express3">
         <div class="modal-header" style="background-color:#f05f40;">
+=======
+<div class="modal fade" id="viewMore" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content" id="express3">
+        <div class="modal-header">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
           <center><label id="head" class="modal-title" style="color:white;font-size:14pt;"><b>View More</b></label></center>
         </div>
         <div id="err" class="col-lg-6 col-sm-offset-3"></div>
           <div class="modal-body">
+<<<<<<< HEAD
             <table id="viewtableforh" class="table table-striped table-bordered table-hover table-condensed hide"style="overflow:scroll;width:100%;">
+=======
+            <table id="viewtableforh" class="table table-striped table-bordered table-hover table-condensed hide responsive"style="overflow:scroll;width:100%;">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         <thead id="headi">
         </thead>
         <tbody id="bodyi">
@@ -295,6 +423,7 @@
     </div>
 
 <div class="modal " id="addModal"  role="dialog">
+<<<<<<< HEAD
   <div class="modal-dialog" style="display:table;">
     <!-- Modal content-->
     <div class="modal-content" id="express2" style="position: relative;overflow-y: auto;">
@@ -302,10 +431,19 @@
         <center><label id="head1" class="modal-title" style="color:white; "> Add Component </label>
         <span id="cut"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:black;margin-bottom: 15px'></span>
         </center>
+=======
+
+  <div class="modal-dialog" style="min-width: 70%">
+    <div class="modal-content" style="overflow-y: auto;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" id="cut">×</button>
+        <h4 id="head1" class="modal-title">Add Component</h4>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       </div>
       <div id="err" class="col-lg-6 col-sm-offset-3"></div>
       <div class="modal-body">
         <div class="form-group" style="padding:10px;">
+<<<<<<< HEAD
           <div class=" col-md-12 table-responsive" id="addcompobody" style="margin-bottom: 20px;">
             <!--table class="table table-striped table-bordered table-hover table-condensed" style="overflow-y:auto;">
             <col width="10"><col width="10"><col width="20"><col width="10"><col width="10">
@@ -321,12 +459,28 @@
                 <input  id="submitid" type="button"class="btn btn-info" onclick="validatesubcomponent()" value="SUBMIT">
           </div>
         </div>
+=======
+
+          <div class="table-responsive" id="addcompobody" style="margin-bottom: 20px;">
+            
+             </div>
+              <input type="hidden" id="serids"/>
+              <div id="tablediv" class="table-responsive"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input  id="submitid" type="button"class="btn btn-info" onclick="validatesubcomponent()" value="SUBMIT">
+        </div>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     </div>
   </div>
 </div>
 
+<<<<<<< HEAD
     <!-- Javascript function -->
 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 </body>
 <footer>
   <% include ../partials/footer %>
@@ -367,12 +521,21 @@ var idarray=[];
              $("#searchbox").keyup(function() {
         oTable1.fnFilter(this.value);
       });
+<<<<<<< HEAD
       //getlinedtata();
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     });
 
     jQuery('.date').datetimepicker({
       timepicker:false,
+<<<<<<< HEAD
       format:'d/m/Y'
+=======
+      format:'d/m/Y',
+      scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     });
     function validate(){
       var inamount=$('#invoiceAmt').val();
@@ -415,20 +578,30 @@ var idarray=[];
 
  i=0;
      function addCompModal(rowid){
+<<<<<<< HEAD
       //alert('jai mata di addcompmodel');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       addId(rowid);
       kid=0;
       $('#addcompobody').html('');
       $('#tablediv').html('');
       
+<<<<<<< HEAD
     var row = '<div class="row" id="trdiv"><div class="col-md-3" style="padding-left:1px">Subcomponent :</div><div class="col-md-3"><select class = "form-text-box form-control" id="compo"><%for(var i=0;i<ctype.length;i++){%>';
+=======
+    var row = '<div class="row" id="trdiv"><div class="col-md-3" style="padding-left:1px">Subcomponent :</div><div class="col-md-3"><select class = "form-text-box form-control input-sm" id="compo"><%for(var i=0;i<ctype.length;i++){%>';
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     if($("#type").val() != "<%=ctype[i].id%>"){
         row+='<option value="<%=ctype[i].id%>"><%=ctype[i].componentName%></option>';
       } 
     row+='<%}%></select></div><div class="col-md-2"><input type="button"class="btn btn-info addcompdata" onclick="addsubcomponent()" value="ADD"></div></div>';
    
          $('#addcompobody').append(row);
+<<<<<<< HEAD
         // alert('jai ho');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          
          countAddCompModal++;
          i++
@@ -436,7 +609,13 @@ var idarray=[];
          var date=new Date($('#Deliverydate').val());
           jQuery('.datetimepicker').datetimepicker({
   timepicker:false,
+<<<<<<< HEAD
   format:'d/m/Y', minDate:date
+=======
+  format:'d/m/Y', minDate:date,
+  scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   });
      }
 
@@ -454,7 +633,10 @@ function addsubcomponent() {
     var selectedValue =typ.options[typ.selectedIndex].value;
     if (selectedValue == "0") {
         alert("Please select a type");
+<<<<<<< HEAD
         console.log("intype");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         return false;
     }
     if ($('#qty').val().length < 1 || $.trim($("#qty").val()) < 1) {
@@ -466,7 +648,10 @@ function addsubcomponent() {
         alert("Quantity cannot exceed 20!");
         document.getElementById('qty').value = '';
     } else {
+<<<<<<< HEAD
         console.log(selectedValue);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         $.ajax({
             url: '/getAttr',
             method: 'post',
@@ -478,16 +663,24 @@ function addsubcomponent() {
                 var head = '<tr style="height:12px"><th style="width:150px"># <span style="color:red" title="Remove Row" onclick="remove1('+kid+')" class="glyphicon glyphicon-remove-circle"></span></th><th >Component Name</th>';
                 allAttIds = [];
                 for (var i = 0; i < result[0].length; i++) {
+<<<<<<< HEAD
                     console.log('head' + i)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     head = head + '<th>' + result[0][i].attribute + '</th>';
                     allAttIds.push(result[0][i].attId);
                 }
                 allAttIds2 = allAttIds;
               
+<<<<<<< HEAD
                 /********************Important next line*************************/
                 head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty Start Date</th><th style = "width:100px;" id ="underconsideration">Warranty End Date</th></tr>';
                 $('#headij'.concat(kid)).append(head);
                 //$('#bodyk').empty();
+=======
+                head = head + '<th >Brand</th><th style = "width:100px;" id ="underconsideration">Warranty Start Date</th><th style = "width:100px;" id ="underconsideration">Warranty End Date</th></tr>';
+                $('#headij'.concat(kid)).append(head);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 arr.length = qty;
                 col = result[0].length;
                 attlength = col;
@@ -517,13 +710,23 @@ function addsubcomponent() {
                     }
                     row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker2" id="warrantyco1' + kid + '" type = "text"></td>';
                     row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker2" id="warrantyco2' + kid + '" type = "text"></td>';
+<<<<<<< HEAD
                     row = row + '<td class="hide"><input' + ' class="single form-control warrClass" id="componen' + i + '" type = "hidden"></td>';
+=======
+                    row = row + '<td class="hide"><input' + ' class="single form-control input-sm warrClass" id="componen' + i + '" type = "hidden"></td>';
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 
                     $('#bodyk'.concat(kid)).append(row);
                 }
                   jQuery('.datetimepicker2').datetimepicker({
                     timepicker: false,
+<<<<<<< HEAD
                     format: 'd/m/Y'
+=======
+                    format: 'd/m/Y',
+                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 });
 }
 
@@ -556,7 +759,10 @@ function addId(ids){
  }
 
 function del(id){ 
+<<<<<<< HEAD
   //alert(id);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   if(confirm("This action once done cannot be undone! Do you want to delete this?")==true)
   {
   $.ajax({
@@ -585,13 +791,19 @@ function description(id){
       $("#t6").html('');
       $("#t7").html('');
       $("#t8").html('');
+<<<<<<< HEAD
   //alert(id);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $.ajax({ 
     url: '/getEditHardware',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
+<<<<<<< HEAD
       console.log("edit info----------------",data[0][0].componentName);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       $("#type").val(data[0][0].ACID);
       $("#t1").append(data[0][0].componentName);
       $("#t2").append(data[0][0].quantity);
@@ -601,18 +813,30 @@ function description(id){
       $("#t6").append(((data[0][0].invoiceDate).toString()).slice(0,11));
       $("#t7").append(data[0][0].invoiceNo);
       $("#t8").append(((data[0][0].deliveryDate).toString()).slice(0,11));
+<<<<<<< HEAD
       //$("#hdnId").val(data[0][0].id);
       //getlinedtata();
       //getlineValue(id);
+=======
+      
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       getidfordescription(id);
     }
   });
 }
 
 function showInfo(id,flag){
+<<<<<<< HEAD
   if(flag){                                                               //view details
   $(".labelans").removeClass("hide");
   $(".textBox").addClass("hide");
+=======
+  if(flag){                                                             
+  $(".labelans").removeClass("hide");
+  $(".view-edit-hardware .astrick").addClass("hide");
+  $(".textBox").addClass("hide");
+  $(".view-edit-hardware").removeClass("fusion-form-elements");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $(".chnBtn").val("View");
   $("#head4").html("View Hardware");
   $(".hdwrbtn").addClass("hide");
@@ -623,9 +847,17 @@ function showInfo(id,flag){
 }
 else{ 
   $("#head10").html(" ");
+<<<<<<< HEAD
   $("#head10").append("Edit Hardware");                                                                //Edit Details
   $(".labelans").addClass("hide");
   $(".textBox").removeClass("hide");
+=======
+  $("#head10").append("Edit Hardware");                                                             
+  $(".labelans").addClass("hide");
+  $(".view-edit-hardware .astrick").removeClass("hide");
+  $(".textBox").removeClass("hide");
+  $(".view-edit-hardware").addClass("fusion-form-elements");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $(".chnBtn").val("Edit")
   $("#head4").html("Edit Hardware");
   $(".hdwrbtn").removeClass("hide");
@@ -636,13 +868,20 @@ else{
 }
 
   $("#hdnId").val('');
+<<<<<<< HEAD
   //alert(id);
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $.ajax({ 
     url: '/getEditHardware',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
+<<<<<<< HEAD
       console.log("edit info----------------",data[0]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       $("#type").val(data[0][0].ACID);
       $("#type1").val(data[0][0].componentName);
       $("#qty").val(data[0][0].quantity);
@@ -676,6 +915,7 @@ function addline(){
   getlineValue(id);
 }
 
+<<<<<<< HEAD
 ///
 
 function getlinedtata(){
@@ -685,6 +925,13 @@ function getlinedtata(){
     if (selectedValue == "0") {
         alert("Please select a type");
         console.log("intype");
+=======
+function getlinedtata(){
+      $('#tableQuantity').removeClass('hide');
+    var selectedValue = Math.floor($("#type").val());
+    if (selectedValue == "0") {
+        alert("Please select a type");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         return false;
     }
     if ($('#qty').val().length < 1 || $.trim($("#qty").val()) < 1) {
@@ -698,7 +945,10 @@ function getlinedtata(){
         alert("Quantity cannot exceed 20!");
         document.getElementById('qty').value = '';
     } else {
+<<<<<<< HEAD
         console.log(selectedValue);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         $.ajax({
             url: '/getAttr',
             method: 'post',
@@ -712,7 +962,10 @@ function getlinedtata(){
                 var head = '<tr ><th>#</th><th >Serial No.</th>';
                 allAttIds = [];
                 for (var i = 0; i < result[0].length; i++) {
+<<<<<<< HEAD
                     console.log('head' + i)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     head = head + '<th>' + result[0][i].attribute + '</th>';
                     allAttIds.push(result[0][i].attId);
                 }
@@ -753,6 +1006,7 @@ function getlinedtata(){
                         row = row + '<option value="' + result[2][dropdownValues].id + '">' + result[2][dropdownValues].value + '</option>';
                     }
                     row = row + '</select></td><td><input' + ' class="form-text-box datetimepicker1" placeholder="Start Date" id="warranty' + i + '" type = "text"></td><td><input' + ' class="form-text-box datetimepicker1" placeholder="End Date" id="warranty1o' + i + '" type = "text"></td>';
+<<<<<<< HEAD
                     row = row + '<td class="hide"><input' + ' class="single form-control warrClass" id="componentdata' + i + '" type = "hidden"></td>';
                      row = row + '<td class="hide"><input class="single form-text-box warrClass lineText" id="id'+i+'" type = "hidden" value="0"></td>';
 
@@ -760,13 +1014,27 @@ function getlinedtata(){
                     row = row + '<td class = "">' + '<input onclick="getsubline('+i+',0)" class="btn btn-danger"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
                   
                    // addId(i);
+=======
+                    row = row + '<td class="hide"><input' + ' class="single form-control input-sm warrClass" id="componentdata' + i + '" type = "hidden"></td>';
+                     row = row + '<td class="hide"><input class="single form-text-box warrClass lineText" id="id'+i+'" type = "hidden" value="0"></td>';
+
+
+                    row = row + '<td class = "">' + '<input onclick="getsubline('+i+',0)" class="btn btn-danger btn-sm"type="button"data-toggle="modal"' + ' value="Add"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
+                  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     $('#bodyi').append(row);
                 }
 
 
                 jQuery('.datetimepicker1').datetimepicker({
                     timepicker: false,
+<<<<<<< HEAD
                     format: 'd/m/Y'
+=======
+                    format: 'd/m/Y',
+                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 });
 
 
@@ -787,21 +1055,30 @@ function getlinedtata(){
     }
   }
 
+<<<<<<< HEAD
 
  // for description
 ///
 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  function numericFilter(txb) {
          txb.value = txb.value.replace(/[^\0-9]/ig, "");
         }
 
 function getlinedtatafordescription(){
       $('#tableQuantity').removeClass('hide');
+<<<<<<< HEAD
    // var typ = document.getElementById('typel');
     var selectedValue = $("#type").val();
     if (selectedValue == "0") {
         alert("Please select a type");
         console.log("intype");
+=======
+    var selectedValue = $("#type").val();
+    if (selectedValue == "0") {
+        alert("Please select a type");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         return false;
     }
     if ($('#qty').val().length < 1 || $.trim($("#qty").val()) < 1) {
@@ -815,7 +1092,10 @@ function getlinedtatafordescription(){
         alert("Quantity cannot exceed 20!");
         document.getElementById('qty').value = '';
     } else {
+<<<<<<< HEAD
         console.log(selectedValue);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         $.ajax({
             url: '/getAttr',
             method: 'post',
@@ -829,7 +1109,10 @@ function getlinedtatafordescription(){
                 var head = '<tr ><th>#</th><th >Serial No.</th>';
                 allAttIds = [];
                 for (var i = 0; i < result[0].length; i++) {
+<<<<<<< HEAD
                     console.log('head' + i)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     head = head + '<th>' + result[0][i].attribute + '</th>';
                     allAttIds.push(result[0][i].attId);
                 }
@@ -870,20 +1153,33 @@ function getlinedtatafordescription(){
                         row = row + '<option value="' + result[2][dropdownValues].id + '">' + result[2][dropdownValues].value + '</option>';
                     }
                     row = row + '</select></td><td><input' + ' disabled="disable" style="width:100px" class="form-text-box datetimepicker1" placeholder="Start Date" id="warranty' + i + '" type = "text"></td><td><input' + ' disabled="disable" class="form-text-box datetimepicker1" placeholder="End Date" id="warranty1o' + i + '" style="width:100px" type = "text"></td><td><input' + ' style="width:150px" class="form-text-box" readonly id="tagNo' + i + '" type = "text"></td>';
+<<<<<<< HEAD
                     row = row + '<td class="hide"><input' + ' class="single form-control warrClass" id="componentdata' + i + '" type = "hidden"></td>';
+=======
+                    row = row + '<td class="hide"><input' + ' class="single form-control input-sm warrClass" id="componentdata' + i + '" type = "hidden"></td>';
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      row = row + '<td class="hide"><input class="single form-text-box warrClass lineText" id="id'+i+'" type = "hidden" value="0"></td>';
 
 
                     row = row + '<td class = "">' + '<input onclick="getsubline('+i+',1)" class="btn btn-danger"type="button"data-toggle="modal"' + ' value="VIEW"data-target="#addModal"' + 'style="background-color:#f05f40;color:white;" id="' + i + '"' + ' onclick="saveId(' + i + ')">' + '</td></tr>';
                   
+<<<<<<< HEAD
                    // addId(i);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     $('#bodyi').append(row);
                 }
 
 
                 jQuery('.datetimepicker1').datetimepicker({
                     timepicker: false,
+<<<<<<< HEAD
                     format: 'd/m/Y'
+=======
+                    format: 'd/m/Y',
+                    scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 });
 
 
@@ -903,7 +1199,10 @@ function getlinedtatafordescription(){
         });
     }
   }
+<<<<<<< HEAD
  //end 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
   function sleepFunctionForStoppingTime(miliseconds) {
    var currentTime = new Date().getTime();
@@ -927,9 +1226,13 @@ function getlinedtatafordescription(){
                  lineid=result[0][0].ids.split(',');
                
                for(var i=0;i<lineid.length;i++){
+<<<<<<< HEAD
                // alert(lineid[i]);
                //  sleepFunctionForStoppingTime(100);
              // getattrline(lineid[i],i);
+=======
+              
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 (function(i){
 
                       window.setTimeout(function(){ 
@@ -965,14 +1268,26 @@ function getlinedtatafordescription(){
 
 });
 }
+<<<<<<< HEAD
 //description
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 function showInfoforDescription(id,flag){
   $('#trdiv').addClass('hide');
   if(flag){ 
   $("#head10").html(" "); 
+<<<<<<< HEAD
   $("#head10").append("View Hardware");                                                             //view details
   $(".labelans").removeClass("hide");
   $(".textBox").addClass("hide");
+=======
+  $("#head10").append("View Hardware");                                                            
+  $(".labelans").removeClass("hide");
+  $(".view-edit-hardware .astrick").addClass("hide");
+  $(".textBox").addClass("hide");
+  $(".view-edit-hardware").removeClass("fusion-form-elements");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $(".chnBtn").val("View");
   $("#head4").html("View Hardware");
   $(".hdwrbtn").addClass("hide");
@@ -981,9 +1296,17 @@ function showInfoforDescription(id,flag){
   $(".lineText").attr('disabled','disabled');
   document.getElementsByClassName("lineText").disabled = true;
 }
+<<<<<<< HEAD
 else{                                                                 //Edit Details
   $(".labelans").addClass("hide");
   $(".textBox").removeClass("hide");
+=======
+else{                                                                
+  $(".labelans").addClass("hide");
+  $(".view-edit-hardware .astrick").removeClass("hide");
+  $(".textBox").removeClass("hide");
+  $(".view-edit-hardware").addClass("fusion-form-elements");
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $(".chnBtn").val("Edit")
   $("#head4").html("Edit Hardware");
   $(".hdwrbtn").removeClass("hide");
@@ -994,13 +1317,19 @@ else{                                                                 //Edit Det
 }
 
   $("#hdnId").val('');
+<<<<<<< HEAD
   //alert(id);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $.ajax({ 
     url: '/getEditHardware',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
+<<<<<<< HEAD
       console.log("edit info----------------",data[0]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       $("#type").val(data[0][0].ACID);
       $("#type1").val(data[0][0].componentName);
       $("#qty").val(data[0][0].quantity);
@@ -1043,9 +1372,13 @@ else{                                                                 //Edit Det
                  lineid=result[0][0].ids.split(',');
                
                for(var i=0;i<lineid.length;i++){
+<<<<<<< HEAD
                // alert(lineid[i]);
                //  sleepFunctionForStoppingTime(100);
              // getattrline(lineid[i],i);
+=======
+               
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 (function(i){
 
                       window.setTimeout(function(){ 
@@ -1074,7 +1407,10 @@ else{                                                                 //Edit Det
                 dataType:'json',
                 success:function(result)
                 {
+<<<<<<< HEAD
                   //getsubline(result[0][0].Id);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                   $('#id'.concat(nu)).val(id);
                   $('#serial'.concat(nu)).val(result[0][0].serialNo);
                   $('#brand'.concat(nu)).val(result[0][0].id);
@@ -1090,7 +1426,10 @@ else{                                                                 //Edit Det
 
          });
   }
+<<<<<<< HEAD
 ///
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 function getsublineview(value){
   getsubline(value);
 }
@@ -1108,7 +1447,10 @@ function getsublineview(value){
                 dataType:'json',
                 success:function(result)
                 {
+<<<<<<< HEAD
                   //getsubline(result[0][0].Id);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                   $('#id'.concat(nu)).val(id);
                   $('#serial'.concat(nu)).val(result[0][0].serialNo);
                   $('#brand'.concat(nu)).val(result[0][0].id);
@@ -1139,9 +1481,13 @@ else{
  {
  
   addCompModal(k);
+<<<<<<< HEAD
   //$("#addComptable").dataTable().fnDestroy();
   //$('#addcompobody').empty();
  // countAddCompModal=0;
+=======
+  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  var str1='';
   var id=$('#id'.concat(k)).val();
   if(kt==1){
@@ -1164,7 +1510,11 @@ else{
                 { saveId(k);
                  for(var i=0; i<result[0].length;i++)
                    { 
+<<<<<<< HEAD
                     var l=i+1;//sleepFunctionForStoppingTime(100)
+=======
+                    var l=i+1;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     (function(i){
 
                       window.setTimeout(function(){ 
@@ -1180,7 +1530,11 @@ else{
                    getsublinevalue(k,l);  }, 3000);
                    $('#componentdata'.concat(k)).val(str1);
                     
+<<<<<<< HEAD
                       //alert(str1);
+=======
+                    
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 }
 
           });
@@ -1192,7 +1546,11 @@ function getsublinevalue(k,l)
  {
  var str1='';
   var id=$('#id'.concat(k)).val();
+<<<<<<< HEAD
  //alert(id);
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
    $.ajax({
         url:'/getsublinevalue',
         method:'post',
@@ -1207,8 +1565,12 @@ function getsublinevalue(k,l)
                    { 
 
                   var zid=i+1;
+<<<<<<< HEAD
                   console.log('jai mata rani',result[0][i].brand,result[0][i].warrantyStart,result[0][i].warrantyEnd,result[0][i].id);
                     console.log('jai mata rani id','#brands'.concat(zid),'#warrantyco1'.concat(zid),'#warrantyco2'.concat(zid),'#sublineid'.concat(zid));
+=======
+                 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                       $('#brands'.concat(zid)).val(result[0][i].brand);
                       $('#warrantyco1'.concat(zid)).val(result[0][i].warrantyStart);
                       $('#warrantyco2'.concat(zid)).val(result[0][i].warrantyEnd);
@@ -1372,6 +1734,7 @@ function validatehardvare(){
   
 }
 
+<<<<<<< HEAD
 /*function validatesubcomponent(){
          for(var  i=1;i<=kid;i++){
   if($('#rowlineid'.concat(i)).val()==0){
@@ -1403,6 +1766,8 @@ function validatehardvare(){
 } 
 }
 }*/
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
   function validatesubcomponent(){
      var to = $('#Deliverydate').val().split("/");
@@ -1477,7 +1842,11 @@ function saveComp(){
    str='?'; 
    } 
    }
+<<<<<<< HEAD
    //alert(tempArr);
+=======
+  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
    $('#componentdata'.concat($('#serids').val())).val(tempArr);
    $("#cut").click();
 
@@ -1496,9 +1865,15 @@ function saveComp(){
    str1=str2+'$';
    str2='';
    dataArray[i]=str1;
+<<<<<<< HEAD
    //str1='$';
     }
    // alert(dataArray);
+=======
+   
+    }
+  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     addHardware(dataArray);
   }
 
@@ -1517,13 +1892,18 @@ var  tagNo='PSSL'+ides;
                 success:function(result){
                  
              alert('data add successfully ');
+<<<<<<< HEAD
             //($("#editHardware").modal()).close();
             $('#dismiss').click();
+=======
+            $('#editHardware').modal('hide');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                       }
 
 });
 }
 
+<<<<<<< HEAD
 /*******update hardware**********/
 
 
@@ -1531,6 +1911,11 @@ var  tagNo='PSSL'+ides;
    var arr3=[];
    arr3=arr1.split('?');
    //alert(arr3);
+=======
+  function addlinedata(t1,t2,t3,t6,t7,headid,ctypeid,arr1,t8,ide){
+   var arr3=[];
+   arr3=arr1.split('?');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     var arr2=[];
 
    $.ajax({
@@ -1555,7 +1940,10 @@ var  tagNo='PSSL'+ides;
                        var  inc=i;
                       arr2=arr3[i].split('#');
                       if(arr2[0]!=''){
+<<<<<<< HEAD
                      // alert(arr2[6]); 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                addsubline(arr2[0],arr2[1],arr2[2],arr2[3],arr2[4],arr2[5],arr2[6],headid,ctypeid,result,increment,inc);
                    }
@@ -1616,7 +2004,10 @@ function addsubline(st1,st2,st3,st4,st5,st6,ides,headerid,ctypeid,lineid,incr,in
 });
 }
 function addHardware(newOuterArr){
+<<<<<<< HEAD
  //document.getElementById("submit").disabled = true;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  var array=[];
  var newarray=[];
  var compdata=[];
@@ -1652,6 +2043,7 @@ function addHardware(newOuterArr){
 
 });
 }
+<<<<<<< HEAD
 /*
   function dateVarifyofPhone() {
                         var from = $('#fromdateforphone').val().split("-");
@@ -1670,5 +2062,7 @@ function addHardware(newOuterArr){
                     }
 
 */
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 </script>

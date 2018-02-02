@@ -1,10 +1,44 @@
 'use strict';
  var config = require('../../config/config').modules;
+<<<<<<< HEAD
+=======
+var path = require('path');
+var mime = require('mime');
+var multer  = require('multer');
+var fs =require('fs');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/attach/'); // Absolute path. Folder must exist, will not be created for you.
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() +file.originalname);
+  }
+});
+
+var uploadBugfile = multer({ storage: storage,
+	limits: {
+	    fieldNameSize: 999999999,
+	    fieldSize: 999999999
+    },
+    fileFilter: function (req, file, cb) {
+      var tempExt = path.extname(file.originalname).substring(1);
+      if(['jpg','jpeg','png','pdf','ppt','pptx','doc','docx','xls','xlsx','csv','zip','txt'].indexOf(tempExt) > -1){
+        return cb(null,true);
+      }
+      return cb(new Error('invalid file format'));
+    }
+});
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 module.exports = { 
 	getEmpData:function(req,res,next){
 		req.emp_id=req.query.emp_id;
 		req.mgr_id=req.query.mgr_id;
+<<<<<<< HEAD
 		console.log("inURL",req.emp_id,req.mgr_id);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		next();
 	},
 	home:function(req,res,next){
@@ -31,9 +65,23 @@ module.exports = {
 		req.userid=0;
 		req.page = 'users';
 		next();
+<<<<<<< HEAD
 	}, 
  	errorSWW :function(req,res,next){
  		console.log("loaaaaaaaaaaaaaaaa");
+=======
+	},
+
+   	setProjecttree: function(req, res, next) {
+		req.page = 'projectDetailsfortree';
+		next();
+	},
+
+
+	
+
+ 	errorSWW :function(req,res,next){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     req.page = 'errorSWW';
     next();
 	},
@@ -84,12 +132,20 @@ module.exports = {
 		req.page = 'addEditClient';
 		next();
 	},
+<<<<<<< HEAD
 	/*showEditClient:function(req, res, next) {
 		req.clientid=req.query.id;
 		req.page = 'showEditClient';
 		next();
 	},*/
 	//---------------Masters
+=======
+	setinactiveClient: function(req, res, next) {
+		req.page = 'projectDetailsclient';
+		next();
+	},
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		setpageSettings:function(req,res,next){
 
 			if(req.session.modules.indexOf(config.Asset)>=0)
@@ -116,7 +172,14 @@ module.exports = {
 	},
 
 
+<<<<<<< HEAD
 
+=======
+setDashboard1: function(req, res, next) {
+		req.page = 'vis_dashboard1';
+		next();
+	},
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	
 //---------------------------Project-WBS-------------------------------------
 	
@@ -190,10 +253,13 @@ module.exports = {
 		req.page = 'vis_dashboard';
 		next();
 	},
+<<<<<<< HEAD
 		setDashboard1: function(req, res, next) {
 		req.page = 'vis_dashboard1';
 		next();
 	},
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 	//----------------------------------ASSIGNMENT-----------------------------------
 
@@ -233,6 +299,10 @@ module.exports = {
 	}
 	},
 	viewBug: function(req,res,next){
+<<<<<<< HEAD
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
 		req.page='viewBug';
@@ -261,7 +331,10 @@ module.exports = {
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
 	    req.page='addBug';
+<<<<<<< HEAD
 	    console.log(req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	    if(req.body.setting=='1'){
 	    	arr.push(req.body.project); 
 	    	arr.push(req.body.assingedto);
@@ -274,7 +347,10 @@ module.exports = {
 	    	arr.push(req.body.setting) ;
 	    }
 	    req.session.bugSetting=arr;
+<<<<<<< HEAD
 	    console.log("session url",req.session.bugSetting);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		next();	
 	}
 	else
@@ -316,6 +392,7 @@ module.exports = {
 	}
 	},
 	bugAttachment:function(req,res,next){
+<<<<<<< HEAD
 		if(req.session.modules.indexOf(config.Bug)>=0)
 		 	{
 	    req.page='bugAttachment';
@@ -325,6 +402,36 @@ module.exports = {
 	{
 			res.redirect('/portal')
 	}
+=======
+		var avatarUpload = uploadBugfile.single('addBugAttachment');
+		avatarUpload(req, res,function(err){
+			if(err){
+				return res.status(404).send('invalid file format');
+			}
+			else{
+				var mmm = require('mmmagic'),
+				      Magic = mmm.Magic;
+
+				  var magic = new Magic(mmm.MAGIC_MIME_TYPE);
+				  magic.detectFile(req.file.path, function(err, result) {
+				      if (err) throw err;
+				      var fileExtension = mime.extension(result);
+				   	  if(['jpg','jpeg','png','pdf','ppt','pptx','doc','docx','xls','xlsx','csv','zip','txt'].indexOf(fileExtension) > -1){
+				   	  	if(req.session.modules.indexOf(config.Bug)>=0){
+						    req.page='bugAttachment';
+							next();	
+						}
+						else{
+								res.redirect('/portal')
+						}
+				   	  }
+				   	  else{
+				   	  	fs.unlink(req.file.path, function(err) {return res.status(404).send('invalid file format');})
+				   	  }
+				  });		
+			}
+		});
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	},
 	getAlltech:function(req,res,next){
 		if(req.session.modules.indexOf(config.Bug)>=0)
@@ -445,7 +552,10 @@ module.exports = {
 	}
 	},
 	setpageInsertDocument: function(req,res,next){
+<<<<<<< HEAD
 		console.log("render");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		req.session.documentalert++;
 		req.page='attachDocFile';
 		next();
@@ -608,7 +718,10 @@ if(req.session.modules.indexOf(config.Time)>=0)
 	}
 	},
 	otherTimeSheet: function(req,res,next){
+<<<<<<< HEAD
 		//console.log('timesheet in url.js');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		if(req.session.modules.indexOf(config.Time)>=0)
 		 	{
       req.page='otherTimeSheet';
@@ -628,7 +741,10 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 
 	inventory:function(req,res,next){
+<<<<<<< HEAD
 		console.log("in url inven");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		if(req.session.modules.indexOf(config.Asset)>=0)
 		 	{
 		       req.page='viewInventory';
@@ -758,7 +874,10 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 	},
 	
+<<<<<<< HEAD
 	//new 4 hardware
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	setpageViewHardware:function(req,res,next){
 
 		if(req.session.modules.indexOf(config.Asset)>=0)
@@ -775,7 +894,10 @@ if(req.session.modules.indexOf(config.Time)>=0)
 
 	
 	},
+<<<<<<< HEAD
 	//new 4 hardware
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	editHardware: function(req,res,next){
 		req.page='EditHardware';
 		next();
@@ -783,7 +905,11 @@ if(req.session.modules.indexOf(config.Time)>=0)
 	setUpdateHardware:function(req,res,next){
 		req.page='updateHardware';
 		next();
+<<<<<<< HEAD
 	},//hardware end
+=======
+	},
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	setpageEdit: function(req,res,next){
 		req.page='Edit';
 		next();
@@ -916,7 +1042,10 @@ hr:function(req,res,next){
 		else{	
 			req.page="error";
 		}
+<<<<<<< HEAD
 console.log(req.page)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	    next();
 	}
 	else{
@@ -1052,14 +1181,20 @@ console.log(req.page)
 		  } 
 		  req.isMail=true;
 		  req.page="success";
+<<<<<<< HEAD
 		  console.log("url  updateStatusReqViaMail",req.body.jdid,req.body.flag,req.session.hrRole);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		next(); 
 	},
 
 	//---------------------------------------Project----------------------------------------------
 	task:function(req,res,next){
 		 if(req.session.modules.indexOf(config.Project)>=0){
+<<<<<<< HEAD
 		 	console.log("url task");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		req.page="task";
 		next();
 	}
@@ -1069,7 +1204,10 @@ console.log(req.page)
 	},
 		resource:function(req,res,next){
 		 if(req.session.modules.indexOf(config.Project)>=0){
+<<<<<<< HEAD
 		 	console.log("url task");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		req.page="resource";
 		next();
 	}
@@ -1092,7 +1230,10 @@ error:function(req,res,next){
 	},		 
 	gantt:function(req,res,next){
 	 if(req.session.modules.indexOf(config.Project)>=0){
+<<<<<<< HEAD
 		 	console.log("url task");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 		req.page="gantt";
 		next();
 	}

@@ -9,6 +9,10 @@ var schedulers=require('../../lib/schedulers');
 var xlsxparser = require('excel-parser');
 var path = require('path');
 var fs = require('fs');
+<<<<<<< HEAD
+=======
+var _ = require('underscore');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 var textract = require('textract');
  var crypto = require('crypto'),
@@ -29,7 +33,10 @@ var config = {
  
 }
 
+<<<<<<< HEAD
 //encryption method by ashish
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 var encrypt = function (input, password) {
     var m = crypto.createHash('md5');
     m.update(password)
@@ -57,7 +64,11 @@ var encrypt = function (input, password) {
 };
 
 var options = {
+<<<<<<< HEAD
     type: 'text' // extract the actual text in the pdf file 
+=======
+    type: 'text' 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 };  
 var AdmZip = require('adm-zip');
 var config  = {
@@ -70,7 +81,11 @@ var idarr = [];
 var loggedinarr = [];
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(3);
+<<<<<<< HEAD
 //*********************************************************************************///////
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 var pdf_extract = require('pdf-extract');
  var skillsIdfromdb = [];
 var skillsfromdb = [];
@@ -86,7 +101,11 @@ var locationId = [],
  var holidayArrDateTimeArr = [];
  var saturdayOffFlag      = 1;
 
+<<<<<<< HEAD
 //var excel = require('node-excel-export');
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  module.exports = {
     getEmpData: function(req,res,next){
         modelPortal.getEmpData(req.session.retailerId,req.emp_id,req.mgr_id,function(err,result){
@@ -127,7 +146,10 @@ var locationId = [],
                 assignedTo=req.body.supervisor; flag=0;
                 if(typeof(req.session.notification)=='undefined'){ notification=0; }
                 else{ notification=req.session.notification.bug_notification; }
+<<<<<<< HEAD
                 //console.log('timesheet----flag--',flag,'--assignedto--',assignedTo,'--notification--',notification);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                  if(typeof(req.body.notificationForApproveReject)=='undefined'){ notificationForApproveReject=0; }
                 else{ notificationForApproveReject=req.body.notificationForApproveReject;
@@ -148,6 +170,7 @@ var locationId = [],
 
         modelPortal.notification(edit,notificationForApproveReject,type,notification,assignedTo,flag,req.session.userId, req.session.retailerId,function(err, result) {
              if (err) {
+<<<<<<< HEAD
                 console.log(err);
                  next(err);
                  res.json('0');
@@ -155,6 +178,11 @@ var locationId = [],
 
                 console.log('##########',result);
               
+=======
+                 return res.json('0');
+
+             } else {              
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 req.session.notification=null;
 
                 req.session.notification=result[0][0];
@@ -171,15 +199,22 @@ var locationId = [],
                     }
                 }
                 else if(aa == undefined){
+<<<<<<< HEAD
                     console.log('&&&&&&&&&&&&');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     next();
                 }
                 else{
                     res.json('0');
+<<<<<<< HEAD
                    /* if(type=='timesheet'){
                         console.log('inside res.json in timesheet');
                         res.json('0');
                     }*/
+=======
+                  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 }
                     
              }
@@ -188,6 +223,107 @@ var locationId = [],
 
 
 
+<<<<<<< HEAD
+=======
+    timesheetdragreport: function(req, res, next) {
+        var tempStr = [];
+
+
+          if(req.body.isemployeeName =="true"){
+            tempStr.push("l.employeeName");
+        }
+
+         if(req.body.isemployeecode =="true"){
+            tempStr.push("l.employeecode");
+        }
+
+        if(req.body.isWbsName =="true"){
+            tempStr.push("l.wbsName");
+        }
+        if(req.body.isprojectName =="true"){
+            tempStr.push("l.projectName");
+        }
+        if(req.body.isfortNightDate =="true"){
+            tempStr.push("l.fortNightDate");
+        }
+        if(req.body.isDATEs =="true"){
+            tempStr.push("l.DATEs");
+        }
+        if(req.body.isyearmonth =="true"){
+            tempStr.push("l.yearmonth");
+        }
+
+        var startPoint = req.body.start;
+        var endPoint = req.body.length;
+        var searchString = req.body.search.value || '';
+
+        if(req.body.order){
+            if(req.body.order[0].column){
+                var tempsortIndex = parseInt(req.body.order[0].column);
+                var sortString = req.body.columns[tempsortIndex].data +" "+req.body.order[0].dir;
+            }
+            else{
+                var sortString = 'employeeName asc';
+            }
+        }
+        else{
+            var sortString = 'employeeName asc';
+        }
+        tempStr = tempStr.toString();
+        modelPortal.timesheetdragreport(req.session.retailerId,tempStr,startPoint,endPoint,searchString,sortString,req.body.employeeName,req.body.employeecode,req.body.WbsName,req.body.projectName,req.body.hours,req.body.Thumbhours,req.body.DATEs,req.body.fortNightDate,req.body.billable,req.body.yearmonth,function(error,result) {  
+              
+            if (error) {
+                 next(error);
+                 return;
+            }
+            var tempobj = JSON.stringify(result[0]);
+            var desiredObj = JSON.parse(tempobj);
+           // console.log("result[0]----",result[0]);
+            if(desiredObj[0]){
+                desiredObj[0].project = JSON.parse(JSON.stringify(result[2]));
+                desiredObj[0].wbs = JSON.parse(JSON.stringify(result[1]));
+                desiredObj[0].monthyearArr = JSON.parse(JSON.stringify(result[3]));
+                desiredObj[0].fortnightDate = JSON.parse(JSON.stringify(result[4]));
+            }
+            if(desiredObj[0]){
+                return res.json({"sEcho": parseInt(req.body.draw),
+                "iTotalRecords": JSON.parse(JSON.stringify(result[5][0])).totalRecord,
+                "iTotalDisplayRecords": JSON.parse(JSON.stringify(result[5][0])).totalRecord,
+                "aaData": desiredObj});
+             }
+             else{
+              res.json({"sEcho": parseInt(req.body.draw),
+                "iTotalRecords": 0,
+                "iTotalDisplayRecords": 0,
+                "aaData": desiredObj});
+            }
+           
+              });
+    },
+
+
+    filterTimeSheetReport:function(req,res,next){
+
+        modelPortal.filterTimeSheetReport(req.body.EmpName,req.body.wbsName,req.body.hours,req.body.fDate,req.body.Empcode,req.body.proName,req.body.thumbhours,req.body.Billable,req.body.fortNightDate,req.body.YearMonth,req.session.retailerId,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result);
+        });
+    },
+
+
+FilterDataForSelect:function(req,res,next){
+
+        modelPortal.FilterDataForSelect(req.session.retailerId,function(error,result){
+            if(error){
+                next(error);
+            }
+           res.json(result);
+        });
+    },
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
  resetNotification: function(req, res, next) {
 
@@ -199,7 +335,10 @@ var locationId = [],
         }
         modelPortal.notification(edit,notificationForApproveReject,type,notification,assignedTo,flag,req.session.userId, req.session.retailerId,function(err, result) {
              if (err) {
+<<<<<<< HEAD
                 console.log(err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  next(err);
                  res.json('0');
              } else {
@@ -238,18 +377,27 @@ var locationId = [],
     
          modelPortal.checkPassword(req.body.userid,req.body.password,0,function(err, result) {
              if (err) {
+<<<<<<< HEAD
                 console.log(err)
                  next(err);
 
              } else { 
                 console.log("============================= jai mata di",result);
+=======
+                 next(err);
+
+             } else { 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  if(result[0][0].isActive==0){
                    res.json("2");
                  }
                  else{
                    var hash=result[0][0].userPassword.toString();
                    if((bcrypt.compareSync(req.body.password,hash))&&(hash!=0)){
+<<<<<<< HEAD
                     console.log("=============================",result);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     if(result.length >=2 && result[1] !="")
                     req.session.daysRemaining=result[1][0].daysremaining; 
                     else 
@@ -264,16 +412,24 @@ var locationId = [],
 
          });
      } ,
+<<<<<<< HEAD
      /*added by saurav*/
      addNewModules:function(req, res, next) {
         ////console.log("------ - - - -  ",req.body);
+=======
+   
+     addNewModules:function(req, res, next) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.addNewModules(req.session.userId,req.session.roleId,req.session.retailerId,req.body.modules,function(err, result) {
              if (err) {
                  next(err);
 
              } else { 
                    
+<<<<<<< HEAD
                         ////console.log("session ki jay : " ,req.session.modules);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     req.session.modules=req.session.modules.concat(JSON.parse("["+req.body.modules+"]"));        
                      res.json("0");
                    }
@@ -281,10 +437,15 @@ var locationId = [],
              
              });
      } ,
+<<<<<<< HEAD
     /* isRetailer:function(req, res, next) {
         res.json(req.session.isRetailer);
      } ,*/
      dayRemaining:function(req, res, next) {console.log("enter",req.session.daysRemaining);
+=======
+   
+     dayRemaining:function(req, res, next) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         if (req.session) {
                  res.json(req.session.daysRemaining);   
              }else { 
@@ -370,6 +531,7 @@ var locationId = [],
                      else{
                        
                         res.redirect('/changePassWordPage');
+<<<<<<< HEAD
                      /*  if(req.session.defaultModule==1){
                             res.redirect('/mailServerInfo');
                        }else if(req.session.defaultModule==1){
@@ -393,6 +555,9 @@ var locationId = [],
                        else if(req.session.defaultModule==7){
                             res.redirect('/rms');
                        }*/
+=======
+                  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      } 
 
                     }
@@ -457,7 +622,10 @@ var locationId = [],
                     });
                }
                else{
+<<<<<<< HEAD
                     ////console.log("nooo");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     res.json(0);
                }
                     
@@ -525,6 +693,65 @@ var locationId = [],
          });
      },
 
+<<<<<<< HEAD
+=======
+
+      addEditClient111: function(req, res, next) {
+         
+         var hid=req.body.hiddenid;
+         if(req.body.hiddenid.length==0){hid=-1;}
+         modelPortal.addEditClient(
+                    hid, 
+                    req.body.hiddeneditflag,
+                    req.body.ccode,
+                    req.body.cname,
+                    req.body.cabbname,                    
+                    req.body.category,
+                    req.body.cal,
+                    req.body.location,
+                    req.body.address,
+                    req.body.ccontactperson,
+                    req.body.ccperemail,
+                    req.body.clconphone,
+                     req.body.active,
+                    req.session.userId,
+                    req.session.userId, 
+                    req.session.retailerId,                    
+                     function(err, resultClient) {
+                     if (err) {
+                       
+                         next(err);
+                         return;
+                     }
+                    res.json(resultClient);
+         });
+     },
+
+ submitAssignmenttree: function(req, res, next) {
+
+           modelPortal.submitAssignment(
+            req.body.flag,
+            req.body.assignmentId,
+            req.body.procode,
+            req.body.wbs,
+            req.body.user,
+            req.body.status,
+            req.body.asdate,
+            req.body.aedate,
+             req.body.curdat,
+            req.session.retailerId,
+         function(err, result) {
+
+            if(err){
+
+                 next(err);
+             } else {
+          res.json(result);
+             }
+         });
+     }, 
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 addEditClientAjax : function(req, res, next) {
                 var hid=req.body.id;
                 modelPortal.addEditClientAjax( req.session.userId,req.session.roleId,req.session.retailerId , req.body.id,req.body.name,req.body.id1,function(err, resultClient) {
@@ -597,6 +824,7 @@ profile: function(req, res, next) {
             next();
               });
     },
+<<<<<<< HEAD
 
 reportpro: function(req, res, next) {               
       var date ="2016-09-15 00:00:00"
@@ -610,6 +838,8 @@ reportpro: function(req, res, next) {
               });
     },
 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     updateProfile:function(req,res,next){
  var filename;
         var targetPath;
@@ -708,7 +938,10 @@ filename=req.session.logo;
                  next(errorActivity);
                  return;
              }
+<<<<<<< HEAD
           
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.resultViewBug=resultViewBug;
             next();
                   });
@@ -727,6 +960,7 @@ filename=req.session.logo;
                   });
     },
 
+<<<<<<< HEAD
     addBug :function(req, res, next) {               
        console.log("************************************************************we are in portal ");
         var filename;
@@ -799,6 +1033,102 @@ filename=req.session.logo;
     },
 
 
+=======
+addBug :function(req, res, next) {
+
+        var filenames ='';
+        var targetPaths = '';
+        var fnames ='';
+        if(req.body.fileUrls){
+            var tempurlArr = req.body.fileUrls.split('amit');
+           
+            var async = require("async");
+            var nameArr =[];
+            var urlArr =[];
+            var fnameArr =[];
+            async.eachSeries(tempurlArr, function iteratee(item, callback) {
+                var currentDate = Date.now();
+                var extension = 'png';
+                var fileName = 'screenshot_' + currentDate;
+                var fileUrl = item.replace(/^data:image\/\w+;base64,/, "");
+                var myBuffer = new Buffer(fileUrl, 'base64');
+                var dir = './public/attach';
+                var uploadDir = path.resolve(dir);
+                if (!fs.existsSync(uploadDir)){
+                    fs.mkdirSync(uploadDir);
+                }
+                fs.writeFile(uploadDir+"/"+fileName, myBuffer,function(err){
+                    if(err) 
+                    {
+                        
+                    }
+                    else{
+                        fnameArr.push(fileName);
+                        nameArr.push(fileName);
+                        urlArr.push('attach'+"/"+fileName);
+                        callback();
+                    }
+
+                });
+            }, function done(err) {
+                if(err){
+                }
+                else{
+                    filenames = nameArr.toString();
+                    fnames = fnameArr.toString();
+                    targetPaths = urlArr.toString();
+                    if(req.files.length){
+                        filenames = filenames + ','+ _.pluck(req.files,'originalname').toString(); 
+                        fnames = fnames + ','+ _.pluck(req.files,'filename').toString();
+                        targetPaths = targetPaths + ','+ _.pluck(req.files,'path').toString().replace(new RegExp('public/', 'g'),'');
+                    }
+                    modelPortal.addBug(req.body.estimatedEffort,req.body.actualEffort,req.body.linkTo,req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
+                        req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
+                        req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
+                        if (error) {
+                            console.log(error);
+                        }
+                        else{ 
+                            
+                            mailTemplates.addBug(result[0][0].emailId,result[0][0].pass,req.body.titlebox,function(error, resultMail) {
+                                 if (!error) {
+                                   next();
+                                 }
+                             }); 
+                        }
+                            
+                    });
+                }
+            });
+        }
+        else{
+            if(req.files.length){
+                filenames = _.pluck(req.files,'originalname').toString(); 
+                fnames = _.pluck(req.files,'filename').toString();
+                targetPaths = _.pluck(req.files,'path').toString().replace(new RegExp('public/', 'g'),'');
+            }
+            modelPortal.addBug(req.body.estimatedEffort,req.body.actualEffort,req.body.linkTo,req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
+                req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
+                req.body.description,  targetPaths, filenames, fnames,(req.body.detectedBy||0),(req.body.cycle||0),req.session.retailerId,function(error,result){
+                if (error) {
+                console.log(error);
+                 }
+                 else{
+                    var tempEmailPass = JSON.parse(JSON.stringify(result[0][0]));
+                    mailTemplates.addBug(tempEmailPass.emailId,tempEmailPass.pass,req.body.titlebox,function(error, resultMail) {
+                         if (!error) {
+                           next();
+                         }
+                     }); 
+                }
+                    
+            });
+        }
+       
+            
+    },
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
    bugDetails: function(req, res, next) {               
       
         modelPortal.bugDetails(req.body.bugid,function(errorActivity,resultBugDetails) {
@@ -850,7 +1180,10 @@ if(req.body.colname == 'assingedToUserId'){
        
         modelPortal.updatebugdescription(req.body.bugid,req.body.description,req.body.linkedTo,req.session.userId,req.session.retailerId,function(error,result) {
               if (error) {
+<<<<<<< HEAD
                console.log(error);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  next(error);
                  return;
              }            
@@ -874,6 +1207,7 @@ if(req.body.colname == 'assingedToUserId'){
 
     bugAttachment: function(req, res, next) {  
     var filename;
+<<<<<<< HEAD
     var targetPath;
     var fname;
     var fileSize;
@@ -887,6 +1221,22 @@ if(req.body.colname == 'assingedToUserId'){
     }
     var targetPath=req.file.path+req.file.originalname;             
        
+=======
+    var fname;
+    var fileSize;
+   
+    // var targetPath='./'+req.file.path+req.file.originalname;
+    // if(1){
+    //     fs.rename(req.file.path,targetPath,function(err){
+    //         if(err)
+    //         throw err;
+    //     });
+    // }
+    // var targetPath=(req.file.path+req.file.originalname).replace('public/',''); 
+
+    var targetPath=req.file.path.replace('public/','');
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.bugAttachment(
             req.body.id,
             req.session.userId,
@@ -900,7 +1250,10 @@ if(req.body.colname == 'assingedToUserId'){
                  next(errorActivity);
                  return;
              }     
+<<<<<<< HEAD
              ////console.log("after attachment",resultAddAttachment);       
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.resultAddAttachment=resultAddAttachment[0]; 
             next();
                   });
@@ -926,7 +1279,11 @@ if(req.body.colname == 'assingedToUserId'){
             next();
                   });
     },
+<<<<<<< HEAD
         filterBug: function(req, res, next) {  
+=======
+        filterBug: function(req, res, next) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     
     var tempstatus='';
     var tempseverity='';
@@ -940,15 +1297,37 @@ if(req.body.colname == 'assingedToUserId'){
     var assingedto=req.body.assingedto;
     var technology=req.body.technology;
     var project=req.body.project;
+<<<<<<< HEAD
 console.log("ewdxc****************************",req.body);
 //jayy
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     var bugId=req.body.bugId;
     var title=req.body.title;
     var estefforts=req.body.esteffort;
     var acteffort=req.body.acteffort;
     var crtdate=req.body.createdate;
     var closedate=req.body.closedate;
+<<<<<<< HEAD
 //jayyy end
+=======
+    var searchString = req.body.search.value || '';
+    if(req.body.order){
+        if(req.body.order[0].column){
+            var tempsortIndex = parseInt(req.body.order[0].column);
+            var sortString = req.body.columns[tempsortIndex].data +" "+req.body.order[0].dir;
+        }
+        else{
+            var sortString = 'lastModifiedDate desc';
+        }
+    }
+    else{
+        var sortString = 'lastModifiedDate desc';
+    }
+    
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 
 
@@ -963,7 +1342,11 @@ console.log("ewdxc****************************",req.body);
     if( technology==null)
     technology='';
     
+<<<<<<< HEAD
     //jay
+=======
+  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     if( bugId==''|| bugId==null)
     bugId='0';
     if( title==''|| title==null)
@@ -976,7 +1359,11 @@ console.log("ewdxc****************************",req.body);
     crtdate='00/00/0000';
     if( closedate==''||closedate==null)
     closedate='00/00/0000';
+<<<<<<< HEAD
 //jay end
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 project=project?project:'';
 
@@ -1063,9 +1450,13 @@ project=project?project:'';
         });
         project=tempproject;
     }
+<<<<<<< HEAD
 
 
         modelPortal.filterBug(req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId, function(errorActivity,resultFilterBug) {
+=======
+        modelPortal.filterBug(req,res,req.body.statusis,status,req.body.priorityis,priority,req.body.severityis,severity,req.body.assingedtois,assingedto,req.body.technologyis,technology,req.body.projectis,project,bugId,title,estefforts,acteffort,crtdate,closedate,req.session.userId,req.session.retailerId,req.session.roleId,req.body.start,req.body.length,searchString,sortString, function(errorActivity,resultFilterBug) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
               if (errorActivity) {
                
                  next(errorActivity);
@@ -1073,7 +1464,10 @@ project=project?project:'';
              }
             req.resultFilterBug=resultFilterBug;
             req.showSelect=req.body.showSelect;
+<<<<<<< HEAD
             console.log('*******************************************',resultFilterBug[8],resultFilterBug[7],resultFilterBug[9])
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              next();
                    });
     },
@@ -1101,7 +1495,10 @@ project=project?project:'';
      //---------------------------------------Document--------------------------------------------------
     
          myUploads:function(req,res,next){
+<<<<<<< HEAD
       //  //////console.log('getCustomRoleById');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.myUploads(req.session.userId,req.session.retailerId,function(err, result){
             if(err){
                 next(err);
@@ -1131,100 +1528,147 @@ project=project?project:'';
        });
     },
     setdocalert:function(req,res,next){
+<<<<<<< HEAD
         ////console.log("in");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.session.documentalert=0;
             res.json('hi');
        
     },
      getCustomRoleById:function(req,res,next){
+<<<<<<< HEAD
       //  //////console.log('getCustomRoleById');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.getCustomRoleById(req.body.rid,function(errorCustomRoles, resultCustomRoles){
             if(errorCustomRoles){
                 next(errorCustomRoles);
                     return;
             }
+<<<<<<< HEAD
             //////console.log(resultCustomRoles)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             res.json(resultCustomRoles);
         });
     },
 
     getIndustry:function(req, res, next) {
+<<<<<<< HEAD
       //  //////console.log('getIndustry')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.getIndustry(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultIndustry){
                     if (error) {
                  next(error);
                  return;
              }
+<<<<<<< HEAD
            //  //////console.log(resultIndustry)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.resultIndustry=resultIndustry;
              next();
              });
     },
 
     getBusiness:function(req, res, next) {
+<<<<<<< HEAD
            //     //////console.log('getBusiness')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
          modelPortal.getBusiness(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultBusiness) {
                     if (error) {
                  next(error);
                  return;
              }
+<<<<<<< HEAD
           //   //////console.log(resultBusiness)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.resultBusiness=resultBusiness;
              next();
              });
     },
 
     getDocument:function(req, res, next) {
+<<<<<<< HEAD
             //    //////console.log('getDocument')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.getDocument(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultDocument) {
                     if (error) {
                  next(error);
                  return;
              }
+<<<<<<< HEAD
           //   //////console.log(resultDocument)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.resultDocument=resultDocument;
              next();
              });
     },
 
     getTechnology:function(req, res, next) {
+<<<<<<< HEAD
            // //////console.log('getTechnology')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.getTechnology(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultTechnology) {
                     if (error) {
                  next(error);
                  return;
              }
+<<<<<<< HEAD
            //  //////console.log(resultTechnology)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.resultTechnology=resultTechnology;
              next();
              });
     },
 
     getind:function(req, res, next) {
+<<<<<<< HEAD
       //  //////console.log('getIndustry')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.getIndustry(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultIndustry){
                     if (error) {
                  next(error);
                  return;
              }
+<<<<<<< HEAD
            //  //////console.log(resultIndustry)
             /*req.resultIndustry=resultIndustry;*/
+=======
+     
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             res.json(resultIndustry);
              });
     },
 
     getbus:function(req, res, next) {
+<<<<<<< HEAD
            //     //////console.log('getBusiness')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
          modelPortal.getBusiness(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultBusiness) {
                     if (error) {
                  next(error);
                  return;
              }
+<<<<<<< HEAD
           //   //////console.log(resultBusiness)
              res.json(resultBusiness);
            /*  next();*/
+=======
+             res.json(resultBusiness);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              });
     },
 
@@ -1237,27 +1681,42 @@ project=project?project:'';
              }
 
            res.json(resultDocument);
+<<<<<<< HEAD
            /* req.resultDocument=resultDocument;
              next();*/
+=======
+         
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              });
     },
 
     gettec:function(req, res, next) {
+<<<<<<< HEAD
            // //////console.log('getTechnology')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.getTechnology(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultTechnology) {
                     if (error) {
                  next(error);
                  return;
              }
+<<<<<<< HEAD
            //  //////console.log(resultTechnology)
             res.json(resultTechnology);
            /* req.resultTechnology=resultTechnology;
              next();*/
+=======
+            res.json(resultTechnology);
+          
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              });
     },
 
     getRestriction:function(req, res, next) {
+<<<<<<< HEAD
           //  //////console.log('getRestriction')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.getRestriction(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultRestriction) {
                     if (error) {
                  next(error);
@@ -1270,7 +1729,10 @@ project=project?project:'';
 
 
      getres:function(req, res, next) {
+<<<<<<< HEAD
           //  //////console.log('getRestriction')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.getRestriction(req.session.userId,req.session.roleId,req.session.retailerId,req.session.croleId, function(error, resultRestriction) {
                     if (error) {
                  next(error);
@@ -1385,6 +1847,7 @@ deleteFileByIdPermanentely: function(req,res,next){
    var delPath = path.resolve('./public/attach/');
 
     modelPortal.deleteFileByIdPermanentely(req.session.userId,req.session.roleId,req.session.retailerId,req.body.status,req.body.status1,function(err,result){
+<<<<<<< HEAD
     if(err){
         next(err);
         return;
@@ -1395,6 +1858,22 @@ deleteFileByIdPermanentely: function(req,res,next){
   fs.unlinkSync(delPath);
   res.json('succs');
    });
+=======
+        if(err){
+            next(err);
+            return;
+        }
+     
+      delPath = path.resolve('./public/attach/'+result[0][0].fpath);
+     
+      fs.unlink(delPath,function(err){
+        if(err){
+            console.log(err);
+        }
+        res.send('Deleted successfully');
+      });
+    });
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         
  },
 
@@ -1534,7 +2013,10 @@ attachDocFile: function(req, res, next) {
                         if (exe == 'doc' || exe == 'docx' || exe == 'rtf' || exe == 'txt' || exe == 'csv') {
                             textract.fromFileWithPath(newpath, config, function(error, text) {
                                 if (error) {
+<<<<<<< HEAD
                                    
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     if(count==zipEntries.length){
                                         parseAll(textLowerCase, req,strname,1, next);
                                     }
@@ -1544,14 +2026,31 @@ attachDocFile: function(req, res, next) {
                                         var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
                                         textLowerCase= union_arrays(textLowerCase,textLowerCase1);
                                        
+<<<<<<< HEAD
                                          if(count==zipEntries.length){
                                             parseAll(textLowerCase, req,strname,1, next);
+=======
+                                        var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                        textLowerCasezip=union_arrays(textLowerCasezip,[]);
+                                         if(count==zipEntries.length){
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                                parseAll(textLowerCase, req,strname,1, next);
+                                            });
+                                         }
+                                         else{
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                            });
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                          } 
                                          count++;
   
                                 }
                                 
                             });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                         }
                         else if (exe == 'pptx') {
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation", newpath, function(error, text) {
@@ -1566,8 +2065,22 @@ attachDocFile: function(req, res, next) {
                                 } else if (typeof text != undefined) {
                                        var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
                                           textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+<<<<<<< HEAD
                                        if(count==zipEntries.length){
                                          parseAll(textLowerCase, req,strname,1, next);
+=======
+
+                                          var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, '').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                                          textLowerCasezip=union_arrays(textLowerCasezip,[]);
+                                       if(count==zipEntries.length){
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                                parseAll(textLowerCase, req,strname,1, next);
+                                            });
+                                       }
+                                       else{
+                                            parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                            });
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                        } 
                                         count++;
                                 }
@@ -1578,7 +2091,10 @@ attachDocFile: function(req, res, next) {
                         else if (exe == 'pdf') {
                             var processor = pdf_extract(newpath, options, function(err) {
                                 if (err) {
+<<<<<<< HEAD
                                   
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     if(count==zipEntries.length){
                                              parseAll(textLowerCase, req,strname,1, next);
                                     } 
@@ -1591,11 +2107,26 @@ attachDocFile: function(req, res, next) {
                                     text = text.concat(data.text_pages[i]);
                                 }
                                var textLowerCase1 =text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+<<<<<<< HEAD
 
                                   textLowerCase= union_arrays(textLowerCase,textLowerCase1);
                                 if(count==zipEntries.length){
                                    
                                      parseAll(textLowerCase, req,strname,1, next);
+=======
+                               textLowerCase= union_arrays(textLowerCase,textLowerCase1);
+                               
+                               var textLowerCasezip = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/'/g, '').replace(/"/g, '').split(' ');
+                               textLowerCasezip=union_arrays(textLowerCasezip,[]);
+                                if(count==zipEntries.length){
+                                    parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                        parseAll(textLowerCase, req,strname,1, next);
+                                    });
+                                }
+                                else{
+                                    parseAllzip(textLowerCasezip, req, namefile,foldername,function(){
+                                    });
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                 } 
                                  count++;
                             });
@@ -1620,8 +2151,18 @@ attachDocFile: function(req, res, next) {
                         }
                         else {
                             if(count==zipEntries.length){
+<<<<<<< HEAD
                                    
                                      parseAll(textLowerCase, req,strname,1, next);
+=======
+                                parseAllzip('', req, namefile,foldername,function(){
+                                    parseAll(textLowerCase, req,strname,1, next);
+                                });
+                            }
+                            else{
+                                parseAllzip('', req, namefile,foldername,function(){
+                                });
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                             } 
                              count++;
                         }
@@ -1679,7 +2220,10 @@ resultSearchFile[0].forEach(function(element,index){
    });
 }
        res.json(resultSearchFile[0]);
+<<<<<<< HEAD
        //next();
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     }
 
  );
@@ -1738,7 +2282,11 @@ getRolesInfo : function(req,res,next){
        res.json(allRoleresult);
     });
 },
+<<<<<<< HEAD
 /*********added by saurav********/
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 Docmaster:function(req,res,next){
         modelPortal.Docmaster(req.session.userId,req.session.roleId,req.session.retailerId,req.body.type,req.body.oldname,req.body.name,req.body.flag,req.session.croleId,function(err,result){
@@ -1763,7 +2311,10 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addeditComponent(parameter,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("oops");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                    res.json(result);
@@ -1779,7 +2330,10 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addeditattribute(parameter,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("oops");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                    res.json(result);
@@ -1795,7 +2349,10 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addeditvalue(parameter,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("oops");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                    res.json(result);
@@ -1811,7 +2368,10 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addattrvaluemapping(parameter,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("oops");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                    res.json(result);
@@ -1823,11 +2383,17 @@ Docmaster:function(req,res,next){
     getAttrAndValForAsset:function(req,res,next){
       modelPortal.getTypeAndSubtype(req.session.userId,req.session.roleId,req.session.retailerId,1,function(error,resultTypeSubtype){
         if(error){
+<<<<<<< HEAD
            ////console.log("c"); 
           next(error);
          
         }
         ////console.log("d");
+=======
+          next(error);
+         
+        }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
           res.json(resultTypeSubtype);
          
       });
@@ -1840,10 +2406,15 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addComponentAttributemapping(parameter,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("oops");
             }   
             else{
                     ////console.log("success",result);
+=======
+            }   
+            else{
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                    res.json(result);
             }   
 
@@ -1855,7 +2426,10 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.name);
         modelPortal.deleteComponentAttributeMapping(parameter,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("oops");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                    res.json(result);
@@ -1871,7 +2445,10 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.inactiveAssetMaster(parameter,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("oops");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                    res.json(result);
@@ -1887,7 +2464,10 @@ Docmaster:function(req,res,next){
         parameter.push(req.body.flag);
         modelPortal.addeditBrandName(parameter,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("oops");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                    res.json(result);
@@ -1896,7 +2476,198 @@ Docmaster:function(req,res,next){
         });   
 
     },
+<<<<<<< HEAD
  /*-------------------End Doc-----------------------------------------------------------*/
+=======
+
+
+     /***** tree*****/
+   projectfortree:function(req,res,next){
+      
+modelPortal.projectfortree(req.session.retailerId,req.body.flag ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+      showclients:function(req,res,next){
+      
+modelPortal.showclients(req.body.flag,req.session.retailerId ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+
+      showprojects:function(req,res,next){
+      
+modelPortal.showprojects(req.body.flag,req.body.clientid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+         assignmentedit:function(req,res,next){
+      
+modelPortal.assignmentedit(req.body.clientid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+         activeinactive:function(req,res,next){
+      
+modelPortal.activeinactive(req.body.clientid,req.body.actval,req.body.flag ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+      showwbs:function(req,res,next){
+      
+modelPortal.showwbs(req.body.projectid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },  
+
+        updateProjectDate:function(req,res,next){
+      
+modelPortal.updateProjectDate(req.body.proid,req.body.penddate ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+           updatewbsDate:function(req,res,next){
+      
+modelPortal.updatewbsDate(req.body.proid,req.body.penddate ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+   updatewbsandproject:function(req,res,next){
+      
+modelPortal.updatewbsandproject(req.body.proid,req.body.penddate ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);updatewbsandproject
+                 res.json(result);
+                } 
+        });
+   },
+
+         editwbsdetail:function(req,res,next){
+      
+modelPortal.editwbsdetail(req.body.wbsid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);clientseditgetprojectresource showwbsProjectby
+                 res.json(result);
+                } 
+        });
+   },
+
+            showwbsProjectby:function(req,res,next){
+      
+modelPortal.showwbsProjectby(req.body.clientid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);clientseditgetprojectresource 
+                 res.json(result);
+                } 
+        });
+   },
+
+
+            getprojectresource:function(req,res,next){
+      
+modelPortal.getprojectresource(req.body.ids ,req.body.wbsid,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);clientsedit
+                 res.json(result);
+                } 
+        });
+   },
+
+      clientsedit:function(req,res,next){
+      
+modelPortal.clientsedit(req.body.clientid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+      showassignment:function(req,res,next){
+      
+modelPortal.showassignment(req.body.wbsid ,function(err,result){
+            if(err){
+                ////console.log("there is an error",err);
+            }   
+            else{
+               // console.log("project tree view",result);
+                 res.json(result);
+                } 
+        });
+   },
+
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 //--------------------------Project-WBS-------------------
  projectDetails: function(req, res, next) {
          modelPortal.getProjectDetails(req.session.userId,req.session.roleId,req.session.retailerId,
@@ -1913,6 +2684,7 @@ Docmaster:function(req,res,next){
      },
 
      projectStatus: function(req, res, next) {
+<<<<<<< HEAD
           
            modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
@@ -1923,6 +2695,47 @@ Docmaster:function(req,res,next){
 
 
                      res.json(result);
+=======
+          if(req.body.order){
+            if(req.body.order[0].column){
+                var tempsortIndex = parseInt(req.body.order[0].column);
+                var sortstr = req.body.columns[tempsortIndex].data +" "+req.body.order[0].dir;
+            }
+            else{
+                var sortstr = '';
+            }
+        }
+        else{
+            var sortstr = '';
+        }
+
+          
+           modelPortal.projectStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
+            function(err, result) {
+
+             if (err) {
+                
+                 next(err);
+             } else {
+
+        var tempobj = JSON.stringify(result[0]);
+               
+        var desiredObj = JSON.parse(tempobj);
+         
+        if(desiredObj[0]){
+            return res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": desiredObj[0].totalRecord,
+            "iTotalDisplayRecords": desiredObj[0].totalRecord,
+            "aaData": desiredObj});
+         }
+         else{
+          res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": 0,
+            "iTotalDisplayRecords": 0,
+            "aaData": desiredObj});
+        }
+          
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              }
          });
      },
@@ -2009,6 +2822,11 @@ req.projectResults=result;
          });
      },
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
      wbsDetails: function(req, res, next) {
          modelPortal.getWbsDetails(req.session.userId,req.session.roleId,req.session.retailerId,
              function(err, result) {
@@ -2023,15 +2841,51 @@ req.projectResults=result;
      },
 
      wbsStatus: function(req, res, next) {
+<<<<<<< HEAD
           
            modelPortal.wbsStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,
+=======
+        if(req.body.order){
+            if(req.body.order[0].column){
+                var tempsortIndex = parseInt(req.body.order[0].column);
+                var sortstr = req.body.columns[tempsortIndex].data +" "+req.body.order[0].dir;
+            }
+            else{
+                var sortstr = '';
+            }
+        }
+        else{
+            var sortstr = '';
+        }
+
+           modelPortal.wbsStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
+<<<<<<< HEAD
 
                      res.json(result);
+=======
+                var tempobj = JSON.stringify(result[0]);
+               
+        var desiredObj = JSON.parse(tempobj);
+         
+        if(desiredObj[0]){
+            return res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": desiredObj[0].totalRecord,
+            "iTotalDisplayRecords": desiredObj[0].totalRecord,
+            "aaData": desiredObj});
+         }
+         else{
+          res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": 0,
+            "iTotalDisplayRecords": 0,
+            "aaData": desiredObj});
+        }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              }
          });
      },
@@ -2045,8 +2899,12 @@ req.projectResults=result;
                  next(err);
              } else {
 
+<<<<<<< HEAD
                      res.json('result');
                     next();
+=======
+                     res.send('ok');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              }
          });
      },
@@ -2072,10 +2930,14 @@ req.projectResults=result;
      },
 
 addEditWbsDetails: function(req, res, next) {
+<<<<<<< HEAD
     ////console.log('grfswsfff---------',req.body);
     //////console.log('proname---',req.body.proname);
         req.proname=req.body.proname;
     
+=======
+        req.proname=req.body.proname;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         req.wbshidden=req.body.wbshidden;
            modelPortal.addEditWbsDetails(req.body.assign,req.body.flaghide,req.body.wbsidhide,req.body.wbsname,req.body.wbscode,
             req.body.proname,
@@ -2087,6 +2949,7 @@ addEditWbsDetails: function(req, res, next) {
              if (err) {
                  next(err);
              } else {
+<<<<<<< HEAD
 
                 if(req.wbshidden==13){
 
@@ -2097,14 +2960,29 @@ addEditWbsDetails: function(req, res, next) {
                             
                             next();
                         }
+=======
+/*
+                if(req.wbshidden==13){*/
+
+                    res.json(result);
+/*                        
+                        }*/
+                        // else{
+                            
+                        //     next();
+                        // }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
              }
          });
      },
 
      wbsAssignmentInProjectWbs: function(req, res, next) {
+<<<<<<< HEAD
     ////console.log('grfswsfff---------',req.body);
     //////console.log('proname---',req.body.proname);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         req.proname=req.body.proname;
     
         req.wbshidden=req.body.wbshidden;
@@ -2130,6 +3008,7 @@ addEditWbsDetails: function(req, res, next) {
                  next(err);
              } else {
 
+<<<<<<< HEAD
                 //if(req.wbshidden==13){
 
                     res.json(result);
@@ -2139,12 +3018,21 @@ addEditWbsDetails: function(req, res, next) {
                             
                             next();
                         }*/
+=======
+
+                    res.json(result);
+                       
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
              }
          });
      },
 
+<<<<<<< HEAD
      projectAddEdit: function(req, res, next) {
+=======
+    /* projectAddEdit: function(req, res, next) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
        
            modelPortal.projectAddEdit(req.pid,req.flag,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
@@ -2161,6 +3049,49 @@ addEditWbsDetails: function(req, res, next) {
                  else{
                 req.projectResults=result;
              
+<<<<<<< HEAD
+=======
+
+             next();
+
+
+                 }
+             }
+         });
+     },*/
+
+         projectAddEdit: function(req, res, next) {
+         var pids,flags;
+        if(req.pid!=undefined){
+            pids=req.pid;
+        }
+        else{
+              pids=0;
+        }
+
+           if(req.flag!=undefined){
+            flags=req.flag;
+        }
+        else{
+              flags=0;
+        }
+       
+           modelPortal.projectAddEdit(pids,flags,req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+                if(flag==1){
+                    req.projectResults=result;
+              //console.log("project data on edit flag 1",result);
+             next();
+                     
+                 }
+                 else{
+                req.projectResults=result;
+             //console.log("project data on edit flag not 1",result);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              next();
 
 
@@ -2241,7 +3172,10 @@ addEditWbsDetails: function(req, res, next) {
 
 
     projectAddEditDetailsWithFlag: function(req, res, next) {
+<<<<<<< HEAD
         
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         var flag=req.body.hdnId;
        
 var tab=req.body.tabDetail;
@@ -2264,12 +3198,21 @@ var tab=req.body.tabDetail;
             req.body.pstatus,pcomplexity, plocation, req.body.pcommercialhead,
             req.body.paccounthead, req.body.pmanager,req.body.isBillable,req.body.taxCode,req.body.poNumber,tab,
 
+<<<<<<< HEAD
             req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
+=======
+            req.session.userId,req.session.roleId,req.session.retailerId,req.body.assigntoallforproject,
+            function(err, result) {
+             if (err) {
+                 next(err);
+             } else {
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              res.json(result);
                 
              }
@@ -2280,14 +3223,22 @@ var tab=req.body.tabDetail;
 
         var pid=req.body.pid;
         
+<<<<<<< HEAD
  
+=======
+          
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
            modelPortal.getAllWbs(req.body.pid,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
+<<<<<<< HEAD
              res.json(result);
+=======
+                  res.json(result);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              }
          });
      },
@@ -2295,13 +3246,20 @@ var tab=req.body.tabDetail;
 
      AssignmentWBSForProject: function(req, res, next) {
 
+<<<<<<< HEAD
  
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
            modelPortal.AssignmentWBSForProject(req.body.flag,req.body.pid,req.body.wbsid,req.session.userId,req.session.roleId,req.session.retailerId,
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              res.json(result);
              }
          });
@@ -2427,9 +3385,18 @@ changeProjectWbs: function(req, res, next) {
      },
 
     //----------------------------------ASSIGNMENT---------------------------------------
+<<<<<<< HEAD
 getAssignment:  function(req, res, next) {
 
          modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId, function(err, resultAssignment) {
+=======
+
+
+
+getAssignment:  function(req, res, next) {
+      var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
+         modelPortal.getAllAssignment(req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.status,req.body.search.value,sortstr,function(err, resultAssignment) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              if (err) {
 
                  next(err);
@@ -2437,9 +3404,16 @@ getAssignment:  function(req, res, next) {
              }
 
              else{
+<<<<<<< HEAD
 
                 req.allinfo1=resultAssignment;
                 next();
+=======
+               var tempobj = JSON.stringify(resultAssignment[0]);
+          var desiredObj = JSON.parse(tempobj);
+            res.send({"data":desiredObj});
+              
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              }
         
          });
@@ -2470,6 +3444,21 @@ createEditAssignment:  function(req, res, next) {
          });
      },
 
+<<<<<<< HEAD
+=======
+
+changeAssignmentDate:function(req,res,next){
+modelPortal.changeAssignmentDate(req.body.assid,req.body.flag,req.body.assgnDate ,function(err,result){
+            if(err){
+                console.log(err);
+            }   
+            else{
+                 res.json(result);
+                } 
+        });
+   },
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 submitAssignment: function(req, res, next) {
 
            modelPortal.submitAssignment(
@@ -2557,11 +3546,17 @@ changeAssignmentStatus: function(req, res, next) {
                 return;
             }
             req.resultFurniture=resultFurniture;
+<<<<<<< HEAD
             //console.log("data in view furniture is",resultFurniture);
             next();
         });
     },
     //new for hardware
+=======
+            next();
+        });
+    },
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     editHardware:function(req,res,next){
 
         modelPortal.editHardware(req.body.id,function(error,result){
@@ -2624,7 +3619,10 @@ changeAssignmentStatus: function(req, res, next) {
            res.json(result);
         });
     },
+<<<<<<< HEAD
 //new 4 hardware
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
   showinfoOfInventory:function(req,res,next){
 
@@ -2654,12 +3652,18 @@ changeAssignmentStatus: function(req, res, next) {
             next();
         });
     },
+<<<<<<< HEAD
 //new4hardware
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 getViewHardware:function(req,res,next){
     modelPortal.getHardware(req.session.firstname,req.session.roleid,req.session.retailerId,function(error,resultHardware){
         if(error){
             next(error);
+<<<<<<< HEAD
             ////console.log(error);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         }
 
  
@@ -2681,14 +3685,20 @@ getViewHardware:function(req,res,next){
         });
     },
     addFurniture1: function(req, res, next) {
+<<<<<<< HEAD
         ////console.log(" i ma in potal.js for addFurniture1");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
      modelPortal.addFurniture1(req.session.firstname,req.session.roleid,req.session.retailerId,function(error, result){
             if(error){
                 next(error);
                 return;
             }
             req.brandName=result;
+<<<<<<< HEAD
             ////console.log("brand name and vemndor name",result);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             next();
         });
     },
@@ -2711,7 +3721,10 @@ getViewHardware:function(req,res,next){
          });
      },
      addHardware:function(req,res,next){
+<<<<<<< HEAD
         console.log('jaimata di',req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         var datastring=req.body.attr;
        
         var line=req.body.Quantity;
@@ -2729,7 +3742,10 @@ getViewHardware:function(req,res,next){
    
     addline:function(req,res,next){
 
+<<<<<<< HEAD
             console.log('jai mata di',req.body); 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              modelPortal.addlineItem(req.body.ctype,req.body.t1,req.body.t2,req.body.t3,req.body.hdId,req.body.t6,req.body.t7,req.body.t8,req.body.ides,function(error,result){
                  if(error){
                
@@ -2746,7 +3762,10 @@ getViewHardware:function(req,res,next){
         },
          
             subaddline:function(req,res,next){  
+<<<<<<< HEAD
             console.log('jai mata di',req.body) ; 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              modelPortal.addsublineItem(req.body.st1,req.body.lineid,req.body.st5,req.body.hdId,req.body.st2,req.body.st3,req.body.st4,req.body.st6,req.body.ides,function(error,result){
                  if(error){
               
@@ -2762,7 +3781,10 @@ getViewHardware:function(req,res,next){
     },
 
       addSoftware: function(req, res, next) {
+<<<<<<< HEAD
        console.log(req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.addSoftware(req.body.stype,req.body.stype,
             req.body.vendor,req.body.Invoicedate,
             req.body.name,
@@ -2805,20 +3827,29 @@ getViewHardware:function(req,res,next){
                 next(error);
             }else{
             req.resultdelete=result;
+<<<<<<< HEAD
            // res.json(result[0][0].delflag);
            // console.log('jai mata di software',result[0][0].delflag);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             next();}
         });
     },
 
      deletesoft: function(req,res,next){
+<<<<<<< HEAD
      console.log('fsfsssjps')
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.deletesoft(req.body.id,function(error,result){
             if(error){
                 next(error);
             }else{
                 res.json(result[0][0].delflag);
+<<<<<<< HEAD
                 console.log(result[0][0].delflag);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }
         });
     },
@@ -2922,7 +3953,10 @@ getViewHardware:function(req,res,next){
             if(error){
                 next(error);
             }
+<<<<<<< HEAD
             ////console.log(result);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             res.json(result);
         });
     },
@@ -2934,7 +3968,10 @@ getViewHardware:function(req,res,next){
           return;
         }
         req.resultStationary=resultStationary;
+<<<<<<< HEAD
         //console.log("i am in view stationary page for .....",resultStationary);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         next();
       });
     },
@@ -2982,9 +4019,14 @@ getViewHardware:function(req,res,next){
               next(error);
             return;}
             res.json(resultAttribute);
+<<<<<<< HEAD
             //req.resultAttribute=resultAttribute;
             ////console.log(req.resultAttribute);
           //  next();
+=======
+           
+     
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         });
     },
 
@@ -3018,7 +4060,10 @@ getViewHardware:function(req,res,next){
         });
     },
      saveAssignment:function(req,res,next){
+<<<<<<< HEAD
         ////console.log(req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.saveAssignment(req.body.cid,req.body.lid
             ,req.body.uid,req.body.tid,req.body.aflag,req.body.adate,req.body.assignHdwrid,
             function(error,result){
@@ -3026,7 +4071,10 @@ getViewHardware:function(req,res,next){
               
           }
           else{
+<<<<<<< HEAD
             //result[0][0].tsId
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              res.json('sucess');
           }
              
@@ -3066,7 +4114,10 @@ if(error){
               next(error);
             return;}
             req.resultAssigneds=resultAssigned;
+<<<<<<< HEAD
             console.log('jai mata',resultAssigned);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             next(); 
 });
 },
@@ -3077,11 +4128,15 @@ if(error){
               next(error);
             return;}
             req.resultAssignedHome=resultAssigned;
+<<<<<<< HEAD
             //console.log(resultAssigned);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             next(); 
 });
 },
 
+<<<<<<< HEAD
 //jay getAllEmpLeaveHours
    /* getAllEmpLeaveHours: function(req, res, next) { 
     console.log("jogibabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req.body);              
@@ -3107,6 +4162,10 @@ if(error){
 
 
  getAllEmpLeaveHours: function(req, res, next) {               
+=======
+
+getAllEmpLeaveHours: function(req, res, next) {               
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
        modelPortal.getAllEmpLeaveHours(req.session.retailerId,req.body.dates, function(errorCsv, resultCsv) {
                     if (errorCsv) {
                  next(errorCsv);
@@ -3119,7 +4178,10 @@ if(error){
         return arr;
       });
       res.json(data);
+<<<<<<< HEAD
       console.log("our result of leaveeeeeeeeeeeeeeeeeeeeeeeeeeeeee",data);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
        });
     },
 
@@ -3130,7 +4192,10 @@ getFortnightDate:function(req,res,next){
        modelPortal.getFortnightDate(req.session.retailerId,function(error,result){
 
             if(error){
+<<<<<<< HEAD
                 console.log(error);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }
             else{
            res.json(result[0]);
@@ -3173,7 +4238,10 @@ sendmailtouser:function(req,res,next){
  
 
     sendmailtoadmin:function(req,res,next){
+<<<<<<< HEAD
         console.log('jayyyyyy');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.getsoftwareexpirtdetails(req.session.retailerId,function(error,result){
             if(error){
                 next(error);
@@ -3204,6 +4272,7 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
         });
     },
 
+<<<<<<< HEAD
 //jay
 
 
@@ -3214,6 +4283,9 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
 
 
 //--------------------------------------asset end---------------------------------
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     //---------------------------------Expense------------------------------------------
    getExpenseWeekBy: function(req, res, next) {
          modelPortal.getExpenseWeekBy(req.session.userId,req.body.date, function(errorRoles, result) {
@@ -3251,7 +4323,10 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
      },
 
         selectByExpenseUser: function(req, res, next) {
+<<<<<<< HEAD
          ////console.log(req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.toSelectByExpenseUser(req.body.userId,req.session.roleId,req.body.date1,req.session.userId ,function(errorRoles, result) {
              if (errorRoles) {
                  next(errorRoles);
@@ -3264,7 +4339,10 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
      },
 
         approverHome: function(req, res, next) {
+<<<<<<< HEAD
          console.log('jai mata di bhai',req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.approverHome(req.body.userId,req.session.roleId,req.body.date1,req.session.userId ,function(errorRoles, result) {
              if (errorRoles) {
                  next(errorRoles);
@@ -3279,7 +4357,10 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
      
 
         selectByExpenseAdmin: function(req, res, next) {
+<<<<<<< HEAD
          ////console.log(req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.toSelectByExpenseAdmin(req.body.userId,req.body.date1,req.session.retailerId ,function(errorRoles, result) {
              if (errorRoles) {
                  next(errorRoles);
@@ -3287,7 +4368,11 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              }
 
              res.json(result);
+<<<<<<< HEAD
              ////console.log('jaimata di',result);
+=======
+       
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              next();
          });
      },
@@ -3399,7 +4484,10 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              next();
          });
      },
+<<<<<<< HEAD
        //jay
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
            approveExpense: function(req, res, next) {
 
          var status=req.body.status1;
@@ -3423,12 +4511,18 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
 
             res.json(result);
             if(status!=0){
+<<<<<<< HEAD
                       //console.log(result[0][0].emailid);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      mailTemplates.submitExpenseandapprove(result[0][0].emailid,result[1][0].name10,req.session.firstName,function(error, resultMail){});
                }
          });
      },
+<<<<<<< HEAD
 //jay
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
        getMaxBillExpense: function(req, res, next) {
 
          modelPortal.togetMaxBillExpense(req.body.Id,req.session.retailerId, function(errorRoles, result) {
@@ -3477,7 +4571,10 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              }
 
              res.json(result[0][0].flag2);
+<<<<<<< HEAD
             ////console.log(result[0][0].flag2);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          });
      },
 
@@ -3490,12 +4587,16 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
              }
 
              res.json(result[0]);
+<<<<<<< HEAD
             //console.log(result[0]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          });
      },
 
 
        printexpense: function(req, res, next) {
+<<<<<<< HEAD
         console.log('jai mata di',req.body.data,req.session.userId);
          modelPortal.toprintexpense(req.body.data,req.session.userId, function(errorRoles, result) {
              if (errorRoles) {
@@ -3504,6 +4605,13 @@ mailTemplates.sendemailforassetissue(req.session.firstName,req.session.empcode,r
 
              }
              console.log('jai mata di portal',result);
+=======
+         modelPortal.toprintexpense(req.body.data,req.session.userId, function(errorRoles, result) {
+             if (errorRoles) {
+                 next(errorRoles);
+
+             }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              res.json(result);
              
          });
@@ -3517,6 +4625,7 @@ insertExpense: function(req, res, next) {
     var formdata=a.data;
     var form=JSON.parse(formdata);
     var flag=form.edit;
+<<<<<<< HEAD
     ////console.log(form.fortnightDate);
     if((exp==1)&&(flag==0)){
     modelPortal.insertHotelExpense(form.hotelexpensetypeid,form.hoteltrip,form.fromDate,form.toDate,form.hotelName,form.hotelReason,form.hotelifOther,form.hotelperDayRate,form.hotelTotalDay,form.hotelCurrency,form.htex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
@@ -3539,6 +4648,28 @@ insertExpense: function(req, res, next) {
              res.json('success');
     });
 }
+=======
+    if((exp==1)&&(flag==0)){
+        modelPortal.insertHotelExpense(form.hotelexpensetypeid,form.hoteltrip,form.fromDate,form.toDate,form.hotelName,form.hotelReason,form.hotelifOther,form.hotelperDayRate,form.hotelTotalDay,form.hotelCurrency,form.htex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
+         if (errorRoles) {
+                     next(errorRoles);
+                    return;
+                 }
+                
+                  res.json('success');
+        });
+    }
+
+    if((exp==1)&&(flag==1)){
+        modelPortal.updateHotelExpense(form.hotelexpensetypeid,form.hoteltrip,form.fromDate,form.toDate,form.hotelName,form.hotelReason,form.hotelifOther,form.hotelperDayRate,form.hotelTotalDay,form.hotelCurrency,form.htex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
+        if (errorRoles) {
+                     next(errorRoles);
+                     return;
+                 }
+                 res.json('success');
+        });
+    }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
   if((exp==2)&&(flag==0)){
     modelPortal.insertTravelExpense(form.travelexpensetypeid,form.traveltrip,form.travelFromDate,form.travelToDate,form.travelType,form.travelReason,form.travelIfNot,form.TravelRatePerDay,form.travelTotalDay,form.travelCurrency,form.travelex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
@@ -3551,6 +4682,7 @@ insertExpense: function(req, res, next) {
   }
 
     if((exp==2)&&(flag==1)){
+<<<<<<< HEAD
     modelPortal.updateTravelExpense(form.travelexpensetypeid,form.traveltrip,form.travelFromDate,form.travelToDate,form.travelType,form.travelReason,form.travelIfNot,form.TravelRatePerDay,form.travelTotalDay,form.travelCurrency,form.travelex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
      if (errorRoles) {
                  next(errorRoles);
@@ -3579,6 +4711,36 @@ insertExpense: function(req, res, next) {
             res.json('success');
     });
   }
+=======
+        modelPortal.updateTravelExpense(form.travelexpensetypeid,form.traveltrip,form.travelFromDate,form.travelToDate,form.travelType,form.travelReason,form.travelIfNot,form.TravelRatePerDay,form.travelTotalDay,form.travelCurrency,form.travelex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
+         if (errorRoles) {
+                     next(errorRoles);
+                     return;
+                 }
+                 res.json('success');
+        });
+    }
+
+   if((exp==3)&&(flag==0)){
+       modelPortal.insertFoodExpense(form.travelexpensetypeid,form.foodtrip,form.foodFromDate,form.foodToDate,form.foodReason,form.foodCurrency,form.foodtex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
+         if (errorRoles) {
+                     next(errorRoles);
+                     return;
+                 }
+                res.json('success');
+        });
+    }
+
+    if((exp==3)&&(flag==1)){
+       modelPortal.updateFoodExpense(form.travelexpensetypeid,form.foodtrip,form.foodFromDate,form.foodToDate,form.foodReason,form.foodCurrency,form.foodtex,req.session.userId,req.session.userId,form.exthotel,form.extclaimhotel,function(errorRoles, result){
+         if (errorRoles) {
+                     next(errorRoles);
+                     return;
+                 }
+                res.json('success');
+        });
+    }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
    if((exp==4)&&(flag==0)){
    modelPortal.insertPhoneExpense(form.travelexpensetypeid,form.phonetrip,form.phoneFromDate,form.phoneToDate,form.phoneReason,form.phoneCurrency,form.phoneExp,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,function(errorRoles, result){
@@ -3601,7 +4763,10 @@ insertExpense: function(req, res, next) {
   }
 
     if((exp==5)&&(flag==0)){
+<<<<<<< HEAD
         console.log(form.rsddes);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     modelPortal.insertRsdExpense(form.travelexpensetypeid,form.rsdtrip,form.rsdFromDate,form.rsdToDate,form.rsdvehicle,form.rsdReason,form.rsdifnot,form.rsdKmRate,form.rsdtotal,form.rsdCurrency,form.rsdtex,req.session.userId,req.session.userId,req.session.retailerId,form.fortnightDate,form.rsddes,function(errorRoles, result){
      if (errorRoles) {
                  next(errorRoles);
@@ -3689,7 +4854,10 @@ insertExpense: function(req, res, next) {
                  return;
              }
              result=result[0];
+<<<<<<< HEAD
              //////console.log('in callback');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
               res.json(result);
         
          });
@@ -3766,7 +4934,10 @@ insertExpense: function(req, res, next) {
              next();
          });
      },
+<<<<<<< HEAD
 //-------------------------------------------------------------------
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 setaddStatuss: function(req, res, next) {
          modelPortal.setaddStatuss(req.session.userId,req.session.roleId, req.session.retailerId,function(err, result) {
              if (err) {
@@ -3842,7 +5013,10 @@ holidayhome: function(req,res,next){
                  next(err);
 
              } else {
+<<<<<<< HEAD
                 ////console.log("-- - -- - - -- ",resultHoliday);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  req.resultHoliday = resultHoliday;
                  next();
              }
@@ -3942,6 +5116,10 @@ updateHoliday: function(req,res,next){
                  return;
              }
              req.resultUsers = resultUsers;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              next();
          });
      },
@@ -3953,7 +5131,10 @@ updateHoliday: function(req,res,next){
                  return;
              }
              req.userid=resultUsers[0][0].id;
+<<<<<<< HEAD
              console.log("$$$$$$$$$$$$$",resultUsers[0][0].id);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              next();
             
          });
@@ -4023,13 +5204,19 @@ updateHoliday: function(req,res,next){
              } else {
                 req.result1=result;
              req.session.url = req.url;
+<<<<<<< HEAD
              console.log('req.session.noti in portal.js in case home-------',req.session.notification);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              next();
              }
          });
      },
 
+<<<<<<< HEAD
 ///superAdmin code
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
     userStatusbyretailer: function(req, res, next) { 
                 modelPortal.userStatusbyretailer( req.body.retailerId ,
@@ -4069,7 +5256,10 @@ updateHoliday: function(req,res,next){
 
              } else {
                 req.resultretailer=result;
+<<<<<<< HEAD
                 console.log("result for superAdmin");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 next();
              }
          });
@@ -4077,15 +5267,39 @@ updateHoliday: function(req,res,next){
 
      
      userStatus: function(req, res, next) {
+<<<<<<< HEAD
           
            modelPortal.userStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,
+=======
+
+ var sortstr=req.body.columns[parseInt(req.body.order[0].column)].data + ' ' + req.body.order[0].dir ;
+
+           modelPortal.userStatus(req.body.status,req.session.userId,req.session.roleId,req.session.retailerId,req.body.start,req.body.length,req.body.search.value,sortstr,
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             function(err, result) {
 
              if (err) {
                  next(err);
              } else {
+<<<<<<< HEAD
 
                      res.json(result);
+=======
+        var tempobj = JSON.stringify(result[0]);
+          var desiredObj = JSON.parse(tempobj);
+         if(desiredObj[0]){
+            return res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": desiredObj[0].totalRecord,
+            "iTotalDisplayRecords": desiredObj[0].totalRecord,
+            "aaData": desiredObj});
+         }
+         else{
+          res.json({"sEcho": parseInt(req.body.draw),
+            "iTotalRecords": 0,
+            "iTotalDisplayRecords": 0,
+            "aaData": desiredObj});
+        }      
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              }
          });
      },
@@ -4111,12 +5325,20 @@ addUser: function(req, res, next) {
       var rtype=req.body.rtype==''?'':req.body.rtype;
       var randomPassword = randomString(10);
       var encriptPass=bcrypt.hashSync(randomPassword,salt);
+<<<<<<< HEAD
     
+=======
+        var tempchangedate = req.body.levelchangeDate.slice(0, 6) + "20" + req.body.levelchangeDate.slice(6);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          modelPortal.addUser(req.body.timesheet,req.body.isClient,req.body.clientId,req.body.isbill,req.body.expense,inNum,
             req.body.hdnUserId, req.body.firstName, req.body.lastName, req.body.emailId, req.body.contactNumber, billingRate,
              req.body.userRole, req.body.manager, req.body.defaultModule, req.body.customRole,encriptPass,
             req.body.ecode,req.body.designation,req.body.level,modules,req.body.doj,req.body.dob,req.body.doc,rtype,
+<<<<<<< HEAD
           req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,req.body.assetrole,function(err, result) {
+=======
+          req.session.userId, req.session.roleId, req.session.retailerId,req.body.crole,req.body.hrRole,req.body.hodId,req.body.assetrole,tempchangedate,function(err, result) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              if (err) {
                  next(err);
              } else {
@@ -4173,8 +5395,12 @@ uploadattendance: function(req, res, next) {
                  worksheet: 1
              }, function(err, results1) {
                  if (err) {
+<<<<<<< HEAD
                      console.log("Error in excelfile", err);
                      // res.redirect('/manager/uploadUsers?errorMsg=1');
+=======
+                  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  } else {
                      fs.rename(req.files[1].path, absolute_path[1], function(err) {
 
@@ -4184,11 +5410,17 @@ uploadattendance: function(req, res, next) {
                              worksheet: 1
                          }, function(err, results) {
                              if (err) {
+<<<<<<< HEAD
                                  console.log("Error in excelfile", err);
                                  // res.redirect('/manager/uploadUsers?errorMsg=1');
                              } else {
 
                                 console.log('results areeeeeeeeeeeee',results1)
+=======
+                               
+                             } else {
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     modelPortal.uploadattendance(req.session.userId,req.session.roleId,req.session.retailerId,results1,results,function(err,result){
                                         if(err){
                                             next(err)
@@ -4214,14 +5446,20 @@ uploadattendance: function(req, res, next) {
     getTimeSheetData: function(req,res,next){
 
         var query = require('url').parse(req.url, true).query;
+<<<<<<< HEAD
         console.log("flag for flag_owntimesheet is==--======",query.flag);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
          req.session.flag_owntimesheet = query.flag;
        modelPortal.getTimeSheetData(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
         if(err){
             next(err)
         }else{
             req.timeinfo = result;
+<<<<<<< HEAD
             console.log("result---",result);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             next();
         }
        });
@@ -4242,7 +5480,10 @@ uploadattendance: function(req, res, next) {
         if(err){
             next(err)
         }else{
+<<<<<<< HEAD
             console.log('bsfbbrdfgs---------',result);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             if(result[3][0].already_submit ==2){
                 mailTemplates.timesheetToSupervisorForApproval(result[1][0].firstName, result[2][0].userDetails,result[1][0].userEmail,function(error, resultMail) {
                      if (error) {
@@ -4286,7 +5527,11 @@ uploadattendance: function(req, res, next) {
         if(a==30)
         var allcolumn="timeAssignmentId,wbsId,timeSheetId,Day1,Day2,Day3,Day4,Day5,Day6,Day7,Day8,Day9,Day10,Day11,Day12,Day13,Day14,Day15,Day16,Day17,Day18,Day19,Day20,Day21,Day22,Day23,Day24,Day25,Day26,Day27,Day28,Day29,Day30,Day31,total";
         
+<<<<<<< HEAD
         modelPortal.submitTimesheetAssignment(req.body.alluser,allcolumn,req.body.timesheetid,function(err,result){
+=======
+        modelPortal.submitTimesheetAssignment(req.body.alluser,allcolumn,req.body.timesheetid,req.body.report_data,function(err,result){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                          if(err){
                                  next(err)
                                   }
@@ -4302,6 +5547,7 @@ uploadattendance: function(req, res, next) {
         if(err){
             next(err)
         }else{
+<<<<<<< HEAD
 
             //////console.log('sssssssssssssssssssss----------',result[1]);
             if(result[1].length==0){
@@ -4309,6 +5555,13 @@ uploadattendance: function(req, res, next) {
             }
 
             ////console.log(result);
+=======
+            if(result[1].length==0){
+                
+                result[1]=[{status:0}];
+            }
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             res.json(result);
         }
        });
@@ -4328,6 +5581,7 @@ uploadattendance: function(req, res, next) {
      },
       otherTimeSheet: function(req,res,next){
 
+<<<<<<< HEAD
         /*var query = require('url').parse(req.url, true).query;
         var usid = query.id;
 
@@ -4347,11 +5601,19 @@ uploadattendance: function(req, res, next) {
             next();
         }
        });*/
+=======
+       
+         req.userid=req.session.timeshhetuserid;
+       
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
      },
 
      otherTimeSheet_setPage: function(req,res,next){
+<<<<<<< HEAD
         //////console.log(" i am in  post rtal");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         req.session.timeshhetuserid=req.body.id;
         req.session.othertime_checkdate=req.body.time_date;
 
@@ -4363,6 +5625,7 @@ uploadattendance: function(req, res, next) {
              req.session.timeinfo = result;
             
             
+<<<<<<< HEAD
               //////console.log("Going for rendering",result);
            res.json(1);
            // next();
@@ -4370,6 +5633,11 @@ uploadattendance: function(req, res, next) {
        });
             //next();
            // res.redirect('/otherTimeSheet');
+=======
+           res.json(1);
+        }
+       });
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         
 
      },
@@ -4387,11 +5655,20 @@ uploadattendance: function(req, res, next) {
 
        if(req.body.status==3)
         {
+<<<<<<< HEAD
             var reason='Your timesheet has been  Approved.';
         }
     else
        {
         var reason='Your timesheet has been Rejected due to reason-'+req.body.appOrRejReason;
+=======
+            var reason='<h3 style="color:green">Your timesheet has been  Approved.</h3>';
+        }
+    else
+       {
+        
+        var reason='<div style="text-align:left;line-height:14px;"><h3 style="color:red;margin-bottom:8px" >Your timesheet has been Rejected.</h3>\n <span style="display:block;font-size:12px ;font-weight:bold"> Reason: </span>\n <span style="display:block;font-size:12px;">'+req.body.appOrRejReason+'</span></div>';
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     }
        mailTemplates.timesheetStatus('',req.body.userEmail,reason,function(error, resultMail) {
              if (error) {
@@ -4419,14 +5696,20 @@ uploadattendance: function(req, res, next) {
 
  
  getHrRole:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("----------------");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.getHrRole(req.session.userId,req.session.roleId, req.session.retailerId,function(err,result){
             if(err){
                 
                 next(err);
             }
             else{
+<<<<<<< HEAD
                 ////console.log("getHrRole---------Portal",result);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 req.hrRole=result[0];
                 req.hodList=result[1];
                 next();
@@ -4439,7 +5722,10 @@ uploadattendance: function(req, res, next) {
 
      dashboardData:function(req,res,next){
            countFiles[req.session.userId] = 10000;
+<<<<<<< HEAD
            ////console.log('kaisan ho',req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
    totalFiles[req.session.userId] = 0;
   parsing[req.session.userId] = false; 
      var hrArrS=req.session.hrRole;
@@ -4453,11 +5739,17 @@ uploadattendance: function(req, res, next) {
 
 
             if(err){
+<<<<<<< HEAD
                 //////console.log("error ");
             }
             else{
                 ////console.log("successfull f",result);
                 ////console.log("result length f",result.length);
+=======
+            }
+            else{
+           
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                 res.json(result);
             }
@@ -4480,11 +5772,17 @@ uploadattendance: function(req, res, next) {
                  req.body.Location = req.body.Location.trim();
             }
             var flag=req.body.flag;
+<<<<<<< HEAD
             //////console.log("POST raise requisition data",req.body);
             if(req.body.flag!=undefined){
                     
                     var id=req.body.ide;
                     //////console.log("Flag and ID-------",flag,id);
+=======
+            if(req.body.flag!=undefined){
+                    
+                    var id=req.body.ide;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     if(flag=='copy'){
                         flag=0;
                     }
@@ -4497,6 +5795,7 @@ uploadattendance: function(req, res, next) {
                 flag = 0;id = 0;
             }
             var skills = '';
+<<<<<<< HEAD
            /* if(req.body.YearsOfExp=='')
             {
                 req.body.YearsOfExp = 0;
@@ -4523,6 +5822,11 @@ uploadattendance: function(req, res, next) {
             if(req.body.skills != undefined){
                 if(req.body.skills.length!=0){
                     console.log("after condition",req.body.skills);
+=======
+         
+            if(req.body.skills != undefined){
+                if(req.body.skills.length!=0){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      skills = JSON.stringify(req.body.skills).replace(']','')
                      skills = skills.replace('"','').replace("'","").replace("[","");
                     skills = skills.replace(/['"]+/g, '');
@@ -4543,7 +5847,10 @@ uploadattendance: function(req, res, next) {
               req.body.YearsOfExp,req.body.adminhr,flag,id,
               req.body.mailPriority,req.body.jobType,hrRoleArray,req.session.retailerId,function(err,result){
               if(err){
+<<<<<<< HEAD
                      console.log("error portal",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 }
     else{
        
@@ -4554,10 +5861,16 @@ uploadattendance: function(req, res, next) {
          recEmail = recEmail.join(','); 
          req.body.Location =req.body.Location;
 
+<<<<<<< HEAD
          if(hrarr.indexOf(3)!=-1){            //hm
           if(flag==0){ 
 
             console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',result)
+=======
+         if(hrarr.indexOf(3)!=-1){            
+          if(flag==0){ 
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
               mailTemplates.hrMailer(0,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
             res.redirect('/allrequisitions?flag=1');
               }
@@ -4567,7 +5880,11 @@ uploadattendance: function(req, res, next) {
                 res.redirect('/allrequisitions?flag=0'); 
             } 
          }
+<<<<<<< HEAD
         else if(hrarr.indexOf(5)!=-1){         //hod
+=======
+        else if(hrarr.indexOf(5)!=-1){        
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              if(flag==0){            
            mailTemplates.hrMailer(flag,recEmail,result[5][0],result[1][0].id,'0',skills,hrarr,req.session.userId,"--",function(err,result){});
                 res.redirect('/allrequisitions?flag=1');
@@ -4598,10 +5915,15 @@ uploadattendance: function(req, res, next) {
         modelPortal.updateStatusReq(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.flag,req.body.jdid,approve,function(err,result){
             if(err){
+<<<<<<< HEAD
                console.log("there is an error",err);
             }   
             else{
                 console.log("modal portal update status req",req.body.flag,recEmail,result[0][0],result[0][0].id,'0',skills,req.session.hrRole,req.session.userId,req.approve);
+=======
+            }   
+            else{
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  var recEmail = [];
                         for(var i =0;i<result[2].length;i++){
                                 recEmail.push(result[2][i].userEmail);
@@ -4611,11 +5933,17 @@ uploadattendance: function(req, res, next) {
           
             var hrRoleArray=hrarr.toString();
                 if(req.body.flag==1){ 
+<<<<<<< HEAD
                     //Approved
                       mailTemplates.hrMailer(2,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
                 }
                 else{ 
                     //Rejected
+=======
+                      mailTemplates.hrMailer(2,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
+                }
+                else{ 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                    mailTemplates.hrMailer(3,recEmail,result[0][0],result[0][0].id,'0',skills,hrarr,req.session.userId,req.approve,function(err,result){});
                 }   
                    if(req.isMail){   
@@ -4633,7 +5961,10 @@ uploadattendance: function(req, res, next) {
         if (flag == undefined) flag = -1;
         modelPortal.reqHod(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("reqhod---portal",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                 req.hodResult=result;
@@ -4650,7 +5981,10 @@ uploadattendance: function(req, res, next) {
         
         modelPortal.allrequisitions(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                 var arr=[];
@@ -4664,15 +5998,23 @@ uploadattendance: function(req, res, next) {
         });
     }, 
     reqData : function(req,res,next){
+<<<<<<< HEAD
           console.log("edit reque. data",req.body);
             modelPortal.reqData(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,function(err,result){
                     if(err){
                         console.log("there is an error jogendra",err);
+=======
+            modelPortal.reqData(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,function(err,result){
+                    if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     }   
                     else{
                         req.session.count = result[4][0].mailCounter;
                    req.session.count++;
+<<<<<<< HEAD
                     console.log("edit reque. data",result);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      res.json({result:result});
                     }    
 
@@ -4684,7 +6026,10 @@ uploadattendance: function(req, res, next) {
 
             modelPortal.deleteReq(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,function(err,result){
                     if(err){
+<<<<<<< HEAD
                         //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     }   
                     else{
                         
@@ -4700,7 +6045,10 @@ uploadattendance: function(req, res, next) {
     req.session.skillsIdfromdb = [];
     modelPortal.viewCandidate(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     for (var i = 0; i < result[1].length; i++) {
@@ -4723,7 +6071,10 @@ uploadattendance: function(req, res, next) {
     viewCandidate1 : function(req,res,next){
           modelPortal.viewCandidate1(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
                     if(err){
+<<<<<<< HEAD
                         //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     }   
                     else{
 
@@ -4736,7 +6087,10 @@ uploadattendance: function(req, res, next) {
     getCandidate:function(req,res,next){
         modelPortal.getCandidate(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     res.json(result);
@@ -4745,7 +6099,10 @@ uploadattendance: function(req, res, next) {
     },
 
     editCandidate:function(req,res,next){
+<<<<<<< HEAD
          ////console.log("Form Submit Edit Candidate", req.body.skills.length);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             if (req.body.skills.length == 0){
                  req.body.skills = '';
              }
@@ -4759,7 +6116,10 @@ uploadattendance: function(req, res, next) {
             req.body.hcid, req.body.name,req.body.phone,req.body.email,req.body.locationId,req.body.skills,
             req.body.clocation,req.body.months,req.body.years,req.body.qualification,req.body.institute,function(err,result){
                     if(err){
+<<<<<<< HEAD
                         //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     }   
                     else{
                         
@@ -4770,6 +6130,7 @@ uploadattendance: function(req, res, next) {
 
     },
     getAllTag : function(req,res,next){
+<<<<<<< HEAD
        //////console.log("in get all tag portal");
         modelPortal.getAllTag(req.body.id,req.session.retailerId,function(err,result){
             if(err){
@@ -4777,6 +6138,12 @@ uploadattendance: function(req, res, next) {
             }   
             else{
                 //////console.log("all tag related to this candidate--",result);
+=======
+        modelPortal.getAllTag(req.body.id,req.session.retailerId,function(err,result){
+            if(err){
+            }   
+            else{
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 res.json(result);                         
             }    
 
@@ -4784,12 +6151,18 @@ uploadattendance: function(req, res, next) {
 
     },
         addTag : function(req,res,next){
+<<<<<<< HEAD
        //////console.log("body data add tag portal",req.body);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.toAddTag( req.body.tcid,
                 req.body.selecttag,
                  req.session.userId,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                 res.json(result);                         
@@ -4811,7 +6184,10 @@ uploadattendance: function(req, res, next) {
         req.session.nameArrForFile = [];
         modelPortal.upload(function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     for (var i = 0; i < result[1].length; i++) {
@@ -4852,7 +6228,10 @@ uploadattendance: function(req, res, next) {
                     }
                     if (req.session.location != location) {
                         location = req.session.location;
+<<<<<<< HEAD
                         // //////console.log(location);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                         locationId = req.session.locationId;
                     }
                     if (req.session.institituefromdb != institituefromdb) {
@@ -4886,7 +6265,10 @@ uploadattendance: function(req, res, next) {
             else{
                  parseResult[0] = result[0];
                 parseResult[1] = flagCompleted;
+<<<<<<< HEAD
                 ////console.log(parseResult[0]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 res.json(parseResult);
             }
 
@@ -4897,10 +6279,15 @@ uploadattendance: function(req, res, next) {
  
 
   submitParseData : function(req,res,next){
+<<<<<<< HEAD
        //////console.log("body data add tag portal",req.body);
         modelPortal.toSubmitParseData(function(err,result){
             if(err){
                 //////console.log("there is an error",err);
+=======
+        modelPortal.toSubmitParseData(function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                req.uploadData=result;
@@ -4931,7 +6318,11 @@ upload_resume:function(req,res,next){
         var tempPath = req.file.path;
        
         modelPortal.upload_resume(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
+<<<<<<< HEAD
                 if (err) {}//////console.log(err)
+=======
+                if (err) {}
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 else {
 
                      if(exe == 'doc' || exe == 'docx'  || exe == 'rtf' ){
@@ -4939,14 +6330,19 @@ upload_resume:function(req,res,next){
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
+<<<<<<< HEAD
                            //////console.log('targetPath is',targetPath);
                         fs.rename(tempPath, targetPath, function(err) {
                             //                    res.redirect('/upload');
+=======
+                        fs.rename(tempPath, targetPath, function(err) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                          var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
                             textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                 if (error) {
                                     blankentry(newpath, req);
+<<<<<<< HEAD
                                     //////console.log(error);
 
                                 } else {
@@ -4955,6 +6351,13 @@ upload_resume:function(req,res,next){
                                         var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                         textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
                                         //  //////console.log(textLowerCase);
+=======
+
+                                } else {
+                                    if (typeof text != undefined) {
+                                        var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
+                                        textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                         text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                         var textarr = text.split('\n');
                                         textarr.forEach(function(element, index) {
@@ -4966,7 +6369,10 @@ upload_resume:function(req,res,next){
                                         parseAllHr(textLowerCase, textarr, newpath, req);
 
                                     } else {
+<<<<<<< HEAD
                                         //////console.log('file cannot be parsed');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     }
 
 
@@ -4982,14 +6388,19 @@ upload_resume:function(req,res,next){
                          parsing[req.session.userId] = true;
                        totalFiles[req.session.userId] = 1;
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
+<<<<<<< HEAD
                            //////console.log('targetPath is',targetPath);
                         fs.rename(tempPath, targetPath, function(err) {
                             //                    res.redirect('/upload');
+=======
+                        fs.rename(tempPath, targetPath, function(err) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                          var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
                             textract.fromFileWithMimeAndPath("application/vnd.openxmlformats-officedocument.presentationml.presentation",newpath, function(error, text) {
 
                                 if (error) {
                                     blankentry(newpath, req);
+<<<<<<< HEAD
                                     //////console.log(error);
 
                                 } else {
@@ -4998,6 +6409,13 @@ upload_resume:function(req,res,next){
                                         var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                         textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
                                         //  //////console.log(textLowerCase);
+=======
+
+                                } else {
+                                    if (typeof text != undefined) {
+                                        var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
+                                        textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                         text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                         var textarr = text.split('\n');
                                         textarr.forEach(function(element, index) {
@@ -5009,7 +6427,10 @@ upload_resume:function(req,res,next){
                                         parseAllHr(textLowerCase, textarr, newpath, req);
 
                                     } else {
+<<<<<<< HEAD
                                         //////console.log('file cannot be parsed');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     }
 
 
@@ -5029,6 +6450,7 @@ upload_resume:function(req,res,next){
                         var targetPath = path.resolve('./public/attach/' + exet[0] + '_' + now + '.' + exe);
                        var newpath = './public/attach/' + exet[0] + '_' + now + '.' + exe;
 
+<<<<<<< HEAD
                         //////console.log('here is *********** targetPath',targetPath,'here is *********** absolute_path',absolute_path);
                         fs.rename(tempPath, targetPath, function(err) {
 
@@ -5044,14 +6466,31 @@ upload_resume:function(req,res,next){
                             });
                             processor.on('complete', function(data) {
                                 // //////console.log('start*************',data.text_pages[0],'*********',Date.now());
+=======
+                        fs.rename(tempPath, targetPath, function(err) {
+
+
+                        
+
+                            var processor = pdf_extract(absolute_path, options, function(err) {
+                                if (err) {
+                                }
+                            });
+                            processor.on('complete', function(data) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                 var text = '';
                                 for (var i = 0; i < data.text_pages.length; i++) {
                                     text = text.concat(data.text_pages[i]);
                                 }
+<<<<<<< HEAD
                                 ////////console.log(text);
                                 var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                 textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
                                 //  //////console.log(textLowerCase);
+=======
+                                var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
+                                textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                 text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                 var textarr = text.split('\n');
                                 textarr.forEach(function(element, index) {
@@ -5068,8 +6507,12 @@ upload_resume:function(req,res,next){
                             processor.on('error', function(err) {
 
                                 blankentry(newpath, req)
+<<<<<<< HEAD
                                 //////console.log(err);
                                 //return callback(err);
+=======
+                               
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                             });
 
 
@@ -5082,20 +6525,27 @@ upload_resume:function(req,res,next){
                         var zip = new AdmZip(req.file.path);
                         var zipEntries = zip.getEntries();
                         zip.extractAllTo( path.join(__dirname, '../../public/attach/' + ffname), false);
+<<<<<<< HEAD
                         //////console.log('***********path join**************', path.join(__dirname, '../../public/attach/' + ffname));
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                         totalFiles[req.session.userId] = zipEntries.length;
                         parsing[req.session.userId] = true;
 
                           
 
                         zipEntries.forEach(function(zipEntry) {
+<<<<<<< HEAD
                             ////////console.log(zipEntry["name"]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                             var namefile = zipEntry["name"];
                             var namearr = namefile.split('.');
 
                             var exet = (namearr[namearr.length - 1]).toLowerCase();
                             var newpath = './public/attach/' + ffname + '/' + namefile;
 
+<<<<<<< HEAD
                             //         parseResume(req,newpath);
 
                             if (exet == 'doc' || exet == 'docx' || exet == 'rtf') {
@@ -5107,10 +6557,15 @@ upload_resume:function(req,res,next){
                                     fs.renameSync(newpath,newpath2);
 
                                   }*/
+=======
+                            if (exet == 'doc' || exet == 'docx' || exet == 'rtf') {
+                                
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                 textract.fromFileWithPath(newpath, config, function(error, text) {
 
                                     if (error) {
                                         blankentry(newpath, req);
+<<<<<<< HEAD
                                         //////console.log(error);
 
                                     }
@@ -5123,6 +6578,15 @@ upload_resume:function(req,res,next){
                                             var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                             textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
                                             //  //////console.log(textLowerCase);
+=======
+
+                                    }
+                                   
+                                    else {
+                                        if (typeof text != undefined) {
+                                            var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
+                                            textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                             text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                             var textarr = text.split('\n');
                                             textarr.forEach(function(element, index) {
@@ -5134,7 +6598,10 @@ upload_resume:function(req,res,next){
                                             parseAllHr(textLowerCase, textarr, newpath, req);
 
                                         } else {
+<<<<<<< HEAD
                                             //////console.log('file cannot be parsed');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                         }
 
 
@@ -5147,6 +6614,7 @@ upload_resume:function(req,res,next){
                                 var namefile = zipEntry["name"];
                                 var absolute_path = path.join(__dirname, '../../public/attach/' + ffname + '/' + namefile); // parseResume(req,newpath);
 
+<<<<<<< HEAD
                                 ////////console.log(absolute_path);
                                 var processor = pdf_extract(absolute_path, options, function(err) {
                                     if (err) {
@@ -5155,14 +6623,26 @@ upload_resume:function(req,res,next){
                                 });
                                 processor.on('complete', function(data) {
                                     // //////console.log('start*************',data.text_pages[0],'*********',Date.now());
+=======
+                                var processor = pdf_extract(absolute_path, options, function(err) {
+                                    if (err) {
+                                    }
+                                });
+                                processor.on('complete', function(data) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     var text = '';
                                     for (var i = 0; i < data.text_pages.length; i++) {
                                         text = text.concat(data.text_pages[i]);
                                     }
+<<<<<<< HEAD
                                     ////////console.log(text);
                                     var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
                                     textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
                                     //  //////console.log(textLowerCase);
+=======
+                                    var textLowerCase = text.toLowerCase().replace(/,/g, ' ').replace(/-/g, ' ').replace(/:/g, ' ').replace(/\n/g, ' ').replace(/\./g, ' ');
+                                    textLowerCase = textLowerCase.replace(/ +/g, ' ').replace(/\+/g, '');
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                     text = text.replace(/:/g, ' ').replace(/-/g, ' ').replace(/,/g, ' ').replace(/ +/g, ' ').replace(/\+/g, '');
                                     var textarr = text.split('\n');
                                     textarr.forEach(function(element, index) {
@@ -5179,8 +6659,12 @@ upload_resume:function(req,res,next){
                                 processor.on('error', function(err) {
 
                                     blankentry(newpath, req)
+<<<<<<< HEAD
                                     //////console.log(err);
                                     //return callback(err);
+=======
+                                    
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                                 });
 
 
@@ -5196,8 +6680,13 @@ upload_resume:function(req,res,next){
 
 
                     }
+<<<<<<< HEAD
                           } //else
         }); //db usp_clearalldata
+=======
+                          } 
+        }); 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 
                 }
@@ -5207,7 +6696,11 @@ upload_resume:function(req,res,next){
       
         modelPortal.deleteUploadRecords(req.session.userId,req.session.roleId,req.session.retailerId,req.body.delete,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+         
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                 res.json('suceess');
@@ -5218,7 +6711,11 @@ upload_resume:function(req,res,next){
     viewReq:function(req,res,next){
         modelPortal.viewReq(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+              
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     req.viewReq=result;
@@ -5229,10 +6726,15 @@ upload_resume:function(req,res,next){
     userHrViewReq:function(req,res,next){
         modelPortal.userHrViewReq(req.session.userId,req.session.roleId,req.session.retailerId,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
             }   
             else{
                 ////console.log(result)
+=======
+            }   
+            else{
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     req.userHrViewReq=result;
                     next() ;
                 }
@@ -5242,7 +6744,10 @@ upload_resume:function(req,res,next){
         var str = req.body.search;
         modelPortal.searchHr(req.session.userId,req.session.roleId,req.session.retailerId,str,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                      res.json(result[0]);
@@ -5256,10 +6761,15 @@ upload_resume:function(req,res,next){
         modelPortal.advancesearchHr(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.name1, req.body.jdtitle, req.body.email1, req.body.location1,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
             }   
             else{
                 //////console.log("asearch result on suceess",result[0]);
+=======
+            }   
+            else{
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                      res.json(result[0]); 
                 }    
@@ -5272,7 +6782,10 @@ upload_resume:function(req,res,next){
         modelPortal.interviewerInfo(req.session.userId,req.session.roleId,req.session.retailerId,
             function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                      res.json(result);
@@ -5281,11 +6794,17 @@ upload_resume:function(req,res,next){
     },
 
     getReleventTag:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("getReleventTag portal");
         modelPortal.getReleventTag(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.id,function(err,result){
             if(err){
                 //////console.log("there is an error",err);
+=======
+        modelPortal.getReleventTag(req.session.userId,req.session.roleId,req.session.retailerId,
+            req.body.id,function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                      res.json(result[0]);
@@ -5293,11 +6812,17 @@ upload_resume:function(req,res,next){
         });
     },
     removeTag:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("removeTag portal");
         modelPortal.removeTag(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.tagid,req.body.cid,function(err,result){
             if(err){
                 //////console.log("there is an error",err);
+=======
+        modelPortal.removeTag(req.session.userId,req.session.roleId,req.session.retailerId,
+            req.body.tagid,req.body.cid,function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                      res.json(result);
@@ -5305,6 +6830,7 @@ upload_resume:function(req,res,next){
         });
     },
     getreleventState:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("getreleventState portal");
         modelPortal.getreleventState(req.session.userId,req.session.roleId,req.session.retailerId,
            req.body.jdid,req.body.cid,function(err,result){
@@ -5313,16 +6839,29 @@ upload_resume:function(req,res,next){
             }   
             else{
                 ////console.log("portal getreleventState result:",result);
+=======
+        modelPortal.getreleventState(req.session.userId,req.session.roleId,req.session.retailerId,
+           req.body.jdid,req.body.cid,function(err,result){
+            if(err){
+            }   
+            else{
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      res.json(result);
                 } 
         });
     },
     addQuickTag:function(req,res,next){
+<<<<<<< HEAD
       console.log("addQuickTag portal");
         modelPortal.addQuickTag(req.session.userId,req.session.roleId,req.session.retailerId,
            req.body.jdid,req.body.allcdid,function(err,result){
             if(err){
                 console.log("there is an error",err);
+=======
+        modelPortal.addQuickTag(req.session.userId,req.session.roleId,req.session.retailerId,
+           req.body.jdid,req.body.allcdid,function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                      res.json(result);
@@ -5331,10 +6870,15 @@ upload_resume:function(req,res,next){
     },
 
         quickdeletecandidate:function(req,res,next){
+<<<<<<< HEAD
       console.log("quickdeletecandidate portalsssssssssssssssssssssssssssssssssssssssssss");
         modelPortal.quickdeletecandidate(req.session.userId,req.session.roleId,req.session.retailerId,req.body.allcdid,function(err,result){
             if(err){
                 console.log("there is an error",err);
+=======
+        modelPortal.quickdeletecandidate(req.session.userId,req.session.roleId,req.session.retailerId,req.body.allcdid,function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                      res.json(result);
@@ -5344,6 +6888,7 @@ upload_resume:function(req,res,next){
 
 
     getallmanager:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("addQuickTag portal");
         modelPortal.getallmanager(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
@@ -5353,16 +6898,30 @@ upload_resume:function(req,res,next){
             else{
                 result=result[0];
                 //////console.log(result);
+=======
+        modelPortal.getallmanager(req.session.userId,req.session.roleId,req.session.retailerId,
+           function(err,result){
+            if(err){
+            }   
+            else{
+                result=result[0];
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      res.json(result);
                 }  
         });
     },
     getscheduleInfo:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("addQuickTag portal");
         modelPortal.getscheduleInfo(req.session.userId,req.session.roleId,req.session.retailerId,req.body.cid,
            function(err,result){
             if(err){
                 //////console.log("there is an error",err);
+=======
+        modelPortal.getscheduleInfo(req.session.userId,req.session.roleId,req.session.retailerId,req.body.cid,
+           function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                      res.json(result);
@@ -5370,12 +6929,18 @@ upload_resume:function(req,res,next){
         });
     },
       deletehistory:function(req,res,next){
+<<<<<<< HEAD
         ////console.log("addQuickTag portal");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.deletehistory(req.session.userId,
             req.session.retailerId,req.body.id,
            function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                      res.json(result);
@@ -5393,7 +6958,10 @@ upload_resume:function(req,res,next){
                 req.body.intremark,
                 req.body.mode,req.session.userId,req.session.retailerId,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     req.scheduleInterview=result;
@@ -5402,11 +6970,17 @@ upload_resume:function(req,res,next){
         });
     },
     selectAdminHr:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("addQuickTag portal");
         modelPortal.selectAdminHr(req.session.userId,req.session.roleId,req.session.retailerId,req.body.selected,
            function(err,result){
             if(err){
                 //////console.log("there is an error",err);
+=======
+        modelPortal.selectAdminHr(req.session.userId,req.session.roleId,req.session.retailerId,req.body.selected,
+           function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     res.json(result[0]);
@@ -5416,6 +6990,7 @@ upload_resume:function(req,res,next){
 
         });
     },
+<<<<<<< HEAD
 //-------------------------------------------------------------------------------------------//
 
     getClientContacts:function(req,res,next){
@@ -5424,6 +6999,29 @@ upload_resume:function(req,res,next){
            function(err,result){
             if(err){
                 //////console.log("there is an error",err);
+=======
+
+ getClientContact:function(req,res,next){
+        modelPortal.getClientContact(req.body.ids,
+           function(err,result){
+            if(err){
+            }   
+            else{
+                    res.json(result[0]);
+                }    
+
+
+
+        });
+    },
+
+
+
+    getClientContacts:function(req,res,next){
+        modelPortal.getClientContacts(req.session.userId,req.session.roleId,req.session.retailerId,req.body.clientid,
+           function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     res.json(result[0]);
@@ -5437,7 +7035,10 @@ upload_resume:function(req,res,next){
 
 
     addeditClientContacts:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("addQuickTag portal");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         var randomPassword = randomString(10);
         var encriptPass=bcrypt.hashSync(randomPassword,salt);
         req.body.password=encriptPass;
@@ -5446,7 +7047,10 @@ upload_resume:function(req,res,next){
         modelPortal.addeditClientContacts(req.session.userId,req.session.roleId,req.session.retailerId,req.body,
            function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     res.json(result);
@@ -5466,10 +7070,15 @@ upload_resume:function(req,res,next){
         modelPortal.updateClientPassword(req.session.userId,req.session.roleId,req.session.retailerId,req.body,
            function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("there is an error",err);
             }   
             else{
                 ////console.log(result)
+=======
+            }   
+            else{
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 req.body.emailId=result[0][0].userEmail;
                 req.body.firstName=result[0][0].firstName;
                    next();
@@ -5479,11 +7088,16 @@ upload_resume:function(req,res,next){
 
 
     sendMailClient:function(req,res,next){
+<<<<<<< HEAD
 ////console.log('sendMailClient',req.body)
            mailTemplates.retailerRegistration(req.body.firstName, req.body.emailId,req.body.randomPassword,function(error, result) {
                          ////console.log(error)
                          if (error) {
                              //result[0][0].flag = flag.mailFailed;
+=======
+           mailTemplates.retailerRegistration(req.body.firstName, req.body.emailId,req.body.randomPassword,function(error, result) {
+                         if (error) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                          }
 
                          res.json(result);
@@ -5494,9 +7108,13 @@ upload_resume:function(req,res,next){
 
         blockUser:function(req,res,next){
            modelPortal.blockUser(req.body,function(error, result) {
+<<<<<<< HEAD
                          ////console.log(error)
                          if (error) {
                              //result[0][0].flag = flag.mailFailed;
+=======
+                         if (error) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                          }
 
                          res.json(result);
@@ -5507,11 +7125,17 @@ upload_resume:function(req,res,next){
 
 
  saveHrm:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("addQuickTag portal");
         modelPortal.saveHrm(req.body.selected,req.body.reqId,
            function(err,result){
             if(err){
                 //////console.log("there is an error",err);
+=======
+        modelPortal.saveHrm(req.body.selected,req.body.reqId,
+           function(err,result){
+            if(err){
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     res.json('suceess');
@@ -5523,13 +7147,19 @@ upload_resume:function(req,res,next){
     },
 
     updateCandidate:function(req,res,next){
+<<<<<<< HEAD
         //////console.log("addQuickTag portal");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.updateCandidate(req.session.userId,req.session.roleId,req.session.retailerId,
             req.body.id, req.body.name, req.body.email, req.body.phone,
             req.body.years, req.body.months, req.body.location, req.body.address,
             req.body.skills, req.body.qualification, req.body.ins,function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                     res.json('success');
@@ -5554,6 +7184,7 @@ upload_resume:function(req,res,next){
                 var tempPath = req.file.path,
                     filename = ch + '.' + exe;
                 targetPath = path.resolve('./public/attach/feedback/' + filename);
+<<<<<<< HEAD
                 //////console.log("tpath---" + targetPath + "---");
                 if (1) {
                         fs.rename(tempPath, targetPath, function(err) {
@@ -5563,20 +7194,36 @@ upload_resume:function(req,res,next){
                 }
         }
         //////console.log("Filename : ", filename);
+=======
+                if (1) {
+                        fs.rename(tempPath, targetPath, function(err) {
+                            if (err) throw err;
+                        });
+                }
+        }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
         if (typeof(filename) == 'undefined') {
             filename = '';
         }
 
+<<<<<<< HEAD
         ////console.log("File-------------", req.file);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         modelPortal.interviewData(req.session.userId,req.session.roleId,req.session.retailerId,req.body.id,
                 req.body.rating,req.body.status,req.body.time,req.body.remarks,req.body.stateId,
                 req.body.cdtid, req.body.modeid,req.body.rounds,filename,req.body.jdid,function(err,result){
             if (err) {
+<<<<<<< HEAD
                 //////console.log("Error is ", err);
                 res.redirect("/error");
             } else {
                 //////console.log("data saved successfully");
+=======
+                res.redirect("/error");
+            } else {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 res.redirect('/rms');
             }
         });
@@ -5585,9 +7232,13 @@ upload_resume:function(req,res,next){
 
     interviewFeedback:function(req,res,next){
         var query = require('url').parse(req.url, true).query;
+<<<<<<< HEAD
         //////console.log("------------    ",query,query.cid,query.id,query.flag);
       // //////console.log(req.query);
      // var query=req.query;
+=======
+  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         var cid = query.cid;
         var id = query.id;
         var flag = query.flag;
@@ -5595,7 +7246,10 @@ upload_resume:function(req,res,next){
         modelPortal.interviewFeedback(req.session.userId,req.session.roleId,req.session.retailerId,
            id, cid, function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                         req.interviewFeedback=result;
@@ -5611,7 +7265,10 @@ upload_resume:function(req,res,next){
         modelPortal.reqApprover(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                         req.reqApprover=result;
@@ -5624,6 +7281,7 @@ upload_resume:function(req,res,next){
     },
      //----------------------------------Project Management System----------------------------
       getAllResources:function(req,res,next){
+<<<<<<< HEAD
         console.log("hello in here");
         modelPortal.getAllResources(req.session.userId,req.session.roleId,req.session.retailerId,
            function(err,result){
@@ -5633,6 +7291,14 @@ upload_resume:function(req,res,next){
             else{
                         req.reqResources=result;
                         console.log("say hello to my new friend ");
+=======
+        modelPortal.getAllResources(req.session.userId,req.session.roleId,req.session.retailerId,
+           function(err,result){
+            if(err){
+            }   
+            else{
+                        req.reqResources=result;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                         next();
                 } 
         });
@@ -5641,7 +7307,10 @@ upload_resume:function(req,res,next){
         modelPortal.projectByResource(req.body.resId,
            function(err,result){
             if(err){
+<<<<<<< HEAD
                 //////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                         res.json(result);
@@ -5662,6 +7331,7 @@ upload_resume:function(req,res,next){
         if(versionFlag==undefined){
             versionFlag = 1;
         }
+<<<<<<< HEAD
         //console.log('flag is',flag);
         //console.log('retailerId is',req.session.retailerId,'userId is',req.session.userId);
 
@@ -5673,6 +7343,14 @@ upload_resume:function(req,res,next){
             else{
             req.treeComponent = result[0];
          //   console.log('treeComponent is',req.treeComponent);
+=======
+      
+     modelPortal.task(flag,req.session.retailerId,versionFlag,req.session.userId,function(err,result){
+            if(err){
+            }   
+            else{
+            req.treeComponent = result[0];
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.maxid         = result[1][0].endId;
             req.minid         = result[1][0].startId;
             req.flag          = flag;
@@ -5684,7 +7362,10 @@ upload_resume:function(req,res,next){
             req.userId       = req.session.userId;
             if(!!result[5][0].version){
                 req.versionArr = result[5][0].version.split(',');
+<<<<<<< HEAD
                 //console.log('version Arr is',req.versionArr);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }
             else{
                 req.versionArr = [1];
@@ -5704,12 +7385,18 @@ upload_resume:function(req,res,next){
          if(req.submittedProject.length==0){
             req.submittedProject = [];
          }
+<<<<<<< HEAD
          //console.log('projectDetails is ',req.projectDetails);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             for(var i = 0;i<req.projectDetails.length;i++){
                 if(req.prId==req.projectDetails[i].id){
                     req.prStartDate = req.projectDetails[i].newPlannedStartDate;
                     req.prEndDate   = req.projectDetails[i].newPlannedEndDate;
+<<<<<<< HEAD
                     //console.log('prStartDate',req.prStartDate,'prEndDate',req.prEndDate);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      if(req.prStartDate){
                         var temp = '';
                         req.prStartDate = req.prStartDate.split('/');
@@ -5718,7 +7405,10 @@ upload_resume:function(req,res,next){
                         req.prStartDate[1] = temp;
                         req.prStartDate = req.prStartDate.join('/');
                         }
+<<<<<<< HEAD
                         //console.log('req endDate is',req.prEndDate);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                        if(req.prEndDate){
                          req.prEndDate = req.prEndDate.split('/');
                          temp = req.prEndDate[0];
@@ -5787,7 +7477,10 @@ if(!req.treeComponent.length) {
                     req.treeComponent = [];
 
                                      }
+<<<<<<< HEAD
      console.log('user flag is ',req.userFlag,'creater Flag is ',req.isCreaterFlag,'manager flag ',req.isManagerFlag);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
      
                    req.holidayArr = [];
                 for(var i=0;i<result[11].length;i++){
@@ -5803,14 +7496,20 @@ if(!req.treeComponent.length) {
             req.allcommentsArrComment = allcommentsArrComment;   
             req.allcommentsArrId      = allcommentsArrId;  
              req.usersAll    = result[14]; 
+<<<<<<< HEAD
              console.log('result[15] is ',result[15]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              if(!result[15].length){
                 req.collaborateId = '';
              }
              else{
               req.collaborateId       =  result[15][0].collaborateIds;          
                  }
+<<<<<<< HEAD
                  console.log('result 16 is',result[17]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  req.changedEle = result[17];
              next();
                 } 
@@ -5823,7 +7522,10 @@ if(!req.treeComponent.length) {
       
 modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
         
@@ -5836,6 +7538,7 @@ modelPortal.emptyProj(req.body.projectid,req.body.version,function(err,result){
 saveTask :function(req,res,next){
       modelPortal.saveTask(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.body.userId,req.body.commentString,req.body.collaborateId,function(err,result){
             if(err){
+<<<<<<< HEAD
                 ////console.log("there is an error",err);
             }   
             else{
@@ -5847,13 +7550,25 @@ saveTask :function(req,res,next){
                           for(var i = 0 ;i<result[1].length;i++){
                         var email = result[1][i].email;
                         console.log('email is',email,'project is',project);
+=======
+            }   
+            else{
+                   if(result.length>2){
+                     var project   = result[0][0].projectTitle;
+                       if(req.body.submitFlag==2){
+                          for(var i = 0 ;i<result[1].length;i++){
+                        var email = result[1][i].email;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                           mailTemplates.projectApprovedRes(email,project,function(err,result1){
 
                           });    
                           }
                        for(var i = 0 ;i<result[2].length;i++){
                         var email = result[2][i].email;
+<<<<<<< HEAD
                         console.log('email is',email,'project is',project);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                           mailTemplates.projectApprovedMan(email,project,req.session.firstName,function(err,result1){
 
                           });    
@@ -5863,7 +7578,10 @@ saveTask :function(req,res,next){
                       else if(req.body.submitFlag==3){
                              for(var i = 0 ;i<result[1].length;i++){
                         var email = result[1][i].email;
+<<<<<<< HEAD
                         console.log('email123 is',email,'project123 is',project);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                           mailTemplates.projectRejectMan(email,project,req.session.firstName,req.body.remarks,function(err,result1){
 
                           });    
@@ -5875,7 +7593,10 @@ saveTask :function(req,res,next){
                       else if(req.body.submitFlag==1){
                              for(var i = 0 ;i<result[1].length;i++){
                         var email = result[1][i].email;
+<<<<<<< HEAD
                         console.log('email123 is',email,'project123 is',project);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                           mailTemplates.projectSubmitMan(email,project,req.session.firstName,req.body.remarks,function(err,result1){
 
                           });    
@@ -5899,7 +7620,10 @@ projStatus :function(req,res,next){
 
 modelPortal.projStatus(req.session.retailerId,function(err,result){
             if(err){
+<<<<<<< HEAD
              ////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
                   var maxid = 1;
@@ -5907,10 +7631,14 @@ modelPortal.projStatus(req.session.retailerId,function(err,result){
                           maxid =  result[0][result[0].length-1].id + 1;
                   }
                   req.result  = result;
+<<<<<<< HEAD
                   console.log('result is    ',req.result);
 
                       //console.log('projHours is',req.projHours ,'hourSumWbs is',req.hourSumWbs);
                   // console.log('***********',req.effProjectCalculations);
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
    next();
 
@@ -5920,11 +7648,36 @@ modelPortal.projStatus(req.session.retailerId,function(err,result){
 
 
 },
+<<<<<<< HEAD
+=======
+
+editproject: function(req, res, next) {
+      
+     
+           modelPortal.projectAddEdit(req.body.pid,req.body.flag,req.session.userId,req.session.roleId,req.session.retailerId,
+            function(err, result) {
+
+             if (err) {
+                 next(err);
+             } else {
+               res.json(result);
+                     
+                 }
+                      
+         });
+     },
+
+
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 getAllTreeForProjStatus:function(req,res,next){
 
 modelPortal.getAllTreeForProjStatus(req.body.proId,function(err,result){
             if(err){
+<<<<<<< HEAD
              ////console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }   
             else{
         
@@ -5943,7 +7696,10 @@ insNewVer :function(req,res,next){
 
 modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.body.submitFlag,req.body.remarks,req.session.userId,req.body.changedEle,function(err,result){
             if(err){
+<<<<<<< HEAD
              //console.log("there is an error",err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                     }   
             else{
                  res.json('success');
@@ -5967,6 +7723,7 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
         if(versionFlag==undefined){
             versionFlag = 1;
         }
+<<<<<<< HEAD
         //console.log('flag is',flag);
         //console.log('retailerId is',req.session.retailerId,'userId is',req.session.userId);
 
@@ -5978,6 +7735,15 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
             else{
             req.treeComponent = result[0];
          //   console.log('treeComponent is',req.treeComponent);
+=======
+     
+
+     modelPortal.task(flag,req.session.retailerId,versionFlag,req.session.userId,function(err,result){
+            if(err){
+            }   
+            else{
+            req.treeComponent = result[0];
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             req.maxid         = result[1][0].endId;
             req.minid         = result[1][0].startId;
             req.flag          = flag;
@@ -5989,7 +7755,10 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
             req.userId       = req.session.userId;
             if(!!result[5][0].version){
                 req.versionArr = result[5][0].version.split(',');
+<<<<<<< HEAD
                 //console.log('version Arr is',req.versionArr);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             }
             else{
                 req.versionArr = [1];
@@ -6009,12 +7778,18 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
          if(req.submittedProject.length==0){
             req.submittedProject = [];
          }
+<<<<<<< HEAD
          //console.log('projectDetails is ',req.projectDetails);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             for(var i = 0;i<req.projectDetails.length;i++){
                 if(req.prId==req.projectDetails[i].id){
                     req.prStartDate = req.projectDetails[i].newPlannedStartDate;
                     req.prEndDate   = req.projectDetails[i].newPlannedEndDate;
+<<<<<<< HEAD
                     //console.log('prStartDate',req.prStartDate,'prEndDate',req.prEndDate);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                      if(req.prStartDate){
                         var temp = '';
                         req.prStartDate = req.prStartDate.split('/');
@@ -6023,7 +7798,10 @@ modelPortal.insNewVer(req.body.projectId,req.body.version,req.body.updateQ,req.b
                         req.prStartDate[1] = temp;
                         req.prStartDate = req.prStartDate.join('/');
                         }
+<<<<<<< HEAD
                         //console.log('req endDate is',req.prEndDate);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                        if(req.prEndDate){
                          req.prEndDate = req.prEndDate.split('/');
                          temp = req.prEndDate[0];
@@ -6092,7 +7870,10 @@ if(!req.treeComponent.length) {
                     req.treeComponent = [];
 
                                      }
+<<<<<<< HEAD
      console.log('user flag is ',req.userFlag,'creater Flag is ',req.isCreaterFlag,'manager flag ',req.isManagerFlag);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
      
                    req.holidayArr = [];
                 for(var i=0;i<result[11].length;i++){
@@ -6108,14 +7889,20 @@ if(!req.treeComponent.length) {
             req.allcommentsArrComment = allcommentsArrComment;   
             req.allcommentsArrId      = allcommentsArrId;  
              req.usersAll    = result[14]; 
+<<<<<<< HEAD
              console.log('result[15] is ',result[15]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
              if(!result[15].length){
                 req.collaborateId = '';
              }
              else{
               req.collaborateId       =  result[15][0].collaborateIds;          
                  }
+<<<<<<< HEAD
                  console.log('result 16 is',result[17]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                  req.changedEle = result[17];
              next();
                 } 
@@ -6146,7 +7933,11 @@ function union_arrays (x, y) {
      obj[y[i]] = y[i];
   var res = []
   for (var k in obj) {
+<<<<<<< HEAD
     if (obj.hasOwnProperty(k))  // <-- optional
+=======
+    if (obj.hasOwnProperty(k)) 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       res.push(obj[k]);
   }
   return res;
@@ -6197,6 +7988,7 @@ function parseAll(textLowerCase, req, strname, temp, next) {
         });
 
 }
+<<<<<<< HEAD
 
 
 /*
@@ -6270,12 +8062,52 @@ while(arrForWbs[i].wplannedStartDate== arrForWbs[i].wplannedEndDate){
    i++;
 }
 //diff = -1;         
+=======
+function parseAllzip(textLowerCase, req, strname,folderName,cb) {
+    var parsedData;
+    if(textLowerCase){
+        var largeArr = [];
+        var conjunctionArr = ['if', 'and', 'the', 'is', 'because', 'on', 'to', 'in', 'from', 'of', 'above', 'be', 'would', 'for', 'each', 'at', 'under', 'by', 'been', 'no', 'my', 'upon', 'been', 'it0', 'will', 'there', 'that', 'this', 'has', 'have', 'had', 'up', 'with', 'own', 'are', 'any', 'may', 'about', 'used', 'can', 'into', 'as', 'not', 'we', 'or', 'than', 'also', 'using', 'see', 'its', 'more', 'such', 'what', 'us', 'there', 'so', 'them', 'Your', 'just', 'our', 'why', 'but', 'am', '//', '>=', '<=', 'over', 'per', '#1', '#2', '#3', '#4', '#5', '#6', 'etc)', 'recent', 'due', '(the', 'an', 'out', 'here'];
+        for (var i = 0, len = textLowerCase.length; i < len; i++) {
+            if ((largeArr.indexOf(textLowerCase[i]) < 0) && (conjunctionArr.indexOf(textLowerCase[i]) < 0) && (textLowerCase[i].length > 1) && (isNaN(textLowerCase[i]))) {
+                largeArr.push(textLowerCase[i]);
+            }
+        }
+        if (!largeArr.length) {
+            parsedData = null;
+        } else {
+            parsedData = largeArr.join(',');
+        }
+    }
+    else{
+        parsedData='';
+    }  
+    var industry = req.body.industry == null ? '' : req.body.industry.toString();
+    var business = req.body.business == null ? '' : req.body.business.toString();
+    var doctype = req.body.doctype == null ? '' : req.body.doctype.toString();
+    var tec = req.body.newTec == null ? '' : req.body.newTec.toString();
+    var restriction = req.body.rLevel == null ? '' : req.body.rLevel.toString();
+
+    modelPortal.attachDocFile(req.session.userId, req.session.retailerId,
+    folderName+'/'+strname, req.body.currfolder, strname, req.body.descbox, req.body.authname,
+    industry, business, req.body.title, doctype, tec, req.session.roleId, restriction,
+    req.body.industryhide, req.body.businesshide, req.body.doctypehide, req.body.newTechide,
+    req.body.rLevelhide, parsedData,
+    function(err, result) {
+        if (err) {
+            console.log(err)
+        } else {
+            cb()
+        }
+    });
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 }
 
 
 
 
+<<<<<<< HEAD
 
 
 }*/
@@ -6283,6 +8115,10 @@ while(arrForWbs[i].wplannedStartDate== arrForWbs[i].wplannedEndDate){
 function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
     var longnumber = '' ;
    // //////console.log(textLowerCase);
+=======
+function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
+    var longnumber = '' ;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     var dateForYear = new Date();
     var yearForYear = dateForYear.getFullYear();
     yearForYear = yearForYear + '';
@@ -6340,33 +8176,52 @@ function parseAllHr(textLowerCase, textarrNewLine, targetPath, req) {
             var textindex = textLowerCase.indexOf(element, startIndex);
             startIndex = textindex;
        
+<<<<<<< HEAD
             if (textLowerCase[textindex - 1] == ' ' && (textLowerCase[textindex + element.length] == ' ' || textLowerCase[textindex + element.length] == '.') && skillarrId.indexOf(skillsIdfromdb[index]) == -1) { //After skills could be a full stop
                ////////console.log('****skills*****',element);
+=======
+            if (textLowerCase[textindex - 1] == ' ' && (textLowerCase[textindex + element.length] == ' ' || textLowerCase[textindex + element.length] == '.') && skillarrId.indexOf(skillsIdfromdb[index]) == -1) { 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 skillarrId.push(skillsIdfromdb[index]);
                 elementFlag = false;
             } else startIndex++;
         }
 
     });
+<<<<<<< HEAD
     textLowerCase = textLowerCase.replace(/\+/g, ' '); //I need '+' sign for skills as in c++;
+=======
+    textLowerCase = textLowerCase.replace(/\+/g, ' '); 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 
     /**********************Qualification***********************************/
     Qualification.forEach(function(element, index) {
         if (textLowerCase.indexOf(element) != -1) {
             var textindex = textLowerCase.indexOf(element);
+<<<<<<< HEAD
             if (textLowerCase[textindex - 1] == ' ') //In case resume is written as b tech(ECE) 
+=======
+            if (textLowerCase[textindex - 1] == ' ')  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 qualIndex = index;
         }
 
 
     });
+<<<<<<< HEAD
     textLowerCase = textLowerCase.replace(/\./g, ''); //I need dot(.)  for skills like .net
+=======
+    textLowerCase = textLowerCase.replace(/\./g, ''); 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
     /***********************Institute*************************************/
 
 for(var i = 0;i<institituefromdb.length;i++){
+<<<<<<< HEAD
        // //////console.log('***',countFiles[req.session.userId],institituefromdb[i]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         if (textLowerCase.indexOf(institituefromdb[i]) != -1) {
 
             var textindex = textLowerCase.indexOf(institituefromdb[i]);
@@ -6384,7 +8239,10 @@ for(var i = 0;i<institituefromdb.length;i++){
     /**********************Location*********************************/
 
     for(var i = 0;i<location.length;i++){
+<<<<<<< HEAD
 ////////console.log('***',countFiles[req.session.userId],location[i]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  if (textLowerCase.indexOf(location[i]) != -1) {
             var textindex = textLowerCase.indexOf(location[i]);
             if (textLowerCase[textindex - 1] == ' ' && textLowerCase[textindex + location[i].length] == ' '){
@@ -6416,7 +8274,10 @@ for(var i = 0;i<institituefromdb.length;i++){
                 name = textarr[kIncName + 1] + ' ' + textarr[kIncName + kinc];
             }
         } catch (err) {
+<<<<<<< HEAD
             //////console.log(err);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             return;
         }
 
@@ -6431,7 +8292,10 @@ for(var i = 0;i<institituefromdb.length;i++){
         kIncName++;
 
     }
+<<<<<<< HEAD
     //////console.log('parser1');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     /***************************************Name From File and large Array For Name***************************************************/
     if (name.trim() == '') {
 
@@ -6446,6 +8310,7 @@ for(var i = 0;i<institituefromdb.length;i++){
             }
 
         });
+<<<<<<< HEAD
        // //////console.log('parser2');
 
 
@@ -6457,6 +8322,15 @@ for(var i = 0;i<institituefromdb.length;i++){
 
         largeArrayForNameFromFile.forEach(function(element, index) {
             ////////console.log('from for each',element);
+=======
+
+        largeArrayForNameFromFile = largeArrayForNameFromFile.concat(skillArrForName);
+        largeArrayForNameFromFile.sort(function(a, b) {
+            return b.length - a.length; 
+        });
+
+        largeArrayForNameFromFile.forEach(function(element, index) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             while (nameFromFile.indexOf(element) != -1) {
                 nameFromFile = nameFromFile.replace(element, '');
 
@@ -6464,19 +8338,26 @@ for(var i = 0;i<institituefromdb.length;i++){
         });
 
 
+<<<<<<< HEAD
     // //////console.log('parser3');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         var nameFromFileArr;
         var nameFromFileArr2 = [];
         nameFromFile = nameFromFile.replace(/ +/g, ' ');
         nameFromFileArr = nameFromFile.split(' ');
 
+<<<<<<< HEAD
         ////////console.log('*******name***',nameFromFileArr,nameFromFile,'*******');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
         for (var i = 0; i < nameFromFileArr.length; i++) {
             if (nameFromFileArr[i].length > 2 && nameFromFileArr[i].indexOf('@') == -1) {
                 nameFromFileArr2.push(nameFromFileArr[i]);
             }
         }
+<<<<<<< HEAD
         ////////console.log('*******Output***',nameFromFileArr2)
         var newNameFromFile = [];
         var incrementerFor3 = 0
@@ -6499,14 +8380,30 @@ for(var i = 0;i<institituefromdb.length;i++){
 
     }
         ////////console.log('parser2');
+=======
+        var newNameFromFile = [];
+        var incrementerFor3 = 0
+       
+
+        nameFromFile = nameFromFileArr2.join(' ');
+
+        name = nameFromFile.trim();
+
+
+    }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
     /***************************************Name From Text and large Array For Name  ***************************************************/
     if (name.trim() == '') {
         var nameArrForText = req.session.nameExclusions;
         var largeArrayForNameFromText = allLocationInResume.concat(nameArrForText).concat(Qualification).concat(skillArrForName);
+<<<<<<< HEAD
   //   //////console.log(largeArrayForNameFromText);
     }
            // //////console.log('parser3');
+=======
+    }
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
     var wordLength = [];
     var  countForWordLength = 0;
@@ -6536,7 +8433,10 @@ for(var i = 0;i<institituefromdb.length;i++){
 
 if (/^\d{2,9}$/.test(textarr[k])) {
     if(longNumber==''&&textarr[k].slice(0,2)!='20'||longNumber!=''){
+<<<<<<< HEAD
         ////console.log(textarr[k].slice(0,2));
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     longNumber = longNumber.concat(textarr[k]);
  }
 }
@@ -6553,6 +8453,7 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 }
 
 
+<<<<<<< HEAD
         // if()
 
         /*
@@ -6565,6 +8466,8 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 
                 }*/
         ////////console.log('parser4');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
         if (textarr[k].toLowerCase() == 'address' && permanentAddress2 == '') {
             var k1 = k - 1;
@@ -6621,12 +8524,15 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 
 
 
+<<<<<<< HEAD
 
         /*************Experience*************/
 
 
         /*************Experience*************/
 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         if ((/month/i).test(textarr[k]) || (/mnth/i).test(textarr[k]) && months == 0) {
 
 
@@ -6678,14 +8584,21 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 
 
     }
+<<<<<<< HEAD
             //////console.log('parser5');
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 
     var emailDotless = email.replace(/\./g, '');
 
     if (req.session.emailArr.indexOf(emailDotless) != -1 && email != '') {
         countFiles[req.session.userId]++;
+<<<<<<< HEAD
  //////console.log('parser Return', countFiles[req.session.userId], emailDotless);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
         return;
     } else {
@@ -6697,14 +8610,20 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
     var kIncNameNew = 0;
     /********************Name from text****************************/
     while (kIncNameNew < 50 && name == '' && kIncNameNew < textarr.length - 2) {
+<<<<<<< HEAD
    // //////console.log('in text finder',textarr[kIncNameNew]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
         if (ifSuitableName(kIncNameNew) && ifSuitableName(kIncNameNew + 1)) {
             name = textarr[kIncNameNew] + ' ' + textarr[kIncNameNew + 1];
         }
         kIncNameNew++;
 
     }
+<<<<<<< HEAD
                 //////console.log('parser6');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
     /********************Fresher Flag****************************/
     if (qualIndex != -1 && !FresherFlag) {
@@ -6721,7 +8640,10 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
                 kIncQualNew++;
             }
     }
+<<<<<<< HEAD
                    //////console.log('parser7');
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
     /**************************Phone Flag*************************************/
     if (phone == '' && phoneLongnumber != '') {
@@ -6776,6 +8698,7 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
         name,email,phone,skillarrId,permanentAddress,Qualification[qualIndex],currentlocation,years,
                 months,instititutes,targetPath,function(err,result){
     if (err) {
+<<<<<<< HEAD
             //////console.log(q, err);
             countFiles[req.session.userId]++;
             //////console.log('parser failure', countFiles[req.session.userId], req.session.userId);
@@ -6785,6 +8708,13 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 
             countFiles[req.session.userId]++;
             //////console.log('parser Success', countFiles[req.session.userId], req.session.userId);
+=======
+            countFiles[req.session.userId]++;
+         
+        } else {
+
+            countFiles[req.session.userId]++;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
         }
 
@@ -6834,14 +8764,20 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
         else
             countForWordLength = 0;
         if(countForWordLength>=2){
+<<<<<<< HEAD
          //   //////console.log('from here',textarr[cCounter]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             countForWordLength = 0;
             return false
         }
 
         if (addressIndexForName.length > 0) {
             if (addressIndexForName[0] <= cCounter && cCounter <= addressIndexForName[1]) {
+<<<<<<< HEAD
               //  //////console.log('from here address',textarr[cCounter]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 return false;
             }
 
@@ -6851,7 +8787,10 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
         for (var i = 0; i < largeArrayForNameFromText.length; i++) {
             var textTemp = textarr[cCounter].toLowerCase();
             if (textTemp.indexOf(largeArrayForNameFromText[i]) != -1) {
+<<<<<<< HEAD
           //  //////console.log('from here largeArrayForNameFromText',textarr[cCounter]);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                 lArrFlag = false;
                 break;
@@ -6874,6 +8813,7 @@ if (longNumber.length >= 10 && !(/^\d{2,9}$/.test(textarr[k]))&&phone.indexOf(lo
 }
 
 function blankentry(targetPath, req) {
+<<<<<<< HEAD
    /* var q = {
         sql: "call usp_addCandidate(?,?,?,?,?,?,?,?,?,?,?)",
         values: ["",
@@ -6891,6 +8831,9 @@ function blankentry(targetPath, req) {
     }*/
     /*//////console.log("Query------------------------------", q);*/
      /*db(q, function(err, result) {*/
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     modelPortal.upload_resumeaddcandidate(req.session.userId,req.session.roleId,req.session.retailerId,
        "",
             "",
@@ -6905,6 +8848,7 @@ function blankentry(targetPath, req) {
             targetPath,function(err,result){
    
         if (err) {
+<<<<<<< HEAD
             //////console.log(q, err);
             countFiles[req.session.userId]++;
             //////console.log('parser failure', countFiles[req.session.userId], req.session.userId);
@@ -6913,6 +8857,13 @@ function blankentry(targetPath, req) {
             req.session.empty = -1;
             countFiles[req.session.userId]++;
             //////console.log('parser Success', countFiles[req.session.userId], req.session.userId);
+=======
+            countFiles[req.session.userId]++;
+            
+          } else {
+            req.session.empty = -1;
+            countFiles[req.session.userId]++;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
            }
 
@@ -6937,7 +8888,10 @@ for(var i = 0;i<2;i++){
 
 for(var i=0;i<timeStamp.length;i++){
 
+<<<<<<< HEAD
     ////console.log('StartDate is ',timeStamp[i].startDate,'endDate is',timeStamp[i].endDate); 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 }
 
     /*****************Today date Calculation**************************/
@@ -6963,6 +8917,7 @@ for(var i=0;i<timeStamp.length;i++){
 
 
 
+<<<<<<< HEAD
 /**insert here*/ 
  for (var inc = 0; inc < timeStamp.length; inc++) { //if-else
        if (inc != timeStamp.length - 1) {
@@ -6970,15 +8925,26 @@ for(var i=0;i<timeStamp.length;i++){
             ////console.log('percCompleted',timeStamp[inc].percCompleted,isNaN(timeStamp[inc].percCompleted));
                if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
                 ////console.log('in isnan',timeStamp[inc].percCompleted)
+=======
+ for (var inc = 0; inc < timeStamp.length; inc++) { 
+       if (inc != timeStamp.length - 1) {
+           while (timeStamp[inc].project == timeStamp[inc + 1].project) {
+               if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                    timeStamp[inc].percCompleted = 0;
          }
 
 
 
+<<<<<<< HEAD
         //console.log('effortInHrs',timeStamp[inc].effortInHrs,isNaN(timeStamp[inc].effortInHrs));
 
                if (isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
                 //console.log('in isnan',timeStamp[inc].effortInHrs);
+=======
+
+               if (isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 timeStamp[inc].effortInHrs = 0;
 
 
@@ -6988,7 +8954,10 @@ for(var i=0;i<timeStamp.length;i++){
 
                completeArr[compInc] = completeArr[compInc] + (parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInHrs));
                sumEff = sumEff + parseInt(timeStamp[inc].effortInHrs);
+<<<<<<< HEAD
 //console.log('In while____ inc is', inc, 'id is', timeStamp[inc].id, ' completeArr[' + compInc + '] is ', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs, 'name is', timeStamp[inc].name);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
                inc++;
                if (inc == timeStamp.length - 1) {
@@ -7009,12 +8978,18 @@ for(var i=0;i<timeStamp.length;i++){
            sumEff = sumEff + timeStamp[inc].effortInHrs;
 
                  if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
+<<<<<<< HEAD
                 ////console.log('in isnan',timeStamp[inc].percCompleted)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                    timeStamp[inc].percCompleted = 0;
                 }
 
          if(isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
+<<<<<<< HEAD
                 //console.log('in isnan',timeStamp[inc].effortInHrs);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 timeStamp[inc].effortInHrs = 0;
 
 
@@ -7023,28 +8998,43 @@ for(var i=0;i<timeStamp.length;i++){
            completeArr[compInc] = (completeArr[compInc] + parseInt(timeStamp[inc].percCompleted) * parseInt(timeStamp[inc].effortInHrs)) / sumEff;
 
            if (isNaN(completeArr[compInc])) {
+<<<<<<< HEAD
                ////console.log('In Nan if inc is', parseInt(timeStamp[inc].project));
                completeArr[compInc] = 0;
            }
 
            //console.log('In if inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs);
+=======
+               completeArr[compInc] = 0;
+           }
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
            originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
 
            compInc++;
            sumEff = 0;
+<<<<<<< HEAD
            //   inc++;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
        } else {
 
         sumEff = sumEff + timeStamp[inc].effortInHrs;
 
                  if (isNaN(timeStamp[inc].percCompleted)||!timeStamp[inc].percCompleted) {
+<<<<<<< HEAD
                 ////console.log('in isnan',timeStamp[inc].percCompleted)
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                    timeStamp[inc].percCompleted = 0;
                 }
 
          if(isNaN(timeStamp[inc].effortInHrs)||!timeStamp[inc].effortInHrs) {
+<<<<<<< HEAD
                 //console.log('in isnan',timeStamp[inc].effortInHrs);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 timeStamp[inc].effortInHrs = 0;
 
                }
@@ -7053,7 +9043,10 @@ for(var i=0;i<timeStamp.length;i++){
 
 
            if (isNaN(completeArr[compInc])) {
+<<<<<<< HEAD
                ////console.log('In Nan else inc is', parseInt(timeStamp[inc].project));
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                completeArr[compInc] = 0;
            }
 
@@ -7061,7 +9054,10 @@ for(var i=0;i<timeStamp.length;i++){
 
            originalArr[1][parseInt(timeStamp[inc].project)] = completeArr[compInc];
 
+<<<<<<< HEAD
            //console.log('In else inc is', inc, 'id is', timeStamp[inc].id, 'completeArr[' + compInc + '] is', completeArr[compInc], 'sumEff is', sumEff, 'effort in days', timeStamp[inc].effortInHrs);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
            inc++;
 
@@ -7073,11 +9069,14 @@ for(var i=0;i<timeStamp.length;i++){
 
    }
 
+<<<<<<< HEAD
  /******End*******/
 
 
 
 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 for(var inc=0;inc<completeArr.length;inc++){
         if(isNaN(completeArr[inc])){
             completeArr[inc] = 0;
@@ -7274,7 +9273,10 @@ bigArr[RawData[i].project] = bigArr[RawData[i].project] + ((effInHrsHereIs*percC
 }
 
 for(var i = 0;i<bigArr.length;i++){
+<<<<<<< HEAD
   //bigArr[i] = bigArr[i]*100;
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   bigArr[i] = MathRound(bigArr[i]);
 }
 
@@ -7344,9 +9346,13 @@ function calculateEffDays(sDateNew,sDateOld){
 
 var sDateNew2 = new Date(sDateNew[2],sDateNew[1],sDateNew[0]);
 var sDateOld2 = new Date(sDateOld[2],sDateOld[1],sDateOld[0]);
+<<<<<<< HEAD
 //sDateNew2 = sDateNew2.toString();
 //sDateOld2 = sDateOld2.toString();
 //debugger;
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  var d = sDateOld[0];
 var m = sDateOld[1];
 var y = sDateOld[2];
@@ -7392,8 +9398,12 @@ else {
     var y = date.getFullYear();
     var day = date.getDay();
     var dateTime = date.getTime();
+<<<<<<< HEAD
    // debugger;
   //  console.log('date is',d,' ',m,' ',y);
+=======
+  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   if(saturdayOffFlag==1){
         weekEnds = [0,6]    
     }
@@ -7465,6 +9475,7 @@ return bigArr;
 function calculateActualEndDate(RawData){
 var bigArr = setAllValuesInArray();
 for(var i =0;i<RawData.length;i++){
+<<<<<<< HEAD
     console.log('RawData[i].actEndDate is',RawData[i].actEndDate,'bigArr[RawData[i].id] is ',bigArr[RawData[i].id]);
 if(RawData[i].actEndDate==null||RawData[i].actEndDate==''){
     console.log('in if');
@@ -7478,6 +9489,16 @@ else if(bigArr[RawData[i].project]!='alpha'){
 }
 else{
     console.log('work hard in silence');
+=======
+if(RawData[i].actEndDate==null||RawData[i].actEndDate==''){
+  bigArr[RawData[i].project] = 'alpha';
+}
+else if(bigArr[RawData[i].project]!='alpha'){
+  bigArr[RawData[i].project]  = maxOf(bigArr[RawData[i].project],RawData[i].actEndDate);
+
+}
+else{
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 }
 
 }
@@ -7487,7 +9508,10 @@ for(var i = 0;i<bigArr.length;i++){
                 bigArr[i] = '';
             }
  }
+<<<<<<< HEAD
  //console.log('bigArr is',bigArr);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  return bigArr;
 
 }
@@ -7523,6 +9547,7 @@ if(date1Arr[2].length==2){
 }
 
 
+<<<<<<< HEAD
 
 
 
@@ -7535,6 +9560,8 @@ if(date1Arr[2].length==2){
 
 
 
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 function findDataFromUserFlag(RawData,userId){ 
    
    var DataArr = [];
@@ -7547,7 +9574,10 @@ function findDataFromUserFlag(RawData,userId){
            }
        }
      RawData =  changeTheOnesForWhichNodesHaveToBeSeen(RawData,DataArr);
+<<<<<<< HEAD
      //RawData  = convertAllFirstChildrenToZero(RawData);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
      return RawData;
 }
 
@@ -7632,12 +9662,19 @@ var heading = [
 ];
 
 var specification = {
+<<<<<<< HEAD
   snumber: { // <- the key should match the actual data key 
     displayName: 'SNo', // <- Here you specify the column header 
     headerStyle: styles.headerDark, // <- Header style 
     cellStyle: function(value, row) { // <- style renderer function 
       // if the status is 1 then color in green else color in red 
       // Notice how we use another cell value to style the current one 
+=======
+  snumber: { 
+    displayName: 'SNo', 
+    headerStyle: styles.headerDark, 
+    cellStyle: function(value, row) { 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       if(row.depth==0){
          return styles.cellRed;
             }
@@ -7648,7 +9685,11 @@ var specification = {
               return styles.cellYellow;
             }
     },
+<<<<<<< HEAD
     width: 50 // <- width in pixels 
+=======
+    width: 50 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   },
   name: {
     displayName: 'Name',
@@ -7664,7 +9705,11 @@ var specification = {
               return styles.cellYellow;
             }
     },
+<<<<<<< HEAD
     width: 200 // <- width in chars (when the number is passed as string) 
+=======
+    width: 200 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   },
   plStartDate: {
     displayName: 'Pl. Start Date',
@@ -7679,7 +9724,11 @@ var specification = {
             else{
               return styles.cellYellow;
             }
+<<<<<<< HEAD
     },    width: 100 // <- width in pixels 
+=======
+    },    width: 100  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  
   
 },
@@ -7696,7 +9745,11 @@ var specification = {
             else{
               return styles.cellYellow;
             }
+<<<<<<< HEAD
     },    width: 100 // <- width in pixels 
+=======
+    },    width: 100  
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  
   
 },
@@ -7713,7 +9766,11 @@ var specification = {
             else{
               return styles.cellYellow;
             }
+<<<<<<< HEAD
     },    width: 150 // <- width in pixels 
+=======
+    },    width: 150 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   
 },
 plActEDate: {
@@ -7729,7 +9786,11 @@ plActEDate: {
             else{
               return styles.cellYellow;
             }
+<<<<<<< HEAD
     },    width: 150 // <- width in pixels 
+=======
+    },    width: 150
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   
 },
 actEDate: {
@@ -7745,8 +9806,13 @@ actEDate: {
             else{
               return styles.cellYellow;
             }
+<<<<<<< HEAD
     }, // <- Cell style 
     width: 100 // <- width in pixels 
+=======
+    }, 
+    width: 100 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   
 },
 effort: {
@@ -7762,7 +9828,11 @@ effort: {
             else{
               return styles.cellYellow;
             }
+<<<<<<< HEAD
     }, // <- Cell style     width: 220 // <- width in pixels 
+=======
+    }, 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     width: 100
 },
 percCompleted: {
@@ -7778,7 +9848,11 @@ percCompleted: {
             else{
               return styles.cellYellow;
             }
+<<<<<<< HEAD
     }, // <- Cell style     width: 220 // <- width in pixels 
+=======
+    }, 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     width: 100
  
 
@@ -7797,7 +9871,11 @@ percCompleted: {
               return styles.cellYellow;
             }
     },  
+<<<<<<< HEAD
       width: 100 // <- width in pixels 
+=======
+      width: 100 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 },
 resources: {
@@ -7813,6 +9891,7 @@ resources: {
             else{
               return styles.cellYellow;
             }
+<<<<<<< HEAD
     },    width: 150 // <- width in pixels 
   }
 }
@@ -7833,6 +9912,21 @@ var report = excel.buildExport(
       heading: heading, // <- Raw heading array (optional) 
       specification: specification, // <- Report specification 
       data: dataset // <-- Report data 
+=======
+    },    width: 150 
+  }
+}
+
+var dataset = bigArr;
+ 
+var report = excel.buildExport(
+  [ 
+    {
+      name: 'Sheet name', 
+      heading: heading,
+      specification: specification, 
+      data: dataset 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     }
   ]
 );
@@ -7858,9 +9952,13 @@ fs.rename(tempPath, targetPath, function(err){
             }
 
           });
+<<<<<<< HEAD
 // You can then return this straight 
 /*res.json('report.xlsx'); // This is sails.js specific (in general you need to set headers) 
 return res.send(report);*/
+=======
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 
 
@@ -7875,7 +9973,11 @@ var attachData = [];
 
 mailTemplates.projectAttachFile(receiverMail.join(),attachData,function(err,result1){
                          if(err){
+<<<<<<< HEAD
                             console.log('err here ',err);
+=======
+                        
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                          }
                          else{
                             res.json('smile');

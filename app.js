@@ -13,18 +13,38 @@ var favicon = require('serve-favicon');
 var util = require('util');
 var app = express();
 var router = express.Router();
+<<<<<<< HEAD
 
 
  
 app.set('port', process.env.PORT || 8181);
+=======
+var config = require('./config/config')
+
+ 
+app.set('port', process.env.PORT || 8283);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(favicon( path.join(__dirname, '/public/images/favicon.ico')));
+<<<<<<< HEAD
 app.use(bodyParser.json({limit: '15mb'}));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser('1a2b3c4d5e6f'));
 app.use(session({secret: 'a234l7678s746kmdtjyjuyfjt2tyj4fhn5fgh24k7lu6jj4j75k2j56lkh24lk4j2l'}));
+=======
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({
+
+  secret: 'a234l7678s746kmdtjyjuyfjt2tyj4fhn5fgh24k7lu6jj4j75k2j56lkh24lk4j2l',
+  resave: false,
+  saveUninitialized: true
+}));
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 app.use(express.static(path.join(__dirname, 'public')));
 var env = process.env.NODE_ENV = (process.env.NODE_ENV || 'development');
 

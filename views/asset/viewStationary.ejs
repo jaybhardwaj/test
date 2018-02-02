@@ -7,6 +7,7 @@
        <% include ../partials/adminheader %>
 </head>
 <style type="text/css">
+<<<<<<< HEAD
    .dataTables_filter, .dataTables_length {
      display: none;
     }
@@ -30,6 +31,31 @@
         <th style='background-color:grey;color:white'>Incoice Amount</th>
         <th style='background-color:grey;color:white'>Delivery Date</th>
         <th style='background-color:grey;color:white'>Edit/Delete</th>
+=======
+   /*.dataTables_filter, .dataTables_length {
+     display: none;
+    }*/
+</style>
+<body>
+  <div class="container-fluid secondry-color" style="padding-top:1%">
+    <span class="fusion-page-title">List Of All Stationary</span>
+    
+      <a href="/addStationary"type="button" title="Add New Stationary"  value="Addstationary"><img src="/img/add.png"  class="addNewPlus" ></a>
+        
+<!--   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%"> -->
+  <table class="table table-hover table-striped table-bordered rceDataTable responsive"id="stationtable" cellpadding="0" cellspacing="0" border="0" style="width:100%">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Vendor</th>
+        <th>Purchase Order</th>
+        <th>Invoice Date</th>
+        <th>Incoice Number</th>
+        <th>Incoice Amount</th>
+        <th>Delivery Date</th>
+        <th>Edit/Delete</th>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       </tr>
       <tbody>
         <%for(var i=0;i<stype[0].length;i++){%>
@@ -59,6 +85,7 @@
 <footer>
   <% include ../partials/footer %>
 </footer>
+<<<<<<< HEAD
 
 
 
@@ -68,6 +95,69 @@
   <div class="modal fade" id="editstation" role="dialog">
     <div class="modal-dialog">
       <!--- Modal content-->
+=======
+  
+  <div class="modal fade" id="editstation" role="dialog" >
+    <div class="modal-dialog" style="min-width: 60%">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close closeedit" data-dismiss="modal" id="closeedit">×</button>
+            <h4 id="head10" class="modal-title">Edit Stationary</h4>
+        </div>
+        <div class="modal-body">
+        <div id="err"></div>
+        <div class="row fusion-form-elements">
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Name: <sup class="astrick">*</sup></label>
+            <input type="text" maxlength="45" class="form-control input-sm" id="typel"  name="typel"/>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Quantity: <sup class="astrick">*</sup></label>
+            <input type="number"  class="form-control input-sm" id="qty" name="qty"/>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Vendor: <sup class="astrick">*</sup></label>
+            <select  class="form-control input-sm" style=""  name="vendor" id ="vendor" onchange=""> 
+              <option value='0' disabled selected>Select</option>
+                <% for(i=0;i<stype[1].length;i++){%>
+                <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
+                <%}%>
+              </select>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Purchased Order: <sup class="astrick">*</sup></label>
+            <input type="text" maxlength="50"  class="form-control input-sm" id="order" name="order" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Invoice Date: <sup class="astrick">*</sup></label>
+            <input type="text" class="form-control input-sm date"id="Invoicedate" name="Invoicedate" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Invoice Number: <sup class="astrick">*</sup></label>
+            <input type="text" maxlength="30"  class="form-control input-sm" id="invoiceNo" name="invoiceNo" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Invoice Amount: <sup class="astrick">*</sup></label>
+            <input type="number" maxLength="12"  name="invoiceAmt" class="form-control input-sm" id="invoiceAmt"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <label>Delivery Date: <sup class="astrick">*</sup></label>
+            <input type="text" class="form-control input-sm date" id="Deliverydate"name="Deliverydate" />
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <input type="text" class="hide" value="" id="hdnId" name="hdnId">
+          <button onclick="return validate()" class="btn btn-default">Submit</button>
+          <button id="cancel"type="reset"data-dismiss="modal"class="btn btn-default">Cancel</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--   <div class="modal fade" id="editstation" role="dialog">
+    <div class="modal-dialog">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       <div class="modal-content" id="express2" style="width: 1100px;margin-left: -33%">
         <div class="modal-header" style="background-color:#f05f40;">
           <center><label id="head4" class="modal-title" style="color:white"><b>Edit Stationary</b></label>
@@ -91,7 +181,10 @@
            <td><td>
                 <label  class="form-Label" >Vendor: *</label>
               </td><td>
+<<<<<<< HEAD
                <!--  <input type="text" maxlength="50"  class="form-text-box" id="vendor" name="vendor"/> -->
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                <select  class="form-text-box" style=""  name="vendor" id ="vendor" onchange=""> 
               <option value='0' disabled selected>Select</option>
                 <% for(i=0;i<stype[1].length;i++){%>
@@ -121,7 +214,11 @@
                 <label  class="form-Label" >Invoice Amount: *</label>
               </td>
              <td>
+<<<<<<< HEAD
                <!--  <input type="text" maxlength="11"  class="form-text-box" id="invoiceAmt" name="invoiceAmt" /> -->
+=======
+              
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
                 <input type="number" maxLength="12"  name="invoiceAmt" class="form-text-box" id="invoiceAmt"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">
               </td>
             </td>
@@ -142,7 +239,11 @@
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </div> -->
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 
  
@@ -150,14 +251,20 @@
 <script>
 
 function edit(id){
+<<<<<<< HEAD
 //alert(id);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 $("#hdnId").val('');
   $.ajax({ 
     url: '/getEditStationary',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
+<<<<<<< HEAD
       console.log("edit info---",data);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       $("#typel").val(data[0][0].name);
       $("#qty").val(data[0][0].quantity);
       $("#vendor").val(data[0][0].vendor);
@@ -175,7 +282,10 @@ $(document).ready(function(){
      $('.asset-img').addClass('active');
   <%if(flag==1){%>
   alert("Stationary successfully added!");
+<<<<<<< HEAD
   //window.location.href='/viewStationary';
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   <%}%>
 
    var oTable= $("#stationtable").dataTable({
@@ -203,7 +313,13 @@ function del(id){
 jQuery('.date').datetimepicker({
   
   "timepicker":false,
+<<<<<<< HEAD
   format:'d/m/Y'
+=======
+  format:'d/m/Y',
+  scrollMonth : false,
+        scrollInput : false
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 });
 
 function validate(){    
@@ -259,7 +375,10 @@ function validate(){
                 return false;
             }
       
+<<<<<<< HEAD
   //alert($('#Invoicedate').val());
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $.ajax({
     url: '/updateStationary',
     method: 'POST',

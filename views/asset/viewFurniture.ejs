@@ -7,12 +7,25 @@
        <% include ../partials/adminheader %>
 </head>
 <style type="text/css">
+<<<<<<< HEAD
    .dataTables_filter, .dataTables_length {
      display: none;
+=======
+   /*.dataTables_filter, .dataTables_length {
+     display: none;
+    }*/
+     .paddings{
+        padding-right: 0px;
+        padding-left: 0px;
+    }  
+    .marginTOP10{
+        margin-top: 10px;
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     }
 </style>
 <body>
    
+<<<<<<< HEAD
  <div class="container-fluid secondry-color" style="padding-top:1%;min-height: 350px">
   
   <a href="/addFurniture1" title="Add New Furniture" value="Addstationary" ><img   class="addNewPlus" ></a>
@@ -36,6 +49,31 @@
         <th style='background-color:grey;color:white'>Delivery Date</th>
 
         <th style='background-color:grey;color:white'>Edit</th>
+=======
+ <div class="container-fluid secondry-color" style="min-height: 350px">
+  <span class="fusion-page-title" >List Of All Furniture</span>
+  <a href="/addFurniture1" title="Add New Furniture" value="Addstationary" ><img src="/img/add.png" class="addNewPlus" ></a>
+  
+  
+<!--   <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">  -->
+ 
+  <table class="table table-hover table-striped table-bordered rceDataTable responsive"id="furtable" cellpadding="0" cellspacing="0" border="0"style="width:100%">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Vendor</th>
+        <th>Purchase Order</th>
+        <th>Unit Price</th>
+        <th class="hide">Color</th>
+        <th class="hide">Brand</th>
+        <th>Invoice Date</th>
+        <th>Incoice Number</th>
+        <th>Incoice Amount</th>
+        <th>Delivery Date</th>
+
+        <th>Edit</th>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       </tr>
     <tbody>
         <%for(var i=0;i<stype[0].length;i++){%>
@@ -69,6 +107,7 @@
         <% include ../partials/footer %>
     </footer>
                  
+<<<<<<< HEAD
                  <!--edit furniture modal-->
 <div class="modal fade" id="editfurniture" role="dialog">
     <div class="modal-dialog">
@@ -174,18 +213,117 @@
             </table>
             </div>
             <div class="modal-footer" style="border-top:0px;">
+=======
+                
+<div class="modal fade" id="editfurniture" role="dialog">
+
+ <div class="modal-dialog" style="min-width: 80%;">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:#f05f40;">           
+         <center><label id="head10" class="modal-title" style="color:white !important;"> Edit Furniture </label>
+          <span id="dismiss"  data-dismiss="modal"  class="glyphicon glyphicon-remove" style='font-size:14pt;float:right;color:white;margin-bottom: 15px'></span>
+          </center>
+        </div>
+       <div id="err" class="col-lg-6 col-sm-offset-3"></div>
+          <div class="modal-body">
+           <div class="row fusion-form-elements view-edit-hardware">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Name:<sup class="astrick">*</label>
+                <span id="ltype" class="hide labelans"></span>
+                <input type="text" id="typel" class="form-control input-sm textBox" maxlength="50" name="typel" placeholder="name">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Quantity:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input name="qty" class="form-control input-sm textBox" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
+             </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                 <label class="form-Label" >Vendor:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                 <select  class="form-control input-sm textBox" style=""  name="vendor" id ="vendor" onchange=""> 
+                            <option value='0' disabled selected>Select</option>
+                                               <% for(i=0;i<stype[2].length;i++){%>
+                                           <option value="<%=stype[2][i].id%>"><%=stype[2][i].name%></option>
+                                                   <%}%>
+                 </select>
+             </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Quantity:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input name="qty" class="form-control input-sm textBox" type="number" min="1" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Quantity">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Purchased Order: </label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text" maxlength="30"  class="form-control input-sm textBox" id="order" name="order" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Invoice Date:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text" class="form-control input-sm textBox date"id="Invoicedate" name="Invoicedate" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Invoice Number:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text" maxlength="30"  class="form-control input-sm textBox" id="invoiceNo" name="invoiceNo" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Invoice Amount:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="number" maxLength="12"  name="invoiceAmt" class="form-control input-sm textBox" id="invoiceAmt" onblur="calulateunitprice();"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  id="qty" placeholder="Invoice Amount">      
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Delivery Date:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text"class="form-control input-sm textBox date" id="Deliverydate"name="Deliverydate" />      
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Unit Price:<sup class="astrick">*</label>
+                <span id="lqty" class="hide labelans"></span>
+                 <input readonly="readonly" name="uprice" maxLength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  class="form-control input-sm textBox" id="uprice"   placeholder="Unit Price">    
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Color:</label>
+                <span id="lqty" class="hide labelans"></span>
+                <input type="text" maxlength="20"  class="form-control input-sm textBox" id="color" name="color" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6">
+                <label class="form-Label" >Brand:</label>
+                <span id="lqty" class="hide labelans"></span>
+                <select  class="form-control input-sm textBox" style=""  name="brand" id ="brand" onchange=""> 
+                                  <option value='0' disabled selected>Select</option>
+                                      <% for(i=0;i<stype[1].length;i++){%>
+                                   <option value="<%=stype[1][i].id%>"><%=stype[1][i].name%></option>
+                                     <%}%>
+                </select>
+
+              </div>
+
+          </div>
+          </div>
+            <div class="modal-footer" style="border-top:0px;">
+            <div class="col-lg-12" style="margin-top:18px;">
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
               <center>
               <input type="text" class="hide" value="" id="hdnId" name="hdnId">
                 <button id="cancel"type="reset"data-dismiss="modal"class="btn  " style="margin-top: 10px" >Cancel</button>
                 <input type="submit" onclick="return validate()"class="btn  "  value="Submit" style="margin-top: 10px">
               </center>
+<<<<<<< HEAD
+=======
+              </div>
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
             </div>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
    
 
     <!--end of modal-->
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 <script>
 
@@ -200,7 +338,10 @@ $(document).ready(function(){
         
   <%if(flag==1){%>
       alert("Furniture successfully added!");
+<<<<<<< HEAD
      // window.location.href='/viewFurniture';
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     <%}%>
   var oTable=$("#furtable").dataTable({
     "bLengthChange": false,
@@ -215,10 +356,19 @@ $(document).ready(function(){
        
 jQuery('.date').datetimepicker({
    timepicker:false,
+<<<<<<< HEAD
   format:'d/m/Y'
 });
 
  function del(id){ //alert(id);
+=======
+  format:'d/m/Y',
+  scrollMonth : false,
+        scrollInput : false
+});
+
+ function del(id){ 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $.ajax({
     url:'/deleteHeader',
     method: 'POST',
@@ -232,14 +382,21 @@ jQuery('.date').datetimepicker({
 
 function edit(id){
   $("#hdnId").val('');
+<<<<<<< HEAD
   //
   //alert(id);
+=======
+ 
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   $.ajax({ 
     url: '/getEditStationary',
     method:'POST',
     data: {'id':id},
     success: function(data) { 
+<<<<<<< HEAD
       console.log("edit info*****",data);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
       $("#typel").val(data[0][0].name);
       $("#qty").val(data[0][0].quantity);
       $("#vendor").val(data[0][0].vendor);

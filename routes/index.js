@@ -1,5 +1,9 @@
 'use strict'; 
+<<<<<<< HEAD
    
+=======
+var mysql = require('../lib/mysql').executeQuery;   
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 var auth = require('./handlers/authentication');
 var portal = require('./handlers/portal');
 var render = require('./handlers/render');
@@ -8,6 +12,7 @@ var url = require('./handlers/url');
 var fs = require('fs'); 
 var path = require('path');
 var multer  = require('multer');
+<<<<<<< HEAD
 var upload = multer({ dest: 'attach/' });
 var bodyParser=require('body-parser');
 var busboy=require('busboy');
@@ -20,6 +25,30 @@ app.use(bodyParser({
 }));
 
 //module.exports = function (app) {
+=======
+// var upload = multer({ dest: './public/attach/',limits: {
+//     fieldNameSize: 999999999,
+//     fieldSize: 999999999
+//   }
+// });
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/attach/'); // Absolute path. Folder must exist, will not be created for you.
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() +file.originalname);
+  }
+});
+var upload = multer({ storage: storage,
+  limits: {
+      fieldNameSize: 999999999,
+      fieldSize: 999999999
+  },
+});
+var busboy=require('busboy');
+ 
+module.exports = function (app) {
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	app.post('/registration', portal.registration);
 	app.post('/recoverPassword', portal.recoverPassword);
 	app.post('/login', auth.login);
@@ -46,6 +75,7 @@ app.post('/blockUser',portal.blockUser);
 	app.post('/userStatusbyretailer',portal.userStatusbyretailer); 
   app.post('/blockretailer',portal.blockretailer);  
   app.post('/retailerfordesboard',portal.retailerfordesboard); 
+<<<<<<< HEAD
 	//------------------------BUG-------------------------------------------------
 	
 	app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);
@@ -57,6 +87,24 @@ app.post('/blockUser',portal.blockUser);
 	app.post('/updateBugDetails',url.updateBugDetails,portal.updateBugDetails,render.redirect);
 	app.post('/addComment',url.addComment,portal.addComment,render.redirect);
 	app.post('/bugAttachment',upload.single('addBugAttachment'),url.bugAttachment,portal.bugAttachment,render.redirect);
+=======
+     app.get('/reports',url.setDashboard,portal.profile,render.redirect);
+
+     app.post('/timesheetdragreport',portal.timesheetdragreport); 
+ app.post('/FilterDataForSelect',portal.FilterDataForSelect);
+
+	//------------------------BUG-------------------------------------------------
+  app.get('/bugHome',url.bugHome,portal.bugHome,render.redirect);
+	app.post('/getAllBugtoexport',portal.exportBug);
+	app.get('/viewBug',url.viewBug,portal.viewBug,render.redirect);
+	app.get('/raiseBug',url.raiseBug,portal.raiseBug,render.redirect);
+	// app.post('/addBug',upload.array('addBugUpload[]'),url.addBug,portal.notification,portal.addBug,render.redirect);
+  app.post('/addBug',upload.array('addBugUpload1[]'),url.addBug,portal.notification,portal.addBug,render.redirect);
+	app.post('/bugDetails',url.bugDetails,portal.bugDetails,render.redirect);
+	app.post('/updateBugDetails',url.updateBugDetails,portal.updateBugDetails,render.redirect);
+	app.post('/addComment',url.addComment,portal.addComment,render.redirect);
+	app.post('/bugAttachment',url.bugAttachment,portal.bugAttachment,render.redirect);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	app.post('/getAlltech',url.getAlltech,portal.getAlltech,render.redirect);
 	app.post('/filterBug',url.filterBug,portal.filterBug,render.redirect);
 	app.get('/filterBug',url.filterBug,portal.filterBug,render.redirect);
@@ -81,6 +129,26 @@ app.post('/blockUser',portal.blockUser);
     app.post('/downloadFileCount',portal.downloadFileCount);
 
     //app.get('/Documenterror',url.Documenterror,render.redirect);
+<<<<<<< HEAD
+=======
+
+
+      app.get('/projecttreeview',url.setProjecttree, portal.projectDetails,portal.projectAddEdit,render.redirect);
+  app.post('/projectfortree',portal.projectfortree);
+  app.post('/showclients',portal.showclients);
+  app.post('/showprojects',portal.showprojects);
+  app.post('/showwbs',portal.showwbs);
+  app.post('/updateProjectDate',portal.updateProjectDate);
+  app.post('/updatewbsandproject',portal.updatewbsandproject);
+  app.post('/updatewbsDate',portal.updatewbsDate);
+  app.post('/showwbsProjectby',portal.showwbsProjectby);
+  app.post('/assignmentedit',portal.assignmentedit);
+  app.post('/activeinactive',portal.activeinactive);
+  app.post('/getprojectresource',portal.getprojectresource);
+  app.post('/editwbsdetail',portal.editwbsdetail);
+  app.post('/clientsedit',portal.clientsedit);
+  app.post('/showassignment',portal.showassignment);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
   
 //------------------------------------------Asset-------------------------------
 //jay
@@ -175,9 +243,16 @@ app.get('/AssignAsset',url.setpageTransactionsasset,portal.getUser,portal.assign
     app.post('/getBillableUsers', portal.getBillableUsers,portal.getRole);
 
    //---------------------------------TimeSheet-----------------------------------------
+<<<<<<< HEAD
   app.post('/getAllEmpLeaveHours',portal.getAllEmpLeaveHours);
  app.post('/getFortnightDate',portal.getFortnightDate);
  app.post('/uploadattendance',upload.array('file',2),portal.uploadattendance);
+=======
+ app.post('/uploadattendance',upload.array('file',2),portal.uploadattendance);
+
+ app.post('/getAllEmpLeaveHours',portal.getAllEmpLeaveHours);
+ app.post('/getFortnightDate',portal.getFortnightDate);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	app.get('/timesheet',url.fillTimeSheet,portal.getTimeSheetData,render.redirect);
     app.post('/submitTimesheet', portal.notification, portal.submitTimesheet);
      app.post('/submitTimesheetAssignment',portal.submitTimesheetAssignment);
@@ -197,7 +272,10 @@ app.get('/rms',url.hr,render.redirect);
 app.post('/dashboardData',portal.dashboardData);
 app.get('/raiseRequisition',url.raiseRequisition,portal.raiseRequisition,render.redirect) ;
 app.post('/raiseRequisition',portal.raiseRequisition1) ;
+<<<<<<< HEAD
 //app.get('/reqHod',url.reqHod,portal.reqHod,render.redirect);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 app.get('/allrequisitions',url.allrequisitions,portal.allrequisitions,render.redirect);
 app.post('/reqData',portal.reqData);
 app.post('/deleteReq',portal.deleteReq);
@@ -221,6 +299,12 @@ app.post("/interviewerInfo",portal.interviewerInfo);
 app.get("/interview",url.interview,render.redirect);
 app.post("/updateStatusReq",portal.updateStatusReq);
 
+<<<<<<< HEAD
+=======
+ app.post('/wbsStatus',portal.wbsStatus);
+
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 app.post("/getReleventTag",portal.getReleventTag);
 app.post("/removeTag",portal.removeTag);
 app.post("/getreleventState",portal.getreleventState);
@@ -236,9 +320,15 @@ app.post('/selectAdminHr',portal.selectAdminHr);
 app.post('/updateCandidate',portal.updateCandidate);
 app.post('/interviewData', upload.single('feedback'),portal.interviewData);
 app.get('/interviewFeedback',url.interviewFeedback,portal.interviewFeedback,render.redirect);
+<<<<<<< HEAD
 //app.get('/reqApprover',url.reqApprover,portal.reqApprover,render.redirect);
 
 app.post('/error',url.error,render.redirect);
+=======
+ app.post('/changeAssignmentDate',portal.changeAssignmentDate);
+app.post('/error',url.error,render.redirect);
+app.post('/getClientContact',portal.getClientContact);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  app.post('/getClientContacts',portal.getClientContacts);
  app.post('/addeditClientContacts',portal.addeditClientContacts);
 
@@ -253,10 +343,15 @@ app.get('/projStatus',url.projStatus,portal.projStatus,render.redirect);
 app.post('/insNewVer',portal.insNewVer);
 app.post('/createExcelProj',portal.createExcelProj);
 
+<<<<<<< HEAD
 /*latest change by saurav*/
     app.get('/changePassWordPage',portal.notification,url.changePassWordPage,render.redirect);
     app.post('/submitUserPassword',portal.submitUserPassword);
     /*----*/
+=======
+    app.get('/changePassWordPage',portal.notification,url.changePassWordPage,render.redirect);
+    app.post('/submitUserPassword',portal.submitUserPassword);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
  app.post('/changeSupervisor',portal.changeSupervisor);
 
@@ -269,6 +364,13 @@ app.post('/createExcelProj',portal.createExcelProj);
       next();
     }
   });
+<<<<<<< HEAD
+=======
+
+
+
+    
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     app.get('/masters',url.setpagemasters,portal.settingdata,portal.setaddStatuss,portal.holidayhome,portal.select_ExpenseMaster,portal.getDataAsset,
       portal.getCustomRole,portal.getIndustry,portal.getBusiness,
       portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
@@ -277,6 +379,7 @@ app.post('/createExcelProj',portal.createExcelProj);
   
 
 //-------------------------Admin Routes----------------------------------------------------
+<<<<<<< HEAD
 /* app.use(function(req, res,next) {
     if(req.session.roleId!=1){
     	res.redirect('/portal');
@@ -301,16 +404,33 @@ app.post('/createExcelProj',portal.createExcelProj);
     	portal.getCustomRole,portal.getIndustry,portal.getBusiness,
     	portal.getDocument,portal.getTechnology,portal.getRestriction,portal.getRole,
     	render.redirect);*/
+=======
+
+    //----------------------Masters-------index------------------------------------------
+ 
+	app.post('/settingdata',portal.settingdata);
+	app.post('/getothermaster',portal.getothermaster);
+	
+
+    app.get('/TimesheetReport',url.setDashboard1,render.redirect);  
+   app.post('/filterTimeSheetReport',portal.filterTimeSheetReport);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	app.post('/selectStatus',portal.selectStatus);
 	app.post('/updateStatus',portal.updateStatus);
 	app.post('/addStatus',portal.addStatus);
 
 //------------Users-----------------------------
+<<<<<<< HEAD
 	//app.get('/users',url.setpageUser, portal.getUser,portal.getRole,portal.getCustomRole,render.redirect);
 	//app.post('/createEditUser',url.setpagecreateEditUser,portal.getUser,portal.getRole,portal.getCustomRole,render.redirect);
 	//app.post('/addUser', portal.addUser,render.redirect);
 	app.post('/changeClientStatus', portal.changeClientStatus,render.redirect); 
 	/*app.post('/clientStatus',portal.getClientStatus,render.redirect);*/
+=======
+	
+	app.post('/changeClientStatus', portal.changeClientStatus,render.redirect); 
+	
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 	app.get('/users',url.setpageUser, portal.getUser,portal.getRole,portal.getCustomRole,render.redirect);
     app.post('/createEditUser',url.setpagecreateEditUser,portal.getClient,portal.getUser,portal.getRole,portal.getCustomRoleforUser,
@@ -328,6 +448,7 @@ app.post('/createExcelProj',portal.createExcelProj);
 	app.post('/userStatus',portal.userStatus);
     app.post('/changeUserStatus', portal.changeUserStatus,render.redirect);
 	//-----------------Clients-----------
+<<<<<<< HEAD
 	app.get('/clients',url.setpageClient, portal.getClient,render.redirect);
 	app.post('/createEditClient',url.setpagecreateEditClient,portal.getClient,render.redirect);
 	app.post('/addEditClient', url.addEditClient,portal.addEditClient,render.redirect);
@@ -339,6 +460,19 @@ app.post('/createExcelProj',portal.createExcelProj);
     app.post('/mailTest',portal.mailTest);
 
     // end here ashish
+=======
+   app.post('/submitAssignmenttree',portal.submitAssignmenttree);
+	app.get('/clients',url.setpageClient, portal.getClient,render.redirect);
+	app.post('/createEditClient',url.setpagecreateEditClient,portal.getClient,render.redirect);
+	app.post('/addEditClient', url.addEditClient,portal.addEditClient,render.redirect);
+    app.post('/addEditClient111',portal.addEditClient111);
+	app.post('/createClient', url.setpagecreateEditClient,portal.addEditClient,render.redirect);
+    app.get('/mailServerInfo',url.setpagemailserverInfo,portal.mailServerInfo,render.redirect);
+    app.post('/mailServerConfigure',portal.mailServerConfigure);
+    app.post('/mailTest',portal.mailTest);
+app.get('/inactiveclient',url.setinactiveClient, portal.projectDetails,portal.projectAddEdit,render.redirect);
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 	//--------------Profile---------------
 	app.get('/profile',url.setProfile,portal.profile,render.redirect);
@@ -347,11 +481,15 @@ app.post('/createExcelProj',portal.createExcelProj);
 	//--------------Dashboards------------
 
     app.get('/reports',url.setDashboard,portal.profile,render.redirect);
+<<<<<<< HEAD
     app.get('/TimesheetReport',url.setDashboard1,portal.reportpro,render.redirect);    
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
  //------------------------------------Project -WBS ------------------------------------------
 
     
 	app.get('/projectDetails',url.setProject, portal.projectDetails,render.redirect);
+<<<<<<< HEAD
 	app.post('/projectStatus', portal.projectStatus,render.redirect);
 	app.post('/changeProjectStatus', portal.changeProjectStatus,render.redirect);
 	app.get('/addEditProject',url.setAddEditProject, portal.addEditProject,render.redirect);
@@ -359,15 +497,70 @@ app.post('/createExcelProj',portal.createExcelProj);
 
 	app.post('/projectAddEdit',url.setProjectAddEdit,portal.projectAddEdit,portal.getRole,render.redirect);
 	//app.post('/projectAddEditDetails',url.setProjectAddEditDetails, portal.projectAddEditDetails,render.redirect);
+=======
+
+  app.get('/getUsers',function(req,res){
+    var query = {
+           sql: "select id,firstName from t_userdetails where retailerId ="+req.session.retailerId+" and firstName like '%"+req.query.search+"%'"
+       };
+       mysql(query, function(err, result) {
+          if(err){
+            return res.send(404);
+          }
+          res.send({"data":result});
+       });
+  });
+  app.post('/getThemes',function(req,res){
+    var query = {
+           sql: "select * from t_styles"
+       };
+       mysql(query, function(err, result) {
+          if(err){
+            return res.send(404);
+          }
+          res.send(result);
+       });
+  });
+  app.post('/getAccessList',function(req,res){
+    var obj = req.body;
+    var query={
+        sql: 'call usp_doc_getusersforacess(?,?,?,?,?)',
+        values: [obj.industry,obj.department,obj.documentType,obj.applicationArea,obj.RestrictionLevel]
+    };
+    mysql(query, function(err, result) {
+      if(err){
+        return res.send(404);
+      }
+      var tempobj = JSON.stringify(result[0]);
+      var desiredObj = JSON.parse(tempobj);
+      res.send(desiredObj);
+    });
+  });
+  app.post('/projectStatus',portal.projectStatus);
+
+	app.post('/changeProjectStatus', portal.changeProjectStatus,render.redirect);
+	app.get('/addEditProject',url.setAddEditProject, portal.addEditProject,render.redirect);
+	app.post('/addEditPro',url.setAddEditPro,portal.addEditPro,render.redirect);
+  app.post('/editproject', portal.editproject);
+	app.post('/projectAddEdit',url.setProjectAddEdit,portal.projectAddEdit,portal.getRole,render.redirect);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	app.post('/projectAddEditDetailsWithFlag',url.setProjectAddEditDetailsWithFlag, portal.projectAddEditDetailsWithFlag,render.redirect);
 
 	app.get('/projectWbs',url.setProjectWbs,portal.projectWbs,render.redirect);
 
+<<<<<<< HEAD
 	app.get('/wbsDetails',url.wbsDetails, portal.wbsDetails,render.redirect);
 	app.post('/wbsStatus', portal.wbsStatus,render.redirect);
 	app.post('/changeWbsStatus', portal.changeWbsStatus,render.redirect);
 	app.get('/addEditWbs',url.setAddEditWbs, portal.addEditWbs,render.redirect);
 	app.post('/addEditWbsDetails',url.setAddEditWbsDetails,portal.addEditWbsDetails,render.redirect);
+=======
+  app.get('/wbsDetails',url.wbsDetails,render.redirect);
+  app.post('/wbsStatus', portal.wbsStatus);
+	app.post('/changeWbsStatus', portal.changeWbsStatus,render.redirect);
+	app.get('/addEditWbs',url.setAddEditWbs, portal.addEditWbs,render.redirect);
+	app.post('/addEditWbsDetails',portal.addEditWbsDetails,render.redirect);
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 app.post('/getAllWbsForProject', portal.getAllWbsForProject,render.redirect);
 
@@ -390,17 +583,29 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
 
   app.post('/checkProjectWbsDate', portal.checkProjectWbsDate,render.redirect);
 
+<<<<<<< HEAD
   //------------new route
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
   app.post('/checkUsersInProject', portal.checkUsersInProject,render.redirect);
 
 
 	//---------------------------------------ASSIGNMENT---------------------------------------
 
+<<<<<<< HEAD
 	app.get('/assignment',url.setpageAssignment, portal.getAssignment,render.redirect);
 	app.get('/changeAssignmentStatus',url.setpageChangeAssignmentStatus, portal.changeAssignmentStatus,render.redirect);
 	app.get('/createAssignment',url.setpageCreateEditAssignment, portal.createEditAssignment,render.redirect);
 	app.post('/submitAssignment',url.setpageSubmitAssignment,portal.submitAssignment,render.redirect);
+=======
+  app.get('/assignment',url.setpageAssignment,render.redirect);
+  app.post('/assignmentsfordatatable',portal.getAssignment);
+  app.get('/changeAssignmentStatus',url.setpageChangeAssignmentStatus, portal.changeAssignmentStatus,render.redirect);
+  app.get('/createAssignment',url.setpageCreateEditAssignment, portal.createEditAssignment,render.redirect);
+  app.post('/submitAssignment',url.setpageSubmitAssignment,portal.submitAssignment,render.redirect);
+
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 	/*------------------------------------------------------------------Holiday------------------------------------------------------------*/
 
@@ -421,11 +626,19 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
     app.post('/customRolesUpdate',portal.updateCustomRole);
     app.post('/docActiveInactive',portal.docActiveInactive);
     app.post('/getRolesInfo',portal.getRolesInfo);
+<<<<<<< HEAD
 	app.post('/addEditClientAjax',portal.addEditClientAjax);
       app.post('/fileDetialsUpdate',portal.fileDetialsUpdate);
 
 
 	<!----- srvvvvvvvvvvvvvvvvvvvvv      -->
+=======
+	   app.post('/addEditClientAjax',portal.addEditClientAjax);
+      app.post('/fileDetialsUpdate',portal.fileDetialsUpdate);
+
+
+	
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 	app.post('/getind',portal.getind);
 	app.post('/getdoc',portal.getdoc);
 	app.post('/getbus',portal.getbus);
@@ -442,14 +655,20 @@ app.post('/clientContactAccToClient', portal.clientContactAccToClient,render.red
 	app.post('/inactiveAssetMaster',portal.inactiveAssetMaster);
 	app.post('/addeditBrandName',portal.addeditBrandName);
 
+<<<<<<< HEAD
 <!-- test api -->
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 app.get('/parse1', function(req, res, next) {
     var test=
     [{"id":40,"firstName":"Amit","lastName":"K","userEmail":"amit@polestarllp.com","contactNumber":"9540737271","userPassword":"$2a$04$2qLfEToqanf21qrL.uooqu76fQ7aU.cGl.Ppn5WHqlte2uHbjgGbS","roleId":1,"retailerId":11,"managerId":40,"createdDate":"2016-04-13 09:45:23","createdBy":null,"lastModifiedDate":"2016-05-30 13:38:20","lastModifiedBy":null,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":0,"crole_id":1,"timeApproval":null,"attr3":null,"isApproval":0,"approveLimit":0,"doj":null,"dob":null,"doc":null,"ecode":null,"designation":null,"level":null,"modules":null,"userId":null,"rtype":null,"isRetailer":"1","hrRole":3,"hodId":null}];
    res.json(test);
 });
 app.get('/json1', function(req, res, next){
+<<<<<<< HEAD
   console.log("--  ");
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
     var json =
   [[{"id":40,"firstName":"Amit","lastName":"K","userEmail":"amit@polestarllp.com","contactNumber":"9540737271","userPassword":"$2a$04$2qLfEToqanf21qrL.uooqu76fQ7aU.cGl.Ppn5WHqlte2uHbjgGbS","roleId":1,"retailerId":11,"managerId":40,"createdDate":"2016-04-13 09:45:23","createdBy":null,"lastModifiedDate":"2016-05-30 13:38:20","lastModifiedBy":null,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":0,"crole_id":1,"timeApproval":null,"attr3":null,"isApproval":0,"approveLimit":0,"doj":null,"dob":null,"doc":null,"ecode":null,"designation":null,"level":null,"modules":null,"userId":null,"rtype":null,"isRetailer":"1","hrRole":3,"hodId":null},{"id":41,"firstName":"Anuj","lastName":"Singh","userEmail":"anuj.singh@polestarllp.com","contactNumber":"","userPassword":"9","roleId":2,"retailerId":11,"managerId":95,"createdDate":"2016-04-13 09:51:26","createdBy":40,"lastModifiedDate":"2016-04-13 09:51:26","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1001","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":42,"firstName":"Avinash","lastName":"Gautam","userEmail":"avinash.gautam@polestarllp.com","contactNumber":"","userPassword":"1","roleId":2,"retailerId":11,"managerId":95,"createdDate":"2016-04-13 09:52:28","createdBy":40,"lastModifiedDate":"2016-05-19 13:18:46","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1053","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":3,"hodId":95},{"id":43,"firstName":"Shubham","lastName":"Agarwal","userEmail":"shubham.agarwal@polestarllp.com","contactNumber":"","userPassword":"1","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-13 10:13:43","createdBy":40,"lastModifiedDate":"2016-04-13 10:39:24","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1124DL","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":45,"firstName":"Manu","lastName":"Rajput","userEmail":"manu.rajput@polestarllp.com","contactNumber":"","userPassword":"1","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-13 10:17:02","createdBy":40,"lastModifiedDate":"2016-04-13 10:38:33","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1121","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":46,"firstName":"Jyoti","lastName":"Bisht","userEmail":"jyoti.bisht@polestarl1lp.com","contactNumber":"8527797969","userPassword":"1","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-13 10:18:01","createdBy":40,"lastModifiedDate":"2016-04-19 05:12:14","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"-9","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1107","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":47,"firstName":"Deepak","lastName":"Singh","userEmail":"deepak.singh@polestarllp.com","contactNumber":"","userPassword":"1","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-13 10:21:25","createdBy":40,"lastModifiedDate":"2016-04-18 05:41:22","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1097","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":48,"firstName":"Sudhakar","lastName":"Pandey","userEmail":"sudhakar.pandey@polestarllp.com","contactNumber":"","userPassword":"3MbAbnv7oV","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-13 10:22:09","createdBy":40,"lastModifiedDate":"2016-04-13 10:38:11","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1120","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":49,"firstName":"Jogendra","lastName":"Singh","userEmail":"jo@polestarllp.com","contactNumber":"","userPassword":"d40fdo8CCx","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-13 10:23:17","createdBy":40,"lastModifiedDate":"2016-05-30 06:36:15","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1098","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":5,"hodId":0},{"id":50,"firstName":"Sonia","lastName":"Ghanghas","userEmail":"sonia.ghanghas@polestarllp.com","contactNumber":"","userPassword":"We9rWC1pf5","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 10:30:08","createdBy":40,"lastModifiedDate":"2016-04-13 10:36:41","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1122","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":51,"firstName":"Abhilash","lastName":"Kushwaha","userEmail":"abhilash.kushwaha@polestarllp.com","contactNumber":"","userPassword":"fXZnaOL6qZ","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 10:32:39","createdBy":40,"lastModifiedDate":"2016-04-13 10:36:25","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1022","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":52,"firstName":"Man","lastName":"Singh","userEmail":"man.singh@polestarllp.com","contactNumber":"","userPassword":"gp4rdTmQX6","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 10:33:53","createdBy":40,"lastModifiedDate":"2016-04-13 10:36:07","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1109","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":53,"firstName":"Yash","lastName":"Tomar","userEmail":"yashpal.tomar@polestarllp.com","contactNumber":"","userPassword":"ZSxHziptyi","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 10:41:43","createdBy":40,"lastModifiedDate":"2016-04-13 10:41:54","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1085AP","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":54,"firstName":"Abrar","lastName":"Ansari","userEmail":"abrar.ansari@polestarllp.com","contactNumber":"","userPassword":"Welcome@19","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 10:43:42","createdBy":40,"lastModifiedDate":"2016-04-13 10:43:53","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1113","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":55,"firstName":"Chirag","lastName":"Singh","userEmail":"chirag.singh@polestarllp.com","contactNumber":"","userPassword":"1sgKXqJv54","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 10:48:11","createdBy":40,"lastModifiedDate":"2016-04-13 10:48:26","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1052","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":59,"firstName":"Jatin","lastName":"Bansal","userEmail":"jatin.bansal@polestarllp.com","contactNumber":"","userPassword":"JTspXKXtvR","roleId":2,"retailerId":11,"managerId":58,"createdDate":"2016-04-13 11:12:35","createdBy":40,"lastModifiedDate":"2016-04-13 11:12:44","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1103","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":60,"firstName":"Neelam","lastName":"Kumari","userEmail":"neelam.kumari@polestar.com","contactNumber":"","userPassword":"zgfqFEplK3","roleId":2,"retailerId":11,"managerId":58,"createdDate":"2016-04-13 11:16:23","createdBy":40,"lastModifiedDate":"2016-04-13 11:16:32","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1130","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":61,"firstName":"Prashant","lastName":"Kumar","userEmail":"prashant.kumar@polestarllp.com","contactNumber":"","userPassword":"4uNZljTOBN","roleId":2,"retailerId":11,"managerId":58,"createdDate":"2016-04-13 11:18:20","createdBy":40,"lastModifiedDate":"2016-04-13 11:18:28","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1105","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":62,"firstName":"Rahul","lastName":"Kumar","userEmail":"rahul.kumar@polestarllp.com","contactNumber":"","userPassword":"i3nBccbSOY","roleId":2,"retailerId":11,"managerId":58,"createdDate":"2016-04-13 11:19:23","createdBy":40,"lastModifiedDate":"2016-04-13 11:19:28","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1106","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":63,"firstName":"Sagarika","lastName":"Behera","userEmail":"Sagarika.behera@polestarllp.com","contactNumber":"","userPassword":"Je4zGzVcug","roleId":2,"retailerId":11,"managerId":58,"createdDate":"2016-04-13 11:20:32","createdBy":40,"lastModifiedDate":"2016-04-13 11:20:43","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1125","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":64,"firstName":"Pratyush","lastName":"Raitan","userEmail":"Pratyush.raitan@polestarllp.com","contactNumber":"","userPassword":"C5ilIJJEM5","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-13 11:22:01","createdBy":40,"lastModifiedDate":"2016-04-13 11:22:10","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1131","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":65,"firstName":"Sumit","lastName":"Kumar","userEmail":"sumit.kumar@polestarllp.com","contactNumber":"","userPassword":"NpASfPcJkk","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:23:35","createdBy":40,"lastModifiedDate":"2016-04-13 11:23:44","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1137","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":66,"firstName":"Abhishek","lastName":"Pathak","userEmail":"abhishek.pathak@polestarllp.com","contactNumber":"","userPassword":"DGCj4sn5Oz","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-13 11:24:34","createdBy":40,"lastModifiedDate":"2016-04-13 11:24:45","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1139","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":67,"firstName":"Prashant","lastName":"Shukla","userEmail":"prashant.shukla@polestarllp.com","contactNumber":"","userPassword":"xjGP0uBuKz","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:25:49","createdBy":40,"lastModifiedDate":"2016-04-13 11:26:00","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1140","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":68,"firstName":"Ritesh","lastName":"Singh","userEmail":"ritesh.singh@polestarllp.com","contactNumber":"","userPassword":"1","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-04-13 11:26:54","createdBy":40,"lastModifiedDate":"2016-04-25 13:39:19","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1141","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":70,"firstName":"Alisha","lastName":"Surabhi","userEmail":"alisha.surabhi@polestarllp.com","contactNumber":"","userPassword":"NJ72YgP9bC","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:34:43","createdBy":40,"lastModifiedDate":"2016-04-13 11:34:52","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1148","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":71,"firstName":"Gulam","lastName":"Navi","userEmail":"gulam.navi@polestarllp.com","contactNumber":"","userPassword":"1","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:37:08","createdBy":40,"lastModifiedDate":"2016-04-13 11:37:08","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1149","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":72,"firstName":"Bhuvan","lastName":"Agarwal","userEmail":"bhuvan.agarwal@polestarllp.com","contactNumber":"","userPassword":"qwLOeRDanT","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:39:00","createdBy":40,"lastModifiedDate":"2016-04-13 11:39:08","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1150","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":73,"firstName":"Mohd","lastName":"Tahir","userEmail":"mohd.tahir@polestarllp.com","contactNumber":"","userPassword":"QTkRDZlsE8","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:40:53","createdBy":40,"lastModifiedDate":"2016-04-13 11:40:57","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1151","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":74,"firstName":"Shraddha","lastName":"Saxena","userEmail":"shraddha.saxena@polestarllp.com","contactNumber":"","userPassword":"GQgiQRugfZ","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:43:07","createdBy":40,"lastModifiedDate":"2016-04-13 11:43:15","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1152","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":75,"firstName":"Pramod","lastName":"Maurya","userEmail":"pramod.maurya@polestarllp.com","contactNumber":"","userPassword":"NUjuAexLLc","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:45:18","createdBy":40,"lastModifiedDate":"2016-04-13 11:45:27","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1153","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":76,"firstName":"Rajeev","lastName":"Upadhyay","userEmail":"rajeev.upadhyay@polestarllp.com","contactNumber":"","userPassword":"q221KHzY5c","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:46:41","createdBy":40,"lastModifiedDate":"2016-04-13 11:46:51","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1154","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":77,"firstName":"Vishesh","lastName":"Sekhsaria","userEmail":"vishesh.sekhsaria@polestarllp.com","contactNumber":"","userPassword":"3NhVl1MnDl","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:48:36","createdBy":40,"lastModifiedDate":"2016-04-13 11:48:36","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1155","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":78,"firstName":"Avdesh","lastName":"Verma","userEmail":"avdesh.verma@polestarllp.com","contactNumber":"","userPassword":"hxwAUjVXnX","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:51:24","createdBy":40,"lastModifiedDate":"2016-04-13 11:51:32","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1156","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":79,"firstName":"Varun","lastName":"Sinha","userEmail":"varun.sinha@polestarllp.com","contactNumber":"","userPassword":"lvHKXTLtMu","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 11:52:37","createdBy":40,"lastModifiedDate":"2016-04-13 11:52:46","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1157","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":80,"firstName":"vdsfvgsdf","lastName":"gbvdsfrgvfdsr","userEmail":"abc@gg.com","contactNumber":"","userPassword":"TbswZ3Tw10","roleId":1,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 14:08:58","createdBy":40,"lastModifiedDate":"2016-04-13 14:08:58","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":3,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"123","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":81,"firstName":"Rajat","lastName":"Jain","userEmail":"rajat.jain@polestarllp.com","contactNumber":"","userPassword":"pEeOEkZRy5","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 14:34:22","createdBy":40,"lastModifiedDate":"2016-04-13 14:34:32","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1081","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":82,"firstName":"Sandeep","lastName":"Manohar","userEmail":"sandeep.manohar@polestarllp.com","contactNumber":"","userPassword":"BEgSZthbP4","roleId":2,"retailerId":11,"managerId":41,"createdDate":"2016-04-13 15:24:00","createdBy":40,"lastModifiedDate":"2016-04-13 15:24:08","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1023","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":83,"firstName":"Ajay","lastName":"Goenka","userEmail":"ajay@polestarllp.com","contactNumber":"","userPassword":"1234","roleId":4,"retailerId":11,"managerId":40,"createdDate":"2016-04-14 06:00:22","createdBy":40,"lastModifiedDate":"2016-05-19 13:19:01","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1061","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":1,"hodId":0},{"id":93,"firstName":"Fawzan","lastName":"Yusuf","userEmail":"fawzan.yusuf@polestarllp.com","contactNumber":"9813838388","userPassword":"1234","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-04-15 07:34:26","createdBy":40,"lastModifiedDate":"2016-05-11 08:33:29","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":1,"billingAmount":"100","defaultModuleId":1,"crole_id":51,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1054","designation":332,"level":338,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":1,"hodId":null},{"id":95,"firstName":"Ankit","lastName":"Rana","userEmail":"ankit@polestarllp.com","contactNumber":"9937382884","userPassword":"1234","roleId":4,"retailerId":11,"managerId":40,"createdDate":"2016-04-15 11:36:08","createdBy":40,"lastModifiedDate":"2016-05-19 13:17:28","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":1,"billingAmount":"-123","defaultModuleId":1,"crole_id":51,"timeApproval":0,"attr3":null,"isApproval":1,"approveLimit":500,"doj":"","dob":"","doc":"","ecode":"10614","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":5,"hodId":0},{"id":103,"firstName":"Avi","lastName":"Kush","userEmail":"avi@polestarllp.com","contactNumber":"","userPassword":"1","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-04-20 07:42:14","createdBy":40,"lastModifiedDate":"2016-05-25 09:54:37","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":2,"crole_id":68,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"123sds","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":5,"hodId":0},{"id":104,"firstName":"Jaggu","lastName":"Daada","userEmail":"jaggi@polestarllp.com","contactNumber":"","userPassword":"1","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-04-20 08:39:03","createdBy":40,"lastModifiedDate":"2016-05-30 05:24:29","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":0,"crole_id":68,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"01/04/2016","dob":"01/04/2016","doc":"","ecode":"234jk","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":2,"hodId":0},{"id":161,"firstName":"Jogi","lastName":"Singh","userEmail":"jogendra.singh@polestarllp.com43","contactNumber":"","userPassword":"4oaT16ipML","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-26 11:34:10","createdBy":40,"lastModifiedDate":"2016-04-26 11:35:27","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"102388","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":162,"firstName":"Jogendra","lastName":"Singh","userEmail":"jogendra.singh@polestarllp.com","contactNumber":"","userPassword":"VymOFKmOyJ","roleId":2,"retailerId":11,"managerId":42,"createdDate":"2016-04-26 11:37:07","createdBy":40,"lastModifiedDate":"2016-05-11 09:04:51","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":1,"billingAmount":"-11","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"3243","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":0,"hodId":null},{"id":173,"firstName":"zaaaaaaaaaaaa","lastName":"azaz","userEmail":"zazazza@polestarllp.com","contactNumber":"99999999999","userPassword":"0Rdt9z86Fi","roleId":1,"retailerId":11,"managerId":41,"createdDate":"2016-04-27 06:02:48","createdBy":40,"lastModifiedDate":"2016-04-27 06:03:25","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":6,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"122222222222","designation":334,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":200,"firstName":"Mayur","lastName":"Gupta","userEmail":"mayur.gupta@polestarllp.com","contactNumber":"","userPassword":"111","roleId":1,"retailerId":11,"managerId":40,"createdDate":"2016-04-28 06:30:30","createdBy":40,"lastModifiedDate":"2016-04-28 06:30:30","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"0","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1088","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":null,"hodId":null},{"id":253,"firstName":"fineman","lastName":"kumar","userEmail":"fine123@polestarllp.com","contactNumber":"9685475856","userPassword":"IYQKdT6q4o","roleId":5,"retailerId":11,"managerId":40,"createdDate":"2016-05-11 08:25:20","createdBy":40,"lastModifiedDate":"2016-05-11 08:26:33","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":1,"timeApproval":0,"attr3":null,"isApproval":1,"approveLimit":10,"doj":"05/10/16","dob":"05/01/16","doc":"05/20/16","ecode":"gfags123","designation":364,"level":338,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":0,"hodId":null},{"id":269,"firstName":"asif","lastName":"shamim","userEmail":"asif.shamim@polestarllp.com","contactNumber":"","userPassword":"6Q9p1MMf1p","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-05-19 13:20:08","createdBy":40,"lastModifiedDate":"2016-05-19 13:20:08","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":7,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1090","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":2,"hodId":0},{"id":270,"firstName":"Udit ","lastName":"agarwal","userEmail":"udit.agarwal@polestarllp.com","contactNumber":"","userPassword":"rfFxXdT9wQ","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-05-19 13:21:30","createdBy":40,"lastModifiedDate":"2016-05-19 13:21:30","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":7,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"1111","designation":0,"level":0,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":2,"hodId":0},{"id":274,"firstName":"jay","lastName":"prakash","userEmail":"jay.prakash2991@polestarllp.com","contactNumber":"8860130996","userPassword":"1","roleId":1,"retailerId":11,"managerId":42,"createdDate":"2016-05-23 10:59:18","createdBy":40,"lastModifiedDate":"2016-05-23 10:59:18","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":1,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"05/23/16","dob":"05/11/16","doc":"05/27/16","ecode":"q12","designation":0,"level":336,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":0,"hodId":0},{"id":275,"firstName":"asdasd","lastName":"","userEmail":"asdsad@ghgh.com","contactNumber":"433433434","userPassword":"$2a$04$Xljb7ENjR8nXYoJ.ftzFtu1WhM.EwiX7n.Sq1bz.RaiDwqFeuLhPq","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-05-29 11:31:06","createdBy":11,"lastModifiedDate":"2016-05-29 11:31:06","lastModifiedBy":11,"isClient":0,"clientId":0,"isValidated":0,"isActive":0,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"","designation":0,"level":0,"modules":null,"userId":null,"rtype":"","isRetailer":"0","hrRole":0,"hodId":0},{"id":279,"firstName":"Rahij","lastName":"","userEmail":"rah@ll.com","contactNumber":"2389732981","userPassword":"$2a$04$AfAai6thWXfnZyGm1wquneqIdq99pbDAI0De1oxuK7GegMrJyVz3O","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-05-30 13:11:12","createdBy":11,"lastModifiedDate":"2016-05-30 13:11:12","lastModifiedBy":11,"isClient":0,"clientId":0,"isValidated":0,"isActive":0,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"","designation":0,"level":0,"modules":null,"userId":null,"rtype":"","isRetailer":"0","hrRole":0,"hodId":0},{"id":280,"firstName":"Rahij","lastName":"","userEmail":"ra1h@ll.com","contactNumber":"2389732981","userPassword":"$2a$04$AfAai6thWXfnZyGm1wqunenDb4LScWirK1hg6xHcEuUmX4IaAx3HW","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-05-30 13:11:18","createdBy":11,"lastModifiedDate":"2016-05-30 13:11:18","lastModifiedBy":11,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"","designation":0,"level":0,"modules":null,"userId":null,"rtype":"","isRetailer":"0","hrRole":0,"hodId":0},{"id":281,"firstName":"Rahij","lastName":"","userEmail":"rajan22@ll.com","contactNumber":"2389732981","userPassword":"$2a$04$AfAai6thWXfnZyGm1wqune.yzg5qPDcfkbLaOJrUbsRApnYde9mci","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-05-30 13:11:28","createdBy":11,"lastModifiedDate":"2016-05-30 13:11:28","lastModifiedBy":11,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":0,"billingAmount":"","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"","designation":0,"level":0,"modules":null,"userId":null,"rtype":"","isRetailer":"0","hrRole":0,"hodId":0},{"id":282,"firstName":"Andrew","lastName":"Symndos","userEmail":"andrew@polestarllp.com","contactNumber":"12333333333","userPassword":"$2a$04$AfAai6thWXfnZyGm1wquneLSUE8P/eGktMbCAUFN1S0zRfD.dVxOm","roleId":2,"retailerId":11,"managerId":40,"createdDate":"2016-05-30 14:56:58","createdBy":40,"lastModifiedDate":"2016-05-30 14:58:54","lastModifiedBy":40,"isClient":0,"clientId":0,"isValidated":0,"isActive":1,"isBillable":1,"billingAmount":"34444444444","defaultModuleId":1,"crole_id":0,"timeApproval":0,"attr3":null,"isApproval":0,"approveLimit":0,"doj":"","dob":"","doc":"","ecode":"43dkjfssss","designation":331,"level":363,"modules":null,"userId":null,"rtype":null,"isRetailer":"0","hrRole":0,"hodId":0}]
   ,[{"fieldCount":0,"affectedRows":0,"insertId":0,"serverStatus":2,"warningCount":1,"message":" ","protocol41":true,"changedRows":0}]];
@@ -457,7 +676,10 @@ app.get('/json1', function(req, res, next){
 });
 
 /*----------------------------------------------------------Project Management-----------------------------------------------------------*/
+<<<<<<< HEAD
 	//app.get('/projectmngmt',url.projectmngmt,portal.projectmngmt,render.redirect);
+=======
+>>>>>>> 75266d9ffa5f22c97d091d4bb41cc7961557b2fd
 
 
 
