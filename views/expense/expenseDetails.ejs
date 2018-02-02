@@ -129,10 +129,12 @@ var formatted_date = function(date){
         var day = curr_date.getDay();
                  
         var diff = curr_date.getDate();  // - day + (day == 0 ? -6:1); // 0 for sunday
-             if (diff < 16) {
+           
+                      var lastday = new Date(curr_date.getFullYear(), curr_date.getMonth() + 1 , 0).getDate();
+                        if (diff < 16) {
                             var week_start_tstmp = curr_date.setDate(15);
                         } else {
-                            week_start_tstmp = curr_date.setDate(31);
+                            week_start_tstmp = curr_date.setDate(lastday);
                         }
                         var week_start = new Date(week_start_tstmp);
                         var week_start_date = formatted_date(week_start);

@@ -21,7 +21,7 @@
         <span title="Go To Software List" onclick="document.location.href='/viewSoftware';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;padding-left: 30px;"  class="glyphicon glyphicon-arrow-left"></span>
             <span class="modal-title" style="padding-left:47%;">Add Software</span>
         </div>
-        <form class="form-horizontal" style="margin:1%; " action="/submitSoftwareDetails" method="post">
+        <form class="form-horizontal" style="margin:1%;" action="submitSoftwareDetails" method="post">
             <div class="row">
                 <table class="table">
                     <tr>
@@ -142,7 +142,7 @@
              
              function copytoall() 
              {
-                  var a=$('#lic1').val();
+                  var a=$('#lic0').val();
                   var us=$('#users').val();
                  
                if ($("#check").is(':checked')) 
@@ -228,8 +228,8 @@
                 }
                 if ($('#test5').prop('checked')) 
                 {
-                    //alert("You have selected licence rqd."); //checked
-                    for(var i=1;i<=us;i++)
+                
+                    for(var i=0;i<us;i++)
                     {
                       if ($("#lic"+ i ).val().length < 1 || $.trim($("#lic"+ i).val()) == "") 
                        {
@@ -238,8 +238,7 @@
                        }
                     } 
                 
-                  
-                    if ($('#pdate').val().length < 1 || $.trim($("#pdate").val()) == "") 
+                   if ($('#pdate').val().length < 1 || $.trim($("#pdate").val()) == "") 
                     {
                         alert("Licence  date is Missing!");
                         return false;
@@ -275,16 +274,18 @@
                         alert("expiry date cannot be less then purchase date!");
                         return false;
                        }
+                        
                     var arr=[];
-                    for( var i=1;i<=us;i++)
+                    for( var i=0;i<us;i++)
                     {
+                     
                       var licensekey=myFunction($("#lic"+ i ).val());
                       arr.push(licensekey);
-                      console.log(licensekey);
+                  
 
                     }
                     $('#hid').val(arr);
-                    alert($('#hid').val());
+                    alert(arr);
                     /* var arr = '';
                     for( var i=1;i<=us;i++)
                     {

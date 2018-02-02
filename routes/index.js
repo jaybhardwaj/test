@@ -19,7 +19,6 @@ app.use(bodyParser({
 	uploadDir: '../public/attach'
 }));
 
-
 //module.exports = function (app) {
 	app.post('/registration', portal.registration);
 	app.post('/recoverPassword', portal.recoverPassword);
@@ -176,6 +175,8 @@ app.get('/AssignAsset',url.setpageTransactionsasset,portal.getUser,portal.assign
     app.post('/getBillableUsers', portal.getBillableUsers,portal.getRole);
 
    //---------------------------------TimeSheet-----------------------------------------
+  app.post('/getAllEmpLeaveHours',portal.getAllEmpLeaveHours);
+ app.post('/getFortnightDate',portal.getFortnightDate);
  app.post('/uploadattendance',upload.array('file',2),portal.uploadattendance);
 	app.get('/timesheet',url.fillTimeSheet,portal.getTimeSheetData,render.redirect);
     app.post('/submitTimesheet', portal.notification, portal.submitTimesheet);
@@ -346,6 +347,7 @@ app.post('/createExcelProj',portal.createExcelProj);
 	//--------------Dashboards------------
 
     app.get('/reports',url.setDashboard,portal.profile,render.redirect);
+    app.get('/TimesheetReport',url.setDashboard1,portal.reportpro,render.redirect);    
  //------------------------------------Project -WBS ------------------------------------------
 
     

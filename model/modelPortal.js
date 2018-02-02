@@ -266,7 +266,7 @@ logout:function(userId,roleId,retailerId,roleName,loginIdUser, callback) {
         });
     },
 
-    //---------------------------Portal----------------------
+    //---------------------------Portal----------------------reportpro
 getProfile:function(userId,roleId,retailerId,callback){
         var query ={
                 sql: 'call usp_master_profile(?,?)',
@@ -277,6 +277,18 @@ getProfile:function(userId,roleId,retailerId,callback){
         });
 
 },
+
+reportpro:function(userId,retailerId,callback){
+        var query ={
+                sql: 'call 21_leaveData(?,?)',
+                values :[ userId,retailerId]
+          };
+        mysql(query, function(err, result){
+            callback(err, result);
+        });
+
+},
+
     updateProfile:function(userId,roleId,retailerId,cname,fname,lname,cno,emailid,filename,callback){
         var query ={
                 sql: 'call usp_master_updateprofile(?,?,?,?,?,?,?,?,?)',
@@ -319,10 +331,36 @@ exportBug: function(userId, roleId,retailerid, callback){
         };
         
         mysql(query, function(err, result) {
-             //console.log(query);
+             //console.log(query);getAllEmpLeaveHours
             callback(err, result);
         });
     },
+//jayleave report
+    getAllEmpLeaveHours: function(retailerid,dates, callback){
+        console.log("modellllllllllllllllllllllllllllllllllllllll");
+        var query = {
+            sql: 'call 21_leaveData(?,?)',
+            values: [retailerid,dates]
+        };
+        
+        mysql(query, function(err, result) {
+             console.log("our final query of model",query);
+            callback(err, result);
+        });
+    },
+
+
+    getFortnightDate:function(id,callback){
+    var q={
+        sql:'call get_fortnights(?)',
+        values:[id]
+    };
+    console.log(q);
+    mysql(q,function(err,result){
+        callback(err,result);
+    }); 
+},
+    //jay end
     viewBug: function(userId, roleId,retailerid, callback){
         var query = {
             sql: 'call usp_bug_viewBug(?,?,?)',
@@ -825,7 +863,7 @@ viewFileDetails: function(userId,roleId,retailerId,status,callback){
             values: [assign,flaghide,wbsidhide,wbsname,wbscode,proname,wbsowner,wbspsdate,
         wbspedate,wbsasdate,wbsaedate,wbsstatus,wbseffort,wbseffort1,wbslocation,typeVal,userId,roleId,retailerId]
         };
-        //console.log(query)
+        console.log(query)
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -1818,6 +1856,8 @@ selectAdminData:function(id,callback){
     }); 
 },
 
+
+
 sendmailtouser:function(id,callback){
     var q={
         sql:'call getassetuser(?)',
@@ -2559,7 +2599,7 @@ addUser: function(time,isClient,clientId,isbill,expense,inNum,hdnid, firstName, 
             sql: 'call usp_checkNextUser(?,?,?,?)',
             values: [flag1,userId, roleId, retailerId]
         };
-        console.log("next USER*****************************",query);
+        console.log("next USER***************************************",query);
         mysql(query, function(err, result) {
             callback(err, result);
         });
@@ -2708,10 +2748,13 @@ getTimeSheetData: function(userId,roleId,retailerId,callback){
     },
 
     changeUserStatus: function(uid,flag,userId,roleId,retailerId, callback) {
+        console.log("********************manuuuuuuuuuuuuuuGGGGGGGGGG");
         var query = {
+
             sql: 'call usp_changeUserStatus(?,?,?,?,?)',
             values: [uid,flag,userId,roleId,retailerId]
         };
+        console.log(query);
         mysql(query, function(err, result) {
             callback(err, result);
         });

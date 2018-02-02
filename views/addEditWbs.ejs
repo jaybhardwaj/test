@@ -22,7 +22,10 @@
                 margin-left: -8%;
             }
             
-              
+            span {
+                color: red;
+            }
+            
             sup {
                 color: red;
             }
@@ -77,12 +80,10 @@
 
 
 <div class="se-pre-con"></div>
-      <div id="ModalAdd"></div> 
-      <div id="ModalAddMesage"></div>
+       
 
 <div class="secondry-color" style=" padding-top:1%;">
 <span title="Go To WBS List" onclick="document.location.href='/wbsDetails';" style="float:left;width: 25px;height: 30px;font-size: 20px;color:green;    padding-left: 13px;"  class="glyphicon glyphicon-arrow-left"></span>
-
   <span class="modal-title" style="padding-left:45%">WBS Details</span>
   <div class="row" style="padding-left: 50px;padding-right: 50px;padding-top: 1%">
  <!-- <form method="post" action="/addEditWbsDetails" method="post" class="login-form" id="form1" name="myForm"> -->
@@ -106,7 +107,6 @@
               <option value="<%=allinfo[i].id%>"<%if(flag==1&&name[0][0].projectId==allinfo[i].id){%>
               selected<%}%>> <%=allinfo[i].projectTitle%> </option>
               <%}%> </select> <% } %>
-              <div class="fLeft"><span class="error" id="errorProname"></span></div>
           </td>
           <td>
             <td>
@@ -114,7 +114,6 @@
             </td>
             <td>
             <input onblur="return allWbs();" onkeypress="return specialCharacter(event)" type="text" placeholder="Enter a WBS Name" class="  form-text-box" style="" name="wbsname" id="wbsname" maxlength="50" onblur="myFunction(); checkprofield();" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value=' <%=name[0][0].WBSName%>' <%}%> >
-            <div class="fLeft"><span class="error" id="errorWbsname"></span></div>
           </td>
         </td>
         <td>
@@ -146,8 +145,7 @@
              <label class="form-Label">Planned Start Date: <sup>*</sup> </label>
            </td>
            <td>
-             <input type="text" maxlength="20" placeholder="Select Date" class="form-text-box"  id="datepicker" style="background-color: rgb(255, 255, 255);" name="wbspsdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'){%>value='<%=name[0][0].wplannedStartDate%>' <%}%> >
-             <div class="fLeft"><span class="error" id="errorWbspsdate"></span></div> 
+             <input type="text" maxlength="20" placeholder="Select Date" class="form-text-box"  id="datepicker" style="background-color: rgb(255, 255, 255);" name="wbspsdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'){%>value='<%=name[0][0].wplannedStartDate%>' <%}%> > 
           </td>
           <td>
             <td>
@@ -155,7 +153,6 @@
             </td>
             <td>
             <input type="text" maxlength="20" placeholder="Select Date" name="wbspedate"  class="form-text-box" id="datepicker1" style="background-color: rgb(255, 255, 255);" <%if(flag==1 && typeof (name[0][0]) !='undefined' ){%>value='<%=name[0][0].wplannedEndDate%>' <%}%> >
-            <div class="fLeft"><span class="error" id="errorWbspedate"></span></div> 
           </td>
         </td>
         <td>
@@ -164,7 +161,7 @@
           </td>
            <td>
           <input type="text" maxlength="20" class="form-text-box" id="datepicker2" placeholder="Select Date"  style="background-color: rgb(255, 255, 255);" name="wbsasdate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualStartDate){ if(name[0][0].wactualStartDate != '00/00/00'){%>value='<%=name[0][0].wactualStartDate%>' <%} else{%> value='' <%}}%>   > 
-           <div class="fLeft"><span class="error" id="errorDatepicker2"></span></div> 
+
           <td>
         </td>
         <td>
@@ -173,7 +170,6 @@
           </td>
            <td>
            <input type="text" maxlength="20" placeholder="Select Date" class="form-text-box" id="datepicker3"  style="background-color: rgb(255, 255, 255);" name="wbsaedate" <%if(flag==1 && typeof (name[0][0]) !='undefined'  && name[0][0].wactualEndDate){ if(name[0][0].wactualEndDate != '00/00/00'){%>value='<%=name[0][0].wactualEndDate%>' <%} else{%> value='' <%}}%>  >
-           <div class="fLeft"><span class="error" id="errordatepicker3"></span></div> 
         </td>
         </td>
       </tr>
@@ -192,7 +188,7 @@
                             <option value=3>Man-Weeks</option>
                             <option value=4>Man-Months</option>
                        </select>
-            <div class="fLeft"><span class="error" id="errorWbseffort1"></span></div> 
+
 
           </td>
           <td>
@@ -259,11 +255,10 @@
          
       </tr>
     </table>
-    <div class="text-center"><span class="success" id="successWbsDetails"></span></div>
      <div class="row " style="padding-bottom:20px;">
         <center> 
             <a href="/wbsDetails">
-                <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40"></a>
+                <input type="button" name="cancel" value="Cancel" form="cancelform" class="btn btn-primary" style="background-color: #f05f40 !important"></a>
 
             <input type="submit" value="Submit" onclick="return checkfield();" name="submit" class="btn btn-primary">
         </center>
@@ -456,35 +451,26 @@
             }
 
             function checkfield() {
-              resetError();
-              var errorProname = $('#errorProname');
-              var errorWbsname = $('#errorWbsname');
-              var errordatepicker = $('#errorWbspsdate');
-              var errordatepicker1 = $('#errorWbspedate');
-              var errordatepicker2 = $('#errorDatepicker2');
-              var errordatepicker3 = $('#errordatepicker3');
-              var errorWbseffort1 = $('#errorWbseffort1');
+
 
               if ($('#proname').val() == null || $('#proname').val() <= 0) {
-                    errorProname.text("Required field");
-                    $('#proname').focus();
+                    alert("Please select a Project ");
                     return false;
                 }
 
                 if ($('#wbsname').val().trim().length <= 0 || $('#wbsname').val() == '') {
-                    errorWbsname.text("Required field");
-                    $('#wbsname').focus();
+                    alert("Please Enter WBS Name First");
                     return false;
                 }
 
                 var text = $('#datepicker').val();
                 var date = new Date(text);
                 if (text == '') {
-                    errordatepicker.text('Required field');
+                    alert('Please Select Planned Start Date');
                     return false;
                 } else {
                     if (date == 'Invalid Date') {
-                        errordatepicker.text('Invalid  Planned Start Date');
+                        alert('Invalid  Planned Start Date');
                         return false;
                     }
                 }
@@ -492,11 +478,11 @@
                 var date = new Date(text);
 
                 if (text1 == '') {
-                    errordatepicker1.text('Required field');
+                    alert('Please Select Planned End Date');
                     return false;
                 } else {
                     if (date == 'Invalid Date') {
-                        errordatepicker1.text('Invalid  Planned End Date');
+                        alert('Invalid  Planned End Date');
                         return false;
                     }
                 }
@@ -504,7 +490,7 @@
                 var date = new Date(text);
                 if (text != '') {
                     if (date == 'Invalid Date') {
-                        errordatepicker2.text('Invalid  Actual Start Date');
+                        alert('Invalid  Actual Start Date');
                         return false;
                     }
                 }
@@ -512,7 +498,7 @@
                 var date = new Date(text);
                 if (text != '') {
                     if (date == 'Invalid Date') {
-                        errordatepicker3.text('Invalid  Actual End Date');
+                        alert('Invalid  Actual End Date');
                         return false;
                     }
                 }
@@ -532,18 +518,18 @@
 
 
                 if (sdate > edate) {
-                    errordatepicker1.text('Planned End Date can not be less than Planned Start Date');
+                    alert('Planned End Date can not be less than Planned Start Date');
                     return false;
                 }
 
                 if (text3 != '') {
                     if (text2 != '') {
                         if (asdate > aedate) {
-                            errordatepicker3.text('Actual End Date can not be less than Actual Start Date');
+                            alert('Actual End Date can not be less than Actual Start Date');
                             return false;
                         }
                     } else {
-                        errordatepicker2.text('Please Select Actual Start Date');
+                        alert('Please Select Actual Start Date');
                         return false;
                     }
                 }
@@ -552,15 +538,13 @@
                 var wbseffort1 = $('#wbseffort1').val();
                 if (wbseffort != '') {
                     if (wbseffort1 <= 0 ||  wbseffort1 == null) {
-                        errorWbseffort1.text('Please Select WBS Effort Type');
-                        $('#wbseffort1').focus();
+                        alert('Please Select WBS Effort Type');
                         return false;
                     }
                 }
                 else{
                   if(wbseffort1 > 0){
-                    errorWbseffort1.text('Please enter WBS effort value');
-                    $('#wbseffort1').focus();
+                    alert('Please enter WBS effort value');
                         return false;
                   }
                 }
@@ -573,32 +557,26 @@
             }
 
             function submitwbs() {
-              resetError();
-              var successWbsDetails = $('#successWbsDetails');
                 var flag = $('#flaghide').val();
                 //alert(flag);
                 if (flag == 1) {
-                    messageBox('WBS Updated Successfully');
+                    alert('WBS Updated Successfully');
+                } else {
+                    alert('WBS Added Successfully');
                 }
                 if ('<%=flag%>' == '0') {
-                    confirmBox3("submitwbsModal(1)","submitwbsModal(0)",9);
-                    /*var r = confirm("Do you want to create more WBS ?");*/
-                }
-                if ('<%=flag%>' != '0') 
-                addWbs12();
-            }
-
-            var submitwbsModal = function(flag) {
-                    if(flag == 1) {
+                    var r = confirm("Do you want to create more WBS ?");
+                    if (r == true) {
                         $('#wbshidden').val(1);
                     } else {
                         $('#wbshidden').val(0);
                     }
-                  
-                      addWbs12();
-            
-                    
+                }
+                //addWbs1();
+                //return true;
+                addWbs12();
             }
+
 
             function addWbs1() {
 
@@ -622,7 +600,7 @@
                                             submitwbs();
                                 }
                                 else{
-                                  messageBox('date validations of WBS are not according to Assignment');
+                                  alert('date validations of WBS are not according to Assignment');
                                 }
                             }
 
@@ -639,7 +617,7 @@
 
             function addWbs12(){
 
-              //alert('flag--'+$('#flaghide').val());
+              alert('flag--'+$('#flaghide').val());
               //alert('wbshidden--'+$('#wbshidden').val());
 
                               $.ajax({
@@ -687,14 +665,12 @@
 
 
             function allWbs() {
-              resetError();
-              var errorWbsname = $('#errorWbsname');
                 var abc = 1;
                 if ('<%=flag%>' == '0') {
                     <%if(allWbs.length>0){%>
                     <%  for(var j=0;j< allWbs.length; j++){%>
                     if ($('#wbsname').val() == '<%=allWbs[j].WBSName%>') {
-                        errorWbsname.text('WBS Already Exists.Change the name of WBS');
+                        alert('WBS Already Exists.\nChange the name of WBS');
                         abc = 0;
                         document.getElementById('wbsname').value = "";
                         document.getElementById('wbscode').value = "";

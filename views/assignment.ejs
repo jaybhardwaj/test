@@ -129,15 +129,13 @@ ShowAssignments();
                                                        scrollInput: false  });
  }
 function updateAssing(ldate,id,a,date,i){    
-  resetError();
-  var errorAssignments = $('#errorAssignments_'+id);
    if(a==1)
     {  
         checkTimeSheetDate(i,a);       
          setTimeout(function(){
           if(time)
           { 
-               errorAssignments.text("You can't edit Assignment Start Date as User has been filled Timesheet for this FortNight");
+               alert("You can not edit Assignment Start Date as User has been filled Timesheet for this FortNight");
                 $('#i_'+id).val($('#ae_'+i).val());
                return false;
           }
@@ -145,7 +143,7 @@ function updateAssing(ldate,id,a,date,i){
           var dt="AssignmentDate";
           if(new Date($('#j_'+id).val())<new Date(date.value))
           {
-          errorAssignments.text("Assignment start date should't greater than Assignment End Date");
+          alert("Assignment start date sholud not greater than Assignment End Date");
           $('#i_'+id).val($('#ae_'+i).val()); 
           return false;
           }
@@ -160,7 +158,7 @@ function updateAssing(ldate,id,a,date,i){
              if(new Date($('#as_'+i).val())>new Date(date.value))
              {
              $('#j_'+id).val($('#as_'+i).val());
-             errorAssignments.text("You can't select previous date as Timesheet has been filled for that FortNight");
+             alert("You can not select previous date as Timesheet has been filled for that FortNight");
              }
            }
          },300);
@@ -168,7 +166,7 @@ function updateAssing(ldate,id,a,date,i){
            var dt="AssignmentEndDate";
            if(new Date($('#i_'+id).val())> new Date(date.value))
            {
-           errorAssignments.text("Assignment End Date should't lesser than Assignment Start Date");
+           alert("Assignment End Date should not lesser than Assignment Start Date");
            $('#j_'+id).val($('#as_'+i).val());
           return false;
            }  
@@ -252,7 +250,7 @@ function ShowAssignments(){
 
   $('#assigntable').dataTable().fnDestroy(); 
   var a='';
-  <% for(var i=allinfo1[0].length-1;i>=0;i--) { %>
+ <%console.log("-------Length-----------",allinfo1.length); for(var i=allinfo1[0].length-1;i>=0;i--) { %>
                  var abc=$("#stat").val();
 
                       var ae="AssignmentDate";
@@ -260,7 +258,8 @@ function ShowAssignments(){
                  
                      if('<%=allinfo1[0][i].isActive%>'==abc || abc==2 ) 
                     {
-                     a=a+'<tr id="row_<%=allinfo1[0][i].id%>" class="rows" onclick="projectWbsForAssignment(<%=allinfo1[0][i].id%>);"><td><%=allinfo1[0][i].projectTitle%><input type="hidden" id=usid_<%=i%> value="<%=allinfo1[0][i].userId%>"></td><td><%=allinfo1[0][i].WBSCode%></td><td><%=allinfo1[0][i].WBSName%><input type="hidden" id=wbs_<%=allinfo1[0][i].WBSId%>></input></td><td><%=allinfo1[0][i].firstName%></td><td><input type="hidden" id=ws_<%=i%> value="<%=allinfo1[0][i].wplannedStartDate%>"></input><input type="hidden" id=ae_<%=i%> value="<%=allinfo1[0][i].AssignmentDate%>"></input><input readonly="true" id="i_<%=allinfo1[0][i].id%>" class="asdate" style="text-align:center; border:0px" value="<%=allinfo1[0][i].AssignmentDate%>" onClick="validDate(<%=i%>,<%=allinfo1[0][i].id%>)" onChange="updateAssing(<%=allinfo1[0][i].AssignmentDate%>,<%=allinfo1[0][i].id%>,1,this,<%=i%>)"></input><div class="col-sm-12 fLeft"><span class="error" id="errorAssignments_<%=allinfo1[0][i].id%>"></span></div></td><td><input type="hidden" id=we_<%=i%> value="<%=allinfo1[0][i].wplannedEndDate%>"></input><input type="hidden" id=as_<%=i%> value="<%=allinfo1[0][i].AssignmentEndDate%>"></input><input  readonly="true" id="j_<%=allinfo1[0][i].id%>" class="aedate" style="text-align:center; border:0px"value="<%=allinfo1[0][i].AssignmentEndDate%>" onClick="validDate(<%=i%>,<%=allinfo1[0][i].id%>)"  onChange="updateAssing(<%=allinfo1[0][i].AssignmentEndDate%>,<%=allinfo1[0][i].id%>,2,this,<%=i%>)"></input></td>';
+                      console.log("this is allinfo---<%=allinfo1[0][i].assgisActive%> ");
+                     a=a+'<tr id="row_<%=allinfo1[0][i].id%>" class="rows" onclick="projectWbsForAssignment(<%=allinfo1[0][i].id%>);"><td><%=allinfo1[0][i].projectTitle%><input type="hidden" id=usid_<%=i%> value="<%=allinfo1[0][i].userId%>"></td><td><%=allinfo1[0][i].WBSCode%></td><td><%=allinfo1[0][i].WBSName%><input type="hidden" id=wbs_<%=allinfo1[0][i].WBSId%>></input></td><td><%=allinfo1[0][i].firstName%></td><td><input type="hidden" id=ws_<%=i%> value="<%=allinfo1[0][i].wplannedStartDate%>"></input><input type="hidden" id=ae_<%=i%> value="<%=allinfo1[0][i].AssignmentDate%>"></input><input readonly="true" id="i_<%=allinfo1[0][i].id%>" class="asdate" style="text-align:center; border:0px" value="<%=allinfo1[0][i].AssignmentDate%>" onClick="validDate(<%=i%>,<%=allinfo1[0][i].id%>)" onChange="updateAssing(<%=allinfo1[0][i].AssignmentDate%>,<%=allinfo1[0][i].id%>,1,this,<%=i%>)"></input></td><td><input type="hidden" id=we_<%=i%> value="<%=allinfo1[0][i].wplannedEndDate%>"></input><input type="hidden" id=as_<%=i%> value="<%=allinfo1[0][i].AssignmentEndDate%>"></input><input  readonly="true" id="j_<%=allinfo1[0][i].id%>" class="aedate" style="text-align:center; border:0px"value="<%=allinfo1[0][i].AssignmentEndDate%>" onClick="validDate(<%=i%>,<%=allinfo1[0][i].id%>)"  onChange="updateAssing(<%=allinfo1[0][i].AssignmentEndDate%>,<%=allinfo1[0][i].id%>,2,this,<%=i%>)"></input></td>';
 
 if('<%=allinfo1[0][i].projectTitle%>' !='DummyProject'){
                     a=a+'<td><span onClick="inactive(<%=allinfo1[0][i].id%>,<%=allinfo1[0][i].isActive%>)" <%if(allinfo1[0][i].isActive==1){%>class="glyphicon  glyphicon-ok-circle class1"<%} else{%>class="glyphicon  glyphicon-remove-sign class2" <%}%> title="Deactivate Assignment"></span></td>';
@@ -290,19 +289,17 @@ else
 
 
        }
-
-function inactive(b,flag){
-  if(flag==1) {
+function inactive(b,flag){;
+  // alert("i am in inactivewith id ---"+b);     
+  if(flag==1)
     var a="deactivate";
-    confirmBox2(b,"inactiveRedirect",1);
-  } else {
+    else
     var a="activate";
-    confirmBox2(b,"inactiveRedirect",2);
-  }  
-}
+    
+if(confirm("Do you want "+a+" this assignment?"))
+window.location.href = "/changeAssignmentStatus?assignmentId="+b+"& flag="+1;
 
-var inactiveRedirect =function(b) {
-  window.location.href = "/changeAssignmentStatus?assignmentId="+b+"& flag="+1;
+
 }
 
 function projectWbsForAssignment(aid){
@@ -605,6 +602,7 @@ function changeProjectWbs(pid,wid,flag){
 
 </script>
 
+ 
     <script>
    function exportAssignment(type)
 {
@@ -641,7 +639,7 @@ function showAll()
 
 
 <div class="se-pre-con"></div>
-<div id="ModalAdd"></div>
+
 
     <div class="secondry-color" style="padding-bottom:2%;padding-left :2%;padding-right:2%;  "> 
     
@@ -694,7 +692,7 @@ function showAll()
     <div id="projectDiv" class="hide row" style="padding-bottom:2%;padding-left :0%;padding-right:0%; max-width:103%;overflow-y:auto  ">
 
     <div style="margin-bottom:10px;margin-top:10px;">
-          <span class="modal-title" style="padding-left:40%;margin-top:10px">Project for selected assignment</span>
+          <span class="modal-title" style="padding-left:45%;margin-top:10px">Project for selected assignment</span>
           </div>
 
 
@@ -719,7 +717,7 @@ function showAll()
           <div id="wbsDiv" class="hide row" style="padding-bottom:2%;padding-left :0%;padding-right:0%; max-width:103%;overflow-y:auto">
 
            <div style="margin-bottom:10px">
-          <span class="modal-title" style="padding-left:40%;margin-top:10px">WBS for selected assignment</span>
+          <span class="modal-title" style="padding-left:45%;margin-top:10px">WBS for selected assignment</span>
           </div>
               <table class="table stripe cell-border hover" id="wbsTable"  > 
                    <thead> 

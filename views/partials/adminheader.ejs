@@ -58,7 +58,7 @@
                                             <a class="dropdown-toggle" id="dropdownToggleId" data-toggle="dropdown"> <label class="header-title" style="color:#f04050;">Hi, <%= user%> </label> <span class="caret"></span> </a>
                                             <ul class="dropdown-menu" style="text-align:center">
                                               <% if(!parseInt(isRetailer)){ %>
-                                                <li><a style="cursor:pointer;font-size:12px" data-toggle="modal" data-target="#changeSuper"><i class="fa fa-user-secret" style="float:left;margin-top:3px;margin-left:-9px" aria-hidden="true"></i>Change Supervisor</a></li>
+                                                <li><a style="cursor:pointer;font-size:12px" onclick="changeselectedsup()" data-toggle="modal" data-target="#changeSuper"><i class="fa fa-user-secret" style="float:left;margin-top:3px;margin-left:-9px" aria-hidden="true"></i>Change Supervisor</a></li>
                                                 <%}%>
                                                   <li><a data-toggle='modal' data-target='#changepass' style="cursor:pointer;font-size:12px"><i class="fa fa-key" style="float:left;margin-top:3px;margin-left:-9px" aria-hidden="true"></i>Change Password</a></li>
                                             </ul>
@@ -116,6 +116,11 @@
             <a class="subheaderMaster" href='/reports'> <img class="imageInc" src="../img/report.png" class="shadow" style=" " height="30px" title="view Hierarchy Reports" width="30px"> </a>
             <%}%>
         </td>
+           <td class="report-img" style="width:10%">
+          <%if(roleid==1){%>
+            <a class="headerMaster" href='/TimesheetReport'> <img class="imageInc" src="../img/report.png" class="shadow" style=" " height="30px" title="view Hierarchy Reports" width="30px"> </a>
+            <%}%>
+        </td>
       </tr>
       <tr style="font-size:12px;color:black" align="center">
         <%if((roleid==1)||(assetrole== 1)){%>
@@ -145,6 +150,9 @@
                                         <%if(roleid==1){%>
                                           <td class="report-img">Reports</td>
                                           <%}%>
+                                          <%if(roleid==1){%>
+                                          <td class="report-img">TimesheetReport</td>
+                                          <%}%>
       </tr>
     </table>
     <%}%>
@@ -169,7 +177,7 @@
                              </select> </div>
         </div>
         <div class="modal-footer" style="border-top:0px;padding:0px">
-          <center style="padding-top:6%"> <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-primary">Cancel</button> <a onclick="return saveSupervisor()" class="btn btn-primary">Submit</a> </center>
+          <center style="padding-top:6%"> <button id="cancel" type="reset" data-dismiss="modal" class="btn btn-primary" onclick="resetSelect();">Cancel</button> <a onclick="return saveSupervisor()" class="btn btn-primary">Submit</a> </center>
         </div>
       </div>
     </div>
@@ -302,9 +310,9 @@
     if (jQuery.inArray(el, myModules) == -1) difference.push(el);
   });
   $(document).ready(function() {
-    $("#chngSuper").tagger({
+   /* $("#chngSuper").tagger({
       "fieldWidth": "24em"
-    });
+    });*/
     $('#cancel').click(function() {
       $('#newpass').val('');
       $('#confpass').val('');
@@ -376,6 +384,11 @@ if($(this).text()==''){
 
 
   });
+
+  function changeselectedsup(){
+    
+    $('#chngSuper').val(<%=mySupervisor%>);
+  }
 
   function installModule() {
     var tempCount = 0;
@@ -488,4 +501,9 @@ if($(this).text()==''){
       });
     }
   }
+
+function resetSelect()
+{
+  
+}
 </script>

@@ -4,7 +4,12 @@
         <% include ../partials/adminheader %>
 
             <% include assetheader %>
-                <script type="text/javascript">
+            <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>-->
+                    <link href="js/dist/css/select2.min.css" rel="stylesheet" />
+                    <script src="js/dist/js/select2.min.js"></script>
+                    <script type="text/javascript">
+
                     $(document).ready(function() {
                         jQuery('#assigndate').datetimepicker({
                             timepicker: false,
@@ -28,12 +33,18 @@
                             $(this).fadeTo("fast", .5).removeAttr("href");
                         });
 
-    $('#usersId').tagger({
+    /*$('#usersId').tagger({
                           baseURL: '../img/'
                          , tabindexOffset: 400
                           , fieldWidth: "13em"
 
-                        });
+                        });*/
+        
+        $("#usersId").select2();
+
+
+ 
+
    $('#usersId1').tagger({
                           baseURL: '../img/'
                           , tabindexOffset: 400
@@ -418,7 +429,7 @@
 
                             $('#assignreg' + count).removeClass('hide');
                             $("#assignapp" + count).addClass('hide');
-                            row = row + '<span id="assignapp' + count + '" style="margin-left:0px; color:red; " class="glyphicon glyphicon-remove-circle" onclick="unasignedtheAsset(' + count + ')"></span></td><td id="assign' + count + '">assigned</td>';
+                            row = row + '<span id="assignapp' + count + '" style="margin-left:0px; color:red; " class="glyphicon glyphicon-remove-circle" title="Deactivate" onclick="unasignedtheAsset(' + count + ')"></span></td><td id="assign' + count + '">assigned</td>';
                         } else {
                             //row=row+'<span id="assignreg'+count+'" style="margin-left:70px;color:green; " class=" glyphicon glyphicon-ok-circle" onclick="save2db('+count+')"></span></td>';
                             row = row + '';
@@ -438,7 +449,7 @@
                                row=row+'<td>-----</td><td>'; 
                             }
                         if (result[1][i].assign == 1) {
-                            row = row + '<span id="assignapp' + count + '" style="margin-left:0px; color:red; " class=" glyphicon glyphicon-remove-circle" onclick="unasignedsoftware()"></span></td>';
+                            row = row + '<span id="assignapp' + count + '" style="margin-left:0px; color:red; " class=" glyphicon glyphicon-remove-circle" title="Deactivate" onclick="unasignedsoftware()"></span></td>';
 
 
                             $('#assignreg' + count).removeClass('hide');
@@ -605,7 +616,7 @@
         for (var i = 1; i <=count; i++)
         { 
             if(($('#compId'.concat(i)).val()==cpname)&&($('#flag'.concat(i)).val()==1)){
-                alert('selected componenet is already assigned plz be sure');
+                alert('selected component is already assigned plz be sure');
                 $('#hw').val(0);
                 return false;
             }
@@ -622,7 +633,11 @@
             },
             dataType: 'json',
             success: function(result) {
-                if(result[0].length==0){alert("Selected Hardware is not available");} 
+                if(result[0].length==0)
+                    {
+                        alert("Selected Hardware is not available");
+                        $('#hw').val(0);
+                     } 
                     else{
                 for (var i = 0; i < result[0].length; i++) {
                     $("#hdwTagOption").append("<option value='" + result[0][i].id + "''>" + result[0][i].tagNo+ "</option>")
@@ -751,7 +766,7 @@
             
             if($('#ac').val()==0)
              {
-               alert('PLZ choose software first');
+               alert('Software List is missing');
                return false;
              }
              

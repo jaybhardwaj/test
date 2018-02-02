@@ -39,6 +39,9 @@
       @keyframes beat{
       to { transform: scale(1.4); }
       }
+      .chosen-container .chosen-container-single{
+    margin-left: -41px !important;
+      }
    </style>
    <script>
         var resettimesheetBtn='<button type="button" id="resettimesheet" class="btn marginR10" onClick="ClearAll()">Reset</button>';
@@ -100,6 +103,11 @@
       var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       $(document).ready(function() {
       
+         
+     
+
+
+
           $(".se-pre-con").fadeOut("slow");
           
        otable=$('#for_approv').dataTable({
@@ -735,18 +743,18 @@
       <div class="se-pre-con"></div>
       <div class="hide row sub-header" id="OtherEmp" style=" margin-bottom:0%; margin-top:0px">
          <div class="col-md-1"></div>
-         <div class="col-md-1" style="text-align:center" id="myrep_drop">
+         <div class="col-md-1" style="text-align:center;margin-top: 8px;" id="myrep_drop">
             <!--  <select   class="form-text-box" id="dropuserdata" style="width:162px" onchange="DropdownUsers(1)">
                </select> -->
          </div>
          <div class="col-md-6">
          </div>
-         <div class="col-md-1" style="text-align:center" id="drop">
+         <div class="col-md-1" style="text-align:center;margin-left: -41px;margin-top: 8px;" id="drop">
             <!-- <select   class="form-text-box" id="myrep_dropuserdata" style="width:252px" onchange="DropdownUsers(0)">
                </select> -->
          </div>
-         <div class="col-md-2"></div>
-         <div class="col-md-1">
+         <div class="col-md-2" ></div>
+         <div class="col-md-1" style="margin-left: 3%;">
             <!-- <a href="/timesheet"><button type="button" style="float:right;font-size:10px; " class="btn btn-primary" >Own TimeSheet</button></a> -->
             <button type="button" style="float:right;font-size:10px; " class="btn btn-primary" onClick="timehome()">Own TimeSheet</button>
          </div>
@@ -756,7 +764,14 @@
             <label class="labelHead">Name  :  </label> <label><%=user%> </label>
             <%if(assetrole==1){%>
             <button type="button" class="btn " style="font-size:10px; height: 26px; "  data-toggle="modal" data-target="#myModal">Upload Attendance</button>
+
             <%}%>
+
+
+                        <%if(roleid==1){%>
+             <button type="button" class="btn " onclick="getFortnight()" style="font-size:10px; height: 26px; "  data-toggle="modal" data-target="#myModal2">Leave Report</button>
+            <%}%>
+
             <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
                <div class="modal-dialog">
@@ -780,17 +795,49 @@
                            </div>
                      </div>
                      <div class="modal-footer">
-                     <center>
-                     <button type="submit" name="submit" value="Submit" class="btn btn-default" >Submit</button>
-                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     </center>
-                     </form>
+                         <center>
+                           <button type="submit" name="submit" value="Submit" class="btn btn-default" >Submit</button>
+                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                         </center>
+                         </form>
                      </div>
                   </div>
                </div>
             </div>
+      
+         <!-- leave report model-Box -->
+             <div class="modal fade" id="myModal2" role="dialog">
+               <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" style="color:white">Leave-Hours Report</h4>
+                     </div>
+                     <div class="modal-body">
+                            <div class="row" style="width: 75%;margin-left: 70px;">
+                                <select style="color: black" id="Leave"  name="Leave-Hours"  multiple="multiple" data-placeholder="choose fortnight">
+
+                                </select>
+                           </div>
+                     </div>
+                     <div class="modal-footer">
+                         <center>
+                           <button type="submit" name="submit" value="Submit" class="btn"  onclick="downloadLeaveReport()">Download</button>
+                           <button type="button" id="close1" class="btn" data-dismiss="modal">Close</button>
+                         </center>
+                         
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+
+
+
+
          </div>
-         <div id="to_fro_date" class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white;  border-radius: 25px;">
+         <div id="to_fro_date" class="col-md-3" style="text-align-last: center; height:29px;width:263px; background-color:white; margin-top: -2px; border-radius: 25px;">
             <img type="button" id="prevdate" src="../img/bug/left.jpg" class="shadow glyphicon leftIcon" style=" " title="Previous" height="15px" title="" width="15px" onClick="getdateprev()">
             <img type="button" id="prevdate1" src="../img/bug/leftFade.png" class="  fadeLeftIcon hide" style=" " title="Previous" height="15px" title="" width="15px" >
             <input disabled type="text" id="submitdate" style="margin-top:3px;text-align: center;font-size:12px" value="">
@@ -871,6 +918,10 @@
       </div>
    </div>
    <script>
+ 
+      
+
+
    var resetError = function() {
       $('.error').text("");
       $('.success').text('');
@@ -952,8 +1003,8 @@
           /* -------------------------------------------  validation ------------------------------------------------- */
       
           if (flag == 2) {
-              var r = $('#id' + i+'_'+ (p - 2)).val();
-              var r2 = $('#id' + i+'_'+ p).val();
+              var r = $('#id' + i+'_'+ (p - 1)).val();
+              var r2 = $('#id' + i+'_'+ (p+1)).val();
               //console.log("================", r, "***************", r2);
       
               for (var i = 0; i < temp + 1; i++) {
@@ -1624,7 +1675,68 @@
               }
           }
       
+    function getFortnight()
+      {
+        $('#Leave').html('');
+        $.ajax({
+            url: '/getFortnightDate',
+            method: 'POST',
+             
+            success: function(data) {
+              data1=data
+               var row='';
+                for(var i=0;i<data.length;i++)
+                {
+                  var td1=new Date(data[i].fortnight);
+              var dd1=td1.getDate();
+              var mm1=td1.getMonth();
+              mm1=mm1+1;
+              var yr1=td1.getFullYear();
+              var edate=yr1+"-"+mm1+"-"+dd1;
+
+               row=row+"<option value="+data[i].fortnight+">"+data[i].fortnight+"</option>";
+                }
       
+
+            $('#Leave').append(row);  
+             $('#Leave').change(function() { 
+                 }).multipleSelect({
+                     width: '100%'
+                });
+
+            
+            dataType: 'JSON'
+                }
+        });
+    }  
+
+//jayyy
+function downloadLeaveReport()
+{ var  dates='';
+  var dates1=[];
+  var dates1=$("#Leave").val().toString().split(",");
+  for(var i=0;i<dates1.length;i++){
+    var log=dates1[i];
+    dates=dates+log+" "+"00:00:00"+",";
+  }
+var header=['EmpName', 'EmpCode', 'Hours', 'LeaveDate'];
+var url = window.location.origin.split("/")[3] ? window.location.origin : window.location.origin + '/getAllEmpLeaveHours';
+$.ajax({
+url: url,
+method: 'POST',
+data : {"dates":dates},
+success: function(LeaveData) { 
+  $('#close1').click();
+LeaveData.unshift(header);
+alasql("SELECT * INTO CSV('Leave_Report.csv') FROM ?",[LeaveData]);
+console.log('jai mata di',LeaveData);
+},
+dataType: 'JSON',
+});   
+$(".se-pre-con").fadeOut("slow");
+}
+//jay end
+
       
       
       function validateThumbfiles(){

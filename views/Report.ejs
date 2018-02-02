@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+        <% include ./partials/adminheader %>
+          
+
+</head>
+<style type="text/css">
+    .dataTables_filter,
+    .dataTables_length {
+        display: none;
+    }
+    .marginLeftRight{
+         margin-left: -31%;
+    width: 123%;   
+    }
+     .marginLeftRight{      
+         margin-left: -31%;     
+    width: 123%;        
+    } 
+    textarea { resize: none }
+
+      .dateLastHide{
+        display: none!important;
+      }
+
+</style>
+
+<body >
+     <div class="container-fluid   secondry-color">
+     <div class="droptarget hide" id="droptarget1" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" ondrop="drop(event)" ondragover="allowDrop(event)" style="margin-top: 5px;margin-left: 12px;margin-right: 10px; height:60px;width:98%;border: 1px solid"></div>
+       <div id="" style="margin-top: 20px;margin-left: 10px;margin-right: 10px;">
+         <div class="col-md-8">
+           <span class="modal-title" style="color:red;margin-left: 600px">Time Sheet Report</span>
+         </div>
+  
+        
+          <input class="form-text-box" type="text" placeholder="search in this table" id="searchbox" style="float:right;width: 13%">
+            <table class=" table-striped  table-hover table" id="aTable" style="padding-top: 10px">
+                <thead class="droptarget" ondrop="drop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" ondragover="allowDrop(event)">
+                    <th>S.No.</th>
+                    <th ondragstart="dragStart(event)" draggable="true" id="1" jsp="0">Employee Name</th>
+                    <th ondragstart="dragStart(event)" draggable="true" id="2" jsp="0">Employee Code</th>
+                    <th ondragstart="dragStart(event)" draggable="true" id="3" jsp="0">Hours</th>
+                    <th ondragstart="dragStart(event)" draggable="true" id="4" jsp="0">Date</th>
+                   
+                </thead>
+                 <tbody id="bodyi">
+                 <% var k=1;
+                 for(var i=0;i<reportinfo[0].length;i++,k++){%>
+                   
+
+                        <tr>
+                            <td>
+                                <%= k %>
+                            </td>
+                            <td>
+                                <%=reportinfo[0][i].employeeName%>
+                            </td>
+                            <td>
+                                <%=reportinfo[0][i].employeecode%>
+                            </td>
+                            
+                            <td>
+                                <%=reportinfo[0][i].hours%>
+                            </td>
+                            <td>
+                                <%=reportinfo[0][i].DATEs%> 
+                            </td>
+                        </tr>
+                        <%}%>
+                </tbody>
+            </table> 
+       </div>
+        </div>
+  
+</body>
+<footer>
+    <% include ./partials/footer %>
+</footer>
+<script type="text/javascript">
+          $(document).ready(function() {
+
+        $('.assign-img').addClass("active");
+
+        var oTable = $("#aTable").dataTable({
+            "bLengthChange": false,
+            "binfo": false
+        });
+          $("#searchbox").keyup(function() {
+        oTable.fnFilter(this.value);
+    });
+    });
+  
+
+
+ function hidecol(ides){
+
+   var table = $('#aTable').DataTable();
+
+  
+
+    table.column(ides).visible( false );
+   // var table = $('#aTable').DataTable();  
+   
+}
+
+ function showcol(ides){
+
+   var table = $('#aTable').DataTable();
+
+  
+
+    table.column(ides).visible(true);
+   // var table = $('#aTable').DataTable();  
+   
+}
+
+function addvalueofcolumn(){
+  var dataArr = [];
+    $.each($("#aTable tr"),function(){
+        dataArr.push($(this).find('td').eq(0).text());    
+    });
+    var total = 0;
+$("#aTable tr:contains('ud ji') td:nth-of-type(4)").each(function () {
+    var pending = parseInt($(this).text());
+    total += pending;
+});
+
+$("#aTable tr:last-of-type td:nth-of-type(4)").text(total);
+$("#aTable tr:last-of-type").addClass('datelast');
+$("#aTable tr").each(function(){
+  if(!$(this).hasClass("datelast")){
+      $(this).addClass("dateLastHide");
+  }
+});
+
+/*var table = $('#aTable').DataTable();
+var domain, domains = []
+table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+  domain = this.data().domain;
+  if (~domains.indexOf(domain)) {
+    this.nodes().to$().attr('excluded', 'true')
+  } else {
+    domains.push(domain) 
+  }
+  })*/
+}
+
+function showrow(){
+  $("#aTable tr:last-of-type td:nth-of-type(4)").text(9);
+$("#aTable tr:last-of-type").removeClass('datelast');
+$("#aTable tr").each(function(){
+  if(!$(this).hasClass("datelast")){
+      $(this).removeClass("dateLastHide");
+  }
+});
+
+}
+
+ function dragStart(event) {
+    event.dataTransfer.setData("Text", event.target.id);
+    $(droptarget1).removeClass("hide");
+    //hidecol(event.target.id);
+}
+
+function dragEnter(event) {
+    if ( event.target.className == "droptarget" ) {
+        //document.getElementById("demo").innerHTML = "Entered the dropzone";
+       // event.target.style.border = "3px dotted red";
+    }
+}
+
+function dragLeave(event) {
+    if ( event.target.className == "droptarget" ) {
+       // document.getElementById("demo").innerHTML = "Left the dropzone";
+        //event.target.style.border = "";
+    }
+}
+
+function allowDrop(event) {
+    event.preventDefault();
+}
+
+function drop(event) {
+    event.preventDefault();
+    var data = event.dataTransfer.getData("Text");
+    event.target.appendChild(document.getElementById(data));
+    if($("#"+data).attr("jsp")==0){
+    hidecol(data);
+      $("#"+data).attr("jsp","1") 
+      if(data==4){
+
+    addvalueofcolumn();
+  }
+  }
+  else{
+   $("#"+data).attr("jsp","0") 
+   showcol(data);
+   showrow();
+  }
+  
+}
+</script>
+
+
+

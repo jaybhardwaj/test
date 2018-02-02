@@ -255,20 +255,28 @@
                             </td>
                             <td class="col-md-1">
                         <select  class="select-vbug"  onchange="updatebugdetails(<%=bug[j].id%>,this,'status')">
-             						<% for(var i=0;i<status.length;i++) { %>
-									<%if(status[i].description1 != 'Close'){ %>             					
+             						<%  for(var i=0;i<status.length;i++) { %>
+									<% if(status[i].description1 != 'Close'){%>            					
                     				<option value="<%=status[i].id%>" <%if(bug[j].status== status[i].id){%> selected <%}%>>
 										<%=status[i].description1%>    
                     				</option> 
                     				<%} else {%>
 
-                    					 <%if(status[i].description1 == 'Close' && (  bug[j].createdBy ==userid || roleid==1)){ %> 
+                    					 <%if(status[i].description1 == 'Close' && (  bug[j].createdBy ==userid || roleid==1)){ console.log("for close");%>
+
 									<option value="<%=status[i].id%>" <%if(bug[j].status == status[i].id){%> selected <%}%>>
 										<%=status[i].description1%>    
                     				</option> 
-                    				   	<%}%>       
-                    				   	<%}%>     
-										<%}%>
+                    				   	<%}       
+                    				   else{  if(status[i].description1 == 'Close'){%>
+                                <option disabled value="<%=status[i].id%>" <%if(bug[j].status == status[i].id){%> selected <%}%>>
+                    <%=status[i].description1%>    
+                            </option> 
+                        
+										<%}
+                      }
+                      }
+                      }%>
                					</select> 
                             </td>
                             <td>

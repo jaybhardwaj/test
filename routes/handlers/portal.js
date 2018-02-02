@@ -597,6 +597,19 @@ profile: function(req, res, next) {
             next();
               });
     },
+
+reportpro: function(req, res, next) {               
+      var date ="2016-09-15 00:00:00"
+        modelPortal.reportpro(req.session.retailerId,date,function(error,result) {
+              if (error) {
+                 next(error);
+                 return;
+             }
+            req.resultProfile=result;
+            next();
+              });
+    },
+
     updateProfile:function(req,res,next){
  var filename;
         var targetPath;
@@ -735,13 +748,14 @@ filename=req.session.logo;
           fs.rename(tempPath, targetPath, function(err){
             if (err) 
                 next(err)
+            console.log("error is***********************",err);
               
           });
 
           targetPath = 'attach/' +filename;
     
         }
-        else{
+        if(req.body.fileName){
             console.log("using copy paste case*************");
             var tempFileName=req.body.fileName;
             var data = req.body.fileContent.replace(/^data:image\/\w+;base64,/, "");
@@ -755,11 +769,13 @@ filename=req.session.logo;
             }
             fs.writeFile(dir2+"/"+tempFileName, buf);
             
+            if(!(tempFileName =='' || tempFileName == undefined))
+            {
             var targetPath = 'attach'+"/"+tempFileName;
             var fName        = req.body.fileName;
             var filename      =  req.body.fileName;
             }
-
+}
       console.log("final data**********",targetPath,filename,fname);
         modelPortal.addBug(req.body.estimatedEffort,req.body.actualEffort,req.body.linkTo,req.session.userId,req.body.project,req.body.status,req.body.assingedto,req.body.priority,
             req.body.severity, req.body.technology, req.body.type,  req.body.tentativeclouser,req.body.titlebox,
@@ -3066,7 +3082,62 @@ if(error){
 });
 },
 
-//jay
+//jay getAllEmpLeaveHours
+   /* getAllEmpLeaveHours: function(req, res, next) { 
+    console.log("jogibabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req.body);              
+       modelPortal.getAllEmpLeaveHours(req.session.retailerId,req.body.dates, function(errorActivity, resultActivity) {
+                    if (errorActivity) {
+               
+                console.log("errorActivity--",errorActivity);
+                res.json("hello");
+             }
+             else{
+                var data = resultActivity[0].map(function(o, i) {
+                            var arr = Object.keys(o).map(function(_o, _i) {
+                                return o[_o];
+                            });
+                            return arr;
+                      });
+                      res.json(resultActivity);
+                    console.log("our result of leaveeeeeeeeeeeeeeeeeeeeeeeeeeeeee",resultActivity);
+             }
+             
+          });
+    },*/
+
+
+ getAllEmpLeaveHours: function(req, res, next) {               
+       modelPortal.getAllEmpLeaveHours(req.session.retailerId,req.body.dates, function(errorCsv, resultCsv) {
+                    if (errorCsv) {
+                 next(errorCsv);
+                 return;
+             }
+             var data = resultCsv[0].map(function(o, i) {
+        var arr = Object.keys(o).map(function(_o, _i) {
+          return o[_o];
+        });
+        return arr;
+      });
+      res.json(data);
+      console.log("our result of leaveeeeeeeeeeeeeeeeeeeeeeeeeeeeee",data);
+       });
+    },
+
+
+
+getFortnightDate:function(req,res,next){
+
+       modelPortal.getFortnightDate(req.session.retailerId,function(error,result){
+
+            if(error){
+                console.log(error);
+            }
+            else{
+           res.json(result[0]);
+       }
+        });
+    },
+
 
  selectAdminData:function(req,res,next){
 
